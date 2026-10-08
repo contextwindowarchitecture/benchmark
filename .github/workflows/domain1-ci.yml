@@ -1,0 +1,142 @@
+# Domain 1's CI profiles (domain-1-plan.md, P7): `cwabench ci <profile>` on a Linux x86_64 runner, against each
+# assembler's default branch and the spec at the commit domain1.toml pins. The run is compared with the previous run of
+# the same profile (downloaded from this workflow's last artifact), and its run directory is uploaded as the artifact
+# domain1-<profile>, the published results/d1/<profile>.
+#
+# Manual only for now. S7 (the weekly profile) runs for hours and S11's LLM mode needs a model endpoint, so nothing is
+# scheduled or triggered by a push until there is infrastructure for them. To schedule later, add for example:
+#   schedule:
+#     - cron: "17 2 * * *"     # nightly
+#     - cron: "17 3 * * 0"     # weekly
+# and map github.event.schedule to the profile in the `profile` step.
+name: domain1-ci
+
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: A profile in [ci.profiles] of domain1/domain1.toml
+        type: choice
+        options: [nightly, weekly]
+        default: nightly
+
+permissions:
+  contents: read
+  actions: read  # to download the previous run's artifact for the drift report
+
+concurrency:
+  group: domain1-ci-${{ inputs.profile }}
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    name: cwabench ci ${{ inputs.profile }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    defaults:
+      run:
+        working-directory: benchmark/domain1
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          path: benchmark
+      - name: profile and pinned contract
+        id: profile
+        run: |
+          echo "profile=${{ inputs.profile }}" >> "$GITHUB_OUTPUT"
+          python3 -c 'import tomllib; print("contract=" + tomllib.load(open("domain1.toml", "rb"))["contract"]["commit"])' >> "$GITHUB_OUTPUT"
+      # Every repository under checkouts/, by the directory names domain1.toml uses. The spec's whole history: S12
+      # tells a spec change from a regression by diffing the contract between commits.
+      - uses: actions/checkout@v5
+        with:
+          repository: contextwindowarchitecture/contextwindowarchitecture
+          ref: ${{ steps.profile.outputs.contract }}
+          path: checkouts/contextwindowarchitecture
+          fetch-depth: 0
+      - uses: actions/checkout@v5
+        with:
+          repository: contextwindowarchitecture/assembler-python
+          path: checkouts/assembler-python
+      - uses: actions/checkout@v5
+        with:
+          repository: contextwindowarchitecture/assembler-typescript
+          path: checkouts/assembler-typescript
+      - uses: actions/checkout@v5
+        with:
+          repository: contextwindowarchitecture/assembler-go
+          path: checkouts/assembler-go
+      - uses: actions/checkout@v5
+        with:
+          repository: contextwindowarchitecture/assembler-rust
+          path: checkouts/assembler-rust
+
+      # Toolchains at the majors the container's default images use (domain1.toml, [container.images]).
+      - uses: astral-sh/setup-uv@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: checkouts/assembler-typescript/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.27"
+      - run: rustup toolchain install 1.99 --profile minimal && rustup default 1.99
+      - run: pnpm install --frozen-lockfile
+        working-directory: checkouts/assembler-typescript
+      - run: podman --version
+
+      - run: uv sync
+      - name: the harness's own tests
+        run: uv run pytest -q
+
+      - name: the previous run of this profile, for the drift report
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          name="domain1-${{ steps.profile.outputs.profile }}"
+          id=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=$name&per_page=1" \
+                 --jq '.artifacts[0].workflow_run.id // empty')
+          mkdir -p results/d1
+          if [ -n "$id" ]; then
+            gh run download "$id" --repo "$GITHUB_REPOSITORY" -n "$name" -D results/d1
+          else
+            echo "no previous $name artifact: this run is the profile's baseline"
+          fi
+
+      - name: cwabench ci ${{ steps.profile.outputs.profile }}
+        run: uv run cwabench ci "${{ steps.profile.outputs.profile }}" --checkouts ../../checkouts
+      - name: summary
+        if: always()
+        run: |
+          run=$(readlink "results/d1/${{ steps.profile.outputs.profile }}" || true)
+          echo "run_id=$run" >> "$GITHUB_ENV"
+          if [ -n "$run" ] && [ -f "results/d1/$run/ci.json" ]; then
+            python3 - "results/d1/$run" >> "$GITHUB_STEP_SUMMARY" <<'PY'
+          import json, sys
+          run = sys.argv[1]
+          report = json.load(open(f"{run}/ci.json"))
+          summary = json.load(open(f"{run}/summary.json"))
+          print(f"## {report['profile']}: {summary['status']}, {report['verdict']}\n")
+          print("| suite | status | previous |\n| --- | --- | --- |")
+          for s in report["suites"] or [{"id": s["id"], "status": s["status"], "previous": None} for s in summary["suites"]]:
+              print(f"| {s['id']} | {s['status']} | {s['previous'] or ''} |")
+          for b in report["bumps"]:
+              print(f"- bump {b['what']}: {b['from']} → {b['to']}")
+          f = report["findings"]
+          print(f"\nfindings: {len(f['new'])} new, {len(f['resolved'])} resolved, {f['persisting']} persisting")
+          PY
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always() && env.run_id != ''
+        with:
+          name: domain1-${{ steps.profile.outputs.profile }}
+          # Two paths keep results/d1 as the root, so the artifact holds <run-id>/ as results/d1 does.
+          path: |
+            benchmark/domain1/results/d1/${{ env.run_id }}
+            benchmark/domain1/results/d1/index.json
+          retention-days: 30
