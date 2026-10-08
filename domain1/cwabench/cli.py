@@ -110,6 +110,15 @@ def main(argv: list[str] | None = None) -> int:
     accept_cmd = goldens_sub.add_parser("accept", help="adopt a run's candidate goldens as the baseline")
     accept_cmd.add_argument("run_dir", nargs="?", help="default: the latest run")
 
+    fixture_cmd = commands.add_parser("fixture", help="write a run trimmed to a sample of its rows, frames and blobs, "
+                                                      "for consumers' tests")
+    fixture_cmd.add_argument("run_dir", nargs="?",
+                             help="a run directory, or a run id under the results (default: the latest run)")
+    fixture_cmd.add_argument("--out", help="the fixtures directory (default: fixtures/runs beside the config)")
+    fixture_cmd.add_argument("--rows", type=int, default=12, help="rows kept per JSONL file; findings keep every row")
+    fixture_cmd.add_argument("--frames", type=int, default=16, help="frames kept per adapter in each kept sweep")
+    fixture_cmd.add_argument("--sweeps", type=int, default=2, help="sweep cells kept, with their timelines")
+
     args = parser.parse_args(argv)
     try:
         config = _load(args)
@@ -143,6 +152,24 @@ def main(argv: list[str] | None = None) -> int:
             target, count = accept(config, run_dir.resolve())
             print(f"adopted {count} golden(s) from {run_dir.resolve().name} → {target}")
             return 0
+        if args.command == "fixture":
+            from .fixture import write_fixture
+            from .rundir import load_upstream
+            from .validate import CONTRACT_UNAVAILABLE
+
+            given = args.run_dir
+            run_dir = Path(given) if given and Path(given).is_dir() else config.results_dir / (given or "latest")
+            out = Path(args.out).resolve() if args.out else config.root / "fixtures" / "runs"
+            target, problems = write_fixture(run_dir.resolve(), out, rows=args.rows, frames=args.frames,
+                                             sweeps=args.sweeps, upstream=load_upstream(config.upstream_path),
+                                             log=lambda m: print(m, file=sys.stderr, flush=True))
+            # A run made at another contract commit than the checkout's cannot have its spec-format drafts checked
+            # here; the fixture is still whole, so that is a warning, not a problem with it.
+            errors = [p for p in problems if not p.startswith(CONTRACT_UNAVAILABLE)]
+            for problem in problems:
+                print(f"{'invalid fixture' if problem in errors else 'warning'}: {problem}", file=sys.stderr)
+            print(f"{target}: {'valid' if not errors else f'{len(errors)} problem(s)'}")
+            return 1 if errors else 0
         if args.command == "validate":
             run_dir = Path(args.run_dir) if args.run_dir else config.results_dir / "latest"
             problems = validate_run(run_dir.resolve())

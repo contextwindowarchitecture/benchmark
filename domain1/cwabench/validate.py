@@ -9,6 +9,9 @@ from . import output
 from .contract import Contract
 
 
+CONTRACT_UNAVAILABLE = "cannot load the run's contract to check spec-format files"
+
+
 def validate_run(run_dir: Path) -> list[str]:
     problems: list[str] = []
 
@@ -33,7 +36,7 @@ def validate_run(run_dir: Path) -> list[str]:
     try:
         contract = Contract(Path(manifest["contract"]["path"]), manifest["contract"]["commit"], allow_dirty=True)
     except Exception as error:  # the spec checkout may have moved since the run; report, don't stop
-        problems.append(f"cannot load the run's contract to check spec-format files: {error}")
+        problems.append(f"{CONTRACT_UNAVAILABLE}: {error}")
 
     for entry in index["files"]:
         path = run_dir / entry["path"]

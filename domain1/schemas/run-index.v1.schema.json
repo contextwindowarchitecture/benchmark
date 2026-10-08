@@ -90,6 +90,40 @@
         "count"
       ],
       "additionalProperties": false
+    },
+    "fixture": {
+      "description": "Present when this directory is a fixture written by `cwabench fixture`: the run it was cut from and how much was kept.",
+      "type": "object",
+      "properties": {
+        "of": {
+          "type": "string",
+          "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "rows": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "frames": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sweeps": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "of",
+        "created_at",
+        "rows",
+        "frames",
+        "sweeps"
+      ],
+      "additionalProperties": false
     }
   },
   "required": [
