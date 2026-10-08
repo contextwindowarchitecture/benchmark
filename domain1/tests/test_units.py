@@ -88,6 +88,33 @@ def test_every_schema_is_valid_and_rejects_strangers():
             output.validate({"$schema": output.schema_name(kind), "unexpected": True})
 
 
+def test_runs_index_names_each_profiles_newest_finished_run_and_the_commits(tmp_path):
+    from cwabench import rundir
+
+    def manifest(run_id, status, profile):
+        directory = tmp_path / run_id
+        directory.mkdir()
+        (directory / "manifest.json").write_text(json.dumps({
+            "run_id": run_id, "status": status, "started_at": "2026-10-08T00:00:00Z", "finished_at": None,
+            "suites": ["S1"], "adapters": {"go": {"commit": "g" * 40}, "rust": {"commit": None}},
+            "contract": {"commit": "c" * 40}, "ci": {"profile": profile} if profile else None}), encoding="utf-8")
+
+    manifest("20261008T000001Z-aaaaaaa", "pass", "nightly")
+    manifest("20261008T000002Z-aaaaaaa", "fail", "nightly")  # finished, so it is the profile's newest result
+    manifest("20261008T000003Z-aaaaaaa", "running", "nightly")
+    manifest("20261008T000004Z-aaaaaaa", "error", "weekly")  # stopped by an error: no result
+    manifest("20261008T000005Z-aaaaaaa", "pass", None)
+    rundir.update_runs_index(tmp_path, link=False)
+    index = json.loads((tmp_path / "index.json").read_text(encoding="utf-8"))
+    output.validate(index)
+    assert index["latest"] == "20261008T000005Z-aaaaaaa"
+    assert index["profiles"] == {"nightly": "20261008T000002Z-aaaaaaa"}
+    assert [r["run_id"] for r in index["runs"]][:2] == ["20261008T000005Z-aaaaaaa", "20261008T000004Z-aaaaaaa"]
+    assert index["runs"][0]["commits"] == {"contract": "c" * 40, "go": "g" * 40, "rust": None}
+    assert index["runs"][0]["adapters"] == ["go", "rust"]
+    assert not (tmp_path / "latest").exists()
+
+
 def test_dumps_refuses_nan():
     with pytest.raises(ValueError):
         output.dumps({"x": float("nan")})

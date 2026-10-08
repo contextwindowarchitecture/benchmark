@@ -151,8 +151,11 @@ class RunDir:
         update_runs_index(self.config.results_dir, latest=self.run_id)
 
 
-def update_runs_index(results_dir: Path, latest: str | None = None) -> None:
-    """Rebuild results/d1/index.json from the manifests on disk, and point results/d1/latest at the newest run."""
+def update_runs_index(results_dir: Path, latest: str | None = None, link: bool = True) -> None:
+    """Rebuild results/d1/index.json from the manifests on disk: every run, newest first; the newest finished run of
+    each CI profile; and the contract and adapter commits each run was made from. With `link`, also point
+    results/d1/latest at the newest run (`cwabench ci` points results/d1/<profile> at a profile's run the same way,
+    ci.publish). A copy of the results served without symlinks resolves `latest` and `profiles` from the index."""
     runs = []
     for manifest_path in results_dir.glob("*/manifest.json"):
         if manifest_path.parent.is_symlink():
@@ -161,6 +164,9 @@ def update_runs_index(results_dir: Path, latest: str | None = None) -> None:
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             continue
+        adapters = manifest.get("adapters") or {}
+        commits = {"contract": (manifest.get("contract") or {}).get("commit")}
+        commits.update({name: (adapters[name] or {}).get("commit") for name in sorted(adapters)})
         runs.append(
             {
                 "run_id": manifest["run_id"],
@@ -169,22 +175,29 @@ def update_runs_index(results_dir: Path, latest: str | None = None) -> None:
                 "finished_at": manifest.get("finished_at"),
                 "path": manifest["run_id"],
                 "suites": manifest.get("suites", []),
-                "adapters": sorted(manifest.get("adapters", {})),
+                "adapters": sorted(adapters),
                 "ci_profile": (manifest.get("ci") or {}).get("profile"),
+                "commits": commits,
             }
         )
     runs.sort(key=lambda r: r["run_id"], reverse=True)
     newest = latest or (runs[0]["run_id"] if runs else None)
+    profiles: dict[str, str] = {}
+    for run in runs:  # newest first; a run still running, or stopped by an error, is not a profile's result
+        name = run["ci_profile"]
+        if name and name not in profiles and run["status"] not in ("running", "error"):
+            profiles[name] = run["run_id"]
     output.write_json(
         results_dir / "index.json",
-        {"$schema": output.schema_name("runs-index"), "latest": newest, "runs": runs},
+        {"$schema": output.schema_name("runs-index"), "latest": newest, "profiles": dict(sorted(profiles.items())),
+         "runs": runs},
     )
-    if newest:
-        link = results_dir / "latest"
+    if link and newest:
+        link_path = results_dir / "latest"
         temporary = results_dir / ".latest.tmp"
         temporary.unlink(missing_ok=True)
         temporary.symlink_to(newest, target_is_directory=True)
-        os.replace(temporary, link)
+        os.replace(temporary, link_path)
 
 
 def env_cells(config: Config) -> list[str]:

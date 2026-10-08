@@ -2,6 +2,12 @@
 
 Documents carry "$schema": "cwa-bench-d1/<kind>/v1", and schemas/<kind>.v1.schema.json defines each kind. The
 published conformance reports are the spec's own format and are validated against the spec's schema instead.
+
+Schema versions. Adding a field to a kind is additive: it goes into the kind's current schema as an optional property,
+so documents written before it still validate, and the harness always writes it from then on. A field removed,
+renamed, retyped or given a new meaning, or a constraint an older document could break, is a new major version: a new
+schemas/<kind>.v<n+1>.schema.json, and "$schema" names v<n+1> from then on. A consumer reads a kind at the major
+versions it knows and says so for the rest.
 """
 from __future__ import annotations
 
