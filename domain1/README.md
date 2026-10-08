@@ -1,6 +1,6 @@
 # Domain 1 harness
 
-Benchmarks CWA assemblers for assembly determinism, budgeting and traceability. Its plan, `docs/plans/domain-1-plan.md`, is kept out of git; code comments cite it by section. This directory implements phases P0 to P7:
+Benchmarks CWA assemblers for assembly determinism, budgeting and traceability. What it found is written up in [../docs/domain1.md](../docs/domain1.md). Its working plan, `docs/plans/domain-1-plan.md`, is kept out of git; code comments cite it by section. This directory implements phases P0 to P7:
 
 - **S0, oracle self-check.** The independent primitives reproduce the spec's published values, the independent renderer writes every published payload byte for byte from its trace, the trace auditor passes every expected output, and its mutation kill rate is measured.
 - **S1, conformance replay.** Every case and rejection runs through every assembler and is judged three ways: against the expected output, by the auditor (A1–A16), and by four-way differential agreement.
