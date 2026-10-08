@@ -352,6 +352,77 @@
               ],
               "additionalProperties": false
             }
+          },
+          "curve": {
+            "description": "One row per frame, in the frames' order: the counts a shedding curve needs without the item lists.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "budget_input": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "outcome": {
+                  "enum": [
+                    "assembled",
+                    "refused",
+                    "rejected",
+                    "unsupported",
+                    "crashed",
+                    "timeout",
+                    "invalid_output"
+                  ]
+                },
+                "refusal_reason": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "charged_tokens": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "included": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "compressed": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "omitted": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "exact_step": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "budget_input",
+                "outcome",
+                "refusal_reason",
+                "charged_tokens",
+                "included",
+                "compressed",
+                "omitted",
+                "exact_step"
+              ],
+              "additionalProperties": false
+            }
           }
         },
         "required": [

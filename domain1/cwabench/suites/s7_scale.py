@@ -501,6 +501,21 @@ def _shedding(meta: Meta, frames: list[dict], tiers: dict[str, str], slots: dict
                                                e["item_id"]))
 
 
+def _curve(frames: list[dict]) -> list[dict]:
+    """One row per frame with the counts a shedding curve needs and none of the item lists: a consumer draws the curve
+    from this and opens the frames only to see which items each one kept."""
+    return [{
+        "budget_input": f["budget_input"],
+        "outcome": f["outcome"],
+        "refusal_reason": f["refusal_reason"],
+        "charged_tokens": f["charged_tokens"],
+        "included": len(f["included"]),
+        "compressed": sum(1 for r in f["included"] if r["variant_id"]),
+        "omitted": len(f["omitted"]),
+        "exact_step": bool(f.get("exact_step", False)),
+    } for f in frames]
+
+
 def _write_sweep(ctx, settings, cell: scale.Cell, meta: Meta, per_adapter: dict[str, list[dict]],
                  answers: Answers) -> dict:
     base = meta.at(meta.full)
@@ -558,7 +573,7 @@ def _write_sweep(ctx, settings, cell: scale.Cell, meta: Meta, per_adapter: dict[
         "audit_failed": audit_failed,
         "shedding": _shedding(meta, per_adapter[reference], tiers, slots),
         "shedding_from": reference,
-        "adapters": {a: {"frames": frames} for a, frames in per_adapter.items()},
+        "adapters": {a: {"frames": frames, "curve": _curve(frames)} for a, frames in per_adapter.items()},
         "timelines": written,
     }
     path = f"suites/{ID}/sweeps/{digest}.json"

@@ -288,3 +288,39 @@ def test_self_reported_time_prefers_a_reported_total():
     assert _self_reported({"timings": {"admission_ms": 1.0, "fitting_ms": 2.0, "total_ms": 3.5}}) == 3.5
     assert _self_reported({"timings": {"admit": 1.0, "fit": 2.0}}) == 3.0
     assert _self_reported({"timings": {}}) is None and _self_reported(None) is None
+
+
+def test_curve_summarizes_each_frame():
+    from cwabench.suites.s7_scale import _curve
+
+    frames = [
+        {"budget_input": 100, "outcome": "assembled", "refusal_reason": None, "charged_tokens": 98, "exact_step": False,
+         "included": [{"item_id": "a", "slot": "s", "tokens": 50, "variant_id": None},
+                      {"item_id": "b", "slot": "s", "tokens": 48, "variant_id": "b~v1"}], "omitted": []},
+        {"budget_input": 60, "outcome": "assembled", "refusal_reason": None, "charged_tokens": 50, "exact_step": True,
+         "included": [{"item_id": "a", "slot": "s", "tokens": 50, "variant_id": None}], "omitted": ["b"]},
+        {"budget_input": 10, "outcome": "refused", "refusal_reason": "protected_content_over_budget",
+         "charged_tokens": None, "included": [], "omitted": []},  # exact_step is set later by run_sweeps
+    ]
+    assert _curve(frames) == [
+        {"budget_input": 100, "outcome": "assembled", "refusal_reason": None, "charged_tokens": 98, "included": 2,
+         "compressed": 1, "omitted": 0, "exact_step": False},
+        {"budget_input": 60, "outcome": "assembled", "refusal_reason": None, "charged_tokens": 50, "included": 1,
+         "compressed": 0, "omitted": 1, "exact_step": True},
+        {"budget_input": 10, "outcome": "refused", "refusal_reason": "protected_content_over_budget",
+         "charged_tokens": None, "included": 0, "compressed": 0, "omitted": 0, "exact_step": False},
+    ]
+    document = {"$schema": "cwa-bench-d1/sweep/v1", "run_id": "20261008T000000Z-aaaaaaa", "suite": "S7",
+                "cell": {"shape": "floors", "candidates": 1, "candidate_tokens": 10, "tokenizer": "fixture-whitespace/v1",
+                         "renderer": "fixture-xml/v1", "seed": 1},
+                "snapshot": "sha256:" + "0" * 64, "full": 100, "protected": 10, "floor": None, "step_percent": 2.0,
+                "agree": True, "threshold": 60, "mispredicted": {"fake": 0}, "audit_failed": {"fake": []},
+                "shedding": [], "shedding_from": "fake",
+                "adapters": {"fake": {"frames": [dict(f, predicted=[f["outcome"], f["refusal_reason"]],
+                                                       exact_step=f.get("exact_step", False), input_tokens=None,
+                                                       audit_failed=[]) for f in frames],
+                                      "curve": _curve(frames)}},
+                "timelines": []}
+    from cwabench import output
+
+    output.validate(document)
