@@ -221,6 +221,9 @@ def test_s5_catches_crashes_rejected_valid_snapshots_and_minimizes_each(fake_con
     rejected = {m["adapter"]: m["value"] for m in summary["metrics"] if m["id"] == "s5.mutants_rejected"}
     assert rejected == {"fake": 1.0, "fake2": 1.0}
     assert summary["generated"]["steering"]["rounds"][1]["covered_before"] >= 0
+    by_round = summary["generated"]["by_round"]  # per-round outcomes, so a consumer never needs the rows for them
+    assert [r["round"] for r in by_round] == [0, 1] and sum(r["snapshots"] for r in by_round) == 60
+    assert all(set(r["outcomes"]) == {"fake", "fake2"} and r["passed"] <= r["snapshots"] for r in by_round)
     assert (run_dir / "corpora/fuzz.valid/index.json").is_file()
 
 

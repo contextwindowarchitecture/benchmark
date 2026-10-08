@@ -327,6 +327,13 @@ def run(ctx: SuiteContext) -> SuiteResult:
     outcomes = {corpus: {a: dict(Counter(x["outcome"] for r in rows if r["corpus"] == corpus for x in r["answers"]
                                          if x["adapter"] == a)) for a in names}
                 for corpus in ("fuzz.valid", "fuzz.mutated")}
+    by_round = []  # the common views need per-round outcomes without the rows
+    for number in sorted({r["round"] for r in valid_rows}):
+        mine = [r for r in valid_rows if r["round"] == number]
+        by_round.append({"round": number, "snapshots": len(mine), "passed": sum(r["verdict"] == "passed" for r in mine),
+                         "agree": sum(r["agree"] for r in mine),
+                         "outcomes": {a: dict(Counter(x["outcome"] for r in mine for x in r["answers"]
+                                                      if x["adapter"] == a)) for a in names}})
     by_operator = []
     for operator in operators:
         mine = [r for r in mutant_rows if r["mutation"]["operator"] == operator.name]
@@ -354,6 +361,7 @@ def run(ctx: SuiteContext) -> SuiteResult:
                          "rounds": steering.history, "uncovered": steering.uncovered()},
             "intents": dict(sorted(Counter(i for g, _, _ in valid for i in g.intents).items())),
             "outcomes": outcomes,
+            "by_round": by_round,
             "operators": by_operator,
             "findings": [{"finding_id": f["finding_id"], "oracle": f["oracle"], "checks": f["checks"],
                           "adapter": f["adapter"], "adapters": f["adapters"], "occurrences": f["occurrences"],
