@@ -10,10 +10,10 @@ own directory:
 | Path | What |
 | --- | --- |
 | `docs/benchmarking_cwa_viability.md` | The overall benchmark design |
-| `docs/plans/` | Working plans: `domain-1-plan.md` (with an "as built" section per phase), `ui-plan.md`. Git-ignored: read and update them, never commit them |
+| `docs/plans/` | Working plans: `domain-1-plan.md` (with an "as built" section per phase). Git-ignored: read and update them, never commit them |
 | `docs/` | Committed write-ups, one per domain, written once the domain's plan is fully implemented |
 | `domain1/` | The Domain 1 harness (`cwabench`); start with `domain1/README.md` |
-| `DESIGN.md`, `docs/plans/ui-plan.md` | The results UI: parked. Don't start UI work or apply `DESIGN.md` unless asked |
+| `../benchmark-ui` | The results UI, its design baseline (`DESIGN.md`) and its plan live in `contextwindowarchitecture/benchmark-ui`, a sibling checkout. It reads this repository (schemas, results, write-ups), never the reverse. Its harness changes (fixture runs, runs-index pointers, sweep curves, aggregates, upstream links on findings) are made here at that plan's UI-P0, when asked; until then, no UI work |
 | `.github/workflows/` | CI, started by hand only (`workflow_dispatch`); don't add schedules or push triggers unasked |
 
 Code comments cite the plans by name and section (`domain-1-plan.md, 7.2`); the plans live in `docs/plans/`.
@@ -22,6 +22,8 @@ Code comments cite the plans by name and section (`domain-1-plan.md, 7.2`); the 
 
 - Outside this repository, read only the spec (`../../contextwindowarchitecture`) and the assembler checkouts
   (`../../assembler-{python,typescript,go,rust,template,demo}`). Leave other sibling directories alone.
+- `../benchmark-ui` is the results UI's repository. Read it only to answer a question about the UI; never modify it
+  from here.
 - Never modify those checkouts. Builds write only under `domain1/.build/`, and `cwabench ci --fetch` keeps its own
   clones under `domain1/.build/ci/`.
 - The spec is pinned in `domain1/domain1.toml`. Moving the pin is a deliberate change, made in its own commit.
