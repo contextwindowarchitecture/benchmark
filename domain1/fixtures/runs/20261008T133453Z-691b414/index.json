@@ -1,0 +1,364 @@
+{
+  "$schema": "cwa-bench-d1/run-index/v1",
+  "run_id": "20261008T133453Z-691b414",
+  "status": "pass",
+  "suites": [
+    "S0",
+    "S1",
+    "S2",
+    "S6",
+    "S8",
+    "S9",
+    "S11",
+    "S4",
+    "S5",
+    "S10",
+    "S12"
+  ],
+  "files": [
+    {
+      "path": "blobs/index.jsonl",
+      "kind": "blob",
+      "schema": "cwa-bench-d1/blob/v1",
+      "description": "Every stored blob: digest, path, media type, size",
+      "rows": 226
+    },
+    {
+      "path": "ci.json",
+      "kind": "ci-report",
+      "schema": "cwa-bench-d1/ci-report/v1",
+      "description": "CI (nightly): what changed since the previous nightly run"
+    },
+    {
+      "path": "config.toml",
+      "kind": "config",
+      "schema": null,
+      "description": "The configuration this run used"
+    },
+    {
+      "path": "contract.json",
+      "kind": "contract",
+      "schema": "cwa-bench-d1/contract/v1",
+      "description": "Enumerations and texts from the pinned specification"
+    },
+    {
+      "path": "corpora/fuzz.mutated/index.json",
+      "kind": "corpus-index",
+      "schema": "cwa-bench-d1/corpus-index/v1",
+      "description": "S5: the mutant corpus, one snapshot check broken in each"
+    },
+    {
+      "path": "corpora/fuzz.valid/index.json",
+      "kind": "corpus-index",
+      "schema": "cwa-bench-d1/corpus-index/v1",
+      "description": "S5: the steered valid corpus, with each round's weights"
+    },
+    {
+      "path": "coverage.json",
+      "kind": "coverage",
+      "schema": "cwa-bench-d1/coverage/v1",
+      "description": "Requirement, reason-code and tag coverage per adapter"
+    },
+    {
+      "path": "findings.jsonl",
+      "kind": "finding",
+      "schema": "cwa-bench-d1/finding/v1",
+      "description": "Every failure in this run, one row per signature",
+      "rows": 0
+    },
+    {
+      "path": "manifest.json",
+      "kind": "manifest",
+      "schema": "cwa-bench-d1/manifest/v1",
+      "description": "What this run was made from: harness, config, contract, adapters, host"
+    },
+    {
+      "path": "suites/S0/findings.jsonl",
+      "kind": "finding",
+      "schema": "cwa-bench-d1/finding/v1",
+      "description": "S0: oracle failures",
+      "rows": 0
+    },
+    {
+      "path": "suites/S0/results.jsonl",
+      "kind": "self-check",
+      "schema": "cwa-bench-d1/self-check/v1",
+      "description": "S0: one row per primitive check, audit and mutant",
+      "rows": 12
+    },
+    {
+      "path": "suites/S0/summary.json",
+      "kind": "suite-summary",
+      "schema": "cwa-bench-d1/suite-summary/v1",
+      "description": "S0: primitive reproduction, auditor false positives and kill rate"
+    },
+    {
+      "path": "suites/S1/findings.jsonl",
+      "kind": "finding",
+      "schema": "cwa-bench-d1/finding/v1",
+      "description": "S1: one row per failing case × adapter",
+      "rows": 0
+    },
+    {
+      "path": "suites/S1/reports/go.conformance-report.json",
+      "kind": "conformance-report",
+      "schema": "spec:conformance_report.schema.json",
+      "description": "go: this run in the spec's conformance-report format"
+    },
+    {
+      "path": "suites/S1/reports/python.conformance-report.json",
+      "kind": "conformance-report",
+      "schema": "spec:conformance_report.schema.json",
+      "description": "python: this run in the spec's conformance-report format"
+    },
+    {
+      "path": "suites/S1/reports/rust.conformance-report.json",
+      "kind": "conformance-report",
+      "schema": "spec:conformance_report.schema.json",
+      "description": "rust: this run in the spec's conformance-report format"
+    },
+    {
+      "path": "suites/S1/reports/typescript.conformance-report.json",
+      "kind": "conformance-report",
+      "schema": "spec:conformance_report.schema.json",
+      "description": "typescript: this run in the spec's conformance-report format"
+    },
+    {
+      "path": "suites/S1/results.jsonl",
+      "kind": "result-row",
+      "schema": "cwa-bench-d1/result-row/v1",
+      "description": "S1: one row per case × adapter",
+      "rows": 12
+    },
+    {
+      "path": "suites/S1/summary.json",
+      "kind": "suite-summary",
+      "schema": "cwa-bench-d1/suite-summary/v1",
+      "description": "S1: status, per-adapter tallies, metrics"
+    },
+    {
+      "path": "suites/S10/findings.jsonl",
+      "kind": "finding",
+      "schema": "cwa-bench-d1/finding/v1",
+      "description": "S10: violations and isolation differences",
+      "rows": 0
+    },
+    {
+      "path": "suites/S10/results.jsonl",
+      "kind": "determinism-row",
+      "schema": "cwa-bench-d1/determinism-row/v1",
+      "description": "S10: one row per snapshot × adapter × cell",
+      "rows": 12
+    },
+    {
+      "path": "suites/S10/summary.json",
+      "kind": "suite-summary",
+      "schema": "cwa-bench-d1/suite-summary/v1",
+      "description": "S10: isolation invariance, syscall report per adapter"
+    },
+    {
+      "path": "suites/S11/findings.jsonl",
+      "kind": "finding",
+      "schema": "cwa-bench-d1/finding/v1",
+      "description": "S11: assembly, cache and summarizer findings",
+      "rows": 0
+    },
+    {
+      "path": "suites/S11/results.jsonl",
+      "kind": "summarizer-row",
+      "schema": "cwa-bench-d1/summarizer-row/v1",
+      "description": "S11: one row per arm, sample and budget, every adapter's answer",
+      "rows": 12
+    },
+    {
+      "path": "suites/S11/summary.json",
+      "kind": "suite-summary",
+      "schema": "cwa-bench-d1/suite-summary/v1",
+      "description": "S11: assembly over frozen producer output, and the producer's own measures"
+    },
+    {
+      "path": "suites/S12/candidate-goldens.json",
+      "kind": "goldens",
+      "schema": "cwa-bench-d1/goldens/v1",
+      "description": "S12: consensus goldens from this run; adopt with `cwabench goldens accept`"
+    },
+    {
+      "path": "suites/S12/findings.jsonl",
+      "kind": "finding",
+      "schema": "cwa-bench-d1/finding/v1",
+      "description": "S12: one row per adapter with regressions",
+      "rows": 0
+    },
+    {
+      "path": "suites/S12/results.jsonl",
+      "kind": "drift-row",
+      "schema": "cwa-bench-d1/drift-row/v1",
+      "description": "S12: one row per snapshot × adapter against the goldens",
+      "rows": 12
+    },
+    {
+      "path": "suites/S12/summary.json",
+      "kind": "suite-summary",
+      "schema": "cwa-bench-d1/suite-summary/v1",
+      "description": "S12: consensus, drift against adopted goldens"
+    },
+    {
+      "path": "suites/S2/findings.jsonl",
+      "kind": "finding",
+      "schema": "cwa-bench-d1/finding/v1",
+      "description": "S2: one row per adapter × cell × stage that differs",
+      "rows": 0
+    },
+    {
+      "path": "suites/S2/results.jsonl",
+      "kind": "determinism-row",
+      "schema": "cwa-bench-d1/determinism-row/v1",
+      "description": "S2: one row per snapshot × adapter × cell × repetition",
+      "rows": 12
+    },
+    {
+      "path": "suites/S2/summary.json",
+      "kind": "suite-summary",
+      "schema": "cwa-bench-d1/suite-summary/v1",
+      "description": "S2: invariance per adapter × cell, clock-shift probes, container image"
+    },
+    {
+      "path": "suites/S4/findings.jsonl",
+      "kind": "finding",
+      "schema": "cwa-bench-d1/finding/v1",
+      "description": "S4: one row per failure signature",
+      "rows": 0
+    },
+    {
+      "path": "suites/S4/results.jsonl",
+      "kind": "relation-row",
+      "schema": "cwa-bench-d1/relation-row/v1",
+      "description": "S4: one row per relation instance",
+      "rows": 12
+    },
+    {
+      "path": "suites/S4/summary.json",
+      "kind": "suite-summary",
+      "schema": "cwa-bench-d1/suite-summary/v1",
+      "description": "S4: pass rates per relation and adapter, and findings"
+    },
+    {
+      "path": "suites/S5/findings.jsonl",
+      "kind": "finding",
+      "schema": "cwa-bench-d1/finding/v1",
+      "description": "S5: one row per failure signature",
+      "rows": 0
+    },
+    {
+      "path": "suites/S5/results.jsonl",
+      "kind": "fuzz-row",
+      "schema": "cwa-bench-d1/fuzz-row/v1",
+      "description": "S5: one row per generated snapshot",
+      "rows": 12
+    },
+    {
+      "path": "suites/S5/summary.json",
+      "kind": "suite-summary",
+      "schema": "cwa-bench-d1/suite-summary/v1",
+      "description": "S5: coverage steering, outcomes, mutant rejection and findings"
+    },
+    {
+      "path": "suites/S6/findings.jsonl",
+      "kind": "finding",
+      "schema": "cwa-bench-d1/finding/v1",
+      "description": "S6: label, audit and agreement failures",
+      "rows": 0
+    },
+    {
+      "path": "suites/S6/results.jsonl",
+      "kind": "result-row",
+      "schema": "cwa-bench-d1/result-row/v1",
+      "description": "S6: one row per labeled snapshot × adapter",
+      "rows": 12
+    },
+    {
+      "path": "suites/S6/summary.json",
+      "kind": "suite-summary",
+      "schema": "cwa-bench-d1/suite-summary/v1",
+      "description": "S6: label, audit and agreement results per corpus and adapter"
+    },
+    {
+      "path": "suites/S8/findings.jsonl",
+      "kind": "finding",
+      "schema": "cwa-bench-d1/finding/v1",
+      "description": "S8: label, audit and agreement failures",
+      "rows": 0
+    },
+    {
+      "path": "suites/S8/results.jsonl",
+      "kind": "result-row",
+      "schema": "cwa-bench-d1/result-row/v1",
+      "description": "S8: one row per labeled snapshot × adapter",
+      "rows": 12
+    },
+    {
+      "path": "suites/S8/summary.json",
+      "kind": "suite-summary",
+      "schema": "cwa-bench-d1/suite-summary/v1",
+      "description": "S8: label, audit and agreement results per corpus and adapter"
+    },
+    {
+      "path": "suites/S9/findings.jsonl",
+      "kind": "finding",
+      "schema": "cwa-bench-d1/finding/v1",
+      "description": "S9: label, audit and agreement failures",
+      "rows": 0
+    },
+    {
+      "path": "suites/S9/results.jsonl",
+      "kind": "result-row",
+      "schema": "cwa-bench-d1/result-row/v1",
+      "description": "S9: one row per labeled snapshot × adapter",
+      "rows": 12
+    },
+    {
+      "path": "suites/S9/summary.json",
+      "kind": "suite-summary",
+      "schema": "cwa-bench-d1/suite-summary/v1",
+      "description": "S9: label, audit and agreement results per corpus and adapter"
+    },
+    {
+      "path": "summarizer/calls.jsonl",
+      "kind": "summarizer-call",
+      "schema": "cwa-bench-d1/summarizer-call/v1",
+      "description": "S11: provenance of every summarizer lookup, live or from the cache",
+      "rows": 12
+    },
+    {
+      "path": "summarizer/summary.json",
+      "kind": "summarizer-summary",
+      "schema": "cwa-bench-d1/summarizer-summary/v1",
+      "description": "S11: the producer measured: fidelity, stability, flips, cache, fit utility"
+    },
+    {
+      "path": "summarizer/variants.jsonl",
+      "kind": "summarizer-variant",
+      "schema": "cwa-bench-d1/summarizer-variant/v1",
+      "description": "S11: every proposed variant, its fidelity checks and whether R-18's rules kept it",
+      "rows": 12
+    },
+    {
+      "path": "summary.json",
+      "kind": "summary",
+      "schema": "cwa-bench-d1/summary/v1",
+      "description": "Headline metrics and per-suite status"
+    }
+  ],
+  "blobs": {
+    "index": "blobs/index.jsonl",
+    "layout": "blobs/sha256/<first 2 hex>/<64 hex>.<json|txt|bin>",
+    "count": 226
+  },
+  "fixture": {
+    "of": "20261008T133453Z-691b414",
+    "created_at": "2026-10-08T19:23:14.917Z",
+    "rows": 12,
+    "frames": 16,
+    "sweeps": 2
+  }
+}

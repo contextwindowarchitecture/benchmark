@@ -1,0 +1,696 @@
+{
+  "$schema": "cwa-bench-d1/suite-summary/v1",
+  "run_id": "20261008T133453Z-691b414",
+  "suite": "S10",
+  "title": "Purity and isolation",
+  "status": "pass",
+  "started_at": "2026-10-08T13:52:48.813Z",
+  "finished_at": "2026-10-08T13:53:07.813Z",
+  "requirements": [
+    "R-18",
+    "R-23"
+  ],
+  "corpora": [
+    {
+      "id": "conformance.cases",
+      "count": 65
+    },
+    {
+      "id": "conformance.rejections",
+      "count": 25
+    },
+    {
+      "id": "producer.off",
+      "count": 4
+    },
+    {
+      "id": "producer.stub",
+      "count": 4
+    }
+  ],
+  "adapters": [],
+  "metrics": [
+    {
+      "id": "s10.network_violations",
+      "label": "IP network syscalls",
+      "suite": "S10",
+      "adapter": "python",
+      "unit": "count",
+      "value": 0,
+      "numerator": null,
+      "denominator": null,
+      "target": 0,
+      "status": "pass",
+      "description": "socket, connect, bind, send or listen calls on an IP or packet socket, under strace, with no network namespace. Any one is a violation, successful or not."
+    },
+    {
+      "id": "s10.file_writes",
+      "label": "File writes outside /dev",
+      "suite": "S10",
+      "adapter": "python",
+      "unit": "count",
+      "value": 0,
+      "numerator": null,
+      "denominator": null,
+      "target": 0,
+      "status": "pass",
+      "description": "open calls for writing outside /dev. Assembly has nothing to write."
+    },
+    {
+      "id": "s10.reads_outside_runtime",
+      "label": "Distinct reads outside the runtime",
+      "suite": "S10",
+      "adapter": "python",
+      "unit": "count",
+      "value": 1,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": "Distinct paths opened for reading outside /usr, /lib, /opt/cwa, /proc, /sys and /dev, listed in the summary. Informational."
+    },
+    {
+      "id": "s10.isolated_invariance",
+      "label": "Answers unchanged in isolation",
+      "suite": "S10",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 294,
+      "denominator": 294,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Answers, in every isolation cell, whose decision and payload equal the host baseline's."
+    },
+    {
+      "id": "s10.isolated_trace_invariance",
+      "label": "Traces unchanged in isolation",
+      "suite": "S10",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 219,
+      "denominator": 219,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Answers, in every isolation cell, whose normalized trace equals the host baseline's."
+    },
+    {
+      "id": "s10.network_violations",
+      "label": "IP network syscalls",
+      "suite": "S10",
+      "adapter": "typescript",
+      "unit": "count",
+      "value": 0,
+      "numerator": null,
+      "denominator": null,
+      "target": 0,
+      "status": "pass",
+      "description": "socket, connect, bind, send or listen calls on an IP or packet socket, under strace, with no network namespace. Any one is a violation, successful or not."
+    },
+    {
+      "id": "s10.file_writes",
+      "label": "File writes outside /dev",
+      "suite": "S10",
+      "adapter": "typescript",
+      "unit": "count",
+      "value": 0,
+      "numerator": null,
+      "denominator": null,
+      "target": 0,
+      "status": "pass",
+      "description": "open calls for writing outside /dev. Assembly has nothing to write."
+    },
+    {
+      "id": "s10.reads_outside_runtime",
+      "label": "Distinct reads outside the runtime",
+      "suite": "S10",
+      "adapter": "typescript",
+      "unit": "count",
+      "value": 3,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": "Distinct paths opened for reading outside /usr, /lib, /opt/cwa, /proc, /sys and /dev, listed in the summary. Informational."
+    },
+    {
+      "id": "s10.isolated_invariance",
+      "label": "Answers unchanged in isolation",
+      "suite": "S10",
+      "adapter": "typescript",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 294,
+      "denominator": 294,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Answers, in every isolation cell, whose decision and payload equal the host baseline's."
+    },
+    {
+      "id": "s10.isolated_trace_invariance",
+      "label": "Traces unchanged in isolation",
+      "suite": "S10",
+      "adapter": "typescript",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 219,
+      "denominator": 219,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Answers, in every isolation cell, whose normalized trace equals the host baseline's."
+    },
+    {
+      "id": "s10.network_violations",
+      "label": "IP network syscalls",
+      "suite": "S10",
+      "adapter": "go",
+      "unit": "count",
+      "value": 0,
+      "numerator": null,
+      "denominator": null,
+      "target": 0,
+      "status": "pass",
+      "description": "socket, connect, bind, send or listen calls on an IP or packet socket, under strace, with no network namespace. Any one is a violation, successful or not."
+    },
+    {
+      "id": "s10.file_writes",
+      "label": "File writes outside /dev",
+      "suite": "S10",
+      "adapter": "go",
+      "unit": "count",
+      "value": 0,
+      "numerator": null,
+      "denominator": null,
+      "target": 0,
+      "status": "pass",
+      "description": "open calls for writing outside /dev. Assembly has nothing to write."
+    },
+    {
+      "id": "s10.reads_outside_runtime",
+      "label": "Distinct reads outside the runtime",
+      "suite": "S10",
+      "adapter": "go",
+      "unit": "count",
+      "value": 1,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": "Distinct paths opened for reading outside /usr, /lib, /opt/cwa, /proc, /sys and /dev, listed in the summary. Informational."
+    },
+    {
+      "id": "s10.isolated_invariance",
+      "label": "Answers unchanged in isolation",
+      "suite": "S10",
+      "adapter": "go",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 294,
+      "denominator": 294,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Answers, in every isolation cell, whose decision and payload equal the host baseline's."
+    },
+    {
+      "id": "s10.isolated_trace_invariance",
+      "label": "Traces unchanged in isolation",
+      "suite": "S10",
+      "adapter": "go",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 219,
+      "denominator": 219,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Answers, in every isolation cell, whose normalized trace equals the host baseline's."
+    },
+    {
+      "id": "s10.network_violations",
+      "label": "IP network syscalls",
+      "suite": "S10",
+      "adapter": "rust",
+      "unit": "count",
+      "value": 0,
+      "numerator": null,
+      "denominator": null,
+      "target": 0,
+      "status": "pass",
+      "description": "socket, connect, bind, send or listen calls on an IP or packet socket, under strace, with no network namespace. Any one is a violation, successful or not."
+    },
+    {
+      "id": "s10.file_writes",
+      "label": "File writes outside /dev",
+      "suite": "S10",
+      "adapter": "rust",
+      "unit": "count",
+      "value": 0,
+      "numerator": null,
+      "denominator": null,
+      "target": 0,
+      "status": "pass",
+      "description": "open calls for writing outside /dev. Assembly has nothing to write."
+    },
+    {
+      "id": "s10.reads_outside_runtime",
+      "label": "Distinct reads outside the runtime",
+      "suite": "S10",
+      "adapter": "rust",
+      "unit": "count",
+      "value": 0,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": "Distinct paths opened for reading outside /usr, /lib, /opt/cwa, /proc, /sys and /dev, listed in the summary. Informational."
+    },
+    {
+      "id": "s10.isolated_invariance",
+      "label": "Answers unchanged in isolation",
+      "suite": "S10",
+      "adapter": "rust",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 294,
+      "denominator": 294,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Answers, in every isolation cell, whose decision and payload equal the host baseline's."
+    },
+    {
+      "id": "s10.isolated_trace_invariance",
+      "label": "Traces unchanged in isolation",
+      "suite": "S10",
+      "adapter": "rust",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 219,
+      "denominator": 219,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Answers, in every isolation cell, whose normalized trace equals the host baseline's."
+    }
+  ],
+  "files": {
+    "results": "suites/S10/results.jsonl",
+    "findings": "suites/S10/findings.jsonl"
+  },
+  "cells": [
+    {
+      "cell": "linux-isolated:baseline",
+      "platform": "linux/arm64",
+      "adapter": "go",
+      "description": "Linux with no network and a read-only root",
+      "invocations": 98,
+      "applied": 98,
+      "not_applied": 0,
+      "faults": 0,
+      "decision": {
+        "numerator": 98,
+        "denominator": 98
+      },
+      "payload": {
+        "numerator": 51,
+        "denominator": 51
+      },
+      "trace": {
+        "numerator": 73,
+        "denominator": 73
+      }
+    },
+    {
+      "cell": "linux-isolated:baseline",
+      "platform": "linux/arm64",
+      "adapter": "python",
+      "description": "Linux with no network and a read-only root",
+      "invocations": 98,
+      "applied": 98,
+      "not_applied": 0,
+      "faults": 0,
+      "decision": {
+        "numerator": 98,
+        "denominator": 98
+      },
+      "payload": {
+        "numerator": 51,
+        "denominator": 51
+      },
+      "trace": {
+        "numerator": 73,
+        "denominator": 73
+      }
+    },
+    {
+      "cell": "linux-isolated:baseline",
+      "platform": "linux/arm64",
+      "adapter": "rust",
+      "description": "Linux with no network and a read-only root",
+      "invocations": 98,
+      "applied": 98,
+      "not_applied": 0,
+      "faults": 0,
+      "decision": {
+        "numerator": 98,
+        "denominator": 98
+      },
+      "payload": {
+        "numerator": 51,
+        "denominator": 51
+      },
+      "trace": {
+        "numerator": 73,
+        "denominator": 73
+      }
+    },
+    {
+      "cell": "linux-isolated:baseline",
+      "platform": "linux/arm64",
+      "adapter": "typescript",
+      "description": "Linux with no network and a read-only root",
+      "invocations": 98,
+      "applied": 98,
+      "not_applied": 0,
+      "faults": 0,
+      "decision": {
+        "numerator": 98,
+        "denominator": 98
+      },
+      "payload": {
+        "numerator": 51,
+        "denominator": 51
+      },
+      "trace": {
+        "numerator": 73,
+        "denominator": 73
+      }
+    },
+    {
+      "cell": "linux-isolated:strace",
+      "platform": "linux/arm64",
+      "adapter": "go",
+      "description": "As linux-isolated, every network, file and exec syscall traced",
+      "invocations": 98,
+      "applied": 98,
+      "not_applied": 0,
+      "faults": 0,
+      "decision": {
+        "numerator": 98,
+        "denominator": 98
+      },
+      "payload": {
+        "numerator": 51,
+        "denominator": 51
+      },
+      "trace": {
+        "numerator": 73,
+        "denominator": 73
+      }
+    },
+    {
+      "cell": "linux-isolated:strace",
+      "platform": "linux/arm64",
+      "adapter": "python",
+      "description": "As linux-isolated, every network, file and exec syscall traced",
+      "invocations": 98,
+      "applied": 98,
+      "not_applied": 0,
+      "faults": 0,
+      "decision": {
+        "numerator": 98,
+        "denominator": 98
+      },
+      "payload": {
+        "numerator": 51,
+        "denominator": 51
+      },
+      "trace": {
+        "numerator": 73,
+        "denominator": 73
+      }
+    },
+    {
+      "cell": "linux-isolated:strace",
+      "platform": "linux/arm64",
+      "adapter": "rust",
+      "description": "As linux-isolated, every network, file and exec syscall traced",
+      "invocations": 98,
+      "applied": 98,
+      "not_applied": 0,
+      "faults": 0,
+      "decision": {
+        "numerator": 98,
+        "denominator": 98
+      },
+      "payload": {
+        "numerator": 51,
+        "denominator": 51
+      },
+      "trace": {
+        "numerator": 73,
+        "denominator": 73
+      }
+    },
+    {
+      "cell": "linux-isolated:strace",
+      "platform": "linux/arm64",
+      "adapter": "typescript",
+      "description": "As linux-isolated, every network, file and exec syscall traced",
+      "invocations": 98,
+      "applied": 98,
+      "not_applied": 0,
+      "faults": 0,
+      "decision": {
+        "numerator": 98,
+        "denominator": 98
+      },
+      "payload": {
+        "numerator": 51,
+        "denominator": 51
+      },
+      "trace": {
+        "numerator": 73,
+        "denominator": 73
+      }
+    },
+    {
+      "cell": "sandbox:no-network",
+      "platform": "darwin/arm64",
+      "adapter": "go",
+      "description": "macOS sandbox that denies all network access",
+      "invocations": 98,
+      "applied": 98,
+      "not_applied": 0,
+      "faults": 0,
+      "decision": {
+        "numerator": 98,
+        "denominator": 98
+      },
+      "payload": {
+        "numerator": 51,
+        "denominator": 51
+      },
+      "trace": {
+        "numerator": 73,
+        "denominator": 73
+      }
+    },
+    {
+      "cell": "sandbox:no-network",
+      "platform": "darwin/arm64",
+      "adapter": "python",
+      "description": "macOS sandbox that denies all network access",
+      "invocations": 98,
+      "applied": 98,
+      "not_applied": 0,
+      "faults": 0,
+      "decision": {
+        "numerator": 98,
+        "denominator": 98
+      },
+      "payload": {
+        "numerator": 51,
+        "denominator": 51
+      },
+      "trace": {
+        "numerator": 73,
+        "denominator": 73
+      }
+    },
+    {
+      "cell": "sandbox:no-network",
+      "platform": "darwin/arm64",
+      "adapter": "rust",
+      "description": "macOS sandbox that denies all network access",
+      "invocations": 98,
+      "applied": 98,
+      "not_applied": 0,
+      "faults": 0,
+      "decision": {
+        "numerator": 98,
+        "denominator": 98
+      },
+      "payload": {
+        "numerator": 51,
+        "denominator": 51
+      },
+      "trace": {
+        "numerator": 73,
+        "denominator": 73
+      }
+    },
+    {
+      "cell": "sandbox:no-network",
+      "platform": "darwin/arm64",
+      "adapter": "typescript",
+      "description": "macOS sandbox that denies all network access",
+      "invocations": 98,
+      "applied": 98,
+      "not_applied": 0,
+      "faults": 0,
+      "decision": {
+        "numerator": 98,
+        "denominator": 98
+      },
+      "payload": {
+        "numerator": 51,
+        "denominator": 51
+      },
+      "trace": {
+        "numerator": 73,
+        "denominator": 73
+      }
+    }
+  ],
+  "purity": {
+    "adapters": [
+      {
+        "adapter": "python",
+        "traced_invocations": 98,
+        "empty_traces": 0,
+        "invocations": 98,
+        "network": [],
+        "local_sockets": [],
+        "reads": [
+          {
+            "event": "/etc/localtime (ok)",
+            "count": 98
+          }
+        ],
+        "writes": [],
+        "cache_writes": [
+          {
+            "event": "/usr/local/lib/python3.14/__pycache__/ (EROFS)",
+            "count": 686
+          },
+          {
+            "event": "/usr/local/lib/python3.14/encodings/__pycache__/ (EROFS)",
+            "count": 91
+          },
+          {
+            "event": "/usr/local/lib/python3.14/importlib/__pycache__/ (EROFS)",
+            "count": 98
+          },
+          {
+            "event": "/usr/local/lib/python3.14/importlib/resources/__pycache__/ (EROFS)",
+            "count": 686
+          }
+        ],
+        "child_processes": []
+      },
+      {
+        "adapter": "typescript",
+        "traced_invocations": 98,
+        "empty_traces": 0,
+        "invocations": 98,
+        "network": [],
+        "local_sockets": [],
+        "reads": [
+          {
+            "event": "/etc/ssl/openssl.cnf (ok)",
+            "count": 98
+          },
+          {
+            "event": "/opt/package.json (ENOENT)",
+            "count": 98
+          },
+          {
+            "event": "/package.json (ENOENT)",
+            "count": 98
+          }
+        ],
+        "writes": [],
+        "cache_writes": [],
+        "child_processes": []
+      },
+      {
+        "adapter": "go",
+        "traced_invocations": 98,
+        "empty_traces": 0,
+        "invocations": 98,
+        "network": [],
+        "local_sockets": [],
+        "reads": [
+          {
+            "event": "/etc/localtime (ok)",
+            "count": 2
+          }
+        ],
+        "writes": [],
+        "cache_writes": [],
+        "child_processes": []
+      },
+      {
+        "adapter": "rust",
+        "traced_invocations": 98,
+        "empty_traces": 0,
+        "invocations": 98,
+        "network": [],
+        "local_sockets": [],
+        "reads": [],
+        "writes": [],
+        "cache_writes": [],
+        "child_processes": []
+      }
+    ],
+    "problems": [],
+    "allowed_read_prefixes": [
+      "/usr/",
+      "/lib/",
+      "/lib64/",
+      "/opt/cwa/",
+      "/proc/",
+      "/sys/",
+      "/dev/",
+      "/etc/ld.so.cache"
+    ],
+    "container": {
+      "image": {
+        "tag": "localhost/cwa-bench-d1:5f4d1a1b78bf5983",
+        "id": "ac95bc77fdaad270dfc6430b537692accdd05a924b5264dea84c5691dd89c18e",
+        "context_sha256": "5f4d1a1b78bf59837b01947cea6010bdd51eec6868048a5ea8c30a8f0b8054e5",
+        "context_files": 1610,
+        "platform": "linux/arm64",
+        "built_this_run": true,
+        "variant": null,
+        "run_platform": null,
+        "images": {
+          "go": "docker.io/library/golang:1.27-trixie",
+          "rust": "docker.io/library/rust:1.99-trixie",
+          "node": "docker.io/library/node:24-trixie-slim",
+          "python": "docker.io/library/python:3.14-slim-trixie",
+          "uv": "ghcr.io/astral-sh/uv:0.12"
+        }
+      },
+      "probes": {},
+      "versions": {
+        "faketime": "0.9.10+2024-06-05+gba9ed5b2-0.6",
+        "go": "go version go1.27.1 linux/arm64",
+        "node": "v24.21.0",
+        "python": "Python 3.14.8",
+        "rust": "rustc 1.99.0 (b940084d7 2026-09-28)",
+        "strace": "strace -- version 6.13"
+      }
+    },
+    "clock_note": "Clock reads are not judged: the vDSO hides them from strace, and S2's clock-shift cells test whether one changes an answer."
+  }
+}

@@ -1,0 +1,1655 @@
+{
+  "$schema": "cwa-bench-d1/suite-summary/v1",
+  "run_id": "20261008T004213Z-e824f1b",
+  "suite": "S5",
+  "title": "Generative fuzzing",
+  "status": "fail",
+  "started_at": "2026-10-08T00:48:33.150Z",
+  "finished_at": "2026-10-08T00:56:20.226Z",
+  "requirements": [
+    "R-1",
+    "R-2",
+    "R-3",
+    "R-4",
+    "R-7",
+    "R-8",
+    "R-9",
+    "R-10",
+    "R-11",
+    "R-12",
+    "R-13",
+    "R-15",
+    "R-16",
+    "R-17",
+    "R-18",
+    "R-19",
+    "R-20",
+    "R-21",
+    "R-22",
+    "R-23",
+    "R-24",
+    "R-25",
+    "R-26"
+  ],
+  "corpora": [
+    {
+      "id": "fuzz.valid",
+      "count": 10000
+    },
+    {
+      "id": "fuzz.mutated",
+      "count": 2000
+    }
+  ],
+  "adapters": [],
+  "metrics": [
+    {
+      "id": "s5.crash_free",
+      "label": "Answers without a crash, hang or garbage",
+      "suite": "S5",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 0.99275,
+      "numerator": 11913,
+      "denominator": 12000,
+      "target": 1.0,
+      "status": "fail",
+      "description": ""
+    },
+    {
+      "id": "s5.audit_rate",
+      "label": "Generated outputs passing the trace audit",
+      "suite": "S5",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 9913,
+      "denominator": 9913,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s5.valid_answered",
+      "label": "Valid snapshots assembled or refused",
+      "suite": "S5",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 0.9913,
+      "numerator": 9913,
+      "denominator": 10000,
+      "target": 1.0,
+      "status": "fail",
+      "description": "Rejecting a valid snapshot, or failing on it, counts against."
+    },
+    {
+      "id": "s5.mutants_rejected",
+      "label": "Mutants rejected before assembly",
+      "suite": "S5",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 2000,
+      "denominator": 2000,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s5.crash_free",
+      "label": "Answers without a crash, hang or garbage",
+      "suite": "S5",
+      "adapter": "typescript",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 12000,
+      "denominator": 12000,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s5.audit_rate",
+      "label": "Generated outputs passing the trace audit",
+      "suite": "S5",
+      "adapter": "typescript",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 10000,
+      "denominator": 10000,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s5.valid_answered",
+      "label": "Valid snapshots assembled or refused",
+      "suite": "S5",
+      "adapter": "typescript",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 10000,
+      "denominator": 10000,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Rejecting a valid snapshot, or failing on it, counts against."
+    },
+    {
+      "id": "s5.mutants_rejected",
+      "label": "Mutants rejected before assembly",
+      "suite": "S5",
+      "adapter": "typescript",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 2000,
+      "denominator": 2000,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s5.crash_free",
+      "label": "Answers without a crash, hang or garbage",
+      "suite": "S5",
+      "adapter": "go",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 12000,
+      "denominator": 12000,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s5.audit_rate",
+      "label": "Generated outputs passing the trace audit",
+      "suite": "S5",
+      "adapter": "go",
+      "unit": "rate",
+      "value": 0.9626,
+      "numerator": 9626,
+      "denominator": 10000,
+      "target": 1.0,
+      "status": "fail",
+      "description": ""
+    },
+    {
+      "id": "s5.valid_answered",
+      "label": "Valid snapshots assembled or refused",
+      "suite": "S5",
+      "adapter": "go",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 10000,
+      "denominator": 10000,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Rejecting a valid snapshot, or failing on it, counts against."
+    },
+    {
+      "id": "s5.mutants_rejected",
+      "label": "Mutants rejected before assembly",
+      "suite": "S5",
+      "adapter": "go",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 2000,
+      "denominator": 2000,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s5.crash_free",
+      "label": "Answers without a crash, hang or garbage",
+      "suite": "S5",
+      "adapter": "rust",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 12000,
+      "denominator": 12000,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s5.audit_rate",
+      "label": "Generated outputs passing the trace audit",
+      "suite": "S5",
+      "adapter": "rust",
+      "unit": "rate",
+      "value": 0.9948974487243621,
+      "numerator": 9944,
+      "denominator": 9995,
+      "target": 1.0,
+      "status": "fail",
+      "description": ""
+    },
+    {
+      "id": "s5.valid_answered",
+      "label": "Valid snapshots assembled or refused",
+      "suite": "S5",
+      "adapter": "rust",
+      "unit": "rate",
+      "value": 0.9995,
+      "numerator": 9995,
+      "denominator": 10000,
+      "target": 1.0,
+      "status": "fail",
+      "description": "Rejecting a valid snapshot, or failing on it, counts against."
+    },
+    {
+      "id": "s5.mutants_rejected",
+      "label": "Mutants rejected before assembly",
+      "suite": "S5",
+      "adapter": "rust",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 2000,
+      "denominator": 2000,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s5.agreement",
+      "label": "Generated snapshots on which every adapter agrees",
+      "suite": "S5",
+      "adapter": null,
+      "unit": "rate",
+      "value": 0.9573,
+      "numerator": 9573,
+      "denominator": 10000,
+      "target": 1.0,
+      "status": "fail",
+      "description": ""
+    },
+    {
+      "id": "s5.rejection_agreement",
+      "label": "Mutants every adapter rejects",
+      "suite": "S5",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 2000,
+      "denominator": 2000,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s5.tag_coverage",
+      "label": "Steering targets some trace exercised",
+      "suite": "S5",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 313,
+      "denominator": 313,
+      "target": null,
+      "status": "info",
+      "description": "Coverage tags the intents aim at, as traces recorded them."
+    },
+    {
+      "id": "s5.findings_minimized",
+      "label": "Findings whose minimized draft still reproduces",
+      "suite": "S5",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 12,
+      "denominator": 12,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s5.generator_errors",
+      "label": "Generated snapshots the validity check refused",
+      "suite": "S5",
+      "adapter": null,
+      "unit": "count",
+      "value": 0,
+      "numerator": null,
+      "denominator": null,
+      "target": 0,
+      "status": "pass",
+      "description": "A generator bug: every generated snapshot must be valid."
+    }
+  ],
+  "files": {
+    "results": "suites/S5/results.jsonl",
+    "findings": "suites/S5/findings.jsonl"
+  },
+  "generated": {
+    "seed": 20261006,
+    "generator_errors": [],
+    "steering": {
+      "universe": 313,
+      "covered": 313,
+      "rounds": [
+        {
+          "round": 0,
+          "snapshots": 1000,
+          "covered_before": 0,
+          "universe": 313,
+          "family_weights": {
+            "conflict": 5.25,
+            "edge": 5.25,
+            "fault": 10.5,
+            "fit": 7.0,
+            "layout": 2.45,
+            "pipeline": 5.25,
+            "refusal": 5.25,
+            "rows": 3.5
+          }
+        },
+        {
+          "round": 1,
+          "snapshots": 1000,
+          "covered_before": 246,
+          "universe": 313,
+          "family_weights": {
+            "conflict": 1.2,
+            "edge": 0.75,
+            "fault": 3.7672,
+            "fit": 1.0,
+            "layout": 0.35,
+            "pipeline": 0.75,
+            "refusal": 0.75,
+            "rows": 0.5
+          }
+        },
+        {
+          "round": 2,
+          "snapshots": 1000,
+          "covered_before": 313,
+          "universe": 313,
+          "family_weights": {
+            "conflict": 0.75,
+            "edge": 0.75,
+            "fault": 1.5,
+            "fit": 1.0,
+            "layout": 0.35,
+            "pipeline": 0.75,
+            "refusal": 0.75,
+            "rows": 0.5
+          }
+        },
+        {
+          "round": 3,
+          "snapshots": 1000,
+          "covered_before": 313,
+          "universe": 313,
+          "family_weights": {
+            "conflict": 0.75,
+            "edge": 0.75,
+            "fault": 1.5,
+            "fit": 1.0,
+            "layout": 0.35,
+            "pipeline": 0.75,
+            "refusal": 0.75,
+            "rows": 0.5
+          }
+        },
+        {
+          "round": 4,
+          "snapshots": 1000,
+          "covered_before": 313,
+          "universe": 313,
+          "family_weights": {
+            "conflict": 0.75,
+            "edge": 0.75,
+            "fault": 1.5,
+            "fit": 1.0,
+            "layout": 0.35,
+            "pipeline": 0.75,
+            "refusal": 0.75,
+            "rows": 0.5
+          }
+        },
+        {
+          "round": 5,
+          "snapshots": 1000,
+          "covered_before": 313,
+          "universe": 313,
+          "family_weights": {
+            "conflict": 0.75,
+            "edge": 0.75,
+            "fault": 1.5,
+            "fit": 1.0,
+            "layout": 0.35,
+            "pipeline": 0.75,
+            "refusal": 0.75,
+            "rows": 0.5
+          }
+        },
+        {
+          "round": 6,
+          "snapshots": 1000,
+          "covered_before": 313,
+          "universe": 313,
+          "family_weights": {
+            "conflict": 0.75,
+            "edge": 0.75,
+            "fault": 1.5,
+            "fit": 1.0,
+            "layout": 0.35,
+            "pipeline": 0.75,
+            "refusal": 0.75,
+            "rows": 0.5
+          }
+        },
+        {
+          "round": 7,
+          "snapshots": 1000,
+          "covered_before": 313,
+          "universe": 313,
+          "family_weights": {
+            "conflict": 0.75,
+            "edge": 0.75,
+            "fault": 1.5,
+            "fit": 1.0,
+            "layout": 0.35,
+            "pipeline": 0.75,
+            "refusal": 0.75,
+            "rows": 0.5
+          }
+        },
+        {
+          "round": 8,
+          "snapshots": 1000,
+          "covered_before": 313,
+          "universe": 313,
+          "family_weights": {
+            "conflict": 0.75,
+            "edge": 0.75,
+            "fault": 1.5,
+            "fit": 1.0,
+            "layout": 0.35,
+            "pipeline": 0.75,
+            "refusal": 0.75,
+            "rows": 0.5
+          }
+        },
+        {
+          "round": 9,
+          "snapshots": 1000,
+          "covered_before": 313,
+          "universe": 313,
+          "family_weights": {
+            "conflict": 0.75,
+            "edge": 0.75,
+            "fault": 1.5,
+            "fit": 1.0,
+            "layout": 0.35,
+            "pipeline": 0.75,
+            "refusal": 0.75,
+            "rows": 0.5
+          }
+        }
+      ],
+      "uncovered": []
+    },
+    "intents": {
+      "component:cwa-message-blocks/v1|estimate-utf8/v1": 1681,
+      "component:cwa-message-blocks/v1|fixture-whitespace/v1": 1660,
+      "component:cwa-messages/v1|estimate-utf8/v1": 1630,
+      "component:cwa-messages/v1|fixture-whitespace/v1": 1689,
+      "component:fixture-xml/v1|estimate-utf8/v1": 1639,
+      "component:fixture-xml/v1|fixture-whitespace/v1": 1701,
+      "conflict:fact": 956,
+      "conflict:instruction": 1069,
+      "edge:bodies": 622,
+      "edge:capabilities": 111,
+      "edge:defaults": 47,
+      "edge:history": 45,
+      "edge:ids": 619,
+      "edge:instants": 96,
+      "edge:numbers": 151,
+      "edge:scope": 156,
+      "fault:authority_not_allowed/generated-turn-as-user@interaction.history": 8,
+      "fault:authority_not_allowed/wrong-role@evidence.knowledge": 15,
+      "fault:authority_not_allowed/wrong-role@evidence.tool_results": 13,
+      "fault:authority_not_allowed/wrong-role@governance.capabilities": 20,
+      "fault:authority_not_allowed/wrong-role@governance.examples": 15,
+      "fault:authority_not_allowed/wrong-role@governance.instructions": 9,
+      "fault:authority_not_allowed/wrong-role@governance.output_contract": 12,
+      "fault:authority_not_allowed/wrong-role@interaction.history": 12,
+      "fault:authority_not_allowed/wrong-role@interaction.memory": 22,
+      "fault:authority_not_allowed/wrong-role@interaction.query": 20,
+      "fault:authority_not_allowed/wrong-role@state.task": 13,
+      "fault:authority_not_allowed/wrong-role@state.user": 15,
+      "fault:below_threshold/low-score@evidence.knowledge": 7,
+      "fault:below_threshold/low-score@evidence.tool_results": 13,
+      "fault:below_threshold/low-score@governance.capabilities": 12,
+      "fault:below_threshold/low-score@governance.examples": 11,
+      "fault:below_threshold/low-score@governance.instructions": 13,
+      "fault:below_threshold/low-score@governance.output_contract": 13,
+      "fault:below_threshold/low-score@interaction.history": 10,
+      "fault:below_threshold/low-score@interaction.memory": 7,
+      "fault:below_threshold/low-score@interaction.query": 8,
+      "fault:below_threshold/low-score@state.task": 11,
+      "fault:below_threshold/low-score@state.user": 14,
+      "fault:below_threshold/unscored@evidence.tool_results": 9,
+      "fault:below_threshold/unscored@governance.capabilities": 12,
+      "fault:below_threshold/unscored@governance.examples": 10,
+      "fault:below_threshold/unscored@governance.instructions": 8,
+      "fault:below_threshold/unscored@governance.output_contract": 12,
+      "fault:below_threshold/unscored@interaction.history": 12,
+      "fault:below_threshold/unscored@interaction.memory": 8,
+      "fault:below_threshold/unscored@interaction.query": 11,
+      "fault:below_threshold/unscored@state.task": 20,
+      "fault:below_threshold/unscored@state.user": 7,
+      "fault:capability_not_allowed/from-mcp@governance.capabilities": 6,
+      "fault:capability_not_allowed/grant-producer-wrong-kind@governance.capabilities": 7,
+      "fault:capability_not_allowed/no-grant@governance.capabilities": 6,
+      "fault:capability_not_allowed/not-on-allow-list@governance.capabilities": 9,
+      "fault:duplicate_item_id/producer-row@evidence.knowledge": 9,
+      "fault:duplicate_item_id/producer-row@evidence.tool_results": 4,
+      "fault:duplicate_item_id/producer-row@governance.capabilities": 11,
+      "fault:duplicate_item_id/producer-row@governance.examples": 13,
+      "fault:duplicate_item_id/producer-row@governance.instructions": 15,
+      "fault:duplicate_item_id/producer-row@governance.output_contract": 10,
+      "fault:duplicate_item_id/producer-row@interaction.history": 4,
+      "fault:duplicate_item_id/producer-row@interaction.memory": 2,
+      "fault:duplicate_item_id/producer-row@interaction.query": 11,
+      "fault:duplicate_item_id/producer-row@state.task": 13,
+      "fault:duplicate_item_id/producer-row@state.user": 7,
+      "fault:duplicate_item_id/twin@evidence.knowledge": 5,
+      "fault:duplicate_item_id/twin@evidence.tool_results": 8,
+      "fault:duplicate_item_id/twin@governance.capabilities": 10,
+      "fault:duplicate_item_id/twin@governance.examples": 9,
+      "fault:duplicate_item_id/twin@governance.instructions": 7,
+      "fault:duplicate_item_id/twin@governance.output_contract": 10,
+      "fault:duplicate_item_id/twin@interaction.history": 7,
+      "fault:duplicate_item_id/twin@interaction.memory": 4,
+      "fault:duplicate_item_id/twin@interaction.query": 10,
+      "fault:duplicate_item_id/twin@state.task": 8,
+      "fault:duplicate_item_id/twin@state.user": 5,
+      "fault:duplicate_variant_id/parent-id@evidence.knowledge": 2,
+      "fault:duplicate_variant_id/parent-id@evidence.tool_results": 2,
+      "fault:duplicate_variant_id/parent-id@governance.capabilities": 12,
+      "fault:duplicate_variant_id/parent-id@governance.examples": 11,
+      "fault:duplicate_variant_id/parent-id@governance.instructions": 10,
+      "fault:duplicate_variant_id/parent-id@governance.output_contract": 7,
+      "fault:duplicate_variant_id/parent-id@interaction.history": 2,
+      "fault:duplicate_variant_id/parent-id@interaction.memory": 1,
+      "fault:duplicate_variant_id/parent-id@interaction.query": 7,
+      "fault:duplicate_variant_id/parent-id@state.task": 7,
+      "fault:duplicate_variant_id/parent-id@state.user": 16,
+      "fault:duplicate_variant_id/repeated@evidence.knowledge": 2,
+      "fault:duplicate_variant_id/repeated@evidence.tool_results": 1,
+      "fault:duplicate_variant_id/repeated@governance.capabilities": 9,
+      "fault:duplicate_variant_id/repeated@governance.examples": 7,
+      "fault:duplicate_variant_id/repeated@governance.instructions": 7,
+      "fault:duplicate_variant_id/repeated@governance.output_contract": 17,
+      "fault:duplicate_variant_id/repeated@interaction.memory": 3,
+      "fault:duplicate_variant_id/repeated@interaction.query": 8,
+      "fault:duplicate_variant_id/repeated@state.task": 12,
+      "fault:duplicate_variant_id/repeated@state.user": 8,
+      "fault:expired/at-assembly-time@evidence.knowledge": 3,
+      "fault:expired/at-assembly-time@evidence.tool_results": 2,
+      "fault:expired/at-assembly-time@governance.capabilities": 13,
+      "fault:expired/at-assembly-time@governance.examples": 11,
+      "fault:expired/at-assembly-time@governance.instructions": 2,
+      "fault:expired/at-assembly-time@governance.output_contract": 6,
+      "fault:expired/at-assembly-time@interaction.history": 10,
+      "fault:expired/at-assembly-time@interaction.memory": 3,
+      "fault:expired/at-assembly-time@interaction.query": 5,
+      "fault:expired/at-assembly-time@state.task": 17,
+      "fault:expired/at-assembly-time@state.user": 12,
+      "fault:expired/same-instant-offset@evidence.knowledge": 1,
+      "fault:expired/same-instant-offset@evidence.tool_results": 5,
+      "fault:expired/same-instant-offset@governance.capabilities": 10,
+      "fault:expired/same-instant-offset@governance.examples": 9,
+      "fault:expired/same-instant-offset@governance.instructions": 9,
+      "fault:expired/same-instant-offset@governance.output_contract": 14,
+      "fault:expired/same-instant-offset@interaction.history": 11,
+      "fault:expired/same-instant-offset@interaction.memory": 2,
+      "fault:expired/same-instant-offset@interaction.query": 8,
+      "fault:expired/same-instant-offset@state.task": 14,
+      "fault:expired/same-instant-offset@state.user": 9,
+      "fault:future_freshness/one-microsecond@evidence.knowledge": 13,
+      "fault:future_freshness/one-microsecond@evidence.tool_results": 8,
+      "fault:future_freshness/one-microsecond@governance.capabilities": 12,
+      "fault:future_freshness/one-microsecond@governance.examples": 14,
+      "fault:future_freshness/one-microsecond@governance.instructions": 16,
+      "fault:future_freshness/one-microsecond@governance.output_contract": 9,
+      "fault:future_freshness/one-microsecond@interaction.history": 14,
+      "fault:future_freshness/one-microsecond@interaction.memory": 15,
+      "fault:future_freshness/one-microsecond@interaction.query": 14,
+      "fault:future_freshness/one-microsecond@state.task": 15,
+      "fault:future_freshness/one-microsecond@state.user": 18,
+      "fault:invalid_structure/blank-eligibility@evidence.knowledge": 9,
+      "fault:invalid_structure/blank-eligibility@evidence.tool_results": 8,
+      "fault:invalid_structure/blank-eligibility@governance.capabilities": 11,
+      "fault:invalid_structure/blank-eligibility@governance.examples": 3,
+      "fault:invalid_structure/blank-eligibility@governance.instructions": 6,
+      "fault:invalid_structure/blank-eligibility@governance.output_contract": 8,
+      "fault:invalid_structure/blank-eligibility@interaction.history": 6,
+      "fault:invalid_structure/blank-eligibility@interaction.memory": 3,
+      "fault:invalid_structure/blank-eligibility@interaction.query": 5,
+      "fault:invalid_structure/blank-eligibility@state.task": 5,
+      "fault:invalid_structure/blank-eligibility@state.user": 3,
+      "fault:invalid_structure/extra-field@evidence.knowledge": 3,
+      "fault:invalid_structure/extra-field@evidence.tool_results": 3,
+      "fault:invalid_structure/extra-field@governance.capabilities": 6,
+      "fault:invalid_structure/extra-field@governance.examples": 1,
+      "fault:invalid_structure/extra-field@governance.instructions": 7,
+      "fault:invalid_structure/extra-field@governance.output_contract": 2,
+      "fault:invalid_structure/extra-field@interaction.history": 8,
+      "fault:invalid_structure/extra-field@interaction.memory": 8,
+      "fault:invalid_structure/extra-field@interaction.query": 6,
+      "fault:invalid_structure/extra-field@state.task": 7,
+      "fault:invalid_structure/extra-field@state.user": 8,
+      "fault:invalid_structure/impossible-date@evidence.knowledge": 5,
+      "fault:invalid_structure/impossible-date@evidence.tool_results": 4,
+      "fault:invalid_structure/impossible-date@governance.capabilities": 8,
+      "fault:invalid_structure/impossible-date@governance.examples": 11,
+      "fault:invalid_structure/impossible-date@governance.instructions": 7,
+      "fault:invalid_structure/impossible-date@governance.output_contract": 7,
+      "fault:invalid_structure/impossible-date@interaction.history": 9,
+      "fault:invalid_structure/impossible-date@interaction.memory": 4,
+      "fault:invalid_structure/impossible-date@interaction.query": 1,
+      "fault:invalid_structure/impossible-date@state.task": 7,
+      "fault:invalid_structure/impossible-date@state.user": 4,
+      "fault:invalid_structure/variant-missing-method@evidence.knowledge": 5,
+      "fault:invalid_structure/variant-missing-method@evidence.tool_results": 4,
+      "fault:invalid_structure/variant-missing-method@governance.capabilities": 11,
+      "fault:invalid_structure/variant-missing-method@governance.examples": 10,
+      "fault:invalid_structure/variant-missing-method@governance.instructions": 5,
+      "fault:invalid_structure/variant-missing-method@governance.output_contract": 9,
+      "fault:invalid_structure/variant-missing-method@interaction.history": 5,
+      "fault:invalid_structure/variant-missing-method@interaction.memory": 5,
+      "fault:invalid_structure/variant-missing-method@interaction.query": 3,
+      "fault:invalid_structure/variant-missing-method@state.task": 2,
+      "fault:invalid_structure/variant-missing-method@state.user": 8,
+      "fault:invalid_structure/wrong-type@evidence.knowledge": 3,
+      "fault:invalid_structure/wrong-type@evidence.tool_results": 4,
+      "fault:invalid_structure/wrong-type@governance.capabilities": 5,
+      "fault:invalid_structure/wrong-type@governance.examples": 11,
+      "fault:invalid_structure/wrong-type@governance.instructions": 3,
+      "fault:invalid_structure/wrong-type@governance.output_contract": 5,
+      "fault:invalid_structure/wrong-type@interaction.history": 4,
+      "fault:invalid_structure/wrong-type@interaction.memory": 5,
+      "fault:invalid_structure/wrong-type@interaction.query": 8,
+      "fault:invalid_structure/wrong-type@state.task": 9,
+      "fault:invalid_structure/wrong-type@state.user": 6,
+      "fault:missing_field:authority/omitted@evidence.knowledge": 13,
+      "fault:missing_field:authority/omitted@evidence.tool_results": 15,
+      "fault:missing_field:authority/omitted@governance.capabilities": 11,
+      "fault:missing_field:authority/omitted@governance.examples": 11,
+      "fault:missing_field:authority/omitted@governance.instructions": 21,
+      "fault:missing_field:authority/omitted@governance.output_contract": 15,
+      "fault:missing_field:authority/omitted@interaction.history": 9,
+      "fault:missing_field:authority/omitted@interaction.memory": 6,
+      "fault:missing_field:authority/omitted@interaction.query": 16,
+      "fault:missing_field:authority/omitted@state.task": 12,
+      "fault:missing_field:authority/omitted@state.user": 17,
+      "fault:missing_field:body/omitted@evidence.knowledge": 16,
+      "fault:missing_field:body/omitted@evidence.tool_results": 13,
+      "fault:missing_field:body/omitted@governance.capabilities": 13,
+      "fault:missing_field:body/omitted@governance.examples": 13,
+      "fault:missing_field:body/omitted@governance.instructions": 18,
+      "fault:missing_field:body/omitted@governance.output_contract": 13,
+      "fault:missing_field:body/omitted@interaction.history": 22,
+      "fault:missing_field:body/omitted@interaction.memory": 14,
+      "fault:missing_field:body/omitted@interaction.query": 12,
+      "fault:missing_field:body/omitted@state.task": 14,
+      "fault:missing_field:body/omitted@state.user": 7,
+      "fault:missing_field:expires/omitted@interaction.memory": 24,
+      "fault:missing_field:freshness/omitted@evidence.knowledge": 11,
+      "fault:missing_field:freshness/omitted@evidence.tool_results": 11,
+      "fault:missing_field:freshness/omitted@governance.capabilities": 17,
+      "fault:missing_field:freshness/omitted@governance.examples": 12,
+      "fault:missing_field:freshness/omitted@governance.instructions": 11,
+      "fault:missing_field:freshness/omitted@governance.output_contract": 13,
+      "fault:missing_field:freshness/omitted@interaction.history": 7,
+      "fault:missing_field:freshness/omitted@interaction.memory": 16,
+      "fault:missing_field:freshness/omitted@interaction.query": 12,
+      "fault:missing_field:freshness/omitted@state.task": 12,
+      "fault:missing_field:freshness/omitted@state.user": 17,
+      "fault:missing_field:id/omitted@evidence.knowledge": 7,
+      "fault:missing_field:id/omitted@evidence.tool_results": 8,
+      "fault:missing_field:id/omitted@governance.capabilities": 10,
+      "fault:missing_field:id/omitted@governance.examples": 7,
+      "fault:missing_field:id/omitted@governance.instructions": 9,
+      "fault:missing_field:id/omitted@governance.output_contract": 5,
+      "fault:missing_field:id/omitted@interaction.history": 7,
+      "fault:missing_field:id/omitted@interaction.memory": 14,
+      "fault:missing_field:id/omitted@interaction.query": 7,
+      "fault:missing_field:id/omitted@state.task": 7,
+      "fault:missing_field:id/omitted@state.user": 7,
+      "fault:missing_field:relevance/omitted@evidence.knowledge": 12,
+      "fault:missing_field:slot/omitted@-": 15,
+      "fault:missing_field:source/omitted@evidence.knowledge": 12,
+      "fault:missing_field:source/omitted@evidence.tool_results": 19,
+      "fault:missing_field:source/omitted@governance.capabilities": 17,
+      "fault:missing_field:source/omitted@governance.examples": 13,
+      "fault:missing_field:source/omitted@governance.instructions": 15,
+      "fault:missing_field:source/omitted@governance.output_contract": 11,
+      "fault:missing_field:source/omitted@interaction.history": 12,
+      "fault:missing_field:source/omitted@interaction.memory": 11,
+      "fault:missing_field:source/omitted@interaction.query": 19,
+      "fault:missing_field:source/omitted@state.task": 9,
+      "fault:missing_field:source/omitted@state.user": 15,
+      "fault:missing_field:source_version/omitted@evidence.knowledge": 11,
+      "fault:missing_field:source_version/omitted@evidence.tool_results": 14,
+      "fault:missing_field:source_version/omitted@governance.capabilities": 11,
+      "fault:missing_field:source_version/omitted@governance.examples": 16,
+      "fault:missing_field:source_version/omitted@governance.instructions": 9,
+      "fault:missing_field:source_version/omitted@governance.output_contract": 17,
+      "fault:missing_field:source_version/omitted@interaction.history": 9,
+      "fault:missing_field:source_version/omitted@interaction.memory": 15,
+      "fault:missing_field:source_version/omitted@interaction.query": 11,
+      "fault:missing_field:source_version/omitted@state.task": 14,
+      "fault:missing_field:source_version/omitted@state.user": 13,
+      "fault:missing_field:trust/omitted@evidence.knowledge": 14,
+      "fault:missing_field:trust/omitted@evidence.tool_results": 17,
+      "fault:missing_field:trust/omitted@governance.capabilities": 13,
+      "fault:missing_field:trust/omitted@governance.examples": 11,
+      "fault:missing_field:trust/omitted@governance.instructions": 20,
+      "fault:missing_field:trust/omitted@governance.output_contract": 11,
+      "fault:missing_field:trust/omitted@interaction.history": 20,
+      "fault:missing_field:trust/omitted@interaction.memory": 17,
+      "fault:missing_field:trust/omitted@interaction.query": 11,
+      "fault:missing_field:trust/omitted@state.task": 15,
+      "fault:missing_field:trust/omitted@state.user": 18,
+      "fault:not_eligible/too-old@evidence.knowledge": 15,
+      "fault:not_eligible/too-old@evidence.tool_results": 15,
+      "fault:not_eligible/too-old@governance.capabilities": 12,
+      "fault:not_eligible/too-old@governance.examples": 14,
+      "fault:not_eligible/too-old@governance.instructions": 16,
+      "fault:not_eligible/too-old@governance.output_contract": 14,
+      "fault:not_eligible/too-old@interaction.history": 12,
+      "fault:not_eligible/too-old@interaction.memory": 11,
+      "fault:not_eligible/too-old@interaction.query": 13,
+      "fault:out_of_scope/key-request-lacks@evidence.knowledge": 6,
+      "fault:out_of_scope/key-request-lacks@evidence.tool_results": 4,
+      "fault:out_of_scope/key-request-lacks@governance.capabilities": 9,
+      "fault:out_of_scope/key-request-lacks@governance.examples": 8,
+      "fault:out_of_scope/key-request-lacks@governance.instructions": 10,
+      "fault:out_of_scope/key-request-lacks@governance.output_contract": 10,
+      "fault:out_of_scope/key-request-lacks@interaction.history": 7,
+      "fault:out_of_scope/key-request-lacks@interaction.memory": 5,
+      "fault:out_of_scope/key-request-lacks@interaction.query": 11,
+      "fault:out_of_scope/key-request-lacks@state.task": 13,
+      "fault:out_of_scope/key-request-lacks@state.user": 5,
+      "fault:out_of_scope/other-value@evidence.knowledge": 5,
+      "fault:out_of_scope/other-value@evidence.tool_results": 12,
+      "fault:out_of_scope/other-value@governance.capabilities": 5,
+      "fault:out_of_scope/other-value@governance.examples": 10,
+      "fault:out_of_scope/other-value@governance.instructions": 6,
+      "fault:out_of_scope/other-value@governance.output_contract": 4,
+      "fault:out_of_scope/other-value@interaction.history": 12,
+      "fault:out_of_scope/other-value@interaction.memory": 3,
+      "fault:out_of_scope/other-value@interaction.query": 12,
+      "fault:out_of_scope/other-value@state.task": 9,
+      "fault:out_of_scope/other-value@state.user": 10,
+      "fault:out_of_scope/required-key-missing@evidence.knowledge": 6,
+      "fault:out_of_scope/required-key-missing@evidence.tool_results": 10,
+      "fault:out_of_scope/required-key-missing@governance.capabilities": 10,
+      "fault:out_of_scope/required-key-missing@governance.examples": 11,
+      "fault:out_of_scope/required-key-missing@governance.instructions": 9,
+      "fault:out_of_scope/required-key-missing@governance.output_contract": 12,
+      "fault:out_of_scope/required-key-missing@interaction.history": 6,
+      "fault:out_of_scope/required-key-missing@interaction.memory": 6,
+      "fault:out_of_scope/required-key-missing@interaction.query": 9,
+      "fault:out_of_scope/required-key-missing@state.task": 8,
+      "fault:out_of_scope/required-key-missing@state.user": 5,
+      "fault:producer_not_authenticated/unlisted@evidence.knowledge": 11,
+      "fault:producer_not_authenticated/unlisted@evidence.tool_results": 9,
+      "fault:producer_not_authenticated/unlisted@governance.capabilities": 5,
+      "fault:producer_not_authenticated/unlisted@governance.examples": 6,
+      "fault:producer_not_authenticated/unlisted@governance.instructions": 11,
+      "fault:producer_not_authenticated/unlisted@governance.output_contract": 10,
+      "fault:producer_not_authenticated/unlisted@interaction.history": 11,
+      "fault:producer_not_authenticated/unlisted@interaction.memory": 5,
+      "fault:producer_not_authenticated/unlisted@interaction.query": 16,
+      "fault:producer_not_authenticated/unlisted@state.task": 11,
+      "fault:producer_not_authenticated/unlisted@state.user": 7,
+      "fault:producer_not_authenticated/wrong-kind@evidence.knowledge": 11,
+      "fault:producer_not_authenticated/wrong-kind@evidence.tool_results": 14,
+      "fault:producer_not_authenticated/wrong-kind@governance.capabilities": 13,
+      "fault:producer_not_authenticated/wrong-kind@governance.examples": 12,
+      "fault:producer_not_authenticated/wrong-kind@governance.instructions": 9,
+      "fault:producer_not_authenticated/wrong-kind@governance.output_contract": 10,
+      "fault:producer_not_authenticated/wrong-kind@interaction.history": 19,
+      "fault:producer_not_authenticated/wrong-kind@interaction.memory": 10,
+      "fault:producer_not_authenticated/wrong-kind@interaction.query": 6,
+      "fault:producer_not_authenticated/wrong-kind@state.task": 6,
+      "fault:producer_not_authenticated/wrong-kind@state.user": 12,
+      "fault:producer_slot_not_allowed/kind-forbids@evidence.knowledge": 5,
+      "fault:producer_slot_not_allowed/kind-forbids@evidence.tool_results": 13,
+      "fault:producer_slot_not_allowed/kind-forbids@governance.capabilities": 13,
+      "fault:producer_slot_not_allowed/kind-forbids@governance.examples": 12,
+      "fault:producer_slot_not_allowed/kind-forbids@governance.instructions": 9,
+      "fault:producer_slot_not_allowed/kind-forbids@governance.output_contract": 14,
+      "fault:producer_slot_not_allowed/kind-forbids@interaction.history": 12,
+      "fault:producer_slot_not_allowed/kind-forbids@interaction.memory": 12,
+      "fault:producer_slot_not_allowed/kind-forbids@interaction.query": 6,
+      "fault:producer_slot_not_allowed/kind-forbids@state.task": 10,
+      "fault:producer_slot_not_allowed/kind-forbids@state.user": 14,
+      "fault:producer_slot_not_allowed/route-unlisted@evidence.knowledge": 13,
+      "fault:producer_slot_not_allowed/route-unlisted@evidence.tool_results": 8,
+      "fault:producer_slot_not_allowed/route-unlisted@governance.capabilities": 12,
+      "fault:producer_slot_not_allowed/route-unlisted@governance.examples": 8,
+      "fault:producer_slot_not_allowed/route-unlisted@governance.instructions": 11,
+      "fault:producer_slot_not_allowed/route-unlisted@governance.output_contract": 13,
+      "fault:producer_slot_not_allowed/route-unlisted@interaction.history": 7,
+      "fault:producer_slot_not_allowed/route-unlisted@interaction.memory": 6,
+      "fault:producer_slot_not_allowed/route-unlisted@interaction.query": 12,
+      "fault:producer_slot_not_allowed/route-unlisted@state.task": 11,
+      "fault:producer_slot_not_allowed/route-unlisted@state.user": 12,
+      "fault:protected_tier_changed/lowered@governance.capabilities": 16,
+      "fault:protected_tier_changed/lowered@governance.instructions": 12,
+      "fault:protected_tier_changed/lowered@governance.output_contract": 12,
+      "fault:protected_tier_changed/lowered@interaction.query": 17,
+      "fault:protected_tier_changed/lowered@state.task": 13,
+      "fault:revoked/revoked-by@evidence.knowledge": 13,
+      "fault:revoked/revoked-by@evidence.tool_results": 18,
+      "fault:revoked/revoked-by@governance.capabilities": 14,
+      "fault:revoked/revoked-by@governance.examples": 14,
+      "fault:revoked/revoked-by@governance.instructions": 12,
+      "fault:revoked/revoked-by@governance.output_contract": 13,
+      "fault:revoked/revoked-by@interaction.history": 13,
+      "fault:revoked/revoked-by@interaction.memory": 14,
+      "fault:revoked/revoked-by@interaction.query": 14,
+      "fault:revoked/revoked-by@state.task": 17,
+      "fault:revoked/revoked-by@state.user": 9,
+      "fault:slot_unplaced/no-placement@evidence.knowledge": 12,
+      "fault:slot_unplaced/no-placement@evidence.tool_results": 11,
+      "fault:slot_unplaced/no-placement@governance.examples": 17,
+      "fault:slot_unplaced/no-placement@interaction.history": 14,
+      "fault:slot_unplaced/no-placement@interaction.memory": 9,
+      "fault:slot_unplaced/no-placement@state.user": 14,
+      "fault:source_invalid/prefix@evidence.knowledge": 16,
+      "fault:source_invalid/prefix@evidence.tool_results": 15,
+      "fault:source_invalid/prefix@governance.capabilities": 8,
+      "fault:source_invalid/prefix@governance.examples": 15,
+      "fault:source_invalid/prefix@governance.instructions": 16,
+      "fault:source_invalid/prefix@governance.output_contract": 14,
+      "fault:source_invalid/prefix@interaction.history": 13,
+      "fault:source_invalid/prefix@interaction.memory": 12,
+      "fault:source_invalid/prefix@interaction.query": 13,
+      "fault:source_invalid/prefix@state.task": 14,
+      "fault:source_invalid/prefix@state.user": 19,
+      "fault:stale_state/max-age@state.task": 16,
+      "fault:stale_state/max-age@state.user": 13,
+      "fault:tier_upgrade_not_allowed/raised@evidence.knowledge": 15,
+      "fault:tier_upgrade_not_allowed/raised@evidence.tool_results": 16,
+      "fault:tier_upgrade_not_allowed/raised@governance.examples": 13,
+      "fault:tier_upgrade_not_allowed/raised@interaction.history": 9,
+      "fault:tier_upgrade_not_allowed/raised@interaction.memory": 16,
+      "fault:tier_upgrade_not_allowed/raised@state.user": 11,
+      "fault:unknown_authority/name@evidence.knowledge": 11,
+      "fault:unknown_authority/name@evidence.tool_results": 11,
+      "fault:unknown_authority/name@governance.capabilities": 13,
+      "fault:unknown_authority/name@governance.examples": 9,
+      "fault:unknown_authority/name@governance.instructions": 7,
+      "fault:unknown_authority/name@governance.output_contract": 11,
+      "fault:unknown_authority/name@interaction.history": 10,
+      "fault:unknown_authority/name@interaction.memory": 10,
+      "fault:unknown_authority/name@interaction.query": 14,
+      "fault:unknown_authority/name@state.task": 11,
+      "fault:unknown_authority/name@state.user": 4,
+      "fault:unknown_authority/number@evidence.knowledge": 7,
+      "fault:unknown_authority/number@evidence.tool_results": 13,
+      "fault:unknown_authority/number@governance.capabilities": 10,
+      "fault:unknown_authority/number@governance.examples": 11,
+      "fault:unknown_authority/number@governance.instructions": 10,
+      "fault:unknown_authority/number@governance.output_contract": 16,
+      "fault:unknown_authority/number@interaction.history": 14,
+      "fault:unknown_authority/number@interaction.memory": 3,
+      "fault:unknown_authority/number@interaction.query": 2,
+      "fault:unknown_authority/number@state.task": 15,
+      "fault:unknown_authority/number@state.user": 13,
+      "fault:unknown_slot/name@-": 6,
+      "fault:unknown_slot/null@-": 11,
+      "fault:unknown_slot/number@-": 8,
+      "fault:untrusted_content_unmarked/unmarked@evidence.knowledge": 13,
+      "fault:untrusted_content_unmarked/unmarked@evidence.tool_results": 9,
+      "fault:untrusted_content_unmarked/unmarked@interaction.history": 18,
+      "fault:untrusted_content_unmarked/unmarked@interaction.memory": 15,
+      "fault:untrusted_content_unmarked/unmarked@interaction.query": 16,
+      "fault:untrusted_in_governance/marked@governance.capabilities": 11,
+      "fault:untrusted_in_governance/marked@governance.examples": 20,
+      "fault:untrusted_in_governance/marked@governance.instructions": 10,
+      "fault:untrusted_in_governance/marked@governance.output_contract": 10,
+      "fault:untrusted_in_governance/unverified@governance.capabilities": 11,
+      "fault:untrusted_in_governance/unverified@governance.examples": 7,
+      "fault:untrusted_in_governance/unverified@governance.instructions": 9,
+      "fault:untrusted_in_governance/unverified@governance.output_contract": 10,
+      "fit:pressure": 2591,
+      "layout:messages": 521,
+      "layout:twice": 408,
+      "pipeline:dedupe": 696,
+      "pipeline:diversity": 510,
+      "pipeline:supersede": 694,
+      "refusal:evidence_required": 987,
+      "refusal:protected_content_over_budget": 151,
+      "refusal:protected_slot_unplaced": 245,
+      "refusal:required_slot_missing": 257,
+      "refusal:slot_floor_over_budget": 267,
+      "rows:duplicate-ids": 385,
+      "rows:producer": 205,
+      "rows:unnamed": 658,
+      "surface:respelled": 2091
+    },
+    "outcomes": {
+      "fuzz.valid": {
+        "python": {
+          "assembled": 7451,
+          "refused": 2462,
+          "crashed": 87
+        },
+        "typescript": {
+          "assembled": 7529,
+          "refused": 2471
+        },
+        "go": {
+          "assembled": 7529,
+          "refused": 2471
+        },
+        "rust": {
+          "assembled": 7526,
+          "refused": 2469,
+          "rejected": 5
+        }
+      },
+      "fuzz.mutated": {
+        "python": {
+          "rejected": 2000
+        },
+        "typescript": {
+          "rejected": 2000
+        },
+        "go": {
+          "rejected": 2000
+        },
+        "rust": {
+          "rejected": 2000
+        }
+      }
+    },
+    "operators": [
+      {
+        "operator": "json:nan-literal",
+        "check": "json",
+        "mutants": 56,
+        "rejected": {
+          "python": 56,
+          "typescript": 56,
+          "go": 56,
+          "rust": 56
+        }
+      },
+      {
+        "operator": "json:infinity-literal",
+        "check": "json",
+        "mutants": 56,
+        "rejected": {
+          "python": 56,
+          "typescript": 56,
+          "go": 56,
+          "rust": 56
+        }
+      },
+      {
+        "operator": "json:invalid-utf8",
+        "check": "json",
+        "mutants": 56,
+        "rejected": {
+          "python": 56,
+          "typescript": 56,
+          "go": 56,
+          "rust": 56
+        }
+      },
+      {
+        "operator": "i-json:unpaired-surrogate",
+        "check": "i-json",
+        "mutants": 56,
+        "rejected": {
+          "python": 56,
+          "typescript": 56,
+          "go": 56,
+          "rust": 56
+        }
+      },
+      {
+        "operator": "i-json:1e400",
+        "check": "i-json",
+        "mutants": 56,
+        "rejected": {
+          "python": 56,
+          "typescript": 56,
+          "go": 56,
+          "rust": 56
+        }
+      },
+      {
+        "operator": "i-json:-1e400",
+        "check": "i-json",
+        "mutants": 56,
+        "rejected": {
+          "python": 56,
+          "typescript": 56,
+          "go": 56,
+          "rust": 56
+        }
+      },
+      {
+        "operator": "i-json:400-digit-integer",
+        "check": "i-json",
+        "mutants": 56,
+        "rejected": {
+          "python": 56,
+          "typescript": 56,
+          "go": 56,
+          "rust": 56
+        }
+      },
+      {
+        "operator": "batches:producer-twice",
+        "check": "one-batch-per-producer",
+        "mutants": 56,
+        "rejected": {
+          "python": 56,
+          "typescript": 56,
+          "go": 56,
+          "rust": 56
+        }
+      },
+      {
+        "operator": "conflicts:unknown-item",
+        "check": "conflict-groups",
+        "mutants": 56,
+        "rejected": {
+          "python": 56,
+          "typescript": 56,
+          "go": 56,
+          "rust": 56
+        }
+      },
+      {
+        "operator": "conflicts:overlap",
+        "check": "conflict-groups",
+        "mutants": 56,
+        "rejected": {
+          "python": 56,
+          "typescript": 56,
+          "go": 56,
+          "rust": 56
+        }
+      },
+      {
+        "operator": "conflicts:repeated-id",
+        "check": "conflict-groups",
+        "mutants": 56,
+        "rejected": {
+          "python": 56,
+          "typescript": 56,
+          "go": 56,
+          "rust": 56
+        }
+      },
+      {
+        "operator": "conflicts:unknown-fact",
+        "check": "conflict-groups",
+        "mutants": 56,
+        "rejected": {
+          "python": 56,
+          "typescript": 56,
+          "go": 56,
+          "rust": 56
+        }
+      },
+      {
+        "operator": "exclusions:duplicate-of-unknown",
+        "check": "producer-exclusions",
+        "mutants": 56,
+        "rejected": {
+          "python": 56,
+          "typescript": 56,
+          "go": 56,
+          "rust": 56
+        }
+      },
+      {
+        "operator": "exclusions:superseded-by-unknown",
+        "check": "producer-exclusions",
+        "mutants": 56,
+        "rejected": {
+          "python": 56,
+          "typescript": 56,
+          "go": 56,
+          "rust": 56
+        }
+      },
+      {
+        "operator": "profile:route-mismatch",
+        "check": "profile",
+        "mutants": 56,
+        "rejected": {
+          "python": 56,
+          "typescript": 56,
+          "go": 56,
+          "rust": 56
+        }
+      },
+      {
+        "operator": "profile:route-policy-version",
+        "check": "profile",
+        "mutants": 56,
+        "rejected": {
+          "python": 56,
+          "typescript": 56,
+          "go": 56,
+          "rust": 56
+        }
+      },
+      {
+        "operator": "profile:missing-instructions",
+        "check": "profile",
+        "mutants": 56,
+        "rejected": {
+          "python": 56,
+          "typescript": 56,
+          "go": 56,
+          "rust": 56
+        }
+      },
+      {
+        "operator": "profile:missing-query",
+        "check": "profile",
+        "mutants": 56,
+        "rejected": {
+          "python": 56,
+          "typescript": 56,
+          "go": 56,
+          "rust": 56
+        }
+      },
+      {
+        "operator": "profile:parser-without-output-contract",
+        "check": "profile",
+        "mutants": 56,
+        "rejected": {
+          "python": 56,
+          "typescript": 56,
+          "go": 56,
+          "rust": 56
+        }
+      },
+      {
+        "operator": "realizable:xml-platform-wrap",
+        "check": "realizable",
+        "mutants": 56,
+        "rejected": {
+          "python": 56,
+          "typescript": 56,
+          "go": 56,
+          "rust": 56
+        }
+      },
+      {
+        "operator": "realizable:invalid-tag",
+        "check": "realizable",
+        "mutants": 55,
+        "rejected": {
+          "python": 55,
+          "typescript": 55,
+          "go": 55,
+          "rust": 55
+        }
+      },
+      {
+        "operator": "realizable:system-on-non-governance",
+        "check": "realizable",
+        "mutants": 55,
+        "rejected": {
+          "python": 55,
+          "typescript": 55,
+          "go": 55,
+          "rust": 55
+        }
+      },
+      {
+        "operator": "realizable:tools-on-non-capabilities",
+        "check": "realizable",
+        "mutants": 55,
+        "rejected": {
+          "python": 55,
+          "typescript": 55,
+          "go": 55,
+          "rust": 55
+        }
+      },
+      {
+        "operator": "realizable:system-after-xml",
+        "check": "realizable",
+        "mutants": 55,
+        "rejected": {
+          "python": 55,
+          "typescript": 55,
+          "go": 55,
+          "rust": 55
+        }
+      },
+      {
+        "operator": "schema:missing-budget",
+        "check": "schema",
+        "mutants": 55,
+        "rejected": {
+          "python": 55,
+          "typescript": 55,
+          "go": 55,
+          "rust": 55
+        }
+      },
+      {
+        "operator": "schema:missing-conflicts",
+        "check": "schema",
+        "mutants": 55,
+        "rejected": {
+          "python": 55,
+          "typescript": 55,
+          "go": 55,
+          "rust": 55
+        }
+      },
+      {
+        "operator": "schema:profile-spec",
+        "check": "schema",
+        "mutants": 55,
+        "rejected": {
+          "python": 55,
+          "typescript": 55,
+          "go": 55,
+          "rust": 55
+        }
+      },
+      {
+        "operator": "schema:negative-budget",
+        "check": "schema",
+        "mutants": 55,
+        "rejected": {
+          "python": 55,
+          "typescript": 55,
+          "go": 55,
+          "rust": 55
+        }
+      },
+      {
+        "operator": "schema:fractional-budget",
+        "check": "schema",
+        "mutants": 55,
+        "rejected": {
+          "python": 55,
+          "typescript": 55,
+          "go": 55,
+          "rust": 55
+        }
+      },
+      {
+        "operator": "schema:impossible-assembly-time",
+        "check": "schema",
+        "mutants": 55,
+        "rejected": {
+          "python": 55,
+          "typescript": 55,
+          "go": 55,
+          "rust": 55
+        }
+      },
+      {
+        "operator": "schema:leap-second",
+        "check": "schema",
+        "mutants": 55,
+        "rejected": {
+          "python": 55,
+          "typescript": 55,
+          "go": 55,
+          "rust": 55
+        }
+      },
+      {
+        "operator": "schema:extra-member",
+        "check": "schema",
+        "mutants": 55,
+        "rejected": {
+          "python": 55,
+          "typescript": 55,
+          "go": 55,
+          "rust": 55
+        }
+      },
+      {
+        "operator": "schema:entry-not-object",
+        "check": "schema",
+        "mutants": 55,
+        "rejected": {
+          "python": 55,
+          "typescript": 55,
+          "go": 55,
+          "rust": 55
+        }
+      },
+      {
+        "operator": "schema:unknown-producer-reason",
+        "check": "schema",
+        "mutants": 55,
+        "rejected": {
+          "python": 55,
+          "typescript": 55,
+          "go": 55,
+          "rust": 55
+        }
+      },
+      {
+        "operator": "schema:unknown-producer-kind",
+        "check": "schema",
+        "mutants": 55,
+        "rejected": {
+          "python": 55,
+          "typescript": 55,
+          "go": 55,
+          "rust": 55
+        }
+      },
+      {
+        "operator": "schema:blank-tokenizer",
+        "check": "schema",
+        "mutants": 55,
+        "rejected": {
+          "python": 55,
+          "typescript": 55,
+          "go": 55,
+          "rust": 55
+        }
+      }
+    ],
+    "findings": [
+      {
+        "finding_id": "a9312ae4a34d",
+        "oracle": "auditor",
+        "checks": [
+          "A15"
+        ],
+        "adapter": "go",
+        "adapters": [
+          "go"
+        ],
+        "occurrences": 374,
+        "summary": "go breaks A15: defaults_filled differs from the omitted policy fields: 3 missing (e.g. [{\"item_id\": \"mem:1\", \"field\": \"token_budget\"}]), 0 extra (e.g. []) (374 snapshots)",
+        "minimized": {
+          "path": "minimized/a9312ae4a34d",
+          "snapshot": "sha256:805b61b6465818689f5dde1b5c284a09b8d6bb524ef33305d2bd443c3eecf241",
+          "items_before": 3,
+          "items_after": 1,
+          "tests": 18,
+          "reproduces": true
+        }
+      },
+      {
+        "finding_id": "86ff94021ab4",
+        "oracle": "differential",
+        "checks": [
+          "agreement"
+        ],
+        "adapter": null,
+        "adapters": [
+          "python",
+          "typescript",
+          "go",
+          "rust"
+        ],
+        "occurrences": 368,
+        "summary": "adapters disagree (python/rust/typescript vs go) first at trace /defaults_filled/0 (368 snapshots)",
+        "minimized": {
+          "path": "minimized/86ff94021ab4",
+          "snapshot": "sha256:805b61b6465818689f5dde1b5c284a09b8d6bb524ef33305d2bd443c3eecf241",
+          "items_before": 3,
+          "items_after": 1,
+          "tests": 18,
+          "reproduces": true
+        }
+      },
+      {
+        "finding_id": "d497a7ef323c",
+        "oracle": "fault",
+        "checks": [
+          "crashed"
+        ],
+        "adapter": "python",
+        "adapters": [
+          "python"
+        ],
+        "occurrences": 87,
+        "summary": "python crashed on a valid snapshot: TypeError: slice indices must be integers or None or have an __index__ method (87 snapshots)",
+        "minimized": {
+          "path": "minimized/d497a7ef323c",
+          "snapshot": "sha256:7fe6d39226317dbfd8cbf6dad2e8794b5d8b1a7d3b66d026abad593a528a9f63",
+          "items_before": 5,
+          "items_after": 1,
+          "tests": 28,
+          "reproduces": true
+        }
+      },
+      {
+        "finding_id": "9690657086a1",
+        "oracle": "auditor",
+        "checks": [
+          "A4"
+        ],
+        "adapter": "rust",
+        "adapters": [
+          "rust"
+        ],
+        "occurrences": 51,
+        "summary": "rust breaks A4: snapshot_digest 31224f979de260ca… is not the snapshot's f217a3edd07729aa… (51 snapshots)",
+        "minimized": {
+          "path": "minimized/9690657086a1",
+          "snapshot": "sha256:63f0b04be4e62e854aafbe8173c4296607cee39e75b710ad74a37ffee23cd42e",
+          "items_before": 4,
+          "items_after": 1,
+          "tests": 19,
+          "reproduces": true
+        }
+      },
+      {
+        "finding_id": "290d55e80945",
+        "oracle": "differential",
+        "checks": [
+          "agreement"
+        ],
+        "adapter": null,
+        "adapters": [
+          "python",
+          "typescript",
+          "go",
+          "rust"
+        ],
+        "occurrences": 42,
+        "summary": "adapters disagree (go/python/typescript vs rust) first at trace /context/snapshot_digest (42 snapshots)",
+        "minimized": {
+          "path": "minimized/290d55e80945",
+          "snapshot": "sha256:63f0b04be4e62e854aafbe8173c4296607cee39e75b710ad74a37ffee23cd42e",
+          "items_before": 4,
+          "items_after": 1,
+          "tests": 19,
+          "reproduces": true
+        }
+      },
+      {
+        "finding_id": "6129a3fc1005",
+        "oracle": "expected",
+        "checks": [
+          "valid-rejected"
+        ],
+        "adapter": "rust",
+        "adapters": [
+          "rust"
+        ],
+        "occurrences": 5,
+        "summary": "rust rejected a snapshot that passes every snapshot check (5 snapshots)",
+        "minimized": {
+          "path": "minimized/6129a3fc1005",
+          "snapshot": "sha256:fd95ddf99bd04cbb1e5d1af6acd98c95ad05ac02a2d1a79da3a468913aceced2",
+          "items_before": 8,
+          "items_after": 1,
+          "tests": 21,
+          "reproduces": true
+        }
+      },
+      {
+        "finding_id": "18361148c4fb",
+        "oracle": "differential",
+        "checks": [
+          "agreement"
+        ],
+        "adapter": null,
+        "adapters": [
+          "python",
+          "typescript",
+          "go",
+          "rust"
+        ],
+        "occurrences": 5,
+        "summary": "adapters disagree (go/python/typescript vs rust) first at outcome (5 snapshots)",
+        "minimized": {
+          "path": "minimized/18361148c4fb",
+          "snapshot": "sha256:fd95ddf99bd04cbb1e5d1af6acd98c95ad05ac02a2d1a79da3a468913aceced2",
+          "items_before": 8,
+          "items_after": 1,
+          "tests": 21,
+          "reproduces": true
+        }
+      },
+      {
+        "finding_id": "eb3103187d5f",
+        "oracle": "auditor",
+        "checks": [
+          "A10"
+        ],
+        "adapter": "rust",
+        "adapters": [
+          "rust"
+        ],
+        "occurrences": 1,
+        "summary": "rust breaks A10: 'kno:8' excluded with below_threshold, whose condition does not hold (1 snapshot)",
+        "minimized": {
+          "path": "minimized/eb3103187d5f",
+          "snapshot": "sha256:052162a521b18d4388924690efa7645570497d310ea7630ad6b9b59e8bdde7ce",
+          "items_before": 22,
+          "items_after": 1,
+          "tests": 33,
+          "reproduces": true
+        }
+      },
+      {
+        "finding_id": "63c43b66f7b8",
+        "oracle": "differential",
+        "checks": [
+          "agreement"
+        ],
+        "adapter": null,
+        "adapters": [
+          "python",
+          "typescript",
+          "go",
+          "rust"
+        ],
+        "occurrences": 3,
+        "summary": "adapters disagree (python/typescript vs go vs rust) first at trace /defaults_filled/0/item_id (3 snapshots)",
+        "minimized": {
+          "path": "minimized/63c43b66f7b8",
+          "snapshot": "sha256:de3091c54fc63cecb0f3c4344f090af5676ec9a018cf24ab3d0e5f9c855f9d6c",
+          "items_before": 12,
+          "items_after": 2,
+          "tests": 51,
+          "reproduces": true
+        }
+      },
+      {
+        "finding_id": "d1bf3e099553",
+        "oracle": "differential",
+        "checks": [
+          "agreement"
+        ],
+        "adapter": null,
+        "adapters": [
+          "python",
+          "typescript",
+          "go",
+          "rust"
+        ],
+        "occurrences": 5,
+        "summary": "adapters disagree (go/typescript vs rust) first at trace /context/snapshot_digest (5 snapshots)",
+        "minimized": {
+          "path": "minimized/d1bf3e099553",
+          "snapshot": "sha256:c4881bf011a556d4c0e03b2cde45cd68b597f3da9d227864ef7c6aacff78f5ae",
+          "items_before": 9,
+          "items_after": 1,
+          "tests": 29,
+          "reproduces": true
+        }
+      },
+      {
+        "finding_id": "1fa83526a15f",
+        "oracle": "differential",
+        "checks": [
+          "agreement"
+        ],
+        "adapter": null,
+        "adapters": [
+          "python",
+          "typescript",
+          "go",
+          "rust"
+        ],
+        "occurrences": 3,
+        "summary": "adapters disagree (rust/typescript vs go) first at trace /defaults_filled/0/field (3 snapshots)",
+        "minimized": {
+          "path": "minimized/1fa83526a15f",
+          "snapshot": "sha256:ca50a174d58fe8c4779723f9246b01e37338359ebcbc79f001e10395fb451a72",
+          "items_before": 10,
+          "items_after": 2,
+          "tests": 32,
+          "reproduces": true
+        }
+      },
+      {
+        "finding_id": "8eca7b983dd9",
+        "oracle": "differential",
+        "checks": [
+          "agreement"
+        ],
+        "adapter": null,
+        "adapters": [
+          "python",
+          "typescript",
+          "go",
+          "rust"
+        ],
+        "occurrences": 1,
+        "summary": "adapters disagree (go/python/typescript vs rust) first at payload /context/snapshot_digest (1 snapshot)",
+        "minimized": {
+          "path": "minimized/8eca7b983dd9",
+          "snapshot": "sha256:13adda359e2676fb759f3241696a33c23deb6c6303d4691c05c1696a997caa70",
+          "items_before": 9,
+          "items_after": 1,
+          "tests": 26,
+          "reproduces": true
+        }
+      }
+    ],
+    "minimization": {
+      "findings": 12,
+      "reproduced": 12,
+      "tests": 315
+    }
+  }
+}

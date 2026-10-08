@@ -1,0 +1,118 @@
+# Domain 1 run configuration (domain-1-plan.md, section 13).
+#
+# Paths are relative to this file. Commands, environments and paths may use three placeholders:
+#   {root}      this directory
+#   {build}     {root}/.build, where the harness keeps everything it builds
+#   {checkout}  the adapter's checkout
+# Builds run in the checkout but write their output under {build}, so the assembler checkouts are not modified.
+
+[contract]
+path = "../../../contextwindowarchitecture"
+commit = "4e957aba3f5e67e02592f65db06ba05bbb44e151"  # the run stops if the checkout is at another commit
+allow_dirty = false
+
+[run]
+suites = ["S0", "S1", "S2", "S4", "S5", "S6", "S8", "S9", "S10", "S12"]
+adapters = ["python", "typescript", "go", "rust"]
+timeout_s = 60
+concurrency = 8
+results_dir = "results/d1"
+
+[adapters.python]
+language = "Python"
+checkout = "../../../assembler-python"
+build = [["uv", "sync", "--frozen", "--no-dev", "--project", "{checkout}"]]
+build_env = { UV_PROJECT_ENVIRONMENT = "{build}/python-venv" }
+command = ["{build}/python-venv/bin/python", "{root}/adapters/python_adapter.py"]
+toolchain = ["{build}/python-venv/bin/python", "--version"]
+
+[adapters.typescript]
+language = "TypeScript"
+checkout = "../../../assembler-typescript"
+# Compiled from the checkout's src/ into {build}, so a run tests the checked-out source rather than whatever dist/
+# was last built. The compiled code resolves its dependencies through the linked node_modules; the checkout needs
+# `pnpm install` once.
+requires = ["{checkout}/node_modules/.bin/tsc"]
+links = { "{build}/typescript/node_modules" = "{checkout}/node_modules" }
+build = [["{checkout}/node_modules/.bin/tsc", "-p", "{checkout}/tsconfig.json", "--outDir", "{build}/typescript/dist"]]
+command = ["node", "{root}/adapters/typescript_adapter.mjs"]
+env = { CWA_TS_ASSEMBLER = "{build}/typescript/dist/index.js" }
+toolchain = ["node", "--version"]
+
+[adapters.go]
+language = "Go"
+checkout = "../../../assembler-go"
+build = [["go", "build", "-o", "{build}/bin/cwa-adapter-go", "./cmd/adapter"]]
+command = ["{build}/bin/cwa-adapter-go"]
+toolchain = ["go", "version"]
+
+[adapters.rust]
+language = "Rust"
+checkout = "../../../assembler-rust"
+build = [["cargo", "build", "--release", "--locked", "--example", "adapter"]]
+build_env = { CARGO_TARGET_DIR = "{build}/rust-target" }
+command = ["{build}/rust-target/release/examples/adapter"]
+toolchain = ["rustc", "--version"]
+
+# S2 · Repeatability across environments. Every snapshot runs `repetitions` times in the host's own environment and
+# `cell_repetitions` times in each other cell; the Linux container adds its own baseline and clock-shift cells.
+[s2]
+corpus = ["conformance"]
+repetitions = 10
+cell_repetitions = 2
+linux_repetitions = 3
+cells = ["baseline", "tz:UTC", "tz:Pacific/Kiritimati", "tz:America/St_Johns", "tz:Asia/Kathmandu",
+         "locale:C", "locale:en_US.UTF-8", "locale:tr_TR.UTF-8", "locale:ja_JP.UTF-8", "threads:1", "threads:16",
+         "env:minimal", "home:unset", "cwd:empty", "burst:32"]
+container = true
+
+# S6 · Admission and pipeline; S8 · Refusal, degraded evidence and fitting; S9 · Conflicts. Labeled corpora: each
+# snapshot carries every decision its trace must record (cwabench/corpora/labeled).
+[s6]
+corpus = ["labeled.admission", "labeled.boundaries", "labeled.precedence", "labeled.pipeline"]
+
+[s8]
+corpus = ["labeled.refusal", "labeled.degradation", "labeled.fitting"]
+
+[s9]
+corpus = ["labeled.conflicts"]
+
+# S4 · Metamorphic relations MR1–MR14. Seeds are sampled from each corpus; every relation makes its instances from a
+# seed and the reference adapter's answer on it, and each adapter is judged against its own answer on the base.
+# MR13 (budget monotonicity) is triaged, never failed.
+[s4]
+corpus = ["labeled.admission", "labeled.boundaries", "labeled.precedence", "labeled.pipeline", "labeled.conflicts",
+          "labeled.refusal", "labeled.degradation", "labeled.fitting", "fuzz.seeds"]
+seeds_per_corpus = 40
+reference = "python"
+max_tests = 150          # minimizer test budget per finding
+
+# S5 · Generative fuzzing. Valid snapshots in rounds, steered between rounds toward coverage tags no trace has shown;
+# then mutants that each break exactly one snapshot check. seed, valid and mutated reproduce the corpora byte for byte
+# (given the same answers, which steering reads). CI smoke: valid = 500, mutated = 100.
+[s5]
+seed = 20261006
+valid = 10000
+mutated = 2000
+round = 1000
+max_tests = 200          # minimizer test budget per finding
+
+# S10 · Purity and isolation: the macOS no-network sandbox and the isolated Linux container, with strace.
+[s10]
+corpus = ["conformance"]
+macos_sandbox = true
+
+# S12 · Consensus goldens. Adopt a run's candidates with `cwabench goldens accept`; nothing adopts them automatically.
+[s12]
+goldens = "goldens/d1-goldens.json"
+
+# The Linux container S2 and S10 use (container/Containerfile). The image is rebuilt only when its inputs change.
+[container]
+enabled = true
+engine = "podman"
+[container.images]
+go = "docker.io/library/golang:1.27-trixie"
+rust = "docker.io/library/rust:1.99-trixie"
+node = "docker.io/library/node:24-trixie-slim"
+python = "docker.io/library/python:3.14-slim-trixie"
+uv = "ghcr.io/astral-sh/uv:0.12"

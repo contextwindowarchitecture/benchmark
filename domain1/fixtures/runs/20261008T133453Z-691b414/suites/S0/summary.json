@@ -1,0 +1,418 @@
+{
+  "$schema": "cwa-bench-d1/suite-summary/v1",
+  "run_id": "20261008T133453Z-691b414",
+  "suite": "S0",
+  "title": "Oracle self-check",
+  "status": "pass",
+  "started_at": "2026-10-08T13:34:55.002Z",
+  "finished_at": "2026-10-08T13:34:57.649Z",
+  "requirements": [
+    "R-16",
+    "R-21",
+    "R-22"
+  ],
+  "corpora": [
+    {
+      "id": "conformance.cases",
+      "count": 65
+    }
+  ],
+  "adapters": [],
+  "metrics": [
+    {
+      "id": "s0.digest",
+      "label": "Snapshot digests reproduced",
+      "suite": "S0",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 65,
+      "denominator": 65,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Our RFC 8785 digest equals every published context.snapshot_digest."
+    },
+    {
+      "id": "s0.digest_reference",
+      "label": "Digest agrees with the spec's generator",
+      "suite": "S0",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 65,
+      "denominator": 65,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Our digest equals the one conformance/generators/digest.py computes."
+    },
+    {
+      "id": "s0.payload_hash",
+      "label": "Payload hashes reproduced",
+      "suite": "S0",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 43,
+      "denominator": 43,
+      "target": 1.0,
+      "status": "pass",
+      "description": "SHA-256 of every expected payload equals its result.hash."
+    },
+    {
+      "id": "s0.input_tokens",
+      "label": "Input token counts reproduced",
+      "suite": "S0",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 43,
+      "denominator": 43,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Our tokenizers and payload parsers reproduce every published result.input_tokens."
+    },
+    {
+      "id": "s0.render",
+      "label": "Payloads re-rendered",
+      "suite": "S0",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 43,
+      "denominator": 43,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Our renderer, given each expected trace's included items, writes the published payload byte for byte and counts its input_tokens."
+    },
+    {
+      "id": "s0.audit_expected",
+      "label": "Expected outputs pass the audit",
+      "suite": "S0",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 65,
+      "denominator": 65,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Zero false positives: the auditor accepts every published expected output."
+    },
+    {
+      "id": "s0.auditor.kill_rate",
+      "label": "Auditor kill rate",
+      "suite": "S0",
+      "adapter": null,
+      "unit": "rate",
+      "value": 0.993849938499385,
+      "numerator": 1616,
+      "denominator": 1626,
+      "target": 0.95,
+      "status": "pass",
+      "description": "Mutants of expected outputs the auditor reports. Survivors are listed in the suite summary."
+    }
+  ],
+  "files": {
+    "results": "suites/S0/results.jsonl",
+    "findings": "suites/S0/findings.jsonl"
+  },
+  "mutation": {
+    "mutants": 1626,
+    "killed": 1616,
+    "operators": [
+      {
+        "operator": "budget",
+        "mutants": 130,
+        "killed": 130
+      },
+      {
+        "operator": "change_excluded_slot",
+        "mutants": 48,
+        "killed": 48
+      },
+      {
+        "operator": "change_reason",
+        "mutants": 79,
+        "killed": 79
+      },
+      {
+        "operator": "compressed_counts",
+        "mutants": 20,
+        "killed": 20
+      },
+      {
+        "operator": "compressed_variant",
+        "mutants": 10,
+        "killed": 10
+      },
+      {
+        "operator": "conflict_record",
+        "mutants": 44,
+        "killed": 44
+      },
+      {
+        "operator": "context_echo",
+        "mutants": 130,
+        "killed": 130
+      },
+      {
+        "operator": "defaults_filled",
+        "mutants": 6,
+        "killed": 6
+      },
+      {
+        "operator": "drop_compressed_row",
+        "mutants": 10,
+        "killed": 10
+      },
+      {
+        "operator": "drop_excluded_row",
+        "mutants": 79,
+        "killed": 74
+      },
+      {
+        "operator": "drop_included_row",
+        "mutants": 86,
+        "killed": 86
+      },
+      {
+        "operator": "duplicate_excluded_row",
+        "mutants": 49,
+        "killed": 49
+      },
+      {
+        "operator": "ghost_excluded_row",
+        "mutants": 65,
+        "killed": 65
+      },
+      {
+        "operator": "hash",
+        "mutants": 43,
+        "killed": 43
+      },
+      {
+        "operator": "included_eligibility",
+        "mutants": 43,
+        "killed": 43
+      },
+      {
+        "operator": "included_source_version",
+        "mutants": 43,
+        "killed": 43
+      },
+      {
+        "operator": "included_tokens",
+        "mutants": 43,
+        "killed": 43
+      },
+      {
+        "operator": "input_tokens",
+        "mutants": 43,
+        "killed": 43
+      },
+      {
+        "operator": "move_included_to_excluded",
+        "mutants": 86,
+        "killed": 86
+      },
+      {
+        "operator": "payload_byte",
+        "mutants": 43,
+        "killed": 43
+      },
+      {
+        "operator": "payload_drop_occurrence_consistent",
+        "mutants": 38,
+        "killed": 38
+      },
+      {
+        "operator": "payload_edit_rehashed",
+        "mutants": 38,
+        "killed": 38
+      },
+      {
+        "operator": "payload_swap_occurrences_consistent",
+        "mutants": 38,
+        "killed": 38
+      },
+      {
+        "operator": "profile_version",
+        "mutants": 65,
+        "killed": 65
+      },
+      {
+        "operator": "recovery",
+        "mutants": 75,
+        "killed": 75
+      },
+      {
+        "operator": "refusal_reason",
+        "mutants": 22,
+        "killed": 22
+      },
+      {
+        "operator": "refused_flip",
+        "mutants": 65,
+        "killed": 65
+      },
+      {
+        "operator": "retarget_duplicate_or_superseded",
+        "mutants": 18,
+        "killed": 18
+      },
+      {
+        "operator": "revive_droppable",
+        "mutants": 13,
+        "killed": 13
+      },
+      {
+        "operator": "snapshot_digest",
+        "mutants": 65,
+        "killed": 65
+      },
+      {
+        "operator": "swap_excluded_rows",
+        "mutants": 46,
+        "killed": 41
+      },
+      {
+        "operator": "swap_included_rows",
+        "mutants": 43,
+        "killed": 43
+      }
+    ],
+    "by_check": [
+      {
+        "check": "A1",
+        "label": "Trace validates against trace.schema.json",
+        "kills": 96
+      },
+      {
+        "check": "A2",
+        "label": "Conservation: every candidate and producer exclusion accounted for once",
+        "kills": 325
+      },
+      {
+        "check": "A3",
+        "label": "Refusal shape",
+        "kills": 65
+      },
+      {
+        "check": "A4",
+        "label": "Payload hash and snapshot digest",
+        "kills": 151
+      },
+      {
+        "check": "A5",
+        "label": "Token accounting",
+        "kills": 86
+      },
+      {
+        "check": "A6",
+        "label": "Protected integrity",
+        "kills": 286
+      },
+      {
+        "check": "A7",
+        "label": "Tier order under budget pressure",
+        "kills": 7
+      },
+      {
+        "check": "A8",
+        "label": "No synthesized text; compressed rows match variants",
+        "kills": 79
+      },
+      {
+        "check": "A9",
+        "label": "Ordering of included, excluded, conflicts and defaults",
+        "kills": 325
+      },
+      {
+        "check": "A10",
+        "label": "Reason codes are valid, shaped and justified",
+        "kills": 157
+      },
+      {
+        "check": "A11",
+        "label": "Recovery action and evidence sufficiency",
+        "kills": 130
+      },
+      {
+        "check": "A12",
+        "label": "Conflict records and their exclusions",
+        "kills": 63
+      },
+      {
+        "check": "A13",
+        "label": "Supersession, deduplication and source-diversity rows",
+        "kills": 52
+      },
+      {
+        "check": "A14",
+        "label": "Payload structure",
+        "kills": 321
+      },
+      {
+        "check": "A15",
+        "label": "Defaults filled",
+        "kills": 6
+      },
+      {
+        "check": "A16",
+        "label": "Context and provenance echo",
+        "kills": 411
+      }
+    ],
+    "survivors": [
+      {
+        "case_id": "budget-slot-caps",
+        "operator": "swap_excluded_rows",
+        "position": "excluded/0<->1"
+      },
+      {
+        "case_id": "budget-slot-caps",
+        "operator": "swap_excluded_rows",
+        "position": "excluded/1<->2"
+      },
+      {
+        "case_id": "budget-slot-floor-refused",
+        "operator": "drop_excluded_row",
+        "position": "excluded/0"
+      },
+      {
+        "case_id": "budget-slot-floor-refused",
+        "operator": "drop_excluded_row",
+        "position": "excluded/1"
+      },
+      {
+        "case_id": "budget-slot-floor-under-cap",
+        "operator": "swap_excluded_rows",
+        "position": "excluded/0<->1"
+      },
+      {
+        "case_id": "budget-token-caps",
+        "operator": "swap_excluded_rows",
+        "position": "excluded/0<->1"
+      },
+      {
+        "case_id": "evidence-precompute-summary",
+        "operator": "drop_excluded_row",
+        "position": "excluded/0"
+      },
+      {
+        "case_id": "evidence-retrieve-narrower",
+        "operator": "drop_excluded_row",
+        "position": "excluded/0"
+      },
+      {
+        "case_id": "evidence-retrieve-narrower",
+        "operator": "drop_excluded_row",
+        "position": "excluded/1"
+      },
+      {
+        "case_id": "evidence-retrieve-narrower",
+        "operator": "swap_excluded_rows",
+        "position": "excluded/0<->1"
+      }
+    ]
+  }
+}

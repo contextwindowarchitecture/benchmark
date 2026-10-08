@@ -1,0 +1,2452 @@
+{
+  "$schema": "cwa-bench-d1/suite-summary/v1",
+  "run_id": "20261008T073129Z-a1d69f8",
+  "suite": "S7",
+  "title": "Budget pressure at scale",
+  "status": "pass",
+  "started_at": "2026-10-08T07:31:30.930Z",
+  "finished_at": "2026-10-08T08:49:42.771Z",
+  "requirements": [
+    "R-16",
+    "R-17",
+    "R-18",
+    "R-21",
+    "R-22",
+    "R-23"
+  ],
+  "corpora": [
+    {
+      "id": "scale",
+      "count": 1221
+    }
+  ],
+  "adapters": [],
+  "metrics": [
+    {
+      "id": "s7.prediction",
+      "label": "Answers with the predicted outcome and refusal code",
+      "suite": "S7",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 926,
+      "denominator": 926,
+      "target": 1.0,
+      "status": "pass",
+      "description": "The outcome and refusal code the rules give at each budget, computed by the harness's own renderer before assembly."
+    },
+    {
+      "id": "s7.protected_preserved",
+      "label": "Protected preservation (assembled)",
+      "suite": "S7",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1370,
+      "denominator": 1370,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Admitted protected items rendered byte-exact, over every assembled answer."
+    },
+    {
+      "id": "s7.refusal_correct",
+      "label": "Protected preservation (refused): correct code",
+      "suite": "S7",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 241,
+      "denominator": 241,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Refusals carrying the code the rules give."
+    },
+    {
+      "id": "s7.audit_rate",
+      "label": "Outputs passing the trace audit",
+      "suite": "S7",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 926,
+      "denominator": 926,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s7.threshold_exact",
+      "label": "Refusal thresholds found exactly",
+      "suite": "S7",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 16,
+      "denominator": 16,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Binary search for the smallest budget that assembles equals the harness's protected-only (or floored) charged count."
+    },
+    {
+      "id": "s7.timeouts",
+      "label": "Grid answers that timed out",
+      "suite": "S7",
+      "adapter": "python",
+      "unit": "count",
+      "value": 37,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": "Per-call timeout 30 s; a performance finding, not a correctness one."
+    },
+    {
+      "id": "s7.prediction",
+      "label": "Answers with the predicted outcome and refusal code",
+      "suite": "S7",
+      "adapter": "typescript",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1000,
+      "denominator": 1000,
+      "target": 1.0,
+      "status": "pass",
+      "description": "The outcome and refusal code the rules give at each budget, computed by the harness's own renderer before assembly."
+    },
+    {
+      "id": "s7.protected_preserved",
+      "label": "Protected preservation (assembled)",
+      "suite": "S7",
+      "adapter": "typescript",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1516,
+      "denominator": 1516,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Admitted protected items rendered byte-exact, over every assembled answer."
+    },
+    {
+      "id": "s7.refusal_correct",
+      "label": "Protected preservation (refused): correct code",
+      "suite": "S7",
+      "adapter": "typescript",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 242,
+      "denominator": 242,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Refusals carrying the code the rules give."
+    },
+    {
+      "id": "s7.audit_rate",
+      "label": "Outputs passing the trace audit",
+      "suite": "S7",
+      "adapter": "typescript",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1000,
+      "denominator": 1000,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s7.threshold_exact",
+      "label": "Refusal thresholds found exactly",
+      "suite": "S7",
+      "adapter": "typescript",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 16,
+      "denominator": 16,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Binary search for the smallest budget that assembles equals the harness's protected-only (or floored) charged count."
+    },
+    {
+      "id": "s7.timeouts",
+      "label": "Grid answers that timed out",
+      "suite": "S7",
+      "adapter": "typescript",
+      "unit": "count",
+      "value": 33,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": "Per-call timeout 30 s; a performance finding, not a correctness one."
+    },
+    {
+      "id": "s7.prediction",
+      "label": "Answers with the predicted outcome and refusal code",
+      "suite": "S7",
+      "adapter": "go",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1070,
+      "denominator": 1070,
+      "target": 1.0,
+      "status": "pass",
+      "description": "The outcome and refusal code the rules give at each budget, computed by the harness's own renderer before assembly."
+    },
+    {
+      "id": "s7.protected_preserved",
+      "label": "Protected preservation (assembled)",
+      "suite": "S7",
+      "adapter": "go",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1650,
+      "denominator": 1650,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Admitted protected items rendered byte-exact, over every assembled answer."
+    },
+    {
+      "id": "s7.refusal_correct",
+      "label": "Protected preservation (refused): correct code",
+      "suite": "S7",
+      "adapter": "go",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 245,
+      "denominator": 245,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Refusals carrying the code the rules give."
+    },
+    {
+      "id": "s7.audit_rate",
+      "label": "Outputs passing the trace audit",
+      "suite": "S7",
+      "adapter": "go",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1070,
+      "denominator": 1070,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s7.threshold_exact",
+      "label": "Refusal thresholds found exactly",
+      "suite": "S7",
+      "adapter": "go",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 16,
+      "denominator": 16,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Binary search for the smallest budget that assembles equals the harness's protected-only (or floored) charged count."
+    },
+    {
+      "id": "s7.timeouts",
+      "label": "Grid answers that timed out",
+      "suite": "S7",
+      "adapter": "go",
+      "unit": "count",
+      "value": 33,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": "Per-call timeout 30 s; a performance finding, not a correctness one."
+    },
+    {
+      "id": "s7.prediction",
+      "label": "Answers with the predicted outcome and refusal code",
+      "suite": "S7",
+      "adapter": "rust",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1052,
+      "denominator": 1052,
+      "target": 1.0,
+      "status": "pass",
+      "description": "The outcome and refusal code the rules give at each budget, computed by the harness's own renderer before assembly."
+    },
+    {
+      "id": "s7.protected_preserved",
+      "label": "Protected preservation (assembled)",
+      "suite": "S7",
+      "adapter": "rust",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1620,
+      "denominator": 1620,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Admitted protected items rendered byte-exact, over every assembled answer."
+    },
+    {
+      "id": "s7.refusal_correct",
+      "label": "Protected preservation (refused): correct code",
+      "suite": "S7",
+      "adapter": "rust",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 242,
+      "denominator": 242,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Refusals carrying the code the rules give."
+    },
+    {
+      "id": "s7.audit_rate",
+      "label": "Outputs passing the trace audit",
+      "suite": "S7",
+      "adapter": "rust",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1052,
+      "denominator": 1052,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s7.threshold_exact",
+      "label": "Refusal thresholds found exactly",
+      "suite": "S7",
+      "adapter": "rust",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 16,
+      "denominator": 16,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Binary search for the smallest budget that assembles equals the harness's protected-only (or floored) charged count."
+    },
+    {
+      "id": "s7.timeouts",
+      "label": "Grid answers that timed out",
+      "suite": "S7",
+      "adapter": "rust",
+      "unit": "count",
+      "value": 30,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": "Per-call timeout 30 s; a performance finding, not a correctness one."
+    },
+    {
+      "id": "s7.agreement",
+      "label": "Grid cells on which every adapter agrees",
+      "suite": "S7",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1106,
+      "denominator": 1106,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s7.sweep_agreement",
+      "label": "Sweeps whose frames agree across adapters",
+      "suite": "S7",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 8,
+      "denominator": 8,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s7.startup_ms",
+      "label": "Startup (minimal snapshot), p50",
+      "suite": "S7",
+      "adapter": "python",
+      "unit": "ms",
+      "value": 71.593,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s7.exponent",
+      "label": "Scaling exponent under pressure (median over shapes)",
+      "suite": "S7",
+      "adapter": "python",
+      "unit": "exponent",
+      "value": 1.9119,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": "inprocess time against candidates at fixed tokens per candidate, budget ratio 0.1: about 2 means fitting re-counts the whole payload per reduction."
+    },
+    {
+      "id": "s7.startup_ms",
+      "label": "Startup (minimal snapshot), p50",
+      "suite": "S7",
+      "adapter": "typescript",
+      "unit": "ms",
+      "value": 99.855,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s7.exponent",
+      "label": "Scaling exponent under pressure (median over shapes)",
+      "suite": "S7",
+      "adapter": "typescript",
+      "unit": "exponent",
+      "value": 1.989,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": "inprocess time against candidates at fixed tokens per candidate, budget ratio 0.1: about 2 means fitting re-counts the whole payload per reduction."
+    },
+    {
+      "id": "s7.startup_ms",
+      "label": "Startup (minimal snapshot), p50",
+      "suite": "S7",
+      "adapter": "go",
+      "unit": "ms",
+      "value": 18.618,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s7.exponent",
+      "label": "Scaling exponent under pressure (median over shapes)",
+      "suite": "S7",
+      "adapter": "go",
+      "unit": "exponent",
+      "value": 1.7236,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": "inprocess time against candidates at fixed tokens per candidate, budget ratio 0.1: about 2 means fitting re-counts the whole payload per reduction."
+    },
+    {
+      "id": "s7.startup_ms",
+      "label": "Startup (minimal snapshot), p50",
+      "suite": "S7",
+      "adapter": "rust",
+      "unit": "ms",
+      "value": 14.809,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s7.exponent",
+      "label": "Scaling exponent under pressure (median over shapes)",
+      "suite": "S7",
+      "adapter": "rust",
+      "unit": "exponent",
+      "value": 1.8726,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": "inprocess time against candidates at fixed tokens per candidate, budget ratio 0.1: about 2 means fitting re-counts the whole payload per reduction."
+    }
+  ],
+  "files": {
+    "results": "suites/S7/results.jsonl",
+    "findings": "suites/S7/findings.jsonl",
+    "perf": "perf/summary.json"
+  },
+  "scale": {
+    "shapes": {
+      "droppable-heavy": "70% droppable examples and user state, 30% knowledge with no variants",
+      "compressible-v0": "knowledge and tool results with no variants",
+      "compressible-v1": "knowledge and tool results with one variant each, about 40% of the body",
+      "compressible-v3": "knowledge and tool results with three variants each, about 60%, 30% and 10% of the body",
+      "floors": "90% knowledge with one variant; 10% user state whose slot min_tokens is its whole size, so it is frozen by its first reduction and the snapshot refuses slot_floor_over_budget below its floor",
+      "slot-caps": "knowledge and tool results with one variant, each slot capped by max_tokens at 30% of its size, and 20% droppable examples",
+      "fitting-order": "history, knowledge with one variant and examples, with the route's fitting_order omitting history first and then compressing knowledge",
+      "surfaced-conflicts": "knowledge with one variant, half of it in fact groups of three that no precedence decides, so every group surfaces and its kept members render marked"
+    },
+    "settings": {
+      "timeout_s": 30,
+      "candidates": [
+        10,
+        100,
+        500,
+        1000,
+        5000,
+        10000
+      ],
+      "candidate_tokens": [
+        10000,
+        100000,
+        500000,
+        2000000
+      ],
+      "budget_ratio": [
+        1.0,
+        0.5,
+        0.25,
+        0.1,
+        0.01
+      ],
+      "below_threshold": true,
+      "components_cell": [
+        500,
+        100000
+      ],
+      "components_ratio": [
+        1.0,
+        0.5,
+        0.1
+      ],
+      "window_cell": [
+        1000,
+        500000
+      ],
+      "window_shapes": [
+        "compressible-v1"
+      ],
+      "windows": [
+        8192,
+        32768,
+        131072,
+        200000,
+        1000000
+      ],
+      "threshold_cells": [
+        [
+          100,
+          10000
+        ],
+        [
+          1000,
+          20000
+        ]
+      ],
+      "sweep_cell": [
+        40,
+        2000
+      ],
+      "sweep_step_percent": 2,
+      "timeline_points": [
+        0.75,
+        0.5,
+        0.25
+      ],
+      "perf": true,
+      "perf_candidates": [
+        50,
+        100,
+        200,
+        400
+      ],
+      "perf_tokens_per_candidate": 250,
+      "perf_fixed_tokens": 50000,
+      "perf_fixed_candidates": 100,
+      "perf_labels": [
+        "ratio:1.0",
+        "ratio:0.1",
+        "threshold-1"
+      ],
+      "perf_min_samples": 10,
+      "perf_max_samples": 30,
+      "perf_max_seconds": 4,
+      "perf_ci_target": 0.05,
+      "inprocess": true,
+      "throughput_cell": [
+        100,
+        10000
+      ],
+      "throughput_invocations": 32,
+      "max_tests": 100
+    },
+    "cells": 232,
+    "rows": 1317,
+    "not_constructible": [
+      {
+        "shape": "compressible-v0",
+        "candidates": 5000,
+        "candidate_tokens": 10000,
+        "why": "5000 candidates cannot share 10000 tokens: -1.0 body tokens each, fewer than 4"
+      },
+      {
+        "shape": "compressible-v0",
+        "candidates": 10000,
+        "candidate_tokens": 10000,
+        "why": "10000 candidates cannot share 10000 tokens: -2.0 body tokens each, fewer than 4"
+      },
+      {
+        "shape": "compressible-v1",
+        "candidates": 5000,
+        "candidate_tokens": 10000,
+        "why": "5000 candidates cannot share 10000 tokens: -1.0 body tokens each, fewer than 4"
+      },
+      {
+        "shape": "compressible-v1",
+        "candidates": 10000,
+        "candidate_tokens": 10000,
+        "why": "10000 candidates cannot share 10000 tokens: -2.0 body tokens each, fewer than 4"
+      },
+      {
+        "shape": "compressible-v3",
+        "candidates": 5000,
+        "candidate_tokens": 10000,
+        "why": "5000 candidates cannot share 10000 tokens: -1.0 body tokens each, fewer than 4"
+      },
+      {
+        "shape": "compressible-v3",
+        "candidates": 10000,
+        "candidate_tokens": 10000,
+        "why": "10000 candidates cannot share 10000 tokens: -2.0 body tokens each, fewer than 4"
+      },
+      {
+        "shape": "droppable-heavy",
+        "candidates": 5000,
+        "candidate_tokens": 10000,
+        "why": "5000 candidates cannot share 10000 tokens: -1.0 body tokens each, fewer than 4"
+      },
+      {
+        "shape": "droppable-heavy",
+        "candidates": 10000,
+        "candidate_tokens": 10000,
+        "why": "10000 candidates cannot share 10000 tokens: -2.0 body tokens each, fewer than 4"
+      },
+      {
+        "shape": "fitting-order",
+        "candidates": 5000,
+        "candidate_tokens": 10000,
+        "why": "5000 candidates cannot share 10000 tokens: -1.0 body tokens each, fewer than 4"
+      },
+      {
+        "shape": "fitting-order",
+        "candidates": 10000,
+        "candidate_tokens": 10000,
+        "why": "10000 candidates cannot share 10000 tokens: -2.0 body tokens each, fewer than 4"
+      },
+      {
+        "shape": "floors",
+        "candidates": 5000,
+        "candidate_tokens": 10000,
+        "why": "5000 candidates cannot share 10000 tokens: -1.0 body tokens each, fewer than 4"
+      },
+      {
+        "shape": "floors",
+        "candidates": 10000,
+        "candidate_tokens": 10000,
+        "why": "10000 candidates cannot share 10000 tokens: -2.0 body tokens each, fewer than 4"
+      },
+      {
+        "shape": "slot-caps",
+        "candidates": 5000,
+        "candidate_tokens": 10000,
+        "why": "5000 candidates cannot share 10000 tokens: -1.0 body tokens each, fewer than 4"
+      },
+      {
+        "shape": "slot-caps",
+        "candidates": 10000,
+        "candidate_tokens": 10000,
+        "why": "10000 candidates cannot share 10000 tokens: -2.0 body tokens each, fewer than 4"
+      },
+      {
+        "shape": "surfaced-conflicts",
+        "candidates": 5000,
+        "candidate_tokens": 10000,
+        "why": "5000 candidates cannot share 10000 tokens: -1.0 body tokens each, fewer than 4"
+      },
+      {
+        "shape": "surfaced-conflicts",
+        "candidates": 10000,
+        "candidate_tokens": 10000,
+        "why": "10000 candidates cannot share 10000 tokens: -2.0 body tokens each, fewer than 4"
+      }
+    ],
+    "skipped": 703,
+    "timeouts": [
+      {
+        "adapter": "python",
+        "summary": "python timed out (30 s) on 4 droppable-heavy cell(s) at ratio budgets, the least work 5000 candidates × 100000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "typescript",
+        "summary": "typescript timed out (30 s) on 4 droppable-heavy cell(s) at ratio budgets, the least work 10000 candidates × 100000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "go",
+        "summary": "go timed out (30 s) on 4 droppable-heavy cell(s) at ratio budgets, the least work 10000 candidates × 500000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "rust",
+        "summary": "rust timed out (30 s) on 4 droppable-heavy cell(s) at ratio budgets, the least work 10000 candidates × 500000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "python",
+        "summary": "python timed out (30 s) on 4 compressible-v0 cell(s) at ratio budgets, the least work 1000 candidates × 500000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "typescript",
+        "summary": "typescript timed out (30 s) on 4 compressible-v0 cell(s) at ratio budgets, the least work 10000 candidates × 100000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "rust",
+        "summary": "rust timed out (30 s) on 4 compressible-v0 cell(s) at ratio budgets, the least work 10000 candidates × 500000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "go",
+        "summary": "go timed out (30 s) on 4 compressible-v0 cell(s) at ratio budgets, the least work 10000 candidates × 500000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "python",
+        "summary": "python timed out (30 s) on 4 compressible-v1 cell(s) at ratio budgets, the least work 1000 candidates × 500000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "python",
+        "summary": "python timed out (30 s) on 4 compressible-v1 cell(s) at window budgets, the least work 1000 candidates × 500000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "typescript",
+        "summary": "typescript timed out (30 s) on 4 compressible-v1 cell(s) at ratio budgets, the least work 5000 candidates × 100000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "rust",
+        "summary": "rust timed out (30 s) on 4 compressible-v1 cell(s) at ratio budgets, the least work 5000 candidates × 100000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "go",
+        "summary": "go timed out (30 s) on 4 compressible-v1 cell(s) at ratio budgets, the least work 10000 candidates × 100000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "python",
+        "summary": "python timed out (30 s) on 4 compressible-v3 cell(s) at ratio budgets, the least work 100 candidates × 2000000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "rust",
+        "summary": "rust timed out (30 s) on 4 compressible-v3 cell(s) at ratio budgets, the least work 5000 candidates × 100000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "typescript",
+        "summary": "typescript timed out (30 s) on 4 compressible-v3 cell(s) at ratio budgets, the least work 5000 candidates × 100000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "go",
+        "summary": "go timed out (30 s) on 4 compressible-v3 cell(s) at ratio budgets, the least work 5000 candidates × 100000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "python",
+        "summary": "python timed out (30 s) on 4 floors cell(s) at ratio budgets, the least work 1000 candidates × 500000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "typescript",
+        "summary": "typescript timed out (30 s) on 4 floors cell(s) at ratio budgets, the least work 5000 candidates × 100000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "rust",
+        "summary": "rust timed out (30 s) on 4 floors cell(s) at ratio budgets, the least work 5000 candidates × 100000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "go",
+        "summary": "go timed out (30 s) on 4 floors cell(s) at ratio budgets, the least work 10000 candidates × 100000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "python",
+        "summary": "python timed out (30 s) on 5 slot-caps cell(s) at ratio budgets, the least work 1000 candidates × 500000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "go",
+        "summary": "go timed out (30 s) on 5 slot-caps cell(s) at ratio budgets, the least work 5000 candidates × 2000000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "typescript",
+        "summary": "typescript timed out (30 s) on 5 slot-caps cell(s) at ratio budgets, the least work 10000 candidates × 100000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "rust",
+        "summary": "rust timed out (30 s) on 2 slot-caps cell(s) at ratio budgets, the least work 10000 candidates × 2000000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "python",
+        "summary": "python timed out (30 s) on 4 fitting-order cell(s) at ratio budgets, the least work 5000 candidates × 100000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "typescript",
+        "summary": "typescript timed out (30 s) on 4 fitting-order cell(s) at ratio budgets, the least work 10000 candidates × 100000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "go",
+        "summary": "go timed out (30 s) on 4 fitting-order cell(s) at ratio budgets, the least work 10000 candidates × 100000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "rust",
+        "summary": "rust timed out (30 s) on 4 fitting-order cell(s) at ratio budgets, the least work 10000 candidates × 100000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "python",
+        "summary": "python timed out (30 s) on 4 surfaced-conflicts cell(s) at ratio budgets, the least work 1000 candidates × 500000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "typescript",
+        "summary": "typescript timed out (30 s) on 4 surfaced-conflicts cell(s) at ratio budgets, the least work 5000 candidates × 100000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "rust",
+        "summary": "rust timed out (30 s) on 4 surfaced-conflicts cell(s) at ratio budgets, the least work 5000 candidates × 100000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      },
+      {
+        "adapter": "go",
+        "summary": "go timed out (30 s) on 4 surfaced-conflicts cell(s) at ratio budgets, the least work 10000 candidates × 100000 tokens; larger cells were skipped. A performance finding, not a correctness one."
+      }
+    ],
+    "thresholds": [
+      {
+        "cell": {
+          "shape": "droppable-heavy",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "python",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 10227,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "droppable-heavy",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "typescript",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 10227,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "droppable-heavy",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "go",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 10227,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "droppable-heavy",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "rust",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 10227,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "droppable-heavy",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "python",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 19868,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "droppable-heavy",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "typescript",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 19868,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "droppable-heavy",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "go",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 19868,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "droppable-heavy",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "rust",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 19868,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v0",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "python",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 10116,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v0",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "typescript",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 10116,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v0",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "go",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 10116,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v0",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "rust",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 10116,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v0",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "python",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 19948,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v0",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "typescript",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 19948,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v0",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "go",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 19948,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v0",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "rust",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 19948,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v1",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "python",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 9670,
+        "probes": 14,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v1",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "typescript",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 9670,
+        "probes": 14,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v1",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "go",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 9670,
+        "probes": 14,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v1",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "rust",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 9670,
+        "probes": 14,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v1",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "python",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 20229,
+        "probes": 16,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v1",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "typescript",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 20229,
+        "probes": 16,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v1",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "go",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 20229,
+        "probes": 16,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v1",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "rust",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 20229,
+        "probes": 16,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v3",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "python",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 9951,
+        "probes": 14,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v3",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "typescript",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 9951,
+        "probes": 14,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v3",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "go",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 9951,
+        "probes": 14,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v3",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "rust",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 9951,
+        "probes": 14,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v3",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "python",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 20065,
+        "probes": 16,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v3",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "typescript",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 20065,
+        "probes": 16,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v3",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "go",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 20065,
+        "probes": 16,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "compressible-v3",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "rust",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 20065,
+        "probes": 16,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "floors",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "python",
+        "status": "exact",
+        "found": 1192,
+        "computed": 1192,
+        "computed_from": "floor",
+        "protected": 58,
+        "floor": 1192,
+        "full": 9924,
+        "probes": 14,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "floors",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "typescript",
+        "status": "exact",
+        "found": 1192,
+        "computed": 1192,
+        "computed_from": "floor",
+        "protected": 58,
+        "floor": 1192,
+        "full": 9924,
+        "probes": 14,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "floors",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "go",
+        "status": "exact",
+        "found": 1192,
+        "computed": 1192,
+        "computed_from": "floor",
+        "protected": 58,
+        "floor": 1192,
+        "full": 9924,
+        "probes": 14,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "floors",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "rust",
+        "status": "exact",
+        "found": 1192,
+        "computed": 1192,
+        "computed_from": "floor",
+        "protected": 58,
+        "floor": 1192,
+        "full": 9924,
+        "probes": 14,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "floors",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "python",
+        "status": "exact",
+        "found": 2023,
+        "computed": 2023,
+        "computed_from": "floor",
+        "protected": 58,
+        "floor": 2023,
+        "full": 19801,
+        "probes": 16,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "floors",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "typescript",
+        "status": "exact",
+        "found": 2023,
+        "computed": 2023,
+        "computed_from": "floor",
+        "protected": 58,
+        "floor": 2023,
+        "full": 19801,
+        "probes": 16,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "floors",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "go",
+        "status": "exact",
+        "found": 2023,
+        "computed": 2023,
+        "computed_from": "floor",
+        "protected": 58,
+        "floor": 2023,
+        "full": 19801,
+        "probes": 16,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "floors",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "rust",
+        "status": "exact",
+        "found": 2023,
+        "computed": 2023,
+        "computed_from": "floor",
+        "protected": 58,
+        "floor": 2023,
+        "full": 19801,
+        "probes": 16,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "slot-caps",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "python",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 10259,
+        "probes": 14,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "slot-caps",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "typescript",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 10259,
+        "probes": 14,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "slot-caps",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "go",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 10259,
+        "probes": 14,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "slot-caps",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "rust",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 10259,
+        "probes": 14,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "slot-caps",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "python",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 20283,
+        "probes": 16,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "slot-caps",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "typescript",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 20283,
+        "probes": 16,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "slot-caps",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "go",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 20283,
+        "probes": 16,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "slot-caps",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "rust",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 20283,
+        "probes": 16,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "fitting-order",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "python",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 10341,
+        "probes": 14,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "fitting-order",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "typescript",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 10341,
+        "probes": 14,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "fitting-order",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "go",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 10341,
+        "probes": 14,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "fitting-order",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "rust",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 10341,
+        "probes": 14,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "fitting-order",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "python",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 20000,
+        "probes": 16,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "fitting-order",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "typescript",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 20000,
+        "probes": 16,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "fitting-order",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "go",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 20000,
+        "probes": 16,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "fitting-order",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "rust",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 20000,
+        "probes": 16,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "surfaced-conflicts",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "python",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 10025,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "surfaced-conflicts",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "typescript",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 10025,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "surfaced-conflicts",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "go",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 10025,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "surfaced-conflicts",
+          "candidates": 100,
+          "candidate_tokens": 10000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "rust",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 10025,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "surfaced-conflicts",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "python",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 20565,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "surfaced-conflicts",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "typescript",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 20565,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "surfaced-conflicts",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "go",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 20565,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      },
+      {
+        "cell": {
+          "shape": "surfaced-conflicts",
+          "candidates": 1000,
+          "candidate_tokens": 20000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "adapter": "rust",
+        "status": "exact",
+        "found": 58,
+        "computed": 58,
+        "computed_from": "protected",
+        "protected": 58,
+        "floor": null,
+        "full": 20565,
+        "probes": 15,
+        "mispredicted": 0,
+        "audit_failed": []
+      }
+    ],
+    "sweeps": [
+      {
+        "cell": {
+          "shape": "droppable-heavy",
+          "candidates": 40,
+          "candidate_tokens": 2000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "path": "suites/S7/sweeps/522f0d8db536e74b86f742604424817c482ca4e5f277c6a247f471f2a4db80ea.json",
+        "agree": true,
+        "frames": {
+          "python": 268,
+          "typescript": 268,
+          "go": 268,
+          "rust": 268
+        },
+        "exact_steps": 82,
+        "threshold": 58,
+        "computed": 58,
+        "mispredicted": {
+          "python": 0,
+          "typescript": 0,
+          "go": 0,
+          "rust": 0
+        },
+        "audit_failed": {
+          "python": [],
+          "typescript": [],
+          "go": [],
+          "rust": []
+        },
+        "timelines": 20
+      },
+      {
+        "cell": {
+          "shape": "compressible-v0",
+          "candidates": 40,
+          "candidate_tokens": 2000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "path": "suites/S7/sweeps/1da5d58f5c90cbd75466c9f99c29167a46109c483d924b4f5cc56b75994ba1a3.json",
+        "agree": true,
+        "frames": {
+          "python": 270,
+          "typescript": 270,
+          "go": 270,
+          "rust": 270
+        },
+        "exact_steps": 82,
+        "threshold": 58,
+        "computed": 58,
+        "mispredicted": {
+          "python": 0,
+          "typescript": 0,
+          "go": 0,
+          "rust": 0
+        },
+        "audit_failed": {
+          "python": [],
+          "typescript": [],
+          "go": [],
+          "rust": []
+        },
+        "timelines": 20
+      },
+      {
+        "cell": {
+          "shape": "compressible-v1",
+          "candidates": 40,
+          "candidate_tokens": 2000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "path": "suites/S7/sweeps/bbb2a5987e64d5946a6fd8758c1ccbf02af10163d12b5c7d14187cfabc4cdd36.json",
+        "agree": true,
+        "frames": {
+          "python": 464,
+          "typescript": 464,
+          "go": 464,
+          "rust": 464
+        },
+        "exact_steps": 162,
+        "threshold": 58,
+        "computed": 58,
+        "mispredicted": {
+          "python": 0,
+          "typescript": 0,
+          "go": 0,
+          "rust": 0
+        },
+        "audit_failed": {
+          "python": [],
+          "typescript": [],
+          "go": [],
+          "rust": []
+        },
+        "timelines": 20
+      },
+      {
+        "cell": {
+          "shape": "compressible-v3",
+          "candidates": 40,
+          "candidate_tokens": 2000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "path": "suites/S7/sweeps/f0886121fc90a2680d9e5f5bf4c9030f20a5db3551177755ca6f4e93ea416682.json",
+        "agree": true,
+        "frames": {
+          "python": 737,
+          "typescript": 737,
+          "go": 737,
+          "rust": 737
+        },
+        "exact_steps": 322,
+        "threshold": 58,
+        "computed": 58,
+        "mispredicted": {
+          "python": 0,
+          "typescript": 0,
+          "go": 0,
+          "rust": 0
+        },
+        "audit_failed": {
+          "python": [],
+          "typescript": [],
+          "go": [],
+          "rust": []
+        },
+        "timelines": 20
+      },
+      {
+        "cell": {
+          "shape": "floors",
+          "candidates": 40,
+          "candidate_tokens": 2000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "path": "suites/S7/sweeps/818c4343d517f71ba466d1f4e2b1fbd25a0fd1ded9bbffcd97e68caa50a4fbe9.json",
+        "agree": true,
+        "frames": {
+          "python": 430,
+          "typescript": 430,
+          "go": 430,
+          "rust": 430
+        },
+        "exact_steps": 148,
+        "threshold": 221,
+        "computed": 221,
+        "mispredicted": {
+          "python": 0,
+          "typescript": 0,
+          "go": 0,
+          "rust": 0
+        },
+        "audit_failed": {
+          "python": [],
+          "typescript": [],
+          "go": [],
+          "rust": []
+        },
+        "timelines": 20
+      },
+      {
+        "cell": {
+          "shape": "slot-caps",
+          "candidates": 40,
+          "candidate_tokens": 2000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "path": "suites/S7/sweeps/7a0e0a06e24a65c591fdcc322342569841b06de3e681d2da6ed32cce97879e9f.json",
+        "agree": true,
+        "frames": {
+          "python": 214,
+          "typescript": 214,
+          "go": 214,
+          "rust": 214
+        },
+        "exact_steps": 64,
+        "threshold": 58,
+        "computed": 58,
+        "mispredicted": {
+          "python": 0,
+          "typescript": 0,
+          "go": 0,
+          "rust": 0
+        },
+        "audit_failed": {
+          "python": [],
+          "typescript": [],
+          "go": [],
+          "rust": []
+        },
+        "timelines": 20
+      },
+      {
+        "cell": {
+          "shape": "fitting-order",
+          "candidates": 40,
+          "candidate_tokens": 2000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "path": "suites/S7/sweeps/d0c33e0259a060c7ee097a12cebd0971ae666d8274f3eb0bcc1095e2ddbb14b8.json",
+        "agree": true,
+        "frames": {
+          "python": 350,
+          "typescript": 350,
+          "go": 350,
+          "rust": 350
+        },
+        "exact_steps": 122,
+        "threshold": 58,
+        "computed": 58,
+        "mispredicted": {
+          "python": 0,
+          "typescript": 0,
+          "go": 0,
+          "rust": 0
+        },
+        "audit_failed": {
+          "python": [],
+          "typescript": [],
+          "go": [],
+          "rust": []
+        },
+        "timelines": 20
+      },
+      {
+        "cell": {
+          "shape": "surfaced-conflicts",
+          "candidates": 40,
+          "candidate_tokens": 2000,
+          "tokenizer": "fixture-whitespace/v1",
+          "renderer": "fixture-xml/v1",
+          "seed": 20261006
+        },
+        "path": "suites/S7/sweeps/9136b7581355687b8a8c85ae82e53afcd4a31254efab8522d57d132d0de98b0c.json",
+        "agree": true,
+        "frames": {
+          "python": 452,
+          "typescript": 452,
+          "go": 452,
+          "rust": 452
+        },
+        "exact_steps": 162,
+        "threshold": 58,
+        "computed": 58,
+        "mispredicted": {
+          "python": 0,
+          "typescript": 0,
+          "go": 0,
+          "rust": 0
+        },
+        "audit_failed": {
+          "python": [],
+          "typescript": [],
+          "go": [],
+          "rust": []
+        },
+        "timelines": 20
+      }
+    ],
+    "timing_loops": {
+      "python": {
+        "available": true,
+        "error": null
+      },
+      "typescript": {
+        "available": true,
+        "error": null
+      },
+      "go": {
+        "available": true,
+        "error": null
+      },
+      "rust": {
+        "available": true,
+        "error": null
+      }
+    }
+  }
+}

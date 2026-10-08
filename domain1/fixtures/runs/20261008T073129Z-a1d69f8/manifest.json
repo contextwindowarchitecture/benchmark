@@ -1,0 +1,221 @@
+{
+  "$schema": "cwa-bench-d1/manifest/v1",
+  "run_id": "20261008T073129Z-a1d69f8",
+  "status": "pass",
+  "started_at": "2026-10-08T07:31:29.888Z",
+  "finished_at": "2026-10-08T08:49:42.860Z",
+  "command": [
+    "/Users/mhillsma/Development/misc/cwa/cwa-extended/benchmark/domain1/.venv/bin/cwabench",
+    "run",
+    "--suites",
+    "S7"
+  ],
+  "harness": {
+    "name": "cwa-bench-d1",
+    "version": "0.1.0",
+    "source_digest": "d2bd0b1c767b3c2b50fb87d90c7d1e78cb55e1216b7976e2eee46fbbca0efe92",
+    "python": "3.14.7"
+  },
+  "config": {
+    "path": "/Users/mhillsma/Development/misc/cwa/cwa-extended/benchmark/domain1/domain1.toml",
+    "sha256": "a1d69f84745cac74cc9034bbc2408bf8766d8ab9496871c415dcb1ae4dc0c019",
+    "copy": "config.toml"
+  },
+  "contract": {
+    "path": "/Users/mhillsma/Development/misc/cwa/contextwindowarchitecture",
+    "pinned": "16de4be0534583f135a597171c927d42c87ee82c",
+    "commit": "16de4be0534583f135a597171c927d42c87ee82c",
+    "dirty": false,
+    "remote": "git@github.com:contextwindowarchitecture/contextwindowarchitecture",
+    "repository": "contextwindowarchitecture/contextwindowarchitecture",
+    "spec_draft": "2026-10-07"
+  },
+  "adapters": {
+    "python": {
+      "available": true,
+      "error": null,
+      "language": "Python",
+      "implementation": {
+        "name": "contextwindowarchitecture-assembler",
+        "version": "0.0.1",
+        "language": "python"
+      },
+      "checkout": "/Users/mhillsma/Development/misc/cwa/assembler-python",
+      "commit": "31f82710fdfb766b06f194b9224e26670d10c07c",
+      "dirty": false,
+      "remote": "git@github.com:contextwindowarchitecture/assembler-python",
+      "repository": "contextwindowarchitecture/assembler-python",
+      "command": [
+        "/Users/mhillsma/Development/misc/cwa/cwa-extended/benchmark/domain1/.build/python-venv/bin/python",
+        "/Users/mhillsma/Development/misc/cwa/cwa-extended/benchmark/domain1/adapters/python_adapter.py"
+      ],
+      "toolchain": "Python 3.14.7",
+      "stale_artifacts": [],
+      "build": [
+        {
+          "argv": [
+            "uv",
+            "sync",
+            "--frozen",
+            "--no-dev",
+            "--project",
+            "/Users/mhillsma/Development/misc/cwa/assembler-python"
+          ],
+          "cwd": "/Users/mhillsma/Development/misc/cwa/assembler-python",
+          "exit_code": 0,
+          "seconds": 0.014
+        }
+      ],
+      "timing": {
+        "command": [
+          "/Users/mhillsma/Development/misc/cwa/cwa-extended/benchmark/domain1/.build/python-venv/bin/python",
+          "/Users/mhillsma/Development/misc/cwa/cwa-extended/benchmark/domain1/adapters/timing/python_timing.py"
+        ],
+        "error": null
+      }
+    },
+    "typescript": {
+      "available": true,
+      "error": null,
+      "language": "TypeScript",
+      "implementation": {
+        "name": "@contextwindowarchitecture/assembler",
+        "version": "0.0.1",
+        "language": "TypeScript"
+      },
+      "checkout": "/Users/mhillsma/Development/misc/cwa/assembler-typescript",
+      "commit": "c533e4455073a27a2d5a4c65a3ddd62effa3795e",
+      "dirty": false,
+      "remote": "git@github.com:contextwindowarchitecture/assembler-typescript",
+      "repository": "contextwindowarchitecture/assembler-typescript",
+      "command": [
+        "/Users/mhillsma/.local/share/mise/installs/node/lts/bin/node",
+        "/Users/mhillsma/Development/misc/cwa/cwa-extended/benchmark/domain1/adapters/typescript_adapter.mjs"
+      ],
+      "toolchain": "v24.20.0",
+      "stale_artifacts": [],
+      "build": [
+        {
+          "argv": [
+            "/Users/mhillsma/Development/misc/cwa/assembler-typescript/node_modules/.bin/tsc",
+            "-p",
+            "/Users/mhillsma/Development/misc/cwa/assembler-typescript/tsconfig.json",
+            "--outDir",
+            "/Users/mhillsma/Development/misc/cwa/cwa-extended/benchmark/domain1/.build/typescript/dist"
+          ],
+          "cwd": "/Users/mhillsma/Development/misc/cwa/assembler-typescript",
+          "exit_code": 0,
+          "seconds": 0.107
+        }
+      ],
+      "timing": {
+        "command": [
+          "/Users/mhillsma/.local/share/mise/installs/node/lts/bin/node",
+          "/Users/mhillsma/Development/misc/cwa/cwa-extended/benchmark/domain1/adapters/timing/typescript_timing.mjs"
+        ],
+        "error": null
+      }
+    },
+    "go": {
+      "available": true,
+      "error": null,
+      "language": "Go",
+      "implementation": {
+        "name": "github.com/contextwindowarchitecture/assembler-go",
+        "version": "0.0.1",
+        "language": "Go"
+      },
+      "checkout": "/Users/mhillsma/Development/misc/cwa/assembler-go",
+      "commit": "fdd7e2fc74e53cdcd5da43541ee2959a6a68c98d",
+      "dirty": false,
+      "remote": "git@github.com:contextwindowarchitecture/assembler-go.git",
+      "repository": "contextwindowarchitecture/assembler-go",
+      "command": [
+        "/Users/mhillsma/Development/misc/cwa/cwa-extended/benchmark/domain1/.build/bin/cwa-adapter-go"
+      ],
+      "toolchain": "go version go1.27.0 darwin/arm64",
+      "stale_artifacts": [],
+      "build": [
+        {
+          "argv": [
+            "go",
+            "build",
+            "-o",
+            "/Users/mhillsma/Development/misc/cwa/cwa-extended/benchmark/domain1/.build/bin/cwa-adapter-go",
+            "./cmd/adapter"
+          ],
+          "cwd": "/Users/mhillsma/Development/misc/cwa/assembler-go",
+          "exit_code": 0,
+          "seconds": 0.219
+        }
+      ],
+      "timing": {
+        "command": [
+          "/Users/mhillsma/Development/misc/cwa/cwa-extended/benchmark/domain1/.build/bin/cwa-timing-go"
+        ],
+        "error": null
+      }
+    },
+    "rust": {
+      "available": true,
+      "error": null,
+      "language": "Rust",
+      "implementation": {
+        "language": "Rust",
+        "name": "contextwindowarchitecture-assembler",
+        "version": "0.0.1"
+      },
+      "checkout": "/Users/mhillsma/Development/misc/cwa/assembler-rust",
+      "commit": "92b4d6f04f9d339d0925676ddbd30a2770a4d385",
+      "dirty": false,
+      "remote": "git@github.com:contextwindowarchitecture/assembler-rust.git",
+      "repository": "contextwindowarchitecture/assembler-rust",
+      "command": [
+        "/Users/mhillsma/Development/misc/cwa/cwa-extended/benchmark/domain1/.build/rust-target/release/examples/adapter"
+      ],
+      "toolchain": "rustc 1.99.0 (b940084d7 2026-09-28)",
+      "stale_artifacts": [],
+      "build": [
+        {
+          "argv": [
+            "cargo",
+            "build",
+            "--release",
+            "--locked",
+            "--example",
+            "adapter"
+          ],
+          "cwd": "/Users/mhillsma/Development/misc/cwa/assembler-rust",
+          "exit_code": 0,
+          "seconds": 0.042
+        }
+      ],
+      "timing": {
+        "command": [
+          "/Users/mhillsma/Development/misc/cwa/cwa-extended/benchmark/domain1/.build/rust-target/release/cwabench-timing"
+        ],
+        "error": null
+      }
+    }
+  },
+  "host": {
+    "system": "Darwin",
+    "release": "25.6.0",
+    "machine": "arm64",
+    "cpus": 18,
+    "platform": "macOS-26.7.1-arm64-arm-64bit-Mach-O"
+  },
+  "host_suspended_seconds": 0.0,
+  "env_cells": [
+    "baseline"
+  ],
+  "container": null,
+  "seed": null,
+  "suites": [
+    "S7"
+  ],
+  "settings": {
+    "timeout_s": 60.0,
+    "concurrency": 8
+  }
+}

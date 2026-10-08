@@ -1,0 +1,124 @@
+{
+  "$schema": "cwa-bench-d1/ci-report/v1",
+  "run_id": "20261008T133453Z-691b414",
+  "profile": "nightly",
+  "status": "pass",
+  "source": "mirrors",
+  "mirrors": {
+    "contract": {
+      "url": "git@github.com:contextwindowarchitecture/contextwindowarchitecture",
+      "path": "/Users/mhillsma/Development/misc/cwa/cwa-extended/benchmark/domain1/.build/ci/checkouts/contextwindowarchitecture",
+      "ref": "16de4be0534583f135a597171c927d42c87ee82c",
+      "commit": "16de4be0534583f135a597171c927d42c87ee82c"
+    },
+    "python": {
+      "url": "git@github.com:contextwindowarchitecture/assembler-python",
+      "path": "/Users/mhillsma/Development/misc/cwa/cwa-extended/benchmark/domain1/.build/ci/checkouts/assembler-python",
+      "ref": "origin/main",
+      "commit": "31f82710fdfb766b06f194b9224e26670d10c07c"
+    },
+    "typescript": {
+      "url": "git@github.com:contextwindowarchitecture/assembler-typescript",
+      "path": "/Users/mhillsma/Development/misc/cwa/cwa-extended/benchmark/domain1/.build/ci/checkouts/assembler-typescript",
+      "ref": "origin/main",
+      "commit": "c533e4455073a27a2d5a4c65a3ddd62effa3795e"
+    },
+    "go": {
+      "url": "git@github.com:contextwindowarchitecture/assembler-go.git",
+      "path": "/Users/mhillsma/Development/misc/cwa/cwa-extended/benchmark/domain1/.build/ci/checkouts/assembler-go",
+      "ref": "origin/main",
+      "commit": "fdd7e2fc74e53cdcd5da43541ee2959a6a68c98d"
+    },
+    "rust": {
+      "url": "git@github.com:contextwindowarchitecture/assembler-rust.git",
+      "path": "/Users/mhillsma/Development/misc/cwa/cwa-extended/benchmark/domain1/.build/ci/checkouts/assembler-rust",
+      "ref": "origin/main",
+      "commit": "92b4d6f04f9d339d0925676ddbd30a2770a4d385"
+    }
+  },
+  "previous": {
+    "run_id": "20261008T131247Z-691b414",
+    "status": "partial",
+    "started_at": "2026-10-08T13:12:47.894Z"
+  },
+  "verdict": "changed",
+  "bumps": [],
+  "suites": [
+    {
+      "id": "S0",
+      "status": "pass",
+      "previous": "pass"
+    },
+    {
+      "id": "S1",
+      "status": "pass",
+      "previous": "pass"
+    },
+    {
+      "id": "S2",
+      "status": "pass",
+      "previous": "partial"
+    },
+    {
+      "id": "S6",
+      "status": "pass",
+      "previous": "pass"
+    },
+    {
+      "id": "S8",
+      "status": "pass",
+      "previous": "pass"
+    },
+    {
+      "id": "S9",
+      "status": "pass",
+      "previous": "pass"
+    },
+    {
+      "id": "S11",
+      "status": "pass",
+      "previous": "pass"
+    },
+    {
+      "id": "S4",
+      "status": "pass",
+      "previous": "pass"
+    },
+    {
+      "id": "S5",
+      "status": "pass",
+      "previous": "pass"
+    },
+    {
+      "id": "S10",
+      "status": "pass",
+      "previous": "pass"
+    },
+    {
+      "id": "S12",
+      "status": "pass",
+      "previous": "pass"
+    }
+  ],
+  "metrics": [],
+  "findings": {
+    "new": [],
+    "resolved": [
+      {
+        "finding_id": "329af1d84d08",
+        "suite": "S2",
+        "adapter": null,
+        "severity": "warning",
+        "summary": "matrix variant amd64 could not be built or run: Error: building at STEP \"RUN cargo build --release --locked --example adapter && mkdir -p /out/bin /out/probes  && cp target/release/examples/adapter /out/bin/cwa-adapter-rust && rustc --version > /out/rust.version\": while running runtime: exit status "
+      }
+    ],
+    "persisting": 0
+  },
+  "goldens": {
+    "adopted": true,
+    "drift": {
+      "match": 5408
+    },
+    "removed": 0
+  }
+}

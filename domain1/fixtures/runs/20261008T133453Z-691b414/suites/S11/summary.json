@@ -1,0 +1,406 @@
+{
+  "$schema": "cwa-bench-d1/suite-summary/v1",
+  "run_id": "20261008T133453Z-691b414",
+  "suite": "S11",
+  "title": "Producer pipeline and the optional LLM summarizer",
+  "status": "pass",
+  "started_at": "2026-10-08T13:41:11.900Z",
+  "finished_at": "2026-10-08T13:41:24.805Z",
+  "requirements": [
+    "R-16",
+    "R-18",
+    "R-21",
+    "R-22",
+    "R-23"
+  ],
+  "corpora": [
+    {
+      "id": "summarizer.off",
+      "count": 1
+    },
+    {
+      "id": "summarizer.stub",
+      "count": 5
+    },
+    {
+      "id": "summarizer.llm",
+      "count": 5
+    }
+  ],
+  "adapters": [],
+  "metrics": [
+    {
+      "id": "s11.prediction",
+      "label": "Answers with the predicted outcome",
+      "suite": "S11",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 201,
+      "denominator": 201,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Assembled while the protected items fit, refused protected_content_over_budget below that, at every budget."
+    },
+    {
+      "id": "s11.audit_rate",
+      "label": "Outputs passing the trace audit",
+      "suite": "S11",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 201,
+      "denominator": 201,
+      "target": 1.0,
+      "status": "pass",
+      "description": "A1–A16, including A8: every rendered body is a supplied body or frozen variant, byte for byte."
+    },
+    {
+      "id": "s11.method_recorded",
+      "label": "Compressed rows naming their frozen method",
+      "suite": "S11",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 139,
+      "denominator": 139,
+      "target": 1.0,
+      "status": "pass",
+      "description": "R-18: the trace identifies each selected variant and the method it was frozen with."
+    },
+    {
+      "id": "s11.determinism",
+      "label": "Repeated answers identical over frozen output",
+      "suite": "S11",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 36,
+      "denominator": 36,
+      "target": 1.0,
+      "status": "pass",
+      "description": "The same frozen snapshot, assembled again, gives the same decision, payload and normalized trace (R-23)."
+    },
+    {
+      "id": "s11.prediction",
+      "label": "Answers with the predicted outcome",
+      "suite": "S11",
+      "adapter": "typescript",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 201,
+      "denominator": 201,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Assembled while the protected items fit, refused protected_content_over_budget below that, at every budget."
+    },
+    {
+      "id": "s11.audit_rate",
+      "label": "Outputs passing the trace audit",
+      "suite": "S11",
+      "adapter": "typescript",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 201,
+      "denominator": 201,
+      "target": 1.0,
+      "status": "pass",
+      "description": "A1–A16, including A8: every rendered body is a supplied body or frozen variant, byte for byte."
+    },
+    {
+      "id": "s11.method_recorded",
+      "label": "Compressed rows naming their frozen method",
+      "suite": "S11",
+      "adapter": "typescript",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 139,
+      "denominator": 139,
+      "target": 1.0,
+      "status": "pass",
+      "description": "R-18: the trace identifies each selected variant and the method it was frozen with."
+    },
+    {
+      "id": "s11.determinism",
+      "label": "Repeated answers identical over frozen output",
+      "suite": "S11",
+      "adapter": "typescript",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 36,
+      "denominator": 36,
+      "target": 1.0,
+      "status": "pass",
+      "description": "The same frozen snapshot, assembled again, gives the same decision, payload and normalized trace (R-23)."
+    },
+    {
+      "id": "s11.prediction",
+      "label": "Answers with the predicted outcome",
+      "suite": "S11",
+      "adapter": "go",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 201,
+      "denominator": 201,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Assembled while the protected items fit, refused protected_content_over_budget below that, at every budget."
+    },
+    {
+      "id": "s11.audit_rate",
+      "label": "Outputs passing the trace audit",
+      "suite": "S11",
+      "adapter": "go",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 201,
+      "denominator": 201,
+      "target": 1.0,
+      "status": "pass",
+      "description": "A1–A16, including A8: every rendered body is a supplied body or frozen variant, byte for byte."
+    },
+    {
+      "id": "s11.method_recorded",
+      "label": "Compressed rows naming their frozen method",
+      "suite": "S11",
+      "adapter": "go",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 139,
+      "denominator": 139,
+      "target": 1.0,
+      "status": "pass",
+      "description": "R-18: the trace identifies each selected variant and the method it was frozen with."
+    },
+    {
+      "id": "s11.determinism",
+      "label": "Repeated answers identical over frozen output",
+      "suite": "S11",
+      "adapter": "go",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 36,
+      "denominator": 36,
+      "target": 1.0,
+      "status": "pass",
+      "description": "The same frozen snapshot, assembled again, gives the same decision, payload and normalized trace (R-23)."
+    },
+    {
+      "id": "s11.prediction",
+      "label": "Answers with the predicted outcome",
+      "suite": "S11",
+      "adapter": "rust",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 201,
+      "denominator": 201,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Assembled while the protected items fit, refused protected_content_over_budget below that, at every budget."
+    },
+    {
+      "id": "s11.audit_rate",
+      "label": "Outputs passing the trace audit",
+      "suite": "S11",
+      "adapter": "rust",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 201,
+      "denominator": 201,
+      "target": 1.0,
+      "status": "pass",
+      "description": "A1–A16, including A8: every rendered body is a supplied body or frozen variant, byte for byte."
+    },
+    {
+      "id": "s11.method_recorded",
+      "label": "Compressed rows naming their frozen method",
+      "suite": "S11",
+      "adapter": "rust",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 139,
+      "denominator": 139,
+      "target": 1.0,
+      "status": "pass",
+      "description": "R-18: the trace identifies each selected variant and the method it was frozen with."
+    },
+    {
+      "id": "s11.determinism",
+      "label": "Repeated answers identical over frozen output",
+      "suite": "S11",
+      "adapter": "rust",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 36,
+      "denominator": 36,
+      "target": 1.0,
+      "status": "pass",
+      "description": "The same frozen snapshot, assembled again, gives the same decision, payload and normalized trace (R-23)."
+    },
+    {
+      "id": "s11.agreement",
+      "label": "Snapshots on which every adapter agrees",
+      "suite": "S11",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 201,
+      "denominator": 201,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s11.frozen_valid",
+      "label": "Frozen snapshots passing every snapshot check",
+      "suite": "S11",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 11,
+      "denominator": 11,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s11.cache_invalidation",
+      "label": "Edited parents never offered a cached variant",
+      "suite": "S11",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 240,
+      "denominator": 240,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Null without an LLM arm: only the summarizer's cache is keyed."
+    },
+    {
+      "id": "s11.repeat_stability",
+      "label": "Summarizer repeat stability (exact match)",
+      "suite": "S11",
+      "adapter": null,
+      "unit": "rate",
+      "value": 0.7625,
+      "numerator": 183,
+      "denominator": 240,
+      "target": null,
+      "status": "info",
+      "description": "Pairs of samples of one chunk with identical summaries; null when the summarizer was off."
+    },
+    {
+      "id": "s11.flip_rate",
+      "label": "Summarizer decision flip rate",
+      "suite": "S11",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 0.85,
+      "numerator": 34,
+      "denominator": 40,
+      "target": null,
+      "status": "info",
+      "description": "Pairs of sample snapshots whose payload or included set differs, over the flip budgets; null when the summarizer was off."
+    },
+    {
+      "id": "s11.cache_hit_rate",
+      "label": "Summarizer cache hit rate",
+      "suite": "S11",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 120,
+      "denominator": 120,
+      "target": null,
+      "status": "info",
+      "description": "First pass over every chunk and sample; null when the summarizer was off."
+    },
+    {
+      "id": "s11.fidelity",
+      "label": "Summarizer fidelity pass rate",
+      "suite": "S11",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 120,
+      "denominator": 120,
+      "target": null,
+      "status": "info",
+      "description": "LLM variants passing every deterministic fidelity check; null when the summarizer was off."
+    },
+    {
+      "id": "s11.fit_utility.off",
+      "label": "Evidence retained over the sweep (off)",
+      "suite": "S11",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 0.4444444444444444,
+      "numerator": 544,
+      "denominator": 1224,
+      "target": null,
+      "status": "info",
+      "description": "Evidence items kept whole or as a variant, summed over every assembled budget of the arm's sweep."
+    },
+    {
+      "id": "s11.fit_utility.stub",
+      "label": "Evidence retained over the sweep (stub)",
+      "suite": "S11",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 0.8937908496732027,
+      "numerator": 1094,
+      "denominator": 1224,
+      "target": null,
+      "status": "info",
+      "description": "Evidence items kept whole or as a variant, summed over every assembled budget of the arm's sweep."
+    },
+    {
+      "id": "s11.fit_utility.llm",
+      "label": "Evidence retained over the sweep (llm)",
+      "suite": "S11",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 0.7892156862745098,
+      "numerator": 966,
+      "denominator": 1224,
+      "target": null,
+      "status": "info",
+      "description": "Evidence items kept whole or as a variant, summed over every assembled budget of the arm's sweep."
+    }
+  ],
+  "files": {
+    "results": "suites/S11/results.jsonl",
+    "findings": "suites/S11/findings.jsonl"
+  },
+  "summarizer": {
+    "mode": "replay",
+    "arms": [
+      "off",
+      "stub",
+      "llm"
+    ],
+    "chunks": 24,
+    "rows": 201,
+    "summary": "summarizer/summary.json",
+    "fit_utility": {
+      "off": {
+        "adapter": "python",
+        "mean_retained_rate": 0.4444,
+        "all_retained_down_to": 2302,
+        "first_omission_at": 2256
+      },
+      "stub": {
+        "adapter": "python",
+        "mean_retained_rate": 0.8938,
+        "all_retained_down_to": 462,
+        "first_omission_at": 416
+      },
+      "llm": {
+        "adapter": "python",
+        "mean_retained_rate": 0.7892,
+        "all_retained_down_to": 876,
+        "first_omission_at": 830
+      }
+    }
+  }
+}

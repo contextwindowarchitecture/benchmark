@@ -1,0 +1,1641 @@
+{
+  "$schema": "cwa-bench-d1/contract/v1",
+  "run_id": "20261008T133453Z-691b414",
+  "repository": "contextwindowarchitecture/contextwindowarchitecture",
+  "commit": "16de4be0534583f135a597171c927d42c87ee82c",
+  "dirty": false,
+  "spec_draft": "2026-10-07",
+  "requirements": [
+    {
+      "id": "R-1",
+      "section": "model",
+      "keyword": "MUST",
+      "summary": "One slot and one authority role per item",
+      "text": "Every item MUST name exactly one slot and one authority value from the closed set in section 3.1. Governing slots MUST carry governing; state slots state; knowledge reference_only; tool results observation; memory generated; history and query user, with two exceptions: prior model turns in history, marked lineage: generated, MUST carry untrusted, and any other item in evidence.tool_results, interaction.memory or interaction.history MAY carry untrusted instead. An item whose slot is not one of the eleven, whatever its JSON type, MUST be excluded with unknown_slot, one whose authority is outside the set, whatever its JSON type, with unknown_authority, and one whose authority is in the set but not permitted for its slot with authority_not_allowed. untrusted only keeps an item out of an instruction group's peers, so that group neither lets it prevail nor excludes it (R-6, R-11); a fact group ranks it like any other member, and every other rule of its slot still applies. These values classify instruction authority or data provenance; they MUST NOT form a global factual ranking.",
+      "scope": "assembler",
+      "scope_note": "Admission checks each item's slot and authority."
+    },
+    {
+      "id": "R-2",
+      "section": "model",
+      "keyword": "MUST",
+      "summary": "Required fields and canonical JSON shape",
+      "text": "Every item MUST carry id, slot, source, source_version, authority, freshness, trust and body and MUST satisfy the published context_item.schema.json. freshness is an RFC 3339 date-time recording when the fact was observed or true; it is not an expiration time. expires is a separate deadline: an item whose expires is at or before assembly_time is expired (R-9). as_of is explanatory terminology, not a JSON alias. An item with invalid structure MUST be excluded and recorded: with missing_field:<name> when a required field of the item itself is absent, and otherwise with invalid_structure. A batch entry that is not a JSON object is not an item: the snapshot holding it fails its published schema and is rejected (R-17). An item MUST be excluded with duplicate_item_id when another candidate or producer exclusion in the snapshot uses its id. An item MUST be excluded as out_of_scope when a scope key it carries has a value other than the request's, including a key the request lacks, or when it lacks a key its slot's required_scope lists; a missing key is never a wildcard. An item whose freshness is later than assembly_time by more than the route's clock_skew_seconds MUST be excluded with future_freshness. An item without a non-blank string id MUST be recorded as {producer id}#invalid-{n}, where n counts such items from 0 in the order their batch supplied them. Assemblers and validators MUST compare timestamps as instants at their full stated precision and MUST NOT truncate fractional seconds. Every number in a snapshot is an IEEE 754 double (I-JSON): an assembler MUST read each number as the nearest double before comparing it with anything, so an integer beyond 2^53 compares in every language as the double it rounds to, which is the value the snapshot digest serializes (R-22).",
+      "scope": "assembler",
+      "scope_note": "Schema validation with format checking; timestamps compared at full precision."
+    },
+    {
+      "id": "R-3",
+      "section": "model",
+      "keyword": "SHOULD",
+      "summary": "Declared policy defaults, filled and traced",
+      "text": "An item SHOULD carry token_budget, variants, conflict_policy, lineage, eligibility and injection_risk. When omitted, the assembler MUST apply the defaults published in contract/slot-defaults.json, with any route overrides versioned and recorded, and MUST trace every filled field. variants defaults to an empty list; token_budget caps the tokens of the item's rendered body; null sets no per-item cap, and budget.input and any max_tokens the route sets for the item's slot still bound it. eligibility is descriptive text, not executable code; the route's versioned slot rules are the executable eligibility predicate. The slot-level eligibility rules min_relevance (R-13), max_age_seconds, required_scope (R-2) and source_prefix are the complete set: an assembler MUST NOT apply any other eligibility rule, while every other admission check, such as producer authentication (R-15), still applies. An item observed longer ago than its slot's max_age_seconds MUST be excluded, as stale_state in a state slot (R-8) and as not_eligible elsewhere, and an item whose source does not start with its slot's source_prefix MUST be excluded with source_invalid. conflict_policy applies only among the peers of an instruction group (R-11) and is ignored for factual precedence.",
+      "scope": "assembler",
+      "scope_note": "Fills slot defaults and versioned route overrides, records defaults_filled, and applies the four slot-level eligibility rules as the complete predicate."
+    },
+    {
+      "id": "R-4",
+      "section": "model",
+      "keyword": "MUST",
+      "summary": "Slots that are never omitted",
+      "text": "governance.instructions and interaction.query MUST NOT be omitted from any assembly. governance.output_contract MUST NOT be omitted when a downstream parser consumes the response, which the route policy declares with parser: true. When one of these slots has no admitted item, the assembler MUST refuse with required_slot_missing (R-17).",
+      "scope": "boundary",
+      "scope_note": "Refuses with required_slot_missing. Declaring parser: true on every route whose response a parser consumes is the application's."
+    },
+    {
+      "id": "R-5",
+      "section": "gov",
+      "keyword": "MUST NOT",
+      "summary": "Rule zero: enforce outside the model",
+      "text": "An assembler MUST NOT rely on context to enforce an invariant. Governance items MAY state a rule; the application MUST enforce it outside the model.",
+      "scope": "application",
+      "scope_note": "Application guards enforce invariants. Nothing observable in assembly can prove it."
+    },
+    {
+      "id": "R-6",
+      "section": "gov",
+      "keyword": "MUST",
+      "summary": "Separate instruction authority from factual precedence",
+      "text": "An assembler MUST classify supplied conflict groups as instruction or fact before resolution. For instructions, platform message roles and application controls govern first; governing instructions outrank user requests. Only items whose authority is governing or user may issue behavioral instructions; items with any other authority, which include every state, evidence and memory item (R-1), MUST NOT. Among admitted items, trust and injection_risk never change which items may; they act only at admission (R-10). For facts, an assembler MUST use explicit, versioned route policy over the same fact and scope, MUST NOT use authority values as a truth ranking, and MUST escalate if policy cannot establish precedence.",
+      "scope": "assembler",
+      "scope_note": "Classifies each declared group as instruction or fact and resolves it by authority or route policy; only governing and user items are instruction peers, and trust and the injection marker never change that."
+    },
+    {
+      "id": "R-7",
+      "section": "gov",
+      "keyword": "MUST NOT",
+      "summary": "No slot overrides platform roles; no authority from wording",
+      "text": "An assembler MUST NOT let any slot override platform message roles or application controls. An item MUST NOT gain authority from imperative wording in its body. Prior turns in interaction.history MUST render inside the profile's history wrapper as a transcript, in the order they were said: by freshness, which for a turn records when it was said (R-2), compared as instants at full precision, and by id among turns said at the same instant. They never render as platform user or assistant messages; only interaction.query renders as the live user turn.",
+      "scope": "assembler",
+      "scope_note": "Only governance takes the system and tool roles, the query is the only live user turn, history renders as a transcript in the order turns were said, and item bodies are escaped inside xml: wrappers; cwa-messages/v1 hands system and tools text over unescaped."
+    },
+    {
+      "id": "R-8",
+      "section": "gov",
+      "keyword": "MUST",
+      "summary": "State is application-written and current",
+      "text": "state.* items MUST be written by the application and MUST be current at assembly time: a state item observed longer ago than its slot's max_age_seconds MUST be excluded with stale_state (R-3). An assembler MUST admit state items only from producers of kind state, whatever else a route policy lists. An assembler MUST NOT write state from model output.",
+      "scope": "boundary",
+      "scope_note": "Checks producer kind and state age. Writing state stays with the application."
+    },
+    {
+      "id": "R-9",
+      "section": "gov",
+      "keyword": "MUST",
+      "summary": "Memory lifetime and producer exclusion reporting",
+      "text": "interaction.memory items MUST carry expires and a source identifying the source turn. Any item expired at assembly_time, that is, whose expires is at or before it, MUST be excluded with expired, and any item carrying revoked_by with revoked, memory or not. Producers MUST report suppressed entries as excluded records containing item_id, reason and stage: producer, with reason one of the exclusion codes in contract/reasons.json; a record with reason superseded MUST carry superseded_by naming a candidate in the same batch, as R-13 requires duplicate_of; the assembler MUST merge those records into its trace, including those from a batch whose producer the route does not admit. Expiration MUST use the explicit assembly_time snapshot, not an ambient clock.",
+      "scope": "boundary",
+      "scope_note": "Excludes expired and revoked memory and merges producer exclusions. Reporting them is the producer's duty."
+    },
+    {
+      "id": "R-10",
+      "section": "gov",
+      "keyword": "MUST",
+      "summary": "User and fetched content is marked, never elevated, kept out of governance",
+      "text": "User-controlled quoted material, attachments, retrieved chunks, memory and tool output MUST be marked injection_risk: untrusted_content, except output from an MCP server the route policy verifies (R-15), and, when supplied as items of their own, rendered inside their slot's wrapper, never in a platform system or tool role (R-7). An assembler MUST exclude with untrusted_content_unmarked any item that is not so marked, as given or as filled (R-3), in a slot whose published injection_risk default is untrusted_content, unless that exception applies. The marker never changes authority (R-6): the interaction.query item carries user authority (R-1) and keeps it although it is marked, as do user turns in history. Material pasted or attached into the body of a query or history item renders with that body, since assembly never splits a body, and gains no instruction authority from the item; its marking does not change what the model sees, so an application SHOULD delimit such material inside the body in a form the material cannot imitate. An assembler MUST exclude with untrusted_in_governance any governance item whose trust is not verified or that is marked untrusted_content. Only an authenticated route policy may grant the verified-MCP exception in R-15.",
+      "scope": "boundary",
+      "scope_note": "Checks the marker in the five slots that require it, keeps unverified or marked items out of governance, and renders every body whole. Marking user-controlled and fetched content is the producer's duty, and delimiting material pasted into a body is the application's job."
+    },
+    {
+      "id": "R-11",
+      "section": "gov",
+      "keyword": "MUST",
+      "summary": "Explicit conflict groups and traceable resolution",
+      "text": "The application MUST supply conflict groups satisfying schema/conflict_group.schema.json: a group id unique in the snapshot, kind: instruction or fact, the IDs of candidates or producer exclusions in the snapshot, each in at most one group, and, for fact groups, a fact key that the route policy defines; assembly MUST NOT infer semantic contradictions by calling a model. A group left with fewer than two admitted members is moot and excludes nothing; the rules below decide every other group. Instruction conflicts follow platform roles, governing over user, then conflict_policy for permitted peers: resolving authority excludes nothing, and members that cannot instruct (R-6) remain as material. An instruction group's peers are its members at the highest authority present among those that may instruct: governing, or else user. With one peer or none, authority decides the group and nothing is excluded. With two or more, when exactly one governs and the rest defer, the assembler MUST exclude the deferring peers with reason conflict_deferred; any other pattern escalates. Factual conflicts use the route policy for that fact key, which lists eligible producers by authenticated identity in precedence order, the scope keys members must carry and any freshness tie-break. A member is eligible exactly when its producer is listed and it carries those scope keys. The leaders are the eligible members whose producer ranks first, so they all come from one producer; a single leader wins by policy, and a freshness tie-break, when the policy sets one, decides only among several leaders, so freshness never makes an ineligible member win. A member's trust and injection_risk, and the route's producers.<id>.verified flag, are not consulted; a route that prefers a verified source lists its producer earlier. When a member of a fact group wins, every other member is excluded with reason conflict_lost. Conflict resolution MUST NOT exclude a protected item; such a group escalates. The trace MUST hold one conflict record per declared group, recording group_id, kind, items, resolution and decided_by: authority, policy, freshness, escalated or moot, and, when one member prevails, winner. policy means the peers' conflict_policy for instruction groups and the route's fact policy for fact groups. authority MUST NOT decide a factual conflict. moot records a group left with fewer than two admitted items and MUST NOT be used while two or more remain. A group lacking a unique supported resolution MUST be surfaced, routed for more context or refused as route policy directs, never silently discarded; a surfaced group's members are marked as conflicting in the payload. Fitting may still omit a surfaced member under R-16; its over_budget row records the omission, and the members kept stay marked. When assembly refuses with conflict_unresolved and every group that caused it asked for more context, the trace MUST record recovery.action: request_context.",
+      "scope": "boundary",
+      "scope_note": "Resolves the groups it is given. It cannot detect a conflict the application did not declare."
+    },
+    {
+      "id": "R-12",
+      "section": "fit",
+      "keyword": "MUST NOT",
+      "summary": "Never answer from nothing",
+      "text": "When admission and fitting leave no valid evidence, or fewer items in an evidence slot than that slot's versioned min_included, for a route that requires evidence, an assembler MUST NOT render a payload as though sufficient evidence were present. It MUST emit a refusal with reason evidence_required and record recovery.action: request_context when no evidence item was omitted for budget, precompute_summary when one that was had no variants, and retrieve_narrower otherwise. An evidence item was omitted for budget when its exclusion is recorded with reason over_budget, whether for the payload budget, its own token_budget or its slot's max_tokens (R-16). Retrieval or model-based summarization MUST occur outside assembly; any retry MUST create a new immutable snapshot.",
+      "scope": "boundary",
+      "scope_note": "Refuses with evidence_required and a recovery action. Retrieving and summarizing before the snapshot is frozen, and freezing a new one for any retry, are the application's."
+    },
+    {
+      "id": "R-13",
+      "section": "fit",
+      "keyword": "MUST NOT",
+      "summary": "Retrievers emit one scored item per chunk, never a blob",
+      "text": "A retrieval producer MUST NOT emit a merged blob. Each candidate MUST be a separate item in evidence.knowledge or evidence.tool_results, carrying the authority R-1 permits in that slot and its rerank score as relevance; an assembler MUST exclude with producer_slot_not_allowed any item a producer of kind retrieval sends to any other slot, whatever the route lists. Every evidence.knowledge item, from any producer, MUST carry relevance, and one without it is excluded with missing_field:relevance (R-2). An assembler MUST exclude with below_threshold an item scoring below its slot's min_relevance, or carrying no score in any other slot that sets one; a score equal to the threshold passes. A retrieval producer that drops a candidate as a near-duplicate of another MUST report it in its batch's excluded list with reason duplicate_content, stage producer and duplicate_of naming the candidate it kept, which MUST be a candidate in the same batch.",
+      "scope": "boundary",
+      "scope_note": "Gates retrieval producers to the evidence slots, requires the slot's authority, a score on every knowledge item and wherever the route sets a threshold, and that a reported near-duplicate names a candidate the producer kept. It cannot tell whether a producer merged chunks or dropped one silently."
+    },
+    {
+      "id": "R-14",
+      "section": "fit",
+      "keyword": "MUST NOT",
+      "summary": "Memory producers suppress and report expired or revoked items",
+      "text": "A memory producer MUST emit only generated or untrusted memory items, and an assembler MUST exclude with producer_slot_not_allowed any item a producer of kind memory sends to a slot other than interaction.memory, whatever the route lists. It MUST NOT emit expired or revoked entries as candidate items. It MUST report them in its producer-batch excluded list with reason expired or revoked and stage: producer, so R-9 can be satisfied without re-emitting their bodies.",
+      "scope": "boundary",
+      "scope_note": "Re-excludes expired or revoked memory as a backstop. Suppressing and reporting them is the producer's duty."
+    },
+    {
+      "id": "R-15",
+      "section": "fit",
+      "keyword": "MUST",
+      "summary": "Authenticated capability admission; MCP output is evidence",
+      "text": "MCP results and resources MUST be marked injection_risk: untrusted_content unless the route policy verifies that server. They MUST enter evidence slots, never governance: an assembler MUST exclude with producer_slot_not_allowed any item a producer of kind mcp sends to a slot other than evidence.knowledge, evidence.tool_results or governance.capabilities, whatever the route lists, and a tool specification it sends to governance.capabilities, where the route lists that slot for it, is excluded with capability_not_allowed. Adapters MAY propose tool specifications to the route capability policy. Only that authenticated application policy may emit governance.capabilities with authority: governing, trust: verified and injection_risk: none, after checking the versioned allow-list for the route and user. The application MUST bind producer identity outside item-controlled fields, and a snapshot MUST hold at most one batch per producer; items from a producer the route does not list, or lists with another kind, MUST be excluded with producer_not_authenticated, and an item in a slot the route does not list for its producer with producer_slot_not_allowed; a source prefix or self-declared trust MUST NOT prove authorization. A governance.capabilities item is authorized only when the snapshot carries a capability grant, its batch comes from the producer the grant names as policy_producer, the route lists that producer with kind capability_policy, and the grant's allow-list names the item's id; any other governance.capabilities item MUST be excluded with reason capability_not_allowed. Tool guards MUST still enforce invocation permissions.",
+      "scope": "boundary",
+      "scope_note": "Checks the authenticated emitter and capability grant. The application authenticates, and tool guards enforce calls."
+    },
+    {
+      "id": "R-16",
+      "section": "fit",
+      "keyword": "MUST",
+      "summary": "Account for rendered tokens; shed in tier order",
+      "text": "budget.input MUST be the maximum rendered input tokens after reserving budget.reserved_output from the model context limit. The assembler MUST count everything the renderer emits as text, including profile wrappers, separators, tool schemas and repeated slots, with the declared tokenizer. An assembler MUST NOT accept a tokenizer the application supplies under the ID of a published tokenizer, or a renderer under the ID of a published renderer (conformance/README.md, Tokenizers and renderers): it stops before assembly, with no payload and no trace, so a trace that names a published tokenizer or renderer always means its published count or rendering. Structure a renderer does not emit as text, such as a message request's roles, is outside the count, and the route covers it with budget.margin_percent. budget.margin_percent MAY reserve a safety margin for a tokenizer that estimates: the payload then fits only when its token count times (100 + margin_percent) / 100, rounded up, is at most budget.input, and the trace's budget MUST repeat it. Token caps, slot caps and floors, and traced token counts are not scaled by the margin. Under budget pressure it MUST shed in tier order: it MUST omit droppable items before reducing any compressible item, except droppable items a slot floor holds, and it MAY then reduce compressible items by selecting supplied variants or by omitting items, in the order given by the route's versioned fitting policy with a stable tie-break. When the route declares no order, the assembler MUST select variants before omitting any compressible item. It MUST NOT compress, truncate or omit protected items. Before any reduction, the assembler MUST refuse with protected_content_over_budget when a protected item's rendered body exceeds its token_budget, a slot's protected items alone exceed the slot's max_tokens, or the payload rendered from the protected items alone does not fit; nothing is omitted first. An item whose rendered body exceeds its token_budget MUST be reduced whether or not the payload fits: a compressible item to a supplied variant within the cap, and otherwise it is omitted; a droppable item is omitted; a protected item over its cap is never truncated. The route MAY cap a slot with max_tokens: the rendered bodies of the slot's included items, every occurrence counted, MUST then total at most max_tokens whether or not the payload fits. After token_budget caps and before budget pressure, the assembler MUST reduce the slot's own items in the same tier order until the slot is within its cap. The route MAY set a slot's min_tokens: during budget pressure the assembler MUST NOT make a reduction that leaves the slot's included tokens below it, and MUST NOT reduce that slot again once such a reduction is withheld; tier order still holds within the slot. Each omission for budget MUST be recorded in excluded with reason over_budget and stage assembler. The slot defaults set the minimum protection: in a slot that is protected by default, item metadata MUST NOT lower an item below protected, and an item that sets a lower tier there MUST be excluded with protected_tier_changed. In a slot that only the route raised to protected, an item MAY still lower its own tier. Only the route's versioned policy MAY raise a slot's tier. An item MUST NOT claim a tier above its slot's effective tier, and such an item MUST be excluded with reason tier_upgrade_not_allowed. Repeated occurrences count and are traced separately.",
+      "scope": "boundary",
+      "scope_note": "Counts rendered tokens and sheds in tier order. Setting budget.input from the model's context limit, with a tokenizer that counts or estimates the model's tokens, is the application's."
+    },
+    {
+      "id": "R-17",
+      "section": "fit",
+      "keyword": "MUST",
+      "summary": "Refused assembly has no rendered payload",
+      "text": "When required protected content cannot fit, the assembler MUST refuse with protected_content_over_budget (R-16) rather than silently truncate. When the payload cannot fit without a reduction a slot's min_tokens withholds, the assembler MUST refuse with slot_floor_over_budget. A refused result MUST have no payload; its trace MUST set refused.bool: true, a non-empty reason, result: null, included: [] and compressed: [], and MUST keep every exclusion, conflict record and filled default recorded before the refusal. A successful trace MUST set refused.bool: false and refused.reason: null. A snapshot that fails its published schemas or the snapshot checks listed in conformance/README.md, or holds a string that is not well-formed Unicode or a number outside the IEEE 754 double range (I-JSON, RFC 7493), MUST be rejected before assembly, with no payload and no trace, because its profile, budget or context may be missing or contradictory. Rejection reports the application's error in building the snapshot; refusals are outcomes of valid snapshots.",
+      "scope": "assembler",
+      "scope_note": "Refused assemblies have no payload, and their traces carry result: null and no included items. Invalid snapshots are rejected before assembly, with no payload and no trace."
+    },
+    {
+      "id": "R-18",
+      "section": "fit",
+      "keyword": "MUST NOT",
+      "summary": "Precomputed variants; no model calls during assembly",
+      "text": "Producers MUST compute rerank scores and any compression variants before assembly and SHOULD cache them by content hash. Each variant MUST have its own id, body, method and lineage, inherit its parent provenance, scope and authority, and MUST NOT introduce a new instruction or unsupported fact; an item whose variants repeat an id or reuse the item's own id MUST be excluded with duplicate_variant_id. Assembly MUST select only supplied variants and MUST NOT call a model. For each rendered occurrence of a variant, the trace MUST identify the parent item and the selected variant.",
+      "scope": "boundary",
+      "scope_note": "Selects only supplied variants and never calls a model. It cannot verify a variant's fidelity."
+    },
+    {
+      "id": "R-19",
+      "section": "prof",
+      "keyword": "MUST",
+      "summary": "Draft profiles versus evaluated profiles",
+      "text": "A profile MUST carry spec, id, version, route, model_family, ordered placement with wrapper rules, route_policy_version and an evaluation object. spec names the specification the profile was written for, cwa/draft until the first release; a profile for another specification MUST be rejected. Draft profiles MAY use model_family: null and evaluation.status: unevaluated. Promotion for a deployment MUST require a concrete model family/version and evaluation.status: evaluated with a suite/version, date, result and reproducible artifact location. Descriptive benchmark numbers without artifacts MUST NOT count as validation.",
+      "scope": "boundary",
+      "scope_note": "Rejects a profile written for another spec. Evaluation and promotion happen outside assembly: the Python assembler's registry hands a deployment only an evaluated profile, which no case covers."
+    },
+    {
+      "id": "R-20",
+      "section": "prof",
+      "keyword": "MUST",
+      "summary": "Profile version and mandatory-slot validation",
+      "text": "Every trace MUST record profile id and version. Any change to placement, repetition, wrapper rules, model target or referenced route policy MUST increment the profile version. A profile MUST include instructions and query, MUST include output_contract for parser routes, and MUST NOT omit any admitted protected content: when an admitted protected item's slot has no placement, the assembler MUST refuse with protected_slot_unplaced, and it MUST exclude an unprotected item in an unplaced slot with slot_unplaced. A profile's route and route_policy_version MUST equal the snapshot's route policy's route and version, and the snapshot's renderer MUST be able to realize its placements. Evaluation status changes alone MAY retain the version when the evaluated payload configuration is identical.",
+      "scope": "boundary",
+      "scope_note": "Rejects a profile that doesn't place a required slot, and refuses the assembly when admitted protected content has no placement. Raising the version for every change is the application's; the Python assembler's registry pins content by digest, outside assembly and the cases."
+    },
+    {
+      "id": "R-21",
+      "section": "trace",
+      "keyword": "MUST",
+      "summary": "Trace JSON matches the published schema",
+      "text": "A conformant assembler MUST emit trace JSON satisfying schema/trace.schema.json: trace_id; profile {id, version}; budget {input, reserved_output, and margin_percent when the snapshot sets it}; context {spec, assembly_time, route_policy_version, tokenizer, renderer, snapshot_digest}, where context.spec equals the profile's spec; result {input_tokens, hash} or null on refusal; included[] {slot, item_id, tokens, source_version, eligibility}; compressed[] {slot, item_id, from, to, method, variant_id}; excluded[] {item_id, reason, stage}, plus duplicate_of or superseded_by when the reason is duplicate_content or superseded; conflicts[] {group_id, kind, items, resolution, decided_by}; refused {bool, reason}; defaults_filled[] {item_id, field}; and recovery.action when a refusal records one (R-11, R-12). included records represent rendered occurrences. result.input_tokens includes rendering overhead; hash is lowercase SHA-256 of the exact rendered UTF-8 payload. Exclusion and refusal reasons MUST use the codes published in contract/reasons.json for the conditions those codes name. When an item fails several checks, the recorded reason MUST be the earliest applicable exclusion code in that file's order; among several missing_field codes, the alphabetically first field name is recorded. When several refusal conditions hold, the recorded reason MUST be the earliest refusal code in that file's order. Where these requirements leave an ordering, tie-break, boundary or algorithm step open, conformance/README.md is normative. Schema validation alone MUST NOT be described as implementation conformance.",
+      "scope": "assembler",
+      "scope_note": "Traces are checked against the schema and the reason registry, and must match every published case field for field."
+    },
+    {
+      "id": "R-22",
+      "section": "trace",
+      "keyword": "MUST",
+      "summary": "Provenance, snapshot digest and filled defaults in the trace",
+      "text": "A trace MUST include source_version and eligibility for each included occurrence, the slot of each assembler-stage excluded item whose candidate names one of the eleven slots, and context.snapshot_digest as a lowercase SHA-256 identifying the frozen assembly snapshot. defaults_filled MUST list one {item_id, field} record per item and field filled under R-3, and MUST be an empty list when no defaults were applied. A trace SHOULD include non-negative admission-stage timings.",
+      "scope": "assembler",
+      "scope_note": "Emits source_version, eligibility, excluded slots, snapshot_digest and defaults_filled, and stage timings when the caller lends a clock."
+    },
+    {
+      "id": "R-23",
+      "section": "trace",
+      "keyword": "MUST",
+      "summary": "Determinism includes the clock and policy snapshot",
+      "text": "Given identical items, variants, producer exclusions, conflict groups, authenticated producer context, capability allow-list, scope, route-policy version and configuration, profile, tokenizer, renderer, assembly_time and budget, an assembler MUST produce identical rendered UTF-8 payload bytes and the same SHA-256 result hash, or the same refusal decision. Any mutable external reads or model calls MUST occur before that immutable assembly snapshot. Trace IDs and measured timing fields MAY differ; they are not part of the payload hash.",
+      "scope": "boundary",
+      "scope_note": "Snapshot replay across processes, hash seeds, time zones and locales, with ordering, blank strings, timestamps and the digest pinned for every language. Making every external read and model call before the snapshot is frozen is the application's."
+    },
+    {
+      "id": "R-24",
+      "section": "fit",
+      "keyword": "MUST",
+      "summary": "Route-requested exact deduplication",
+      "text": "When a route sets dedupe: exact on a slot, the assembler MUST, after conflict resolution and any supersession (R-25) and before any refusal check or fitting, exclude each item in that slot whose body equals the body of an item it keeps in the slot, with reason duplicate_content, stage assembler and duplicate_of naming the kept item. Bodies MUST be compared code unit for code unit after collapsing each run of whitespace to one space and trimming both ends, without Unicode normalization or case folding. The assembler MUST NOT exclude a protected item or an item a conflict group names: a set of equal bodies that contains one keeps every such item, and otherwise keeps its highest-ranked item by the slot's fitting rank. Deduplication never compares items across slots, and a slot without dedupe keeps equal bodies.",
+      "scope": "assembler",
+      "scope_note": "Excludes exact duplicate bodies in the slots a route opts in, after conflicts, keeping protected and grouped items."
+    },
+    {
+      "id": "R-25",
+      "section": "fit",
+      "keyword": "MUST",
+      "summary": "Route-requested supersession of stale observations",
+      "text": "When a route sets supersede: source on a slot, the assembler MUST, after conflict resolution and before deduplication, exclude each item in that slot that is neither protected nor named by a conflict group and for which another item in the slot, from the same authenticated producer and with the same source, has a later freshness, compared as instants at full precision. It MUST record each such exclusion with reason superseded, stage assembler and superseded_by naming the highest-ranked of the latest items by the slot's fitting rank. Items tied for the latest freshness are all kept. source and freshness decide alone: bodies, variants and source_version are not compared, and a slot without supersede keeps every observation.",
+      "scope": "assembler",
+      "scope_note": "Keeps only the latest observation per producer and source in the slots a route opts in, after conflicts, keeping protected and grouped items."
+    },
+    {
+      "id": "R-26",
+      "section": "fit",
+      "keyword": "MUST",
+      "summary": "Route-requested source diversity",
+      "text": "When a route sets max_per_source on a slot, the assembler MUST, after deduplication and before any refusal check or fitting, cap each pair of authenticated producer and source in the slot at that many items. Protected items and items a conflict group names are never excluded and take places first, even beyond the cap; the other items fill any places left in the slot's fitting rank, and the rest MUST be excluded with reason source_diversity_cap and stage assembler. Each slot is capped on its own, and a slot without max_per_source is not capped.",
+      "scope": "assembler",
+      "scope_note": "Keeps at most max_per_source items per producer and source in the slots a route opts in, after dedupe, keeping protected and grouped items."
+    }
+  ],
+  "reasons": [
+    {
+      "code": "producer_not_authenticated",
+      "kind": "exclusion",
+      "rule": "R-15",
+      "text": "The route policy does not list this batch's producer, or lists it with a different kind. Identity comes from the application's authentication and the route, never from item fields. A snapshot with two batches from one producer is rejected before assembly.",
+      "order": 0
+    },
+    {
+      "code": "missing_field:<name>",
+      "kind": "exclusion",
+      "rule": "R-2",
+      "text": "A required field of the item itself is absent: one of the eight minimum fields, or a slot-specific one such as expires for memory or relevance for knowledge. A variant missing one of its fields is invalid_structure. Fix the producer; the assembler will not guess.",
+      "order": 1
+    },
+    {
+      "code": "unknown_slot",
+      "kind": "exclusion",
+      "rule": "R-1",
+      "text": "The slot is not one of the eleven slot names, whatever its JSON type: a number, null, an array or an object is unknown_slot too, not invalid_structure, since this code comes first (R-21). Check spelling and plane prefix.",
+      "order": 2
+    },
+    {
+      "code": "unknown_authority",
+      "kind": "exclusion",
+      "rule": "R-1",
+      "text": "The authority is not one of the seven roles, whatever its JSON type: a number, null, an array or an object is unknown_authority too, not invalid_structure, since this code comes first (R-21). capability and steering are not authority values; use governing with a conflict_policy.",
+      "order": 3
+    },
+    {
+      "code": "invalid_structure",
+      "kind": "exclusion",
+      "rule": "R-2",
+      "text": "The item fails the published schema for another reason, such as a wrong type, an undeclared field or a malformed timestamp.",
+      "order": 4
+    },
+    {
+      "code": "duplicate_item_id",
+      "kind": "exclusion",
+      "rule": "R-2",
+      "text": "Another candidate, in any batch and whatever its own outcome, or a producer exclusion from any batch uses this ID. Each candidate sharing it is excluded with the earliest code that applies to it.",
+      "order": 5
+    },
+    {
+      "code": "producer_slot_not_allowed",
+      "kind": "exclusion",
+      "rule": "R-15",
+      "text": "The authenticated producer is not permitted to emit into this slot: the route does not list the slot for it, or its kind rules the slot out whatever the route lists. State slots take only kind state (R-8), a memory producer only interaction.memory (R-14), a retrieval producer only the evidence slots (R-13), and an mcp producer only the evidence slots, plus governance.capabilities when the route lists it for the producer, where capability_not_allowed applies (R-15).",
+      "order": 6
+    },
+    {
+      "code": "authority_not_allowed",
+      "kind": "exclusion",
+      "rule": "R-1",
+      "text": "The authority value is not allowed for this slot. Each slot takes its own role, a prior model turn in history takes untrusted, and only other items in tool results, memory and history may carry untrusted instead (R-1): never governance, knowledge, state or the query. These roles are not a factual ranking.",
+      "order": 7
+    },
+    {
+      "code": "capability_not_allowed",
+      "kind": "exclusion",
+      "rule": "R-15",
+      "text": "The snapshot carries no capability grant, the authenticated emitter is not the producer the grant names as policy_producer listed by the route with kind capability_policy, or the tool is not on the grant's allow-list. Item source strings cannot prove permission.",
+      "order": 8
+    },
+    {
+      "code": "untrusted_in_governance",
+      "kind": "exclusion",
+      "rule": "R-10",
+      "text": "A governance item is not verified or is marked untrusted_content.",
+      "order": 9
+    },
+    {
+      "code": "untrusted_content_unmarked",
+      "kind": "exclusion",
+      "rule": "R-10",
+      "text": "The item is in a slot whose published injection_risk default is untrusted_content (evidence.knowledge, evidence.tool_results, interaction.memory, interaction.history or interaction.query) but is not marked untrusted_content, and no MCP server the route verified produced it (R-10, R-15).",
+      "order": 10
+    },
+    {
+      "code": "protected_tier_changed",
+      "kind": "exclusion",
+      "rule": "R-16",
+      "text": "The item sets a tier below protected in a slot whose default tier is protected. In a slot only the route raised, an item may lower its own tier.",
+      "order": 11
+    },
+    {
+      "code": "tier_upgrade_not_allowed",
+      "kind": "exclusion",
+      "rule": "R-16",
+      "text": "The item claims a tier above its slot's effective tier. Only the route's versioned policy can raise a tier; a producer cannot protect its own items.",
+      "order": 12
+    },
+    {
+      "code": "duplicate_variant_id",
+      "kind": "exclusion",
+      "rule": "R-18",
+      "text": "Variant IDs repeat, or a variant reuses its parent item's ID.",
+      "order": 13
+    },
+    {
+      "code": "revoked",
+      "kind": "exclusion",
+      "rule": "R-9",
+      "text": "revoked_by is set. The item was contradicted or withdrawn.",
+      "order": 14
+    },
+    {
+      "code": "expired",
+      "kind": "exclusion",
+      "rule": "R-9",
+      "text": "expires is at or before assembly_time. freshness describes when content was true; a past freshness is not itself expiration.",
+      "order": 15
+    },
+    {
+      "code": "future_freshness",
+      "kind": "exclusion",
+      "rule": "R-2",
+      "text": "freshness is later than assembly_time by more than the route's clock_skew_seconds (default 0), compared at full precision.",
+      "order": 16
+    },
+    {
+      "code": "stale_state",
+      "kind": "exclusion",
+      "rule": "R-8",
+      "text": "A state item was observed longer ago than its slot's max_age_seconds. State must be current at assembly time.",
+      "order": 17
+    },
+    {
+      "code": "source_invalid",
+      "kind": "exclusion",
+      "rule": "R-3",
+      "text": "The item's source does not start with its slot's source_prefix. For memory, this is how the source turn is identified (R-9).",
+      "order": 18
+    },
+    {
+      "code": "out_of_scope",
+      "kind": "exclusion",
+      "rule": "R-2",
+      "text": "A scope key the item carries has a value other than the request's, or the request lacks that key, or the item lacks a key its slot's required_scope lists. A missing key is never a wildcard.",
+      "order": 19
+    },
+    {
+      "code": "below_threshold",
+      "kind": "exclusion",
+      "rule": "R-13",
+      "text": "The rerank score is under its slot's min_relevance, or the item has no score in a slot that sets one. A score equal to the threshold passes. An evidence.knowledge item always needs a score, so one without it is missing_field:relevance instead (R-13).",
+      "order": 20
+    },
+    {
+      "code": "not_eligible",
+      "kind": "exclusion",
+      "rule": "R-3",
+      "text": "The item was observed longer ago than its slot's max_age_seconds, in a slot other than a state slot, where the code is stale_state. The slot-level eligibility rules are the complete predicate (R-3); no other rule excludes an item this way.",
+      "order": 21
+    },
+    {
+      "code": "slot_unplaced",
+      "kind": "exclusion",
+      "rule": "R-20",
+      "text": "The profile has no placement for the item's slot, and the item is not protected. A protected item in an unplaced slot is never excluded; assembly refuses with protected_slot_unplaced. A profile that does not place instructions and query, or the output contract on a parser route, is rejected with its snapshot before assembly.",
+      "order": 22
+    },
+    {
+      "code": "conflict_deferred",
+      "kind": "exclusion",
+      "rule": "R-11",
+      "text": "The item is a peer instruction with conflict_policy defers, and the one peer in its declared conflict group that governs prevailed. A protected item is never excluded this way; its group escalates.",
+      "order": 23
+    },
+    {
+      "code": "conflict_lost",
+      "kind": "exclusion",
+      "rule": "R-11",
+      "text": "Route fact policy chose another member of the item's declared fact conflict group, by authenticated producer precedence or an allowed freshness tie-break. A protected item is never excluded this way; its group escalates.",
+      "order": 24
+    },
+    {
+      "code": "superseded",
+      "kind": "exclusion",
+      "rule": "R-25",
+      "text": "The route asked this slot to supersede by source, and the same producer sent a later observation with the same source. superseded_by names the item kept.",
+      "order": 25
+    },
+    {
+      "code": "duplicate_content",
+      "kind": "exclusion",
+      "rule": "R-24",
+      "text": "The item's body duplicates a kept item's: either the route asked this slot for exact deduplication and the bodies match once whitespace is collapsed (R-24), or a retriever dropped it as a near-duplicate and reported it at stage producer (R-13). duplicate_of names the item kept.",
+      "order": 26
+    },
+    {
+      "code": "source_diversity_cap",
+      "kind": "exclusion",
+      "rule": "R-26",
+      "text": "The route caps this slot at max_per_source items per producer and source, and higher-ranked or exempt items from the same source filled every place.",
+      "order": 27
+    },
+    {
+      "code": "over_budget",
+      "kind": "exclusion",
+      "rule": "R-16",
+      "text": "The item was omitted to fit the rendered budget, its own token_budget or its slot's max_tokens, in tier order and by the route's fitting policy.",
+      "order": 28
+    },
+    {
+      "code": "required_slot_missing",
+      "kind": "refusal",
+      "rule": "R-4",
+      "text": "governance.instructions or interaction.query, or governance.output_contract on a parser route, has no admitted item.",
+      "order": 29
+    },
+    {
+      "code": "protected_slot_unplaced",
+      "kind": "refusal",
+      "rule": "R-20",
+      "text": "An admitted protected item's slot has no placement in the profile. The profile must not omit protected content, so the assembler refuses rather than drop it.",
+      "order": 30
+    },
+    {
+      "code": "conflict_unresolved",
+      "kind": "refusal",
+      "rule": "R-11",
+      "text": "A declared conflict group has no unique supported resolution, and route policy says to refuse or request context. The trace records recovery.action request_context when every such group asked for context.",
+      "order": 31
+    },
+    {
+      "code": "protected_content_over_budget",
+      "kind": "refusal",
+      "rule": "R-17",
+      "text": "The payload rendered from protected content alone does not fit budget.input, charged with any margin_percent, or protected items exceed their slot's max_tokens, or a protected item exceeds its own token_budget. The assembler refuses rather than truncating.",
+      "order": 32
+    },
+    {
+      "code": "slot_floor_over_budget",
+      "kind": "refusal",
+      "rule": "R-17",
+      "text": "The payload does not fit budget.input without shedding a slot below the route's min_tokens. The assembler refuses rather than break the floor.",
+      "order": 33
+    },
+    {
+      "code": "evidence_required",
+      "kind": "refusal",
+      "rule": "R-12",
+      "text": "The route requires evidence and too little survived admission and fitting. The trace records recovery.action.",
+      "order": 34
+    }
+  ],
+  "planes": [
+    {
+      "id": "governance",
+      "name": "Governance",
+      "answers": "Who may direct the model"
+    },
+    {
+      "id": "state",
+      "name": "State",
+      "answers": "What is true right now"
+    },
+    {
+      "id": "evidence",
+      "name": "Evidence",
+      "answers": "What the model may ground on"
+    },
+    {
+      "id": "interaction",
+      "name": "Interaction",
+      "answers": "What has happened, and what is asked"
+    }
+  ],
+  "slots": [
+    {
+      "id": "governance.instructions",
+      "holds": "Identity, goals, refusals, and safety boundaries: the system's constitution.",
+      "rule": "This slot is never omitted and admits only governing-authority items. Items that aren't verified, or that carry the injection marker, are excluded here.",
+      "defaults": {
+        "plane": "gov",
+        "authority": "governing",
+        "tier": "protected",
+        "lineage": "verbatim",
+        "injection_risk": "none",
+        "conflict_policy": "governs",
+        "token_budget": null,
+        "variants": [],
+        "eligibility": "route-policy"
+      }
+    },
+    {
+      "id": "state.user",
+      "holds": "Durable profile, entitlements, locale, permissions, session preferences, each a separate item with its own freshness.",
+      "rule": "Items are scoped to the current tenant and user. Unverified user claims remain source-linked memory; only application-confirmed facts enter state.",
+      "defaults": {
+        "plane": "state",
+        "authority": "state",
+        "tier": "droppable",
+        "lineage": "extracted",
+        "injection_risk": "none",
+        "conflict_policy": "governs",
+        "token_budget": null,
+        "variants": [],
+        "eligibility": "route-policy"
+      }
+    },
+    {
+      "id": "evidence.knowledge",
+      "holds": "Retrieved chunks, each sent as its own evidence item with source, version, relevance and trust.",
+      "rule": "Each one has to clear admission: a relevance score at or above the route's min_relevance, and inside its freshness limits. Where the route asks for it, exact duplicates go after conflicts are resolved (R-24). An empty result is recorded as an outcome, not treated as an error.",
+      "defaults": {
+        "plane": "evid",
+        "authority": "reference_only",
+        "tier": "compressible",
+        "lineage": "verbatim",
+        "injection_risk": "untrusted_content",
+        "conflict_policy": "defers",
+        "token_budget": null,
+        "variants": [],
+        "eligibility": "route-policy"
+      }
+    },
+    {
+      "id": "state.task",
+      "holds": "Workflow stage, approval status, selected entity IDs, pending action, retry count.",
+      "rule": "Task state is written by the application's state machine and never inferred from conversation.",
+      "defaults": {
+        "plane": "state",
+        "authority": "state",
+        "tier": "protected",
+        "lineage": "extracted",
+        "injection_risk": "none",
+        "conflict_policy": "governs",
+        "token_budget": null,
+        "variants": [],
+        "eligibility": "route-policy"
+      }
+    },
+    {
+      "id": "interaction.memory",
+      "holds": "Condensed summaries of older turns and inferred long-term facts, each linked to the turn it came from.",
+      "rule": "Every entry carries an expires deadline and a source naming the turn it came from. Entries whose expires is at or before assembly_time, or that carry revoked_by, are excluded and show up in the trace (R-9). The assembler doesn't decide what's been contradicted; the application revokes it.",
+      "defaults": {
+        "plane": "inter",
+        "authority": "generated",
+        "tier": "compressible",
+        "lineage": "summarised",
+        "injection_risk": "untrusted_content",
+        "conflict_policy": "defers",
+        "token_budget": null,
+        "variants": [],
+        "eligibility": "route-policy"
+      }
+    },
+    {
+      "id": "interaction.history",
+      "holds": "A verbatim transcript of the most recent turns, bounded by turn count and tokens.",
+      "rule": "Before assembly, overflow gets summarised into memory rather than cut mid-thought. Under budget pressure, when the route declares no fitting order, turns with a shorter variant switch to it first; after that, whole turns are dropped, oldest first unless the turns carry relevance scores or the route ranks the slot differently. Prior model turns carry lineage: generated and untrusted authority, and every prior turn renders inside the history transcript, never as a platform message. Turns render in the order they were said: by freshness, then id (R-7).",
+      "defaults": {
+        "plane": "inter",
+        "authority": "user",
+        "tier": "compressible",
+        "lineage": "verbatim",
+        "injection_risk": "untrusted_content",
+        "conflict_policy": "defers",
+        "token_budget": null,
+        "variants": [],
+        "eligibility": "route-policy"
+      }
+    },
+    {
+      "id": "governance.capabilities",
+      "holds": "The tools, functions and resources the model is permitted to invoke, with their contracts.",
+      "rule": "Only tools the route's capability policy allows for this user are admitted, against a versioned allow-list. Permission is decided outside the model.",
+      "defaults": {
+        "plane": "gov",
+        "authority": "governing",
+        "tier": "protected",
+        "lineage": "verbatim",
+        "injection_risk": "none",
+        "conflict_policy": "governs",
+        "token_budget": null,
+        "variants": [],
+        "eligibility": "route-policy"
+      }
+    },
+    {
+      "id": "evidence.tool_results",
+      "holds": "Observations returned by tools already called, possibly several per loop, and any retrieved chunks a route sends here.",
+      "rule": "When the route sets supersede: source, the newest observation from each producer and source stays and the older ones go (R-25). That's keyed on source, not on the tool call. An observation is evidence, not permission to act.",
+      "defaults": {
+        "plane": "evid",
+        "authority": "observation",
+        "tier": "compressible",
+        "lineage": "verbatim",
+        "injection_risk": "untrusted_content",
+        "conflict_policy": "governs",
+        "token_budget": null,
+        "variants": [],
+        "eligibility": "route-policy"
+      }
+    },
+    {
+      "id": "governance.examples",
+      "holds": "Developer-owned input/output pairs that steer reasoning, tone or format, ranked by task similarity.",
+      "rule": "A route that wants them places the slot and lists a producer for it; admission applies the same four slot rules as anywhere else (R-3). They defer to instructions and the output contract. They're droppable, so under budget pressure they go before anything compressible.",
+      "defaults": {
+        "plane": "gov",
+        "authority": "governing",
+        "tier": "droppable",
+        "lineage": "verbatim",
+        "injection_risk": "none",
+        "conflict_policy": "defers",
+        "token_budget": null,
+        "variants": [],
+        "eligibility": "route-policy"
+      }
+    },
+    {
+      "id": "governance.output_contract",
+      "holds": "Structure, style, length and schema of the response about to be generated.",
+      "rule": "The contract is never omitted when a downstream parser exists. If a safety disclosure has to appear, make room for it in the contract itself. Conflict resolution can't drop a protected item, so a clash between the two escalates.",
+      "defaults": {
+        "plane": "gov",
+        "authority": "governing",
+        "tier": "protected",
+        "lineage": "verbatim",
+        "injection_risk": "none",
+        "conflict_policy": "governs",
+        "token_budget": null,
+        "variants": [],
+        "eligibility": "route-policy"
+      }
+    },
+    {
+      "id": "interaction.query",
+      "holds": "The most recent, unprocessed input the model must respond to.",
+      "rule": "The query is never omitted and always carries user authority. It is the trigger for generation, placed wherever the route's profile puts it.",
+      "defaults": {
+        "plane": "inter",
+        "authority": "user",
+        "tier": "protected",
+        "lineage": "verbatim",
+        "injection_risk": "untrusted_content",
+        "conflict_policy": "defers",
+        "token_budget": null,
+        "variants": [],
+        "eligibility": "route-policy"
+      }
+    }
+  ],
+  "authority": [
+    {
+      "name": "Governing instruction",
+      "value": "governing",
+      "text": "System and developer policy, safety constraints, the output contract, admitted capabilities, and steering examples."
+    },
+    {
+      "name": "User intent / preference",
+      "value": "user",
+      "text": "What the user asks for and how they want it. It cannot lift a constraint set above it."
+    },
+    {
+      "name": "Canonical state",
+      "value": "state",
+      "text": "Application-owned facts about the task and session. The route defines the facts for which this source is canonical."
+    },
+    {
+      "name": "Reference evidence",
+      "value": "reference_only",
+      "text": "Retrieved chunks in knowledge, which inform the answer but never direct behaviour."
+    },
+    {
+      "name": "Tool observation",
+      "value": "observation",
+      "text": "What a tool returned, and any retrieved chunk a route sends to tool results: evidence about the world, not permission to act on it."
+    },
+    {
+      "name": "Generated memory",
+      "value": "generated",
+      "text": "Summaries and inferences the system wrote. They are fallible, they expire, and they can be revoked."
+    },
+    {
+      "name": "Untrusted (least privilege)",
+      "value": "untrusted",
+      "text": "Prior model turns in history, which must carry it, and any other item in tool results, memory or history whose producer wants it handled with the least privilege. It keeps the item out of an instruction group's peers and changes nothing else. Governance, knowledge, state and the query never carry it. Not the same as injection_risk: untrusted_content, which flags content that might carry an injection."
+    }
+  ],
+  "stages": [
+    {
+      "name": "Rewrite",
+      "owner": "producer",
+      "text": "Decide whether to rewrite the query for retrieval, and keep the rewritten form so you can explain the results later."
+    },
+    {
+      "name": "Retrieve",
+      "owner": "producer",
+      "text": "Pull candidate chunks from sources whose provenance you can name."
+    },
+    {
+      "name": "Rerank",
+      "owner": "producer",
+      "text": "Score each candidate against the query and put the score in relevance. If you drop a near-duplicate, report it as duplicate_content, with duplicate_of naming the one you kept (R-13)."
+    },
+    {
+      "name": "Package",
+      "owner": "producer",
+      "text": "Send each chunk as its own evidence item with source, source_version, relevance and the authority its evidence slot takes (R-1). Never one merged blob (R-13)."
+    },
+    {
+      "name": "Admit",
+      "owner": "assembler",
+      "text": "Check each item against its schema and the route: who sent it, which slot, what authority, its scope, age and expiry, and the route's min_relevance. Anything that fails is excluded with a reason code."
+    },
+    {
+      "name": "Resolve",
+      "owner": "assembler",
+      "text": "Settle the conflict groups the application declared (R-11). Then, in the slots where the route asks, drop superseded observations (R-25), exact duplicates (R-24) and anything past max_per_source (R-26), in that order."
+    },
+    {
+      "name": "Fit",
+      "owner": "assembler",
+      "text": "Refuse before any reduction if protected content can't fit (R-16, R-17). Otherwise apply item and slot caps, then shed in tier order under budget pressure: droppable first, then compressible (R-16). If too little evidence is left on a route that requires it, refuse instead (R-12)."
+    },
+    {
+      "name": "Render & trace",
+      "owner": "assembler",
+      "text": "Render the payload in the profile's order, hash it, and write a trace that accounts for every decision above (R-21)."
+    }
+  ],
+  "components": {
+    "required": {
+      "tokenizer": [
+        "fixture-whitespace/v1",
+        "estimate-utf8/v1"
+      ],
+      "renderer": [
+        "fixture-xml/v1",
+        "cwa-messages/v1"
+      ]
+    },
+    "optional": {
+      "tokenizer": [],
+      "renderer": [
+        "cwa-message-blocks/v1"
+      ]
+    }
+  },
+  "corpus": {
+    "cases": [
+      {
+        "id": "admission-reasons",
+        "rules": [
+          "R-1",
+          "R-2",
+          "R-3",
+          "R-8",
+          "R-9",
+          "R-10",
+          "R-13",
+          "R-14",
+          "R-15",
+          "R-16",
+          "R-18",
+          "R-21",
+          "R-22"
+        ],
+        "description": "One candidate per admission reason, each failing exactly its intended check first, memory a producer should have suppressed, plus admitted items at the boundaries: clock skew, sub-millisecond expiry, route tier upgrade, verified MCP server, escaped history, untrusted authority where R-1 allows it, and a retrieval chunk admitted in tool results with that slot's authority while retrieval producers stay gated to the evidence slots."
+      },
+      {
+        "id": "admission-route-slots",
+        "rules": [
+          "R-15",
+          "R-21",
+          "R-22"
+        ],
+        "description": "An item in a slot its producer's kind permits but the route does not list for that producer is excluded with producer_slot_not_allowed, an mcp tool specification included: only where the route lists governance.capabilities for the producer does its tool reach the capability check and capability_not_allowed."
+      },
+      {
+        "id": "blocks-budget",
+        "rules": [
+          "R-7",
+          "R-16",
+          "R-21"
+        ],
+        "description": "Under cwa-message-blocks/v1 the payload's size is the sum of the counts of every system, tool and message entry. estimate-utf8/v1 rounds each entry up, so that sum exceeds the count of the same text as one string: the joined text would fit once the droppable profile and the two oldest turns are shed, but the entries need the next-oldest turn shed as well. The route's lowest priority puts history first."
+      },
+      {
+        "id": "blocks-render",
+        "rules": [
+          "R-7",
+          "R-10",
+          "R-11",
+          "R-21"
+        ],
+        "description": "cwa-message-blocks/v1 renders the request cwa-messages/v1 renders, except that the user message is one {id, text} entry per placed item, each entry's text exactly as cwa-messages/v1 writes that item, so the joined texts are its content. Prior turns stay entries of the one user message, never messages of their own. A surfaced member keeps its mark in its text and also names its group in a conflict member, in a message entry as in a system entry."
+      },
+      {
+        "id": "budget-droppable-order",
+        "rules": [
+          "R-16",
+          "R-21",
+          "R-22"
+        ],
+        "description": "Droppable items shed one at a time by slot priority, then oldest first, and shedding stops as soon as the payload fits; compressible and protected items are untouched."
+      },
+      {
+        "id": "budget-margin",
+        "rules": [
+          "R-16",
+          "R-21"
+        ],
+        "description": "budget.margin_percent charges the payload 10% more: 58 tokens fit budget.input 60 unscaled but charge 64, so a droppable item is shed until the charged count fits; traced counts stay unscaled and the trace's budget repeats the margin."
+      },
+      {
+        "id": "budget-margin-protected",
+        "rules": [
+          "R-16",
+          "R-17",
+          "R-21"
+        ],
+        "description": "The margin applies to the protected-content test too: the protected items alone count 29, within budget.input 30, but charge 32 under a 10% margin, so assembly refuses with protected_content_over_budget."
+      },
+      {
+        "id": "budget-margin-rounding",
+        "rules": [
+          "R-16",
+          "R-21"
+        ],
+        "description": "The margin charge rounds up, however small its fraction: the payload counts 39 and charges 39 × 101 / 100 = 39.39, rounded up to 40, over budget.input 39, so the droppable item is shed. Rounding down or to the nearest integer would charge 39 and keep it."
+      },
+      {
+        "id": "budget-omit-after-variants",
+        "rules": [
+          "R-4",
+          "R-12",
+          "R-16",
+          "R-18",
+          "R-21",
+          "R-22"
+        ],
+        "description": "With no route order, every compress step runs before any omit step; history sheds oldest first, a compressed item can still be omitted, and a parser route that keeps its evidence minimum is not refused."
+      },
+      {
+        "id": "budget-protected-variants",
+        "rules": [
+          "R-16",
+          "R-18",
+          "R-21"
+        ],
+        "description": "Protected items are never compressed, even when they carry variants and a variant would make the payload fit: the instruction and the user fact the route raised to protected stay whole, and the knowledge item is compressed and then omitted instead."
+      },
+      {
+        "id": "budget-repeated-compress",
+        "rules": [
+          "R-16",
+          "R-18",
+          "R-21"
+        ],
+        "description": "The profile places evidence.knowledge twice. Fitting decides per item, so compressing the chunk replaces both occurrences at once: one occurrence alone would already fit (54 of 55), but the chunk's two occurrences take the variant together (44), and included[] and compressed[] each hold one row per occurrence."
+      },
+      {
+        "id": "budget-route-order",
+        "rules": [
+          "R-16",
+          "R-21"
+        ],
+        "description": "A route fitting_order omits older knowledge before any variant is selected, and a slot the profile places twice counts both occurrences."
+      },
+      {
+        "id": "budget-route-tiers",
+        "rules": [
+          "R-16",
+          "R-18",
+          "R-21"
+        ],
+        "description": "The route raises state.user to protected and governance.examples to compressible: an item that volunteers droppable sheds first, the examples take variants instead of being dropped, and the user fact is never shed."
+      },
+      {
+        "id": "budget-slot-cap-before-pressure",
+        "rules": [
+          "R-16",
+          "R-18",
+          "R-21"
+        ],
+        "description": "A slot cap is enforced before budget pressure, so the tokens it frees count: the knowledge slot takes the variant that brings it within max_tokens, the payload then fits, and the droppable example that budget pressure would have omitted first stays."
+      },
+      {
+        "id": "budget-slot-caps",
+        "rules": [
+          "R-3",
+          "R-16",
+          "R-18",
+          "R-21",
+          "R-22"
+        ],
+        "description": "Slots over the route's max_tokens shed their own items although the payload fits, slot by slot in shedding order: droppable items first, then the slot's route steps, then variants, the longest that brings the slot within its cap or else the shortest; a slot cap follows an item's own cap, and uncapped slots are untouched."
+      },
+      {
+        "id": "budget-slot-floor",
+        "rules": [
+          "R-16",
+          "R-18",
+          "R-21"
+        ],
+        "description": "Budget pressure never leaves a slot below the route's min_tokens: a droppable example its floor holds stays while knowledge is compressed, and history, whose oldest turn would take it below its floor, freezes, so its small newer turn stays although omitting it alone would have kept the floor."
+      },
+      {
+        "id": "budget-slot-floor-refused",
+        "rules": [
+          "R-16",
+          "R-17",
+          "R-21"
+        ],
+        "description": "When every reduction the floors allow is made and the payload still exceeds budget.input, assembly refuses with slot_floor_over_budget rather than break a floor; the refused trace keeps the fitting rows."
+      },
+      {
+        "id": "budget-slot-floor-under-cap",
+        "rules": [
+          "R-16",
+          "R-18",
+          "R-21"
+        ],
+        "description": "Floors do not guard slot caps: history's max_tokens, below its min_tokens, omits the oldest turn first, and budget pressure then leaves the rest of history whole, since any reduction would take it further below its floor."
+      },
+      {
+        "id": "budget-tier-lowering-ignored",
+        "rules": [
+          "R-16",
+          "R-17",
+          "R-21"
+        ],
+        "description": "The route's tier_upgrades names compressible for state.task, whose default is protected. A value at or below the default changes nothing, so the task stays protected; the protected items alone exceed budget.input, and assembly refuses rather than omitting the task."
+      },
+      {
+        "id": "budget-token-caps",
+        "rules": [
+          "R-3",
+          "R-16",
+          "R-18",
+          "R-21",
+          "R-22"
+        ],
+        "description": "Items over their token_budget are reduced before shedding: a compressible item takes its longest variant within the cap or is omitted, a droppable item is omitted; budget pressure then takes a still shorter variant, and from counts the original body."
+      },
+      {
+        "id": "budget-variant-choice",
+        "rules": [
+          "R-16",
+          "R-18",
+          "R-21"
+        ],
+        "description": "Once droppable items are gone, compressible items take variants lowest rank first: the longest variant that makes the payload fit, else the shortest; fitting stops before later slots are reached."
+      },
+      {
+        "id": "capability-policy-kind",
+        "rules": [
+          "R-15",
+          "R-21",
+          "R-22"
+        ],
+        "description": "The capability grant names a producer the route lists with kind policy, so its tool is excluded with capability_not_allowed although the allow-list names it: the route capability policy is the grant's producer listed with kind capability_policy."
+      },
+      {
+        "id": "conflict-fact",
+        "rules": [
+          "R-2",
+          "R-6",
+          "R-11",
+          "R-15",
+          "R-21"
+        ],
+        "description": "Fact groups: the authenticated producer ranked first in route precedence wins, scope and unlisted producers make members ineligible, freshness breaks ties only when allowed and at full precision, and ties, groups with no eligible member and protected losers are surfaced and marked; trust never decides a fact."
+      },
+      {
+        "id": "conflict-instruction",
+        "rules": [
+          "R-3",
+          "R-6",
+          "R-7",
+          "R-11",
+          "R-21"
+        ],
+        "description": "Instruction groups: authority records without excluding, one governing peer excludes the peers that defer, evidence never instructs, and a group with two governing peers, a peer that says escalate, peers that all defer or a protected deferring peer is surfaced and marked; a lone peer wins by authority whatever its conflict_policy, a user member below peers resolved by policy stays, and trust and the injection marker never decide who may instruct."
+      },
+      {
+        "id": "conflict-instruction-request-context",
+        "rules": [
+          "R-6",
+          "R-11",
+          "R-17",
+          "R-21"
+        ],
+        "description": "Two governing instructions both govern, so their group escalates, and the route's on_unresolved_instruction asks for more context: assembly refuses with conflict_unresolved and recovery.action request_context."
+      },
+      {
+        "id": "conflict-refused",
+        "rules": [
+          "R-6",
+          "R-11",
+          "R-17",
+          "R-21"
+        ],
+        "description": "An instruction group escalates to the default refuse and a fact group to request_context, so assembly refuses with conflict_unresolved and no recovery; decided groups and their exclusions stay in the trace."
+      },
+      {
+        "id": "conflict-request-context",
+        "rules": [
+          "R-11",
+          "R-17",
+          "R-21"
+        ],
+        "description": "The only unresolved group asks for more context, so assembly refuses with conflict_unresolved and recovery.action request_context."
+      },
+      {
+        "id": "conflict-required-slot-first",
+        "rules": [
+          "R-4",
+          "R-11",
+          "R-17",
+          "R-21"
+        ],
+        "description": "Conflicts are resolved before refusal checks, so a trace refused for a missing query still records the unresolved group."
+      },
+      {
+        "id": "conflict-surfaced-shed",
+        "rules": [
+          "R-11",
+          "R-16",
+          "R-21"
+        ],
+        "description": "A surfaced fact group keeps both members through resolution, but budget pressure may still omit one: the lower-ranked member is traced as over_budget and the member that stays is still marked as conflicting."
+      },
+      {
+        "id": "dedupe-evidence-required",
+        "rules": [
+          "R-12",
+          "R-17",
+          "R-21",
+          "R-24"
+        ],
+        "description": "On a route that requires two knowledge items, deduplication leaves one, so assembly refuses with evidence_required and recovery request_context, since nothing was omitted for budget; the refused trace keeps the duplicate_content row."
+      },
+      {
+        "id": "dedupe-exact",
+        "rules": [
+          "R-21",
+          "R-22",
+          "R-24"
+        ],
+        "description": "In the slots a route asks, bodies equal once whitespace runs collapse are excluded as duplicate_content, keeping the highest-ranked copy (relevance before id, id on a tie); normalization forms and case still differ, equal bodies in different slots are both kept, and a slot without dedupe keeps repeated turns."
+      },
+      {
+        "id": "dedupe-exemptions",
+        "rules": [
+          "R-6",
+          "R-11",
+          "R-16",
+          "R-21",
+          "R-24"
+        ],
+        "description": "Deduplication runs after conflict resolution and never excludes a protected item or one a conflict group names: a fact group's winner stays over a higher-ranked ungrouped copy, a moot group still exempts its member, and a slot the route raised to protected keeps both copies."
+      },
+      {
+        "id": "dedupe-producer-reported",
+        "rules": [
+          "R-13",
+          "R-21",
+          "R-22",
+          "R-24"
+        ],
+        "description": "A retriever that dropped a near-duplicate reports it as duplicate_content at stage producer, naming the candidate it kept, and the trace carries that row as reported ahead of the assembler's rows; the kept candidate can still be removed later by the route's own exact dedupe."
+      },
+      {
+        "id": "digest-beyond-2-53",
+        "rules": [
+          "R-2",
+          "R-13",
+          "R-22"
+        ],
+        "description": "Every number is a double, and the snapshot digest writes each as JavaScript does: 12345678901234567890, 12345678901234566500 and 1.2345678901234567e+19 are all the double 12345678901234567168, which RFC 8785 writes as 12345678901234567000, so each meets min_relevance 12345678901234567000, while 12345678901234566000 rounds to the double below and is below_threshold."
+      },
+      {
+        "id": "diversity-cap",
+        "rules": [
+          "R-13",
+          "R-15",
+          "R-21",
+          "R-22",
+          "R-24",
+          "R-26"
+        ],
+        "description": "A slot capped at two items per producer and source keeps each document's two highest-ranked chunks, after deduplication so a duplicate never takes a place; another producer's chunks from the same source are counted apart, a one-chunk document is untouched, and an uncapped slot keeps every item."
+      },
+      {
+        "id": "diversity-evidence-required",
+        "rules": [
+          "R-12",
+          "R-17",
+          "R-21",
+          "R-26"
+        ],
+        "description": "On a route that requires two knowledge items, a cap of one per source leaves one, so assembly refuses with evidence_required and recovery request_context, since nothing was omitted for budget; the refused trace keeps the source_diversity_cap row."
+      },
+      {
+        "id": "diversity-exemptions",
+        "rules": [
+          "R-6",
+          "R-11",
+          "R-16",
+          "R-21",
+          "R-24",
+          "R-25",
+          "R-26"
+        ],
+        "description": "The cap never excludes a protected item or one a conflict group names, and those take places first: a low-ranked fact-group winner leaves one place for its document's other chunks, and a slot raised to protected keeps every item over its cap; rows follow the pipeline, conflicts, supersession, deduplication, then the cap."
+      },
+      {
+        "id": "doubles-largest",
+        "rules": [
+          "R-2",
+          "R-13",
+          "R-17",
+          "R-22"
+        ],
+        "description": "Every number is read as the nearest double, up to the largest: 1797693134862315700E290 is the largest double, and 1.7976931348623158e308, above it by less than half a step, rounds to it rather than out of range, so the snapshot is valid and both pass min_relevance 1.7976931348623155e308, the double below, which a score equal to it also passes, while 1.7976931348623153e308 is below_threshold."
+      },
+      {
+        "id": "doubles-nearest",
+        "rules": [
+          "R-2",
+          "R-13",
+          "R-22"
+        ],
+        "description": "Every number is read as the nearest double however it is written: min_relevance 9007199254740993.0 is halfway between 2^53 and the double above and rounds to even, 2^53, so scores written 9007199254740992.0 and 90071992547409930E-1 are equal and pass, 9007199254740991.0 is below_threshold, and 4503599627370496.5 rounds to 4503599627370496, which the snapshot digest writes. A parser that is not correctly rounded reads some of these as a neighbouring double."
+      },
+      {
+        "id": "evidence-cap-omitted",
+        "rules": [
+          "R-12",
+          "R-16",
+          "R-17",
+          "R-21",
+          "R-22"
+        ],
+        "description": "An evidence item omitted for exceeding its own token_budget counts as omitted for budget: the route requires evidence, the only knowledge item has no variant within its cap, so the cap step omits it although the payload fits, and the refusal recommends precompute_summary and keeps the over_budget row."
+      },
+      {
+        "id": "evidence-min-included-items",
+        "rules": [
+          "R-12",
+          "R-17",
+          "R-21"
+        ],
+        "description": "The profile places evidence.knowledge twice and the route asks for at least two knowledge items. One chunk is admitted and would render twice, but min_included counts items, not occurrences, so the route refuses with recovery request_context."
+      },
+      {
+        "id": "evidence-precompute-summary",
+        "rules": [
+          "R-12",
+          "R-16",
+          "R-17",
+          "R-21",
+          "R-22"
+        ],
+        "description": "Fitting leaves fewer knowledge items than the route's min_included, and an omitted item had no variants, so the refusal recommends precompute_summary and keeps the fitting rows."
+      },
+      {
+        "id": "evidence-request-context",
+        "rules": [
+          "R-12",
+          "R-17",
+          "R-21",
+          "R-22"
+        ],
+        "description": "A route that requires evidence refuses with recovery request_context when admission leaves no evidence, although everything else fits."
+      },
+      {
+        "id": "evidence-retrieve-narrower",
+        "rules": [
+          "R-12",
+          "R-16",
+          "R-17",
+          "R-21",
+          "R-22"
+        ],
+        "description": "Every evidence item had variants and none fit beside the protected items, so fitting omits all evidence and the refusal recommends retrieve_narrower."
+      },
+      {
+        "id": "fixture-three-slot",
+        "rules": [
+          "R-9",
+          "R-21",
+          "R-22",
+          "R-23"
+        ],
+        "description": "Three admitted items render in profile order with the fixture renderer; a producer's expired-memory exclusion reaches the trace without its body; the payload hash and whitespace token count match the published example."
+      },
+      {
+        "id": "history-freshness-order",
+        "rules": [
+          "R-7"
+        ],
+        "description": "History turns render in the order they were said, by freshness compared as instants at full precision, and by id only among turns said at the same instant, whatever order their ids sort in."
+      },
+      {
+        "id": "integer-written-as-double",
+        "rules": [
+          "R-2",
+          "R-26"
+        ],
+        "description": "Every number is a double: a slot capped at max_per_source 2.0 is capped at 2, as in diversity-cap, whose candidates and decisions this case repeats, so each document keeps its two highest-ranked chunks."
+      },
+      {
+        "id": "messages-budget",
+        "rules": [
+          "R-7",
+          "R-16",
+          "R-21"
+        ],
+        "description": "Under cwa-messages/v1 the payload's size is the sum of its system texts, tool texts and message content, so fitting sheds the droppable profile and then the oldest turn, whose route priority is lowest, until that sum fits."
+      },
+      {
+        "id": "messages-render",
+        "rules": [
+          "R-7",
+          "R-10",
+          "R-11",
+          "R-21"
+        ],
+        "description": "cwa-messages/v1 puts governing instructions in system and the granted tool in tools, unescaped; everything else, including every prior turn marked with its speaker, renders escaped inside the one user message, so no history turn becomes a platform message and an injected closing tag stays material. Surfaced members in system are marked in their text, which is all the model receives."
+      },
+      {
+        "id": "messages-repeated-slot",
+        "rules": [
+          "R-7",
+          "R-16",
+          "R-18",
+          "R-21"
+        ],
+        "description": "The profile places governance.examples as system and again as xml:examples, which cwa-messages/v1 renders unescaped and escaped. Under estimate-utf8/v1 the example's escaped rendering exceeds its token_budget though the unescaped one does not, and a cap bounds a body however it renders, so the example takes its variant in both occurrences, with one compressed row for each, counted as that occurrence renders."
+      },
+      {
+        "id": "ordering-astral-ids",
+        "rules": [
+          "R-3",
+          "R-16",
+          "R-21",
+          "R-22",
+          "R-23"
+        ],
+        "description": "Ids holding characters outside the Basic Multilingual Plane order by UTF-16 code units, not code points: in the payload, in admission and fitting rows, in defaults_filled, and in the id tie-break that decides which of two equally ranked items is shed."
+      },
+      {
+        "id": "placement-protected-unplaced",
+        "rules": [
+          "R-16",
+          "R-17",
+          "R-20",
+          "R-21",
+          "R-22"
+        ],
+        "description": "An admitted protected item whose slot the profile does not place refuses with protected_slot_unplaced, whether its slot is protected by default or raised by the route; unprotected unplaced items keep their slot_unplaced rows."
+      },
+      {
+        "id": "placement-required-slot-first",
+        "rules": [
+          "R-4",
+          "R-17",
+          "R-20",
+          "R-21"
+        ],
+        "description": "A missing query is reported before a protected item the profile does not place: required_slot_missing comes first in contract/reasons.json."
+      },
+      {
+        "id": "placement-unplaced-slot",
+        "rules": [
+          "R-20",
+          "R-21",
+          "R-22"
+        ],
+        "description": "Items in slots the profile does not place are excluded with slot_unplaced after every other admission check, and the placed items render as usual."
+      },
+      {
+        "id": "protected-over-budget",
+        "rules": [
+          "R-16",
+          "R-17",
+          "R-21"
+        ],
+        "description": "When protected items alone exceed budget.input, assembly refuses without shedding anything: no payload and no over_budget rows."
+      },
+      {
+        "id": "protected-over-cap",
+        "rules": [
+          "R-16",
+          "R-17",
+          "R-21"
+        ],
+        "description": "A protected item whose body exceeds its own token_budget refuses the assembly, although the payload fits budget.input; nothing is truncated or shed, and the knowledge item over its own cap gets no row."
+      },
+      {
+        "id": "protected-over-slot-cap",
+        "rules": [
+          "R-16",
+          "R-17",
+          "R-21"
+        ],
+        "description": "A protected item within its own token_budget still refuses the assembly when its slot, placed twice, renders it past the route's max_tokens; the payload fits budget.input, and the knowledge slot over its own cap gets no row."
+      },
+      {
+        "id": "render-attribute-escaping",
+        "rules": [
+          "R-11",
+          "R-21"
+        ],
+        "description": "fixture-xml/v1 escapes &, < and > everywhere and \" as well in attribute values: an item id and a surfaced group id holding all four render escaped in id and conflict, while the trace records them as given and a body's quotes stay as they are."
+      },
+      {
+        "id": "required-instructions-missing",
+        "rules": [
+          "R-4",
+          "R-10",
+          "R-17",
+          "R-21"
+        ],
+        "description": "When the only governance.instructions item fails admission, assembly refuses with required_slot_missing although the query is there and everything fits."
+      },
+      {
+        "id": "required-slot-missing",
+        "rules": [
+          "R-4",
+          "R-17",
+          "R-21",
+          "R-22"
+        ],
+        "description": "On a parser route whose only output contract fails admission, assembly refuses before fitting: no payload, result null, included empty, admission rows kept."
+      },
+      {
+        "id": "supersede-evidence-required",
+        "rules": [
+          "R-12",
+          "R-17",
+          "R-21",
+          "R-25"
+        ],
+        "description": "On a route that requires two tool results, supersession leaves one, so assembly refuses with evidence_required and recovery request_context, since nothing was omitted for budget; the refused trace keeps the superseded row."
+      },
+      {
+        "id": "supersede-exemptions",
+        "rules": [
+          "R-6",
+          "R-11",
+          "R-16",
+          "R-21",
+          "R-24",
+          "R-25"
+        ],
+        "description": "Supersession runs after conflict resolution and before deduplication, and never excludes a protected item or one a conflict group names: a stale fact-group winner stays beside the newer observation, a slot raised to protected keeps its stale item, and a stale copy of a newer body is recorded as superseded, not as a duplicate."
+      },
+      {
+        "id": "supersede-observations",
+        "rules": [
+          "R-2",
+          "R-15",
+          "R-21",
+          "R-22",
+          "R-25"
+        ],
+        "description": "In a slot the route asks, only the latest observation per authenticated producer and source is kept: instants compare at full precision, so equal instants written differently tie and all stay while a microsecond later wins; another producer's item with the same source is untouched, and a slot without supersede keeps an older version."
+      },
+      {
+        "id": "threshold-beyond-2-53",
+        "rules": [
+          "R-2",
+          "R-13",
+          "R-16",
+          "R-21",
+          "R-22"
+        ],
+        "description": "Every number is a double: against min_relevance 9007199254740993, a score of 9007199254740992 is equal and passes, 9007199254740991 is below_threshold, and 9007199254740993 ties with 9007199254740992 on rank, so budget pressure omits the tied item with the later id."
+      },
+      {
+        "id": "tokenizer-estimate-utf8",
+        "rules": [
+          "R-16",
+          "R-21"
+        ],
+        "description": "estimate-utf8/v1 counts UTF-8 bytes divided by 4, rounded up, per rendered text: accented Latin, Japanese and an emoji take 2, 3 and 4 bytes a character. The payload counts 134 and charges 161 under a 20% margin, over budget.input 150, so a droppable item is shed."
+      }
+    ],
+    "rejections": [
+      {
+        "id": "batch-entry-not-object",
+        "rules": [
+          "R-2",
+          "R-17"
+        ],
+        "description": "A batch holds null beside its items. An entry that is not a JSON object is not an item, so the snapshot fails its schema rather than admission excluding it."
+      },
+      {
+        "id": "blocks-system-after-xml",
+        "rules": [
+          "R-7",
+          "R-17",
+          "R-20"
+        ],
+        "description": "Under cwa-message-blocks/v1, which realizes the placements cwa-messages/v1 does, a system placement follows an xml: one. An implementation without the optional renderer skips the case."
+      },
+      {
+        "id": "conflict-group-overlap",
+        "rules": [
+          "R-11",
+          "R-17"
+        ],
+        "description": "turn:18 belongs to two conflict groups; an item belongs to at most one."
+      },
+      {
+        "id": "conflict-group-repeated-id",
+        "rules": [
+          "R-11",
+          "R-17"
+        ],
+        "description": "Two conflict groups share the id g1."
+      },
+      {
+        "id": "conflict-group-unknown-fact",
+        "rules": [
+          "R-11",
+          "R-17"
+        ],
+        "description": "A fact group names refund_window, which the route policy's facts do not define."
+      },
+      {
+        "id": "conflict-group-unknown-item",
+        "rules": [
+          "R-11",
+          "R-17"
+        ],
+        "description": "A conflict group names an item id that is neither a candidate nor a producer exclusion in the snapshot."
+      },
+      {
+        "id": "duplicate-of-unknown",
+        "rules": [
+          "R-13",
+          "R-17"
+        ],
+        "description": "A producer exclusion's duplicate_of names an item that is not a candidate in its batch."
+      },
+      {
+        "id": "integer-out-of-range",
+        "rules": [
+          "R-17",
+          "R-23"
+        ],
+        "description": "An item's relevance is the integer literal 1 followed by 400 zeros. Like 1e400 it is beyond the IEEE 754 double range, though a language with big integers reads it exactly, so the snapshot is not I-JSON and has no digest."
+      },
+      {
+        "id": "messages-system-after-xml",
+        "rules": [
+          "R-7",
+          "R-17",
+          "R-20"
+        ],
+        "description": "Under cwa-messages/v1 a system placement follows an xml: one, and a message request cannot put material ahead of its system text."
+      },
+      {
+        "id": "messages-system-on-evidence",
+        "rules": [
+          "R-7",
+          "R-17",
+          "R-20"
+        ],
+        "description": "Under cwa-messages/v1 the profile puts evidence.knowledge in system, a platform role only governance slots may take."
+      },
+      {
+        "id": "messages-tools-on-instructions",
+        "rules": [
+          "R-7",
+          "R-17",
+          "R-20"
+        ],
+        "description": "Under cwa-messages/v1 the profile puts governance.instructions in tools, which only governance.capabilities may use."
+      },
+      {
+        "id": "number-out-of-range",
+        "rules": [
+          "R-17",
+          "R-23"
+        ],
+        "description": "An item's relevance is 1e400, beyond the IEEE 754 double range, so the snapshot is not I-JSON and has no digest."
+      },
+      {
+        "id": "producer-in-two-batches",
+        "rules": [
+          "R-15",
+          "R-17"
+        ],
+        "description": "Two batches name the same producer, policy-registry; a batch is one authenticated producer's output for the call."
+      },
+      {
+        "id": "producer-reason-unknown",
+        "rules": [
+          "R-9",
+          "R-17",
+          "R-21"
+        ],
+        "description": "A producer exclusion's reason, rate_limited, is not an exclusion code in contract/reasons.json."
+      },
+      {
+        "id": "profile-invalid-tag",
+        "rules": [
+          "R-17",
+          "R-20"
+        ],
+        "description": "The profile wraps evidence.knowledge as xml:1evidence, and an xml: tag must start with a letter or underscore."
+      },
+      {
+        "id": "profile-missing-instructions",
+        "rules": [
+          "R-4",
+          "R-17",
+          "R-20"
+        ],
+        "description": "The profile does not place governance.instructions, which every assembly needs."
+      },
+      {
+        "id": "profile-missing-output-contract",
+        "rules": [
+          "R-4",
+          "R-17",
+          "R-20"
+        ],
+        "description": "The route sets parser: true, and the profile does not place governance.output_contract."
+      },
+      {
+        "id": "profile-missing-query",
+        "rules": [
+          "R-4",
+          "R-17",
+          "R-20"
+        ],
+        "description": "The profile does not place interaction.query, which every assembly needs."
+      },
+      {
+        "id": "profile-route-mismatch",
+        "rules": [
+          "R-17",
+          "R-20"
+        ],
+        "description": "The profile is for route another-route, and the route policy for contract-fixture."
+      },
+      {
+        "id": "profile-route-policy-mismatch",
+        "rules": [
+          "R-17",
+          "R-20"
+        ],
+        "description": "The profile expects route policy fixture/v2, and the snapshot carries fixture/v1."
+      },
+      {
+        "id": "profile-unrealizable",
+        "rules": [
+          "R-17",
+          "R-20"
+        ],
+        "description": "The profile wraps evidence.knowledge as system, which fixture-xml/v1 cannot render: it supports only xml: wraps."
+      },
+      {
+        "id": "schema-missing-budget",
+        "rules": [
+          "R-17"
+        ],
+        "description": "The snapshot has no budget, which its schema requires."
+      },
+      {
+        "id": "schema-profile-spec",
+        "rules": [
+          "R-17",
+          "R-19"
+        ],
+        "description": "The profile was written for another specification: its spec is cwa/1, and the profile schema fixes cwa/draft."
+      },
+      {
+        "id": "superseded-by-unknown",
+        "rules": [
+          "R-9",
+          "R-17"
+        ],
+        "description": "A producer exclusion's superseded_by names an item that is not a candidate in its batch."
+      },
+      {
+        "id": "unpaired-surrogate",
+        "rules": [
+          "R-17",
+          "R-23"
+        ],
+        "description": "An item body ends in an unpaired surrogate, so the snapshot is not well-formed Unicode and has no digest."
+      }
+    ]
+  }
+}

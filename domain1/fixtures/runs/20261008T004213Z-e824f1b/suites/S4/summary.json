@@ -1,0 +1,1487 @@
+{
+  "$schema": "cwa-bench-d1/suite-summary/v1",
+  "run_id": "20261008T004213Z-e824f1b",
+  "suite": "S4",
+  "title": "Metamorphic relations",
+  "status": "fail",
+  "started_at": "2026-10-08T00:45:08.802Z",
+  "finished_at": "2026-10-08T00:48:33.113Z",
+  "requirements": [
+    "R-2",
+    "R-7",
+    "R-9",
+    "R-10",
+    "R-15",
+    "R-16",
+    "R-18",
+    "R-21",
+    "R-22",
+    "R-23"
+  ],
+  "corpora": [
+    {
+      "id": "labeled.admission",
+      "count": 40
+    },
+    {
+      "id": "labeled.boundaries",
+      "count": 19
+    },
+    {
+      "id": "labeled.precedence",
+      "count": 40
+    },
+    {
+      "id": "labeled.pipeline",
+      "count": 21
+    },
+    {
+      "id": "labeled.conflicts",
+      "count": 40
+    },
+    {
+      "id": "labeled.refusal",
+      "count": 40
+    },
+    {
+      "id": "labeled.degradation",
+      "count": 40
+    },
+    {
+      "id": "labeled.fitting",
+      "count": 16
+    },
+    {
+      "id": "fuzz.seeds",
+      "count": 40
+    }
+  ],
+  "adapters": [],
+  "metrics": [
+    {
+      "id": "s4.pass_rate",
+      "label": "Relation instances holding",
+      "suite": "S4",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 0.9979512861370362,
+      "numerator": 4384,
+      "denominator": 4393,
+      "target": 1.0,
+      "status": "fail",
+      "description": "Triaged and skipped instances are not counted."
+    },
+    {
+      "id": "s4.variant_audit_rate",
+      "label": "Variant outputs passing the trace audit",
+      "suite": "S4",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 4384,
+      "denominator": 4384,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s4.pass_rate",
+      "label": "Relation instances holding",
+      "suite": "S4",
+      "adapter": "typescript",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 4393,
+      "denominator": 4393,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Triaged and skipped instances are not counted."
+    },
+    {
+      "id": "s4.variant_audit_rate",
+      "label": "Variant outputs passing the trace audit",
+      "suite": "S4",
+      "adapter": "typescript",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 4393,
+      "denominator": 4393,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s4.pass_rate",
+      "label": "Relation instances holding",
+      "suite": "S4",
+      "adapter": "go",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 4393,
+      "denominator": 4393,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Triaged and skipped instances are not counted."
+    },
+    {
+      "id": "s4.variant_audit_rate",
+      "label": "Variant outputs passing the trace audit",
+      "suite": "S4",
+      "adapter": "go",
+      "unit": "rate",
+      "value": 0.9936262235374459,
+      "numerator": 4365,
+      "denominator": 4393,
+      "target": 1.0,
+      "status": "fail",
+      "description": ""
+    },
+    {
+      "id": "s4.pass_rate",
+      "label": "Relation instances holding",
+      "suite": "S4",
+      "adapter": "rust",
+      "unit": "rate",
+      "value": 0.9995447302526748,
+      "numerator": 4391,
+      "denominator": 4393,
+      "target": 1.0,
+      "status": "fail",
+      "description": "Triaged and skipped instances are not counted."
+    },
+    {
+      "id": "s4.variant_audit_rate",
+      "label": "Variant outputs passing the trace audit",
+      "suite": "S4",
+      "adapter": "rust",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 4391,
+      "denominator": 4391,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s4.mr1",
+      "label": "MR1 Permute batch order",
+      "suite": "S4",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1184,
+      "denominator": 1184,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s4.mr2",
+      "label": "MR2 Permute named candidates within a batch",
+      "suite": "S4",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 856,
+      "denominator": 856,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s4.mr3",
+      "label": "MR3 Permute candidates without usable ids",
+      "suite": "S4",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1184,
+      "denominator": 1184,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s4.mr4",
+      "label": "MR4 Change only the JSON surface",
+      "suite": "S4",
+      "adapter": null,
+      "unit": "rate",
+      "value": 0.9969031531531531,
+      "numerator": 3541,
+      "denominator": 3552,
+      "target": 1.0,
+      "status": "fail",
+      "description": ""
+    },
+    {
+      "id": "s4.mr5",
+      "label": "MR5 Rewrite timestamps as equivalent instants",
+      "suite": "S4",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1184,
+      "denominator": 1184,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s4.mr6",
+      "label": "MR6 Inert additions",
+      "suite": "S4",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 2368,
+      "denominator": 2368,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s4.mr7",
+      "label": "MR7 Same-count body replacement",
+      "suite": "S4",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1184,
+      "denominator": 1184,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s4.mr8",
+      "label": "MR8 Injection wording",
+      "suite": "S4",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 476,
+      "denominator": 476,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s4.mr9",
+      "label": "MR9 Order-preserving renaming",
+      "suite": "S4",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1088,
+      "denominator": 1088,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s4.mr10",
+      "label": "MR10 Order-reversing id renaming",
+      "suite": "S4",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1072,
+      "denominator": 1072,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s4.mr11",
+      "label": "MR11 Move an expired or revoked candidate to the producer's exclusions",
+      "suite": "S4",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1184,
+      "denominator": 1184,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s4.mr12",
+      "label": "MR12 Re-feed the digest-normalized snapshot",
+      "suite": "S4",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1184,
+      "denominator": 1184,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s4.mr13",
+      "label": "MR13 Budget monotonicity",
+      "suite": "S4",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 228,
+      "denominator": 228,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s4.mr14",
+      "label": "MR14 Raise only margin_percent",
+      "suite": "S4",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 828,
+      "denominator": 828,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s4.variant_agreement",
+      "label": "Variants on which every adapter agrees",
+      "suite": "S4",
+      "adapter": null,
+      "unit": "rate",
+      "value": 0.9931709537901207,
+      "numerator": 4363,
+      "denominator": 4393,
+      "target": 1.0,
+      "status": "fail",
+      "description": ""
+    },
+    {
+      "id": "s4.triage",
+      "label": "Instances triaged for a person (MR13)",
+      "suite": "S4",
+      "adapter": null,
+      "unit": "count",
+      "value": 0,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s4.findings_minimized",
+      "label": "Findings whose minimized draft still reproduces",
+      "suite": "S4",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 7,
+      "denominator": 7,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    }
+  ],
+  "files": {
+    "results": "suites/S4/results.jsonl",
+    "findings": "suites/S4/findings.jsonl"
+  },
+  "metamorphic": {
+    "reference": "python",
+    "seed": 20261006,
+    "seeds": 296,
+    "relations": [
+      {
+        "id": "MR1",
+        "title": "Permute batch order",
+        "requirements": [
+          "R-22",
+          "R-23"
+        ],
+        "triaged": false
+      },
+      {
+        "id": "MR2",
+        "title": "Permute named candidates within a batch",
+        "requirements": [
+          "R-22",
+          "R-23"
+        ],
+        "triaged": false
+      },
+      {
+        "id": "MR3",
+        "title": "Permute candidates without usable ids",
+        "requirements": [
+          "R-2",
+          "R-23"
+        ],
+        "triaged": false
+      },
+      {
+        "id": "MR4",
+        "title": "Change only the JSON surface",
+        "requirements": [
+          "R-2",
+          "R-22",
+          "R-23"
+        ],
+        "triaged": false
+      },
+      {
+        "id": "MR5",
+        "title": "Rewrite timestamps as equivalent instants",
+        "requirements": [
+          "R-2",
+          "R-23"
+        ],
+        "triaged": false
+      },
+      {
+        "id": "MR6",
+        "title": "Inert additions",
+        "requirements": [
+          "R-9",
+          "R-15",
+          "R-21"
+        ],
+        "triaged": false
+      },
+      {
+        "id": "MR7",
+        "title": "Same-count body replacement",
+        "requirements": [
+          "R-18",
+          "R-23"
+        ],
+        "triaged": false
+      },
+      {
+        "id": "MR8",
+        "title": "Injection wording",
+        "requirements": [
+          "R-7",
+          "R-10"
+        ],
+        "triaged": false
+      },
+      {
+        "id": "MR9",
+        "title": "Order-preserving renaming",
+        "requirements": [
+          "R-23"
+        ],
+        "triaged": false
+      },
+      {
+        "id": "MR10",
+        "title": "Order-reversing id renaming",
+        "requirements": [
+          "R-7",
+          "R-21"
+        ],
+        "triaged": false
+      },
+      {
+        "id": "MR11",
+        "title": "Move an expired or revoked candidate to the producer's exclusions",
+        "requirements": [
+          "R-9"
+        ],
+        "triaged": false
+      },
+      {
+        "id": "MR12",
+        "title": "Re-feed the digest-normalized snapshot",
+        "requirements": [
+          "R-22",
+          "R-23"
+        ],
+        "triaged": false
+      },
+      {
+        "id": "MR13",
+        "title": "Budget monotonicity",
+        "requirements": [
+          "R-16"
+        ],
+        "triaged": true
+      },
+      {
+        "id": "MR14",
+        "title": "Raise only margin_percent",
+        "requirements": [
+          "R-16"
+        ],
+        "triaged": false
+      }
+    ],
+    "instances": {
+      "MR1": 296,
+      "MR10": 268,
+      "MR11": 16,
+      "MR11:injected": 280,
+      "MR12": 296,
+      "MR13": 57,
+      "MR14:reduce": 18,
+      "MR14:same": 189,
+      "MR2": 214,
+      "MR3": 1,
+      "MR3:injected": 295,
+      "MR4:integer-spelling": 296,
+      "MR4:numbers": 296,
+      "MR4:surface": 296,
+      "MR5": 296,
+      "MR6:expired": 101,
+      "MR6:future": 94,
+      "MR6:out-of-scope": 101,
+      "MR6:revoked": 101,
+      "MR6:unknown-slot": 104,
+      "MR6:unlisted-producer": 91,
+      "MR7": 296,
+      "MR8": 119,
+      "MR9": 272
+    },
+    "by_kind": [
+      {
+        "kind": "MR1",
+        "adapter": "python",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR1",
+        "adapter": "typescript",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR1",
+        "adapter": "go",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR1",
+        "adapter": "rust",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR10",
+        "adapter": "python",
+        "pass": 268,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR10",
+        "adapter": "typescript",
+        "pass": 268,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR10",
+        "adapter": "go",
+        "pass": 268,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR10",
+        "adapter": "rust",
+        "pass": 268,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR11",
+        "adapter": "python",
+        "pass": 16,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR11",
+        "adapter": "typescript",
+        "pass": 16,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR11",
+        "adapter": "go",
+        "pass": 16,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR11",
+        "adapter": "rust",
+        "pass": 16,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR11:injected",
+        "adapter": "python",
+        "pass": 280,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR11:injected",
+        "adapter": "typescript",
+        "pass": 280,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR11:injected",
+        "adapter": "go",
+        "pass": 280,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR11:injected",
+        "adapter": "rust",
+        "pass": 280,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR12",
+        "adapter": "python",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR12",
+        "adapter": "typescript",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR12",
+        "adapter": "go",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR12",
+        "adapter": "rust",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR13",
+        "adapter": "python",
+        "pass": 57,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR13",
+        "adapter": "typescript",
+        "pass": 57,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR13",
+        "adapter": "go",
+        "pass": 57,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR13",
+        "adapter": "rust",
+        "pass": 57,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR14:reduce",
+        "adapter": "python",
+        "pass": 18,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR14:reduce",
+        "adapter": "typescript",
+        "pass": 18,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR14:reduce",
+        "adapter": "go",
+        "pass": 18,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR14:reduce",
+        "adapter": "rust",
+        "pass": 18,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR14:same",
+        "adapter": "python",
+        "pass": 189,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR14:same",
+        "adapter": "typescript",
+        "pass": 189,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR14:same",
+        "adapter": "go",
+        "pass": 189,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR14:same",
+        "adapter": "rust",
+        "pass": 189,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR2",
+        "adapter": "python",
+        "pass": 214,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR2",
+        "adapter": "typescript",
+        "pass": 214,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR2",
+        "adapter": "go",
+        "pass": 214,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR2",
+        "adapter": "rust",
+        "pass": 214,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR3",
+        "adapter": "python",
+        "pass": 1,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR3",
+        "adapter": "typescript",
+        "pass": 1,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR3",
+        "adapter": "go",
+        "pass": 1,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR3",
+        "adapter": "rust",
+        "pass": 1,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR3:injected",
+        "adapter": "python",
+        "pass": 295,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR3:injected",
+        "adapter": "typescript",
+        "pass": 295,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR3:injected",
+        "adapter": "go",
+        "pass": 295,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR3:injected",
+        "adapter": "rust",
+        "pass": 295,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR4:integer-spelling",
+        "adapter": "python",
+        "pass": 287,
+        "fail": 9,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR4:integer-spelling",
+        "adapter": "typescript",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR4:integer-spelling",
+        "adapter": "go",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR4:integer-spelling",
+        "adapter": "rust",
+        "pass": 295,
+        "fail": 1,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR4:numbers",
+        "adapter": "python",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR4:numbers",
+        "adapter": "typescript",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR4:numbers",
+        "adapter": "go",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR4:numbers",
+        "adapter": "rust",
+        "pass": 295,
+        "fail": 1,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR4:surface",
+        "adapter": "python",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR4:surface",
+        "adapter": "typescript",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR4:surface",
+        "adapter": "go",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR4:surface",
+        "adapter": "rust",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR5",
+        "adapter": "python",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR5",
+        "adapter": "typescript",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR5",
+        "adapter": "go",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR5",
+        "adapter": "rust",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:expired",
+        "adapter": "python",
+        "pass": 101,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:expired",
+        "adapter": "typescript",
+        "pass": 101,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:expired",
+        "adapter": "go",
+        "pass": 101,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:expired",
+        "adapter": "rust",
+        "pass": 101,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:future",
+        "adapter": "python",
+        "pass": 94,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:future",
+        "adapter": "typescript",
+        "pass": 94,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:future",
+        "adapter": "go",
+        "pass": 94,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:future",
+        "adapter": "rust",
+        "pass": 94,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:out-of-scope",
+        "adapter": "python",
+        "pass": 101,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:out-of-scope",
+        "adapter": "typescript",
+        "pass": 101,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:out-of-scope",
+        "adapter": "go",
+        "pass": 101,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:out-of-scope",
+        "adapter": "rust",
+        "pass": 101,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:revoked",
+        "adapter": "python",
+        "pass": 101,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:revoked",
+        "adapter": "typescript",
+        "pass": 101,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:revoked",
+        "adapter": "go",
+        "pass": 101,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:revoked",
+        "adapter": "rust",
+        "pass": 101,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:unknown-slot",
+        "adapter": "python",
+        "pass": 104,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:unknown-slot",
+        "adapter": "typescript",
+        "pass": 104,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:unknown-slot",
+        "adapter": "go",
+        "pass": 104,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:unknown-slot",
+        "adapter": "rust",
+        "pass": 104,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:unlisted-producer",
+        "adapter": "python",
+        "pass": 91,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:unlisted-producer",
+        "adapter": "typescript",
+        "pass": 91,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:unlisted-producer",
+        "adapter": "go",
+        "pass": 91,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR6:unlisted-producer",
+        "adapter": "rust",
+        "pass": 91,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR7",
+        "adapter": "python",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR7",
+        "adapter": "typescript",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR7",
+        "adapter": "go",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR7",
+        "adapter": "rust",
+        "pass": 296,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR8",
+        "adapter": "python",
+        "pass": 119,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR8",
+        "adapter": "typescript",
+        "pass": 119,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR8",
+        "adapter": "go",
+        "pass": 119,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR8",
+        "adapter": "rust",
+        "pass": 119,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR9",
+        "adapter": "python",
+        "pass": 272,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR9",
+        "adapter": "typescript",
+        "pass": 272,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR9",
+        "adapter": "go",
+        "pass": 272,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      },
+      {
+        "kind": "MR9",
+        "adapter": "rust",
+        "pass": 272,
+        "fail": 0,
+        "triage": 0,
+        "skipped": 0
+      }
+    ]
+  },
+  "generated": {
+    "findings": [
+      {
+        "finding_id": "d2cb80f84912",
+        "oracle": "metamorphic",
+        "checks": [
+          "MR4:integer-spelling"
+        ],
+        "adapter": "python",
+        "adapters": [
+          "python"
+        ],
+        "occurrences": 9,
+        "severity": "error",
+        "summary": "python breaks MR4 (Change only the JSON surface, MR4:integer-spelling): the variant was crashed: TypeError: slice indices must be integers or None or have an __index__ method (9 snapshots)",
+        "minimized": {
+          "path": "minimized/d2cb80f84912",
+          "snapshot": "sha256:0077cb63bf49ba71422ed05480a6d277acf3f6ff623dad10bd39c0e4e316fa94",
+          "items_before": 4,
+          "items_after": 1,
+          "tests": 33,
+          "reproduces": true
+        }
+      },
+      {
+        "finding_id": "d9865e0d5263",
+        "oracle": "fault",
+        "checks": [
+          "crashed"
+        ],
+        "adapter": "python",
+        "adapters": [
+          "python"
+        ],
+        "occurrences": 9,
+        "severity": "error",
+        "summary": "python crashed on a MR4:integer-spelling variant: TypeError: slice indices must be integers or None or have an __index__ method (9 snapshots)",
+        "minimized": {
+          "path": "minimized/d9865e0d5263",
+          "snapshot": "sha256:b18e899402a455832c8ef520a82ed3c4946068031de09424b765e9dfa055ab11",
+          "items_before": 4,
+          "items_after": 1,
+          "tests": 29,
+          "reproduces": true
+        }
+      },
+      {
+        "finding_id": "54e6d1b27229",
+        "oracle": "metamorphic",
+        "checks": [
+          "MR4:numbers"
+        ],
+        "adapter": "rust",
+        "adapters": [
+          "rust"
+        ],
+        "occurrences": 1,
+        "severity": "error",
+        "summary": "rust breaks MR4 (Change only the JSON surface, MR4:numbers): the variant was rejected (1 snapshot)",
+        "minimized": {
+          "path": "minimized/54e6d1b27229",
+          "snapshot": "sha256:0716316a204f4a71a1abd6beb6e4f630246f08d64b582a0703a9825fe70486dd",
+          "items_before": 8,
+          "items_after": 4,
+          "tests": 110,
+          "reproduces": true
+        }
+      },
+      {
+        "finding_id": "6eb17fb2359b",
+        "oracle": "differential",
+        "checks": [
+          "agreement"
+        ],
+        "adapter": null,
+        "adapters": [
+          "python",
+          "typescript",
+          "go",
+          "rust"
+        ],
+        "occurrences": 2,
+        "severity": "error",
+        "summary": "adapters disagree on a MR4:numbers variant (go/python/typescript vs rust) first at outcome (2 snapshots)",
+        "minimized": {
+          "path": "minimized/6eb17fb2359b",
+          "snapshot": "sha256:cbae8ac6eee225c290e7a1ab9bf3772bba72f5795d8af4058fc23e830dc2fa5e",
+          "items_before": 8,
+          "items_after": 1,
+          "tests": 20,
+          "reproduces": true
+        }
+      },
+      {
+        "finding_id": "d8c24e58a4c1",
+        "oracle": "metamorphic",
+        "checks": [
+          "MR4:integer-spelling"
+        ],
+        "adapter": "rust",
+        "adapters": [
+          "rust"
+        ],
+        "occurrences": 1,
+        "severity": "error",
+        "summary": "rust breaks MR4 (Change only the JSON surface, MR4:integer-spelling): the variant was rejected (1 snapshot)",
+        "minimized": {
+          "path": "minimized/d8c24e58a4c1",
+          "snapshot": "sha256:cc3326f70545945b0887a03849ec4476954159b876a6e53407e83b706d41c0af",
+          "items_before": 8,
+          "items_after": 5,
+          "tests": 83,
+          "reproduces": true
+        }
+      },
+      {
+        "finding_id": "8e03174ca742",
+        "oracle": "auditor",
+        "checks": [
+          "A15"
+        ],
+        "adapter": "go",
+        "adapters": [
+          "go"
+        ],
+        "occurrences": 28,
+        "severity": "error",
+        "summary": "go breaks A15 on a MR1 variant: defaults_filled differs from the omitted policy fields: 2 missing (e.g. [{\"item_id\": \"kno:5\", \"field\": \"token_budget\"}]), 0 extra (e.g. []) (28 snapshots)",
+        "minimized": {
+          "path": "minimized/8e03174ca742",
+          "snapshot": "sha256:b561e3edd91907d3fe197dcefac4d8be194bc80089c215cf88d4b154e5854e50",
+          "items_before": 10,
+          "items_after": 2,
+          "tests": 31,
+          "reproduces": true
+        }
+      },
+      {
+        "finding_id": "218467db3130",
+        "oracle": "differential",
+        "checks": [
+          "agreement"
+        ],
+        "adapter": null,
+        "adapters": [
+          "python",
+          "typescript",
+          "go",
+          "rust"
+        ],
+        "occurrences": 28,
+        "severity": "error",
+        "summary": "adapters disagree on a MR1 variant (python/rust/typescript vs go) first at trace /defaults_filled/1/item_id (28 snapshots)",
+        "minimized": {
+          "path": "minimized/218467db3130",
+          "snapshot": "sha256:b561e3edd91907d3fe197dcefac4d8be194bc80089c215cf88d4b154e5854e50",
+          "items_before": 10,
+          "items_after": 2,
+          "tests": 31,
+          "reproduces": true
+        }
+      }
+    ],
+    "minimization": {
+      "findings": 7,
+      "reproduced": 7,
+      "tests": 337
+    }
+  }
+}

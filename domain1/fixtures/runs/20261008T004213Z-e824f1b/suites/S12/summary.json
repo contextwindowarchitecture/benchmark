@@ -1,0 +1,190 @@
+{
+  "$schema": "cwa-bench-d1/suite-summary/v1",
+  "run_id": "20261008T004213Z-e824f1b",
+  "suite": "S12",
+  "title": "Regression and consensus goldens",
+  "status": "pass",
+  "started_at": "2026-10-08T00:56:36.849Z",
+  "finished_at": "2026-10-08T00:56:37.316Z",
+  "requirements": [
+    "R-23"
+  ],
+  "corpora": [
+    {
+      "id": "S1",
+      "count": 87
+    },
+    {
+      "id": "S6",
+      "count": 920
+    },
+    {
+      "id": "S8",
+      "count": 138
+    },
+    {
+      "id": "S9",
+      "count": 204
+    }
+  ],
+  "adapters": [],
+  "metrics": [
+    {
+      "id": "s12.consensus_rate",
+      "label": "Snapshots with a consensus golden",
+      "suite": "S12",
+      "adapter": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1349,
+      "denominator": 1349,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Snapshots on which every adapter agrees and every answer passes the trace audit."
+    },
+    {
+      "id": "s12.golden_match",
+      "label": "Answers matching the goldens",
+      "suite": "S12",
+      "adapter": "python",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1349,
+      "denominator": 1349,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Answers equal to the adopted golden for their snapshot. Null until goldens are accepted."
+    },
+    {
+      "id": "s12.regressions",
+      "label": "Drift with no specification change",
+      "suite": "S12",
+      "adapter": "python",
+      "unit": "count",
+      "value": 0,
+      "numerator": null,
+      "denominator": null,
+      "target": 0,
+      "status": "pass",
+      "description": "Answers that no longer match their golden although the case did not change in the specification."
+    },
+    {
+      "id": "s12.golden_match",
+      "label": "Answers matching the goldens",
+      "suite": "S12",
+      "adapter": "typescript",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1349,
+      "denominator": 1349,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Answers equal to the adopted golden for their snapshot. Null until goldens are accepted."
+    },
+    {
+      "id": "s12.regressions",
+      "label": "Drift with no specification change",
+      "suite": "S12",
+      "adapter": "typescript",
+      "unit": "count",
+      "value": 0,
+      "numerator": null,
+      "denominator": null,
+      "target": 0,
+      "status": "pass",
+      "description": "Answers that no longer match their golden although the case did not change in the specification."
+    },
+    {
+      "id": "s12.golden_match",
+      "label": "Answers matching the goldens",
+      "suite": "S12",
+      "adapter": "go",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1349,
+      "denominator": 1349,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Answers equal to the adopted golden for their snapshot. Null until goldens are accepted."
+    },
+    {
+      "id": "s12.regressions",
+      "label": "Drift with no specification change",
+      "suite": "S12",
+      "adapter": "go",
+      "unit": "count",
+      "value": 0,
+      "numerator": null,
+      "denominator": null,
+      "target": 0,
+      "status": "pass",
+      "description": "Answers that no longer match their golden although the case did not change in the specification."
+    },
+    {
+      "id": "s12.golden_match",
+      "label": "Answers matching the goldens",
+      "suite": "S12",
+      "adapter": "rust",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 1349,
+      "denominator": 1349,
+      "target": 1.0,
+      "status": "pass",
+      "description": "Answers equal to the adopted golden for their snapshot. Null until goldens are accepted."
+    },
+    {
+      "id": "s12.regressions",
+      "label": "Drift with no specification change",
+      "suite": "S12",
+      "adapter": "rust",
+      "unit": "count",
+      "value": 0,
+      "numerator": null,
+      "denominator": null,
+      "target": 0,
+      "status": "pass",
+      "description": "Answers that no longer match their golden although the case did not change in the specification."
+    }
+  ],
+  "files": {
+    "results": "suites/S12/results.jsonl",
+    "findings": "suites/S12/findings.jsonl"
+  },
+  "goldens": {
+    "path": "/Users/mhillsma/Development/misc/cwa/cwa-extended/benchmark/domain1/goldens/d1-goldens.json",
+    "adopted": {
+      "from_run": "20261007T214824Z-6793473",
+      "created_at": "2026-10-07T21:51:43.026Z",
+      "contract_commit": "4e957aba3f5e67e02592f65db06ba05bbb44e151",
+      "entries": 1349
+    },
+    "candidates": "suites/S12/candidate-goldens.json",
+    "candidate_count": 1349,
+    "no_consensus": [],
+    "drift": [
+      {
+        "adapter": "go",
+        "drift": "match",
+        "count": 1349
+      },
+      {
+        "adapter": "python",
+        "drift": "match",
+        "count": 1349
+      },
+      {
+        "adapter": "rust",
+        "drift": "match",
+        "count": 1349
+      },
+      {
+        "adapter": "typescript",
+        "drift": "match",
+        "count": 1349
+      }
+    ],
+    "removed": [],
+    "note": null
+  }
+}
