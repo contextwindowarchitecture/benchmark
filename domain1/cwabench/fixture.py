@@ -11,8 +11,8 @@ from __future__ import annotations
 import json
 import re
 import shutil
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable
 
 from . import output
 from .rundir import now, update_runs_index, with_upstream
