@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d1:self-check:v1",
+  "title": "Oracle self-check row",
+  "description": "One S0 check of the harness's own oracles: a primitive reproducing a published value, the auditor on an expected output, or the auditor on one mutant of it.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d1/self-check/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "check": {
+      "enum": [
+        "digest",
+        "digest_reference",
+        "payload_hash",
+        "input_tokens",
+        "render",
+        "audit_expected",
+        "mutant"
+      ]
+    },
+    "operator": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "position": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "status": {
+      "enum": [
+        "pass",
+        "fail",
+        "killed",
+        "survived"
+      ]
+    },
+    "killed_by": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^A[0-9]+$"
+      }
+    },
+    "detail": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "trace": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "payload": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "case_id",
+    "check",
+    "operator",
+    "position",
+    "status",
+    "killed_by",
+    "detail",
+    "trace",
+    "payload"
+  ],
+  "additionalProperties": false
+}

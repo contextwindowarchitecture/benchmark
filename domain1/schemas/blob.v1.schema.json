@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d1:blob:v1",
+  "title": "Blob index row",
+  "description": "One row of blobs/index.jsonl: where a content-addressed blob is stored.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d1/blob/v1"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "path": {
+      "type": "string",
+      "pattern": "^blobs/sha256/[0-9a-f]{2}/[0-9a-f]{64}\\.(json|txt|bin)$"
+    },
+    "media_type": {
+      "enum": [
+        "application/json",
+        "text/plain; charset=utf-8",
+        "application/octet-stream"
+      ]
+    },
+    "bytes": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "required": [
+    "$schema",
+    "digest",
+    "path",
+    "media_type",
+    "bytes"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,233 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d1:coverage:v1",
+  "title": "Coverage",
+  "description": "Requirement, reason-code and tag coverage per adapter. Every requirement and reason code is listed, exercised or not.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d1/coverage/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^S[0-9]+$"
+      }
+    },
+    "adapters": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "unit": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^R-[1-9][0-9]*$"
+          },
+          "scope": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "by_adapter": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "exercised": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "passed": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "exercised",
+                "passed"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "id",
+          "scope",
+          "by_adapter"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "reasons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "order": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "by_adapter": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "exercised": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "passed": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "exercised",
+                "passed"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "by_slot": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "slot": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "by_adapter": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "exercised": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "passed": {
+                        "type": "integer",
+                        "minimum": 0
+                      }
+                    },
+                    "required": [
+                      "exercised",
+                      "passed"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "slot",
+                "by_adapter"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "code",
+          "kind",
+          "order",
+          "by_adapter",
+          "by_slot"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tag": {
+            "type": "string",
+            "minLength": 1
+          },
+          "by_adapter": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "exercised": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "passed": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "exercised",
+                "passed"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "tag",
+          "by_adapter"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "unknown_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "sources",
+    "adapters",
+    "unit",
+    "requirements",
+    "reasons",
+    "tags",
+    "unknown_reasons"
+  ],
+  "additionalProperties": false
+}

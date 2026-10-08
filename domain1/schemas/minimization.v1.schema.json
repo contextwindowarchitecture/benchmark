@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d1:minimization:v1",
+  "title": "Minimization",
+  "description": "One finding's minimized reproducer and the conformance-case draft written beside it (domain-1-plan.md, sections 7.3 and 10).",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d1/minimization/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "finding_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{12}$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "signature": {
+      "type": "object"
+    },
+    "tests": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "reductions": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "exhausted": {
+      "type": "boolean"
+    },
+    "reproduces": {
+      "type": "boolean"
+    },
+    "before": {
+      "type": "object"
+    },
+    "after": {
+      "type": "object"
+    },
+    "original": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "minimized": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "draft": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "case",
+            "rejection"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "expected_from": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "path",
+        "files",
+        "expected_from",
+        "note"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "finding_id",
+    "suite",
+    "signature",
+    "tests",
+    "reductions",
+    "exhausted",
+    "reproduces",
+    "before",
+    "after",
+    "original",
+    "minimized",
+    "draft"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,407 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d1:ci-report:v1",
+  "title": "CI report",
+  "description": "A CI profile's run (cwabench ci) compared with the previous run of the same profile: what it was made from that changed (bumps), suite statuses, metrics and findings that changed, and S12's golden drift classes. The verdict is baseline, unchanged, changed or regressed.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d1/ci-report/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "profile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "pass",
+        "partial",
+        "fail",
+        "error"
+      ]
+    },
+    "source": {
+      "enum": [
+        "checkouts",
+        "mirrors",
+        "provided"
+      ]
+    },
+    "mirrors": {
+      "anyOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "previous": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "run_id": {
+              "type": "string",
+              "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+            },
+            "status": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "pass",
+                    "partial",
+                    "fail",
+                    "error",
+                    "running"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "started_at": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "run_id",
+            "status",
+            "started_at"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "baseline",
+        "unchanged",
+        "changed",
+        "regressed"
+      ]
+    },
+    "bumps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "what": {
+            "type": "string",
+            "minLength": 1
+          },
+          "from": {},
+          "to": {}
+        },
+        "required": [
+          "what",
+          "from",
+          "to"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "suites": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^S[0-9]+$"
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "partial",
+              "fail",
+              "error"
+            ]
+          },
+          "previous": {
+            "anyOf": [
+              {
+                "enum": [
+                  "pass",
+                  "partial",
+                  "fail",
+                  "error"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "previous"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "suite": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "adapter": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "unit": {
+            "enum": [
+              "rate",
+              "count",
+              "ms",
+              "exponent"
+            ]
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "fail",
+              "info",
+              "na"
+            ]
+          },
+          "previous": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "previous_status": {
+            "anyOf": [
+              {
+                "enum": [
+                  "pass",
+                  "fail",
+                  "info",
+                  "na"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "suite",
+          "adapter",
+          "unit",
+          "value",
+          "status",
+          "previous",
+          "previous_status"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "findings": {
+      "type": "object",
+      "properties": {
+        "new": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "finding_id": {
+                "type": "string"
+              },
+              "suite": {
+                "type": "string"
+              },
+              "adapter": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "severity": {
+                "enum": [
+                  "error",
+                  "warning",
+                  "info"
+                ]
+              },
+              "summary": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "finding_id",
+              "suite",
+              "adapter",
+              "severity",
+              "summary"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "resolved": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "finding_id": {
+                "type": "string"
+              },
+              "suite": {
+                "type": "string"
+              },
+              "adapter": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "severity": {
+                "enum": [
+                  "error",
+                  "warning",
+                  "info"
+                ]
+              },
+              "summary": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "finding_id",
+              "suite",
+              "adapter",
+              "severity",
+              "summary"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "persisting": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "new",
+        "resolved",
+        "persisting"
+      ],
+      "additionalProperties": false
+    },
+    "goldens": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "adopted": {
+              "type": "boolean"
+            },
+            "drift": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "removed": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "adopted",
+            "drift",
+            "removed"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "run_id",
+    "profile",
+    "status",
+    "source",
+    "mirrors",
+    "previous",
+    "verdict",
+    "bumps",
+    "suites",
+    "metrics",
+    "findings",
+    "goldens"
+  ]
+}

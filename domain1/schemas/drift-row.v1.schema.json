@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d1:drift-row:v1",
+  "title": "Drift row",
+  "description": "One adapter's S1 answer to one snapshot compared with its golden.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d1/drift-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "snapshot": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "adapter": {
+      "type": "string",
+      "minLength": 1
+    },
+    "drift": {
+      "enum": [
+        "match",
+        "spec_change",
+        "regression",
+        "new"
+      ]
+    },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "golden": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "outcome": {
+              "enum": [
+                "assembled",
+                "refused",
+                "rejected",
+                "unsupported",
+                "crashed",
+                "timeout",
+                "invalid_output"
+              ]
+            },
+            "refusal_reason": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "payload_hash": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "trace_hash": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "outcome",
+            "refusal_reason",
+            "payload_hash",
+            "trace_hash"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "actual": {
+      "type": "object",
+      "properties": {
+        "outcome": {
+          "enum": [
+            "assembled",
+            "refused",
+            "rejected",
+            "unsupported",
+            "crashed",
+            "timeout",
+            "invalid_output"
+          ]
+        },
+        "refusal_reason": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "payload_hash": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "trace_hash": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "outcome",
+        "refusal_reason",
+        "payload_hash",
+        "trace_hash"
+      ],
+      "additionalProperties": false
+    },
+    "adapter_commit_changed": {
+      "type": "boolean"
+    },
+    "finding": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{12}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "case_id",
+    "snapshot",
+    "adapter",
+    "drift",
+    "fields",
+    "golden",
+    "actual",
+    "adapter_commit_changed",
+    "finding"
+  ],
+  "additionalProperties": false
+}

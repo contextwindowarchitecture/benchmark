@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d1:summarizer-call:v1",
+  "title": "Summarizer call",
+  "description": "S11: one summarizer lookup (a summary or a judgment) and the provenance of the model call that produced it: live in this run, or recorded in the cache by the run that filled it.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d1/summarizer-call/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "kind": {
+      "enum": [
+        "summarize",
+        "judge"
+      ]
+    },
+    "chunk": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sample": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "key": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "cache_hit": {
+      "type": "boolean"
+    },
+    "lookup_ms": {
+      "type": "number",
+      "minimum": 0
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "model": {
+          "type": "string"
+        },
+        "response_model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "endpoint_host": {
+          "type": "string"
+        },
+        "params": {
+          "type": "object"
+        },
+        "params_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "prompt_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prompt_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "response_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "usage": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "latency_ms": {
+          "type": "number",
+          "minimum": 0
+        },
+        "finish_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "stripped_reasoning": {
+          "type": "boolean"
+        },
+        "at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sample": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "parent_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "model",
+        "endpoint_host",
+        "params",
+        "params_sha256",
+        "prompt_id",
+        "prompt_sha256",
+        "response_id",
+        "usage",
+        "latency_ms",
+        "at",
+        "sample",
+        "parent_sha256"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "kind",
+    "chunk",
+    "sample",
+    "key",
+    "cache_hit",
+    "lookup_ms",
+    "provenance"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,348 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d1:fuzz-row:v1",
+  "title": "Fuzz row",
+  "description": "S5: one generated snapshot (valid or mutated) run through every adapter, with each answer summarized by hashes. The snapshot and answer blobs are stored only when the snapshot is in a finding; the generator, seed and case id reproduce the rest (corpora/<corpus>/index.json).",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d1/fuzz-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "const": "S5"
+    },
+    "corpus": {
+      "enum": [
+        "fuzz.valid",
+        "fuzz.mutated"
+      ]
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "round": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "snapshot_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "snapshot": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "intents": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "mutation": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "operator": {
+              "type": "string",
+              "minLength": 1
+            },
+            "check": {
+              "type": "string",
+              "minLength": 1
+            },
+            "parent": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "operator",
+            "check",
+            "parent"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "expected": {
+      "enum": [
+        "valid",
+        "rejected"
+      ]
+    },
+    "answers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "adapter": {
+            "type": "string",
+            "minLength": 1
+          },
+          "outcome": {
+            "enum": [
+              "assembled",
+              "refused",
+              "rejected",
+              "unsupported",
+              "crashed",
+              "timeout",
+              "invalid_output"
+            ]
+          },
+          "exit_code": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "refusal_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "payload_hash": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "trace_hash": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "const": "uncanonicalizable"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "SHA-256 of the RFC 8785 serialization of the normalized trace"
+          },
+          "input_tokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "audit_failed": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^A[0-9]+$"
+            }
+          },
+          "wall_ms": {
+            "type": "number",
+            "minimum": 0
+          },
+          "problem": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "trace": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "stored only for answers in a finding"
+          },
+          "payload": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "stored only for answers in a finding"
+          }
+        },
+        "required": [
+          "adapter",
+          "outcome",
+          "exit_code",
+          "refusal_reason",
+          "payload_hash",
+          "trace_hash",
+          "input_tokens",
+          "audit_failed",
+          "wall_ms",
+          "problem",
+          "trace",
+          "payload"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "agree": {
+      "type": "boolean"
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "first_difference": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "stage": {
+              "enum": [
+                "outcome",
+                "payload",
+                "trace"
+              ]
+            },
+            "pointer": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "between": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "required": [
+            "stage",
+            "pointer",
+            "between"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "passed",
+        "failed"
+      ]
+    },
+    "problems": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "coverage_tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^R-[1-9][0-9]*$"
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{12}$"
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "corpus",
+    "case_id",
+    "round",
+    "snapshot_sha256",
+    "snapshot",
+    "bytes",
+    "intents",
+    "mutation",
+    "expected",
+    "answers",
+    "agree",
+    "groups",
+    "first_difference",
+    "verdict",
+    "problems",
+    "coverage_tags",
+    "requirements",
+    "findings"
+  ],
+  "additionalProperties": false
+}

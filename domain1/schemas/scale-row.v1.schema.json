@@ -1,0 +1,471 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d1:scale-row:v1",
+  "title": "Scale row",
+  "description": "S7: one scale cell at one budget, run through every adapter. Snapshots are not stored (they reach tens of megabytes); the cell parameters and seed regenerate them byte for byte (corpora/scale/index.json lists each one's SHA-256).",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d1/scale-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "const": "S7"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cell": {
+      "type": "object",
+      "properties": {
+        "shape": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidates": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "candidate_tokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "tokenizer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "renderer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "seed": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "shape",
+        "candidates",
+        "candidate_tokens",
+        "tokenizer",
+        "renderer",
+        "seed"
+      ],
+      "additionalProperties": false
+    },
+    "label": {
+      "type": "string",
+      "pattern": "^(ratio:[0-9.]+|window:[0-9]+|threshold-1|minimal)$"
+    },
+    "budget_input": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "snapshot_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "work": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "candidates × candidate tokens"
+    },
+    "full": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "protected": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "floor": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "items": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "bytes": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "not_constructible": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "expected": {
+      "type": "object",
+      "properties": {
+        "outcome": {
+          "anyOf": [
+            {
+              "enum": [
+                "assembled",
+                "refused"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "refusal_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "outcome",
+        "refusal_reason"
+      ],
+      "additionalProperties": false
+    },
+    "answers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "adapter": {
+            "type": "string",
+            "minLength": 1
+          },
+          "outcome": {
+            "enum": [
+              "assembled",
+              "refused",
+              "rejected",
+              "unsupported",
+              "crashed",
+              "timeout",
+              "invalid_output"
+            ]
+          },
+          "exit_code": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "refusal_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "payload_hash": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "trace_hash": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "const": "uncanonicalizable"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "input_tokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "charged_tokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "audit_failed": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^A[0-9]+$"
+            }
+          },
+          "wall_ms": {
+            "type": "number",
+            "minimum": 0,
+            "description": "End to end, taken while the grid runs concurrently: not a performance measurement (see perf/)"
+          },
+          "problem": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "trace": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "payload": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "prediction": {
+            "enum": [
+              "pass",
+              "fail",
+              "skipped"
+            ]
+          },
+          "protected": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "admitted": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "preserved": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "admitted",
+                  "preserved"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "self_reported_ms": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "adapter",
+          "outcome",
+          "exit_code",
+          "refusal_reason",
+          "payload_hash",
+          "trace_hash",
+          "input_tokens",
+          "charged_tokens",
+          "audit_failed",
+          "wall_ms",
+          "problem",
+          "trace",
+          "payload",
+          "prediction",
+          "protected",
+          "self_reported_ms"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "skipped": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "adapter": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "adapter",
+          "reason"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "agree": {
+      "type": "boolean"
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "verdict": {
+      "enum": [
+        "passed",
+        "failed"
+      ]
+    },
+    "problems": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "coverage_tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{12}$"
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "case_id",
+    "cell",
+    "label",
+    "budget_input",
+    "snapshot_sha256",
+    "work",
+    "full",
+    "protected",
+    "floor",
+    "items",
+    "bytes",
+    "not_constructible",
+    "expected",
+    "answers",
+    "skipped",
+    "agree",
+    "groups",
+    "verdict",
+    "problems",
+    "coverage_tags",
+    "findings"
+  ],
+  "additionalProperties": false
+}

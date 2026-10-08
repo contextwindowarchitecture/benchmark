@@ -1,0 +1,723 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d1:perf-summary:v1",
+  "title": "Performance summary",
+  "description": "S7: startup baselines, per-cell percentiles and confidence intervals for end-to-end, net and in-process times, peak RSS, log-log scaling fits, throughput and time to refusal. Absolute numbers belong to this host (manifest.json describes it).",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d1/perf-summary/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "const": "S7"
+    },
+    "host_suspended_seconds": {
+      "type": "number",
+      "minimum": 0
+    },
+    "reliable": {
+      "type": "boolean",
+      "description": "false when the host slept during measurement"
+    },
+    "policy": {
+      "type": "object"
+    },
+    "methods": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "startup": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "samples": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "p50_ms": {
+            "type": "number",
+            "minimum": 0
+          },
+          "p95_ms": {
+            "type": "number",
+            "minimum": 0
+          },
+          "p99_ms": {
+            "type": "number",
+            "minimum": 0
+          },
+          "max_ms": {
+            "type": "number",
+            "minimum": 0
+          },
+          "mean_ms": {
+            "type": "number",
+            "minimum": 0
+          },
+          "stdev_ms": {
+            "type": "number",
+            "minimum": 0
+          },
+          "ci95_halfwidth_ms": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "ci95_rate": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "ci_met": {
+            "type": "boolean"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "outcome": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "adapter": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rss_peak_bytes": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "samples"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "cells": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "adapter": {
+            "type": "string",
+            "minLength": 1
+          },
+          "cell": {
+            "type": "object",
+            "properties": {
+              "shape": {
+                "type": "string",
+                "minLength": 1
+              },
+              "candidates": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "candidate_tokens": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tokenizer": {
+                "type": "string",
+                "minLength": 1
+              },
+              "renderer": {
+                "type": "string",
+                "minLength": 1
+              },
+              "seed": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "shape",
+              "candidates",
+              "candidate_tokens",
+              "tokenizer",
+              "renderer",
+              "seed"
+            ],
+            "additionalProperties": false
+          },
+          "label": {
+            "type": "string",
+            "pattern": "^(ratio:[0-9.]+|window:[0-9]+|threshold-1|minimal)$"
+          },
+          "work": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "budget_input": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "outcome": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "enum": [
+              "measured",
+              "skipped",
+              "timeout",
+              "crashed",
+              "invalid_output",
+              "failed"
+            ]
+          },
+          "skipped_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "e2e": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "samples": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "p50_ms": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "p95_ms": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "p99_ms": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "max_ms": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "mean_ms": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "stdev_ms": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "ci95_halfwidth_ms": {
+                    "anyOf": [
+                      {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "ci95_rate": {
+                    "anyOf": [
+                      {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "ci_met": {
+                    "type": "boolean"
+                  },
+                  "error": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "outcome": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "adapter": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "rss_peak_bytes": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "samples"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "net_p50_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "inprocess": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "samples": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "p50_ms": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "p95_ms": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "p99_ms": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "max_ms": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "mean_ms": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "stdev_ms": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "ci95_halfwidth_ms": {
+                    "anyOf": [
+                      {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "ci95_rate": {
+                    "anyOf": [
+                      {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "ci_met": {
+                    "type": "boolean"
+                  },
+                  "error": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "outcome": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "adapter": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "rss_peak_bytes": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "samples"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rss_peak_bytes": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "self_reported_p50_ms": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "adapter",
+          "cell",
+          "label",
+          "work",
+          "budget_input",
+          "outcome",
+          "status",
+          "skipped_reason",
+          "e2e",
+          "net_p50_ms",
+          "inprocess",
+          "rss_peak_bytes",
+          "self_reported_p50_ms"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "fits": {
+      "type": "array",
+      "description": "A log-log slope of p50 time against one variable per series: candidates at fixed tokens, tokens at fixed candidates, and candidates at fixed tokens per candidate (diagonal)",
+      "items": {
+        "type": "object",
+        "properties": {
+          "adapter": {
+            "type": "string",
+            "minLength": 1
+          },
+          "shape": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label": {
+            "type": "string",
+            "pattern": "^(ratio:[0-9.]+|window:[0-9]+|threshold-1|minimal)$"
+          },
+          "series": {
+            "enum": [
+              "candidates",
+              "tokens",
+              "diagonal"
+            ]
+          },
+          "variable": {
+            "enum": [
+              "candidates",
+              "tokens"
+            ]
+          },
+          "method": {
+            "enum": [
+              "inprocess",
+              "net",
+              "e2e"
+            ]
+          },
+          "points": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "exponent": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "standard_error": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "r2": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "adapter",
+          "shape",
+          "label",
+          "series",
+          "variable",
+          "method",
+          "points",
+          "exponent",
+          "standard_error",
+          "r2"
+        ]
+      }
+    },
+    "throughput": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "adapter": {
+            "type": "string",
+            "minLength": 1
+          },
+          "cell": {
+            "type": "object",
+            "properties": {
+              "shape": {
+                "type": "string",
+                "minLength": 1
+              },
+              "candidates": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "candidate_tokens": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tokenizer": {
+                "type": "string",
+                "minLength": 1
+              },
+              "renderer": {
+                "type": "string",
+                "minLength": 1
+              },
+              "seed": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "shape",
+              "candidates",
+              "candidate_tokens",
+              "tokenizer",
+              "renderer",
+              "seed"
+            ],
+            "additionalProperties": false
+          },
+          "label": {
+            "type": "string",
+            "pattern": "^(ratio:[0-9.]+|window:[0-9]+|threshold-1|minimal)$"
+          },
+          "concurrency": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "invocations": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "seconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "per_second": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "outcomes": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "required": [
+          "adapter",
+          "cell",
+          "label",
+          "concurrency",
+          "invocations",
+          "seconds",
+          "per_second",
+          "outcomes"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "time_to_refusal": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "adapter": {
+            "type": "string",
+            "minLength": 1
+          },
+          "cells": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "p50_ms": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "adapter",
+          "cells",
+          "p50_ms"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "samples": {
+      "type": "string",
+      "minLength": 1
+    },
+    "series": {
+      "type": "object",
+      "description": "The perf series' parameters"
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "host_suspended_seconds",
+    "reliable",
+    "policy",
+    "methods",
+    "startup",
+    "cells",
+    "fits",
+    "throughput",
+    "time_to_refusal",
+    "samples",
+    "series"
+  ],
+  "additionalProperties": false
+}

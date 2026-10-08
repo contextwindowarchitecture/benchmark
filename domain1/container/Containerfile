@@ -1,0 +1,54 @@
+# The four assemblers and their adapters on Linux, for S2's platform and clock cells and S10's isolation cells
+# (domain-1-plan.md, 7.2 and 7.10). `cwabench` stages the build context: each assembler's working tree (tracked and
+# untracked files, git-ignored ones left out) under go/, rust/, typescript/ and python/, plus this directory.
+# The layout under /opt/cwa mirrors the host's .build/, so the adapters run the same way in both.
+
+ARG GO_IMAGE=docker.io/library/golang:1.27-trixie
+ARG RUST_IMAGE=docker.io/library/rust:1.99-trixie
+ARG NODE_IMAGE=docker.io/library/node:24-trixie-slim
+ARG PYTHON_IMAGE=docker.io/library/python:3.14-slim-trixie
+ARG UV_IMAGE=ghcr.io/astral-sh/uv:0.12
+
+FROM ${UV_IMAGE} AS uv
+
+FROM ${GO_IMAGE} AS go
+WORKDIR /src
+COPY go/ ./
+RUN go build -o /out/bin/cwa-adapter-go ./cmd/adapter
+COPY bench/probes/clock.go /probes/clock.go
+RUN cd /probes && go build -o /out/probes/clock-go clock.go && go version > /out/go.version
+
+# Built on the host's own platform and cross-compiled for another (rust-build.sh): rustc does not run under emulation.
+FROM --platform=$BUILDPLATFORM ${RUST_IMAGE} AS rust
+ARG TARGETARCH
+WORKDIR /src
+COPY rust/ ./
+COPY bench/probes/clock.rs /probes/clock.rs
+COPY bench/rust-build.sh /rust-build.sh
+RUN sh /rust-build.sh "$TARGETARCH"
+
+FROM ${NODE_IMAGE} AS typescript
+WORKDIR /src
+COPY typescript/ ./
+RUN corepack enable && pnpm install --frozen-lockfile \
+ && node_modules/.bin/tsc -p tsconfig.json --outDir /out/typescript/dist \
+ && cp -a node_modules /out/typescript/node_modules && node --version > /out/node.version
+
+FROM ${PYTHON_IMAGE}
+RUN apt-get update && apt-get install -y --no-install-recommends libstdc++6 strace faketime \
+ && rm -rf /var/lib/apt/lists/*
+COPY --from=uv /uv /usr/local/bin/uv
+COPY python/ /src/python/
+RUN UV_PROJECT_ENVIRONMENT=/opt/cwa/python-venv UV_PYTHON=/usr/local/bin/python3 UV_PYTHON_DOWNLOADS=never \
+    uv sync --frozen --no-dev --no-editable --project /src/python \
+ && /opt/cwa/python-venv/bin/python --version > /opt/cwa/python.version
+COPY --from=typescript /usr/local/bin/node /usr/local/bin/node
+COPY --from=typescript /out/ /opt/cwa/
+COPY --from=go /out/ /opt/cwa/
+COPY --from=rust /out/ /opt/cwa/
+COPY bench/adapters/ /opt/cwa/adapters/
+COPY bench/probes/clock.py bench/probes/clock.mjs /opt/cwa/probes/
+COPY bench/runner.py /opt/cwa/runner.py
+RUN strace -V | head -1 > /opt/cwa/strace.version \
+ && dpkg-query -W -f '${Version}\n' faketime > /opt/cwa/faketime.version
+WORKDIR /work

@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d1:corpus-index:v1",
+  "title": "Corpus index",
+  "description": "A generated corpus: the generator, its seed and settings, the steering history per round, and every snapshot's case id and digest, enough to regenerate it byte for byte.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d1/corpus-index/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "corpus": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generator": {
+      "type": "object",
+      "properties": {
+        "module": {
+          "type": "string",
+          "minLength": 1
+        },
+        "seed": {
+          "type": [
+            "integer",
+            "string"
+          ]
+        },
+        "settings": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "module",
+        "seed",
+        "settings"
+      ],
+      "additionalProperties": false
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "rounds": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "snapshots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "round": {
+            "type": "integer"
+          },
+          "intents": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "required": [
+          "case_id",
+          "sha256"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "corpus",
+    "generator",
+    "count",
+    "rounds",
+    "snapshots"
+  ],
+  "additionalProperties": false
+}

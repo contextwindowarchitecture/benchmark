@@ -1,0 +1,447 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d1:relation-row:v1",
+  "title": "Relation row",
+  "description": "S4: one metamorphic instance (a base snapshot and its transformed variant) judged on every adapter against that adapter's own answer on the base. Snapshot blobs are stored only when an adapter fails or triages.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d1/relation-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "const": "S4"
+    },
+    "relation": {
+      "type": "string",
+      "pattern": "^MR[0-9]+$"
+    },
+    "kind": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "seed": {
+      "type": "object",
+      "properties": {
+        "corpus": {
+          "type": "string",
+          "minLength": 1
+        },
+        "case_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "snapshot_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "corpus",
+        "case_id",
+        "snapshot_sha256"
+      ],
+      "additionalProperties": false
+    },
+    "base_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "variant_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "base": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "variant": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "base_is_seed": {
+      "type": "boolean"
+    },
+    "expect": {
+      "type": "object"
+    },
+    "judgments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "adapter": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "fail",
+              "triage",
+              "skipped"
+            ]
+          },
+          "detail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "base": {
+            "type": "object",
+            "properties": {
+              "adapter": {
+                "type": "string",
+                "minLength": 1
+              },
+              "outcome": {
+                "enum": [
+                  "assembled",
+                  "refused",
+                  "rejected",
+                  "unsupported",
+                  "crashed",
+                  "timeout",
+                  "invalid_output"
+                ]
+              },
+              "exit_code": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "refusal_reason": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "payload_hash": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "trace_hash": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  },
+                  {
+                    "const": "uncanonicalizable"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "SHA-256 of the RFC 8785 serialization of the normalized trace"
+              },
+              "input_tokens": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "audit_failed": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^A[0-9]+$"
+                }
+              },
+              "wall_ms": {
+                "type": "number",
+                "minimum": 0
+              },
+              "problem": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "trace": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "stored only for answers in a finding"
+              },
+              "payload": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "stored only for answers in a finding"
+              }
+            },
+            "required": [
+              "adapter",
+              "outcome",
+              "exit_code",
+              "refusal_reason",
+              "payload_hash",
+              "trace_hash",
+              "input_tokens",
+              "audit_failed",
+              "wall_ms",
+              "problem",
+              "trace",
+              "payload"
+            ],
+            "additionalProperties": false
+          },
+          "variant": {
+            "type": "object",
+            "properties": {
+              "adapter": {
+                "type": "string",
+                "minLength": 1
+              },
+              "outcome": {
+                "enum": [
+                  "assembled",
+                  "refused",
+                  "rejected",
+                  "unsupported",
+                  "crashed",
+                  "timeout",
+                  "invalid_output"
+                ]
+              },
+              "exit_code": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "refusal_reason": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "payload_hash": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "trace_hash": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  },
+                  {
+                    "const": "uncanonicalizable"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "SHA-256 of the RFC 8785 serialization of the normalized trace"
+              },
+              "input_tokens": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "audit_failed": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^A[0-9]+$"
+                }
+              },
+              "wall_ms": {
+                "type": "number",
+                "minimum": 0
+              },
+              "problem": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "trace": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "stored only for answers in a finding"
+              },
+              "payload": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "stored only for answers in a finding"
+              }
+            },
+            "required": [
+              "adapter",
+              "outcome",
+              "exit_code",
+              "refusal_reason",
+              "payload_hash",
+              "trace_hash",
+              "input_tokens",
+              "audit_failed",
+              "wall_ms",
+              "problem",
+              "trace",
+              "payload"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "adapter",
+          "status",
+          "detail",
+          "base",
+          "variant"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "variant_agree": {
+      "type": "boolean"
+    },
+    "verdict": {
+      "enum": [
+        "passed",
+        "failed",
+        "triage"
+      ]
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^R-[1-9][0-9]*$"
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{12}$"
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "relation",
+    "kind",
+    "title",
+    "seed",
+    "base_sha256",
+    "variant_sha256",
+    "base",
+    "variant",
+    "base_is_seed",
+    "expect",
+    "judgments",
+    "variant_agree",
+    "verdict",
+    "requirements",
+    "findings"
+  ],
+  "additionalProperties": false
+}

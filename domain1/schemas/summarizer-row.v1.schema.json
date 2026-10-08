@@ -1,0 +1,365 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d1:summarizer-row:v1",
+  "title": "Summarizer row",
+  "description": "S11: one frozen snapshot (an arm, a sample of its variants, one budget) run through every adapter. The snapshot is the frozen blob with budget.input replaced by budget_input.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d1/summarizer-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "const": "S11"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "arm": {
+      "enum": [
+        "off",
+        "stub",
+        "llm"
+      ]
+    },
+    "sample": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "purposes": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "sweep",
+          "determinism",
+          "flip"
+        ]
+      },
+      "minItems": 1
+    },
+    "budget_input": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "frozen": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "snapshot_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "expected": {
+      "type": "object",
+      "properties": {
+        "outcome": {
+          "enum": [
+            "assembled",
+            "refused"
+          ]
+        },
+        "refusal_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "outcome",
+        "refusal_reason"
+      ],
+      "additionalProperties": false
+    },
+    "answers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "adapter": {
+            "type": "string",
+            "minLength": 1
+          },
+          "outcome": {
+            "enum": [
+              "assembled",
+              "refused",
+              "rejected",
+              "unsupported",
+              "crashed",
+              "timeout",
+              "invalid_output"
+            ]
+          },
+          "exit_code": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "refusal_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "payload_hash": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "trace_hash": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "const": "uncanonicalizable"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "SHA-256 of the RFC 8785 serialization of the normalized trace"
+          },
+          "input_tokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "audit_failed": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^A[0-9]+$"
+            }
+          },
+          "wall_ms": {
+            "type": "number",
+            "minimum": 0
+          },
+          "problem": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "trace": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "stored only for answers in a finding"
+          },
+          "payload": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "stored only for answers in a finding"
+          },
+          "charged_tokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "prediction": {
+            "enum": [
+              "pass",
+              "fail",
+              "skipped"
+            ]
+          },
+          "retained": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "whole": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "variant": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "omitted": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "evidence": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "tokens": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "whole",
+                  "variant",
+                  "omitted",
+                  "evidence",
+                  "tokens"
+                ],
+                "additionalProperties": false,
+                "description": "Evidence items included whole, included as a variant, and omitted for budget; evidence tokens included"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "method_problems": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "R-18: compressed rows whose variant or method differs from what was frozen"
+          },
+          "repeats": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "n": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "identical": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "n",
+                  "identical"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "At the determinism budgets: further invocations of the same bytes, and how many gave this answer"
+          }
+        },
+        "required": [
+          "adapter",
+          "outcome",
+          "exit_code",
+          "refusal_reason",
+          "payload_hash",
+          "trace_hash",
+          "input_tokens",
+          "audit_failed",
+          "wall_ms",
+          "problem",
+          "trace",
+          "payload",
+          "charged_tokens",
+          "prediction",
+          "retained",
+          "method_problems",
+          "repeats"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "agree": {
+      "type": "boolean"
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "verdict": {
+      "enum": [
+        "passed",
+        "failed"
+      ]
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{12}$"
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "case_id",
+    "arm",
+    "sample",
+    "purposes",
+    "budget_input",
+    "frozen",
+    "snapshot_sha256",
+    "expected",
+    "answers",
+    "agree",
+    "groups",
+    "verdict",
+    "findings"
+  ],
+  "additionalProperties": false
+}

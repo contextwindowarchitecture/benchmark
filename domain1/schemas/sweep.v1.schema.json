@@ -1,0 +1,391 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d1:sweep:v1",
+  "title": "Budget sweep",
+  "description": "S7: one snapshot assembled at every budget from its full size down to refusal, per adapter. Each frame is a real assembly; frames one token apart where the answer changes make the shedding exact.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d1/sweep/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "const": "S7"
+    },
+    "cell": {
+      "type": "object",
+      "properties": {
+        "shape": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidates": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "candidate_tokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "tokenizer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "renderer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "seed": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "shape",
+        "candidates",
+        "candidate_tokens",
+        "tokenizer",
+        "renderer",
+        "seed"
+      ],
+      "additionalProperties": false
+    },
+    "snapshot": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "full": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "protected": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "floor": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "step_percent": {
+      "type": "number",
+      "minimum": 0
+    },
+    "agree": {
+      "type": "boolean"
+    },
+    "threshold": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "mispredicted": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "audit_failed": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "shedding": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "item_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "slot": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "tier": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "first_compressed_at": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "variant_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "first_omitted_at": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "item_id",
+          "slot",
+          "tier",
+          "first_compressed_at",
+          "variant_id",
+          "first_omitted_at"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "shedding_from": {
+      "type": "string",
+      "minLength": 1
+    },
+    "adapters": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "frames": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "budget_input": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "outcome": {
+                  "enum": [
+                    "assembled",
+                    "refused",
+                    "rejected",
+                    "unsupported",
+                    "crashed",
+                    "timeout",
+                    "invalid_output"
+                  ]
+                },
+                "refusal_reason": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "included": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "item_id": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "slot": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "tokens": {
+                        "anyOf": [
+                          {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "variant_id": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "item_id",
+                      "slot",
+                      "tokens",
+                      "variant_id"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "omitted": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "input_tokens": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "charged_tokens": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "audit_failed": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "predicted": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "minItems": 2,
+                  "maxItems": 2
+                },
+                "exact_step": {
+                  "type": "boolean",
+                  "description": "one token more or less gives a different frame"
+                }
+              },
+              "required": [
+                "budget_input",
+                "outcome",
+                "refusal_reason",
+                "included",
+                "omitted",
+                "input_tokens",
+                "charged_tokens",
+                "audit_failed",
+                "predicted",
+                "exact_step"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "frames"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "timelines": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "cell",
+    "snapshot",
+    "full",
+    "protected",
+    "floor",
+    "step_percent",
+    "agree",
+    "threshold",
+    "mispredicted",
+    "audit_failed",
+    "shedding",
+    "shedding_from",
+    "adapters",
+    "timelines"
+  ],
+  "additionalProperties": false
+}

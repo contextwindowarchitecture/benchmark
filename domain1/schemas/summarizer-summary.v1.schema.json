@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d1:summarizer-summary:v1",
+  "title": "Summarizer summary",
+  "description": "S11: the producer pipeline measured: per arm, variants proposed and kept, fidelity per check, repeat stability, decision flip rate, fit utility over the budget sweep, and the frozen snapshots; the cache's hit rate, latency, token cost and invalidation.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d1/summarizer-summary/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "mode": {
+      "enum": [
+        "off",
+        "stub",
+        "llm",
+        "replay"
+      ]
+    },
+    "arms": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "off",
+          "stub",
+          "llm"
+        ]
+      }
+    },
+    "summarizer": {
+      "anyOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "corpus": {
+      "type": "object"
+    },
+    "stub": {
+      "type": "object"
+    },
+    "fidelity_band": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "by_arm": {
+      "type": "object",
+      "propertyNames": {
+        "enum": [
+          "off",
+          "stub",
+          "llm"
+        ]
+      },
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+    "cache": {
+      "anyOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "invalidation": {
+      "anyOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "judge": {
+      "anyOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "files": {
+      "type": "object",
+      "properties": {
+        "variants": {
+          "type": "string",
+          "minLength": 1
+        },
+        "calls": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "variants",
+        "calls"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "mode",
+    "arms",
+    "summarizer",
+    "errors",
+    "corpus",
+    "stub",
+    "fidelity_band",
+    "by_arm",
+    "cache",
+    "invalidation",
+    "judge",
+    "files"
+  ],
+  "additionalProperties": false
+}

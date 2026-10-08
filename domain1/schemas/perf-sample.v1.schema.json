@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d1:perf-sample:v1",
+  "title": "Performance sample",
+  "description": "S7: one timed run. e2e starts the adapter per snapshot; inprocess is one iteration of the assembler's own timing loop.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d1/perf-sample/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "adapter": {
+      "type": "string",
+      "minLength": 1
+    },
+    "method": {
+      "enum": [
+        "e2e",
+        "inprocess"
+      ]
+    },
+    "cell": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "shape": {
+              "type": "string",
+              "minLength": 1
+            },
+            "candidates": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "candidate_tokens": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "tokenizer": {
+              "type": "string",
+              "minLength": 1
+            },
+            "renderer": {
+              "type": "string",
+              "minLength": 1
+            },
+            "seed": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "shape",
+            "candidates",
+            "candidate_tokens",
+            "tokenizer",
+            "renderer",
+            "seed"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "label": {
+      "type": "string",
+      "pattern": "^(ratio:[0-9.]+|window:[0-9]+|threshold-1|minimal)$"
+    },
+    "budget_input": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "snapshot_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "index": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "wall_ms": {
+      "type": "number",
+      "minimum": 0
+    },
+    "net_ms": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "rss_bytes": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "outcome": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "self_reported_ms": {
+      "anyOf": [
+        {
+          "type": "number",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "adapter",
+    "method",
+    "cell",
+    "label",
+    "budget_input",
+    "snapshot_sha256",
+    "index",
+    "wall_ms",
+    "net_ms",
+    "rss_bytes",
+    "outcome",
+    "self_reported_ms"
+  ],
+  "additionalProperties": false
+}

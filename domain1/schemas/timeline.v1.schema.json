@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d1:timeline:v1",
+  "title": "Assembly timeline",
+  "description": "One answer's events across the eight stages, derived from its snapshot and trace without instrumenting the assembler. Compressions inside fitting are placed by the shedding rules and marked inferred; sweep frames are the exact record of fitting order.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d1/timeline/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "snapshot": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "adapter": {
+      "type": "string",
+      "minLength": 1
+    },
+    "outcome": {
+      "enum": [
+        "assembled",
+        "refused"
+      ]
+    },
+    "refusal_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "lanes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "stage": {
+            "enum": [
+              "producer",
+              "admit",
+              "resolve",
+              "supersede",
+              "dedupe",
+              "diversity",
+              "fit",
+              "render"
+            ]
+          },
+          "type": {
+            "enum": [
+              "excluded",
+              "defaults_filled",
+              "conflict",
+              "omitted",
+              "compressed",
+              "refused",
+              "placed"
+            ]
+          },
+          "order": {
+            "enum": [
+              "exact",
+              "inferred"
+            ]
+          }
+        },
+        "required": [
+          "seq",
+          "stage",
+          "type",
+          "order"
+        ]
+      }
+    },
+    "counters": {
+      "type": "object",
+      "properties": {
+        "candidates": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "admitted": {
+          "type": "integer"
+        },
+        "included": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "omitted": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "compressed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "budget_input": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "final_tokens": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "candidates",
+        "admitted",
+        "included",
+        "omitted",
+        "compressed",
+        "budget_input",
+        "final_tokens"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "snapshot",
+    "adapter",
+    "outcome",
+    "refusal_reason",
+    "lanes",
+    "events",
+    "counters"
+  ],
+  "additionalProperties": false
+}

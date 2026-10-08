@@ -1,0 +1,424 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d1:result-row:v1",
+  "title": "Result row",
+  "description": "One judged invocation: a snapshot run through one adapter in one environment cell, with every check applied.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d1/result-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "corpus": {
+      "type": "string",
+      "minLength": 1
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "case_kind": {
+      "enum": [
+        "case",
+        "rejection"
+      ]
+    },
+    "snapshot": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "adapter": {
+      "type": "string",
+      "minLength": 1
+    },
+    "env_cell": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repetition": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "expected_outcome": {
+      "anyOf": [
+        {
+          "enum": [
+            "assembled",
+            "refused",
+            "rejected",
+            "unsupported",
+            "crashed",
+            "timeout",
+            "invalid_output"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "expected_trace": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "expected_payload": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "outcome": {
+      "enum": [
+        "assembled",
+        "refused",
+        "rejected",
+        "unsupported",
+        "crashed",
+        "timeout",
+        "invalid_output"
+      ]
+    },
+    "exit_code": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "refusal_reason": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "unsupported": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "payload": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "payload_hash": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "trace": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "trace_normalized": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "stderr": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "input_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "charged_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "budget_input": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "wall_ms": {
+      "type": "number",
+      "minimum": 0
+    },
+    "net_ms": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "passed",
+        "failed",
+        "skipped",
+        "rejected"
+      ]
+    },
+    "detail": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "audit": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "enum": [
+                "pass",
+                "fail"
+              ]
+            },
+            "failed": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^A[0-9]+$"
+              }
+            }
+          },
+          "required": [
+            "status",
+            "failed"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "oracle": {
+            "enum": [
+              "expected",
+              "schema",
+              "differential",
+              "auditor",
+              "metamorphic",
+              "label"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "fail",
+              "skipped",
+              "not_run"
+            ]
+          },
+          "detail": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "oracle",
+          "id",
+          "status"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "differences": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pointer": {
+            "type": "string"
+          },
+          "expected": {},
+          "actual": {},
+          "missing_in": {
+            "enum": [
+              "expected",
+              "actual"
+            ]
+          }
+        },
+        "required": [
+          "pointer"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^R-[1-9][0-9]*$"
+      }
+    },
+    "coverage_tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "finding": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{12}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "relation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "seed_snapshot": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "id",
+        "seed_snapshot"
+      ],
+      "additionalProperties": false
+    },
+    "label": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "corpus",
+    "case_id",
+    "case_kind",
+    "snapshot",
+    "adapter",
+    "env_cell",
+    "repetition",
+    "expected_outcome",
+    "expected_trace",
+    "expected_payload",
+    "outcome",
+    "exit_code",
+    "refusal_reason",
+    "unsupported",
+    "payload",
+    "payload_hash",
+    "trace",
+    "trace_normalized",
+    "stderr",
+    "input_tokens",
+    "charged_tokens",
+    "budget_input",
+    "wall_ms",
+    "net_ms",
+    "verdict",
+    "detail",
+    "audit",
+    "checks",
+    "differences",
+    "requirements",
+    "coverage_tags",
+    "finding"
+  ],
+  "additionalProperties": false
+}

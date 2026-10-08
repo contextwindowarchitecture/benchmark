@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d1:goldens:v1",
+  "title": "Consensus goldens",
+  "description": "Answers every adapter agreed on and the auditor passed, keyed by the snapshot's SHA-256. Written as candidates by each S12 run; adopted only by `cwabench goldens accept`.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d1/goldens/v1"
+    },
+    "from_run": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "contract_commit": {
+      "type": "string",
+      "minLength": 1
+    },
+    "adapters": {
+      "type": "object",
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "trace_hash": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "snapshot": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "case_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "case_kind": {
+            "enum": [
+              "case",
+              "rejection"
+            ]
+          },
+          "corpus": {
+            "type": "string",
+            "minLength": 1
+          },
+          "outcome": {
+            "enum": [
+              "assembled",
+              "refused",
+              "rejected",
+              "unsupported",
+              "crashed",
+              "timeout",
+              "invalid_output"
+            ]
+          },
+          "refusal_reason": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "payload_hash": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "trace_hash": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "snapshot",
+          "case_id",
+          "case_kind",
+          "corpus",
+          "outcome",
+          "refusal_reason",
+          "payload_hash",
+          "trace_hash"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "from_run",
+    "created_at",
+    "contract_commit",
+    "adapters",
+    "trace_hash",
+    "entries"
+  ],
+  "additionalProperties": false
+}
