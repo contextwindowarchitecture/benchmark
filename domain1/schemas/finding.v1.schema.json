@@ -171,6 +171,46 @@
           "type": "null"
         }
       ]
+    },
+    "upstream": {
+      "description": "Where this finding was reported, copied from [findings].upstream by finding id; null when it has no entry there.",
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^https://"
+            },
+            "state": {
+              "enum": [
+                "open",
+                "fixed",
+                "wontfix"
+              ]
+            },
+            "note": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "url",
+            "state"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
     }
   },
   "required": [

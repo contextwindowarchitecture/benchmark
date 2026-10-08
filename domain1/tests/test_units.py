@@ -115,6 +115,32 @@ def test_runs_index_names_each_profiles_newest_finished_run_and_the_commits(tmp_
     assert not (tmp_path / "latest").exists()
 
 
+def test_findings_carry_their_upstream_link(fake_config, tmp_path):
+    from cwabench.config import ConfigError
+    from cwabench.runner import run
+    from cwabench.validate import validate_run
+
+    def findings(run_dir, relative="findings.jsonl"):
+        return [json.loads(line) for line in (run_dir / relative).read_text(encoding="utf-8").splitlines()]
+
+    first, status = run(fake_config("flip-payload"), build=False, log=lambda _: None)
+    assert status == "fail"
+    rows = findings(first)
+    assert rows and all(row["upstream"] is None for row in rows)  # no [findings].upstream file: no links
+
+    link = {"url": "https://github.com/contextwindowarchitecture/assembler-python/issues/1", "state": "fixed",
+            "note": "a test"}
+    (tmp_path / "upstream.json").write_text(json.dumps(
+        {"$schema": "cwa-bench-d1/upstream/v1", "findings": {rows[0]["finding_id"]: link}}), encoding="utf-8")
+    second, _ = run(fake_config("flip-payload", extra='[findings]\nupstream = "upstream.json"\n'), build=False,
+                    log=lambda _: None)
+    assert findings(second)[0]["upstream"] == link  # the id is the signature's hash, so it is the same run to run
+    assert findings(second, "suites/S1/findings.jsonl")[0]["upstream"] == link
+    assert validate_run(second) == []
+    with pytest.raises(ConfigError):
+        fake_config("flip-payload", extra='[findings]\nupstream = "missing.json"\n')
+
+
 def test_dumps_refuses_nan():
     with pytest.raises(ValueError):
         output.dumps({"x": float("nan")})

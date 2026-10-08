@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d1:upstream:v1",
+  "title": "Upstream links",
+  "description": "Where findings were reported, by finding id. Kept by hand beside the harness ([findings].upstream, findings/upstream.json by default); each run copies a finding's entry into its `upstream` field and never writes this file.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d1/upstream/v1"
+    },
+    "findings": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[0-9a-f]{12}$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://"
+          },
+          "state": {
+            "enum": [
+              "open",
+              "fixed",
+              "wontfix"
+            ]
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "url",
+          "state"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "findings"
+  ],
+  "additionalProperties": false
+}

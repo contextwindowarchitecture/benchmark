@@ -188,6 +188,11 @@ flip_ratios = [0.8, 0.6, 0.4, 0.2]               # budgets where every sample's 
 [s12]
 goldens = "goldens/d1-goldens.json"
 
+# Where findings were reported, by finding id (schemas/upstream.v1.schema.json). Kept by hand; each run copies a
+# finding's entry into its `upstream` field. Without the default file there are no links; a named file must exist.
+[findings]
+upstream = "findings/upstream.json"
+
 # The Linux container S2 and S10 use (container/Containerfile). The image is rebuilt only when its inputs change.
 [container]
 enabled = true

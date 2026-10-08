@@ -59,6 +59,7 @@ class Config:
     results_dir: Path
     all_adapters: dict[str, AdapterConfig] = field(default_factory=dict)  # every configured adapter
     settings: dict[str, dict] = field(default_factory=dict)  # [s2], [s10], [s12], [container]
+    upstream_path: Path | None = None  # [findings].upstream: where findings were reported, copied into each finding
 
     def section(self, name: str) -> dict:
         return self.settings.get(name, {})
@@ -157,6 +158,15 @@ def load(path: str | Path) -> Config:
     if "S12" in suites and not {"S1", "S6", "S8", "S9"} & set(suites):
         raise ConfigError("S12 compares the answers of S1, S6, S8 or S9 with the goldens, so it needs one of them")
 
+    findings = data.get("findings") or {}
+    if not isinstance(findings, dict):
+        raise ConfigError("[findings] must be a table")
+    upstream_path = (root / str(findings.get("upstream", "findings/upstream.json"))).resolve()
+    if not upstream_path.is_file():
+        if "upstream" in findings:
+            raise ConfigError(f"[findings].upstream names {upstream_path}, which does not exist")
+        upstream_path = None  # the default file is optional: no file, no links
+
     return Config(
         path=path,
         sha256=hashlib.sha256(raw).hexdigest(),
@@ -172,4 +182,5 @@ def load(path: str | Path) -> Config:
         results_dir=(root / run.get("results_dir", "results/d1")).resolve(),
         all_adapters=adapters,
         settings=settings,
+        upstream_path=upstream_path,
     )

@@ -39,9 +39,25 @@ def source_digest() -> str:
     return digest.hexdigest()
 
 
+def load_upstream(path: Path | None) -> dict[str, dict]:
+    """Where findings were reported, by finding id, from [findings].upstream (schema kind `upstream`). The file is
+    kept by hand; the harness copies each finding's entry into its `upstream` field and never writes the file."""
+    if path is None:
+        return {}
+    document = json.loads(path.read_text(encoding="utf-8"))
+    output.validate(document)
+    return document["findings"]
+
+
+def with_upstream(row: dict, upstream: dict[str, dict]) -> dict:
+    """The finding row with its upstream link, or null, as every findings file carries it."""
+    return {**row, "upstream": upstream.get(row["finding_id"])}
+
+
 class RunDir:
     def __init__(self, config: Config):
         self.config = config
+        self.upstream = load_upstream(config.upstream_path)
         self.started_at = now()
         self.source_digest = source_digest()
         # time.time() advances while the host sleeps; time.monotonic() does not on macOS. Their difference over a
@@ -73,6 +89,8 @@ class RunDir:
         self._record(relative, kind, document["$schema"], description)
 
     def write_jsonl(self, relative: str, rows: list[dict], kind: str, description: str) -> None:
+        if kind == "finding":
+            rows = [with_upstream(row, self.upstream) for row in rows]
         output.write_jsonl(self.path / relative, rows)
         self._record(relative, kind, output.schema_name(kind), description, rows=len(rows))
 
