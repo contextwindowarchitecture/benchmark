@@ -1,7 +1,7 @@
 # DESIGN.md
 
-> Shared front-end foundation · Revision 1.1 · 2026-10-08
-> Status: baseline for adoption. Revision 1.0 was written before any consumer existed. Revision 1.1 folds in what the first real consumer, the Domain 1 results contract (`domain1/schemas/`, `docs/domain1.md`), showed. Section 17 lists the changes and section 18 the references.
+> Shared front-end foundation · Revision 1.2 · 2026-10-08
+> Status: baseline for adoption. Revision 1.0 was written before any consumer existed. Revision 1.1 folds in what the first real consumer, the Domain 1 results contract (`domain1/schemas/`, `docs/domain1.md`), showed; 1.2 adds what the maintainer's decisions about that consumer (a public site that explains what each benchmark domain establishes) ask of the baseline. Section 17 lists the changes and section 18 the references.
 
 ## 1. Purpose and authority
 
@@ -232,6 +232,17 @@ export type MetricDefinition = {
 
 Direction and sentiment are distinct: a higher expense can be negative even though the arrow points up. Metric cards MUST identify comparison periods and units. Missing values render as “Not available,” not fabricated zeroes. When the producer judges a metric, the card shows that judgment and its target: `info` is measured but not gated and must not look like `pass`; `na` (a null value) was not measured in this record. A rate shows its fraction beside the percentage, so a reader can tell 1/1 from 1,000/1,000.
 
+### 4.5 Narrative pages
+
+Some pages exist to establish a claim with evidence rather than to let a user operate on data: a benchmark domain's overview, a report's landing page. They use the same shell (the `wide` width variant where the evidence needs it) and a fixed order, so a reader who stops after any section still leaves with something true:
+
+1. The claim, in one sentence, and who or what it is about.
+2. The evidence: the headline metrics and one or two signature visualizations, each sourced to the record it comes from.
+3. How far to trust it: what the evidence does not show, and the checks the evidence itself passed.
+4. The drill-down: links into the dashboard pages that hold every number behind the page.
+
+Diagrams on these pages are React-rendered SVG drawn from the data's own vocabulary document where one exists, so a diagram cannot drift from the data it explains; a decorative copy is hidden from assistive technology and a text equivalent sits beside it. Motion on these pages is the Emphasis token at most: a signature chart MAY reveal once per visit, never on refresh, on route return, or as a condition of reading the page. Pleasing and exact are both requirements here; where they conflict, exact wins and the conflict is recorded in the profile. Prose on these pages is content, kept with the project and reviewed with its source document; the page reads every number from the record and never restates one in prose.
+
 ## 5. Design tokens and visual language
 
 - Semantic CSS variables are the source of truth. Tailwind utilities reference them; chart adapters and canvas renderers consume the same tokens.
@@ -301,6 +312,7 @@ The benchmark's results are the first consumer of this baseline, and they are fi
 - A record that labels its own exactness or validity (`order: inferred`, `exact_step: false`, `reliable: false`, `applied: false`) carries that label into every view that shows it. Derived data is never styled as measured data, and a measurement the producer marks unreliable is shown as such, not hidden.
 - Parts are optional: a record may lack a suite, a file or a profile. “Not in this record” is its own page state (6.3), with a pointer to the newest record that has the part. It is neither an error nor an empty result.
 - A comparison between records comes from the producer's own diff where one exists and is computed in the viewer only for pairs the producer did not compare. A computed comparison says it was computed.
+- The client reads its data root from a runtime configuration document served beside it, never from a build-time constant, so one build serves every environment; nothing secret is ever in that document. The server mirrors the records' immutability in its cache headers: a record is served immutable with a long lifetime, an index and the configuration document with none.
 
 ## 7. Chart standard
 
@@ -504,12 +516,15 @@ src/
   lib/                     # Formatting, API client, theme adapters, cn
   styles/                  # Global stylesheet and token extensions
 public/animations/         # Reviewed optional assets
+deploy/                    # Container image, platform manifests, publishing procedure
  docs/
   design/project-profile.md
   adr/
 ```
 
-In this repository the UI lives in `ui/` at the repository root, beside `domain1/`, with one feature module per benchmark domain (`features/d1/`), so a later domain adds a module rather than a second application.
+The results UI is one application with one feature module per benchmark domain (`features/d1/`), so a later domain adds a module rather than a second application. Whether it lives in this repository (`ui/`, beside `domain1/`) or in a repository of its own (`benchmark-ui`) is the maintainer's decision, recorded in the profile; either way the schemas it reads are pinned to a benchmark commit, the way the harness pins the specification.
+
+Deployment (the container image, the platform's manifests, the data root's mount and the procedure that publishes records into it) lives with the project under `deploy/` and is outside this baseline. The baseline sets only the runtime boundary in 6.4: a static build plus a data root, served from one origin and configured at runtime.
 
 Feature components MUST NOT become a dumping ground for unrelated global utilities. Shared components must have a concrete repeated use case. Prefer composition over a giant dashboard component with dozens of boolean props.
 
@@ -582,6 +597,16 @@ For future repositories, create a template repository after this baseline is val
 Documentation evidence is cited inline as [n] and listed in section 18. Uncited defaults are proposed project policies, not guarantees of a library's behavior. Recheck official documentation when adopting or upgrading packages.
 
 ## 17. Revision history
+
+### 1.2 · 2026-10-08
+
+Written the same day, after the maintainer decided what the results UI is for and where it runs: a public site (benchmark.contextwindowarchitecture.io, on an OpenShift cluster) whose job is to show what each benchmark domain establishes about CWA, with charts, diagrams and animations that are pleasing as well as exact. The changes:
+
+- 4.5 (new): narrative pages: claim, evidence, trust, drill-down; diagrams drawn from the vocabulary document; reveal-once motion at most; prose as reviewed content, numbers from the record.
+- 6.4: the data root comes from a runtime configuration document, and the server's cache headers mirror the records' immutability.
+- 12: deployment lives with the project under `deploy/`, outside the baseline; the UI's repository (this one, or its own) is a recorded decision, with the schemas pinned either way.
+
+Migration: none; no code exists. Tests: none; this revision changes no code.
 
 ### 1.1 · 2026-10-08
 
