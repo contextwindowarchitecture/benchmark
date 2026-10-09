@@ -11,7 +11,9 @@ Two producers rewrite the conversation with the model, turn by turn, as a real a
   key. This is the realistic counterpart of the oracle state writer (section 15: oracle-state circularity).
 - **The rolling summarizer** (the `summary` baseline with `[baselines].summarizer = "llm"`). As each turn leaves the
   window it updates the summary with that turn's user and assistant messages; the summary after turn k covers turns 1
-  to k. It is the study's strongest conventional control (RECAP/SNOWBALL).
+  to k. Like the extractor it is told the task, and keeps the facts the task needs: told nothing, the model kept every
+  remark about the office, 31 of 40 replies on a 50-turn trial reached `max_tokens`, and the summary at turn 40 held
+  the values of 5 of the 11 turns that stated one. It is the study's strongest conventional control (RECAP/SNOWBALL).
 
 Every call goes through the model (model/), so it is cached and replayable exactly as S2's are, with sample 0 and the
 model's parameters. Calls of one conversation run in order, since each depends on the one before; conversations run
@@ -35,8 +37,9 @@ EXTRACT_SYSTEM = ("You keep the state of a task from a conversation with a user.
 EXTRACT_USER = ("Current state:\n{state}\n\nNew message from the user:\n{user}\n\nReply with the JSON object of what this "
                 "message adds or changes, or {{}}.")
 SUMMARY_SYSTEM = ("You keep a running summary of a long conversation for an assistant that will not see the older "
-                  "turns. Keep every name, figure and value the user gave, with its latest value, and drop small talk. "
-                  "Reply with the summary only.")
+                  "turns. The assistant's task: {task}\n\nKeep every fact the task needs, with its latest value, and "
+                  "drop small talk and anything else the task does not need. Keep the summary short. Reply with the "
+                  "summary only.")
 SUMMARY_USER = ("Summary so far:\n{summary}\n\nNext turn of the conversation:\nUser: {user}\nAssistant: {assistant}"
                 "\n\nWrite the updated summary.")
 NOTHING = "(nothing yet)"
@@ -81,8 +84,9 @@ def _extract(model: Model, run_id: str, script: dict) -> tuple[dict[int, dict], 
 def _summarize(model: Model, run_id: str, script: dict, upto: int) -> tuple[dict[int, str], list[dict]]:
     summaries, rows, summary = {0: ""}, [], ""
     for turn in script["turns"][:upto]:
-        reply = model.ask(payload(SUMMARY_SYSTEM, SUMMARY_USER.format(summary=summary or NOTHING, user=turn["user"],
-                                                                        assistant=turn["assistant"])), 0)
+        reply = model.ask(payload(SUMMARY_SYSTEM.format(task=script["instructions"]),
+                                  SUMMARY_USER.format(summary=summary or NOTHING, user=turn["user"],
+                                                      assistant=turn["assistant"])), 0)
         text = strip_reasoning(reply.text)
         if text:
             summary = text

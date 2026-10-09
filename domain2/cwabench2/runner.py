@@ -130,7 +130,9 @@ def run_producers(ctx: SuiteContext) -> None:
     summarize = "summary" in config.baselines and config.baseline.summarizer == "llm"
     if not (extract or summarize):
         return
-    model = Model(config.model, config.root, config.model["mode"])
+    # The producers' replies are a state or a running summary, longer than an answer: their own token limit.
+    model = Model({**config.model, "max_tokens": config.model["producer_max_tokens"]}, config.root,
+                  config.model["mode"])
     scripts = [s for family in ctx.conversations.values() for s in family]
     ctx.log(f"producers: {'extractor ' if extract else ''}{'summarizer ' if summarize else ''}over {len(scripts)} "
             f"scripts, mode {model.mode}")

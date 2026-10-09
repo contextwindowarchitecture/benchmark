@@ -16,7 +16,7 @@ MODEL_MODES = ("llm", "replay")
 MODEL_DEFAULTS = {"base_url": "http://127.0.0.1:8000/v1", "model": "Qwen3.6-35B-A3B-8bit",
                   "api_key_env": "CWA_BENCH_MODEL_KEY", "temperature": 0, "seed": 7, "max_tokens": 512,
                   "extra_body": {}, "request_timeout_s": 300, "retries": 2, "concurrency": 2, "mode": "replay",
-                  "cache": "model-cache", "context_limit": None}
+                  "cache": "model-cache", "context_limit": None, "producer_max_tokens": 1024}
 S2_DEFAULTS = {"arms": None, "tiers": ["8192"], "repeats": 3, "reference": "truncate-pinned",
                "bootstrap_resamples": 2000, "bootstrap_seed": 20261009}
 S3_DEFAULTS = {**S2_DEFAULTS, "repeats": 5, "temperature": 0.7}
