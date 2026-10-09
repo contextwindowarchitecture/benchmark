@@ -130,10 +130,12 @@ images = { cobol = "x" }
 
 # The drift report -----------------------------------------------------------------------------------------------------
 
-def manifest(run_id: str, go: str = "a" * 40, contract: str = "c" * 40) -> dict:
+def manifest(run_id: str, go: str = "a" * 40, contract: str = "c" * 40, cpus: int = 18) -> dict:
     return {"run_id": run_id, "status": "pass", "started_at": "2026-10-08T00:00:00.000Z",
             "contract": {"commit": contract}, "harness": {"source_digest": "h"}, "config": {"sha256": "s"},
             "adapters": {"go": {"available": True, "commit": go, "dirty": False, "toolchain": "go1.27"}},
+            "host": {"system": "Darwin", "release": "25.6.0", "machine": "arm64", "cpus": cpus,
+                     "platform": "macOS-26.0-arm64-arm-64bit-Mach-O"},
             "ci": {"profile": "nightly", "source": "mirrors", "mirrors": None}}
 
 
@@ -181,6 +183,13 @@ def test_verdicts(tmp_path):
     assert bumped["verdict"] == "changed"
     assert bumped["bumps"] == [{"what": "adapter:go", "from": "a" * 40, "to": "b" * 40}]
     assert [f["finding_id"] for f in bumped["findings"]["resolved"]] == ["f1"]
+
+    moved = ci.compare(now, manifest("n", cpus=8), summary(), [finding("f1")], before)  # another machine
+    assert moved["verdict"] == "changed" and moved["bumps"] == [{"what": "host:cpus", "from": 18, "to": 8}]
+    unrecorded = dict(manifest("n", cpus=8))
+    del unrecorded["host"]  # a run from before the host was recorded, on either side
+    assert {b["what"] for b in ci.compare(now, unrecorded, summary(), [finding("f1")], before)["bumps"]} == {
+        "host:cpus", "host:machine", "host:platform", "host:release", "host:system"}
 
     assert ci.compare(now, manifest("n"), summary(), [finding("f1"), finding("f2")], before)["verdict"] == "regressed"
     warned = ci.compare(now, manifest("n"), summary(), [finding("f1"), finding("w", "warning")], before)

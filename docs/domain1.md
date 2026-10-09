@@ -201,5 +201,5 @@ uv run cwabench ci nightly --fetch          # every suite but S7, against upstre
 ```
 
 `domain1/README.md` lists the checkouts each run needs. Every run writes a self-describing, schema-validated run
-directory. Each `cwabench ci` run also writes a drift report against the previous run of the same profile: contract
-or assembler bumps, changed suites and metrics, new and resolved findings, and golden drift.
+directory. Each `cwabench ci` run also writes a drift report against the previous run of the same profile: contract,
+assembler or host bumps, changed suites and metrics, new and resolved findings, and golden drift.

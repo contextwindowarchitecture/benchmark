@@ -5,7 +5,8 @@ matrix, and S11's summarizer mode. `cwabench ci <profile>` runs it and then comp
 the same profile:
 
 - **bumps**: what it was made from that changed: the pinned contract, each assembler's commit and toolchain, the
-  harness's own source, the config;
+  harness's own source, the config, and the host it ran on (its system, release, machine, CPU count and platform
+  string), since S7's timings are only comparable within one machine;
 - **suites, metrics and findings** that changed: suite statuses, metric values and statuses, findings new since the
   previous run and findings it had that are gone. Timings (S7's milliseconds and exponents) are listed when they
   move, but move every run, so they alone never make a run `changed`;
@@ -173,6 +174,11 @@ def _bumps(old: dict, new: dict) -> list[dict]:
         changed(f"available:{name}", a.get("available"), b.get("available"))
     changed("harness", old["harness"].get("source_digest"), new["harness"].get("source_digest"))
     changed("config", old["config"].get("sha256"), new["config"].get("sha256"))
+    # The host, field by field (system, release, machine, cpus, platform): S7's timings are only comparable within
+    # one machine, so a run made elsewhere must say so. A run that recorded no host reads as None.
+    old_host, new_host = old.get("host") or {}, new.get("host") or {}
+    for key in sorted(set(old_host) | set(new_host)):
+        changed(f"host:{key}", old_host.get(key), new_host.get(key))
     return out
 
 
