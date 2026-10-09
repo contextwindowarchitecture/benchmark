@@ -2,7 +2,9 @@
 
 Nothing here is a real entity, so no model has seen the facts. Two rules keep the ground truth exact, and S0 checks
 both on every script: filler, replies and instructions contain no digits, so every number in a user turn is a fact;
-and filler draws its names from pools (people, places, parts of the day) that no fact uses.
+and filler and replies draw their names from pools (people, places, parts of the day) that no fact uses. The scripted
+assistant turns are as long as a working session's replies, so conversations reach the budgets the arms are run at,
+but they never state or repeat a fact.
 """
 from __future__ import annotations
 
@@ -34,8 +36,21 @@ FILLER = (
     "The lift near the {place} is slow today.",
 )
 
-REPLIES = ("Noted.", "Got it.", "Understood.", "Thanks, noted.", "All right, I have that.",
-           "Okay, I'll keep that in mind.")
+ACKNOWLEDGEMENTS = ("Noted.", "Got it.", "Understood.", "Thanks, noted.", "All right, I have that.",
+                    "Okay, I'll keep that in mind.")
+# What a scripted assistant turn says after its acknowledgement: nothing that states or repeats a fact.
+REPLIES = (
+    "I'll keep that in mind while we work through the rest.",
+    "Let me know if anything else changes around the {place}.",
+    "I've made a note that {person} is involved.",
+    "That sounds sensible for the {part} sessions.",
+    "I can help draft a note to {person} later if that's useful.",
+    "I'll keep the {place} details together with everything else.",
+    "Thanks for the update about the {place}.",
+    "I'll flag it if anything looks inconsistent later on.",
+    "It may be worth checking with {person} before the {part} meeting.",
+    "Happy to go over the open items whenever you're ready.",
+)
 
 
 def names(rng: random.Random) -> list[str]:
@@ -58,8 +73,11 @@ def filler(rng: random.Random) -> str:
                                      part=rng.choice(PARTS_OF_DAY))
 
 
-def reply(rng: random.Random) -> str:
-    return rng.choice(REPLIES)
+def reply(rng: random.Random, sentences: int) -> str:
+    """A scripted assistant turn: an acknowledgement, then `sentences` sentences that carry no fact."""
+    picked = rng.sample(REPLIES, min(sentences, len(REPLIES)))
+    rest = [r.format(person=rng.choice(PEOPLE), place=rng.choice(PLACES), part=rng.choice(PARTS_OF_DAY)) for r in picked]
+    return " ".join([rng.choice(ACKNOWLEDGEMENTS), *rest])
 
 
 def number(n: int) -> str:

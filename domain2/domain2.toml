@@ -27,7 +27,8 @@ sizes = { pilot = 2, recorded = 20 }             # conversations per turn count
 variables = 3                                    # tracked chains
 distractors = 2                                  # near-miss chains: a similar name, or the same entity's other figure
 assignment_density = 0.5                         # the share of turns that assign a value
-filler_sentences = 2                             # per turn, beside any assignment
+filler_sentences = 4                             # per user turn, beside any assignment
+reply_sentences = 3                              # per assistant turn, after its acknowledgement
 
 # FR · Facts revealed over turns (conversations/facts.py).
 [families.fr]
@@ -36,7 +37,8 @@ sizes = { pilot = 2, recorded = 20 }
 tasks = ["record", "compute"]                    # alternating by conversation index
 fields = 6                                       # record: fields revealed, one per turn
 steps = 6                                        # compute: order lines revealed, one per turn
-filler_sentences = 2
+filler_sentences = 4
+reply_sentences = 3
 
 # Where findings were reported, by finding id (schemas/upstream.v1.schema.json). Kept by hand; optional.
 [findings]

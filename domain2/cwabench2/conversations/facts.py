@@ -22,13 +22,17 @@ from . import names
 from .names import capitalize, number
 
 GENERATOR = "fr"
-VERSION = 1
+VERSION = 2  # 2: longer assistant turns; the output contract apart from the instructions
 
 INSTRUCTIONS = {
     "record": ("You are an assistant helping the user put together an event booking from details they give over a long "
-               "working session. When asked for the booking record, reply with a single JSON object and nothing else."),
+               "working session."),
     "compute": ("You are an assistant helping the user put together a supply order from lines they give over a long "
-                "working session. When asked for the total, reply with the number only."),
+                "working session."),
+}
+OUTPUT_CONTRACTS = {
+    "record": "When asked for the booking record, reply with a single JSON object and nothing else.",
+    "compute": "When asked for the total, reply with the number only.",
 }
 
 EVENTS = ("workshop", "retreat", "summit", "offsite")
@@ -71,13 +75,14 @@ def _positions(rng: random.Random, turns: int, count: int) -> list[int]:
     return [1, *sorted(rng.sample(range(2, turns + 1), count - 1))]
 
 
-def _turns(rng: random.Random, turns: int, shards_at: dict[int, str], opening: str, filler: int) -> list[dict]:
+def _turns(rng: random.Random, turns: int, shards_at: dict[int, str], opening: str, filler: int,
+           replies: int) -> list[dict]:
     script_turns = []
     for turn in range(1, turns + 1):
         shards = [shards_at[turn]] if turn in shards_at else []
         text = names.user_text(shards, filler, rng)
         script_turns.append({"turn": turn, "id": f"t{turn:03d}", "user": f"{opening} {text}" if turn == 1 else text,
-                             "assistant": names.reply(rng), "shards": shards})
+                             "assistant": names.reply(rng, replies), "shards": shards})
     return script_turns
 
 
@@ -96,7 +101,8 @@ def _record(rng: random.Random, turns: int, checkpoints: list[int], parameters: 
         shards_at[turn] = capitalize(rng.choice(templates).format(event=event, value=value))
         revealed[field] = turn
     opening = f"I'm organising the {event} and need help keeping the booking straight."
-    script_turns = _turns(rng, turns, shards_at, opening, int(parameters["filler_sentences"]))
+    script_turns = _turns(rng, turns, shards_at, opening, int(parameters["filler_sentences"]),
+                          int(parameters["reply_sentences"]))
 
     keys = ", ".join(chosen)
     question = (f"Fill in the booking record for the {event} as a JSON object with exactly these keys: {keys}. "
@@ -121,6 +127,7 @@ def _record(rng: random.Random, turns: int, checkpoints: list[int], parameters: 
         })
     return {
         "instructions": INSTRUCTIONS["record"],
+        "output_contract": OUTPUT_CONTRACTS["record"],
         "turns": script_turns,
         "probes": probes,
         "ground_truth": {
@@ -160,7 +167,8 @@ def _compute(rng: random.Random, turns: int, checkpoints: list[int], parameters:
         shards_at[turn] = text
         steps.append({**step, "turn": turn, "amount": amount, "total_after": total})
     opening = f"I'm putting together a supply order for the {depot}."
-    script_turns = _turns(rng, turns, shards_at, opening, int(parameters["filler_sentences"]))
+    script_turns = _turns(rng, turns, shards_at, opening, int(parameters["filler_sentences"]),
+                          int(parameters["reply_sentences"]))
 
     question = "What does the order come to so far? Reply with the total as a number only."
     probes = []
@@ -182,6 +190,7 @@ def _compute(rng: random.Random, turns: int, checkpoints: list[int], parameters:
         })
     return {
         "instructions": INSTRUCTIONS["compute"],
+        "output_contract": OUTPUT_CONTRACTS["compute"],
         "turns": script_turns,
         "probes": probes,
         "ground_truth": {"task": "compute", "subject": depot, "steps": steps, "total": str(total)},

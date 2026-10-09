@@ -21,11 +21,11 @@ from . import names
 from .names import capitalize, number
 
 GENERATOR = "vt"
-VERSION = 1
+VERSION = 2  # 2: longer assistant turns; the output contract apart from the instructions
 
 INSTRUCTIONS = ("You are an assistant helping the user keep track of figures they mention during a long working "
-                "session. A figure can change; the latest value the user gave is the one that counts. When asked for a "
-                "figure, reply with the number only.")
+                "session. A figure can change; the latest value the user gave is the one that counts.")
+OUTPUT_CONTRACT = "When asked for a figure, reply with the number only."
 
 KINDS = (
     ("account", ("credit limit", "overdraft limit", "monthly allowance")),
@@ -120,7 +120,7 @@ def generate(seed: int, turns: int, checkpoints: list[int], index: int, paramete
             "turn": turn,
             "id": f"t{turn:03d}",
             "user": names.user_text(shards, int(parameters["filler_sentences"]), rng),
-            "assistant": names.reply(rng),
+            "assistant": names.reply(rng, int(parameters["reply_sentences"])),
             "shards": shards,
         })
 
@@ -153,6 +153,7 @@ def generate(seed: int, turns: int, checkpoints: list[int], index: int, paramete
 
     return {
         "instructions": INSTRUCTIONS,
+        "output_contract": OUTPUT_CONTRACT,
         "turns": script_turns,
         "probes": probes,
         "ground_truth": {

@@ -7,8 +7,8 @@ import pytest
 from cwabench2 import output
 from cwabench2.conversations import check, checkpoints, generate
 
-VT = {"variables": 3, "distractors": 2, "assignment_density": 0.5, "filler_sentences": 2}
-FR = {"tasks": ["record", "compute"], "fields": 6, "steps": 6, "filler_sentences": 2}
+VT = {"variables": 3, "distractors": 2, "assignment_density": 0.5, "filler_sentences": 2, "reply_sentences": 2}
+FR = {"tasks": ["record", "compute"], "fields": 6, "steps": 6, "filler_sentences": 2, "reply_sentences": 2}
 
 
 def scripts():

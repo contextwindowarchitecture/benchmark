@@ -41,8 +41,9 @@ def structure(script: dict) -> list[str]:
     expected = _probe_points(script["turn_count"], script["checkpoint_every"])
     if [p["after_turn"] for p in script["probes"]] != expected:
         problems.append(f"probes follow turns {[p['after_turn'] for p in script['probes']]}, not {expected}")
-    if _DIGITS.search(script["instructions"]):
-        problems.append("the instructions contain a digit")
+    for field in ("instructions", "output_contract"):
+        if _DIGITS.search(script[field]):
+            problems.append(f"the {field.replace('_', ' ')} contains a digit")
     for turn in turns:
         rest = turn["user"]
         for shard in turn["shards"]:

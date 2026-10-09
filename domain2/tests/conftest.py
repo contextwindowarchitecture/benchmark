@@ -19,6 +19,7 @@ variables = 2
 distractors = 2
 assignment_density = 0.5
 filler_sentences = 1
+reply_sentences = 1
 
 [families.fr]
 seed = 12
@@ -27,6 +28,7 @@ tasks = ["record", "compute"]
 fields = 4
 steps = 4
 filler_sentences = 1
+reply_sentences = 1
 """
 
 
