@@ -2,8 +2,11 @@
 
 Two producers rewrite the conversation with the model, turn by turn, as a real application would as the turns arrive:
 
-- **The extractor** (the `cwa-state-x` arm's state writer). After each user turn it reads the state so far and the new
-  message, and returns the updated state as a JSON object of facts and their current values. A reply that is not a
+- **The extractor** (the `cwa-state-x` arm's state writer). After each user turn it reads the task (the conversation's
+  instructions), the state so far and the new message, and returns the updated state as a JSON object of the facts the
+  task needs and their current values. A real application's state writer knows the task it serves; told nothing of
+  it, the model recorded every remark about a lift or a coffee machine as state, which outgrew its reply within a long
+  conversation. A reply that is not a
   JSON object keeps the state as it was and is counted. The state after turn k is written as state.task items, one per
   key. This is the realistic counterpart of the oracle state writer (section 15: oracle-state circularity).
 - **The rolling summarizer** (the `summary` baseline with `[baselines].summarizer = "llm"`). As each turn leaves the
@@ -25,11 +28,12 @@ from cwabench.canon import jcs
 from ..grading.normalize import json_object, strip_reasoning
 from ..model import CacheMiss, EndpointError, Model
 
-EXTRACT_SYSTEM = ("You maintain the state of a task from a conversation with a user. The state is a JSON object that "
-                  "maps each fact the user has given to its current value. Reply with the updated JSON object only.")
-EXTRACT_USER = ("Current state:\n{state}\n\nNew message from the user:\n{user}\n\nUpdate the state: add each new fact, "
-                "change any fact the user changed or corrected, and keep the rest. Use short, stable keys. Reply with "
-                "the JSON object only.")
+EXTRACT_SYSTEM = ("You keep the state of a task from a conversation with a user. The task: {task}\n\nThe state maps each "
+                  "fact the task needs to its current value. Ignore small talk and anything else the task does not "
+                  "need. Reply with a JSON object holding only the facts the new message adds or changes, under the "
+                  "keys the state already uses for them; reply {{}} when it has none.")
+EXTRACT_USER = ("Current state:\n{state}\n\nNew message from the user:\n{user}\n\nReply with the JSON object of what this "
+                "message adds or changes, or {{}}.")
 SUMMARY_SYSTEM = ("You keep a running summary of a long conversation for an assistant that will not see the older "
                   "turns. Keep every name, figure and value the user gave, with its latest value, and drop small talk. "
                   "Reply with the summary only.")
@@ -64,12 +68,13 @@ def _extract(model: Model, run_id: str, script: dict) -> tuple[dict[int, dict], 
     states, rows, state = {0: {}}, [], {}
     for turn in script["turns"]:
         current = json.dumps(state, ensure_ascii=False, sort_keys=True) if state else "{}"
-        reply = model.ask(payload(EXTRACT_SYSTEM, EXTRACT_USER.format(state=current, user=turn["user"])), 0)
-        value, _ = json_object(strip_reasoning(reply.text))
-        if value is not None:
-            state = value
+        reply = model.ask(payload(EXTRACT_SYSTEM.format(task=script["instructions"]),
+                                  EXTRACT_USER.format(state=current, user=turn["user"])), 0)
+        change, _ = json_object(strip_reasoning(reply.text))
+        if change is not None:  # the application merges the change; a null value removes the fact
+            state = {k: v for k, v in {**state, **change}.items() if v is not None}
         states[turn["turn"]] = state
-        rows.append(_row(run_id, script, "extractor", turn["turn"], reply, value is not None, reply.text))
+        rows.append(_row(run_id, script, "extractor", turn["turn"], reply, change is not None, reply.text))
     return states, rows
 
 
