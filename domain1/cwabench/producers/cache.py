@@ -37,9 +37,12 @@ def sha256(text: str) -> str:
 
 
 class Cache:
-    def __init__(self, path: Path, writable: bool = True):
+    """`format` names the entries' kind; another domain's cache names its own."""
+
+    def __init__(self, path: Path, writable: bool = True, format: str = FORMAT):
         self.path = path
         self.writable = writable
+        self.format = format
         self.hits = self.misses = self.corrupt = 0
         self._lock = threading.Lock()
 
@@ -55,7 +58,7 @@ class Cache:
                 entry = json.loads(path.read_text(encoding="utf-8"))
             except (OSError, json.JSONDecodeError):
                 entry = None
-            if entry is not None and (entry.get("format") != FORMAT or entry.get("key") != k
+            if entry is not None and (entry.get("format") != self.format or entry.get("key") != k
                                       or entry.get("material") != material or not isinstance(entry.get("text"), str)):
                 with self._lock:
                     self.corrupt += 1
@@ -75,7 +78,7 @@ class Cache:
         if not self.writable:
             raise CacheMiss("the cache is read-only in replay mode")
         k = key(material)
-        entry = {"format": FORMAT, "key": k, "material": material, "text": text, "provenance": provenance}
+        entry = {"format": self.format, "key": k, "material": material, "text": text, "provenance": provenance}
         path = self._file(k)
         path.parent.mkdir(parents=True, exist_ok=True)
         fd, temporary = tempfile.mkstemp(dir=path.parent, prefix=f".{k[:8]}.")

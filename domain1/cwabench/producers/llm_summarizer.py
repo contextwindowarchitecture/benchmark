@@ -75,13 +75,20 @@ class Client:
         return {**self.params, "extra_body": self.extra_body}
 
     def complete(self, system: str, user: str) -> dict:
-        body = {"model": self.model, "messages": [{"role": "system", "content": system},
-                                                  {"role": "user", "content": user}], **self.params, **self.extra_body}
+        return self.chat([{"role": "system", "content": system}, {"role": "user", "content": user}])
+
+    def body(self, messages: list[dict]) -> dict:
+        """The request body for `messages`: the model, the messages, the parameters and the server's extra fields."""
+        return {"model": self.model, "messages": messages, **self.params, **self.extra_body}
+
+    def chat(self, messages: list[dict]) -> dict:
+        """One chat completion. `usage` keeps the three standard counts; `cached_tokens` is the prompt prefix the
+        server reports it reused, or None when it reports none."""
         headers = {"Content-Type": "application/json"}
         if self._key:
             headers["Authorization"] = f"Bearer {self._key}"
-        request = urllib.request.Request(f"{self.base_url}/chat/completions", json.dumps(body).encode("utf-8"),
-                                         headers, method="POST")
+        request = urllib.request.Request(f"{self.base_url}/chat/completions",
+                                         json.dumps(self.body(messages)).encode("utf-8"), headers, method="POST")
         last = None
         for attempt in range(self.retries + 1):
             started = time.perf_counter()
@@ -92,10 +99,13 @@ class Client:
                 choice = data["choices"][0]
                 text = choice["message"].get("content") or ""
                 usage = data.get("usage") or {}
+                details = usage.get("prompt_tokens_details") if isinstance(usage.get("prompt_tokens_details"), dict) else {}
+                cached = details.get("cached_tokens")
                 return {"text": text, "id": data.get("id"), "model": data.get("model"),
                         "finish_reason": choice.get("finish_reason"), "latency_ms": round(latency, 3),
                         "usage": {k: usage[k] for k in ("prompt_tokens", "completion_tokens", "total_tokens")
-                                  if isinstance(usage.get(k), int)}}
+                                  if isinstance(usage.get(k), int)},
+                        "cached_tokens": cached if isinstance(cached, int) and not isinstance(cached, bool) else None}
             except urllib.error.HTTPError as error:
                 last = f"HTTP {error.code}: {error.read()[:300]!r}"
                 if error.code < 500 and error.code != 429:
