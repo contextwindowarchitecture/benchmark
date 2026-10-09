@@ -42,7 +42,8 @@ summary_words = 150                              # the llm summary's word limit
 input = [8192, 16384, 32768]
 ratios = [1.0, 0.5, 0.25, 0.1]
 reserved_output = 1024
-margin_percent = 15                              # covers estimate-utf8/v1's error; calibrated at P3
+margin_percent = 20                              # covers estimate-utf8/v1's under-count of the route's text (R-16):
+                                                 #   P4 measured up to 15.3% on model-written state and summaries
 tokenizer = "estimate-utf8/v1"
 renderer = "cwa-messages/v1"
 
