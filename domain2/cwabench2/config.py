@@ -1,5 +1,5 @@
-"""The run configuration, domain2.toml (domain-2-plan.md, 12). This build reads the tables P0 and P1 need; the others
-(model, repeats, thresholds, caps, CI profiles) arrive with the phases that use them."""
+"""The run configuration, domain2.toml (domain-2-plan.md, 12). This build reads the tables P0 to P4 need; the others
+(thresholds, caps, CI profiles) arrive with the phases that use them."""
 from __future__ import annotations
 
 import hashlib
@@ -11,7 +11,7 @@ from . import baselines as baselines_mod
 from .application.snapshots import ARMS, Settings
 from .conversations import FAMILIES
 
-SUITES = ("S0", "S1", "S2", "S5", "S7")  # the suites this build implements; S3, S4, S6 arrive later (domain-2-plan.md, 14)
+SUITES = ("S0", "S1", "S2", "S3", "S5", "S7")  # the suites built so far; S4 and S6 arrive later (domain-2-plan.md, 14)
 MODEL_MODES = ("llm", "replay")
 MODEL_DEFAULTS = {"base_url": "http://127.0.0.1:8000/v1", "model": "Qwen3.6-35B-A3B-8bit",
                   "api_key_env": "CWA_BENCH_MODEL_KEY", "temperature": 0, "seed": 7, "max_tokens": 512,
@@ -19,6 +19,7 @@ MODEL_DEFAULTS = {"base_url": "http://127.0.0.1:8000/v1", "model": "Qwen3.6-35B-
                   "cache": "model-cache", "context_limit": None}
 S2_DEFAULTS = {"arms": None, "tiers": ["8192"], "repeats": 3, "reference": "truncate-pinned",
                "bootstrap_resamples": 2000, "bootstrap_seed": 20261009}
+S3_DEFAULTS = {**S2_DEFAULTS, "repeats": 5, "temperature": 0.7}
 ADAPTER_SUITES = ("S1",)  # suites that assemble, and so set up the adapters
 SIZES = ("pilot", "recorded")
 
@@ -84,6 +85,7 @@ class Config:
     baselines: list[str] = field(default_factory=lambda: list(baselines_mod.ARMS))
     model: dict = field(default_factory=lambda: dict(MODEL_DEFAULTS))
     s2: dict = field(default_factory=lambda: dict(S2_DEFAULTS))
+    s3: dict = field(default_factory=lambda: dict(S3_DEFAULTS))
     baseline: baselines_mod.Settings = field(default_factory=baselines_mod.Settings)
 
     def section(self, name: str) -> dict:
@@ -195,37 +197,41 @@ def load(path: str | Path) -> Config:
     unknown_keys = sorted(set(b) - {"window_turns", "summarizer", "extractive_ratio"})
     if unknown_keys:
         raise ConfigError(f"[baselines] has unknown keys: {', '.join(unknown_keys)}")
-    if b.get("summarizer", "stub") != "stub":
-        raise ConfigError("[baselines].summarizer: only stub is built; the cached LLM summarizer arrives at P3")
-    baseline = baselines_mod.Settings(int(b.get("window_turns", 10)), "stub", float(b.get("extractive_ratio", 0.4)),
-                                      settings.margin_percent, settings.tokenizer)
+    if b.get("summarizer", "stub") not in ("stub", "llm"):
+        raise ConfigError("[baselines].summarizer must be stub or llm")
+    baseline = baselines_mod.Settings(int(b.get("window_turns", 10)), b.get("summarizer", "stub"),
+                                      float(b.get("extractive_ratio", 0.4)), settings.margin_percent,
+                                      settings.tokenizer)
     model = {**MODEL_DEFAULTS, **_table(data, "model")}
     unknown_keys = sorted(set(model) - set(MODEL_DEFAULTS))
     if unknown_keys:
         raise ConfigError(f"[model] has unknown keys: {', '.join(unknown_keys)}")
     if model["mode"] not in MODEL_MODES:
         raise ConfigError(f"[model].mode must be one of {', '.join(MODEL_MODES)}")
-    s2 = {**S2_DEFAULTS, **_table(data, "s2")}
-    unknown_keys = sorted(set(s2) - set(S2_DEFAULTS))
-    if unknown_keys:
-        raise ConfigError(f"[s2] has unknown keys: {', '.join(unknown_keys)}")
     from .suites.s2_scripted import CONTROLS
-    if s2["arms"] is None:
-        s2["arms"] = [*CONTROLS, *chosen, *arms]
-    known_arms = {*CONTROLS, *chosen, *arms}
-    stray = [a for a in s2["arms"] if a not in known_arms]
-    if stray:
-        raise ConfigError(f"[s2].arms names arms this run does not build: {', '.join(stray)}")
     absolute = {str(b) for b in budgets.input}
-    stray = [t for t in s2["tiers"] if t not in absolute]
-    if stray and "S2" in suites:
-        raise ConfigError(f"[s2].tiers must be absolute budgets of [budgets].input; not {', '.join(stray)}")
-    if s2["reference"] not in s2["arms"]:
-        raise ConfigError(f"[s2].reference {s2['reference']!r} is not one of [s2].arms")
-    if not isinstance(s2["repeats"], int) or s2["repeats"] < 1:
-        raise ConfigError("[s2].repeats must be a positive integer")
-    if "S2" in suites and "S1" not in suites:
-        raise ConfigError("S2 sends only payloads S1 gated, so it needs S1")
+    asked = {}
+    for name, defaults in (("s2", S2_DEFAULTS), ("s3", S3_DEFAULTS)):
+        table = {**defaults, **_table(data, name)}
+        unknown_keys = sorted(set(table) - set(defaults))
+        if unknown_keys:
+            raise ConfigError(f"[{name}] has unknown keys: {', '.join(unknown_keys)}")
+        if table["arms"] is None:
+            table["arms"] = [*CONTROLS, *chosen, *arms]
+        stray = [a for a in table["arms"] if a not in {*CONTROLS, *chosen, *arms}]
+        if stray:
+            raise ConfigError(f"[{name}].arms names arms this run does not build: {', '.join(stray)}")
+        stray = [t for t in table["tiers"] if t not in absolute]
+        if stray and name.upper() in suites:
+            raise ConfigError(f"[{name}].tiers must be absolute budgets of [budgets].input; not {', '.join(stray)}")
+        if table["reference"] not in table["arms"]:
+            raise ConfigError(f"[{name}].reference {table['reference']!r} is not one of [{name}].arms")
+        if not isinstance(table["repeats"], int) or table["repeats"] < 1:
+            raise ConfigError(f"[{name}].repeats must be a positive integer")
+        if name.upper() in suites and "S1" not in suites:
+            raise ConfigError(f"{name.upper()} sends only payloads S1 gated or built, so it needs S1")
+        asked[name] = table
+    s2, s3 = asked["s2"], asked["s3"]
     if "S5" in suites and "S2" not in suites:
         raise ConfigError("S5 reads S2's records, so it needs S2")
     s1 = _table(data, "s1")
@@ -266,4 +272,5 @@ def load(path: str | Path) -> Config:
         baseline=baseline,
         model=model,
         s2=s2,
+        s3=s3,
     )

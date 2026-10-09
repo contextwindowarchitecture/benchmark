@@ -24,10 +24,11 @@ texts are counted separately, the count of a selection is the sum of its parts, 
 **What it dropped.** Every baseline drops a prefix of its droppable messages, so `first_kept` names the oldest kept
 message and determines the rest; `system_survived` says whether the system prompt is in the payload.
 
-The rolling summary is a producer's output, made before the payload is built. At P2 it is the `stub` summarizer:
-Domain 1's extractive compressor (cwabench.producers.compressors) applied to each summarized user turn, in order.
-It selects sentences, so it adds no fact, and it may or may not keep a turn's fact sentence. The cached LLM
-summarizer, the strongest conventional control, arrives with the model client at P3.
+The rolling summary is a producer's output, made before the payload is built. With `summarizer = "llm"` it is the
+model's running summary (application/producers.py), updated as each turn leaves the window: the strongest
+conventional control. With `stub` it is Domain 1's extractive compressor (cwabench.producers.compressors) applied to
+each summarized user turn, in order: it selects sentences, so it adds no fact, and it may or may not keep a turn's
+fact sentence.
 """
 from __future__ import annotations
 
@@ -87,10 +88,21 @@ def system_prompt(script: dict) -> str:
     return f"{script['instructions']}\n\n{script['output_contract']}"
 
 
-def summarize(turns: list[dict], settings: Settings) -> tuple[str, dict[str, bool]]:
-    """The rolling summary of `turns`, and, per fact-carrying turn, whether it kept every fact sentence."""
+def summarize(turns: list[dict], settings: Settings, script: dict | None = None,
+              produced=None) -> tuple[str, dict[str, bool]]:
+    """The rolling summary of `turns` (the conversation's first turns), and, per fact-carrying turn, whether it carries
+    the turn's facts: every fact sentence for the stub, every value the turn states for the LLM summary, which
+    rephrases (conversations/values.py)."""
+    if settings.summarizer == "llm":
+        if produced is None or len(turns) not in produced.summaries:
+            raise ValueError(f"the llm summary needs the summarizer's output after turn {len(turns)}")
+        from ..conversations.values import carries, turn_values
+
+        text = produced.summaries[len(turns)]
+        values = turn_values(script)
+        return text, {t["id"]: carries(text, values.get(t["id"], [])) for t in turns if t["shards"]}
     if settings.summarizer != "stub":
-        raise ValueError(f"the {settings.summarizer!r} summarizer arrives with the model client (P3)")
+        raise ValueError(f"no {settings.summarizer!r} summarizer")
     parts, kept = [], {}
     for turn in turns:
         digest = extractive(turn["user"], settings.extractive_ratio, settings.tokenizer)
@@ -107,8 +119,9 @@ def payload(messages: list[Message]) -> bytes:
 
 
 def build(arm: str, script: dict, history_turns: list[dict], query: Message, budget: int,
-          settings: Settings) -> Built:
-    """`arm`'s payload with `history_turns` as the prior turns and `query` as the live one."""
+          settings: Settings, produced=None) -> Built:
+    """`arm`'s payload with `history_turns` as the prior turns and `query` as the live one. `produced` holds the
+    rolling summarizer's outputs (application/producers.py) when `settings.summarizer` is llm."""
     count = TOKENIZERS[settings.tokenizer]
     system = Message("system", "system", system_prompt(script))
     window = history_turns
@@ -118,7 +131,7 @@ def build(arm: str, script: dict, history_turns: list[dict], query: Message, bud
     if arm == "summary":
         older = history_turns[:len(history_turns) - len(window)]
         if older:
-            text, summary_kept = summarize(older, settings)
+            text, summary_kept = summarize(older, settings, script, produced)
             summary_message = Message("summary", "system", f"Summary of the earlier conversation:\n{text}")
     history = [m for turn in window for m in (Message(message_id(turn, "user"), "user", turn["user"]),
                                               Message(message_id(turn, "assistant"), "assistant", turn["assistant"]))]
@@ -160,8 +173,12 @@ def build(arm: str, script: dict, history_turns: list[dict], query: Message, bud
     for turn_id, whole in summary_kept.items():
         if whole:
             carriers.setdefault(turn_id, []).append("summary")
-        older = next(t for t in history_turns if t["id"] == turn_id)
-        evidence.setdefault(turn_id, []).extend(older["shards"])
+        if settings.summarizer == "llm":
+            if whole:  # the summary rephrases: its own text is the evidence for every turn it carries
+                evidence.setdefault(turn_id, []).append(summary_message.text)
+        else:
+            older = next(t for t in history_turns if t["id"] == turn_id)
+            evidence.setdefault(turn_id, []).extend(older["shards"])
     summary = None
     if arm == "summary":
         summary = {"turns": len(history_turns) - len(window), "kept": any(m.id == "summary" for m in messages),
@@ -171,15 +188,15 @@ def build(arm: str, script: dict, history_turns: list[dict], query: Message, bud
                  any(m.id == "system" for m in messages), summary, carriers, evidence)
 
 
-def at(arm: str, script: dict, point, budget: int, settings: Settings) -> Built:
+def at(arm: str, script: dict, point, budget: int, settings: Settings, produced=None) -> Built:
     """`arm`'s payload at a point (application/snapshots.py): a probe's question after turn t, or user turn k."""
     turns = script["turns"]
     if point.kind == "probe":
         query = Message(f"probe:{point.probe['probe_id']}", "user", point.probe["question"])
-        return build(arm, script, turns[:point.turn], query, budget, settings)
+        return build(arm, script, turns[:point.turn], query, budget, settings, produced)
     current = turns[point.turn - 1]
     return build(arm, script, turns[:point.turn - 1], Message(message_id(current, "user"), "user", current["user"]),
-                 budget, settings)
+                 budget, settings, produced)
 
 
 def full(script: dict, point, settings: Settings) -> int:

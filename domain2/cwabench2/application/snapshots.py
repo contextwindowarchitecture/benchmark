@@ -6,6 +6,7 @@ question with turns 1 to t as history (what S2 sends to the model). Each arm fre
 budget is set per run budget (`Frozen.at`), so a point's snapshots at every budget share every other byte.
 
 The arms are a ladder (7): `cwa-history` is every turn as history; `cwa-state` adds the oracle state writer;
+`cwa-state-x` is `cwa-state` with the model-based extractor in place of the oracle (the realistic arm);
 `cwa-memory` keeps the last `history_turns` turns and compacts the rest into memory; `cwa-pipeline` adds the route's
 supersession and exact deduplication on history. `cwa-format` is the format control: the `window` baseline's exact
 selection at each budget (baselines/), frozen as a cwa-history snapshot of only those messages and assembled at its
@@ -45,11 +46,13 @@ class Arm:
     pipeline: bool
     description: str
     selection: str | None = None  # a baseline whose selection the arm takes, at each budget
+    writer: str = "oracle"  # which state writer: the oracle, or the model-based extractor (producers.py)
 
 
 ARMS = {arm.name: arm for arm in (
     Arm("cwa-history", False, False, False, "CWA with history only: every prior turn in interaction.history"),
     Arm("cwa-state", True, False, False, "plus state.task from the oracle state writer"),
+    Arm("cwa-state-x", True, False, False, "plus state.task from the model-based extractor", writer="extractor"),
     Arm("cwa-memory", True, True, False, "plus memory: turns before the history window compacted into "
                                           "interaction.memory, with expiry and revocation"),
     Arm("cwa-pipeline", True, True, True, "plus the route's supersession and exact deduplication on history"),
@@ -190,8 +193,11 @@ def _dedupe(history: list[dict]) -> tuple[list[dict], list[str]]:
     return kept, dropped
 
 
-def freeze(contract, script: dict, arm: Arm, point: Point, settings: Settings, only: set[str] | None = None) -> Frozen:
-    """`arm`'s snapshot at `point`. `only` keeps just the history messages with those ids (the format control)."""
+def freeze(contract, script: dict, arm: Arm, point: Point, settings: Settings, only: set[str] | None = None,
+           produced=None) -> Frozen:
+    """`arm`'s snapshot at `point`. `only` keeps just the history messages with those ids (the format control);
+    `produced` holds the model-based producers' outputs for the script (producers.Produced), which the extractor arm
+    needs."""
     clock = Clock(settings.turn_seconds)
     turns = script["turns"]
     if point.kind == "probe":
@@ -219,7 +225,14 @@ def freeze(contract, script: dict, arm: Arm, point: Point, settings: Settings, o
     if only is not None:
         history = [i for i in history if i["id"] in only]
         window = [t for t in window if writers.message_id(t, "user") in only]
-    state = writers.state(contract, clock, script, upto) if arm.state else writers.Written()
+    if not arm.state:
+        state = writers.Written()
+    elif arm.writer == "extractor":
+        if produced is None or upto not in produced.states:
+            raise ValueError(f"{arm.name} needs the extractor's state after turn {upto}")
+        state = writers.extracted(contract, clock, script, produced.states[upto], upto)
+    else:
+        state = writers.state(contract, clock, script, upto)
     memory = (writers.memory(contract, clock, script, compacted, upto, now, settings.memory_ttl_seconds)
               if arm.memory else writers.Written())
 

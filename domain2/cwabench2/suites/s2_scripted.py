@@ -15,8 +15,10 @@ A `replay` run therefore writes the same grades as the `llm` run that filled the
 run id. Calls are made once per distinct request and sample, however many arms send the same payload.
 
 Measured, never gated: per arm and tier, aptitude (the rate of correct answers) with a cluster-bootstrap interval
-over conversations, the stale and unparsed rates, accuracy with the needed facts in the payload and without, and each
-arm's difference from `[s2].reference` on the same probes and samples. What gates the suite is the harness: every
+over conversations, the stale and unparsed rates, accuracy with the needed facts in the payload and without, results
+by family and turn count, each arm's difference from `[s2].reference` on the same probes and samples, and on IP
+conversations instruction persistence: the share of answers that follow the conversation's rule
+(grading/compliance.py). What gates the suite is the harness: every
 CWA payload equal to its gated bytes, and every call answered (a replay miss or an endpoint error fails it).
 """
 from __future__ import annotations
@@ -32,8 +34,9 @@ from cwabench.rundir import now
 from .. import baselines, metrics, output, stats
 from ..application.snapshots import ARMS, Point
 from ..grading import grade
+from ..grading.compliance import complies
 from ..model import CacheMiss, EndpointError, Model
-from . import SuiteContext, SuiteResult, finding
+from . import SuiteContext, SuiteResult, finding, produced
 from .s1_gate import _snapshots
 
 ID = "S2"
@@ -47,9 +50,10 @@ def control_payload(script: dict, text: str) -> bytes:
                                 "messages": [{"role": "user", "content": text}]})
 
 
-def _payloads(ctx: SuiteContext, script: dict, probe: dict, s1: dict, b1: dict):
-    """(arm, tier, budget, payload or None, input_tokens, fact_present, problem) for one probe in every S2 arm."""
-    config, settings = ctx.config, ctx.config.s2
+def _payloads(ctx: SuiteContext, settings: dict, script: dict, probe: dict, s1: dict, b1: dict):
+    """(arm, tier, budget, payload or None, input_tokens, fact_present, problem) for one probe in every arm of the
+    suite's `settings` ([s2] or [s3])."""
+    config = ctx.config
     point = Point("probe", probe["after_turn"], probe)
     cid = script["conversation_id"]
     for arm in settings["arms"]:
@@ -66,7 +70,7 @@ def _payloads(ctx: SuiteContext, script: dict, probe: dict, s1: dict, b1: dict):
                 if row is None:
                     yield arm, tier, None, None, None, None, f"S1 built no {arm} row at {tier}"
                     continue
-                built = baselines.at(arm, script, point, row["budget_input"], config.baseline)
+                built = baselines.at(arm, script, point, row["budget_input"], config.baseline, produced(ctx, script))
                 if built.payload_hash != row["payload_hash"]:
                     yield arm, tier, row["budget_input"], None, None, None, "the baseline differs from S1's"
                     continue
@@ -91,11 +95,21 @@ def _payloads(ctx: SuiteContext, script: dict, probe: dict, s1: dict, b1: dict):
 
 
 def run(ctx: SuiteContext) -> SuiteResult:
+    return execute(ctx, ID, TITLE, ctx.config.s2, ctx.config.model, "model/calls.jsonl")[0]
+
+
+def execute(ctx: SuiteContext, suite: str, title: str, settings: dict, model_settings: dict, calls_path: str,
+            more=None) -> tuple[SuiteResult, list[dict], list[dict]]:
+    """Plan, ask, grade and measure: S2 with its settings, or S3 with its own (s3_unreliability.py), whose `more`
+    turns the grade rows into its own metrics. Returns the suite's result, its grade rows and its call rows."""
     started = now()
-    config, settings = ctx.config, ctx.config.s2
-    model = Model(config.model, config.root, config.model["mode"])
-    ctx.log(f"S2: model {model.client.model} at {model.client.host}, mode {model.mode}, cache {model.cache.path} "
-            f"({model.cache.entries()} entries), {settings['repeats']} sample(s) per payload")
+    config = ctx.config
+    model = Model(model_settings, config.root, model_settings["mode"])
+    ID = suite  # noqa: N806 (the suite id, as the module constant names it)
+    TITLE = title  # noqa: N806
+    ctx.log(f"{ID}: model {model.client.model} at {model.client.host}, mode {model.mode}, cache {model.cache.path} "
+            f"({model.cache.entries()} entries), {settings['repeats']} sample(s) per payload at temperature "
+            f"{model_settings['temperature']}")
     s1 = {(r["conversation"], r["arm"], r["probe_id"], r["tier"]): r for r in ctx.shared.get("s1_rows", [])
           if r["point"] == "probe"}
     b1 = {(r["conversation"], r["arm"], r["probe_id"], r["tier"]): r for r in ctx.shared.get("s1_baselines", [])
@@ -105,7 +119,8 @@ def run(ctx: SuiteContext) -> SuiteResult:
     for family, scripts in ctx.conversations.items():
         for script in scripts:
             for probe in script["probes"]:
-                for arm, tier, budget, payload, tokens, present, problem in _payloads(ctx, script, probe, s1, b1):
+                for arm, tier, budget, payload, tokens, present, problem in _payloads(ctx, settings, script, probe,
+                                                                                           s1, b1):
                     if problem == "gate":
                         excluded[arm] += 1
                         continue
@@ -122,7 +137,7 @@ def run(ctx: SuiteContext) -> SuiteResult:
             sha = hashlib.sha256(payload).hexdigest()
             payload_of[sha] = payload
     jobs = [(sha, sample) for sha in sorted(payload_of) for sample in range(settings["repeats"])]
-    ctx.log(f"S2: {len(planned)} payloads, {len(payload_of)} distinct, {len(jobs)} calls")
+    ctx.log(f"{ID}: {len(planned)} payloads, {len(payload_of)} distinct, {len(jobs)} calls")
     errors = []
 
     def ask(job):
@@ -140,7 +155,7 @@ def run(ctx: SuiteContext) -> SuiteResult:
             if isinstance(answer, Exception):
                 errors.append(f"{type(answer).__name__}: {answer}")
             if done % 200 == 0:
-                ctx.log(f"S2: {done}/{len(jobs)} calls ({model.calls} to the endpoint)")
+                ctx.log(f"{ID}: {done}/{len(jobs)} calls ({model.calls} to the endpoint)")
 
     call_rows = []
     for (sha, sample), answer in sorted(calls.items()):
@@ -150,8 +165,8 @@ def run(ctx: SuiteContext) -> SuiteResult:
                           "key": answer.key, "request_sha256": answer.request_sha256, "payload_sha256": sha,
                           "sample": sample, "cache_hit": answer.cache_hit, "lookup_ms": answer.lookup_ms,
                           "provenance": answer.provenance})
-    ctx.run.write_jsonl("model/calls.jsonl", call_rows, "call-row", "Provenance of every model call S2 made or "
-                                                                   "replayed: one row per distinct request and sample")
+    ctx.run.write_jsonl(calls_path, call_rows, "call-row", f"Provenance of every model call {ID} made or replayed: "
+                                                           "one row per distinct request and sample")
 
     grades = []
     for family, script, probe, arm, tier, budget, payload, tokens, present in planned:
@@ -164,11 +179,13 @@ def run(ctx: SuiteContext) -> SuiteResult:
                     "turn_count": script["turn_count"], "arm": arm, "probe_id": probe["probe_id"],
                     "after_turn": probe["after_turn"], "tier": tier, "budget_input": budget, "sample": sample,
                     "payload_sha256": sha, "input_tokens": tokens, "fact_present": present,
-                    "attributes": probe["attributes"], "expected": _expected(probe["answer"])}
+                    "attributes": probe["attributes"], "expected": _expected(probe["answer"]),
+                    "rule": (script.get("rule") or {}).get("id")}
             if payload is None:
                 grades.append({**base, "request_sha256": None, "reply": None, "verdict": "overflow", "score": 0.0,
                                "answer": None, "detail": "the payload overflows the budget", "fields": None,
-                               "finish_reason": None, "completion_tokens": None, "prompt_tokens": None})
+                               "finish_reason": None, "completion_tokens": None, "prompt_tokens": None,
+                               "compliant": None})
                 continue
             if isinstance(answer, Exception) or answer is None:
                 continue
@@ -177,12 +194,11 @@ def run(ctx: SuiteContext) -> SuiteResult:
             grades.append({**base, "request_sha256": answer.request_sha256, "reply": answer.text[:2000],
                            **graded.as_json(), "finish_reason": answer.provenance.get("finish_reason"),
                            "completion_tokens": usage.get("completion_tokens"),
-                           "prompt_tokens": usage.get("prompt_tokens")})
+                           "prompt_tokens": usage.get("prompt_tokens"),
+                           "compliant": complies(base["rule"], answer.text) if base["rule"] else None})
     ctx.run.write_jsonl(f"suites/{ID}/grades.jsonl", grades, "grade-row",
                         "One row per probe, arm, tier and sample: the reply, its grade, and whether the needed facts "
                         "were in the payload")
-    ctx.shared["s2_grades"] = grades
-    ctx.shared["s2_calls"] = call_rows
 
     findings = []
     for cid, arm, probe_id, tier, problem in problems:
@@ -193,10 +209,13 @@ def run(ctx: SuiteContext) -> SuiteResult:
         findings.append(finding(ctx, ID, {"suite": ID, "check": "calls"}, case_id="model", oracle="producer",
                                 checks=["replay_miss" if "CacheMiss" in errors[0] else "endpoint"],
                                 summary=f"{len(errors)} model call(s) failed; first: {errors[0][:300]}"))
-    suite_metrics, by_arm = _measure(ctx, grades)
-    suite_metrics.insert(0, metrics.count("s2.call_errors", "Model calls that failed or missed the cache", len(errors),
+    suite_metrics, by_arm = _measure(ID, settings, grades)
+    if more is not None:
+        suite_metrics += more(grades)
+    prefix = ID.lower()
+    suite_metrics.insert(0, metrics.count(f"{prefix}.call_errors", "Model calls that failed or missed the cache", len(errors),
                                           maximum=0, suite=ID))
-    suite_metrics.insert(1, metrics.count("s2.payload_problems", "CWA and baseline payloads unequal to S1's",
+    suite_metrics.insert(1, metrics.count(f"{prefix}.payload_problems", "CWA and baseline payloads unequal to S1's",
                                           len(problems), maximum=0, suite=ID))
     status = "fail" if findings else "pass"
     summary_path = f"suites/{ID}/summary.json"
@@ -213,8 +232,10 @@ def run(ctx: SuiteContext) -> SuiteResult:
                   "endpoint_calls": model.calls, "cache_hits": sum(r["cache_hit"] for r in call_rows),
                   "excluded_by_gate": dict(sorted(excluded.items()))},
         "by_arm": by_arm,
-    }, "S2's grades by arm and tier, with intervals and paired differences")
-    return SuiteResult(ID, TITLE, status, summary_path, suite_metrics, findings)
+    }, f"{ID}'s grades by arm and tier, with intervals and paired differences")
+    ctx.shared[f"{prefix}_grades"] = grades
+    ctx.shared[f"{prefix}_calls"] = call_rows
+    return SuiteResult(ID, TITLE, status, summary_path, suite_metrics, findings), grades, call_rows
 
 
 def _expected(answer: dict):
@@ -223,8 +244,8 @@ def _expected(answer: dict):
     return answer["expected"]
 
 
-def _measure(ctx: SuiteContext, grades: list[dict]) -> tuple[list[dict], list[dict]]:
-    settings = ctx.config.s2
+def _measure(ID: str, settings: dict, grades: list[dict]) -> tuple[list[dict], list[dict]]:  # noqa: N803
+    prefix = ID.lower()
     resamples, seed = settings["bootstrap_resamples"], settings["bootstrap_seed"]
     groups = defaultdict(list)
     for row in grades:
@@ -240,12 +261,12 @@ def _measure(ctx: SuiteContext, grades: list[dict]) -> tuple[list[dict], list[di
         for r in rows:
             clusters[r["conversation"]].append(1.0 if r["verdict"] == "correct" else 0.0)
         interval = stats.bootstrap(clusters, resamples, seed)
-        aptitude = metrics.rate("s2.aptitude", "Correct answers", verdicts["correct"], len(rows), target=None,
+        aptitude = metrics.rate(f"{prefix}.aptitude", "Correct answers", verdicts["correct"], len(rows), target=None,
                                 suite=ID, arm=arm, tier=tier, description="All probes and samples; the interval is a "
                                                                           "cluster bootstrap over conversations")
         aptitude["interval"] = interval
         out.append(aptitude)
-        out.append(metrics.rate("s2.stale_rate", "Answers giving an earlier value", verdicts["stale"], len(rows),
+        out.append(metrics.rate(f"{prefix}.stale_rate", "Answers giving an earlier value", verdicts["stale"], len(rows),
                                 target=None, suite=ID, arm=arm, tier=tier))
         present = [r for r in rows if r["fact_present"]]
         absent = [r for r in rows if r["fact_present"] is False]
@@ -255,6 +276,24 @@ def _measure(ctx: SuiteContext, grades: list[dict]) -> tuple[list[dict], list[di
         for turns in sorted({r["turn_count"] for r in rows}):
             subset = [r for r in rows if r["turn_count"] == turns]
             by_turns[str(turns)] = {"n": len(subset), "correct": sum(r["verdict"] == "correct" for r in subset)}
+        ruled = [r for r in rows if r["rule"] and r["compliant"] is not None]
+        persistence = None
+        if ruled:
+            kept = sum(r["compliant"] for r in ruled)
+            out.append(metrics.rate(f"{prefix}.instruction_persistence", "Answers that follow the IP rule", kept,
+                                    len(ruled), target=None, suite=ID, arm=arm, tier=tier,
+                                    description="IP conversations; an overflow, which reaches no model, is left out"))
+            persistence = {"n": len(ruled), "compliant": kept,
+                           "by_rule": {rule: {"n": sum(r["rule"] == rule for r in ruled),
+                                              "compliant": sum(r["compliant"] for r in ruled if r["rule"] == rule)}
+                                       for rule in sorted({r["rule"] for r in ruled})},
+                           "by_turns": {str(t): {"n": sum(r["turn_count"] == t for r in ruled),
+                                                 "compliant": sum(r["compliant"] for r in ruled if r["turn_count"] == t)}
+                                        for t in sorted({r["turn_count"] for r in ruled})}}
+        by_family = {f: {"n": sum(r["family"] == f for r in rows),
+                         "correct": sum(r["verdict"] == "correct" for r in rows if r["family"] == f),
+                         "stale": sum(r["verdict"] == "stale" for r in rows if r["family"] == f)}
+                     for f in sorted({r["family"] for r in rows})}
         paired = None
         if arm != settings["reference"] and tier != "control":
             differences = defaultdict(list)
@@ -269,5 +308,5 @@ def _measure(ctx: SuiteContext, grades: list[dict]) -> tuple[list[dict], list[di
                           "interval": stats.bootstrap(differences, resamples, seed)}
         by_arm.append({"arm": arm, "tier": tier, "n": len(rows), "verdicts": {v: verdicts[v] for v in VERDICTS},
                        "aptitude": aptitude["value"], "interval": interval, "given": given, "by_turns": by_turns,
-                       "paired": paired})
+                       "by_family": by_family, "persistence": persistence, "paired": paired})
     return out, by_arm

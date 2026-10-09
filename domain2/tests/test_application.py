@@ -28,10 +28,21 @@ def test_the_arms_profile_follows_the_spec_and_validates(contract):
     assert profile.profile(contract, profile.route_policy(False))["placement"] == profile.spec_placement(contract)
 
 
+def oracle_extraction(script):
+    """Producer output as a perfect extractor would give it: every figure's current value after each turn."""
+    from cwabench2.application.producers import Produced
+
+    states = {}
+    for upto in range(script["turn_count"] + 1):
+        states[upto] = {v["phrase"]: a["value"] for v in script["ground_truth"]["variables"]
+                        for a in v["assignments"] if a["turn"] <= upto}
+    return Produced(states=states)
+
+
 @pytest.mark.parametrize("arm", list(ARMS))
 def test_every_arm_freezes_valid_snapshots_and_predicts_monotone_shedding(contract, arm):
     script = generate("vt", 3, 40, 0, 10, VT)
-    frozen = freeze(contract, script, ARMS[arm], last_probe(script), Settings())
+    frozen = freeze(contract, script, ARMS[arm], last_probe(script), Settings(), produced=oracle_extraction(script))
     assert validity.problems(contract, frozen.at(frozen.full)) == []
     whole = frozen.expect(frozen.full)
     assert whole.outcome == "assembled" and len(whole.included) == len(frozen.protected + frozen.history +
@@ -82,3 +93,21 @@ def test_points_put_each_probe_after_its_turn():
     ids = [p.id for p in points(script, frames=True)]
     assert ids.index("p010") == ids.index("t010") + 1 and ids[-1] == "p020" and len(ids) == 22
     assert [p.id for p in points(script, frames=False)] == ["p010", "p020"]
+
+
+def test_the_extractor_arm_writes_what_the_extractor_returned(contract):
+    from cwabench2.application.producers import Produced
+
+    script = generate("vt", 3, 40, 0, 10, VT)
+    point = last_probe(script)
+    good = freeze(contract, script, ARMS["cwa-state-x"], point, Settings(), produced=oracle_extraction(script))
+    states = [i for i in good.protected if i["slot"] == "state.task"]
+    assert states and all(i["id"].startswith("xstate:") for i in states)
+    assert validity.problems(contract, good.at(good.full)) == []
+    need = point.probe["needs"][0]
+    assert any(c.startswith("xstate:") for c in good.carriers[need])  # the right value is in the state
+    wrong = Produced(states={k: {"figure": "1"} for k in range(41)})
+    bad = freeze(contract, script, ARMS["cwa-state-x"], point, Settings(), produced=wrong)
+    assert not any(c.startswith("xstate:") for c in bad.carriers.get(need, []))
+    with pytest.raises(ValueError, match="extractor"):
+        freeze(contract, script, ARMS["cwa-state-x"], point, Settings())

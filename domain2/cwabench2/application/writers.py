@@ -10,6 +10,9 @@ and memory. All of it is harness code doing the application's duties (R-5, R-8, 
   item per figure (VT), per booking field (FR record) or per order line (FR compute). It writes from the ground truth,
   so it is the upper bound of what an application's state machine could know (domain-2-plan.md, 15), and it holds the
   facts, not the answer: an order's lines, never its total.
+- **The extractor's state** (`extracted`): the `cwa-state-x` arm's state.task, one item per key of the state the
+  model-based extractor returned after the last turn of history (application/producers.py). It is the realistic
+  counterpart of the oracle writer, and a turn's facts are carried by the items that state its values.
 - **The memory producer.** The application keeps the last `history_turns` turns verbatim and compacts older ones
   into interaction.memory: one item per compacted turn that stated a fact, its body the turn's fact sentences (an
   extractive digest, lineage `extracted`), its source the user message it came from, expiring `memory_ttl_seconds`
@@ -21,6 +24,7 @@ Every item writes its six policy fields out (R-3), so a trace fills no defaults.
 """
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 
@@ -92,7 +96,7 @@ def history(contract, clock: Clock, turns: list[dict]) -> list[dict]:
 def _facts(script: dict, upto: int) -> list[tuple[str, int, str]]:
     """The facts stated by turn `upto`, at their current values: (state key, the turn that set it, its state body)."""
     truth = script["ground_truth"]
-    if truth["task"] == "variables":
+    if truth["task"] in ("variables", "corrections"):
         facts = []
         for variable in truth["variables"]:
             known = [a for a in variable["assignments"] if a["turn"] <= upto]
@@ -119,7 +123,7 @@ def state(contract, clock: Clock, script: dict, upto: int) -> Written:
     """The oracle state writer's state.task items after turn `upto`."""
     written = Written()
     versions = {}
-    if script["ground_truth"]["task"] == "variables":
+    if script["ground_truth"]["task"] in ("variables", "corrections"):
         versions = {v["variable_id"]: sum(a["turn"] <= upto for a in v["assignments"])
                     for v in script["ground_truth"]["variables"]}
     for key, turn, body in _facts(script, upto):
@@ -131,10 +135,31 @@ def state(contract, clock: Clock, script: dict, upto: int) -> Written:
     return written
 
 
+def extracted(contract, clock: Clock, script: dict, found: dict, upto: int) -> Written:
+    """The extractor's state.task items after turn `upto` (application/producers.py): one per key, in key order, each
+    as fresh as the turn it was extracted after. A turn's facts are carried by every item that states its values."""
+    from ..conversations.values import carries, turn_values
+
+    written = Written()
+    values = {turn: found_values for turn, found_values in turn_values(script).items() if int(turn[1:]) <= upto}
+    for n, key in enumerate(sorted(found)):
+        value = found[key]
+        text = value if isinstance(value, str) else json.dumps(value, ensure_ascii=False)
+        state_id = f"xstate:{n:02d}"
+        written.items.append(item(contract, state_id, "state.task", f"{key}: {text}", source=f"extractor:{n:02d}",
+                                  source_version=str(upto), freshness=clock.user(max(upto, 1)), trust="verified",
+                                  scope={"tenant": TENANT, "task": script["conversation_id"]}))
+    for state in written.items:
+        held = [turn_id for turn_id, turn_values_ in values.items() if carries(state["body"], turn_values_)]
+        if held:
+            written.carries[state["id"]] = held
+    return written
+
+
 def _replaced(script: dict, turn: int, upto: int) -> bool:
     """Whether a fact turn `turn` stated was replaced by a later turn up to `upto` (VT reassignment)."""
     truth = script["ground_truth"]
-    if truth["task"] != "variables":
+    if truth["task"] not in ("variables", "corrections"):
         return False
     for variable in truth["variables"]:
         turns = [a["turn"] for a in variable["assignments"]]

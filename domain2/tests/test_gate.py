@@ -17,7 +17,7 @@ reference = pytest.mark.skipif(os.environ.get("CWA_BENCH_REFERENCE") != "1",
                                       "`cwabench setup`)")
 
 
-def _configs(tmp_path, spec, modes, suites=("S0", "S1", "S7"), extra=""):
+def _configs(tmp_path, spec, modes, suites=("S0", "S1", "S7"), extra="", arms='["cwa-history", "cwa-state", "cwa-memory", "cwa-pipeline", "cwa-format"]', summarizer="stub"):
     """A Domain 1 configuration whose adapters are the reference assembler in each buggy_adapter mode, and a
     Domain 2 configuration that assembles with them."""
     python = DOMAIN1 / ".build/python-venv/bin/python"
@@ -56,6 +56,10 @@ payload_source = {json.dumps(names[0])}
 [budgets]
 input = [700]
 ratios = [1.0, 0.4]
+[arms]
+cwa = {arms}
+[baselines]
+summarizer = {json.dumps(summarizer)}
 [s7]
 goldens = {json.dumps(str(tmp_path / "goldens.json"))}
 [turns]
@@ -144,7 +148,12 @@ def test_s2_replays_its_llm_run_byte_for_byte(tmp_path, spec, monkeypatch):
         found = re.findall(r"\d[\d,]*", handed[-1]["content"] + " ".join(m["content"] for m in handed[:-1]))
         answers.append(handed)
         prompt = sum((len(m["content"].encode()) + 3) // 4 for m in handed) + 8  # the template's few tokens
-        return {"text": found[-1] if found else "none", "id": f"r{len(answers)}", "model": self.model,
+        text = found[-1] if found else "none"
+        if handed[0]["content"].startswith("You maintain the state"):  # the extractor: the newest figure
+            text = json.dumps({"figure": found[-1]} if found else {})
+        elif handed[0]["content"].startswith("You keep a running summary"):  # the summarizer: every figure
+            text = "Figures: " + ", ".join(found)
+        return {"text": text, "id": f"r{len(answers)}", "model": self.model,
                 "finish_reason": "stop", "latency_ms": 5.0,
                 "usage": {"prompt_tokens": prompt, "completion_tokens": 2, "total_tokens": prompt + 2},
                 "cached_tokens": None}
@@ -157,14 +166,23 @@ cache = {json.dumps(str(tmp_path / "cache"))}
 [s2]
 tiers = ["700"]
 repeats = 2
+[s3]
+tiers = ["700"]
+repeats = 2
 """
-    path = _configs(tmp_path, spec, ["none"], suites=("S0", "S1", "S2", "S5"), extra=extra)
+    every = '["cwa-history", "cwa-state", "cwa-state-x", "cwa-memory", "cwa-pipeline", "cwa-format"]'
+    path = _configs(tmp_path, spec, ["none"], suites=("S0", "S1", "S2", "S3", "S5"), extra=extra, arms=every,
+                    summarizer="llm")
     config = config_mod.load(path)
     first, status = run(config, build=False, log=lambda m: None)
     assert status == "pass" and validate_run(first) == [] and answers
     summary = _read(first / "suites/S2/summary.json")
     arms = {entry["arm"] for entry in summary["by_arm"]}
-    assert {"control-full", "control-concat", "concat", "cwa-state", "cwa-format"} <= arms
+    assert {"control-full", "control-concat", "concat", "summary", "cwa-state", "cwa-state-x", "cwa-format"} <= arms
+    produced = [json.loads(line) for line in (first / "producers/calls.jsonl").read_text().splitlines()]
+    assert {r["producer"] for r in produced} == {"extractor", "summarizer"} and all(r["parsed"] for r in produced)
+    s3 = _read(first / "suites/S3/summary.json")
+    assert {m["id"] for m in s3["metrics"]} >= {"s3.aptitude_p90", "s3.unreliability"}
     grades = [json.loads(line) for line in (first / "suites/S2/grades.jsonl").read_text().splitlines()]
     assert {g["verdict"] for g in grades if g["arm"] == "concat"} >= {"overflow"}
     calls = len(answers)
@@ -177,14 +195,24 @@ repeats = 2
     def strip(path):
         return [{k: v for k, v in json.loads(line).items() if k != "run_id"} for line in path.read_text().splitlines()]
 
-    assert strip(again / "suites/S2/grades.jsonl") == strip(first / "suites/S2/grades.jsonl")
+    for path in ("suites/S2/grades.jsonl", "suites/S3/grades.jsonl"):
+        assert strip(again / path) == strip(first / path)
+    assert all(json.loads(line)["cache_hit"] for line in (again / "producers/calls.jsonl").read_text().splitlines())
     hits = [json.loads(line)["cache_hit"] for line in (again / "model/calls.jsonl").read_text().splitlines()]
     assert hits and all(hits)
 
     import shutil
 
     shutil.rmtree(tmp_path / "cache")
-    missed, status = run(replace(config, model={**config.model, "mode": "replay"}), build=False, log=lambda m: None)
+    from cwabench2.runner import ProducerError
+
+    with pytest.raises(ProducerError, match="CacheMiss"):  # the producers need the cache before any snapshot
+        run(replace(config, model={**config.model, "mode": "replay"}), build=False, log=lambda m: None)
+    assert len(answers) == calls
+    stub = replace(config, arms=[a for a in config.arms if a != "cwa-state-x"],
+                   baseline=replace(config.baseline, summarizer="stub"), s2={**config.s2, "arms": [
+                       a for a in config.s2["arms"] if a != "cwa-state-x"]}, suites=["S0", "S1", "S2"])
+    missed, status = run(replace(stub, model={**stub.model, "mode": "replay"}), build=False, log=lambda m: None)
     assert status == "fail" and len(answers) == calls
     findings = [json.loads(line) for line in (missed / "findings.jsonl").read_text().splitlines()]
     assert ["replay_miss"] in [f["checks"] for f in findings]

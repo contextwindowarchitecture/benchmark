@@ -35,6 +35,11 @@ class SuiteResult:
     findings: list[dict]
 
 
+def produced(ctx: SuiteContext, script: dict):
+    """The model-based producers' outputs for a script (application/producers.py), or None when none ran."""
+    return ctx.shared.get("produced", {}).get(script["conversation_id"])
+
+
 def finding(ctx: SuiteContext, suite: str, signature: dict, *, case_id: str, oracle: str, checks: list[str],
             summary: str, severity: str = "error", requirements: list[str] | None = None) -> dict:
     """A finding row in Domain 1's shape: its id is a digest of what makes two failures the same."""

@@ -31,6 +31,7 @@
     "task": {
       "enum": [
         "variables",
+        "corrections",
         "record",
         "compute"
       ]
@@ -205,6 +206,32 @@
           "type": "null"
         }
       ]
+    },
+    "rule": {
+      "description": "IP: the conversation's rule, or null",
+      "anyOf": [
+        {
+          "enum": [
+            "brackets",
+            "signoff",
+            "uppercase"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "compliant": {
+      "description": "IP: whether the reply follows the rule (grading/compliance.py); null without a rule or a reply",
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
     }
   },
   "required": [
@@ -236,7 +263,9 @@
     "fields",
     "finish_reason",
     "completion_tokens",
-    "prompt_tokens"
+    "prompt_tokens",
+    "rule",
+    "compliant"
   ],
   "additionalProperties": false
 }

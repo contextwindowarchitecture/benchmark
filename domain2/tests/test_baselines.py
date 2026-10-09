@@ -78,6 +78,21 @@ def test_the_format_control_takes_the_window_selection_exactly(spec):
         assert history == {m for m in built.kept if m.startswith("turn:")}
 
 
-def test_the_summarizer_is_stub_only_until_p3():
-    with pytest.raises(ValueError, match="P3"):
-        baselines.summarize(BASELINE_SCRIPT["turns"], baselines.Settings(summarizer="llm"))
+def test_the_llm_summary_carries_turns_by_their_values():
+    from cwabench2.application.producers import Produced
+
+    produced = Produced(summaries={1: "So far Alpha was set to 1,000.", 2: "Alpha 1000; Beta 2000."})
+    llm = baselines.Settings(window_turns=2, margin_percent=0, summarizer="llm")
+    built = baselines.at("summary", BASELINE_SCRIPT, POINT, 100, llm, produced)
+    assert built.carriers["t001"] == ["summary"]  # the summary of t1 states its value
+    assert json.loads(built.payload)["system"][1]["text"] == "Summary of the earlier conversation:\nSo far Alpha was " \
+                                                             "set to 1,000."
+    needs = ["t001"]
+    assert fact.by_trace(set(built.kept), built.carriers, needs) == fact.by_text_chat(built.payload, built.evidence,
+                                                                                       needs) == [True]
+    shed = baselines.at("summary", BASELINE_SCRIPT, POINT, 23, llm, produced)  # the summary is shed first
+    assert "summary" not in shed.kept
+    assert fact.by_trace(set(shed.kept), shed.carriers, needs) == fact.by_text_chat(shed.payload, shed.evidence,
+                                                                                     needs) == [False]
+    with pytest.raises(ValueError, match="summarizer's output"):
+        baselines.at("summary", BASELINE_SCRIPT, POINT, 100, llm, None)

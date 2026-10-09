@@ -14,7 +14,7 @@ from cwabench.validate import validate_run
 
 from . import config as config_mod
 from . import output  # noqa: F401  (registers Domain 2's prefix, so validate_run reads its documents)
-from .runner import run
+from .runner import ProducerError, run
 
 DEFAULT_CONFIG = Path(__file__).resolve().parent.parent / "domain2.toml"
 
@@ -101,7 +101,7 @@ def main(argv: list[str] | None = None) -> int:
                 print(problem)
             print(f"{run_dir}: {'valid' if not problems else f'{len(problems)} problem(s)'}")
             return 1 if problems else 0
-    except (config_mod.ConfigError, ContractError) as error:
+    except (config_mod.ConfigError, ContractError, ProducerError) as error:
         print(f"cwabench --domain 2: {error}", file=sys.stderr)
         return 2
     return 2

@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d2:producer-row:v1",
+  "title": "Producer row",
+  "description": "One call a model-based producer made or replayed before any snapshot was frozen (application/producers.py): the extractor's state or the rolling summary after one turn, its cache key and provenance.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d2/producer-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "conversation": {
+      "type": "string",
+      "pattern": "^[a-z]+-t[0-9]{3}-[0-9]{2}$"
+    },
+    "producer": {
+      "enum": [
+        "extractor",
+        "summarizer"
+      ]
+    },
+    "turn": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "key": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "request_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "cache_hit": {
+      "type": "boolean"
+    },
+    "lookup_ms": {
+      "type": "number",
+      "minimum": 0
+    },
+    "parsed": {
+      "type": "boolean",
+      "description": "Whether the reply was usable: a JSON object for the extractor, any text for the summarizer"
+    },
+    "output": {
+      "type": "string"
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "response_model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "endpoint_host": {
+          "type": "string",
+          "minLength": 1
+        },
+        "params": {
+          "type": "object"
+        },
+        "response_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "finish_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "usage": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "cached_tokens": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "latency_ms": {
+          "type": "number",
+          "minimum": 0
+        },
+        "at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sample": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "payload_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "model",
+        "response_model",
+        "endpoint_host",
+        "params",
+        "response_id",
+        "finish_reason",
+        "usage",
+        "cached_tokens",
+        "latency_ms",
+        "at",
+        "sample",
+        "payload_sha256"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "conversation",
+    "producer",
+    "turn",
+    "key",
+    "request_sha256",
+    "cache_hit",
+    "lookup_ms",
+    "parsed",
+    "output",
+    "provenance"
+  ],
+  "additionalProperties": false
+}

@@ -46,7 +46,7 @@ from .. import baselines, metrics, output
 from ..application import fact as fact_mod
 from ..application import profile as profile_mod
 from ..application.snapshots import ARMS, Frozen, Point, freeze, points
-from . import SuiteContext, SuiteResult, finding
+from . import SuiteContext, SuiteResult, finding, produced
 
 ID = "S1"
 TITLE = "Assembly gate"
@@ -298,12 +298,12 @@ def _snapshots(ctx: SuiteContext, script: dict, arm, point: Point):
     assembled at that snapshot's own full size, so its selection is the baseline's exactly."""
     config = ctx.config
     if arm.selection is None:
-        frozen = freeze(ctx.contract, script, arm, point, config.application)
+        frozen = freeze(ctx.contract, script, arm, point, config.application, produced=produced(ctx, script))
         for tier, budget in config.budgets.of(frozen.full):
             yield tier, budget, frozen
         return
     for tier, budget in config.budgets.of(baselines.full(script, point, config.baseline)):
-        built = baselines.at(arm.selection, script, point, budget, config.baseline)
+        built = baselines.at(arm.selection, script, point, budget, config.baseline, produced(ctx, script))
         frozen = freeze(ctx.contract, script, arm, point, config.application, only=set(built.kept))
         yield tier, frozen.full, frozen
 
@@ -313,7 +313,7 @@ def _baseline_rows(ctx: SuiteContext, script: dict, family: str, point: Point, t
     rows = []
     for tier, budget in config.budgets.of(baselines.full(script, point, config.baseline)):
         for arm in config.baselines:
-            built = baselines.at(arm, script, point, budget, config.baseline)
+            built = baselines.at(arm, script, point, budget, config.baseline, produced(ctx, script))
             fact = None
             if point.kind == "probe":
                 needs = point.probe["needs"]

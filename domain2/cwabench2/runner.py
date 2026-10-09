@@ -8,10 +8,9 @@ from __future__ import annotations
 
 import sys
 import traceback
+from dataclasses import replace
 from pathlib import Path
 from typing import Callable
-
-from dataclasses import replace
 
 from cwabench import config as d1_config
 from cwabench import rundir as rundir_mod
@@ -20,12 +19,16 @@ from cwabench.runner import adapter_entries, setup_adapters
 from cwabench.rundir import RunDir, now, worst
 
 from . import __version__, output
+from .application import producers
 from .config import ADAPTER_SUITES, Config, ConfigError
 from .conversations import FAMILIES, generate
-from .suites import SuiteContext, SuiteResult, s0_selfcheck, s1_gate, s2_scripted, s5_cost, s7_goldens
+from .model import Model
+from .suites import (SuiteContext, SuiteResult, s0_selfcheck, s1_gate, s2_scripted, s3_unreliability, s5_cost,
+                     s7_goldens)
 
-# Canonical order: S2 sends what S1 gated, S5 reads S2's records, S7 reads S1's rows.
-SUITES = {"S0": s0_selfcheck, "S1": s1_gate, "S2": s2_scripted, "S5": s5_cost, "S7": s7_goldens}
+# Canonical order: S2 and S3 send what S1 gated or built, S5 reads S2's records, S7 reads S1's rows.
+SUITES = {"S0": s0_selfcheck, "S1": s1_gate, "S2": s2_scripted, "S3": s3_unreliability, "S5": s5_cost,
+          "S7": s7_goldens}
 
 ROOT = Path(__file__).resolve().parent.parent
 # The harness digest covers Domain 2's own files and the Domain 1 code it runs (pyproject's path dependency).
@@ -111,6 +114,37 @@ def manifest(run_dir: RunDir, config: Config, contract: Contract, status: str, f
     }
 
 
+class ProducerError(Exception):
+    pass
+
+
+def run_producers(ctx: SuiteContext) -> None:
+    """The model-based producers, before any snapshot is frozen (application/producers.py): the extractor when the
+    `cwa-state-x` arm runs, the rolling summarizer when the `summary` baseline is llm. Their outputs go to
+    ctx.shared["produced"] and every call to producers/calls.jsonl. A failed call (a replay miss, an endpoint error)
+    stops the run: the arms that need the output cannot be built without it."""
+    config = ctx.config
+    if "S1" not in config.suites:
+        return
+    extract = "cwa-state-x" in config.arms
+    summarize = "summary" in config.baselines and config.baseline.summarizer == "llm"
+    if not (extract or summarize):
+        return
+    model = Model(config.model, config.root, config.model["mode"])
+    scripts = [s for family in ctx.conversations.values() for s in family]
+    ctx.log(f"producers: {'extractor ' if extract else ''}{'summarizer ' if summarize else ''}over {len(scripts)} "
+            f"scripts, mode {model.mode}")
+    produced, rows, errors = producers.produce(model, ctx.run.run_id, scripts, extract, summarize,
+                                               config.baseline.window_turns, int(config.model.get("concurrency", 2)),
+                                               ctx.log)
+    ctx.run.write_jsonl("producers/calls.jsonl", rows, "producer-row",
+                        "Every call the model-based producers made or replayed, with its output")
+    ctx.shared["produced"] = produced
+    ctx.shared["producer_rows"] = rows
+    if errors:
+        raise ProducerError(f"{len(errors)} producer call(s) failed; first: {errors[0][:300]}")
+
+
 def run(config: Config, build: bool = True, log: Callable[[str], None] = _log) -> tuple[Path, str]:
     contract = Contract(config.contract_path, config.contract_commit, config.allow_dirty)
     d1 = adapters_config(config) if set(config.suites) & set(ADAPTER_SUITES) else None
@@ -130,6 +164,7 @@ def run(config: Config, build: bool = True, log: Callable[[str], None] = _log) -
         write_conversations(run_dir, config, scripts)
         log("conversations: " + ", ".join(f"{name} {len(s)}" for name, s in scripts.items()))
         context = SuiteContext(config, contract, run_dir, scripts, ready, unavailable, log)
+        run_producers(context)
         for suite in [s for s in SUITES if s in config.suites]:
             results.append(SUITES[suite].run(context))
             log(f"{suite}: {results[-1].status}")
