@@ -215,6 +215,46 @@
           },
           "description": {
             "type": "string"
+          },
+          "interval": {
+            "description": "An interval for the value, when one is computed (S2: a cluster bootstrap over conversations)",
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "low": {
+                    "type": "number"
+                  },
+                  "high": {
+                    "type": "number"
+                  },
+                  "level": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "exclusiveMaximum": 1
+                  },
+                  "method": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "resamples": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                },
+                "required": [
+                  "low",
+                  "high",
+                  "level",
+                  "method",
+                  "resamples"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": [

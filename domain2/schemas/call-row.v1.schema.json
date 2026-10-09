@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d2:call-row:v1",
+  "title": "Call row",
+  "description": "One model call S2 made or replayed (domain-2-plan.md, 9): one distinct request and sample, its cache key, and the provenance recorded when the cache was filled.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d2/call-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "key": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "request_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "payload_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "sample": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "cache_hit": {
+      "type": "boolean"
+    },
+    "lookup_ms": {
+      "type": "number",
+      "minimum": 0
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "response_model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "endpoint_host": {
+          "type": "string",
+          "minLength": 1
+        },
+        "params": {
+          "type": "object"
+        },
+        "response_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "finish_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "usage": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "cached_tokens": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "latency_ms": {
+          "type": "number",
+          "minimum": 0
+        },
+        "at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sample": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "payload_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "model",
+        "response_model",
+        "endpoint_host",
+        "params",
+        "response_id",
+        "finish_reason",
+        "usage",
+        "cached_tokens",
+        "latency_ms",
+        "at",
+        "sample",
+        "payload_sha256"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "key",
+    "request_sha256",
+    "payload_sha256",
+    "sample",
+    "cache_hit",
+    "lookup_ms",
+    "provenance"
+  ],
+  "additionalProperties": false
+}

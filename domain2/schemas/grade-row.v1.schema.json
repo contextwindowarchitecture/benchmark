@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d2:grade-row:v1",
+  "title": "Grade row",
+  "description": "One S2 grade (domain-2-plan.md, 11): one probe, in one arm, at one tier, one sample: the reply, its grade, and whether the needed facts were in the payload. It holds nothing that depends on the run's model mode.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d2/grade-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "conversation": {
+      "type": "string",
+      "pattern": "^[a-z]+-t[0-9]{3}-[0-9]{2}$"
+    },
+    "family": {
+      "type": "string",
+      "pattern": "^[a-z]+$"
+    },
+    "task": {
+      "enum": [
+        "variables",
+        "record",
+        "compute"
+      ]
+    },
+    "turn_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "arm": {
+      "type": "string",
+      "minLength": 1
+    },
+    "probe_id": {
+      "type": "string",
+      "pattern": "^p[0-9]{3}$"
+    },
+    "after_turn": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "tier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "budget_input": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "sample": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "payload_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "request_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "input_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "fact_present": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "attributes": {
+      "type": "object"
+    },
+    "expected": {
+      "description": "Any JSON value"
+    },
+    "reply": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "correct",
+        "stale",
+        "distractor",
+        "wrong",
+        "unparsed",
+        "overflow"
+      ]
+    },
+    "score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "answer": {
+      "description": "Any JSON value"
+    },
+    "detail": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "fields": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": {
+            "enum": [
+              "correct",
+              "wrong",
+              "missing"
+            ]
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "finish_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "completion_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "prompt_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "case_id",
+    "conversation",
+    "family",
+    "task",
+    "turn_count",
+    "arm",
+    "probe_id",
+    "after_turn",
+    "tier",
+    "budget_input",
+    "sample",
+    "payload_sha256",
+    "request_sha256",
+    "input_tokens",
+    "fact_present",
+    "attributes",
+    "expected",
+    "reply",
+    "verdict",
+    "score",
+    "answer",
+    "detail",
+    "fields",
+    "finish_reason",
+    "completion_tokens",
+    "prompt_tokens"
+  ],
+  "additionalProperties": false
+}

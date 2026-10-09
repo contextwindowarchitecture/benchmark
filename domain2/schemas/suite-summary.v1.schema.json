@@ -222,6 +222,46 @@
           },
           "description": {
             "type": "string"
+          },
+          "interval": {
+            "description": "An interval for the value, when one is computed (S2: a cluster bootstrap over conversations)",
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "low": {
+                    "type": "number"
+                  },
+                  "high": {
+                    "type": "number"
+                  },
+                  "level": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "exclusiveMaximum": 1
+                  },
+                  "method": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "resamples": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                },
+                "required": [
+                  "low",
+                  "high",
+                  "level",
+                  "method",
+                  "resamples"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": [
@@ -420,6 +460,21 @@
         "drift"
       ],
       "additionalProperties": false
+    },
+    "model": {
+      "description": "S2: the model, its mode and cache, and the calls made",
+      "type": "object"
+    },
+    "by_arm": {
+      "description": "S2: grades by arm and tier, with intervals and paired differences",
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "cost": {
+      "description": "S5: tokens, latency and the estimator's error by arm and tier",
+      "type": "object"
     }
   },
   "required": [

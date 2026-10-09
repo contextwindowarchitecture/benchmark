@@ -171,7 +171,6 @@ def _candidates(frozen: Frozen) -> dict[str, int]:
 def run(ctx: SuiteContext) -> SuiteResult:
     started = now()
     config = ctx.config
-    settings = config.application
     problems = profile_mod.check(ctx.contract)
     names = list(ctx.adapters)
     report = Report(ctx)

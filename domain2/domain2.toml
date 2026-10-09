@@ -1,8 +1,8 @@
 # Domain 2 run configuration (domain-2-plan.md, section 12). Paths are relative to this file.
 #
-# This build is P0 to P2: the generators, the graders, S0, the application side, S1 (the assembly gate, and the
-# baselines' payloads) and S7 (goldens). The tables the later phases read (model, repeats, thresholds, caps, CI
-# profiles) are added with them.
+# This build is P0 to P3: the generators, the graders, S0, the application side, S1 (the assembly gate, and the
+# baselines' payloads), S2 (the model's answers), S5 (cost and latency) and S7 (goldens). The tables the later
+# phases read (sampling repeats, thresholds, caps, CI profiles) are added with them.
 
 [contract]
 path = "../../../contextwindowarchitecture"
@@ -10,7 +10,7 @@ commit = "16de4be0534583f135a597171c927d42c87ee82c"  # the same pin as domain1.t
 allow_dirty = false
 
 [run]
-suites = ["S0", "S1", "S7"]
+suites = ["S0", "S1", "S2", "S5", "S7"]
 families = ["vt", "fr"]
 size = "pilot"                                   # pilot | recorded: which of each family's sizes a run generates
 results_dir = "results/d2"
@@ -55,6 +55,31 @@ memory_ttl_seconds = 86400                       # a memory expires a day after 
 [s1]
 frames = true
 timelines = true                                 # each conversation's last probe, per arm and budget
+
+# The model S2 sends payloads to (cwabench2/model/). `replay` answers from the committed cache alone and never calls
+# the endpoint; `run --model llm` calls it on a cache miss and fills the cache. Every request parameter is part of
+# each cache key.
+[model]
+mode = "replay"                                  # llm | replay; `run --model` overrides it
+base_url = "http://127.0.0.1:8000/v1"            # any OpenAI-compatible server
+model = "Qwen3.6-35B-A3B-8bit"
+api_key_env = "CWA_BENCH_MODEL_KEY"              # read from the environment; empty for a local server
+temperature = 0
+seed = 7
+max_tokens = 512                                 # the compute task's working takes up to about 240
+extra_body = { chat_template_kwargs = { enable_thinking = false } }
+request_timeout_s = 300
+concurrency = 2                                  # requests in flight
+cache = "model-cache"                            # committed, so replay needs no model
+context_limit = 262144                           # the server's max_model_len, read from /models on 2026-10-09
+
+# S2 · Scripted conversations. Every probe in every arm at each tier, `repeats` samples at temperature 0.
+[s2]
+tiers = ["8192", "16384"]                        # absolute budgets from [budgets].input
+repeats = 3
+reference = "truncate-pinned"                    # the fair conventional arm every other arm is paired with
+bootstrap_resamples = 2000
+bootstrap_seed = 20261009
 
 # S7 · Goldens. Adopt a run's candidates with `cwabench --domain 2 goldens accept`.
 [s7]

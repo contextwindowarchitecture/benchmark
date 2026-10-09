@@ -17,7 +17,7 @@ reference = pytest.mark.skipif(os.environ.get("CWA_BENCH_REFERENCE") != "1",
                                       "`cwabench setup`)")
 
 
-def _configs(tmp_path, spec, modes):
+def _configs(tmp_path, spec, modes, suites=("S0", "S1", "S7"), extra=""):
     """A Domain 1 configuration whose adapters are the reference assembler in each buggy_adapter mode, and a
     Domain 2 configuration that assembles with them."""
     python = DOMAIN1 / ".build/python-venv/bin/python"
@@ -46,7 +46,7 @@ path = {json.dumps(str(spec))}
 commit = {json.dumps(commit)}
 allow_dirty = true
 [run]
-suites = ["S0", "S1", "S7"]
+suites = {json.dumps(list(suites))}
 results_dir = {json.dumps(str(tmp_path / "results"))}
 concurrency = 4
 [adapters]
@@ -77,7 +77,7 @@ fields = 4
 steps = 4
 filler_sentences = 2
 reply_sentences = 2
-""", encoding="utf-8")
+{extra}""", encoding="utf-8")
     return d2
 
 
@@ -128,3 +128,63 @@ def test_s1_fails_an_assembler_that_truncates_protected_content(tmp_path, spec):
     assert not any(adapter == "none" for _, adapter in caught)
     summary = _read(run_dir / "suites/S1/summary.json")
     assert summary["gate"]["passed"] == 0
+
+
+@reference
+def test_s2_replays_its_llm_run_byte_for_byte(tmp_path, spec, monkeypatch):
+    from cwabench.validate import validate_run
+    from cwabench2 import config as config_mod
+    from cwabench2.runner import run
+
+    answers = []
+
+    def chat(self, handed):  # a fake endpoint: answers each probe with the last number its payload states
+        import re
+
+        found = re.findall(r"\d[\d,]*", handed[-1]["content"] + " ".join(m["content"] for m in handed[:-1]))
+        answers.append(handed)
+        prompt = sum((len(m["content"].encode()) + 3) // 4 for m in handed) + 8  # the template's few tokens
+        return {"text": found[-1] if found else "none", "id": f"r{len(answers)}", "model": self.model,
+                "finish_reason": "stop", "latency_ms": 5.0,
+                "usage": {"prompt_tokens": prompt, "completion_tokens": 2, "total_tokens": prompt + 2},
+                "cached_tokens": None}
+
+    monkeypatch.setattr("cwabench.producers.llm_summarizer.Client.chat", chat)
+    extra = f"""
+[model]
+mode = "llm"
+cache = {json.dumps(str(tmp_path / "cache"))}
+[s2]
+tiers = ["700"]
+repeats = 2
+"""
+    path = _configs(tmp_path, spec, ["none"], suites=("S0", "S1", "S2", "S5"), extra=extra)
+    config = config_mod.load(path)
+    first, status = run(config, build=False, log=lambda m: None)
+    assert status == "pass" and validate_run(first) == [] and answers
+    summary = _read(first / "suites/S2/summary.json")
+    arms = {entry["arm"] for entry in summary["by_arm"]}
+    assert {"control-full", "control-concat", "concat", "cwa-state", "cwa-format"} <= arms
+    grades = [json.loads(line) for line in (first / "suites/S2/grades.jsonl").read_text().splitlines()]
+    assert {g["verdict"] for g in grades if g["arm"] == "concat"} >= {"overflow"}
+    calls = len(answers)
+
+    from dataclasses import replace
+
+    again, status = run(replace(config, model={**config.model, "mode": "replay"}), build=False, log=lambda m: None)
+    assert status == "pass" and len(answers) == calls  # replay calls nothing
+
+    def strip(path):
+        return [{k: v for k, v in json.loads(line).items() if k != "run_id"} for line in path.read_text().splitlines()]
+
+    assert strip(again / "suites/S2/grades.jsonl") == strip(first / "suites/S2/grades.jsonl")
+    hits = [json.loads(line)["cache_hit"] for line in (again / "model/calls.jsonl").read_text().splitlines()]
+    assert hits and all(hits)
+
+    import shutil
+
+    shutil.rmtree(tmp_path / "cache")
+    missed, status = run(replace(config, model={**config.model, "mode": "replay"}), build=False, log=lambda m: None)
+    assert status == "fail" and len(answers) == calls
+    findings = [json.loads(line) for line in (missed / "findings.jsonl").read_text().splitlines()]
+    assert ["replay_miss"] in [f["checks"] for f in findings]

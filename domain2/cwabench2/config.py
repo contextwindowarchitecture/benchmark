@@ -11,7 +11,14 @@ from . import baselines as baselines_mod
 from .application.snapshots import ARMS, Settings
 from .conversations import FAMILIES
 
-SUITES = ("S0", "S1", "S7")  # the suites this build implements; S2 to S6 arrive in later phases (domain-2-plan.md, 14)
+SUITES = ("S0", "S1", "S2", "S5", "S7")  # the suites this build implements; S3, S4, S6 arrive later (domain-2-plan.md, 14)
+MODEL_MODES = ("llm", "replay")
+MODEL_DEFAULTS = {"base_url": "http://127.0.0.1:8000/v1", "model": "Qwen3.6-35B-A3B-8bit",
+                  "api_key_env": "CWA_BENCH_MODEL_KEY", "temperature": 0, "seed": 7, "max_tokens": 512,
+                  "extra_body": {}, "request_timeout_s": 300, "retries": 2, "concurrency": 2, "mode": "replay",
+                  "cache": "model-cache", "context_limit": None}
+S2_DEFAULTS = {"arms": None, "tiers": ["8192"], "repeats": 3, "reference": "truncate-pinned",
+               "bootstrap_resamples": 2000, "bootstrap_seed": 20261009}
 ADAPTER_SUITES = ("S1",)  # suites that assemble, and so set up the adapters
 SIZES = ("pilot", "recorded")
 
@@ -75,6 +82,8 @@ class Config:
     timelines: bool = True  # S1 writes the timelines of each conversation's last probe
     goldens: Path | None = None  # S7's adopted goldens
     baselines: list[str] = field(default_factory=lambda: list(baselines_mod.ARMS))
+    model: dict = field(default_factory=lambda: dict(MODEL_DEFAULTS))
+    s2: dict = field(default_factory=lambda: dict(S2_DEFAULTS))
     baseline: baselines_mod.Settings = field(default_factory=baselines_mod.Settings)
 
     def section(self, name: str) -> dict:
@@ -190,6 +199,35 @@ def load(path: str | Path) -> Config:
         raise ConfigError("[baselines].summarizer: only stub is built; the cached LLM summarizer arrives at P3")
     baseline = baselines_mod.Settings(int(b.get("window_turns", 10)), "stub", float(b.get("extractive_ratio", 0.4)),
                                       settings.margin_percent, settings.tokenizer)
+    model = {**MODEL_DEFAULTS, **_table(data, "model")}
+    unknown_keys = sorted(set(model) - set(MODEL_DEFAULTS))
+    if unknown_keys:
+        raise ConfigError(f"[model] has unknown keys: {', '.join(unknown_keys)}")
+    if model["mode"] not in MODEL_MODES:
+        raise ConfigError(f"[model].mode must be one of {', '.join(MODEL_MODES)}")
+    s2 = {**S2_DEFAULTS, **_table(data, "s2")}
+    unknown_keys = sorted(set(s2) - set(S2_DEFAULTS))
+    if unknown_keys:
+        raise ConfigError(f"[s2] has unknown keys: {', '.join(unknown_keys)}")
+    from .suites.s2_scripted import CONTROLS
+    if s2["arms"] is None:
+        s2["arms"] = [*CONTROLS, *chosen, *arms]
+    known_arms = {*CONTROLS, *chosen, *arms}
+    stray = [a for a in s2["arms"] if a not in known_arms]
+    if stray:
+        raise ConfigError(f"[s2].arms names arms this run does not build: {', '.join(stray)}")
+    absolute = {str(b) for b in budgets.input}
+    stray = [t for t in s2["tiers"] if t not in absolute]
+    if stray and "S2" in suites:
+        raise ConfigError(f"[s2].tiers must be absolute budgets of [budgets].input; not {', '.join(stray)}")
+    if s2["reference"] not in s2["arms"]:
+        raise ConfigError(f"[s2].reference {s2['reference']!r} is not one of [s2].arms")
+    if not isinstance(s2["repeats"], int) or s2["repeats"] < 1:
+        raise ConfigError("[s2].repeats must be a positive integer")
+    if "S2" in suites and "S1" not in suites:
+        raise ConfigError("S2 sends only payloads S1 gated, so it needs S1")
+    if "S5" in suites and "S2" not in suites:
+        raise ConfigError("S5 reads S2's records, so it needs S2")
     s1 = _table(data, "s1")
     s7 = _table(data, "s7")
 
@@ -226,4 +264,6 @@ def load(path: str | Path) -> Config:
         goldens=(root / s7.get("goldens", "goldens/d2-goldens.json")).resolve(),
         baselines=list(chosen),
         baseline=baseline,
+        model=model,
+        s2=s2,
     )

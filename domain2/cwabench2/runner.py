@@ -22,9 +22,10 @@ from cwabench.rundir import RunDir, now, worst
 from . import __version__, output
 from .config import ADAPTER_SUITES, Config, ConfigError
 from .conversations import FAMILIES, generate
-from .suites import SuiteContext, SuiteResult, s0_selfcheck, s1_gate, s7_goldens
+from .suites import SuiteContext, SuiteResult, s0_selfcheck, s1_gate, s2_scripted, s5_cost, s7_goldens
 
-SUITES = {"S0": s0_selfcheck, "S1": s1_gate, "S7": s7_goldens}  # canonical order: S7 reads S1's rows
+# Canonical order: S2 sends what S1 gated, S5 reads S2's records, S7 reads S1's rows.
+SUITES = {"S0": s0_selfcheck, "S1": s1_gate, "S2": s2_scripted, "S5": s5_cost, "S7": s7_goldens}
 
 ROOT = Path(__file__).resolve().parent.parent
 # The harness digest covers Domain 2's own files and the Domain 1 code it runs (pyproject's path dependency).

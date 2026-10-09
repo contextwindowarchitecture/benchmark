@@ -31,6 +31,8 @@ def _load(args) -> config_mod.Config:
         config = replace(config, size=args.size)
     if getattr(args, "no_frames", False):
         config = replace(config, frames=False)
+    if getattr(args, "model", None):
+        config = replace(config, model={**config.model, "mode": args.model})
     return config
 
 
@@ -43,8 +45,10 @@ def _print_summary(run_dir: Path) -> None:
     width = max((len(m["label"]) for m in summary["metrics"]), default=0)
     for metric in summary["metrics"]:
         if metric["unit"] == "rate":
-            value = ("n/a" if metric["value"] is None
-                     else f"{metric['value']:.1%} ({metric['numerator']}/{metric['denominator']})")
+            counted = f" ({metric['numerator']}/{metric['denominator']})" if metric["denominator"] is not None else ""
+            value = "n/a" if metric["value"] is None else f"{metric['value']:.1%}{counted}"
+            if metric.get("interval"):
+                value += f"  [{metric['interval']['low']:.1%}, {metric['interval']['high']:.1%}]"
         else:
             value = str(metric["value"])
         where = " ".join(x for x in (metric["arm"], metric["family"], metric["tier"]) if x) or "all"
@@ -62,6 +66,8 @@ def main(argv: list[str] | None = None) -> int:
     run_cmd.add_argument("--size", choices=config_mod.SIZES, help="the families' size, overriding [run].size")
     run_cmd.add_argument("--no-build", action="store_true", help="skip Domain 1's adapter builds; use what is built")
     run_cmd.add_argument("--no-frames", action="store_true", help="S1 assembles the probes only, not every turn")
+    run_cmd.add_argument("--model", choices=("llm", "replay"),
+                         help="S2's model mode, overriding [model].mode: llm calls the endpoint on a cache miss")
 
     goldens_cmd = commands.add_parser("goldens", help="adopt a run's candidate goldens (S7)")
     goldens_sub = goldens_cmd.add_subparsers(dest="goldens_command", required=True)

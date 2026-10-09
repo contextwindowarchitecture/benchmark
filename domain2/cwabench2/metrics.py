@@ -32,3 +32,10 @@ def count(id: str, label: str, value: int, *, maximum: int | None = None, suite:
     """A count, passing when at most `maximum`, or informational without one."""
     status = "info" if maximum is None else ("pass" if value <= maximum else "fail")
     return _metric(id, label, "count", value, None, None, maximum, status, suite, arm, family, tier, description)
+
+
+def value(id: str, label: str, value: float | None, unit: str, *, suite: str | None = None, arm: str | None = None,
+          family: str | None = None, tier: str | None = None, description: str = "") -> dict:
+    """A measured quantity with no target: tokens, milliseconds, a ratio. Informational, or "na" with no value."""
+    return _metric(id, label, unit, value, None, None, None, "info" if value is not None else "na", suite, arm, family,
+                   tier, description)
