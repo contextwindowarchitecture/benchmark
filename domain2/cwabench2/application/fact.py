@@ -36,3 +36,11 @@ def by_text(payload: bytes | None, evidence: dict[str, list[str]], needs: list[s
         return [False] * len(needs)
     system, content = payload_texts(payload)
     return [any(text in system or escape_body(text) in content for text in evidence.get(need, [])) for need in needs]
+
+
+def by_text_chat(payload: bytes, evidence: dict[str, list[str]], needs: list[str]) -> list[bool]:
+    """The same for a baseline's chat payload: every system text and message content searched on its own, unescaped,
+    since native chat has no wrapper."""
+    request = json.loads(payload.decode("utf-8"))
+    texts = [entry["text"] for entry in request.get("system", [])] + [m["content"] for m in request.get("messages", [])]
+    return [any(fact in text for fact in evidence.get(need, []) for text in texts) for need in needs]

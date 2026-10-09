@@ -7,7 +7,9 @@ budget is set per run budget (`Frozen.at`), so a point's snapshots at every budg
 
 The arms are a ladder (7): `cwa-history` is every turn as history; `cwa-state` adds the oracle state writer;
 `cwa-memory` keeps the last `history_turns` turns and compacts the rest into memory; `cwa-pipeline` adds the route's
-supersession and exact deduplication on history.
+supersession and exact deduplication on history. `cwa-format` is the format control: the `window` baseline's exact
+selection at each budget (baselines/), frozen as a cwa-history snapshot of only those messages and assembled at its
+own full size, so it differs from the baseline in format alone.
 
 **The prediction.** Every candidate is admissible by construction, so fitting alone decides what is kept, and its
 rules fix it exactly (conformance/README.md, Fitting). The protected items (the instructions, the output contract,
@@ -42,6 +44,7 @@ class Arm:
     memory: bool
     pipeline: bool
     description: str
+    selection: str | None = None  # a baseline whose selection the arm takes, at each budget
 
 
 ARMS = {arm.name: arm for arm in (
@@ -50,6 +53,7 @@ ARMS = {arm.name: arm for arm in (
     Arm("cwa-memory", True, True, False, "plus memory: turns before the history window compacted into "
                                           "interaction.memory, with expiry and revocation"),
     Arm("cwa-pipeline", True, True, True, "plus the route's supersession and exact deduplication on history"),
+    Arm("cwa-format", False, False, False, "the window baseline's selection rendered as CWA renders it", "window"),
 )}
 
 
@@ -186,7 +190,8 @@ def _dedupe(history: list[dict]) -> tuple[list[dict], list[str]]:
     return kept, dropped
 
 
-def freeze(contract, script: dict, arm: Arm, point: Point, settings: Settings) -> Frozen:
+def freeze(contract, script: dict, arm: Arm, point: Point, settings: Settings, only: set[str] | None = None) -> Frozen:
+    """`arm`'s snapshot at `point`. `only` keeps just the history messages with those ids (the format control)."""
     clock = Clock(settings.turn_seconds)
     turns = script["turns"]
     if point.kind == "probe":
@@ -211,6 +216,9 @@ def freeze(contract, script: dict, arm: Arm, point: Point, settings: Settings) -
                      source="policy-registry:output-contract", freshness=writers.START, trust="verified"),
     ]
     history = writers.history(contract, clock, window)
+    if only is not None:
+        history = [i for i in history if i["id"] in only]
+        window = [t for t in window if writers.message_id(t, "user") in only]
     state = writers.state(contract, clock, script, upto) if arm.state else writers.Written()
     memory = (writers.memory(contract, clock, script, compacted, upto, now, settings.memory_ttl_seconds)
               if arm.memory else writers.Written())

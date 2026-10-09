@@ -79,3 +79,64 @@ CASES = [
     ("record-prose", RECORD, "I don't have the record yet.", "unparsed", 0.0),
     ("record-array", RECORD, '["Harwell Hall", 45, null]', "unparsed", 0.0),
 ]
+
+
+# The baselines against hand-computed payloads (domain-2-plan.md, 8, S0). A three-turn conversation counted by hand
+# with estimate-utf8/v1 (UTF-8 bytes ÷ 4, rounded up), no margin, and a two-turn window:
+#
+#   system  "Keep track.\n\nReply briefly."    27 bytes → 7     query "What is Alpha?"   14 → 4
+#   t1      user "Alpha is 1000."   14 → 4       assistant "Noted."   6 → 2
+#   t2      user "Beta is 2000."    13 → 4       assistant "Noted."   6 → 2
+#   t3      user "Alpha is 3000."   14 → 4       assistant "Noted."   6 → 2
+#   summary "Summary of the earlier conversation:\nAlpha is 1000."   51 → 13  (the stub keeps t1's one sentence)
+#
+# The whole conversation is 7 + 3 × 6 + 4 = 29. Each case gives (arm, budget, outcome, input_tokens, kept, first_kept,
+# system_survived), where kept is the payload's messages in order and first_kept the oldest prior-turn message kept.
+BASELINE_SCRIPT = {
+    "conversation_id": "s0-t003-00",
+    "instructions": "Keep track.",
+    "output_contract": "Reply briefly.",
+    "turns": [
+        {"turn": 1, "id": "t001", "user": "Alpha is 1000.", "assistant": "Noted.", "shards": ["Alpha is 1000."]},
+        {"turn": 2, "id": "t002", "user": "Beta is 2000.", "assistant": "Noted.", "shards": ["Beta is 2000."]},
+        {"turn": 3, "id": "t003", "user": "Alpha is 3000.", "assistant": "Noted.", "shards": ["Alpha is 3000."]},
+    ],
+    "probes": [{"probe_id": "p003", "after_turn": 3, "question": "What is Alpha?", "needs": ["t003"]}],
+}
+U1, A1, U2, A2, U3, A3, Q = ("turn:t001:user", "turn:t001:assistant", "turn:t002:user", "turn:t002:assistant",
+                             "turn:t003:user", "turn:t003:assistant", "probe:p003")
+BASELINE_CASES = [
+    # concat sends everything: 29 fits 29, and overflows any smaller budget.
+    ("concat", 29, "fits", 29, ["system", U1, A1, U2, A2, U3, A3, Q], U1, True),
+    ("concat", 20, "overflow", 29, ["system", U1, A1, U2, A2, U3, A3, Q], U1, True),
+    # truncate drops from the front, the system prompt first: at 20, the system (7) and t1's user (4) go, leaving 18.
+    ("truncate", 29, "fits", 29, ["system", U1, A1, U2, A2, U3, A3, Q], U1, True),
+    ("truncate", 20, "fits", 18, [A1, U2, A2, U3, A3, Q], A1, False),
+    ("truncate", 12, "fits", 12, [A2, U3, A3, Q], A2, False),
+    # truncate-pinned keeps the system prompt and the query (11): at 20 the history may have 9, at 12 only 1.
+    ("truncate-pinned", 29, "fits", 29, ["system", U1, A1, U2, A2, U3, A3, Q], U1, True),
+    ("truncate-pinned", 20, "fits", 19, ["system", A2, U3, A3, Q], A2, True),
+    ("truncate-pinned", 12, "fits", 11, ["system", Q], None, True),
+    ("truncate-pinned", 10, "overflow", 11, ["system", Q], None, True),
+    # window keeps t2 and t3 (12), then truncates as pinned.
+    ("window", 29, "fits", 23, ["system", U2, A2, U3, A3, Q], U2, True),
+    ("window", 20, "fits", 19, ["system", A2, U3, A3, Q], A2, True),
+    ("window", 12, "fits", 11, ["system", Q], None, True),
+    # summary adds t1's summary (13) after the system prompt; under pressure the summary goes first, then the window's
+    # oldest messages: at 29 the history may have 18, so the summary goes; at 20 it may have 9, so t2's user goes too.
+    ("summary", 40, "fits", 36, ["system", "summary", U2, A2, U3, A3, Q], U2, True),
+    ("summary", 29, "fits", 23, ["system", U2, A2, U3, A3, Q], U2, True),
+    ("summary", 20, "fits", 19, ["system", A2, U3, A3, Q], A2, True),
+    ("summary", 12, "fits", 11, ["system", Q], None, True),
+]
+# Two payloads written out byte for byte: JCS orders members by name, and native chat escapes nothing beyond JSON.
+BASELINE_PAYLOADS = {
+    ("truncate", 12): '{"messages":[{"content":"Noted.","role":"assistant"},{"content":"Alpha is 3000.","role":"user"},'
+                      '{"content":"Noted.","role":"assistant"},{"content":"What is Alpha?","role":"user"}],'
+                      '"system":[],"tools":[]}',
+    ("summary", 40): '{"messages":[{"content":"Beta is 2000.","role":"user"},{"content":"Noted.","role":"assistant"},'
+                     '{"content":"Alpha is 3000.","role":"user"},{"content":"Noted.","role":"assistant"},'
+                     '{"content":"What is Alpha?","role":"user"}],"system":[{"id":"system","text":"Keep track.'
+                     '\\n\\nReply briefly."},{"id":"summary","text":"Summary of the earlier conversation:\\nAlpha is 1000."}],'
+                     '"tools":[]}',
+}
