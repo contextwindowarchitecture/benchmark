@@ -65,8 +65,8 @@ uv run cwabench validate               # re-check the latest run directory
   - Examples: `feat(s2): add the platform and toolchain matrix`, `fix(ci): take the source digest when a run starts`,
     `docs(plan): add P7 as built`.
 - Sign off every commit (`git commit -s`). The Developer Certificate of Origin is required, and a commit hook rejects
-  commits without it. The person committing owns the commit: no `Co-Authored-By` trailers. Mentioning AI assistance in
-  the body is fine.
+  commits without it. The person committing owns the commit: no `Co-Authored-By` trailers, and never
+  mention AI assistance anywhere in the message; the commit hook rejects it.
 - Commits are GPG-signed by the global git config. Never bypass signing or hooks (`--no-gpg-sign`, `--no-verify`); if
   either fails, stop and ask.
 - Never commit `results/`, `.build/`, `.venv/` or secrets. The `.gitignore` files cover the usual ones; check
