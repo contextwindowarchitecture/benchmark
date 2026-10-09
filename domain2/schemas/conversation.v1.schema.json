@@ -1,0 +1,529 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d2:conversation:v1",
+  "title": "Conversation script",
+  "description": "One scripted conversation with its ground truth (domain-2-plan.md, 6): the instructions, every turn, the probes asked after checkpoint turns, and the facts by construction. It names no run, so equal inputs give equal bytes.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d2/conversation/v1"
+    },
+    "conversation_id": {
+      "type": "string",
+      "pattern": "^[a-z]+-t[0-9]{3}-[0-9]{2}$"
+    },
+    "family": {
+      "type": "string",
+      "pattern": "^[a-z]+$"
+    },
+    "generator": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "turn_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "checkpoint_every": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "parameters": {
+      "type": "object"
+    },
+    "instructions": {
+      "type": "string",
+      "minLength": 1
+    },
+    "turns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "turn": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^t[0-9]{3}$"
+          },
+          "user": {
+            "type": "string",
+            "minLength": 1
+          },
+          "assistant": {
+            "type": "string",
+            "minLength": 1
+          },
+          "shards": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "The sentences of the user text that carry facts"
+          }
+        },
+        "required": [
+          "turn",
+          "id",
+          "user",
+          "assistant",
+          "shards"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "probes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "probe_id": {
+            "type": "string",
+            "pattern": "^p[0-9]{3}$"
+          },
+          "after_turn": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1
+          },
+          "answer": {
+            "description": "What grading needs (cwabench2/grading)",
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "number"
+                  },
+                  "expected": {
+                    "type": "string",
+                    "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                  },
+                  "stale": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                    }
+                  },
+                  "distractors": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                    }
+                  }
+                },
+                "required": [
+                  "kind",
+                  "expected",
+                  "stale",
+                  "distractors"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "text"
+                  },
+                  "expected": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "alternatives": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "stale": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "distractors": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "required": [
+                  "kind",
+                  "expected"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "choice"
+                  },
+                  "expected": {
+                    "type": "string",
+                    "pattern": "^[A-Z]$"
+                  },
+                  "options": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[A-Z]$"
+                    },
+                    "minItems": 2
+                  }
+                },
+                "required": [
+                  "kind",
+                  "expected",
+                  "options"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "record"
+                  },
+                  "fields": {
+                    "type": "object",
+                    "minProperties": 1,
+                    "additionalProperties": {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "enum": [
+                            "number",
+                            "text"
+                          ]
+                        },
+                        "expected": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "expected"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "kind",
+                  "fields"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "needs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^t[0-9]{3}$"
+            },
+            "description": "The turns whose content the answer needs: what the fact-in-payload oracle checks"
+          },
+          "full": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The FULL control: everything known at the probe, stated once, then the question"
+          },
+          "concat": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The CONCAT control: the shards so far as one message, then the question"
+          },
+          "attributes": {
+            "type": "object",
+            "description": "The probe's difficulty, by family (distance, values, known, …)",
+            "additionalProperties": {
+              "type": [
+                "integer",
+                "string"
+              ]
+            }
+          }
+        },
+        "required": [
+          "probe_id",
+          "after_turn",
+          "question",
+          "answer",
+          "needs",
+          "full",
+          "concat",
+          "attributes"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "ground_truth": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "task": {
+              "const": "variables"
+            },
+            "variables": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "variable_id": {
+                    "type": "string",
+                    "pattern": "^[vd][0-9]+$"
+                  },
+                  "role": {
+                    "enum": [
+                      "tracked",
+                      "distractor"
+                    ]
+                  },
+                  "near_miss": {
+                    "anyOf": [
+                      {
+                        "enum": [
+                          "name",
+                          "attribute"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "of": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "phrase": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "assignments": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "turn": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "value": {
+                          "type": "string",
+                          "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                        }
+                      },
+                      "required": [
+                        "turn",
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "variable_id",
+                  "role",
+                  "near_miss",
+                  "of",
+                  "phrase",
+                  "assignments"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "task",
+            "variables"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "task": {
+              "const": "record"
+            },
+            "subject": {
+              "type": "string",
+              "minLength": 1
+            },
+            "fields": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "field": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "kind": {
+                    "enum": [
+                      "number",
+                      "text"
+                    ]
+                  },
+                  "value": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "turn": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                },
+                "required": [
+                  "field",
+                  "kind",
+                  "value",
+                  "turn"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "task",
+            "subject",
+            "fields"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "task": {
+              "const": "compute"
+            },
+            "subject": {
+              "type": "string",
+              "minLength": 1
+            },
+            "steps": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "op": {
+                    "enum": [
+                      "item",
+                      "fee",
+                      "credit"
+                    ]
+                  },
+                  "item": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "quantity": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "unit_price": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "turn": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "amount": {
+                    "type": "integer"
+                  },
+                  "total_after": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "op",
+                  "turn",
+                  "amount",
+                  "total_after"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "total": {
+              "type": "string",
+              "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+            }
+          },
+          "required": [
+            "task",
+            "subject",
+            "steps",
+            "total"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "required": [
+    "$schema",
+    "conversation_id",
+    "family",
+    "generator",
+    "seed",
+    "turn_count",
+    "checkpoint_every",
+    "parameters",
+    "instructions",
+    "turns",
+    "probes",
+    "ground_truth"
+  ],
+  "additionalProperties": false
+}
