@@ -15,8 +15,9 @@ EXTENSIONS = {"application/json": "json", "text/plain; charset=utf-8": "txt", "a
 
 
 class BlobStore:
-    def __init__(self, run_dir: Path):
+    def __init__(self, run_dir: Path, domain: output.Domain = output.D1):
         self.run_dir = run_dir
+        self.domain = domain
         self._entries: dict[str, dict] = {}
         self._lock = threading.Lock()
 
@@ -29,7 +30,7 @@ class BlobStore:
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_bytes(data)
                 self._entries[digest] = {
-                    "$schema": output.schema_name("blob"),
+                    "$schema": self.domain.schema_name("blob"),
                     "digest": f"sha256:{digest}",
                     "path": relative,
                     "media_type": media_type,

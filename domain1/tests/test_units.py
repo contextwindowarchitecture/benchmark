@@ -88,6 +88,42 @@ def test_every_schema_is_valid_and_rejects_strangers():
             output.validate({"$schema": output.schema_name(kind), "unexpected": True})
 
 
+def test_another_domain_names_its_own_documents(tmp_path):
+    """A second domain reuses the run directory, the blob store and validation under its own prefix
+    (domain-2-plan.md, 4.2), and Domain 1's names are untouched."""
+    from types import SimpleNamespace
+
+    from cwabench import rundir
+
+    schemas = tmp_path / "schemas"
+    schemas.mkdir()
+    for kind in ("blob", "run-index", "runs-index", "suite-summary"):
+        text = (output.SCHEMA_DIR / f"{kind}.v1.schema.json").read_text(encoding="utf-8")
+        (schemas / f"{kind}.v1.schema.json").write_text(text.replace("cwa-bench-d1", "cwa-bench-dx"), encoding="utf-8")
+    dx = output.Domain("cwa-bench-dx", schemas)
+    with pytest.raises(output.OutputError, match="registered domain"):
+        output.validate({"$schema": "cwa-bench-dx/blob/v1"})
+    assert output.register(dx) is dx and output.register(output.Domain("cwa-bench-dx", schemas)) == dx
+    with pytest.raises(output.OutputError, match="already registered"):
+        output.register(output.Domain("cwa-bench-dx", tmp_path))
+    assert output.kind_of({"$schema": "cwa-bench-dx/run-index/v1"}) == ("run-index", 1)
+
+    config_path = tmp_path / "dx.toml"
+    config_path.write_text("", encoding="utf-8")
+    config = SimpleNamespace(path=config_path, sha256="0" * 64, results_dir=tmp_path / "results", upstream_path=None)
+    run = rundir.RunDir(config, domain=dx, sources=((schemas, ("*.json",)),))
+    assert run.harness()["name"] == "cwa-bench-dx" and run.source_digest != rundir.source_digest()
+    run.blobs.put_text(b"x")
+    run.finalize("pass", [])
+    index = json.loads((run.path / "index.json").read_text(encoding="utf-8"))
+    assert index["$schema"] == "cwa-bench-dx/run-index/v1"
+    assert json.loads((tmp_path / "results" / "index.json").read_text())["$schema"] == "cwa-bench-dx/runs-index/v1"
+    blob = json.loads((run.path / "blobs" / "index.jsonl").read_text().splitlines()[0])
+    assert blob["$schema"] == "cwa-bench-dx/blob/v1"
+    assert [f["schema"] for f in index["files"] if f["kind"] == "blob"] == ["cwa-bench-dx/blob/v1"]
+    assert output.schema_name("blob") == "cwa-bench-d1/blob/v1"
+
+
 def test_runs_index_names_each_profiles_newest_finished_run_and_the_commits(tmp_path):
     from cwabench import rundir
 

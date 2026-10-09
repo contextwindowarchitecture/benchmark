@@ -10,7 +10,7 @@ from pathlib import Path
 from jsonschema import Draft202012Validator
 from referencing import Registry, Resource
 
-from . import gitinfo
+from . import gitinfo, output
 
 # conformance/README.md, Tokenizers and renderers. Every implementation provides the required ones; a case that uses
 # an optional one an implementation lacks is skipped, not failed. Contract.check() confirms the README still lists
@@ -192,10 +192,11 @@ class Contract:
 
     # Documents --------------------------------------------------------------------------------------------------
 
-    def as_document(self, run_id: str) -> dict:
-        """contract.json: every enumeration a consumer of the results needs, so none of them hardcodes the spec."""
+    def as_document(self, run_id: str, domain: output.Domain = output.D1) -> dict:
+        """contract.json: every enumeration a consumer of the results needs, so none of them hardcodes the spec. Every
+        domain writes the same document under its own prefix."""
         return {
-            "$schema": "cwa-bench-d1/contract/v1",
+            "$schema": domain.schema_name("contract"),
             "run_id": run_id,
             "repository": self.checkout.repository,
             "commit": self.checkout.commit,

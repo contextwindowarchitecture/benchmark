@@ -27,15 +27,19 @@ def worst(statuses) -> str:
     return max(statuses, key=STATUS_ORDER.index) if statuses else "error"
 
 
-def source_digest() -> str:
+HARNESS_ROOT = Path(__file__).resolve().parent.parent
+SOURCES = ("cwabench/**/*.py", "schemas/*.json", "adapters/**/*", "container/**/*")  # Domain 1's own files
+
+
+def source_digest(sources: tuple[tuple[Path, tuple[str, ...]], ...] = ((HARNESS_ROOT, SOURCES),)) -> str:
     """SHA-256 over the harness's own files: its code, schemas, adapters, timing loops and container build. A run takes
-    it when it starts, so an edit made while it runs shows up as a bump in the next run's drift report."""
-    root = Path(__file__).resolve().parent.parent
+    it when it starts, so an edit made while it runs shows up as a bump in the next run's drift report. `sources` is
+    (root, glob patterns) per tree: Domain 1's alone by default; a harness built on this one adds its own tree."""
     digest = hashlib.sha256()
-    files = [*root.glob("cwabench/**/*.py"), *root.glob("schemas/*.json"), *root.glob("adapters/**/*"),
-             *root.glob("container/**/*")]
-    for path in sorted(p for p in files if p.is_file() and "__pycache__" not in p.parts):
-        digest.update(path.relative_to(root).as_posix().encode() + b"\0" + path.read_bytes() + b"\0")
+    for root, patterns in sources:
+        files = [path for pattern in patterns for path in root.glob(pattern)]
+        for path in sorted(p for p in set(files) if p.is_file() and "__pycache__" not in p.parts):
+            digest.update(path.relative_to(root).as_posix().encode() + b"\0" + path.read_bytes() + b"\0")
     return digest.hexdigest()
 
 
@@ -55,11 +59,16 @@ def with_upstream(row: dict, upstream: dict[str, dict]) -> dict:
 
 
 class RunDir:
-    def __init__(self, config: Config):
+    """A run directory under `config.results_dir`. `domain` names its documents (output.D1 by default), and `sources`
+    are the trees its harness digest covers; `config` needs only path, sha256, results_dir and upstream_path, so
+    another domain's configuration serves as well."""
+
+    def __init__(self, config: Config, domain: output.Domain = output.D1, sources=None):
         self.config = config
+        self.domain = domain
         self.upstream = load_upstream(config.upstream_path)
         self.started_at = now()
-        self.source_digest = source_digest()
+        self.source_digest = source_digest() if sources is None else source_digest(sources)
         # time.time() advances while the host sleeps; time.monotonic() does not on macOS. Their difference over a
         # run is how long the host was suspended, which makes every wall time in the run unreliable.
         self._wall0, self._mono0 = time.time(), time.monotonic()
@@ -72,7 +81,7 @@ class RunDir:
         self.run_id = run_id
         self.path = config.results_dir / run_id
         self.path.mkdir(parents=True)
-        self.blobs = BlobStore(self.path)
+        self.blobs = BlobStore(self.path, domain)
         self._files: list[dict] = []
         shutil.copyfile(config.path, self.path / "config.toml")
         self._record("config.toml", "config", None, "The configuration this run used")
@@ -92,7 +101,7 @@ class RunDir:
         if kind == "finding":
             rows = [with_upstream(row, self.upstream) for row in rows]
         output.write_jsonl(self.path / relative, rows)
-        self._record(relative, kind, output.schema_name(kind), description, rows=len(rows))
+        self._record(relative, kind, self.domain.schema_name(kind), description, rows=len(rows))
 
     def write_bytes(self, relative: str, data: bytes, kind: str, schema: str | None, description: str) -> None:
         """A file in another published format, written byte for byte: a conformance-case draft, whose snapshot must
@@ -107,6 +116,15 @@ class RunDir:
         output.write_json(self.path / relative, document, validate_with=validator)
         self._record(relative, kind, schema, description)
 
+    def harness(self, version: str = __version__) -> dict:
+        """The manifest's harness entry: the harness is named for its domain's prefix."""
+        return {
+            "name": self.domain.prefix,
+            "version": version,
+            "source_digest": self.source_digest,
+            "python": platform.python_version(),
+        }
+
     def manifest(self, contract, adapters: dict, status: str, finished_at: str | None, container: dict | None = None,
                  ci: dict | None = None) -> dict:
         return {
@@ -116,12 +134,7 @@ class RunDir:
             "started_at": self.started_at,
             "finished_at": finished_at,
             "command": sys.argv,
-            "harness": {
-                "name": "cwa-bench-d1",
-                "version": __version__,
-                "source_digest": self.source_digest,
-                "python": platform.python_version(),
-            },
+            "harness": self.harness(),
             "config": {"path": str(self.config.path), "sha256": self.config.sha256, "copy": "config.toml"},
             "contract": {
                 "path": str(contract.path),
@@ -130,13 +143,7 @@ class RunDir:
                 "spec_draft": contract.spec_draft,
             },
             "adapters": adapters,
-            "host": {
-                "system": platform.system(),
-                "release": platform.release(),
-                "machine": platform.machine(),
-                "cpus": os.cpu_count(),
-                "platform": platform.platform(),
-            },
+            "host": host(),
             "host_suspended_seconds": self.suspended_seconds(),
             "env_cells": env_cells(self.config),
             "container": container,
@@ -151,10 +158,10 @@ class RunDir:
 
     def finalize(self, status: str, suites: list[str]) -> None:
         blob_index = self.blobs.write_index()
-        self._record(blob_index, "blob", output.schema_name("blob"), "Every stored blob: digest, path, media type, size",
-                     rows=len(self.blobs))
+        self._record(blob_index, "blob", self.domain.schema_name("blob"),
+                     "Every stored blob: digest, path, media type, size", rows=len(self.blobs))
         index = {
-            "$schema": output.schema_name("run-index"),
+            "$schema": self.domain.schema_name("run-index"),
             "run_id": self.run_id,
             "status": status,
             "suites": suites,
@@ -166,10 +173,22 @@ class RunDir:
             },
         }
         output.write_json(self.path / "index.json", index)
-        update_runs_index(self.config.results_dir, latest=self.run_id)
+        update_runs_index(self.config.results_dir, latest=self.run_id, domain=self.domain)
 
 
-def update_runs_index(results_dir: Path, latest: str | None = None, link: bool = True) -> None:
+def host() -> dict:
+    """The machine a run ran on, as its manifest records it."""
+    return {
+        "system": platform.system(),
+        "release": platform.release(),
+        "machine": platform.machine(),
+        "cpus": os.cpu_count(),
+        "platform": platform.platform(),
+    }
+
+
+def update_runs_index(results_dir: Path, latest: str | None = None, link: bool = True,
+                      domain: output.Domain = output.D1) -> None:
     """Rebuild results/d1/index.json from the manifests on disk: every run, newest first; the newest finished run of
     each CI profile; and the contract and adapter commits each run was made from. With `link`, also point
     results/d1/latest at the newest run (`cwabench ci` points results/d1/<profile> at a profile's run the same way,
@@ -207,7 +226,7 @@ def update_runs_index(results_dir: Path, latest: str | None = None, link: bool =
             profiles[name] = run["run_id"]
     output.write_json(
         results_dir / "index.json",
-        {"$schema": output.schema_name("runs-index"), "latest": newest, "profiles": dict(sorted(profiles.items())),
+        {"$schema": domain.schema_name("runs-index"), "latest": newest, "profiles": dict(sorted(profiles.items())),
          "runs": runs},
     )
     if link and newest:
