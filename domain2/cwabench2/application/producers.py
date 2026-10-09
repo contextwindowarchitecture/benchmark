@@ -13,7 +13,11 @@ Two producers rewrite the conversation with the model, turn by turn, as a real a
   window it updates the summary with that turn's user and assistant messages; the summary after turn k covers turns 1
   to k. Like the extractor it is told the task, and keeps the facts the task needs: told nothing, the model kept every
   remark about the office, 31 of 40 replies on a 50-turn trial reached `max_tokens`, and the summary at turn 40 held
-  the values of 5 of the 11 turns that stated one. It is the study's strongest conventional control (RECAP/SNOWBALL).
+  the values of 5 of the 11 turns that stated one. Told the task, it still kept small talk and grew: replies averaged
+  529 tokens and 11 s, and 29% reached even a 1,024-token limit. So the summary has a word limit
+  (`[baselines].summary_words`), as rolling summaries usually do. The model does not keep to it (a trial's replies
+  averaged about 500 tokens) but no longer reaches the token limit, and its summaries kept every FR fact turn.
+  It is the study's strongest conventional control (RECAP/SNOWBALL).
 
 Every call goes through the model (model/), so it is cached and replayable exactly as S2's are, with sample 0 and the
 model's parameters. Calls of one conversation run in order, since each depends on the one before; conversations run
@@ -38,8 +42,8 @@ EXTRACT_USER = ("Current state:\n{state}\n\nNew message from the user:\n{user}\n
                 "message adds or changes, or {{}}.")
 SUMMARY_SYSTEM = ("You keep a running summary of a long conversation for an assistant that will not see the older "
                   "turns. The assistant's task: {task}\n\nKeep every fact the task needs, with its latest value, and "
-                  "drop small talk and anything else the task does not need. Keep the summary short. Reply with the "
-                  "summary only.")
+                  "drop small talk and anything else the task does not need. Keep the summary under {words} words. "
+                  "Reply with the summary only.")
 SUMMARY_USER = ("Summary so far:\n{summary}\n\nNext turn of the conversation:\nUser: {user}\nAssistant: {assistant}"
                 "\n\nWrite the updated summary.")
 NOTHING = "(nothing yet)"
@@ -81,10 +85,10 @@ def _extract(model: Model, run_id: str, script: dict) -> tuple[dict[int, dict], 
     return states, rows
 
 
-def _summarize(model: Model, run_id: str, script: dict, upto: int) -> tuple[dict[int, str], list[dict]]:
+def _summarize(model: Model, run_id: str, script: dict, upto: int, words: int) -> tuple[dict[int, str], list[dict]]:
     summaries, rows, summary = {0: ""}, [], ""
     for turn in script["turns"][:upto]:
-        reply = model.ask(payload(SUMMARY_SYSTEM.format(task=script["instructions"]),
+        reply = model.ask(payload(SUMMARY_SYSTEM.format(task=script["instructions"], words=words),
                                   SUMMARY_USER.format(summary=summary or NOTHING, user=turn["user"],
                                                       assistant=turn["assistant"])), 0)
         text = strip_reasoning(reply.text)
@@ -96,7 +100,7 @@ def _summarize(model: Model, run_id: str, script: dict, upto: int) -> tuple[dict
 
 
 def produce(model: Model, run_id: str, scripts: list[dict], extract: bool, summarize: bool, window: int,
-            concurrency: int, log) -> tuple[dict[str, Produced], list[dict], list[str]]:
+            concurrency: int, log, words: int = 150) -> tuple[dict[str, Produced], list[dict], list[str]]:
     """Every conversation's producer outputs, the call rows, and the errors (a replay miss, an endpoint failure)."""
     produced: dict[str, Produced] = {}
     rows: list[dict] = []
@@ -109,7 +113,8 @@ def produce(model: Model, run_id: str, scripts: list[dict], extract: bool, summa
                 out.states, found = _extract(model, run_id, script)
                 mine += found
             if summarize:
-                out.summaries, found = _summarize(model, run_id, script, max(0, script["turn_count"] - window))
+                out.summaries, found = _summarize(model, run_id, script, max(0, script["turn_count"] - window),
+                                                  words)
                 mine += found
         except (CacheMiss, EndpointError) as error:
             return script, out, mine, f"{script['conversation_id']}: {type(error).__name__}: {error}"

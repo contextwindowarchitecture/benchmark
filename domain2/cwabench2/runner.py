@@ -138,7 +138,7 @@ def run_producers(ctx: SuiteContext) -> None:
             f"scripts, mode {model.mode}")
     produced, rows, errors = producers.produce(model, ctx.run.run_id, scripts, extract, summarize,
                                                config.baseline.window_turns, int(config.model.get("concurrency", 2)),
-                                               ctx.log)
+                                               ctx.log, config.baseline.summary_words)
     ctx.run.write_jsonl("producers/calls.jsonl", rows, "producer-row",
                         "Every call the model-based producers made or replayed, with its output")
     ctx.shared["produced"] = produced

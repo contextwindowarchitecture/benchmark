@@ -98,3 +98,11 @@ def test_s0_catches_a_baseline_that_counts_one_token_short(small_config, monkeyp
     assert status == "fail"
     findings = [json.loads(line) for line in (run_dir / "findings.jsonl").read_text().splitlines()]
     assert findings and {f["checks"][0] for f in findings} == {"baseline"}
+
+
+def test_baseline_settings_take_each_table_value_by_name(small_config):
+    config = small_config(extra='[baselines]\nwindow_turns = 4\nsummarizer = "llm"\nextractive_ratio = 0.3\n'
+                                'summary_words = 90\n[budgets]\nmargin_percent = 12\n')
+    assert (config.baseline.window_turns, config.baseline.summarizer, config.baseline.extractive_ratio,
+            config.baseline.summary_words, config.baseline.margin_percent, config.baseline.tokenizer) == (
+        4, "llm", 0.3, 90, 12, "estimate-utf8/v1")

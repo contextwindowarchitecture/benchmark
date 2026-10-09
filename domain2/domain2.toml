@@ -34,7 +34,8 @@ baselines = ["concat", "truncate", "truncate-pinned", "window", "summary"]
 [baselines]
 window_turns = 10                                # window and summary: the turns kept verbatim
 summarizer = "llm"                               # the rolling summary: the model's (llm), or Domain 1's stub
-extractive_ratio = 0.4
+extractive_ratio = 0.4                           # the stub's share of each turn's tokens
+summary_words = 150                              # the llm summary's word limit
 
 # Every snapshot is assembled at each absolute budget and at each ratio of its own full charged count.
 [budgets]

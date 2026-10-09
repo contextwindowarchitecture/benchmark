@@ -194,14 +194,16 @@ def load(path: str | Path) -> Config:
         **{k: budgets_table[k] for k in ("reserved_output", "margin_percent", "tokenizer", "renderer")
            if k in budgets_table})
     b = _table(data, "baselines")
-    unknown_keys = sorted(set(b) - {"window_turns", "summarizer", "extractive_ratio"})
+    unknown_keys = sorted(set(b) - {"window_turns", "summarizer", "extractive_ratio", "summary_words"})
     if unknown_keys:
         raise ConfigError(f"[baselines] has unknown keys: {', '.join(unknown_keys)}")
     if b.get("summarizer", "stub") not in ("stub", "llm"):
         raise ConfigError("[baselines].summarizer must be stub or llm")
-    baseline = baselines_mod.Settings(int(b.get("window_turns", 10)), b.get("summarizer", "stub"),
-                                      float(b.get("extractive_ratio", 0.4)), settings.margin_percent,
-                                      settings.tokenizer)
+    baseline = baselines_mod.Settings(window_turns=int(b.get("window_turns", 10)),
+                                      summarizer=b.get("summarizer", "stub"),
+                                      extractive_ratio=float(b.get("extractive_ratio", 0.4)),
+                                      summary_words=int(b.get("summary_words", 150)),
+                                      margin_percent=settings.margin_percent, tokenizer=settings.tokenizer)
     model = {**MODEL_DEFAULTS, **_table(data, "model")}
     unknown_keys = sorted(set(model) - set(MODEL_DEFAULTS))
     if unknown_keys:

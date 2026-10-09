@@ -52,6 +52,7 @@ class Settings:
     window_turns: int = 10
     summarizer: str = "stub"
     extractive_ratio: float = 0.4
+    summary_words: int = 150  # the llm summary's word limit (application/producers.py)
     margin_percent: int = 15
     tokenizer: str = "estimate-utf8/v1"
 
