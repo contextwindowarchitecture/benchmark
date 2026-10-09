@@ -15,9 +15,9 @@ from __future__ import annotations
 import hashlib
 
 from .. import output
-from . import facts, variables
+from . import corrections, facts, persistence, variables
 
-FAMILIES = {"vt": variables, "fr": facts}
+FAMILIES = {"vt": variables, "fr": facts, "cc": corrections, "ip": persistence}
 
 
 def conversation_seed(family: str, seed: int, turns: int, index: int) -> int:

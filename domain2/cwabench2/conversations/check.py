@@ -76,14 +76,31 @@ def _replay_variables(script: dict) -> list[str]:
             named = [v for p, v in phrases.items() if re.search(rf"(?<!\w){re.escape(p)}(?!\w)", sentence.casefold())]
             if not values and not named:
                 continue
-            if len(values) != 1 or len(named) != 1:
+            # A correction (CC) names the new value, then the retracted one: "… is 4,350, not 4,200."
+            retracts = len(values) == 2 and ", not " in sentence
+            if len(named) != 1 or len(values) != (2 if retracts else 1):
                 problems.append(f"{turn['id']}: a sentence names {len(named)} variables and {len(values)} values")
                 continue
+            chain = found[named[0]]
+            if retracts and (not chain or chain[-1][1] != values[1]):
+                problems.append(f"{turn['id']}: a correction retracts {values[1]}, which is not the figure's value")
             found[named[0]].append((turn["turn"], values[0]))
     recorded = {v["variable_id"]: [(a["turn"], int(a["value"])) for a in v["assignments"]]
                 for v in script["ground_truth"]["variables"]}
     if found != recorded:
         problems.append("the text's assignments differ from the ground truth's")
+    if script["ground_truth"]["task"] == "corrections":
+        for variable in script["ground_truth"]["variables"]:
+            kinds = [a["kind"] for a in variable["assignments"]]
+            if kinds[:1] != ["stated"] or any(k != "corrected" for k in kinds[1:]):
+                problems.append(f"{variable['variable_id']}: not stated once and then only corrected")
+        for turn in script["turns"]:
+            for sentence in _sentences(turn["user"]):
+                if ", not " in sentence and len(_numbers(sentence)) == 2:
+                    continue
+                if any(word in sentence for word in ("Update:", "Change ", "has been set", "From now on", "gone up",
+                                                     "come down")):
+                    problems.append(f"{turn['id']}: a reassignment in a corrections script")
     every_value = [value for chain in found.values() for _, value in chain]
     if len(every_value) != len(set(every_value)):
         problems.append("a value is assigned twice")
@@ -179,7 +196,8 @@ def _replay_compute(script: dict) -> list[str]:
     return problems
 
 
-REPLAYS = {"variables": _replay_variables, "record": _replay_record, "compute": _replay_compute}
+REPLAYS = {"variables": _replay_variables, "corrections": _replay_variables, "record": _replay_record,
+           "compute": _replay_compute}
 
 
 def replay(script: dict) -> list[str]:

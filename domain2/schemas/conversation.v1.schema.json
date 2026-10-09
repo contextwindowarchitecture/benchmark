@@ -517,8 +517,126 @@
             "total"
           ],
           "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "task": {
+              "const": "corrections"
+            },
+            "variables": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "variable_id": {
+                    "type": "string",
+                    "pattern": "^[vd][0-9]+$"
+                  },
+                  "role": {
+                    "enum": [
+                      "tracked",
+                      "distractor"
+                    ]
+                  },
+                  "near_miss": {
+                    "anyOf": [
+                      {
+                        "enum": [
+                          "name",
+                          "attribute"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "of": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "phrase": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "assignments": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "turn": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "value": {
+                          "type": "string",
+                          "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                        },
+                        "kind": {
+                          "enum": [
+                            "stated",
+                            "corrected"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "turn",
+                        "value",
+                        "kind"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "variable_id",
+                  "role",
+                  "near_miss",
+                  "of",
+                  "phrase",
+                  "assignments"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "task",
+            "variables"
+          ],
+          "additionalProperties": false
         }
       ]
+    },
+    "rule": {
+      "description": "IP: the rule the instructions carry, which every answer must follow",
+      "type": "object",
+      "properties": {
+        "id": {
+          "enum": [
+            "brackets",
+            "signoff",
+            "uppercase"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "text"
+      ],
+      "additionalProperties": false
     }
   },
   "required": [

@@ -112,6 +112,9 @@ BASELINE_SCRIPT = {
         {"turn": 3, "id": "t003", "user": "Alpha is 3000.", "assistant": "Noted.", "shards": ["Alpha is 3000."]},
     ],
     "probes": [{"probe_id": "p003", "after_turn": 3, "question": "What is Alpha?", "needs": ["t003"]}],
+    "ground_truth": {"task": "variables", "variables": [
+        {"variable_id": "v1", "phrase": "Alpha", "assignments": [{"turn": 1, "value": "1000"}, {"turn": 3, "value": "3000"}]},
+        {"variable_id": "v2", "phrase": "Beta", "assignments": [{"turn": 2, "value": "2000"}]}]},
 }
 U1, A1, U2, A2, U3, A3, Q = ("turn:t001:user", "turn:t001:assistant", "turn:t002:user", "turn:t002:assistant",
                              "turn:t003:user", "turn:t003:assistant", "probe:p003")
@@ -150,3 +153,21 @@ BASELINE_PAYLOADS = {
                      '\\n\\nReply briefly."},{"id":"summary","text":"Summary of the earlier conversation:\\nAlpha is 1000."}],'
                      '"tools":[]}',
 }
+
+
+# IP's compliance checks (grading/compliance.py): (case id, rule, reply, complies).
+COMPLIANCE_CASES = [
+    ("brackets-plain", "brackets", "[4,725]", True),
+    ("brackets-sentence", "brackets", "It is [4,725] now.", True),
+    ("brackets-missing", "brackets", "4,725", False),
+    ("brackets-no-figure", "brackets", "[see above] 4,725", False),
+    ("signoff-plain", "signoff", "4,725. Kestrel desk", True),
+    ("signoff-punctuated", "signoff", "4,725\n\n— Kestrel desk.", True),
+    ("signoff-bold-case", "signoff", "4,725 **kestrel Desk**", True),
+    ("signoff-not-last", "signoff", "Kestrel desk: 4,725", False),
+    ("uppercase-plain", "uppercase", "THE LIMIT IS 4,725.", True),
+    ("uppercase-one-lower", "uppercase", "THE LIMIT Is 4,725.", False),
+    ("uppercase-digits-only", "uppercase", "4,725", False),
+    ("any-empty", "signoff", "", False),
+    ("any-reasoning", "uppercase", "<think>let me see</think>4,725 IS IT", True),
+]

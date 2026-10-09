@@ -83,7 +83,9 @@ def _chains(rng: random.Random, tracked: int, distractors: int) -> list[dict]:
     return chains
 
 
-def generate(seed: int, turns: int, checkpoints: list[int], index: int, parameters: dict) -> dict:
+def generate(seed: int, turns: int, checkpoints: list[int], index: int, parameters: dict,
+             questions: tuple[str, ...] = QUESTIONS) -> dict:
+    """A VT script. `questions` lets IP (persistence.py) ask without "number only", which would contradict its rule."""
     rng = random.Random(seed)
     tracked, distractors = int(parameters["variables"]), int(parameters["distractors"])
     if tracked < 1:
@@ -134,7 +136,7 @@ def generate(seed: int, turns: int, checkpoints: list[int], index: int, paramete
         values_so_far = known(chain)
         current = values_so_far[-1]
         others = [a["value"] for c in chains if c is not chain for a in known(c)]
-        question = rng.choice(QUESTIONS).format(phrase=chain["phrase"])
+        question = rng.choice(questions).format(phrase=chain["phrase"])
         figures = " ".join(f"{capitalize(c['phrase'])} is {number(known(c)[-1]['value'])}." for c in chains if known(c))
         shards = [s for t in script_turns[:after] for s in t["shards"]]
         probes.append({
