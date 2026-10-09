@@ -5,8 +5,11 @@ what has been revealed so far. Two tasks, alternating by conversation index unle
 
 - `record`: a booking record whose fields (text and numbers) are revealed one by one. The probe asks for the record as
   a JSON object with every key, null for what is not known yet, and is graded field by field;
-- `compute`: an order whose lines (a quantity at a unit price, a fee, a credit) are revealed one by one. The probe asks
-  for the total so far, graded as a number; an earlier running total is a `stale` answer.
+- `compute`: an order whose lines (an amount for an item, a fee, a credit) are revealed one by one. The probe asks for
+  the total so far; the output contract has the model add the lines up step by step and end with a `Total:` line, whose
+  number is graded. An earlier running total is a `stale` answer. Version 2 asked for the number alone, with lines of a
+  quantity at a unit price, and the model got the fully specified task right 9 times in 48: the task measured mental
+  arithmetic, not whether the lines were in context.
 
 Parameters: `fields` (record) or `steps` (compute), the number of facts; `filler_sentences` per turn. The first fact
 is revealed at turn 1 and the others at seeded turns, so a longer conversation spaces them further apart.
@@ -22,7 +25,7 @@ from . import names
 from .names import capitalize, number
 
 GENERATOR = "fr"
-VERSION = 2  # 2: longer assistant turns; the output contract apart from the instructions
+VERSION = 3  # 2: longer assistant turns; the output contract apart from the instructions. 3: compute
 
 INSTRUCTIONS = {
     "record": ("You are an assistant helping the user put together an event booking from details they give over a long "
@@ -32,7 +35,8 @@ INSTRUCTIONS = {
 }
 OUTPUT_CONTRACTS = {
     "record": "When asked for the booking record, reply with a single JSON object and nothing else.",
-    "compute": "When asked for the total, reply with the number only.",
+    "compute": ("When asked for the total, add up the order's lines step by step, then give the total on a last line "
+                "of its own as \"Total: \" and the number."),
 }
 
 EVENTS = ("workshop", "retreat", "summit", "offsite")
@@ -148,13 +152,12 @@ def _compute(rng: random.Random, turns: int, checkpoints: list[int], parameters:
     for n, turn in enumerate(positions):
         # The first line is an item, so a total exists from turn 1; a credit never exceeds the total before it.
         op = "item" if n == 0 else rng.choices(("item", "fee", "credit"), (3, 1, 1))[0]
-        if op == "credit" and total < 20:
+        if op == "credit" and total < 100:
             op = "item"
         if op == "item":
-            item, quantity, price = items[n % len(items)], rng.randrange(2, 13), rng.randrange(5, 96)
-            amount = quantity * price
-            text = f"Add {quantity} {item}s at {price} each to the order."
-            step = {"op": op, "item": item, "quantity": quantity, "unit_price": price}
+            item, amount = items[n % len(items)], rng.randrange(50, 600, 5)
+            text = f"Add a line of {amount} for the {item}s to the order."
+            step = {"op": op, "item": item}
         elif op == "fee":
             amount = rng.randrange(15, 61, 5)
             text = f"There's a flat delivery fee of {amount} on the order."
@@ -170,7 +173,7 @@ def _compute(rng: random.Random, turns: int, checkpoints: list[int], parameters:
     script_turns = _turns(rng, turns, shards_at, opening, int(parameters["filler_sentences"]),
                           int(parameters["reply_sentences"]))
 
-    question = "What does the order come to so far? Reply with the total as a number only."
+    question = "What does the order come to so far?"
     probes = []
     for after in checkpoints:
         known = [s for s in steps if s["turn"] <= after]
@@ -179,7 +182,7 @@ def _compute(rng: random.Random, turns: int, checkpoints: list[int], parameters:
             "probe_id": f"p{after:03d}",
             "after_turn": after,
             "question": question,
-            "answer": {"kind": "number", "expected": str(known[-1]["total_after"]),
+            "answer": {"kind": "number", "marker": "Total:", "expected": str(known[-1]["total_after"]),
                        "stale": [str(s["total_after"]) for s in known[:-1]
                                  if s["total_after"] != known[-1]["total_after"]],
                        "distractors": []},

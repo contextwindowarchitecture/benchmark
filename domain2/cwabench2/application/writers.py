@@ -106,7 +106,7 @@ def _facts(script: dict, upto: int) -> list[tuple[str, int, str]]:
     facts = []
     for n, step in enumerate((s for s in truth["steps"] if s["turn"] <= upto), 1):
         if step["op"] == "item":
-            line = f"{step['quantity']} {step['item']}s at {step['unit_price']} each"
+            line = f"a line of {step['amount']} for the {step['item']}s"
         elif step["op"] == "fee":
             line = f"a delivery fee of {step['amount']}"
         else:

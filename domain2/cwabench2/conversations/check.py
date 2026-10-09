@@ -144,8 +144,8 @@ def _replay_compute(script: dict) -> list[str]:
             values = _numbers(sentence)
             if not values:
                 continue
-            if " each" in sentence and len(values) == 2:
-                amount = values[0] * values[1]
+            if "Add a line of" in sentence and len(values) == 1:
+                amount = values[0]
             elif "fee" in sentence and len(values) == 1:
                 amount = values[0]
             elif " off " in sentence and len(values) == 1:
@@ -170,7 +170,7 @@ def _replay_compute(script: dict) -> list[str]:
             problems.append(f"{probe['probe_id']}: no order line before it")
             continue
         current = known[-1][1]
-        derived = {"kind": "number", "expected": str(current),
+        derived = {"kind": "number", "marker": "Total:", "expected": str(current),
                    "stale": [str(v) for _, v in known[:-1] if v != current], "distractors": []}
         if probe["answer"] != derived:
             problems.append(f"{probe['probe_id']}: the answer differs from the text's")

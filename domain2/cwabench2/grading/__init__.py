@@ -13,7 +13,8 @@ verdict, one of VERDICTS:
 Kinds of answer:
 
 - `number`: exactly one distinct number in the reply, compared by value; `stale` and `distractors` list the values
-  that classify a wrong one;
+  that classify a wrong one. With a `marker` (such as "Total:"), the reply may show its working, and only the text
+  after the marker's last occurrence, to the end of that line, is read; a reply without the marker is `unparsed`;
 - `text`: the reply's text key equals the expected one's or an alternative's (normalize.text_key);
 - `choice`: exactly one of the options' letters, read from a bare letter ("B", "(B)", "B."), a lead ("B) …",
   "B. …") or "answer: B" / "the answer is B" (a capital letter there, so "the answer is a …" reads as no letter);
@@ -58,7 +59,14 @@ def _classified(value: str, answer: dict, expected: str) -> str:
 
 
 def grade_number(answer: dict, text: str) -> Grade:
-    found = numbers(strip_reasoning(text))
+    text = strip_reasoning(text)
+    marker = answer.get("marker")
+    if marker:
+        at = text.rfind(marker)
+        if at < 0:
+            return Grade("unparsed", None, 0.0, f"no {marker!r} line")
+        text = text[at + len(marker):].split("\n", 1)[0]
+    found = numbers(text)
     if not found:
         return Grade("unparsed", None, 0.0, "no number")
     if len(found) > 1:

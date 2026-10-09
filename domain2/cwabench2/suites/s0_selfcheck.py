@@ -48,13 +48,22 @@ def _plants(probe: dict) -> list[tuple[str, str, str, float]]:
         expected = int(answer["expected"])
         taken = {int(v) for v in (answer["expected"], *answer["stale"], *answer["distractors"])}
         unrelated = next(v for v in range(expected + 1, expected + 10_000) if v not in taken)
-        plants = [("expected", answer["expected"], "correct", 1.0),
-                  ("expected-grouped", number(expected), "correct", 1.0),
-                  ("expected-sentence", f"It is {number(expected)} now.", "correct", 1.0),
-                  ("unrelated", number(unrelated), "wrong", 0.0),
+        marker = answer.get("marker")
+
+        def said(text: str) -> str:  # with a marker, the value on its line after some working that has numbers too
+            return f"Adding up: {unrelated} - {unrelated} + 0.\n{marker} {text}" if marker else text
+
+        plants = [("expected", said(answer["expected"]), "correct", 1.0),
+                  ("expected-grouped", said(number(expected)), "correct", 1.0),
+                  ("expected-sentence", said(f"{number(expected)} in all.") if marker
+                   else f"It is {number(expected)} now.", "correct", 1.0),
+                  ("unrelated", said(number(unrelated)), "wrong", 0.0),
                   ("empty", "", "unparsed", 0.0)]
-        plants += [(f"stale-{i}", number(int(v)), "stale", 0.0) for i, v in enumerate(answer["stale"])]
-        plants += [(f"distractor-{i}", number(int(v)), "distractor", 0.0) for i, v in enumerate(answer["distractors"])]
+        if marker:
+            plants.append(("no-marker", number(expected), "unparsed", 0.0))
+        plants += [(f"stale-{i}", said(number(int(v))), "stale", 0.0) for i, v in enumerate(answer["stale"])]
+        plants += [(f"distractor-{i}", said(number(int(v))), "distractor", 0.0)
+                   for i, v in enumerate(answer["distractors"])]
         return plants
     fields = answer["fields"]
     expected = {name: (int(spec["expected"]) if spec["kind"] == "number" and spec["expected"] is not None

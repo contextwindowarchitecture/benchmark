@@ -4,6 +4,7 @@ rule in grading/normalize.py and grading/__init__.py. Each case is (case id, ans
 from __future__ import annotations
 
 NUMBER = {"kind": "number", "expected": "4200", "stale": ["3100"], "distractors": ["4150"]}
+TOTAL = {"kind": "number", "marker": "Total:", "expected": "1295", "stale": ["1210"], "distractors": []}
 TEXT = {"kind": "text", "expected": "Harwell Hall", "alternatives": ["Harwell Hall venue"]}
 CHOICE = {"kind": "choice", "expected": "B", "options": ["A", "B", "C", "D"]}
 RECORD = {"kind": "record", "fields": {"venue": {"kind": "text", "expected": "Harwell Hall"},
@@ -36,6 +37,15 @@ CASES = [
     ("number-suffixed", NUMBER, "4.2k", "unparsed", 0.0),
     ("number-unclosed-reasoning", NUMBER, "<think>4200 is the latest", "unparsed", 0.0),
     ("number-repeated", NUMBER, "4200, yes, 4,200", "correct", 1.0),
+    # Numbers after a marker: only the last marked line is read, so the working may hold other numbers.
+    ("total-plain", TOTAL, "Total: 1295", "correct", 1.0),
+    ("total-working", TOTAL, "450 + 35 = 485\n485 + 810 = 1,295\nTotal: 1,295", "correct", 1.0),
+    ("total-bold", TOTAL, "Adding the lines: 450, 35, 810.\n**Total:** 1295", "correct", 1.0),
+    ("total-last-wins", TOTAL, "Total: 1210 before the last line.\nTotal: 1295", "correct", 1.0),
+    ("total-stale", TOTAL, "450 + 760 = 1210\nTotal: 1210", "stale", 0.0),
+    ("total-wrong", TOTAL, "Total: 1300", "wrong", 0.0),
+    ("total-missing", TOTAL, "1295", "unparsed", 0.0),
+    ("total-trailing-working", TOTAL, "Total: 1295 (450 + 35 + 810)", "unparsed", 0.0),
     # Text.
     ("text-exact", TEXT, "Harwell Hall", "correct", 1.0),
     ("text-case-and-period", TEXT, "harwell hall.", "correct", 1.0),
