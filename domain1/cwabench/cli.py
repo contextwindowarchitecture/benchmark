@@ -1,10 +1,16 @@
-"""cwabench: set up the adapters, run suites, and check run directories."""
+"""cwabench: set up the adapters, run suites, and check run directories.
+
+The command serves every domain. Plain `cwabench` is Domain 1; `cwabench --domain <n> …` runs another domain's
+command, which its package registers as an entry point in the `cwabench.domains` group. This module names no domain
+but its own, so a new domain is added without changing it.
+"""
 from __future__ import annotations
 
 import argparse
 import json
 import sys
 from dataclasses import replace
+from importlib.metadata import EntryPoint, entry_points
 from pathlib import Path
 
 from . import config as config_mod
@@ -13,6 +19,18 @@ from .runner import run, setup_adapters
 from .validate import validate_run
 
 DEFAULT_CONFIG = Path(__file__).resolve().parent.parent / "domain1.toml"
+DOMAIN_GROUP = "cwabench.domains"
+
+
+def domains() -> dict[str, EntryPoint]:
+    """Every installed domain's command, by domain name."""
+    return {ep.name: ep for ep in entry_points(group=DOMAIN_GROUP)}
+
+
+def load_domains() -> None:
+    """Import every installed domain, which registers its output schemas, so any domain's run directory validates."""
+    for ep in domains().values():
+        ep.load()
 
 
 def _load(args) -> config_mod.Config:
@@ -76,7 +94,26 @@ def _print_drift(report: dict) -> None:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="cwabench", description=__doc__)
+    """Run Domain 1, or the domain `--domain` names."""
+    argv = list(sys.argv[1:] if argv is None else argv)
+    chooser = argparse.ArgumentParser(add_help=False)
+    chooser.add_argument("--domain", default="1")
+    chosen, rest = chooser.parse_known_args(argv)
+    if chosen.domain == "1":
+        return run_domain1(rest)
+    found = domains()
+    if chosen.domain not in found:
+        installed = ", ".join(sorted(found)) or "none"
+        print(f"cwabench: no domain {chosen.domain!r} is installed (installed: {installed})", file=sys.stderr)
+        return 2
+    return found[chosen.domain].load()(rest)
+
+
+def run_domain1(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(prog="cwabench", description=__doc__,
+                                     formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--domain", default="1",
+                        help="the domain to run: 1 (this harness, the default) or another installed domain")
     parser.add_argument("--config", default=str(DEFAULT_CONFIG), help="run configuration (default: domain1.toml)")
     commands = parser.add_subparsers(dest="command", required=True)
 
@@ -172,6 +209,7 @@ def main(argv: list[str] | None = None) -> int:
             return 1 if errors else 0
         if args.command == "validate":
             run_dir = Path(args.run_dir) if args.run_dir else config.results_dir / "latest"
+            load_domains()  # a run directory of any installed domain validates here
             problems = validate_run(run_dir.resolve())
             for problem in problems:
                 print(problem)

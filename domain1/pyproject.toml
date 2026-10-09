@@ -11,6 +11,10 @@ dependencies = [
 [project.scripts]
 cwabench = "cwabench.cli:main"
 
+# Every domain registers its command here; `cwabench --domain 1` is the same as plain `cwabench`.
+[project.entry-points."cwabench.domains"]
+1 = "cwabench.cli:run_domain1"
+
 [dependency-groups]
 dev = ["pytest>=8"]
 

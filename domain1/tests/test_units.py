@@ -180,3 +180,21 @@ def test_findings_carry_their_upstream_link(fake_config, tmp_path):
 def test_dumps_refuses_nan():
     with pytest.raises(ValueError):
         output.dumps({"x": float("nan")})
+
+
+def test_cwabench_dispatches_to_the_domain_it_is_asked_for(monkeypatch, capsys):
+    from cwabench import cli
+
+    seen = []
+
+    class Fake:
+        def load(self):
+            return lambda argv: seen.append(argv) or 7
+
+    monkeypatch.setattr(cli, "domains", lambda: {"1": None, "9": Fake()})
+    assert cli.main(["--domain", "9", "run", "--size", "pilot"]) == 7 and seen == [["run", "--size", "pilot"]]
+    assert cli.main(["--domain=4", "run"]) == 2
+    assert "no domain '4' is installed (installed: 1, 9)" in capsys.readouterr().err
+    monkeypatch.setattr(cli, "run_domain1", lambda argv: seen.append(("d1", argv)) or 0)
+    assert cli.main(["validate"]) == 0 and cli.main(["--domain", "1", "validate"]) == 0
+    assert seen[1:] == [("d1", ["validate"]), ("d1", ["validate"])]
