@@ -1,0 +1,311 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d2:suite-summary:v1",
+  "title": "Suite summary",
+  "description": "One suite's status, per-adapter tallies and metrics.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d2/suite-summary/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "pass",
+        "partial",
+        "fail",
+        "error"
+      ]
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "finished_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^R-[1-9][0-9]*$"
+      }
+    },
+    "corpora": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "id",
+          "count"
+        ],
+        "additionalProperties": false
+      },
+      "description": "The conversation families the suite read and how many scripts of each"
+    },
+    "adapters": {
+      "type": "array",
+      "description": "The adapters the suite ran, from S1 on; empty when it ran none",
+      "items": {
+        "type": "object",
+        "properties": {
+          "adapter": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "fail",
+              "unavailable"
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "adapter",
+          "status",
+          "error"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "suite": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^S[0-9]+$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "arm": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The arm the metric measures (domain-2-plan.md, 7), or null for all"
+          },
+          "family": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-z]+$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The task family, or null for all"
+          },
+          "tier": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The budget or long-context tier, or null for all"
+          },
+          "unit": {
+            "enum": [
+              "rate",
+              "count",
+              "tokens",
+              "ms",
+              "points"
+            ]
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "numerator": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "denominator": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "target": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "fail",
+              "info",
+              "na"
+            ]
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "suite",
+          "arm",
+          "family",
+          "tier",
+          "unit",
+          "value",
+          "numerator",
+          "denominator",
+          "target",
+          "status",
+          "description"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "files": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "string",
+          "minLength": 1
+        },
+        "findings": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "results",
+        "findings"
+      ],
+      "additionalProperties": false
+    },
+    "self_check": {
+      "description": "S0: passed and total per check",
+      "type": "object",
+      "propertyNames": {
+        "enum": [
+          "grader",
+          "plant",
+          "schema",
+          "determinism",
+          "structure",
+          "replay"
+        ]
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "passed": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "passed",
+          "total"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "title",
+    "status",
+    "started_at",
+    "finished_at",
+    "requirements",
+    "corpora",
+    "adapters",
+    "metrics",
+    "files"
+  ],
+  "additionalProperties": false
+}

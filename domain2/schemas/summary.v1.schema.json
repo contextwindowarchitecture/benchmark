@@ -1,0 +1,277 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d2:summary:v1",
+  "title": "Run summary",
+  "description": "Headline metrics and per-suite status for one run.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d2/summary/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "status": {
+      "enum": [
+        "pass",
+        "partial",
+        "fail",
+        "error"
+      ]
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "finished_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "suites": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^S[0-9]+$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "partial",
+              "fail",
+              "error"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "status",
+          "summary"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "adapters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "adapter": {
+            "type": "string",
+            "minLength": 1
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "adapter",
+          "available",
+          "error"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "suite": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^S[0-9]+$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "arm": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The arm the metric measures (domain-2-plan.md, 7), or null for all"
+          },
+          "family": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-z]+$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The task family, or null for all"
+          },
+          "tier": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The budget or long-context tier, or null for all"
+          },
+          "unit": {
+            "enum": [
+              "rate",
+              "count",
+              "tokens",
+              "ms",
+              "points"
+            ]
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "numerator": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "denominator": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "target": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "fail",
+              "info",
+              "na"
+            ]
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "suite",
+          "arm",
+          "family",
+          "tier",
+          "unit",
+          "value",
+          "numerator",
+          "denominator",
+          "target",
+          "status",
+          "description"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "findings": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "by_suite": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "file": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "total",
+        "by_suite",
+        "file"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "status",
+    "started_at",
+    "finished_at",
+    "suites",
+    "adapters",
+    "metrics",
+    "findings"
+  ],
+  "additionalProperties": false
+}

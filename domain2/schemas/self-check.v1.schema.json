@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d2:self-check:v1",
+  "title": "Self-check row",
+  "description": "One S0 check (domain-2-plan.md, 8): a grader on a planted reply, a plant made from a probe of the run's own scripts, or a check of a generated script.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d2/self-check/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "check": {
+      "enum": [
+        "grader",
+        "plant",
+        "schema",
+        "determinism",
+        "structure",
+        "replay"
+      ]
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The answer kind a grader check grades, or the family a script check reads"
+    },
+    "conversation": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "status": {
+      "enum": [
+        "pass",
+        "fail"
+      ]
+    },
+    "expected": {
+      "description": "For grader and plant checks, the verdict and score the reply must get"
+    },
+    "actual": {
+      "description": "For grader and plant checks, the verdict and score it got"
+    },
+    "detail": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "case_id",
+    "check",
+    "subject",
+    "conversation",
+    "status",
+    "expected",
+    "actual",
+    "detail"
+  ],
+  "additionalProperties": false
+}

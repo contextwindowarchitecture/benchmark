@@ -1,0 +1,43 @@
+# Domain 2 run configuration (domain-2-plan.md, section 12). Paths are relative to this file.
+#
+# This build is P0: the scaffold, the VT and FR generators, the graders and S0. The tables the later phases read
+# (adapters, model, arms, budgets, repeats, application, thresholds, caps, CI profiles) are added with those phases.
+
+[contract]
+path = "../../../contextwindowarchitecture"
+commit = "16de4be0534583f135a597171c927d42c87ee82c"  # the same pin as domain1.toml; moved deliberately, in its own commit
+allow_dirty = false
+
+[run]
+suites = ["S0"]
+families = ["vt", "fr"]
+size = "pilot"                                   # pilot | recorded: which of each family's sizes a run generates
+results_dir = "results/d2"
+
+# Every family generates `sizes` conversations per turn count, each with a probe after every `checkpoint_every`
+# turns and after the last.
+[turns]
+counts = [10, 50, 100]
+checkpoint_every = 10
+
+# VT · Variable tracking (conversations/variables.py).
+[families.vt]
+seed = 20261009
+sizes = { pilot = 2, recorded = 20 }             # conversations per turn count
+variables = 3                                    # tracked chains
+distractors = 2                                  # near-miss chains: a similar name, or the same entity's other figure
+assignment_density = 0.5                         # the share of turns that assign a value
+filler_sentences = 2                             # per turn, beside any assignment
+
+# FR · Facts revealed over turns (conversations/facts.py).
+[families.fr]
+seed = 20261010
+sizes = { pilot = 2, recorded = 20 }
+tasks = ["record", "compute"]                    # alternating by conversation index
+fields = 6                                       # record: fields revealed, one per turn
+steps = 6                                        # compute: order lines revealed, one per turn
+filler_sentences = 2
+
+# Where findings were reported, by finding id (schemas/upstream.v1.schema.json). Kept by hand; optional.
+[findings]
+upstream = "findings/upstream.json"

@@ -1,0 +1,331 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d2:contract:v1",
+  "title": "Contract enumerations",
+  "description": "Enumerations and texts copied from the pinned specification, so results are self-describing.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d2/contract/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "repository": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "commit": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dirty": {
+      "type": "boolean"
+    },
+    "spec_draft": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^R-[1-9][0-9]*$"
+          },
+          "section": {
+            "type": "string"
+          },
+          "keyword": {
+            "type": "string",
+            "minLength": 1
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "scope": {
+            "anyOf": [
+              {
+                "enum": [
+                  "assembler",
+                  "boundary",
+                  "application"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "scope_note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "section",
+          "keyword",
+          "summary",
+          "text",
+          "scope",
+          "scope_note"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "reasons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": [
+              "exclusion",
+              "refusal"
+            ]
+          },
+          "rule": {
+            "type": "string",
+            "pattern": "^R-[1-9][0-9]*$"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "order": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "code",
+          "kind",
+          "rule",
+          "text",
+          "order"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "planes": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "slots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "holds": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rule": {
+            "type": "string",
+            "minLength": 1
+          },
+          "defaults": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "id",
+          "holds",
+          "rule",
+          "defaults"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "authority": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "stages": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "components": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "object",
+          "properties": {
+            "tokenizer": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "renderer": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "tokenizer",
+            "renderer"
+          ],
+          "additionalProperties": false
+        },
+        "optional": {
+          "type": "object",
+          "properties": {
+            "tokenizer": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "renderer": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "tokenizer",
+            "renderer"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "required",
+        "optional"
+      ],
+      "additionalProperties": false
+    },
+    "corpus": {
+      "type": "object",
+      "properties": {
+        "cases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "rules": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^R-[1-9][0-9]*$"
+                }
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "rules",
+              "description"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "rejections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "rules": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^R-[1-9][0-9]*$"
+                }
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "rules",
+              "description"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "cases",
+        "rejections"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "repository",
+    "commit",
+    "dirty",
+    "spec_draft",
+    "requirements",
+    "reasons",
+    "planes",
+    "slots",
+    "authority",
+    "stages",
+    "components",
+    "corpus"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d2:runs-index:v1",
+  "title": "Runs index",
+  "description": "Every run under the results directory, newest first; the newest finished run of each CI profile; and the commits each run was made from. Resolves `latest` and the profiles without symlinks.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d2/runs-index/v1"
+    },
+    "latest": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "profiles": {
+      "description": "The newest run of each CI profile that finished (not running, not stopped by an error), what results/d1/<profile> links to.",
+      "type": "object",
+      "propertyNames": {
+        "minLength": 1
+      },
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+      }
+    },
+    "runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "partial",
+              "fail",
+              "error",
+              "running"
+            ]
+          },
+          "started_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "finished_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "suites": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^S[0-9]+$"
+            }
+          },
+          "adapters": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "ci_profile": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "commits": {
+            "description": "The contract commit and each adapter's commit this run was made from, by role; null where the manifest has none (an unavailable adapter).",
+            "type": "object",
+            "propertyNames": {
+              "minLength": 1
+            },
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "required": [
+          "run_id",
+          "status",
+          "started_at",
+          "finished_at",
+          "path",
+          "suites",
+          "adapters"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "latest",
+    "runs"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,233 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d2:finding:v1",
+  "title": "Finding",
+  "description": "One distinct failure, deduplicated by its signature.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d2/finding/v1"
+    },
+    "finding_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{12}$"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "adapter": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "adapters": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "oracle": {
+      "enum": [
+        "expected",
+        "auditor",
+        "differential",
+        "self-check",
+        "metamorphic",
+        "determinism",
+        "purity",
+        "golden",
+        "label",
+        "fault",
+        "producer"
+      ]
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "severity": {
+      "enum": [
+        "error",
+        "warning",
+        "info"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "first_pointer": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^R-[1-9][0-9]*$"
+      }
+    },
+    "occurrences": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "reproducer": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "snapshot": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "spec_path": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "snapshot",
+            "spec_path"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "signature": {
+      "type": "object",
+      "description": "What makes two failures the same finding"
+    },
+    "minimized": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "snapshot": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "items_before": {
+              "type": "integer"
+            },
+            "items_after": {
+              "type": "integer"
+            },
+            "tests": {
+              "type": "integer"
+            },
+            "reproduces": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "path",
+            "snapshot",
+            "items_before",
+            "items_after",
+            "tests",
+            "reproduces"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "upstream": {
+      "description": "Where this finding was reported, copied from [findings].upstream by finding id; null when it has no entry there.",
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^https://"
+            },
+            "state": {
+              "enum": [
+                "open",
+                "fixed",
+                "wontfix"
+              ]
+            },
+            "note": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "url",
+            "state"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "$schema",
+    "finding_id",
+    "run_id",
+    "suite",
+    "adapter",
+    "case_id",
+    "oracle",
+    "checks",
+    "severity",
+    "summary",
+    "first_pointer",
+    "requirements",
+    "occurrences",
+    "reproducer"
+  ],
+  "additionalProperties": false
+}

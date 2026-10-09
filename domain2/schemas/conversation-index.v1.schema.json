@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d2:conversation-index:v1",
+  "title": "Conversation index",
+  "description": "The scripts one family generated for a run (conversations/<family>/index.json); each script is a blob.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d2/conversation-index/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "family": {
+      "type": "string",
+      "pattern": "^[a-z]+$"
+    },
+    "generator": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "seed": {
+      "type": "integer"
+    },
+    "size": {
+      "enum": [
+        "pilot",
+        "recorded"
+      ]
+    },
+    "turn_counts": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "checkpoint_every": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "parameters": {
+      "type": "object"
+    },
+    "conversations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "conversation_id": {
+            "type": "string",
+            "pattern": "^[a-z]+-t[0-9]{3}-[0-9]{2}$"
+          },
+          "seed": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "turn_count": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "probes": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "task": {
+            "enum": [
+              "variables",
+              "record",
+              "compute"
+            ]
+          },
+          "user_words": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "script": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "conversation_id",
+          "seed",
+          "turn_count",
+          "probes",
+          "task",
+          "user_words",
+          "script"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "family",
+    "generator",
+    "seed",
+    "size",
+    "turn_counts",
+    "checkpoint_every",
+    "parameters",
+    "conversations"
+  ],
+  "additionalProperties": false
+}
