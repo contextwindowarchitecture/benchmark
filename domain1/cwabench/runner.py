@@ -42,7 +42,8 @@ def setup_adapters(config: Config, build: bool, log: Callable[[str], None] = _lo
     return ready, unavailable
 
 
-def _adapter_entries(config: Config, ready: dict[str, Adapter], unavailable: dict[str, str]) -> dict:
+def adapter_entries(config: Config, ready: dict[str, Adapter], unavailable: dict[str, str]) -> dict:
+    """The manifest's `adapters`: each configured adapter, set up or with why it is not."""
     entries = {}
     for name, adapter_config in config.adapters.items():
         if name in ready:
@@ -66,7 +67,7 @@ def run(config: Config, build: bool = True, log: Callable[[str], None] = _log,
                        "Enumerations and texts from the pinned specification")
 
     ready, unavailable = setup_adapters(config, build, log)
-    adapters = _adapter_entries(config, ready, unavailable)
+    adapters = adapter_entries(config, ready, unavailable)
     run_dir.write_json("manifest.json", run_dir.manifest(contract, adapters, "running", None, ci=ci),
                        "What this run was made from: harness, config, contract, adapters, host")
 

@@ -9,6 +9,7 @@ The sweep frames are the exact source when fitting order matters.
 """
 from __future__ import annotations
 
+from . import output
 from .oracles.auditor.model import View, stage_of
 
 LANES = ["producer", "admit", "resolve", "supersede", "dedupe", "diversity", "fit", "render"]
@@ -22,7 +23,9 @@ def _steps(view: View) -> list[tuple[str, str]]:
     return listed + [(s, a) for a in ("compress", "omit") for s in slots if (s, a) not in listed]
 
 
-def build(contract, snapshot: dict, trace: dict, adapter: str, snapshot_ref: str, run_id: str) -> dict:
+def build(contract, snapshot: dict, trace: dict, adapter: str, snapshot_ref: str, run_id: str,
+          domain: output.Domain = output.D1) -> dict:
+    """The timeline of one answer, named under `domain`'s prefix (Domain 1's by default)."""
     view = View.build(contract, snapshot)
     events: list[dict] = []
 
@@ -96,7 +99,7 @@ def build(contract, snapshot: dict, trace: dict, adapter: str, snapshot_ref: str
 
     admitted = len(view.candidates) - sum(1 for r in assembler_rows if stage_of(r.get("reason")) == 0)
     return {
-        "$schema": "cwa-bench-d1/timeline/v1",
+        "$schema": domain.schema_name("timeline"),
         "run_id": run_id,
         "snapshot": snapshot_ref,
         "adapter": adapter,
