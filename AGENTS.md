@@ -58,8 +58,9 @@ cd ../domain2 && uv run pytest && uv run cwabench --domain 2 run   # Domain 2: t
   plan stays local; the write-up is what the repository publishes.
 - Tests come with the change. Opt-in suites need `CWA_BENCH_REFERENCE=1` (the built reference assembler) or
   `CWA_BENCH_CONTAINER=1` (Podman).
-- Don't call a model except through S11's `llm` mode, and only when asked. `domain1/summarizer-cache/` is committed so
-  `replay` works without one.
+- Don't call a model except through Domain 1's S11 `llm` mode or Domain 2's `run --model llm`, and only when asked.
+  `domain1/summarizer-cache/` and `domain2/model-cache/` are committed so `replay` (Domain 2's default) works without
+  one.
 
 ## Commits
 

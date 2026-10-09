@@ -1,6 +1,6 @@
 # Domain 2 harness
 
-Benchmarks long-horizon multi-turn stability: over a long conversation, does a model given CWA-assembled context keep doing the task where a model given conventionally assembled context degrades, with everything else held equal? Its working plan, `docs/plans/domain-2-plan.md`, is kept out of git; code comments cite it by section. This directory implements phases P0 to P2 of eight. No model is called yet.
+Benchmarks long-horizon multi-turn stability: over a long conversation, does a model given CWA-assembled context keep doing the task where a model given conventionally assembled context degrades, with everything else held equal? Its working plan, `docs/plans/domain-2-plan.md`, is kept out of git; code comments cite it by section. This directory implements phases P0 to P3 of eight. S2 sends every probe to a model, by default replaying the committed cache of its replies, so a run needs no model.
 
 - **Conversation scripts.** Seeded generators write whole conversations with ground truth known by construction (`cwabench2/conversations/`). Every name, figure and booking is fictional. A script fixes:
   - the governance instructions and the output contract;
@@ -59,6 +59,23 @@ Benchmarks long-horizon multi-turn stability: over a long conversation, does a m
   - **Rows** record what assembly kept and shed per slot, so a conversation plays as frames.
   - **The gate.** A conversation and arm passes only when every one of its rows does. S2 to S4 will use only those that pass.
   - **Baselines.** S1 also builds every baseline at the same points, at the absolute budgets and each ratio of the conversation's full size in native chat. Each row records the payload's hash and count, what it kept and dropped, whether the system prompt and the summary survived, and on probes the fact-in-payload oracle by its record and by its text, which must agree.
+- **The model** (`cwabench2/model/`). Every arm's payload is handed to the model the same way: the system entries' texts, joined by a blank line, as one system message, then the payload's messages unchanged. Nothing is added, so the model reads what the payload's count describes.
+  - **The request:** the client's body (model, messages, temperature, seed, max_tokens, the server's extra fields), hashed over RFC 8785. A change to the payload, the model or any parameter is another request.
+  - **The cache** (`model-cache/`, committed): Domain 1's content-addressed cache, keyed by the request's hash and the sample index. Each entry keeps the reply and its provenance: model, endpoint, parameters, response id, finish reason, usage, cached prefix tokens, latency.
+  - **Modes.** `replay` (the default) answers from the cache alone, and a miss is an error. `llm` calls the endpoint on a miss and fills the cache. Nothing else in Domain 2 calls a model.
+- **S2, scripted conversations.** Every probe of every script is sent to the model in every arm, at each of `[s2].tiers`, `[s2].repeats` times at temperature 0, and each reply is graded.
+  - **CWA arms** send only what passed S1's gate: the payload whose hash equals the payload source's answer.
+  - **Baselines** send what S1 built; an `overflow` grades as `overflow` and reaches no model.
+  - **The two controls,** `control-full` (the fully specified task) and `control-concat` (the fact sentences so far, as one message), carry the system prompt and no budget.
+
+  A grade row holds nothing that depends on the mode (no latency, no cache hit), so a `replay` run writes the same grades as the `llm` run that filled the cache. Measured per arm and tier, never gated:
+  - aptitude (the rate of correct answers), with a cluster-bootstrap interval over conversations;
+  - the stale and unparsed rates;
+  - accuracy with the needed facts in the payload and without;
+  - each arm's paired difference from `[s2].reference` (`truncate-pinned`) on the same probes and samples, with its interval.
+
+  What fails the suite is the harness: a payload unequal to its gated bytes, or a call that failed or missed the cache.
+- **S5, cost and latency,** from S2's records alone: prompt and completion tokens per answer and per correct answer, latency p50 and p95 (as recorded when the cache was filled), answer length by turn count, prefix-cache tokens, and the token estimator's under-count against the server's prompt tokens. The margin must cover the largest under-count (R-16), or S5 fails.
 - **S7, goldens.** Probe answers all four assemblers agreed on, as predicted and audited clean, become candidate goldens. `goldens accept` adopts them, and later runs report drift. `goldens/d2-goldens.json` holds the pilot's 2,240.
 
 ## Run it
@@ -67,7 +84,8 @@ The benchmark is a uv workspace, and Domain 2 runs through its one command, `cwa
 
 ```sh
 uv sync                                         # at the benchmark root
-uv run cwabench --domain 2 run                  # S0, S1, S7 at pilot size; writes results/d2/<run-id>/
+uv run cwabench --domain 2 run                  # S0, S1, S2, S5, S7 at pilot size, replaying the model's cache
+uv run cwabench --domain 2 run --model llm      # call the endpoint on a cache miss and fill model-cache/
 uv run cwabench --domain 2 run --no-frames      # S1 assembles the probes only
 uv run cwabench --domain 2 run --size recorded  # the families' recorded sizes instead of their pilot sizes
 uv run cwabench --domain 2 validate             # re-check the latest run against its schemas and blob digests
@@ -76,13 +94,14 @@ uv run pytest                                   # the harness's own tests, from 
 CWA_BENCH_REFERENCE=1 uv run pytest tests/test_gate.py   # S1 and S7 on the reference assembler, and a planted defect
 ```
 
-On this machine, a pilot run takes about 14 minutes with frames (24,640 snapshots, 98,560 answers, and 24,640 baseline payloads) and about 90 seconds with `--no-frames` (2,240 snapshots). `run` builds the adapters first unless you pass `--no-build`. The exit code is 0 only when the run passes and its output validates.
+On this machine, a pilot run takes about 14 minutes with frames (24,640 snapshots, 98,560 answers, and 24,640 baseline payloads) and about 2 minutes with `--no-frames` (2,240 snapshots); replaying S2's 1,740 calls takes seconds. Filling the cache with `--model llm` took 27 minutes against a local omlx server running Qwen3.6-35B-A3B-8bit, and only `--model llm` calls a model. `run` builds the adapters first unless you pass `--no-build`. The exit code is 0 only when the run passes and its output validates.
 
 ## What it needs
 
 - Python 3.12+ and [uv](https://docs.astral.sh/uv/).
 - Domain 1's harness at `../domain1`, a fellow member of the benchmark's uv workspace. Domain 2 reuses its run directory, blob store, output validation, contract loader, renderer, adapters, trace auditor and differential oracle.
 - Domain 1's four adapters, built under `../domain1/.build/` by `cwabench setup`, with the assembler checkouts `../domain1/README.md` lists. `[adapters]` names Domain 1's configuration, the adapters to use, and the payload source, whose bytes S2 will send to the model (the others must match them).
+- For S2 in `replay` mode, nothing more: `model-cache/` is committed. For `--model llm`, an OpenAI-compatible endpoint at `[model].base_url` serving `[model].model` (the key, if any, in the environment variable `[model].api_key_env`).
 - The specification checkout at `../../../contextwindowarchitecture`, at the commit `domain2.toml` pins. That is Domain 1's pin, and a test holds the two equal. Moving it is a deliberate change, made in its own commit.
 
 ## Configuration
@@ -101,6 +120,8 @@ On this machine, a pilot run takes about 14 minutes with frames (24,640 snapshot
 | `[turns]` | Turn counts and the probe interval |
 | `[families.<id>]` | Each family's seed, `sizes` (conversations per turn count) and its generator's parameters |
 | `[s1]` | Whether to assemble every turn as a frame, and whether to write timelines |
+| `[model]` | The mode, the endpoint and model, the request parameters, concurrency, the cache, the context limit |
+| `[s2]` | The tiers S2 sends at, samples per payload, the reference arm, the bootstrap |
 | `[s7]` | The goldens file |
 | `[findings]` | Where findings were reported upstream |
 
@@ -111,8 +132,8 @@ The pilot sizes give 2 conversations per turn count (10, 50 and 100 turns), 12 s
 A run directory follows Domain 1's conventions under the prefix `cwa-bench-d2`. Every document names its schema (`"$schema": "cwa-bench-d2/<kind>/v1"`) and is validated against `schemas/<kind>.v1.schema.json` before it is written.
 
 - **Reused kinds.** `blob`, `contract`, `drift-row`, `finding`, `manifest`, `run-index`, `runs-index`, `timeline` and `upstream` are Domain 1's schemas with the prefix changed, and a test holds them equal.
-- **New kinds.** `conversation`, `conversation-index`, `self-check`, `turn-row`, `baseline-row` and `goldens` are Domain 2's own.
-- **Changed kinds.** `summary` and `suite-summary` carry Domain 2's metric shape, which has `arm`, `family` and `tier` where Domain 1's has `adapter`.
+- **New kinds.** `conversation`, `conversation-index`, `self-check`, `turn-row`, `baseline-row`, `grade-row`, `call-row` and `goldens` are Domain 2's own.
+- **Changed kinds.** `summary` and `suite-summary` carry Domain 2's metric shape, which has `arm`, `family` and `tier` where Domain 1's has `adapter`, and an optional `interval`.
 
 ```
 results/d2/index.json                    # every run, newest first; results/d2/latest links the newest
@@ -125,6 +146,10 @@ results/d2/<run-id>/
                                          #   the shedding record, and on probes the fact-in-payload oracle
   suites/S1/baselines.jsonl              # one row per point, baseline and budget: count, kept and dropped,
                                          #   the system prompt and summary, and on probes the fact oracle
+  suites/S2/grades.jsonl                 # one row per probe, arm, tier and sample: the reply and its grade
+  suites/S2/summary.json                 # aptitude, intervals, paired differences, by arm and tier
+  suites/S5/summary.json                 # tokens, latency and the estimator's under-count, by arm and tier
+  model/calls.jsonl                      # one row per distinct request and sample: cache key and provenance
   suites/S7/candidate-goldens.json  suites/S7/drift.jsonl  suites/S7/summary.json
   timelines/<snapshot sha256>/<adapter>.json   # each conversation's last probe, per arm and budget
   blobs/sha256/<ab>/<hex>.json           # scripts, each probe's frozen snapshot, findings' reproducers
