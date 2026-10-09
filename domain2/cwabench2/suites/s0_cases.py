@@ -113,7 +113,8 @@ BASELINE_SCRIPT = {
     ],
     "probes": [{"probe_id": "p003", "after_turn": 3, "question": "What is Alpha?", "needs": ["t003"]}],
     "ground_truth": {"task": "variables", "variables": [
-        {"variable_id": "v1", "phrase": "Alpha", "assignments": [{"turn": 1, "value": "1000"}, {"turn": 3, "value": "3000"}]},
+        {"variable_id": "v1", "phrase": "Alpha",
+         "assignments": [{"turn": 1, "value": "1000"}, {"turn": 3, "value": "3000"}]},
         {"variable_id": "v2", "phrase": "Beta", "assignments": [{"turn": 2, "value": "2000"}]}]},
 }
 U1, A1, U2, A2, U3, A3, Q = ("turn:t001:user", "turn:t001:assistant", "turn:t002:user", "turn:t002:assistant",
@@ -150,7 +151,8 @@ BASELINE_PAYLOADS = {
     ("summary", 40): '{"messages":[{"content":"Beta is 2000.","role":"user"},{"content":"Noted.","role":"assistant"},'
                      '{"content":"Alpha is 3000.","role":"user"},{"content":"Noted.","role":"assistant"},'
                      '{"content":"What is Alpha?","role":"user"}],"system":[{"id":"system","text":"Keep track.'
-                     '\\n\\nReply briefly."},{"id":"summary","text":"Summary of the earlier conversation:\\nAlpha is 1000."}],'
+                     '\\n\\nReply briefly."},{"id":"summary","text":"Summary of the earlier conversation:'
+                     '\\nAlpha is 1000."}],'
                      '"tools":[]}',
 }
 

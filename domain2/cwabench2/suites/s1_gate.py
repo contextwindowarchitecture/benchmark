@@ -10,13 +10,13 @@ full size), and with `frames` every turn too, is assembled by each adapter. Each
 - **agreement**: every adapter's outcome, payload bytes and normalized trace (Domain 1's differential oracle).
 
 On every probe, the fact-in-payload oracle decides by the trace and by the payload's text whether the answer's facts
-were included, and the two must agree (application/fact.py).
+were included, and the two must agree (application/fact.py). A conversation and arm passes the gate when every one
+of its rows passes; S2 to S4 use only those that do, and the rest are counted.
 
 S1 also builds every conventional baseline (baselines/) at the same points, at the absolute budgets and each ratio of
 the conversation's full size in native chat, and records each payload, its count, what it kept and dropped and, on
 probes, the fact-in-payload oracle by its record and by its text (`baselines.jsonl`). A baseline's fact counts as
-present only when its payload fits: an overflowing request reaches no model. A conversation and arm passes the gate when every one of
-its rows passes; S2 to S4 use only those that do, and the rest are counted.
+present only when its payload fits: an overflowing request reaches no model.
 
 Each row also records what the payload source's trace shows assembly did: per slot, its candidates, how many were
 included and their tokens, how many were omitted for budget, and every exclusion by reason. A conversation's turn rows
@@ -219,7 +219,8 @@ def run(ctx: SuiteContext) -> SuiteResult:
                                              "included": sorted(expected.included)},
                             })
                             metas.append((point, tier, budget, frozen_ref, expected, data))
-                    for (point, tier, budget, frozen_ref, expected, data), result in zip(metas, pool.map(assemble, jobs)):
+                    answered = pool.map(assemble, jobs)
+                    for (point, tier, budget, frozen_ref, expected, data), result in zip(metas, answered):
                         row, ok = _row(ctx, report, script, family, arm_name, point, tier, budget, frozen_ref,
                                        expected, data, result, tally, present)
                         rows.append(row)
@@ -383,7 +384,8 @@ def _row(ctx, report, script, family, arm, point: Point, tier, budget, frozen_re
     tally["agreement"][1] += 1
     if not result["agree"]:
         found.append(report.add("differential", ["agreement"], None, arm, case_id,
-                                f"adapters disagree on {case_id}: " + " vs ".join("/".join(g) for g in result["groups"]),
+                                f"adapters disagree on {case_id}: "
+                                + " vs ".join("/".join(g) for g in result["groups"]),
                                 data))
     fact = result["fact"]
     if fact is not None:

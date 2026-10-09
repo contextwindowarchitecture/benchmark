@@ -33,8 +33,8 @@ EXTRACT_USER = ("Current state:\n{state}\n\nNew message from the user:\n{user}\n
 SUMMARY_SYSTEM = ("You keep a running summary of a long conversation for an assistant that will not see the older "
                   "turns. Keep every name, figure and value the user gave, with its latest value, and drop small talk. "
                   "Reply with the summary only.")
-SUMMARY_USER = "Summary so far:\n{summary}\n\nNext turn of the conversation:\nUser: {user}\nAssistant: {assistant}\n\n" \
-               "Write the updated summary."
+SUMMARY_USER = ("Summary so far:\n{summary}\n\nNext turn of the conversation:\nUser: {user}\nAssistant: {assistant}"
+                "\n\nWrite the updated summary.")
 NOTHING = "(nothing yet)"
 
 

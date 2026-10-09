@@ -61,7 +61,8 @@ def run(ctx: SuiteContext) -> SuiteResult:
             "latency_ms": percentiles(latency),
             "estimator_error": percentiles([round(e, 6) for e in errors]),
             "cached_tokens": sum(c for c in cached if isinstance(c, int)),
-            "answer_length_by_turns": {k: percentiles(v) for k, v in sorted(by_turns.items(), key=lambda kv: int(kv[0]))},
+            "answer_length_by_turns": {k: percentiles(v)
+                                       for k, v in sorted(by_turns.items(), key=lambda kv: int(kv[0]))},
         }
         by_arm.append(entry)
         suite_metrics.append(metrics.value("s5.prompt_tokens_per_correct", "Prompt tokens per correct answer",

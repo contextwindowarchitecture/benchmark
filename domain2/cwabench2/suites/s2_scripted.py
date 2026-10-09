@@ -213,7 +213,8 @@ def execute(ctx: SuiteContext, suite: str, title: str, settings: dict, model_set
     if more is not None:
         suite_metrics += more(grades)
     prefix = ID.lower()
-    suite_metrics.insert(0, metrics.count(f"{prefix}.call_errors", "Model calls that failed or missed the cache", len(errors),
+    suite_metrics.insert(0, metrics.count(f"{prefix}.call_errors", "Model calls that failed or missed the cache",
+                                          len(errors),
                                           maximum=0, suite=ID))
     suite_metrics.insert(1, metrics.count(f"{prefix}.payload_problems", "CWA and baseline payloads unequal to S1's",
                                           len(problems), maximum=0, suite=ID))
@@ -288,7 +289,8 @@ def _measure(ID: str, settings: dict, grades: list[dict]) -> tuple[list[dict], l
                                               "compliant": sum(r["compliant"] for r in ruled if r["rule"] == rule)}
                                        for rule in sorted({r["rule"] for r in ruled})},
                            "by_turns": {str(t): {"n": sum(r["turn_count"] == t for r in ruled),
-                                                 "compliant": sum(r["compliant"] for r in ruled if r["turn_count"] == t)}
+                                                 "compliant": sum(r["compliant"] for r in ruled
+                                                                  if r["turn_count"] == t)}
                                         for t in sorted({r["turn_count"] for r in ruled})}}
         by_family = {f: {"n": sum(r["family"] == f for r in rows),
                          "correct": sum(r["verdict"] == "correct" for r in rows if r["family"] == f),

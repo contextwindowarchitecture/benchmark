@@ -9,7 +9,9 @@ point and budget as the CWA arms, and records what it dropped:
 | `truncate` | the same, oldest messages dropped first until it fits, the system prompt first among them |
 | `truncate-pinned` | the system prompt pinned, the oldest turn messages dropped until it fits |
 | `window` | the last `window_turns` turns, then as truncate-pinned |
-| `summary` | the system prompt, a rolling summary of the turns before the window, then the window; the summary, the oldest content, goes first, then the oldest window messages |
+| `summary` | the system prompt, a rolling summary of the older turns, then the window; the summary goes first |
+
+Under pressure the summary, the oldest content, is shed before the window's oldest messages.
 
 **The payload** has the shape `cwa-messages/v1` gives a request, so S2 hands every arm to the model the same way:
 the JCS serialization of `{"system": [{"id", "text"}…], "tools": [], "messages": [{"role", "content"}…]}`. The system

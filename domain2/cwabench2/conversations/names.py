@@ -16,8 +16,8 @@ CODAS = ("well", "nick", "more", "ton", "by", "worth", "ley", "stead", "wick", "
          "bury")
 
 # Filler only. None of these is ever a fact, and none can be built from ONSETS and CODAS.
-PEOPLE = ("Ada", "Bram", "Cora", "Dell", "Esme", "Finn", "Greta", "Hugo", "Ines", "Jonah", "Kira", "Leon", "Mira", "Nils",
-          "Opal", "Pia", "Rafe", "Suri", "Teo", "Una", "Vik", "Wren")
+PEOPLE = ("Ada", "Bram", "Cora", "Dell", "Esme", "Finn", "Greta", "Hugo", "Ines", "Jonah", "Kira", "Leon", "Mira",
+          "Nils", "Opal", "Pia", "Rafe", "Suri", "Teo", "Una", "Vik", "Wren")
 PLACES = ("east wing", "north office", "harbour room", "library annex", "garden studio", "print room", "loading bay")
 PARTS_OF_DAY = ("morning", "afternoon", "evening")
 
@@ -76,7 +76,8 @@ def filler(rng: random.Random) -> str:
 def reply(rng: random.Random, sentences: int) -> str:
     """A scripted assistant turn: an acknowledgement, then `sentences` sentences that carry no fact."""
     picked = rng.sample(REPLIES, min(sentences, len(REPLIES)))
-    rest = [r.format(person=rng.choice(PEOPLE), place=rng.choice(PLACES), part=rng.choice(PARTS_OF_DAY)) for r in picked]
+    rest = [r.format(person=rng.choice(PEOPLE), place=rng.choice(PLACES), part=rng.choice(PARTS_OF_DAY))
+            for r in picked]
     return " ".join([rng.choice(ACKNOWLEDGEMENTS), *rest])
 
 

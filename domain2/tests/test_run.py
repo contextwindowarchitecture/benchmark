@@ -32,7 +32,8 @@ def test_a_run_with_only_s0_passes_and_validates(small_config):
     assert len(list(blob.glob("*.json"))) == 1
     summary = _read(run_dir / "summary.json")
     assert {m["id"] for m in summary["metrics"]} == {"s0.grader", "s0.plant", "s0.schema", "s0.determinism",
-                                                     "s0.structure", "s0.replay", "s0.fact", "s0.baseline", "s0.compliance"}
+                                                     "s0.structure", "s0.replay", "s0.fact", "s0.baseline",
+                                                     "s0.compliance"}
     assert all(m["status"] == "pass" for m in summary["metrics"])
     runs = _read(config.results_dir / "index.json")
     assert runs["$schema"] == "cwa-bench-d2/runs-index/v1" and runs["latest"] == run_dir.name

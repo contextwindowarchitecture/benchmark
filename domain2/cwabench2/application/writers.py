@@ -105,7 +105,8 @@ def _facts(script: dict, upto: int) -> list[tuple[str, int, str]]:
                 facts.append((variable["variable_id"], known[-1]["turn"], body))
         return facts
     if truth["task"] == "record":
-        return [(f["field"], f["turn"], f"{f['field']}: {number(int(f['value'])) if f['kind'] == 'number' else f['value']}")
+        return [(f["field"], f["turn"],
+                 f"{f['field']}: {number(int(f['value'])) if f['kind'] == 'number' else f['value']}")
                 for f in truth["fields"] if f["turn"] <= upto]
     facts = []
     for n, step in enumerate((s for s in truth["steps"] if s["turn"] <= upto), 1):

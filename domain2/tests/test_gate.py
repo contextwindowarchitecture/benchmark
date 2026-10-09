@@ -17,7 +17,10 @@ reference = pytest.mark.skipif(os.environ.get("CWA_BENCH_REFERENCE") != "1",
                                       "`cwabench setup`)")
 
 
-def _configs(tmp_path, spec, modes, suites=("S0", "S1", "S7"), extra="", arms='["cwa-history", "cwa-state", "cwa-memory", "cwa-pipeline", "cwa-format"]', summarizer="stub"):
+LADDER = '["cwa-history", "cwa-state", "cwa-memory", "cwa-pipeline", "cwa-format"]'
+
+
+def _configs(tmp_path, spec, modes, suites=("S0", "S1", "S7"), extra="", arms=LADDER, summarizer="stub"):
     """A Domain 1 configuration whose adapters are the reference assembler in each buggy_adapter mode, and a
     Domain 2 configuration that assembles with them."""
     python = DOMAIN1 / ".build/python-venv/bin/python"
