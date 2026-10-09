@@ -12,8 +12,9 @@ own directory:
 | `docs/benchmarking_cwa_viability.md` | The overall benchmark design |
 | `docs/plans/` | Working plans: `domain-1-plan.md` and `domain-2-plan.md`, each with an "as built" section per phase. Git-ignored: read and update them, never commit them |
 | `docs/` | Committed write-ups, one per domain, written once the domain's plan is fully implemented |
-| `domain1/` | The Domain 1 harness (`cwabench`); start with `domain1/README.md` |
-| `domain2/` | The Domain 2 harness (`cwabench2`), in progress; it depends on `domain1/` by path. Start with `domain2/README.md` |
+| `pyproject.toml` | The uv workspace: every domain is a member, with one lockfile (`uv.lock`) and one environment |
+| `domain1/` | The Domain 1 harness (package `cwabench`, the `cwabench` command); start with `domain1/README.md` |
+| `domain2/` | The Domain 2 harness (package `cwabench2`, run as `cwabench --domain 2`), in progress; it builds on `domain1/`. Start with `domain2/README.md` |
 | `../benchmark-ui` | The results UI, its design baseline (`DESIGN.md`) and its plan live in `contextwindowarchitecture/benchmark-ui`, a sibling checkout. It reads this repository (schemas, results, write-ups), never the reverse. Its harness changes (fixture runs, runs-index pointers, sweep curves, aggregates, upstream links on findings) are made here at that plan's UI-P0, when asked; until then, no UI work |
 | `.github/workflows/` | CI, started by hand only (`workflow_dispatch`); don't add schedules or push triggers unasked |
 
@@ -32,14 +33,20 @@ Code comments cite the plans by name and section (`domain-1-plan.md, 7.2`); the 
 ## Working on the harness
 
 ```sh
+uv sync                                # at the benchmark root: every domain, into one .venv
 cd domain1
-uv sync
 uv run pytest                          # fast; needs the spec checkout, no assembler
 uv run cwabench run --suites S1        # one suite; a full run is ~85 min, S7 alone ~70
 uv run cwabench ci nightly --fetch     # every suite but S7 against upstream main (~20 min)
-uv run cwabench validate               # re-check the latest run directory
-cd ../domain2 && uv sync && uv run pytest && uv run cwabench2 run   # Domain 2: its tests and a pilot run
+uv run cwabench validate               # re-check the latest run directory, of any installed domain
+cd ../domain2 && uv run pytest && uv run cwabench --domain 2 run   # Domain 2: its tests and a pilot run
 ```
+
+- One command serves every domain: plain `cwabench` is Domain 1, and `cwabench --domain <n>` runs domain n's
+  command, which its package registers under the `cwabench.domains` entry points. Domain 1's code names no other
+  domain; a new domain adds itself as a workspace member with its own entry point.
+- `uv sync` inside a member directory installs that member alone and removes the other domains from the environment
+  (Domain 1's CI does this on purpose); sync at the root to work on several.
 
 - Python 3.12+, lines up to 120 characters; match the surrounding code's style, naming and comment density.
 - Every output file names its schema (`"$schema": "cwa-bench-d1/<kind>/v1"`) and is validated before it is written. A

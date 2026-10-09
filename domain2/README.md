@@ -12,12 +12,14 @@ No model is called. The suites that call one (S2 to S4 and S6, from P3) will def
 
 ## Run it
 
+Domain 2 runs through the benchmark's one command, `cwabench --domain 2`, which finds this package by its `cwabench.domains` entry point. Install it with `uv sync` at the benchmark root, which installs every domain into the workspace's one environment (a `uv sync` in `domain1/` installs Domain 1 alone).
+
 ```sh
-uv sync
-uv run cwabench2 run                  # generate the conversations, run S0; writes results/d2/<run-id>/
-uv run cwabench2 run --size recorded  # the families' recorded sizes instead of their pilot sizes
-uv run cwabench2 validate             # re-check the latest run against its schemas and blob digests
-uv run pytest                         # the harness's own tests; needs the spec checkout
+uv sync                                         # at the benchmark root
+uv run cwabench --domain 2 run                  # generate the conversations, run S0; writes results/d2/<run-id>/
+uv run cwabench --domain 2 run --size recorded  # the families' recorded sizes instead of their pilot sizes
+uv run cwabench --domain 2 validate             # re-check the latest run against its schemas and blob digests
+uv run pytest                                   # the harness's own tests, from domain2/; needs the spec checkout
 ```
 
 A pilot run takes a few seconds. The exit code is 0 only when the run passes and its output validates.
@@ -25,7 +27,7 @@ A pilot run takes a few seconds. The exit code is 0 only when the run passes and
 ## What it needs
 
 - Python 3.12+ and [uv](https://docs.astral.sh/uv/).
-- Domain 1's harness at `../domain1`, which `pyproject.toml` installs by path (editable). Domain 2 reuses its run directory, blob store, output validation and contract loader. From P1 on it also reuses Domain 1's adapters, canon and oracles.
+- Domain 1's harness at `../domain1`, a fellow member of the benchmark's uv workspace. Domain 2 reuses its run directory, blob store, output validation and contract loader. From P1 on it also reuses Domain 1's adapters, canon and oracles.
 - The specification checkout at `../../../contextwindowarchitecture`, at the commit `domain2.toml` pins. That is Domain 1's pin, and a test holds the two equal. Moving it is a deliberate change, made in its own commit.
 
 ## Configuration

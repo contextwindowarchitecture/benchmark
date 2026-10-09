@@ -19,11 +19,13 @@ No model is called during assembly. The only model call in the harness is S11's 
 
 ## Run it
 
+The benchmark is a uv workspace (`../pyproject.toml`): `uv sync` at the benchmark root installs every domain into one environment, and `uv sync` here installs Domain 1 alone. `cwabench` is Domain 1's command and also every other domain's, as `cwabench --domain <n>` (each domain registers itself under the `cwabench.domains` entry points).
+
 ```sh
 uv sync
 uv run cwabench setup          # build and check the four adapters into .build/
 uv run cwabench run            # run the configured suites; writes results/d1/<run-id>/
-uv run cwabench validate       # re-check the latest run against its schemas and blob digests
+uv run cwabench validate       # re-check the latest run against its schemas and blob digests (any domain's run)
 uv run cwabench fixture <run>  # write fixtures/runs/<run-id>: the run trimmed to a sample, for consumers' tests
 uv run cwabench goldens accept # adopt the latest run's consensus answers as S12's goldens
 uv run cwabench run --suites S11 --summarizer llm     # call the configured model and fill summarizer-cache/
