@@ -29,6 +29,8 @@ def _load(args) -> config_mod.Config:
         config = replace(config, suites=suites)
     if getattr(args, "size", None):
         config = replace(config, size=args.size)
+    if getattr(args, "no_frames", False):
+        config = replace(config, frames=False)
     return config
 
 
@@ -45,7 +47,8 @@ def _print_summary(run_dir: Path) -> None:
                      else f"{metric['value']:.1%} ({metric['numerator']}/{metric['denominator']})")
         else:
             value = str(metric["value"])
-        print(f"  {metric['status']:<4}  {metric['label']:<{width}}  {value}")
+        where = " ".join(x for x in (metric["arm"], metric["family"], metric["tier"]) if x) or "all"
+        print(f"  {metric['status']:<4}  {metric['label']:<{width}}  {where:<22}  {value}")
     print(f"\nfindings: {summary['findings']['total']}  →  {run_dir}")
 
 
@@ -57,6 +60,13 @@ def main(argv: list[str] | None = None) -> int:
     run_cmd = commands.add_parser("run", help="run suites and write a run directory")
     run_cmd.add_argument("--suites", help="comma-separated subset of the configured suites")
     run_cmd.add_argument("--size", choices=config_mod.SIZES, help="the families' size, overriding [run].size")
+    run_cmd.add_argument("--no-build", action="store_true", help="skip Domain 1's adapter builds; use what is built")
+    run_cmd.add_argument("--no-frames", action="store_true", help="S1 assembles the probes only, not every turn")
+
+    goldens_cmd = commands.add_parser("goldens", help="adopt a run's candidate goldens (S7)")
+    goldens_sub = goldens_cmd.add_subparsers(dest="goldens_command", required=True)
+    accept_cmd = goldens_sub.add_parser("accept", help="adopt a run's candidate goldens as the baseline")
+    accept_cmd.add_argument("run_dir", nargs="?", help="default: the latest run")
 
     validate_cmd = commands.add_parser("validate", help="check a run directory against its schemas and blob digests")
     validate_cmd.add_argument("run_dir", nargs="?", help="default: the latest run")
@@ -65,12 +75,19 @@ def main(argv: list[str] | None = None) -> int:
     try:
         config = _load(args)
         if args.command == "run":
-            run_dir, status = run(config)
+            run_dir, status = run(config, build=not args.no_build)
             _print_summary(run_dir)
             problems = validate_run(run_dir)
             for problem in problems:
                 print(f"invalid output: {problem}", file=sys.stderr)
             return 0 if status == "pass" and not problems else 1
+        if args.command == "goldens":
+            from .suites.s7_goldens import accept
+
+            run_dir = Path(args.run_dir) if args.run_dir else config.results_dir / "latest"
+            target, count = accept(config, run_dir.resolve())
+            print(f"adopted {count} golden(s) from {run_dir.resolve().name} → {target}")
+            return 0
         if args.command == "validate":
             run_dir = Path(args.run_dir) if args.run_dir else config.results_dir / "latest"
             problems = validate_run(run_dir.resolve())

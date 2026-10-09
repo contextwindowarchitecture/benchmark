@@ -11,7 +11,7 @@ from cwabench2 import output
 
 ROOT = Path(__file__).resolve().parent.parent
 # Kinds Domain 2 reuses unchanged (domain-2-plan.md, 11): Domain 1's schema with the prefix swapped.
-COPIES = ("blob", "contract", "finding", "manifest", "run-index", "runs-index", "upstream")
+COPIES = ("blob", "contract", "drift-row", "finding", "manifest", "run-index", "runs-index", "timeline", "upstream")
 SWAPS = (("cwa-bench-d1", "cwa-bench-d2"),)
 
 
@@ -25,7 +25,7 @@ def test_reused_kinds_keep_domain_1s_shape(kind):
 
 def test_every_schema_is_valid_and_rejects_strangers():
     paths = sorted(output.SCHEMA_DIR.glob("*.v1.schema.json"))
-    assert len(paths) == 12
+    assert len(paths) == 16
     for path in paths:
         kind = path.name.removesuffix(".v1.schema.json")
         output.D2.validator(kind)  # check_schema runs here

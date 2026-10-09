@@ -32,7 +32,7 @@ def test_a_run_with_only_s0_passes_and_validates(small_config):
     assert len(list(blob.glob("*.json"))) == 1
     summary = _read(run_dir / "summary.json")
     assert {m["id"] for m in summary["metrics"]} == {"s0.grader", "s0.plant", "s0.schema", "s0.determinism",
-                                                     "s0.structure", "s0.replay"}
+                                                     "s0.structure", "s0.replay", "s0.fact"}
     assert all(m["status"] == "pass" for m in summary["metrics"])
     runs = _read(config.results_dir / "index.json")
     assert runs["$schema"] == "cwa-bench-d2/runs-index/v1" and runs["latest"] == run_dir.name
@@ -72,3 +72,18 @@ def test_cwabench_runs_domain_2_through_its_entry_point(small_config, capsys):
     assert cli.main(["--domain", "2", "--config", str(config.path), "validate"]) == 0
     assert cli.main(["validate", str(latest)]) == 0  # Domain 1's own validate reads any installed domain's run
     assert "valid" in capsys.readouterr().out
+
+
+def test_config_requires_adapters_for_s1_and_s1_for_s7(small_config):
+    config = small_config()
+    text = config.path.read_text()
+    config.path.write_text(text.replace('suites = ["S0"]', 'suites = ["S0", "S1"]'))
+    with pytest.raises(config_mod.ConfigError, match="need \\[adapters\\]"):
+        config_mod.load(config.path)
+    config.path.write_text(text.replace('suites = ["S0"]', 'suites = ["S0", "S7"]'))
+    with pytest.raises(config_mod.ConfigError, match="needs S1"):
+        config_mod.load(config.path)
+    config.path.write_text(text + '\n[arms]\ncwa = ["cwa-history", "cwa-everything"]\n')
+    with pytest.raises(config_mod.ConfigError, match="cwa-everything"):
+        config_mod.load(config.path)
+    assert config_mod.Budgets([8192], [1.0, 0.25]).of(1001) == [("8192", 8192), ("r1.00", 1001), ("r0.25", 251)]

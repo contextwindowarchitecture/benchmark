@@ -270,7 +270,8 @@
           "schema",
           "determinism",
           "structure",
-          "replay"
+          "replay",
+          "fact"
         ]
       },
       "additionalProperties": {
@@ -291,6 +292,129 @@
         ],
         "additionalProperties": false
       }
+    },
+    "gate": {
+      "description": "S1: conversations and arms that passed the gate, and those that did not",
+      "type": "object",
+      "properties": {
+        "passed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "failed": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "passed",
+        "total",
+        "failed"
+      ],
+      "additionalProperties": false
+    },
+    "rows": {
+      "description": "S1: rows written, by point, and timelines",
+      "type": "object",
+      "properties": {
+        "probes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "turns": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "timelines": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "probes",
+        "turns",
+        "timelines"
+      ],
+      "additionalProperties": false
+    },
+    "goldens": {
+      "description": "S7: the adopted goldens compared with, and the drift found",
+      "type": "object",
+      "properties": {
+        "path": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "contract_commit": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "candidates": {
+          "type": "string",
+          "minLength": 1
+        },
+        "drift": {
+          "type": "object",
+          "properties": {
+            "match": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "spec_change": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "regression": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "new": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "removed": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "match",
+            "spec_change",
+            "regression",
+            "new",
+            "removed"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "path",
+        "contract_commit",
+        "candidates",
+        "drift"
+      ],
+      "additionalProperties": false
     }
   },
   "required": [

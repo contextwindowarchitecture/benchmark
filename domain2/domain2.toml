@@ -1,7 +1,7 @@
 # Domain 2 run configuration (domain-2-plan.md, section 12). Paths are relative to this file.
 #
-# This build is P0: the scaffold, the VT and FR generators, the graders and S0. The tables the later phases read
-# (adapters, model, arms, budgets, repeats, application, thresholds, caps, CI profiles) are added with those phases.
+# This build is P0 and P1: the generators, the graders, S0, the application side, S1 (the assembly gate) and S7
+# (goldens). The tables the later phases read (model, repeats, thresholds, caps, CI profiles) are added with them.
 
 [contract]
 path = "../../../contextwindowarchitecture"
@@ -9,10 +9,48 @@ commit = "16de4be0534583f135a597171c927d42c87ee82c"  # the same pin as domain1.t
 allow_dirty = false
 
 [run]
-suites = ["S0"]
+suites = ["S0", "S1", "S7"]
 families = ["vt", "fr"]
 size = "pilot"                                   # pilot | recorded: which of each family's sizes a run generates
 results_dir = "results/d2"
+timeout_s = 60                                   # per assembly
+concurrency = 8                                  # snapshots in flight, each on every adapter at once
+
+# Domain 1's adapters and builds (domain1/.build): every CWA snapshot is assembled by each of them. The payload
+# source's bytes are what S2 sends to the model; the others must match them byte for byte.
+[adapters]
+config = "../domain1/domain1.toml"
+use = ["python", "typescript", "go", "rust"]
+payload_source = "rust"
+
+# The CWA arms (cwabench2/application/snapshots.py): history only, then plus oracle state, plus memory, plus the
+# history pipeline. The conventional baselines arrive at P2.
+[arms]
+cwa = ["cwa-history", "cwa-state", "cwa-memory", "cwa-pipeline"]
+
+# Every snapshot is assembled at each absolute budget and at each ratio of its own full charged count.
+[budgets]
+input = [8192, 16384, 32768]
+ratios = [1.0, 0.5, 0.25, 0.1]
+reserved_output = 1024
+margin_percent = 15                              # covers estimate-utf8/v1's error; calibrated at P3
+tokenizer = "estimate-utf8/v1"
+renderer = "cwa-messages/v1"
+
+# The application side (cwabench2/application/writers.py).
+[application]
+turn_seconds = 120                               # the scripted clock: one user turn every two minutes
+history_turns = 10                               # memory arms: turns kept verbatim; older ones compacted into memory
+memory_ttl_seconds = 86400                       # a memory expires a day after the turn it came from
+
+# S1 · Assembly gate. Probes always run on every adapter at every budget; `frames` adds every turn.
+[s1]
+frames = true
+timelines = true                                 # each conversation's last probe, per arm and budget
+
+# S7 · Goldens. Adopt a run's candidates with `cwabench --domain 2 goldens accept`.
+[s7]
+goldens = "goldens/d2-goldens.json"
 
 # Every family generates `sizes` conversations per turn count, each with a probe after every `checkpoint_every`
 # turns and after the last.
