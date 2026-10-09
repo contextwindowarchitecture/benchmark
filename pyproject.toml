@@ -1,0 +1,8 @@
+# The benchmark's uv workspace: one lockfile and one environment for every domain's harness. Each domain is a member
+# package; `cwabench` runs Domain 1, and `cwabench --domain <n>` any other installed domain, which each member
+# registers under the `cwabench.domains` entry points.
+[tool.uv.workspace]
+members = ["domain1", "domain2"]
+
+[dependency-groups]
+dev = ["pytest>=8"]

@@ -1,4 +1,6 @@
-"""cwabench2: run Domain 2's suites and check run directories."""
+"""cwabench --domain 2: run Domain 2's suites and check run directories.
+
+Domain 1's `cwabench` command calls `main` through this package's `cwabench.domains` entry point."""
 from __future__ import annotations
 
 import argparse
@@ -48,7 +50,7 @@ def _print_summary(run_dir: Path) -> None:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="cwabench2", description=__doc__)
+    parser = argparse.ArgumentParser(prog="cwabench --domain 2", description=__doc__)
     parser.add_argument("--config", default=str(DEFAULT_CONFIG), help="run configuration (default: domain2.toml)")
     commands = parser.add_subparsers(dest="command", required=True)
 
@@ -77,7 +79,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"{run_dir}: {'valid' if not problems else f'{len(problems)} problem(s)'}")
             return 1 if problems else 0
     except (config_mod.ConfigError, ContractError) as error:
-        print(f"cwabench2: {error}", file=sys.stderr)
+        print(f"cwabench --domain 2: {error}", file=sys.stderr)
         return 2
     return 2
 

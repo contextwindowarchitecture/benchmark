@@ -7,16 +7,17 @@ dependencies = [
   "cwa-bench-d1",
 ]
 
-[project.scripts]
-cwabench2 = "cwabench2.cli:main"
+# Run as `cwabench --domain 2`: Domain 1's command finds this domain by its entry point.
+[project.entry-points."cwabench.domains"]
+2 = "cwabench2.cli:main"
 
 [dependency-groups]
 dev = ["pytest>=8"]
 
-# Domain 1's harness, by path (domain-2-plan.md, 4.2): its run directory, output conventions, contract and, from P1,
-# its adapters and oracles. Editable, so a change there is what Domain 2 runs with.
+# Domain 1's harness, from the workspace (domain-2-plan.md, 4.2): its run directory, output conventions, contract and,
+# from P1, its adapters and oracles. A workspace member is installed editable, so a change there is what Domain 2 runs.
 [tool.uv.sources]
-cwa-bench-d1 = { path = "../domain1", editable = true }
+cwa-bench-d1 = { workspace = true }
 
 [build-system]
 requires = ["hatchling"]

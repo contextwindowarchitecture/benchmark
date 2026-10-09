@@ -58,3 +58,17 @@ def test_config_refuses_what_this_build_does_not_have(small_config):
     config.path.write_text(text.replace('"S0", "S2"', '"S0"').replace("[families.fr]", "[families.xx]"))
     with pytest.raises(config_mod.ConfigError, match="no such family"):
         config_mod.load(config.path)
+
+
+def test_cwabench_runs_domain_2_through_its_entry_point(small_config, capsys):
+    from importlib.metadata import entry_points
+
+    from cwabench import cli
+
+    assert {ep.name: ep.value for ep in entry_points(group="cwabench.domains")}["2"] == "cwabench2.cli:main"
+    config = small_config()
+    assert cli.main(["--domain", "2", "--config", str(config.path), "run"]) == 0
+    latest = config.results_dir / "latest"
+    assert cli.main(["--domain", "2", "--config", str(config.path), "validate"]) == 0
+    assert cli.main(["validate", str(latest)]) == 0  # Domain 1's own validate reads any installed domain's run
+    assert "valid" in capsys.readouterr().out

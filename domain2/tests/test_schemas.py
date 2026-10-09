@@ -10,10 +10,9 @@ from cwabench import output as d1_output
 from cwabench2 import output
 
 ROOT = Path(__file__).resolve().parent.parent
-# Kinds Domain 2 reuses unchanged (domain-2-plan.md, 11): Domain 1's schema with the prefix and command names swapped.
+# Kinds Domain 2 reuses unchanged (domain-2-plan.md, 11): Domain 1's schema with the prefix swapped.
 COPIES = ("blob", "contract", "finding", "manifest", "run-index", "runs-index", "upstream")
-SWAPS = (("cwa-bench-d1", "cwa-bench-d2"), ("(cwabench ci)", "(cwabench2 ci)"),
-         ("`cwabench fixture`", "`cwabench2 fixture`"))
+SWAPS = (("cwa-bench-d1", "cwa-bench-d2"),)
 
 
 @pytest.mark.parametrize("kind", COPIES)

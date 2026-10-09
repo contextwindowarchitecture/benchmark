@@ -2,6 +2,15 @@ version = 1
 revision = 3
 requires-python = ">=3.12"
 
+[manifest]
+members = [
+    "cwa-bench-d1",
+    "cwa-bench-d2",
+]
+
+[manifest.dependency-groups]
+dev = [{ name = "pytest", specifier = ">=8" }]
+
 [[package]]
 name = "attrs"
 version = "26.1.0"
@@ -23,7 +32,7 @@ wheels = [
 [[package]]
 name = "cwa-bench-d1"
 version = "0.1.0"
-source = { editable = "." }
+source = { editable = "domain1" }
 dependencies = [
     { name = "jsonschema" },
     { name = "rfc3339-validator" },
@@ -39,6 +48,25 @@ requires-dist = [
     { name = "jsonschema", specifier = ">=4.23" },
     { name = "rfc3339-validator", specifier = ">=0.1.4" },
 ]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=8" }]
+
+[[package]]
+name = "cwa-bench-d2"
+version = "0.1.0"
+source = { editable = "domain2" }
+dependencies = [
+    { name = "cwa-bench-d1" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "cwa-bench-d1", editable = "domain1" }]
 
 [package.metadata.requires-dev]
 dev = [{ name = "pytest", specifier = ">=8" }]
