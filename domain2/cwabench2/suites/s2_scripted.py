@@ -24,6 +24,7 @@ CWA payload equal to its gated bytes, and every call answered (a replay miss or 
 from __future__ import annotations
 
 import hashlib
+import threading
 from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor
 
@@ -129,33 +130,48 @@ def execute(ctx: SuiteContext, suite: str, title: str, settings: dict, model_set
                         continue
                     planned.append((family, script, probe, arm, tier, budget, payload, tokens, present))
 
-    # One call per distinct request and sample, in a fixed order, however many arms share it.
+    # One call per distinct request and sample, however many arms share it. The calls run as one stream per
+    # conversation, in order of arm, tier and probe with each payload's samples back to back, so consecutive requests
+    # share their prefix and a server's prefix cache answers most of it; `[model].concurrency` streams run at once.
+    # The order changes no reply: a reply is cached by its request, whenever it was made.
     calls: dict[tuple[str, int], object] = {}
-    payload_of = {}
-    for *_, payload, _, _ in planned:
-        if payload is not None:
-            sha = hashlib.sha256(payload).hexdigest()
+    payload_of: dict[str, bytes] = {}
+    streams: dict[str, list[tuple[str, int]]] = {}
+    for family, script, probe, arm, tier, budget, payload, tokens, present in sorted(
+            planned, key=lambda p: (p[1]["conversation_id"], settings["arms"].index(p[3]), p[4], p[2]["after_turn"])):
+        if payload is None:
+            continue
+        sha = hashlib.sha256(payload).hexdigest()
+        if sha not in payload_of:
             payload_of[sha] = payload
-    jobs = [(sha, sample) for sha in sorted(payload_of) for sample in range(settings["repeats"])]
-    ctx.log(f"{ID}: {len(planned)} payloads, {len(payload_of)} distinct, {len(jobs)} calls")
+            streams.setdefault(script["conversation_id"], []).extend(
+                (sha, sample) for sample in range(settings["repeats"]))
+    jobs = [job for stream in streams.values() for job in stream]
+    ctx.log(f"{ID}: {len(planned)} payloads, {len(payload_of)} distinct, {len(jobs)} calls in {len(streams)} streams")
     errors = []
+    progress = {"done": 0}
+    lock = threading.Lock()
 
-    def ask(job):
-        sha, sample = job
-        try:
-            return job, model.ask(payload_of[sha], sample)
-        except (CacheMiss, EndpointError) as error:
-            return job, error
+    def ask(stream: list[tuple[str, int]]) -> list[tuple[tuple[str, int], object]]:
+        answered = []
+        for job in stream:
+            sha, sample = job
+            try:
+                answered.append((job, model.ask(payload_of[sha], sample)))
+            except (CacheMiss, EndpointError) as error:
+                answered.append((job, error))
+            with lock:
+                progress["done"] += 1
+                if progress["done"] % 200 == 0:
+                    ctx.log(f"{ID}: {progress['done']}/{len(jobs)} calls ({model.calls} to the endpoint)")
+        return answered
 
-    done = 0
-    with ThreadPoolExecutor(max_workers=max(1, int(config.model.get("concurrency", 2)))) as pool:
-        for job, answer in pool.map(ask, jobs):
-            calls[job] = answer
-            done += 1
-            if isinstance(answer, Exception):
-                errors.append(f"{type(answer).__name__}: {answer}")
-            if done % 200 == 0:
-                ctx.log(f"{ID}: {done}/{len(jobs)} calls ({model.calls} to the endpoint)")
+    with ThreadPoolExecutor(max_workers=max(1, int(model_settings.get("concurrency", 2)))) as pool:
+        for answered in pool.map(ask, list(streams.values())):
+            for job, answer in answered:
+                calls[job] = answer
+                if isinstance(answer, Exception):
+                    errors.append(f"{type(answer).__name__}: {answer}")
 
     call_rows = []
     for (sha, sample), answer in sorted(calls.items()):
