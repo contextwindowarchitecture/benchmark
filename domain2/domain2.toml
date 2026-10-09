@@ -1,7 +1,8 @@
 # Domain 2 run configuration (domain-2-plan.md, section 12). Paths are relative to this file.
 #
-# This build is P0 and P1: the generators, the graders, S0, the application side, S1 (the assembly gate) and S7
-# (goldens). The tables the later phases read (model, repeats, thresholds, caps, CI profiles) are added with them.
+# This build is P0 to P2: the generators, the graders, S0, the application side, S1 (the assembly gate, and the
+# baselines' payloads) and S7 (goldens). The tables the later phases read (model, repeats, thresholds, caps, CI
+# profiles) are added with them.
 
 [contract]
 path = "../../../contextwindowarchitecture"
@@ -24,9 +25,16 @@ use = ["python", "typescript", "go", "rust"]
 payload_source = "rust"
 
 # The CWA arms (cwabench2/application/snapshots.py): history only, then plus oracle state, plus memory, plus the
-# history pipeline. The conventional baselines arrive at P2.
+# history pipeline, and the format control (the window baseline's selection in CWA's format). The conventional
+# baselines (cwabench2/baselines/) are built by the harness, not assembled.
 [arms]
-cwa = ["cwa-history", "cwa-state", "cwa-memory", "cwa-pipeline"]
+cwa = ["cwa-history", "cwa-state", "cwa-memory", "cwa-pipeline", "cwa-format"]
+baselines = ["concat", "truncate", "truncate-pinned", "window", "summary"]
+
+[baselines]
+window_turns = 10                                # window and summary: the turns kept verbatim
+summarizer = "stub"                              # the rolling summary: Domain 1's extractive stub; llm at P3
+extractive_ratio = 0.4
 
 # Every snapshot is assembled at each absolute budget and at each ratio of its own full charged count.
 [budgets]

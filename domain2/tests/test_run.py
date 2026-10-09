@@ -32,7 +32,7 @@ def test_a_run_with_only_s0_passes_and_validates(small_config):
     assert len(list(blob.glob("*.json"))) == 1
     summary = _read(run_dir / "summary.json")
     assert {m["id"] for m in summary["metrics"]} == {"s0.grader", "s0.plant", "s0.schema", "s0.determinism",
-                                                     "s0.structure", "s0.replay", "s0.fact"}
+                                                     "s0.structure", "s0.replay", "s0.fact", "s0.baseline"}
     assert all(m["status"] == "pass" for m in summary["metrics"])
     runs = _read(config.results_dir / "index.json")
     assert runs["$schema"] == "cwa-bench-d2/runs-index/v1" and runs["latest"] == run_dir.name
@@ -87,3 +87,13 @@ def test_config_requires_adapters_for_s1_and_s1_for_s7(small_config):
     with pytest.raises(config_mod.ConfigError, match="cwa-everything"):
         config_mod.load(config.path)
     assert config_mod.Budgets([8192], [1.0, 0.25]).of(1001) == [("8192", 8192), ("r1.00", 1001), ("r0.25", 251)]
+
+
+def test_s0_catches_a_baseline_that_counts_one_token_short(small_config, monkeypatch):
+    from cwabench.canon.render import charged
+
+    monkeypatch.setattr("cwabench2.baselines.charged", lambda tokens, margin=0: charged(tokens, margin) - 1)
+    run_dir, status = run(small_config(), log=lambda m: None)
+    assert status == "fail"
+    findings = [json.loads(line) for line in (run_dir / "findings.jsonl").read_text().splitlines()]
+    assert findings and {f["checks"][0] for f in findings} == {"baseline"}

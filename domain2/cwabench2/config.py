@@ -7,6 +7,7 @@ import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from . import baselines as baselines_mod
 from .application.snapshots import ARMS, Settings
 from .conversations import FAMILIES
 
@@ -73,6 +74,8 @@ class Config:
     frames: bool = True  # S1 assembles every turn, not only the probes
     timelines: bool = True  # S1 writes the timelines of each conversation's last probe
     goldens: Path | None = None  # S7's adopted goldens
+    baselines: list[str] = field(default_factory=lambda: list(baselines_mod.ARMS))
+    baseline: baselines_mod.Settings = field(default_factory=baselines_mod.Settings)
 
     def section(self, name: str) -> dict:
         return self.settings.get(name, {})
@@ -159,6 +162,11 @@ def load(path: str | Path) -> Config:
     if unknown_arms:
         raise ConfigError(f"[arms].cwa names arms this build does not have: {', '.join(unknown_arms)} "
                           f"(available: {', '.join(ARMS)})")
+    chosen = _table(data, "arms").get("baselines", list(baselines_mod.ARMS))
+    unknown_baselines = [a for a in chosen if a not in baselines_mod.ARMS]
+    if unknown_baselines:
+        raise ConfigError(f"[arms].baselines names baselines this build does not have: {', '.join(unknown_baselines)} "
+                          f"(available: {', '.join(baselines_mod.ARMS)})")
     budgets_table = _table(data, "budgets")
     ratios = budgets_table.get("ratios", [1.0, 0.5, 0.25, 0.1])
     if not isinstance(ratios, list) or not all(isinstance(r, (int, float)) and 0 < r <= 1 for r in ratios):
@@ -174,6 +182,14 @@ def load(path: str | Path) -> Config:
         **{k: int(v) for k, v in application.items()},
         **{k: budgets_table[k] for k in ("reserved_output", "margin_percent", "tokenizer", "renderer")
            if k in budgets_table})
+    b = _table(data, "baselines")
+    unknown_keys = sorted(set(b) - {"window_turns", "summarizer", "extractive_ratio"})
+    if unknown_keys:
+        raise ConfigError(f"[baselines] has unknown keys: {', '.join(unknown_keys)}")
+    if b.get("summarizer", "stub") != "stub":
+        raise ConfigError("[baselines].summarizer: only stub is built; the cached LLM summarizer arrives at P3")
+    baseline = baselines_mod.Settings(int(b.get("window_turns", 10)), "stub", float(b.get("extractive_ratio", 0.4)),
+                                      settings.margin_percent, settings.tokenizer)
     s1 = _table(data, "s1")
     s7 = _table(data, "s7")
 
@@ -208,4 +224,6 @@ def load(path: str | Path) -> Config:
         frames=bool(s1.get("frames", True)),
         timelines=bool(s1.get("timelines", True)),
         goldens=(root / s7.get("goldens", "goldens/d2-goldens.json")).resolve(),
+        baselines=list(chosen),
+        baseline=baseline,
     )

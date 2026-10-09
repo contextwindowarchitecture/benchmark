@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d2:baseline-row:v1",
+  "title": "Baseline row",
+  "description": "One conventional baseline's payload (domain-2-plan.md, 7) at one point and budget, built by the harness: its count, what it kept and dropped, and on probes whether the needed facts were in it. Every baseline drops a prefix of its droppable messages, so first_kept determines what it dropped.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d2/baseline-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "conversation": {
+      "type": "string",
+      "pattern": "^[a-z]+-t[0-9]{3}-[0-9]{2}$"
+    },
+    "family": {
+      "type": "string",
+      "pattern": "^[a-z]+$"
+    },
+    "arm": {
+      "enum": [
+        "concat",
+        "truncate",
+        "truncate-pinned",
+        "window",
+        "summary"
+      ]
+    },
+    "point": {
+      "enum": [
+        "turn",
+        "probe"
+      ]
+    },
+    "turn": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "probe_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^p[0-9]{3}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "tier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "budget_input": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "outcome": {
+      "enum": [
+        "fits",
+        "overflow"
+      ],
+      "description": "overflow: the messages the baseline never drops exceed the budget, so the request reaches no model"
+    },
+    "payload_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "input_tokens": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "charged": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "input_tokens with the margin, as the fit test"
+    },
+    "history": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "kept": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "first_kept": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(turn:t[0-9]{3}:(user|assistant)|summary|system)$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "total",
+        "kept",
+        "first_kept"
+      ],
+      "additionalProperties": false
+    },
+    "system_survived": {
+      "type": "boolean"
+    },
+    "summary": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "turns": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "kept": {
+              "type": "boolean"
+            },
+            "tokens": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "turns",
+            "kept",
+            "tokens"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "fact": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "needs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^t[0-9]{3}$"
+              }
+            },
+            "by_record": {
+              "type": "array",
+              "items": {
+                "type": "boolean"
+              }
+            },
+            "by_text": {
+              "type": "array",
+              "items": {
+                "type": "boolean"
+              }
+            },
+            "present": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "needs",
+            "by_record",
+            "by_text",
+            "present"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "case_id",
+    "conversation",
+    "family",
+    "arm",
+    "point",
+    "turn",
+    "probe_id",
+    "tier",
+    "budget_input",
+    "outcome",
+    "payload_hash",
+    "input_tokens",
+    "charged",
+    "history",
+    "system_survived",
+    "summary",
+    "fact"
+  ],
+  "additionalProperties": false
+}

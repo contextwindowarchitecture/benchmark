@@ -98,13 +98,13 @@ def test_s1_passes_on_the_reference_and_s7_adopts_its_goldens(tmp_path, spec):
                                                         .splitlines())]
     assert validate_run(run_dir) == []
     summary = _read(run_dir / "suites/S1/summary.json")
-    assert summary["gate"]["passed"] == summary["gate"]["total"] == 3 * 4
+    assert summary["gate"]["passed"] == summary["gate"]["total"] == 3 * 5
     rows = [json.loads(line) for line in (run_dir / "suites/S1/turns.jsonl").read_text().splitlines()]
     assert {r["point"] for r in rows} == {"turn", "probe"} and all(r["verdict"] == "passed" for r in rows)
     probes = [r for r in rows if r["point"] == "probe"]
     assert all(r["fact"]["by_trace"] == r["fact"]["by_text"] for r in probes)
     assert any(not r["fact"]["present"] for r in probes if r["arm"] == "cwa-history" and r["tier"] == "700")
-    assert summary["rows"]["timelines"] == 3 * 4 * 3
+    assert summary["rows"]["timelines"] == 3 * 5 * 3
     target, count = accept(config, run_dir)
     assert count == len(probes) and target.is_file()
     again, status = run(config, build=False, log=lambda m: None)

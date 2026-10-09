@@ -10,7 +10,12 @@ full size), and with `frames` every turn too, is assembled by each adapter. Each
 - **agreement**: every adapter's outcome, payload bytes and normalized trace (Domain 1's differential oracle).
 
 On every probe, the fact-in-payload oracle decides by the trace and by the payload's text whether the answer's facts
-were included, and the two must agree (application/fact.py). A conversation and arm passes the gate when every one of
+were included, and the two must agree (application/fact.py).
+
+S1 also builds every conventional baseline (baselines/) at the same points, at the absolute budgets and each ratio of
+the conversation's full size in native chat, and records each payload, its count, what it kept and dropped and, on
+probes, the fact-in-payload oracle by its record and by its text (`baselines.jsonl`). A baseline's fact counts as
+present only when its payload fits: an overflowing request reaches no model. A conversation and arm passes the gate when every one of
 its rows passes; S2 to S4 use only those that do, and the rest are counted.
 
 Each row also records what the payload source's trace shows assembly did: per slot, its candidates, how many were
@@ -37,7 +42,7 @@ from cwabench.oracles import differential
 from cwabench.oracles.auditor import audit
 from cwabench.rundir import now
 
-from .. import metrics, output
+from .. import baselines, metrics, output
 from ..application import fact as fact_mod
 from ..application import profile as profile_mod
 from ..application.snapshots import ARMS, Frozen, Point, freeze, points
@@ -174,6 +179,7 @@ def run(ctx: SuiteContext) -> SuiteResult:
         report.add("self-check", ["profile"], None, "all", "profile", f"the arms' profile or route: {problem}", None)
     source = config.adapters.payload_source
     rows: list[dict] = []
+    rows_b: list[dict] = []
     gate: dict[tuple[str, str], bool] = {}
     tally = defaultdict(lambda: [0, 0])  # metric → [passed, total]
     present = defaultdict(lambda: [0, 0])  # (arm, tier) → [probes with every needed fact, probes]
@@ -186,15 +192,17 @@ def run(ctx: SuiteContext) -> SuiteResult:
         for family, scripts in ctx.conversations.items():
             for script in scripts:
                 last = script["probes"][-1]["probe_id"]
+                for point in points(script, config.frames):
+                    if config.baselines:
+                        rows_b.extend(_baseline_rows(ctx, script, family, point, tally, present))
                 for arm_name in config.arms:
                     arm = ARMS[arm_name]
                     jobs, metas = [], []
                     for point in points(script, config.frames):
-                        frozen = freeze(ctx.contract, script, arm, point, settings)
-                        frozen_ref = None
-                        if point.kind == "probe":
-                            frozen_ref = ctx.run.blobs.put(frozen.at(frozen.full), "application/json")
-                        for tier, budget in config.budgets.of(frozen.full):
+                        for tier, budget, frozen in _snapshots(ctx, script, arm, point):
+                            frozen_ref = None
+                            if point.kind == "probe":
+                                frozen_ref = ctx.run.blobs.put(frozen.at(frozen.full), "application/json")
                             expected = frozen.expect(budget)
                             data = frozen.at(budget)
                             keep = config.timelines and point.kind == "probe" and point.id == last
@@ -231,6 +239,11 @@ def run(ctx: SuiteContext) -> SuiteResult:
     ctx.run.write_jsonl(f"suites/{ID}/turns.jsonl", rows, "turn-row",
                         "One row per point, arm and budget: every adapter's answer, the prediction, the shedding "
                         "record and, on probes, the fact-in-payload oracle")
+    if config.baselines:
+        ctx.run.write_jsonl(f"suites/{ID}/baselines.jsonl", rows_b, "baseline-row",
+                            "One row per point, baseline and budget: the payload, its count, what it kept and "
+                            "dropped and, on probes, the fact-in-payload oracle")
+    ctx.shared["s1_baselines"] = rows_b
     passed = {key for key, ok in gate.items() if ok}
     ctx.shared["s1_rows"] = rows
     ctx.shared["gate"] = {f"{c}/{a}": ok for (c, a), ok in sorted(gate.items())}
@@ -242,9 +255,12 @@ def run(ctx: SuiteContext) -> SuiteResult:
                                        maximum=0, suite=ID))
     suite_metrics.append(metrics.rate("s1.gate", "Conversations and arms that pass the gate", len(passed), len(gate),
                                       suite=ID))
+    suite_metrics.append(metrics.rate("s1.baseline_fact_oracle", "Baseline facts judged alike by record and text",
+                                      *tally["baseline_fact_oracle"], suite=ID))
     tiers = [t for t, _ in config.budgets.of(1)]  # the configured order: absolute budgets, then ratios
+    order = [*config.baselines, *config.arms]
     for (arm_name, tier), (yes, total) in sorted(present.items(),
-                                                 key=lambda kv: (config.arms.index(kv[0][0]), tiers.index(kv[0][1]))):
+                                                 key=lambda kv: (order.index(kv[0][0]), tiers.index(kv[0][1]))):
         suite_metrics.append(metrics.rate("s1.fact_in_payload", "Probes with every needed fact in the payload", yes,
                                           total, target=None, suite=ID, arm=arm_name, tier=tier,
                                           description="Measured, not gated: what each arm keeps at each budget"))
@@ -272,9 +288,67 @@ def run(ctx: SuiteContext) -> SuiteResult:
         "gate": {"passed": len(passed), "total": len(gate),
                  "failed": sorted(f"{c}/{a}" for (c, a), ok in gate.items() if not ok)},
         "rows": {"probes": sum(r["point"] == "probe" for r in rows), "turns": sum(r["point"] == "turn" for r in rows),
-                 "timelines": timelines_written},
+                 "timelines": timelines_written, "baselines": len(rows_b)},
     }, "S1's gate: agreement, audit, prediction and the fact-in-payload oracle")
     return SuiteResult(ID, TITLE, status, summary_path, suite_metrics, findings)
+
+
+def _snapshots(ctx: SuiteContext, script: dict, arm, point: Point):
+    """(tier, budget, frozen) for each budget an arm is assembled at, at one point. A ladder arm freezes once and is
+    assembled at every budget; the format control freezes the window baseline's selection at each budget and is
+    assembled at that snapshot's own full size, so its selection is the baseline's exactly."""
+    config = ctx.config
+    if arm.selection is None:
+        frozen = freeze(ctx.contract, script, arm, point, config.application)
+        for tier, budget in config.budgets.of(frozen.full):
+            yield tier, budget, frozen
+        return
+    for tier, budget in config.budgets.of(baselines.full(script, point, config.baseline)):
+        built = baselines.at(arm.selection, script, point, budget, config.baseline)
+        frozen = freeze(ctx.contract, script, arm, point, config.application, only=set(built.kept))
+        yield tier, frozen.full, frozen
+
+
+def _baseline_rows(ctx: SuiteContext, script: dict, family: str, point: Point, tally, present) -> list[dict]:
+    config = ctx.config
+    rows = []
+    for tier, budget in config.budgets.of(baselines.full(script, point, config.baseline)):
+        for arm in config.baselines:
+            built = baselines.at(arm, script, point, budget, config.baseline)
+            fact = None
+            if point.kind == "probe":
+                needs = point.probe["needs"]
+                by_record = fact_mod.by_trace(set(built.kept), built.carriers, needs)
+                by_text = fact_mod.by_text_chat(built.payload, built.evidence, needs)
+                for agreed in (a == b for a, b in zip(by_record, by_text)):
+                    tally["baseline_fact_oracle"][0] += agreed
+                    tally["baseline_fact_oracle"][1] += 1
+                fact = {"needs": needs, "by_record": by_record, "by_text": by_text, "present": all(by_record)}
+                present[(arm, tier)][0] += fact["present"] and built.outcome == "fits"
+                present[(arm, tier)][1] += 1
+            rows.append({
+                "$schema": output.schema_name("baseline-row"),
+                "run_id": ctx.run.run_id,
+                "suite": ID,
+                "case_id": f"{script['conversation_id']}/{arm}/{point.id}@{tier}",
+                "conversation": script["conversation_id"],
+                "family": family,
+                "arm": arm,
+                "point": point.kind,
+                "turn": point.turn,
+                "probe_id": point.probe["probe_id"] if point.probe else None,
+                "tier": tier,
+                "budget_input": budget,
+                "outcome": built.outcome,
+                "payload_hash": built.payload_hash,
+                "input_tokens": built.input_tokens,
+                "charged": built.charged,
+                "history": {"total": built.history_total, "kept": built.history_kept, "first_kept": built.first_kept},
+                "system_survived": built.system_survived,
+                "summary": built.summary,
+                "fact": fact,
+            })
+    return rows
 
 
 def _parsed(data: bytes) -> dict:
