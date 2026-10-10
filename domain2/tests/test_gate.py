@@ -145,7 +145,7 @@ def test_s2_replays_its_llm_run_byte_for_byte(tmp_path, spec, monkeypatch):
 
     answers = []
 
-    def chat(self, handed):  # a fake endpoint: answers each probe with the last number its payload states
+    def chat(self, handed, overrides=None):  # a fake endpoint: answers each probe with the last number its payload states
         import re
 
         found = re.findall(r"\d[\d,]*", handed[-1]["content"] + " ".join(m["content"] for m in handed[:-1]))
@@ -242,7 +242,7 @@ def test_s4_gates_asks_and_replays_the_lq_family(tmp_path, spec, monkeypatch):
 
     answers = []
 
-    def chat(self, handed):  # a fake endpoint: answers NOT FOUND to every question, or A to a multiple choice
+    def chat(self, handed, overrides=None):  # a fake endpoint: answers NOT FOUND to every question, or A to a multiple choice
         answers.append(handed)
         prompt = sum((len(m["content"].encode()) + 3) // 4 for m in handed) + 8
         text = "A" if "\nD) " in handed[-1]["content"] else "NOT FOUND"

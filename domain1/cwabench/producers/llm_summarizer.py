@@ -88,16 +88,18 @@ class Client:
     def complete(self, system: str, user: str) -> dict:
         return self.chat([{"role": "system", "content": system}, {"role": "user", "content": user}])
 
-    def body(self, messages: list[dict]) -> dict:
-        """The request body for `messages`: the model, the messages, the parameters and the server's extra fields."""
-        return {"model": self.model, "messages": messages, **self.params, **self.extra_body}
+    def body(self, messages: list[dict], overrides: dict | None = None) -> dict:
+        """The request body for `messages`: the model, the messages, the parameters and the server's extra fields, and
+        any `overrides` of them (Domain 2 gives each sample its own seed)."""
+        return {"model": self.model, "messages": messages, **self.params, **self.extra_body, **(overrides or {})}
 
-    def chat(self, messages: list[dict]) -> dict:
+    def chat(self, messages: list[dict], overrides: dict | None = None) -> dict:
         """One chat completion. `usage` keeps the three standard counts; `cached_tokens` is the prompt prefix the
         server reports it reused, or None when it reports none."""
         headers = {"Content-Type": "application/json", **self.headers()}
         request = urllib.request.Request(f"{self.base_url}/chat/completions",
-                                         json.dumps(self.body(messages)).encode("utf-8"), headers, method="POST")
+                                         json.dumps(self.body(messages, overrides)).encode("utf-8"), headers,
+                                         method="POST")
         last = None
         for attempt in range(self.retries + 1):
             started = time.perf_counter()

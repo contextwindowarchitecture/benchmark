@@ -12,7 +12,13 @@ the model or any parameter is another request.
 **The cache** is Domain 1's content-addressed cache (cwabench.producers.cache) under `[model].cache`, with entries of
 kind `cwa-bench-d2/model-cache-entry/v1`. A key's material is the request's hash and the sample index, not the request
 itself, so the committed cache stays small; each entry keeps the reply and its provenance. Samples 0 … K−1 of one
-request are separate keys and separate calls, since a server can vary at temperature 0.
+payload are separate keys and separate calls, since a server can vary at temperature 0.
+
+**Samples and seeds.** With `[model].seed_per_sample`, sample k is sent with the configured seed plus k, so the samples
+of a sampled suite (S3, S6) are independent draws, each reproducible; without it every sample sends the same seed,
+and on a server that honours seeds the samples differ only by the server's own nondeterminism. Sample 0 always sends
+the configured seed, so turning it on changes no request of the producers or of a suite's first sample. The omlx
+pilots ran without it; vllm.toml sets it.
 
 **Modes.** `llm` answers from the cache and calls the endpoint on a miss, filling the cache. `replay` answers from the
 cache alone, and a miss is an error. Nothing else in the harness calls a model.
@@ -74,14 +80,21 @@ class Model:
     def params(self) -> dict:
         return self.client.request_params()
 
-    def request(self, payload: bytes) -> dict:
-        return self.client.body(messages(payload))
+    def overrides(self, sample: int) -> dict:
+        """What a sample's request changes of the configured parameters: its own seed, with `seed_per_sample`."""
+        seed = self.client.params.get("seed")
+        if self.settings.get("seed_per_sample") and seed is not None and sample:
+            return {"seed": seed + sample}
+        return {}
 
-    def request_sha256(self, payload: bytes) -> str:
-        return hashlib.sha256(jcs.serialize_bytes(self.request(payload))).hexdigest()
+    def request(self, payload: bytes, sample: int = 0) -> dict:
+        return self.client.body(messages(payload), self.overrides(sample))
+
+    def request_sha256(self, payload: bytes, sample: int = 0) -> str:
+        return hashlib.sha256(jcs.serialize_bytes(self.request(payload, sample))).hexdigest()
 
     def material(self, payload: bytes, sample: int) -> dict:
-        return {"kind": "chat", "request_sha256": self.request_sha256(payload), "sample": sample}
+        return {"kind": "chat", "request_sha256": self.request_sha256(payload, sample), "sample": sample}
 
     def ask(self, payload: bytes, sample: int) -> Reply:
         material = self.material(payload, sample)
@@ -92,12 +105,13 @@ class Model:
                          round((time.perf_counter() - started) * 1000, 3), found["provenance"])
         if self.mode == "replay":
             raise CacheMiss(f"no cached reply for request {material['request_sha256'][:12]}, sample {sample}")
-        response = self.client.chat(messages(payload))
+        response = self.client.chat(messages(payload), self.overrides(sample))
         with self._lock:
             self.calls += 1
         provenance = {
             "model": self.client.model, "response_model": response["model"], "endpoint_host": self.client.host,
-            "params": self.params, "response_id": response["id"], "finish_reason": response["finish_reason"],
+            "params": {**self.params, **self.overrides(sample)}, "response_id": response["id"],
+            "finish_reason": response["finish_reason"],
             "usage": response["usage"], "cached_tokens": response["cached_tokens"],
             "latency_ms": response["latency_ms"], "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "sample": sample, "payload_sha256": hashlib.sha256(payload).hexdigest(),

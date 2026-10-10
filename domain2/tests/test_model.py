@@ -30,7 +30,7 @@ class FakeEndpoint:
 @pytest.fixture
 def endpoint(monkeypatch):
     fake = FakeEndpoint()
-    monkeypatch.setattr("cwabench.producers.llm_summarizer.Client.chat", lambda self, m: fake(self, m))
+    monkeypatch.setattr("cwabench.producers.llm_summarizer.Client.chat", lambda self, m, o=None: fake(self, m))
     return fake
 
 
@@ -83,3 +83,13 @@ def test_the_bootstrap_resamples_conversations():
     assert stats.bootstrap(clusters, 500, 1) == interval  # seeded
     assert stats.bootstrap({"a": [1.0, 1.0]}, 100, 1)["low"] == 1.0
     assert stats.bootstrap({}, 100, 1) is None
+
+
+def test_each_sample_sends_its_own_seed_when_asked(tmp_path):
+    payload = json.dumps({"system": [], "tools": [], "messages": [{"role": "user", "content": "hi"}]}).encode()
+    plain = Model(dict(MODEL_DEFAULTS), tmp_path, "llm")
+    seeded = Model({**MODEL_DEFAULTS, "seed_per_sample": True}, tmp_path, "llm")
+    assert plain.request(payload, 3)["seed"] == 7 and plain.request_sha256(payload, 3) == plain.request_sha256(payload)
+    assert seeded.request(payload, 0) == plain.request(payload, 0)  # sample 0 never changes
+    assert seeded.request(payload, 3)["seed"] == 10
+    assert seeded.request_sha256(payload, 3) != plain.request_sha256(payload)

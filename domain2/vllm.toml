@@ -85,6 +85,7 @@ cache = "model-cache-vllm"                       # this server's replies only
 context_limit = 262144                           # the server's max_model_len, read from /models on 2026-10-10
 producer_max_tokens = 2048                       # the extractor's and summarizer's replies; at 1,024, 9% of the
                                                  #   summarizer's replies in the pilots were cut off
+seed_per_sample = true                           # sample k sends seed + k: independent draws (S3, S6), each replayable
 # Server-specific request fields: thinking off, and the sampling stated in full at vLLM's neutral values (no nucleus
 # or top-k cut, no penalties). The omlx pilots stated only temperature and seed, and their S3 spread differed from
 # vLLM's under its own defaults.

@@ -143,7 +143,7 @@ On this machine, a pilot run with `--no-frames` replays its 13,973 model calls (
 | `[turns]` | Turn counts and the probe interval |
 | `[families.<id>]` | Each family's seed, `sizes` (conversations per turn count) and its generator's parameters; for `lq`, corpora per ratio and the chunk size |
 | `[s1]` | Whether to assemble every turn as a frame, and whether to write timelines |
-| `[model]` | The mode, the endpoint and model, the request parameters, concurrency, the cache, the context limit, the producers' token limit |
+| `[model]` | The mode, the endpoint and model, the request parameters, concurrency, the cache, the context limit, the producers' token limit, and whether each sample sends its own seed (`seed_per_sample`) |
 | `[s2]` | The tiers S2 sends at, samples per payload, the reference arm, the bootstrap |
 | `[s3]` | The same for S3, and its sampling temperature |
 | `[s4]` | S4's arms, the budget, the corpus ratios, the retriever's candidates, samples per payload, the reference arm, the bootstrap |
@@ -153,7 +153,7 @@ On this machine, a pilot run with `--no-frames` replays its 13,973 model calls (
 There are two configurations, identical outside `[model]` (a test checks it):
 
 - `domain2.toml`, the default, is the omlx server of the pilots (`Qwen3.6-35B-A3B-8bit`, MLX), and replays their committed cache, `model-cache/`.
-- `vllm.toml` is the recorded run's: vLLM 0.31.0 serving `Qwen/Qwen3.6-35B-A3B-FP8` (its launch command is in the file), its own cache `model-cache-vllm/`, every sampling parameter stated in the request, and the producers' token limit at 2,048. Run it with `--config vllm.toml`, adding `--base-url` when the server is not beside the harness, for example a RunPod pod through its proxy (`https://<pod>-8000.proxy.runpod.net/v1`), with its key in `CWA_BENCH_MODEL_KEY`. Its cache is committed with the recorded run.
+- `vllm.toml` is the recorded run's: vLLM 0.31.0 serving `Qwen/Qwen3.6-35B-A3B-FP8` (its launch command is in the file), its own cache `model-cache-vllm/`, every sampling parameter stated in the request, the producers' token limit at 2,048, and `seed_per_sample`, so a sampled suite's samples (S3, S6) are independent draws: with one seed for every sample, a server that honours seeds would answer every sample of a request alike. Run it with `--config vllm.toml`, adding `--base-url` when the server is not beside the harness, for example a RunPod pod through its proxy (`https://<pod>-8000.proxy.runpod.net/v1`), with its key in `CWA_BENCH_MODEL_KEY`. Its cache is committed with the recorded run.
 
 A server-specific configuration of your own, such as one for a single pod, can be named `<name>.local.toml`: git ignores it, and the run still keeps a copy as `config.toml`.
 

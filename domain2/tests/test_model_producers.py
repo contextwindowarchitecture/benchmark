@@ -43,7 +43,7 @@ class Scripted:
 
 def test_producers_run_turn_by_turn_cache_and_replay(tmp_path, monkeypatch):
     fake = Scripted()
-    monkeypatch.setattr("cwabench.producers.llm_summarizer.Client.chat", lambda self, m: fake(self, m))
+    monkeypatch.setattr("cwabench.producers.llm_summarizer.Client.chat", lambda self, m, o=None: fake(self, m))
     script = generate("vt", 3, 15, 0, 10, {"variables": 2, "distractors": 1, "assignment_density": 0.5,
                                            "filler_sentences": 1, "reply_sentences": 1})
     model = Model(dict(MODEL_DEFAULTS), tmp_path, "llm")
@@ -68,7 +68,7 @@ def test_producers_write_the_same_at_any_concurrency(tmp_path, monkeypatch):
     import re
     import time
 
-    def chat(self, handed):  # a stateless fake, slow at random, so the chains finish out of order
+    def chat(self, handed, overrides=None):  # a stateless fake, slow at random, so the chains finish out of order
         time.sleep(random.random() / 500)
         numbers = re.findall(r"\d[\d,]*", handed[1]["content"])
         text = json.dumps({"figure": numbers[-1]} if numbers else {}) if handed[0]["content"].startswith(
