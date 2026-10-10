@@ -152,7 +152,7 @@ def test_s2_replays_its_llm_run_byte_for_byte(tmp_path, spec, monkeypatch):
         answers.append(handed)
         prompt = sum((len(m["content"].encode()) + 3) // 4 for m in handed) + 8  # the template's few tokens
         text = found[-1] if found else "none"
-        if handed[0]["content"].startswith("You maintain the state"):  # the extractor: the newest figure
+        if handed[0]["content"].startswith("You keep the state"):  # the extractor: the newest figure
             text = json.dumps({"figure": found[-1]} if found else {})
         elif handed[0]["content"].startswith("You keep a running summary"):  # the summarizer: every figure
             text = "Figures: " + ", ".join(found)

@@ -32,7 +32,7 @@ class Scripted:
         import re
 
         numbers = re.findall(r"\d[\d,]*", user)
-        if system.startswith("You maintain the state"):
+        if system.startswith("You keep the state"):
             text = "not json" if self.calls == 2 else json.dumps({f"k{i}": n for i, n in enumerate(numbers)})
         else:
             text = "Figures so far: " + ", ".join(numbers)
