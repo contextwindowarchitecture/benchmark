@@ -47,6 +47,9 @@ def _load(args) -> config_mod.Config:
         if unknown:
             raise config_mod.ConfigError(f"suites not implemented yet: {', '.join(unknown)}")
         config = replace(config, suites=suites)
+    if getattr(args, "container_engine", None):
+        container = {**config.section("container"), "engine": args.container_engine}
+        config = replace(config, settings={**config.settings, "container": container})
     if getattr(args, "summarizer", None):
         summarizer = {**config.section("summarizer"), "mode": args.summarizer}
         config = replace(config, settings={**config.settings, "summarizer": summarizer})
@@ -125,6 +128,8 @@ def run_domain1(argv: list[str] | None = None) -> int:
     run_cmd.add_argument("--adapters", help="comma-separated subset of the configured adapters")
     run_cmd.add_argument("--suites", help="comma-separated subset of the configured suites")
     run_cmd.add_argument("--no-build", action="store_true", help="skip build steps; use what is already built")
+    run_cmd.add_argument("--container-engine", choices=config_mod.CONTAINER_ENGINES,
+                         help="the Linux container's engine for S2 and S10, overriding [container].engine")
     run_cmd.add_argument("--summarizer", choices=("off", "stub", "llm", "replay"),
                          help="S11's variant mode, overriding [summarizer].mode")
 

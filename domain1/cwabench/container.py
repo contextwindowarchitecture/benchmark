@@ -5,6 +5,11 @@ Variants (`[container.variants.<name>]`) build the same Containerfile for anothe
 linux/amd64, emulated on another host) or with other base images (`images`, e.g. an older Python): S2's platform and
 toolchain matrix. A variant's image is tagged by its own context hash, which includes its platform and images.
 
+The engine is Podman or Docker (`[container].engine`, or `run --container-engine`); they take the same commands, but
+Docker runs a container as root, so files it writes into the bind-mounted work directory would belong to root on the
+host and the next run could not remove them. With Docker the container runs as the calling user; rootless Podman maps
+the container's root to the calling user already, and a `--user` there would map to a subordinate id instead.
+
 The build context holds each assembler's working tree (tracked and untracked files, git-ignored ones left out), the
 same tree the host builds, so the two platforms run the same code. The image tag is a hash of the context, so an
 unchanged context reuses its image and a changed one can never be mistaken for it.
@@ -13,6 +18,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -28,6 +34,7 @@ from .determinism import Answer, signature
 
 ROOT = Path(__file__).resolve().parent.parent
 IMAGE = "localhost/cwa-bench-d1"
+ENGINES = ("podman", "docker")
 
 # Where each adapter lives in the image (container/Containerfile), and the probe that tells whether a clock shift
 # reaches its runtime.
@@ -118,10 +125,19 @@ def _images(config: Config, chosen: Variant | None) -> dict:
 
 def engine(config: Config) -> str:
     name = config.settings.get("container", {}).get("engine", "podman")
+    if name not in ENGINES:
+        raise ContainerError(f"[container].engine must be one of {', '.join(ENGINES)}, not {name!r}")
     path = shutil.which(name)
     if path is None:
         raise ContainerError(f"{name} is not installed")
     return path
+
+
+def identity(engine_path: str) -> list[str]:
+    """Who the container runs as: the calling user under Docker, the engine's default under Podman."""
+    if Path(engine_path).name.startswith("docker") and hasattr(os, "getuid"):
+        return ["--user", f"{os.getuid()}:{os.getgid()}"]
+    return []
 
 
 def _run(argv: list[str], timeout: float = 3600, **kwargs) -> subprocess.CompletedProcess:
@@ -176,7 +192,7 @@ def build_image(config: Config, log, chosen: Variant | None = None) -> dict:
     digest = context_digest(config, files, chosen)
     tag = f"{IMAGE}:{digest[:16]}"
     built = False
-    if _run([podman, "image", "exists", tag]).returncode != 0:
+    if _run([podman, "image", "inspect", tag]).returncode != 0:  # `image exists` is Podman's alone
         context = config.build_dir / "container" / "context"
         if context.exists():
             shutil.rmtree(context)
@@ -235,7 +251,7 @@ def run_profile(config: Config, image: dict, profile: Profile, corpus: list[Snap
     total = sum(j["repetitions"] for j in job["cells"]) * len(names) * len(corpus)
     log(f"container: {profile.name}: {total} invocations")
     platform = ["--platform", image["run_platform"]] if image.get("run_platform") else []
-    argv = [podman, "run", "--rm", *platform, *profile.flags, "-v", f"{work}:/work", image["tag"],
+    argv = [podman, "run", "--rm", *identity(podman), *platform, *profile.flags, "-v", f"{work}:/work", image["tag"],
             "python3", "/opt/cwa/runner.py", "/work/job.json"]
     done = _run(argv, timeout=max(600, config.timeout_s * total / max(1, config.concurrency) * 2))
     if done.returncode != 0:

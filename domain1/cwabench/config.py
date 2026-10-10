@@ -7,6 +7,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 SUITES = ("S0", "S1", "S2", "S4", "S5", "S6", "S7", "S8", "S9", "S10", "S11", "S12")  # suites this build implements; the others arrive in later phases
+CONTAINER_ENGINES = ("podman", "docker")  # [container].engine: either runs the Linux container (container.py)
 SETTINGS = ("s2", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s12", "summarizer", "ci", "container")  # per-suite tables read by the suites themselves
 
 
@@ -155,6 +156,9 @@ def load(path: str | Path) -> Config:
         if not isinstance(table, dict):
             raise ConfigError(f"[{name}] must be a table")
         settings[name] = table
+    engine = settings["container"].get("engine", "podman")
+    if engine not in CONTAINER_ENGINES:
+        raise ConfigError(f"[container].engine must be one of {', '.join(CONTAINER_ENGINES)}, not {engine!r}")
     if "S12" in suites and not {"S1", "S6", "S8", "S9"} & set(suites):
         raise ConfigError("S12 compares the answers of S1, S6, S8 or S9 with the goldens, so it needs one of them")
 

@@ -1,8 +1,12 @@
-"""The real container, end to end. Slow and needs Podman, so it runs only with CWA_BENCH_CONTAINER=1."""
+"""The real container, end to end, once in each engine that runs here (Podman, Docker). Slow, so it runs only with
+CWA_BENCH_CONTAINER=1."""
 from __future__ import annotations
 
 import os
+import shutil
+import subprocess
 from collections import Counter
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -15,8 +19,18 @@ pytestmark = pytest.mark.skipif(os.environ.get("CWA_BENCH_CONTAINER") != "1",
                                 reason="set CWA_BENCH_CONTAINER=1 to build and run the container")
 
 
-def test_isolated_profile_runs_every_adapter_without_network():
+def _runs(engine: str) -> bool:
+    path = shutil.which(engine)
+    return path is not None and subprocess.run([path, "info"], capture_output=True, timeout=60).returncode == 0
+
+
+@pytest.mark.parametrize("engine", container.ENGINES)
+def test_isolated_profile_runs_every_adapter_without_network(engine):
+    if not _runs(engine):
+        pytest.skip(f"{engine} is not installed here, or cannot run a container")
     config = config_mod.load(Path(__file__).resolve().parent.parent / "domain1.toml")
+    config = replace(config, settings={**config.settings, "container": {**config.section("container"),
+                                                                         "engine": engine}})
     contract = Contract(config.contract_path, config.contract_commit, config.allow_dirty)
     corpus = corpora.load(contract, ["conformance"])[:2]
     image = container.build_image(config, lambda _: None)

@@ -198,3 +198,28 @@ def test_cwabench_dispatches_to_the_domain_it_is_asked_for(monkeypatch, capsys):
     monkeypatch.setattr(cli, "run_domain1", lambda argv: seen.append(("d1", argv)) or 0)
     assert cli.main(["validate"]) == 0 and cli.main(["--domain", "1", "validate"]) == 0
     assert seen[1:] == [("d1", ["validate"]), ("d1", ["validate"])]
+
+
+def test_the_container_engine_is_podman_or_docker(fake_config):
+    import argparse
+    import os
+
+    from cwabench import cli, container
+
+    from cwabench import config as config_mod
+
+    config = fake_config("ok")
+    text = config.path.read_text(encoding="utf-8")
+    config.path.write_text(text.replace("[container]\n", '[container]\nengine = "docker"\n'), encoding="utf-8")
+    config = config_mod.load(config.path)
+    assert config.settings["container"]["engine"] == "docker"
+    config.path.write_text(text.replace("[container]\n", '[container]\nengine = "lxc"\n'), encoding="utf-8")
+    with pytest.raises(config_mod.ConfigError, match="engine must be one of podman, docker"):
+        config_mod.load(config.path)
+    config.path.write_text(text.replace("[container]\n", '[container]\nengine = "docker"\n'), encoding="utf-8")
+    overridden = cli._load(argparse.Namespace(config=str(config.path), container_engine="podman"))
+    assert overridden.settings["container"]["engine"] == "podman"
+    # Docker runs the container as the calling user, so what it writes to the work directory stays removable;
+    # rootless Podman already maps the container's root to the calling user
+    assert container.identity("/usr/bin/docker") == ["--user", f"{os.getuid()}:{os.getgid()}"]
+    assert container.identity("/opt/podman/bin/podman") == []

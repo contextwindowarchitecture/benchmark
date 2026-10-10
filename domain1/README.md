@@ -68,7 +68,7 @@ Builds write only under `.build/`. The checkouts are never modified.
 
 S11's `llm` mode needs an OpenAI-compatible endpoint (`[summarizer] base_url`, `model`, and an API key in the environment variable `api_key_env` names, if the server wants one). `summarizer-cache/` holds every summary it produced, keyed by the parent's hash, prompt, model and request parameters; keep it with the config so `replay` can rebuild the same LLM corpus without a model.
 
-S2 and S10 also need Podman with a running machine (`podman machine start`). The image (`container/Containerfile`) is built from the same working trees and rebuilt only when they change. Set `[container] enabled = false` to run without it: S2 then runs only its host cells and S10 only the macOS sandbox. If the container is enabled but cannot be built or run, those suites report `partial`.
+S2 and S10 also need a container engine: Podman (on macOS with a running machine, `podman machine start`) or Docker, as `[container] engine` names it (`podman` by default) and `run --container-engine` overrides. Under Docker the container runs as the calling user, so what it writes to the build directory stays the user's; rootless Podman does the same by its own mapping. The image (`container/Containerfile`) is built from the same working trees and rebuilt only when they change. Set `[container] enabled = false` to run without it: S2 then runs only its host cells and S10 only the macOS sandbox. If the container is enabled but cannot be built or run, those suites report `partial`.
 
 ## Oracles
 
