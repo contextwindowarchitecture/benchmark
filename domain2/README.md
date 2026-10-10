@@ -138,6 +138,13 @@ On this machine, a pilot run with `--no-frames` replays its 13,973 model calls (
 | `[s7]` | The goldens file |
 | `[findings]` | Where findings were reported upstream |
 
+There are two configurations, identical outside `[model]` (a test checks it):
+
+- `domain2.toml`, the default, is the omlx server of the pilots (`Qwen3.6-35B-A3B-8bit`, MLX), and replays their committed cache, `model-cache/`.
+- `vllm.toml` is the recorded run's: vLLM 0.31.0 serving `Qwen/Qwen3.6-35B-A3B-FP8` (its launch command is in the file), its own cache `model-cache-vllm/`, every sampling parameter stated in the request, and the producers' token limit at 2,048. Run it with `--config vllm.toml`, adding `--base-url` when the server is not beside the harness, for example a RunPod pod through its proxy (`https://<pod>-8000.proxy.runpod.net/v1`), with its key in `CWA_BENCH_MODEL_KEY`. Its cache is committed with the recorded run.
+
+A server-specific configuration of your own, such as one for a single pod, can be named `<name>.local.toml`: git ignores it, and the run still keeps a copy as `config.toml`.
+
 The pilot sizes give 2 conversations per turn count (10, 50 and 100 turns) for VT, FR and CC, and 3 for IP (one per rule): 27 scripts in all. The tables the later phases read (thresholds, caps, CI profiles) are added with those phases.
 
 ## Output

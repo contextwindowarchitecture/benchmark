@@ -90,6 +90,18 @@ def test_concurrency_and_base_url_flags_override_the_model_settings(small_config
         cli.main(["--config", str(config.path), "run", "--concurrency", "0"])
 
 
+def test_the_recorded_config_differs_from_the_default_only_in_its_model():
+    import tomllib
+    from pathlib import Path
+
+    root = Path(config_mod.__file__).resolve().parent.parent
+    default, recorded = (tomllib.loads((root / name).read_text()) for name in ("domain2.toml", "vllm.toml"))
+    assert {k: v for k, v in recorded.items() if k != "model"} == {k: v for k, v in default.items() if k != "model"}
+    vllm = config_mod.load(root / "vllm.toml").model
+    assert vllm["cache"] != config_mod.load(root / "domain2.toml").model["cache"]  # each server's replies apart
+    assert {"top_p", "top_k", "chat_template_kwargs"} <= set(vllm["extra_body"])  # the sampling, stated
+
+
 def test_config_requires_adapters_for_s1_and_s1_for_s7(small_config):
     config = small_config()
     text = config.path.read_text()
