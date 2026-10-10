@@ -90,16 +90,23 @@ def test_concurrency_and_base_url_flags_override_the_model_settings(small_config
         cli.main(["--config", str(config.path), "run", "--concurrency", "0"])
 
 
-def test_the_recorded_config_differs_from_the_default_only_in_its_model():
-    import tomllib
+def test_the_default_config_is_the_recorded_runs():
     from pathlib import Path
 
-    root = Path(config_mod.__file__).resolve().parent.parent
-    default, recorded = (tomllib.loads((root / name).read_text()) for name in ("domain2.toml", "vllm.toml"))
-    assert {k: v for k, v in recorded.items() if k != "model"} == {k: v for k, v in default.items() if k != "model"}
-    vllm = config_mod.load(root / "vllm.toml").model
-    assert vllm["cache"] != config_mod.load(root / "domain2.toml").model["cache"]  # each server's replies apart
-    assert {"top_p", "top_k", "chat_template_kwargs"} <= set(vllm["extra_body"])  # the sampling, stated
+    config = config_mod.load(Path(config_mod.__file__).resolve().parent.parent / "domain2.toml")
+    assert config.model["cache"] == "model-cache" and config.model["seed_per_sample"]
+    assert {"top_p", "top_k", "chat_template_kwargs"} <= set(config.model["extra_body"])  # the sampling, stated
+    assert config.application.margin_percent == 25
+
+
+def test_workers_flag_overrides_the_run_setting(small_config):
+    import argparse
+
+    from cwabench2 import cli
+
+    config = small_config()
+    loaded = cli._load(argparse.Namespace(config=str(config.path), workers=12))
+    assert loaded.concurrency == 12 and cli._load(argparse.Namespace(config=str(config.path))).concurrency == 1
 
 
 def test_config_requires_adapters_for_s1_and_s1_for_s7(small_config):

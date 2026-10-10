@@ -18,7 +18,7 @@ Two producers rewrite the conversation with the model, turn by turn, as a real a
   (`[baselines].summary_words`), as rolling summaries usually do. The model does not keep to it: a trial's replies
   averaged about 500 tokens, and in the P4 pilots 9% of the summarizer's replies (107 of 1,170 on omlx, 111 on vLLM)
   still reached the 1,024-token limit and were cut off, losing a summary's last facts. So the recorded run's
-  configuration (vllm.toml) gives the producers 2,048 (`[model].producer_max_tokens`).
+  configuration (domain2.toml) gives the producers 2,048 (`[model].producer_max_tokens`).
   It is the study's strongest conventional control (RECAP/SNOWBALL).
 
 Every call goes through the model (model/), so it is cached and replayable exactly as S2's are, with sample 0 and the

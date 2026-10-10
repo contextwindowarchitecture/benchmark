@@ -38,6 +38,8 @@ def _load(args) -> config_mod.Config:
         config = replace(config, model={**config.model, "concurrency": args.concurrency})
     if getattr(args, "base_url", None):
         config = replace(config, model={**config.model, "base_url": args.base_url.rstrip("/")})
+    if getattr(args, "workers", None) is not None:
+        config = replace(config, concurrency=args.workers)
     return config
 
 
@@ -83,6 +85,8 @@ def main(argv: list[str] | None = None) -> int:
     run_cmd.add_argument("--concurrency", type=_positive, metavar="N",
                          help="model calls in flight, overriding [model].concurrency; what is sent and the results "
                               "written do not depend on it")
+    run_cmd.add_argument("--workers", type=_positive, metavar="N",
+                         help="snapshots assembled at once (S1, S6), overriding [run].concurrency; a machine's cores")
     run_cmd.add_argument("--base-url", metavar="URL",
                          help="the endpoint, overriding [model].base_url, for a server whose address changes (a rented "
                               "pod); not part of any request, so no cache key depends on it")

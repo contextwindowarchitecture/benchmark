@@ -18,7 +18,7 @@ payload are separate keys and separate calls, since a server can vary at tempera
 of a sampled suite (S3, S6) are independent draws, each reproducible; without it every sample sends the same seed,
 and on a server that honours seeds the samples differ only by the server's own nondeterminism. Sample 0 always sends
 the configured seed, so turning it on changes no request of the producers or of a suite's first sample. The omlx
-pilots ran without it; vllm.toml sets it.
+pilots ran without it; domain2.toml sets it.
 
 **Modes.** `llm` answers from the cache and calls the endpoint on a miss, filling the cache. `replay` answers from the
 cache alone, and a miss is an error. Nothing else in the harness calls a model.

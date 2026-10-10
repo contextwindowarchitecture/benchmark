@@ -43,8 +43,8 @@ summary_words = 150                              # the llm summary's word limit
 input = [8192, 16384, 32768]
 ratios = [1.0, 0.5, 0.25, 0.1]
 reserved_output = 1024
-margin_percent = 20                              # covers estimate-utf8/v1's under-count of the route's text (R-16):
-                                                 #   P4 measured up to 15.3% on model-written state and summaries
+margin_percent = 25                              # covers estimate-utf8/v1's under-count of the route's text (R-16):
+                                                 #   up to 21.9% on the extractor's state at the recorded size
 tokenizer = "estimate-utf8/v1"
 renderer = "cwa-messages/v1"
 
@@ -59,24 +59,42 @@ memory_ttl_seconds = 86400                       # a memory expires a day after 
 frames = true
 timelines = true                                 # each conversation's last probe, per arm and budget
 
-# The model S2 sends payloads to (cwabench2/model/). `replay` answers from the committed cache alone and never calls
-# the endpoint; `run --model llm` calls it on a cache miss and fills the cache. Every request parameter is part of
-# each cache key. This table is the omlx server of the pilots, whose cache is model-cache/; the recorded run's
-# server is vllm.toml's.
+# The model S2 to S4 and S6 send payloads to (cwabench2/model/). `replay` answers from the committed cache alone and
+# never calls the endpoint; `run --model llm` calls it on a cache miss and fills the cache. Every request parameter is
+# part of each cache key. The omlx pilots of P3 and P4 (Qwen3.6-35B-A3B-8bit, MLX) replay at commit 12cbe73.
+#
+# The server: vLLM 0.31.0 on one 96 GB GPU, beside the harness (scripts/pod-setup.sh), started with
+#   vllm serve Qwen/Qwen3.6-35B-A3B-FP8 --served-model-name qwen3.6-35b-a3b-fp8 --host 127.0.0.1 --port 8000
+#     --max-model-len 262144 --gpu-memory-utilization 0.92 --max-num-seqs 256 --max-num-batched-tokens 16384
+#     --enable-prefix-caching --enable-prompt-tokens-details --generation-config vllm
+# `--generation-config vllm` keeps the model's generation_config.json from filling the sampling parameters a request
+# leaves out; the requests state them anyway (extra_body), so each call records them. The batch sizes change only
+# scheduling. Reached elsewhere, through a proxy, the endpoint takes `run --base-url` and a key in CWA_BENCH_MODEL_KEY.
 [model]
 mode = "replay"                                  # llm | replay; `run --model` overrides it
-base_url = "http://127.0.0.1:8000/v1"            # any OpenAI-compatible server
-model = "Qwen3.6-35B-A3B-8bit"
-api_key_env = "CWA_BENCH_MODEL_KEY"              # read from the environment; empty for a local server
+base_url = "http://127.0.0.1:8000/v1"            # vLLM beside the harness; `run --base-url` overrides it
+model = "qwen3.6-35b-a3b-fp8"                    # the served name of Qwen/Qwen3.6-35B-A3B-FP8
+api_key_env = "CWA_BENCH_MODEL_KEY"              # read from the environment
 temperature = 0
 seed = 7
 max_tokens = 512                                 # the compute task's working takes up to about 240
-extra_body = { chat_template_kwargs = { enable_thinking = false } }
 request_timeout_s = 300
-concurrency = 2                                  # requests in flight
+concurrency = 32                                 # requests in flight; the server takes 64 (--max-num-seqs)
 cache = "model-cache"                            # committed, so replay needs no model
-context_limit = 262144                           # the server's max_model_len, read from /models on 2026-10-09
-producer_max_tokens = 1024                       # the extractor's and summarizer's replies (application/producers.py)
+context_limit = 262144                           # the server's max_model_len, read from /models on 2026-10-10
+producer_max_tokens = 2048                       # the extractor's and summarizer's replies; at 1,024, 9% of the
+                                                 #   summarizer's replies in the pilots were cut off
+seed_per_sample = true                           # sample k sends seed + k: independent draws (S3, S6), each replayable
+# Server-specific request fields: thinking off, and the sampling stated in full at vLLM's neutral values (no nucleus
+# or top-k cut, no penalties). The omlx pilots stated only temperature and seed.
+[model.extra_body]
+top_p = 1.0
+top_k = -1
+min_p = 0.0
+presence_penalty = 0.0
+frequency_penalty = 0.0
+repetition_penalty = 1.0
+chat_template_kwargs = { enable_thinking = false }
 
 # S2 · Scripted conversations. Every probe in every arm at each tier, `repeats` samples at temperature 0.
 [s2]
@@ -178,7 +196,7 @@ rules = ["brackets", "signoff", "uppercase"]
 [families.lq]
 seed = 20261013
 sizes = { pilot = 2, recorded = 10 }
-chunk_tokens = 128                               # a chunk's most tokens, cut at sentence boundaries (Domain 1's chunker)
+chunk_tokens = 128                               # a chunk's most tokens; Domain 1's chunker cuts at sentences
 
 # Where findings were reported, by finding id (schemas/upstream.v1.schema.json). Kept by hand; optional.
 [findings]
