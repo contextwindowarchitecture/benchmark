@@ -305,3 +305,75 @@ questions = ["single-short", "multi-mcq", "none-short"]
         assert strip(again / name) == strip(first / name)
     gated_again = [json.loads(line) for line in (again / "suites/S1/lq.jsonl").read_text().splitlines()]
     assert [r["snapshot_sha256"] for r in gated_again] == [r["snapshot_sha256"] for r in gated]
+
+
+@reference
+def test_s6_gates_every_chain_payload_and_replays(tmp_path, spec, monkeypatch):
+    from dataclasses import replace
+
+    from cwabench.validate import validate_run
+    from cwabench2 import config as config_mod
+    from cwabench2.runner import run
+
+    asked = []
+
+    def chat(self, handed, overrides=None):  # a fake endpoint: a reply naming its seed, or the last number asked
+        import re
+
+        seed = (overrides or {}).get("seed", 7)
+        asked.append((handed, seed))
+        found = re.findall(r"\d[\d,]*", handed[-1]["content"])
+        text = found[-1] if "?" in handed[-1]["content"][-200:] and found else f"Noted, seed {seed}."
+        prompt = sum((len(m["content"].encode()) + 3) // 4 for m in handed) + 8
+        return {"text": text, "id": f"r{len(asked)}", "model": self.model, "finish_reason": "stop",
+                "latency_ms": 5.0, "usage": {"prompt_tokens": prompt, "completion_tokens": 2,
+                                             "total_tokens": prompt + 2}, "cached_tokens": None}
+
+    monkeypatch.setattr("cwabench.producers.llm_summarizer.Client.chat", chat)
+    monkeypatch.setattr("cwabench2.model.Model.server", lambda self: None)
+    extra = f"""
+[model]
+mode = "llm"
+cache = {json.dumps(str(tmp_path / "cache"))}
+seed_per_sample = true
+[s2]
+tiers = ["700"]
+repeats = 1
+[s3]
+tiers = ["700"]
+repeats = 2
+[s6]
+families = ["vt"]
+arms = ["truncate-pinned", "cwa-history", "cwa-memory", "cwa-format"]
+tier = "700"
+repeats = 2
+"""
+    path = _configs(tmp_path, spec, ["none"], suites=("S0", "S1", "S2", "S3", "S6"), extra=extra)
+    config = config_mod.load(path)
+    first, status = run(config, build=False, log=lambda m: None)
+    assert status == "pass" and validate_run(first) == []
+    summary = _read(first / "suites/S6/summary.json")
+    rates = {m["id"]: m["value"] for m in summary["metrics"] if m["id"] in ("s6.agreement", "s6.audit",
+                                                                             "s6.prediction")}
+    assert rates == {"s6.agreement": 1.0, "s6.audit": 1.0, "s6.prediction": 1.0}
+    assert summary["model"]["chains"]["by_end"] == {"completed": 1 * 4 * 2}
+    turns = [json.loads(line) for line in (first / "suites/S6/turns.jsonl").read_text().splitlines()]
+    assert {r["reply"] for r in turns} == {"Noted, seed 7.", "Noted, seed 8."}
+    # A CWA chain's history holds its own replies: sample 1's payloads carry seed 8's, never sample 0's
+    later = [handed for handed, seed in asked if seed == 8 and "<history" in handed[-1]["content"]]
+    assert later and all("Noted, seed 7." not in handed[-1]["content"] for handed in later)
+    assert any("Noted, seed 8." in handed[-1]["content"] for handed in later)
+    against = {b["arm"]: b["against_scripted"] for b in summary["by_arm"]}
+    assert all(a is not None and a["suite"] == "S3" for a in against.values())
+    calls = len(asked)
+
+    again, status = run(replace(config, model={**config.model, "mode": "replay", "concurrency": 1}), build=False,
+                        log=lambda m: None)
+    assert status == "pass" and len(asked) == calls
+
+    def strip(path):
+        return [{k: v for k, v in json.loads(line).items() if k not in ("run_id", "lookup_ms")}
+                for line in path.read_text().splitlines()]
+
+    for name in ("suites/S6/turns.jsonl", "suites/S6/grades.jsonl"):
+        assert strip(again / name) == strip(first / name)

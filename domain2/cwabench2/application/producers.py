@@ -87,17 +87,21 @@ def _extract(model: Model, run_id: str, script: dict) -> tuple[dict[int, dict], 
     return states, rows
 
 
+def summary_step(model: Model, script: dict, summary: str, user: str, assistant: str, words: int):
+    """One summarizer call: the summary updated with one turn. Returns the new summary (the old one when the reply is
+    empty), whether the reply had text, and the reply. S6 calls it with the model's own replies (suites/s6_loop.py)."""
+    reply = model.ask(payload(SUMMARY_SYSTEM.format(task=script["instructions"], words=words),
+                              SUMMARY_USER.format(summary=summary or NOTHING, user=user, assistant=assistant)), 0)
+    text = strip_reasoning(reply.text)
+    return (text or summary), bool(text), reply
+
+
 def _summarize(model: Model, run_id: str, script: dict, upto: int, words: int) -> tuple[dict[int, str], list[dict]]:
     summaries, rows, summary = {0: ""}, [], ""
     for turn in script["turns"][:upto]:
-        reply = model.ask(payload(SUMMARY_SYSTEM.format(task=script["instructions"], words=words),
-                                  SUMMARY_USER.format(summary=summary or NOTHING, user=turn["user"],
-                                                      assistant=turn["assistant"])), 0)
-        text = strip_reasoning(reply.text)
-        if text:
-            summary = text
+        summary, parsed, reply = summary_step(model, script, summary, turn["user"], turn["assistant"], words)
         summaries[turn["turn"]] = summary
-        rows.append(_row(run_id, script, "summarizer", turn["turn"], reply, bool(text), reply.text))
+        rows.append(_row(run_id, script, "summarizer", turn["turn"], reply, parsed, reply.text))
     return summaries, rows
 
 

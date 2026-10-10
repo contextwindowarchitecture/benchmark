@@ -1,6 +1,6 @@
 # Domain 2 harness
 
-Benchmarks long-horizon multi-turn stability: over a long conversation, does a model given CWA-assembled context keep doing the task where a model given conventionally assembled context degrades, with everything else held equal? Its working plan, `docs/plans/domain-2-plan.md`, is kept out of git; code comments cite it by section. This directory implements phases P0 to P5 of eight. S2 and S3 send every probe to a model, and the model-based producers run before them, all by default replaying the committed cache of the model's replies, so a run needs no model. S4, the long-context suite, runs when named (`--suites`) until its replies are cached.
+Benchmarks long-horizon multi-turn stability: over a long conversation, does a model given CWA-assembled context keep doing the task where a model given conventionally assembled context degrades, with everything else held equal? Its working plan, `docs/plans/domain-2-plan.md`, is kept out of git; code comments cite it by section. This directory implements phases P0 to P6 of eight. S2 and S3 send every probe to a model, and the model-based producers run before them, all by default replaying the committed cache of the model's replies, so a run needs no model. S4, the long-context suite, and S6, the model in the loop, run when named (`--suites`) until their replies are cached.
 
 - **Conversation scripts.** Seeded generators write whole conversations with ground truth known by construction (`cwabench2/conversations/`). Every name, figure and booking is fictional. A script fixes:
   - the governance instructions and the output contract;
@@ -95,6 +95,7 @@ Benchmarks long-horizon multi-turn stability: over a long conversation, does a m
   What fails the suite is the harness: a payload unequal to its gated bytes, or a call that failed or missed the cache.
 - **S3, unreliability.** S2's payloads at `[s3].tiers`, asked `[s3].repeats` times at `[s3].temperature` (5 at 0.7). Per arm and tier it reports the study's aptitude (A90, the 90th percentile of a probe's sample scores) and unreliability (U90−10, the 90th minus the 10th), in points and averaged over probes, with cluster-bootstrap intervals.
 - **S4, long context** (`suites/s4_longcontext.py`). Every LQ question in every arm of `[s4].arms`, `[s4].repeats` times at the model's temperature, one stream per corpus so a server's prefix cache answers the shared documents. CWA arms send only gated payloads; an assembly refusal grades `refused`, and `control-full`'s overflow grades `overflow`; neither reaches the model. Measured per arm and corpus tier, never gated: accuracy with a cluster-bootstrap interval over corpora, by question kind and format, with the needed chunks in the payload and without, the distractor rate, the rate of abstaining (NOT FOUND, or the option saying so) on a question the documents answer, and each arm's paired difference from `[s4].reference` (`rag`).
+- **S6, model in the loop** (`suites/s6_loop.py`). The study's setup: the model's reply at each turn becomes the history of the next. A chain is one conversation of `[s6].families` (VT by default) in one arm of `[s6].arms`, for one sample; it walks the conversation turn by turn, sending the arm's payload with the user's turn as the query and its own earlier replies as the assistant turns, and asks each probe with that history (probes still never enter it). Samples fork: with `[model].seed_per_sample` each sends its own seed, which S6 requires. The application side reads only the user's turns, so the extractor's state is shared; each `summary` chain has its own rolling summary of its own replies. Every CWA payload is gated inline as S1 gates a snapshot, on every adapter, before it is sent; a gate failure, a refusal or an overflow halts the chain. Measured: S2's metrics per arm, the reply length by turn (the study's answer bloat), and, when S2 or S3 ran in the same run, each arm's aptitude against the scripted result on the same probes (S3's when it ran at S6's temperature).
 - **S5, cost and latency,** from S2's records and, when it ran, S4's: prompt and completion tokens per answer and per correct answer, latency p50 and p95 (as recorded when the cache was filled), answer length by turn count, prefix-cache tokens, and the token estimator's under-count by prompt size. It fails on any call whose server prompt exceeds its budget (R-16), which is what the margin must prevent. The P4 pilot measured an under-count of up to 15.8% on text the model wrote (extracted state, summaries), so `[budgets].margin_percent` is 20.
 - **S7, goldens.** Probe answers all four assemblers agreed on, as predicted and audited clean, become candidate goldens. `goldens accept` adopts them, and later runs report drift. `goldens/d2-goldens.json` holds the pilot's 6,048.
 
@@ -111,10 +112,11 @@ uv run cwabench --domain 2 run --concurrency 32 # model calls in flight, overrid
 uv run cwabench --domain 2 run --base-url URL   # the endpoint, overriding [model].base_url
 uv run cwabench --domain 2 run --size recorded  # the families' recorded sizes instead of their pilot sizes
 uv run cwabench --domain 2 run --suites S0,S1,S4 --model llm   # the LQ family: S1 gates it, S4 asks it
+uv run cwabench --domain 2 --config vllm.toml run --suites S0,S1,S2,S3,S6 --model llm   # the model in the loop
 uv run cwabench --domain 2 validate             # re-check the latest run against its schemas and blob digests
 uv run cwabench --domain 2 goldens accept       # adopt the latest run's candidate goldens (S7)
 uv run pytest                                   # the harness's own tests, from domain2/; needs the spec checkout
-CWA_BENCH_REFERENCE=1 uv run pytest tests/test_gate.py   # S1, S4 and S7 on the reference assembler, a planted defect
+CWA_BENCH_REFERENCE=1 uv run pytest tests/test_gate.py   # S1, S4, S6 and S7 on the reference assembler, a defect
 ```
 
 On this machine, a pilot run with `--no-frames` replays its 13,973 model calls (the producers' 2,610, S2's 4,683, S3's 6,680) and takes about 6 minutes, most of it S1's assembly; with frames S1 takes much longer. Filling the cache with `--model llm` took about 6 hours against a local omlx server running Qwen3.6-35B-A3B-8bit, about 2½ of them the summarizer. Only `--model llm` calls a model; omlx served two requests at once fastest (`[model].concurrency`), and its memory guard can reject a call when the machine is short of RAM, in which case another `--model llm` run fills just what is missing. `--concurrency` changes only how many calls are in flight. A run writes the same grades and producer rows at any concurrency, since the requests and cache keys do not depend on it and the rows are written in the plan's order. Each conversation's extractor and summarizer are separate chains, so a server that batches well (vLLM on a GPU) can take a concurrency well above the number of conversations. In `llm` mode a server can still answer differently under different loads, which the cache records; S2's and S3's `summary.json` record the concurrency and, in `llm` mode, what the endpoint lists under the model's name in `/models` (`model.server`). `run` builds the adapters first unless you pass `--no-build`. The exit code is 0 only when the run passes and its output validates.
@@ -147,6 +149,7 @@ On this machine, a pilot run with `--no-frames` replays its 13,973 model calls (
 | `[s2]` | The tiers S2 sends at, samples per payload, the reference arm, the bootstrap |
 | `[s3]` | The same for S3, and its sampling temperature |
 | `[s4]` | S4's arms, the budget, the corpus ratios, the retriever's candidates, samples per payload, the reference arm, the bootstrap |
+| `[s6]` | S6's families, arms, budget tier, chains per conversation and arm (`repeats`), temperature, the reference arm, the bootstrap |
 | `[s7]` | The goldens file |
 | `[findings]` | Where findings were reported upstream |
 
@@ -164,7 +167,7 @@ The pilot sizes give 2 conversations per turn count (10, 50 and 100 turns) for V
 A run directory follows Domain 1's conventions under the prefix `cwa-bench-d2`. Every document names its schema (`"$schema": "cwa-bench-d2/<kind>/v1"`) and is validated against `schemas/<kind>.v1.schema.json` before it is written.
 
 - **Reused kinds.** `blob`, `contract`, `drift-row`, `finding`, `manifest`, `run-index`, `runs-index`, `timeline` and `upstream` are Domain 1's schemas with the prefix changed, and a test holds them equal.
-- **New kinds.** `conversation`, `conversation-index`, `self-check`, `turn-row`, `baseline-row`, `grade-row`, `call-row`, `producer-row`, `goldens`, and for LQ `lq-corpus`, `lq-index`, `lq-gate-row`, `lq-baseline-row` and `lq-grade-row`, are Domain 2's own.
+- **New kinds.** `conversation`, `conversation-index`, `self-check`, `turn-row`, `baseline-row`, `grade-row`, `call-row`, `producer-row`, `goldens`, for LQ `lq-corpus`, `lq-index`, `lq-gate-row`, `lq-baseline-row` and `lq-grade-row`, and for S6 `chain-row`, are Domain 2's own.
 - **Changed kinds.** `summary` and `suite-summary` carry Domain 2's metric shape, which has `arm`, `family` and `tier` where Domain 1's has `adapter`, and an optional `interval`.
 
 ```
@@ -188,6 +191,9 @@ results/d2/<run-id>/
   model/s3-calls.jsonl                   # the same for S3
   model/s4-calls.jsonl                   # and for S4
   suites/S4/grades.jsonl  suites/S4/summary.json      # S4's grades, accuracy by arm and corpus tier
+  suites/S6/turns.jsonl                  # one row per chain and turn: the payload, the reply that became history
+  suites/S6/grades.jsonl  suites/S6/summary.json      # S6's grades; aptitude by arm, against the scripted result
+  model/s6-calls.jsonl                   # every S6 call, the chains' summarizer included
   producers/calls.jsonl                  # one row per producer call: the extractor's or summarizer's output
   suites/S3/grades.jsonl  suites/S3/summary.json      # S3's grades, A90 and U90−10 by arm and tier
   suites/S7/candidate-goldens.json  suites/S7/drift.jsonl  suites/S7/summary.json

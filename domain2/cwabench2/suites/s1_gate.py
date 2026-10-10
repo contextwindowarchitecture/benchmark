@@ -141,14 +141,16 @@ class Report:
     """Findings, one per signature (suite, oracle, check, adapter, arm), with their occurrences."""
 
     ctx: SuiteContext
+    suite: str = ID  # S6 gates its chains' snapshots with the same checks
 
     def __post_init__(self):
         self.found: dict[str, dict] = {}
 
     def add(self, oracle: str, checks: list[str], adapter: str | None, arm: str, case_id: str, summary: str,
             data: bytes | None) -> str:
-        signature = {"suite": ID, "oracle": oracle, "checks": checks, "adapter": adapter, "arm": arm}
-        row = finding(self.ctx, ID, signature, case_id=case_id, oracle=oracle, checks=checks, summary=summary[:500],
+        signature = {"suite": self.suite, "oracle": oracle, "checks": checks, "adapter": adapter, "arm": arm}
+        row = finding(self.ctx, self.suite, signature, case_id=case_id, oracle=oracle, checks=checks,
+                      summary=summary[:500],
                       requirements=REQUIREMENTS if oracle == "auditor" else [])
         known = self.found.get(row["finding_id"])
         if known is not None:

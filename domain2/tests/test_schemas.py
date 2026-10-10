@@ -25,7 +25,7 @@ def test_reused_kinds_keep_domain_1s_shape(kind):
 
 def test_every_schema_is_valid_and_rejects_strangers():
     paths = sorted(output.SCHEMA_DIR.glob("*.v1.schema.json"))
-    assert len(paths) == 25
+    assert len(paths) == 26
     for path in paths:
         kind = path.name.removesuffix(".v1.schema.json")
         output.D2.validator(kind)  # check_schema runs here

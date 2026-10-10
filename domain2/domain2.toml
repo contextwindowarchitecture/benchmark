@@ -1,9 +1,9 @@
 # Domain 2 run configuration (domain-2-plan.md, section 12). Paths are relative to this file.
 #
-# This build is P0 to P5: the generators (VT, FR, CC, IP and the LQ corpora), the graders, S0, the application side
+# This build is P0 to P6: the generators (VT, FR, CC, IP and the LQ corpora), the graders, S0, the application side
 # and its model-based producers, S1 (the assembly gate, and the baselines' payloads), S2 (the model's answers), S3
-# (unreliability), S4 (long context), S5 (cost and latency) and S7 (goldens). The tables the later phases read
-# (thresholds, caps, CI profiles) come with them.
+# (unreliability), S4 (long context), S5 (cost and latency), S6 (model in the loop) and S7 (goldens). The tables the
+# later phases read (thresholds, caps, CI profiles) come with them.
 
 [contract]
 path = "../../../contextwindowarchitecture"
@@ -11,7 +11,7 @@ commit = "16de4be0534583f135a597171c927d42c87ee82c"  # the same pin as domain1.t
 allow_dirty = false
 
 [run]
-suites = ["S0", "S1", "S2", "S3", "S5", "S7"]          # S4 with `run --suites`, until its replies are cached
+suites = ["S0", "S1", "S2", "S3", "S5", "S7"]          # S4 and S6 with `run --suites`, until cached
 families = ["vt", "fr", "cc", "ip"]
 size = "pilot"                                   # pilot | recorded: which of each family's sizes a run generates
 results_dir = "results/d2"
@@ -105,6 +105,20 @@ ratios = [0.25, 1.0, 4.0, 16.0]
 candidates = 64
 repeats = 3
 reference = "rag"
+bootstrap_resamples = 2000
+bootstrap_seed = 20261009
+
+# S6 · Model in the loop. Each conversation of `families`, in each of `arms`, as `repeats` chains (one per sample) at
+# `temperature`: the model's reply at each turn becomes the history. Needs [model].seed_per_sample to fork the chains.
+# Run with `run --suites`; with S2 or S3 in the run, each arm is compared with the scripted result (S3's at S6's
+# temperature, else S2's).
+[s6]
+families = ["vt"]
+arms = ["truncate-pinned", "window", "summary", "cwa-history", "cwa-state", "cwa-memory"]
+tier = "8192"
+repeats = 3
+temperature = 0.7
+reference = "truncate-pinned"
 bootstrap_resamples = 2000
 bootstrap_seed = 20261009
 

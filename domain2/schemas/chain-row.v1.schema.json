@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d2:chain-row:v1",
+  "title": "Chain row",
+  "description": "One S6 turn (domain-2-plan.md, 8): in one chain (a conversation, an arm and a sample), the payload sent at that turn and the model's reply, which became the chain's history, or why the chain halted there.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d2/chain-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "chain": {
+      "type": "string",
+      "pattern": "^[a-z]+-t[0-9]{3}-[0-9]{2}/[a-z-]+#[0-9]+$",
+      "description": "<conversation>/<arm>#<sample>"
+    },
+    "conversation": {
+      "type": "string",
+      "pattern": "^[a-z]+-t[0-9]{3}-[0-9]{2}$"
+    },
+    "family": {
+      "type": "string",
+      "pattern": "^[a-z]+$"
+    },
+    "arm": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "budget_input": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "sample": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "turn": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "outcome": {
+      "enum": [
+        "answered",
+        "overflow",
+        "refused",
+        "gate_failed",
+        "call_failed"
+      ],
+      "description": "answered: the reply became the history; otherwise why the chain halted here"
+    },
+    "payload_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "request_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "input_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "reply": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "blank": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "finish_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "completion_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "prompt_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "case_id",
+    "chain",
+    "conversation",
+    "family",
+    "arm",
+    "tier",
+    "budget_input",
+    "sample",
+    "turn",
+    "outcome",
+    "payload_sha256",
+    "request_sha256",
+    "input_tokens",
+    "reply",
+    "blank",
+    "finish_reason",
+    "completion_tokens",
+    "prompt_tokens"
+  ],
+  "additionalProperties": false
+}

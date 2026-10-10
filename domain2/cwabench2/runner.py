@@ -25,11 +25,12 @@ from .conversations import FAMILIES, generate
 from .conversations import longcontext
 from .model import Model
 from .suites import (SuiteContext, SuiteResult, s0_selfcheck, s1_gate, s2_scripted, s3_unreliability,
-                     s4_longcontext, s5_cost, s7_goldens)
+                     s4_longcontext, s5_cost, s6_loop, s7_goldens)
 
-# Canonical order: S2 to S4 send what S1 gated or built, S5 reads S2's records, S7 reads S1's rows.
+# Canonical order: S2 to S4 send what S1 gated or built, S5 reads S2's and S4's records, S6 compares with S2's or
+# S3's grades, S7 reads S1's rows.
 SUITES = {"S0": s0_selfcheck, "S1": s1_gate, "S2": s2_scripted, "S3": s3_unreliability, "S4": s4_longcontext,
-          "S5": s5_cost, "S7": s7_goldens}
+          "S5": s5_cost, "S6": s6_loop, "S7": s7_goldens}
 
 ROOT = Path(__file__).resolve().parent.parent
 # The harness digest covers Domain 2's own files and the Domain 1 code it runs (pyproject's path dependency).
@@ -158,16 +159,18 @@ def run_producers(ctx: SuiteContext) -> None:
     ctx.shared["produced"] and every call to producers/calls.jsonl. A failed call (a replay miss, an endpoint error)
     stops the run: the arms that need the output cannot be built without it."""
     config = ctx.config
-    if "S1" not in config.suites:
-        return
-    extract = "cwa-state-x" in config.arms
-    summarize = "summary" in config.baselines and config.baseline.summarizer == "llm"
+    gate, loop = "S1" in config.suites, "S6" in config.suites
+    # The extractor reads only the user's messages, so S6's chains share its state; the rolling summary reads the
+    # replies, which differ in each chain, so S6 makes its own (suites/s6_loop.py).
+    extract = (gate and "cwa-state-x" in config.arms) or (loop and "cwa-state-x" in config.s6["arms"])
+    summarize = gate and "summary" in config.baselines and config.baseline.summarizer == "llm"
     if not (extract or summarize):
         return
     # The producers' replies are a state or a running summary, longer than an answer: their own token limit.
     model = Model({**config.model, "max_tokens": config.model["producer_max_tokens"]}, config.root,
                   config.model["mode"])
-    scripts = [s for family in ctx.conversations.values() for s in family]
+    scripts = [s for name, family in ctx.conversations.items() for s in family
+               if gate or name in config.s6["families"]]
     ctx.log(f"producers: {'extractor ' if extract else ''}{'summarizer ' if summarize else ''}over {len(scripts)} "
             f"scripts, mode {model.mode}")
     produced, rows, errors = producers.produce(model, ctx.run.run_id, scripts, extract, summarize,
@@ -183,7 +186,7 @@ def run_producers(ctx: SuiteContext) -> None:
 
 def run(config: Config, build: bool = True, log: Callable[[str], None] = _log) -> tuple[Path, str]:
     contract = Contract(config.contract_path, config.contract_commit, config.allow_dirty)
-    d1 = adapters_config(config) if set(config.suites) & set(ADAPTER_SUITES) else None
+    d1 = adapters_config(config) if set(config.suites) & set(ADAPTER_SUITES) and config.adapters else None
     run_dir = RunDir(config, domain=output.D2, sources=SOURCES)
     log(f"run {run_dir.run_id} → {run_dir.path}")
     describe = "What this run was made from: harness, config, contract, adapters, host"
