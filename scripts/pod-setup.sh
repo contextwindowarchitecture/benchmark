@@ -44,7 +44,7 @@ done)
 if [ -n "$missing" ]; then
   $SUDO apt-get update -qq
   $SUDO env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git curl ca-certificates build-essential \
-    pkg-config tmux zstd xz-utils podman >/dev/null  # podman: Domain 1's Linux container (S2, S10)
+    pkg-config tmux zstd xz-utils podman >/dev/null  # Domain 1's container runs in Podman or Docker
 fi
 
 say "uv"

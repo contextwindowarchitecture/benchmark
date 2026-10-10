@@ -7,7 +7,8 @@
 #   1. Domain 2's tests, and its opt-in tests on the reference assembler;
 #   2. Domain 2's recorded run (every family at its recorded size; S0 to S5 and S7) against the model beside it;
 #   3. Domain 2's S6 at pilot size, with S2 and S3 for its comparison with the scripted result;
-#   4. Domain 1's tests, its opt-in tests on the reference assembler and in the container, and a full run.
+#   4. Domain 1's tests, its opt-in tests on the reference assembler and in the container (once in each engine
+#      installed), a full run with Podman, and S2 and S10, the suites that use the container, again with Docker.
 #
 # A model run is made in `llm` mode and made again only when calls failed: the second pass calls the model for just
 # what the first could not fill, since everything answered is in the cache. Any other failure is the run's result.
@@ -76,4 +77,5 @@ model_run d2-s6 --size pilot --suites S0,S1,S2,S3,S6
 step d1-tests "$BENCH/domain1" uv run pytest -q
 step d1-tests-opt-in "$BENCH/domain1" env CWA_BENCH_REFERENCE=1 CWA_BENCH_CONTAINER=1 uv run pytest -q
 step d1-run "$BENCH/domain1" uv run cwabench run
+step d1-run-docker "$BENCH/domain1" uv run cwabench run --suites S2,S10 --container-engine docker
 note "done"
