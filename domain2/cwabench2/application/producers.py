@@ -34,12 +34,12 @@ from cwabench.canon import jcs
 from ..grading.normalize import json_object, strip_reasoning
 from ..model import CacheMiss, EndpointError, Model
 
-EXTRACT_SYSTEM = ("You keep the state of a task from a conversation with a user. The task: {task}\n\nThe state maps each "
-                  "fact the task needs to its current value. Ignore small talk and anything else the task does not "
-                  "need. Reply with a JSON object holding only the facts the new message adds or changes, under the "
-                  "keys the state already uses for them; reply {{}} when it has none.")
-EXTRACT_USER = ("Current state:\n{state}\n\nNew message from the user:\n{user}\n\nReply with the JSON object of what this "
-                "message adds or changes, or {{}}.")
+EXTRACT_SYSTEM = ("You keep the state of a task from a conversation with a user. The task: {task}\n\nThe state maps "
+                  "each fact the task needs to its current value. Ignore small talk and anything else the task does "
+                  "not need. Reply with a JSON object holding only the facts the new message adds or changes, under "
+                  "the keys the state already uses for them; reply {{}} when it has none.")
+EXTRACT_USER = ("Current state:\n{state}\n\nNew message from the user:\n{user}\n\nReply with the JSON object of what "
+                "this message adds or changes, or {{}}.")
 SUMMARY_SYSTEM = ("You keep a running summary of a long conversation for an assistant that will not see the older "
                   "turns. The assistant's task: {task}\n\nKeep every fact the task needs, with its latest value, and "
                   "drop small talk and anything else the task does not need. Keep the summary under {words} words. "
