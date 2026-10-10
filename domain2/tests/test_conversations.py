@@ -96,3 +96,30 @@ def test_parameters_that_cannot_fit_are_refused():
         generate("fr", 6, 20, 0, 10, {**FR, "tasks": ["essay"]})
     with pytest.raises(ValueError, match="tracked"):
         generate("vt", 5, 20, 0, 10, {**VT, "variables": 0})
+
+
+def test_no_order_repeats_a_line_or_charges_two_delivery_fees():
+    """FR v4: across many seeds, every order states each fact once and has at most one delivery fee (v3 had both
+    faults in 12 of its 60 recorded-size scripts), and S0's checks find no problem in any script."""
+    from cwabench2.conversations import check, generate
+
+    parameters = {"tasks": ["compute"], "steps": 6, "filler_sentences": 1, "reply_sentences": 1}
+    for index in range(80):
+        script = generate("fr", 20261010, 10 * (1 + index % 3), index, 10, parameters)
+        assert check.structure(script) == [] and check.replay(script) == []
+
+
+def test_the_checks_reject_a_repeated_fact_sentence_and_a_second_fee():
+    from cwabench2.conversations import check, generate
+
+    script = generate("fr", 20261010, 20, 0, 10, {"tasks": ["compute"], "steps": 6, "filler_sentences": 1,
+                                                  "reply_sentences": 1})
+    first = next(t for t in script["turns"] if t["shards"])
+    later = next(t for t in script["turns"] if t["turn"] > first["turn"] and not t["shards"])
+    later["user"] = f"{later['user']} {first['shards'][0]}"
+    later["shards"] = [first["shards"][0]]
+    assert any("repeats" in p for p in check.structure(script))
+    fee = "There's a flat delivery fee of 20 on the order."
+    for turn in [t for t in script["turns"] if not t["shards"]][:2]:
+        turn["shards"] = [fee]
+    assert any("delivery fees" in p for p in check.replay(script))

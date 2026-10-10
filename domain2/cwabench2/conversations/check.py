@@ -56,6 +56,12 @@ def structure(script: dict) -> list[str]:
             problems.append(f"{turn['id']}: a digit in the assistant turn")
         if _DOUBLED.search(turn["user"]):
             problems.append(f"{turn['id']}: a doubled word")
+    said: dict[str, str] = {}
+    for turn in turns:  # a fact sentence said twice is two facts no reader, and no text oracle, can tell apart
+        for shard in turn["shards"]:
+            if shard in said:
+                problems.append(f"{turn['id']}: repeats {said[shard]}'s fact sentence")
+            said.setdefault(shard, turn["id"])
     ids = {t["id"]: t["turn"] for t in turns}
     for probe in script["probes"]:
         if _DIGITS.search(probe["question"]):
@@ -174,6 +180,9 @@ def _replay_compute(script: dict) -> list[str]:
     recorded = [(s["turn"], s["amount"]) for s in script["ground_truth"]["steps"]]
     if steps != recorded:
         problems.append("the text's order lines differ from the ground truth's")
+    fees = [t["id"] for t in script["turns"] for sentence in t["shards"] if "fee" in sentence]
+    if len(fees) > 1:  # a second fee reads as replacing the first, which the ground truth adds
+        problems.append(f"delivery fees in {', '.join(fees)}: an order has one")
     totals, total = [], 0
     for turn, amount in steps:
         total += amount

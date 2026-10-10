@@ -25,7 +25,7 @@ from . import names
 from .names import capitalize, number
 
 GENERATOR = "fr"
-VERSION = 3  # 2: longer assistant turns; the output contract apart from the instructions. 3: compute
+VERSION = 4  # 2: longer assistant turns; the output contract apart from the instructions. 3: compute
 
 INSTRUCTIONS = {
     "record": ("You are an assistant helping the user put together an event booking from details they give over a long "
@@ -154,6 +154,16 @@ def _compute(rng: random.Random, turns: int, checkpoints: list[int], parameters:
         op = "item" if n == 0 else rng.choices(("item", "fee", "credit"), (3, 1, 1))[0]
         if op == "credit" and total < 100:
             op = "item"
+        if op == "fee" and any(s["op"] == "fee" for s in steps):
+            op = "item"  # one delivery fee: a second would read as replacing the first, not as another charge
+        if op == "credit":
+            credits = {s["amount"] for s in steps if s["op"] == "credit"}
+            amount = -min(rng.randrange(10, 81, 5), total - 5)
+            if amount in credits:  # each credit its own amount, so no two turns say the same sentence
+                left = [-a for a in range(10, 81, 5) if a <= total - 5 and -a not in credits]
+                amount = rng.choice(left) if left else None
+            if amount is None:
+                op = "item"
         if op == "item":
             item, amount = items[n % len(items)], rng.randrange(50, 600, 5)
             text = f"Add a line of {amount} for the {item}s to the order."
@@ -163,7 +173,6 @@ def _compute(rng: random.Random, turns: int, checkpoints: list[int], parameters:
             text = f"There's a flat delivery fee of {amount} on the order."
             step = {"op": op}
         else:
-            amount = -min(rng.randrange(10, 81, 5), total - 5)
             text = f"Take {-amount} off the order for the returned stock."
             step = {"op": op}
         total += amount
