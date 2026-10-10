@@ -1,0 +1,263 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d2:lq-grade-row:v1",
+  "title": "LQ grade row",
+  "description": "One S4 grade (domain-2-plan.md, 8): one LQ question, in one arm, at one corpus tier, one sample: the reply, its grade, and whether the needed chunks were in the payload. It holds nothing that depends on the run's model mode.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d2/lq-grade-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "corpus": {
+      "type": "string",
+      "pattern": "^lq-x[0-9.]+-[0-9]{2}$"
+    },
+    "family": {
+      "const": "lq"
+    },
+    "tier": {
+      "type": "string",
+      "pattern": "^x[0-9.]+$"
+    },
+    "ratio": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "arm": {
+      "enum": [
+        "control-full",
+        "truncate-pinned",
+        "rag",
+        "cwa-evidence",
+        "cwa-reinforced"
+      ]
+    },
+    "question_id": {
+      "type": "string",
+      "pattern": "^q[0-9]{2}$"
+    },
+    "kind": {
+      "enum": [
+        "single",
+        "multi",
+        "none"
+      ]
+    },
+    "format": {
+      "enum": [
+        "short",
+        "mcq"
+      ]
+    },
+    "attribute": {
+      "enum": [
+        "capacity",
+        "opened",
+        "staff",
+        "manager",
+        "code",
+        "district"
+      ]
+    },
+    "depth": {
+      "anyOf": [
+        {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "budget_input": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "sample": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "payload_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "request_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "input_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "fact_present": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "expected": {
+      "description": "Any JSON value"
+    },
+    "reply": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "correct",
+        "stale",
+        "distractor",
+        "wrong",
+        "unparsed",
+        "overflow",
+        "refused"
+      ]
+    },
+    "score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "answer": {
+      "description": "Any JSON value"
+    },
+    "detail": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "finish_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "completion_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "prompt_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "abstained": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "On a question the documents answer: whether the reply said they do not (NOT FOUND, or the option saying so); null otherwise"
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "case_id",
+    "corpus",
+    "family",
+    "tier",
+    "ratio",
+    "arm",
+    "question_id",
+    "kind",
+    "format",
+    "attribute",
+    "depth",
+    "budget_input",
+    "sample",
+    "payload_sha256",
+    "request_sha256",
+    "input_tokens",
+    "fact_present",
+    "expected",
+    "reply",
+    "verdict",
+    "score",
+    "answer",
+    "detail",
+    "finish_reason",
+    "completion_tokens",
+    "prompt_tokens",
+    "abstained"
+  ],
+  "additionalProperties": false
+}

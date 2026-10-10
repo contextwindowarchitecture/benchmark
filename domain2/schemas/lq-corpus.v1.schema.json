@@ -1,0 +1,309 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d2:lq-corpus:v1",
+  "title": "LQ corpus",
+  "description": "One long-context corpus and its questions (conversations/longcontext.py; domain-2-plan.md, 6.5): its documents, its chunks with their bodies, and each question with what grading and the fact-in-payload oracle need.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d2/lq-corpus/v1"
+    },
+    "corpus_id": {
+      "type": "string",
+      "pattern": "^lq-x[0-9.]+-[0-9]{2}$"
+    },
+    "family": {
+      "const": "lq"
+    },
+    "generator": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "tier": {
+      "type": "string",
+      "pattern": "^x[0-9.]+$"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "ratio": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "budget": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "target_tokens": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "tokenizer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "chunk_tokens": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "parameters": {
+      "type": "object"
+    },
+    "instructions": {
+      "type": "string",
+      "minLength": 1
+    },
+    "output_contract": {
+      "type": "string",
+      "minLength": 1
+    },
+    "documents": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^d[0-9]{4,}$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "string",
+            "pattern": "^doc:d[0-9]{4,}$"
+          },
+          "source_version": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "source",
+          "source_version"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "chunks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^d[0-9]{4,}:c[0-9]{2,}$"
+          },
+          "document": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "body": {
+            "type": "string",
+            "minLength": 1
+          },
+          "tokens": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "id",
+          "document",
+          "source",
+          "source_version",
+          "body",
+          "tokens"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "tokens": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "questions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "question_id": {
+            "type": "string",
+            "pattern": "^q[0-9]{2}$"
+          },
+          "kind": {
+            "enum": [
+              "single",
+              "multi",
+              "none"
+            ]
+          },
+          "format": {
+            "enum": [
+              "short",
+              "mcq"
+            ]
+          },
+          "attribute": {
+            "enum": [
+              "capacity",
+              "opened",
+              "staff",
+              "manager",
+              "code",
+              "district"
+            ]
+          },
+          "sites": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "maxItems": 2
+          },
+          "twin": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1
+          },
+          "query": {
+            "type": "string",
+            "minLength": 1
+          },
+          "answer": {
+            "type": "object",
+            "required": [
+              "kind",
+              "expected"
+            ],
+            "properties": {
+              "kind": {
+                "enum": [
+                  "number",
+                  "text",
+                  "choice"
+                ]
+              }
+            }
+          },
+          "needs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^d[0-9]{4,}:c[0-9]{2,}$"
+            },
+            "maxItems": 2
+          },
+          "evidence": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "depth": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "depth"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "question_id",
+          "kind",
+          "format",
+          "attribute",
+          "sites",
+          "twin",
+          "question",
+          "query",
+          "answer",
+          "needs",
+          "evidence",
+          "attributes"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "corpus_id",
+    "family",
+    "generator",
+    "tier",
+    "seed",
+    "ratio",
+    "budget",
+    "target_tokens",
+    "tokenizer",
+    "chunk_tokens",
+    "parameters",
+    "instructions",
+    "output_contract",
+    "documents",
+    "chunks",
+    "tokens",
+    "questions"
+  ],
+  "additionalProperties": false
+}

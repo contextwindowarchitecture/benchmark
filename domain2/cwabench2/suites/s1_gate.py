@@ -25,7 +25,8 @@ conversation's last probe. Rows keep hashes: a probe's snapshot is stored once p
 and any other snapshot only as a finding's reproducer.
 
 Each worker process runs one snapshot on every adapter at once and audits every answer, so the auditor, which is
-pure Python, runs in parallel too.
+pure Python, runs in parallel too. When S4 runs, S1 gates and builds the LQ family's payloads the same way
+(s1_longcontext.py).
 """
 from __future__ import annotations
 
@@ -235,6 +236,11 @@ def run(ctx: SuiteContext) -> SuiteResult:
                                                f"{point.id} at {tier}")
                             timelines_written += 1
                 ctx.log(f"S1: {script['conversation_id']} done ({len(rows)} rows)")
+        lq = {"rows": 0, "baselines": 0, "metrics": []}
+        if ctx.corpora:
+            from . import s1_longcontext
+
+            lq = s1_longcontext.run(ctx, pool, report, tally, gate, assemble, _judge, expected_json, _candidates)
 
     ctx.run.write_jsonl(f"suites/{ID}/turns.jsonl", rows, "turn-row",
                         "One row per point, arm and budget: every adapter's answer, the prediction, the shedding "
@@ -264,6 +270,7 @@ def run(ctx: SuiteContext) -> SuiteResult:
         suite_metrics.append(metrics.rate("s1.fact_in_payload", "Probes with every needed fact in the payload", yes,
                                           total, target=None, suite=ID, arm=arm_name, tier=tier,
                                           description="Measured, not gated: what each arm keeps at each budget"))
+    suite_metrics += lq["metrics"]
     findings = list(report.found.values())
     unavailable = {n: e for n, e in ctx.unavailable.items()}
     gates = [m for m in suite_metrics if m["status"] in ("pass", "fail")]
@@ -288,7 +295,8 @@ def run(ctx: SuiteContext) -> SuiteResult:
         "gate": {"passed": len(passed), "total": len(gate),
                  "failed": sorted(f"{c}/{a}" for (c, a), ok in gate.items() if not ok)},
         "rows": {"probes": sum(r["point"] == "probe" for r in rows), "turns": sum(r["point"] == "turn" for r in rows),
-                 "timelines": timelines_written, "baselines": len(rows_b)},
+                 "timelines": timelines_written, "baselines": len(rows_b), "lq": lq["rows"],
+                 "lq_baselines": lq["baselines"]},
     }, "S1's gate: agreement, audit, prediction and the fact-in-payload oracle")
     return SuiteResult(ID, TITLE, status, summary_path, suite_metrics, findings)
 

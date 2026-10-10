@@ -230,3 +230,78 @@ repeats = 2
     assert status == "fail" and len(answers) == calls
     findings = [json.loads(line) for line in (missed / "findings.jsonl").read_text().splitlines()]
     assert ["replay_miss"] in [f["checks"] for f in findings]
+
+
+@reference
+def test_s4_gates_asks_and_replays_the_lq_family(tmp_path, spec, monkeypatch):
+    from dataclasses import replace
+
+    from cwabench.validate import validate_run
+    from cwabench2 import config as config_mod
+    from cwabench2.runner import run
+
+    answers = []
+
+    def chat(self, handed):  # a fake endpoint: answers NOT FOUND to every question, or A to a multiple choice
+        answers.append(handed)
+        prompt = sum((len(m["content"].encode()) + 3) // 4 for m in handed) + 8
+        text = "A" if "\nD) " in handed[-1]["content"] else "NOT FOUND"
+        return {"text": text, "id": f"r{len(answers)}", "model": self.model, "finish_reason": "stop",
+                "latency_ms": 5.0, "usage": {"prompt_tokens": prompt, "completion_tokens": 2,
+                                             "total_tokens": prompt + 2}, "cached_tokens": None}
+
+    monkeypatch.setattr("cwabench.producers.llm_summarizer.Client.chat", chat)
+    monkeypatch.setattr("cwabench2.model.Model.server", lambda self: None)
+    extra = f"""
+[model]
+mode = "llm"
+cache = {json.dumps(str(tmp_path / "cache"))}
+context_limit = 6000
+[s2]
+tiers = ["700"]
+repeats = 1
+[s4]
+budget = 1024
+ratios = [0.5, 4.0]
+candidates = 12
+repeats = 2
+[families.lq]
+seed = 9
+sizes = {{ pilot = 1, recorded = 1 }}
+questions = ["single-short", "multi-mcq", "none-short"]
+"""
+    path = _configs(tmp_path, spec, ["none"], suites=("S0", "S1", "S2", "S4", "S5"), extra=extra)
+    config = config_mod.load(path)
+    first, status = run(config, build=False, log=lambda m: None)
+    assert status == "pass" and validate_run(first) == []
+    s1 = _read(first / "suites/S1/summary.json")
+    assert s1["gate"]["failed"] == [] and s1["rows"]["lq"] == 2 * 3 * 2  # corpora × questions × CWA arms
+    gated = [json.loads(line) for line in (first / "suites/S1/lq.jsonl").read_text().splitlines()]
+    assert all(r["verdict"] == "passed" and r["expected"]["outcome"] == "assembled" for r in gated)
+    grades = [json.loads(line) for line in (first / "suites/S4/grades.jsonl").read_text().splitlines()]
+    assert len(grades) == 2 * 3 * 5 * 2  # corpora × questions × arms × samples
+    full = {g["tier"]: g["verdict"] for g in grades if g["arm"] == "control-full"}
+    assert full["x4"] == "overflow" and full["x0.5"] != "overflow"  # 4 × 1,024 tokens + margin > 6,000 − reserve
+    none = [g for g in grades if g["kind"] == "none" and g["verdict"] != "overflow"]
+    assert none and all(g["verdict"] == "correct" and g["abstained"] is None for g in none)
+    single = [g for g in grades if g["kind"] == "single" and g["verdict"] != "overflow"]
+    # NOT FOUND to a figure has no number to read (unparsed), to a name a wrong one; abstained either way
+    assert single and all(g["abstained"] is True and g["verdict"] in ("wrong", "unparsed") for g in single)
+    summary = _read(first / "suites/S4/summary.json")
+    assert {(b["arm"], b["tier"]) for b in summary["by_arm"]} >= {("rag", "x4"), ("cwa-reinforced", "x0.5")}
+    cost = _read(first / "suites/S5/summary.json")["cost"]
+    assert {e["suite"] for e in cost["by_arm"]} == {"S2", "S4"} and cost["budget_overruns"] == 0
+    calls = len(answers)
+
+    again, status = run(replace(config, model={**config.model, "mode": "replay", "concurrency": 1}), build=False,
+                        log=lambda m: None)
+    assert status == "pass" and len(answers) == calls
+
+    def strip(path):
+        return [{k: v for k, v in json.loads(line).items() if k not in ("run_id", "lookup_ms")}
+                for line in path.read_text().splitlines()]
+
+    for name in ("suites/S4/grades.jsonl", "suites/S1/lq-baselines.jsonl"):  # S1's gate rows time each adapter
+        assert strip(again / name) == strip(first / name)
+    gated_again = [json.loads(line) for line in (again / "suites/S1/lq.jsonl").read_text().splitlines()]
+    assert [r["snapshot_sha256"] for r in gated_again] == [r["snapshot_sha256"] for r in gated]

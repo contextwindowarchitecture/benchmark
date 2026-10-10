@@ -127,3 +127,47 @@ def test_the_prediction_admits_caps_and_sheds_from_the_lowest_rank(contract):
     assert frozen.expect(frozen.floor).refusal_reason == "evidence_required"
     best = frozen.expect(frozen.full)
     assert evidence.item_id(crowded[0]) in best.included and best.outcome == "assembled"
+
+
+def test_the_baselines_keep_what_their_rule_says():
+    from cwabench.canon.render import charged
+    from cwabench.canon.tokenizers import TOKENIZERS
+    from cwabench2.baselines import longcontext as lq_baselines
+
+    found = corpus(4.0)
+    ids = [c["id"] for c in found["chunks"]]
+    index = Index(found["chunks"])
+    count = TOKENIZERS[TOKENIZER]
+    for q in found["questions"]:
+        candidates = retrieve(index, q["query"], 64)
+        full = lq_baselines.build("control-full", found, q, candidates, None, 20, TOKENIZER)
+        assert full.kept == ids and full.outcome == "fits"
+        assert lq_baselines.build("control-full", found, q, candidates, None, 20, TOKENIZER,
+                                  context_limit=full.charged - 1).outcome == "overflow"
+        truncated = lq_baselines.build("truncate-pinned", found, q, candidates, 4096, 20, TOKENIZER)
+        assert truncated.kept == ids[len(ids) - len(truncated.kept):] and truncated.charged <= 4096
+        assert 0 < len(truncated.kept) < len(ids)
+        rag = lq_baselines.build("rag", found, q, candidates, 4096, 20, TOKENIZER)
+        assert rag.kept == [chunk_id for chunk_id, _ in candidates][:len(rag.kept)] and rag.charged <= 4096
+        one_more = [chunk_id for chunk_id, _ in candidates][:len(rag.kept) + 1]
+        bodies = {c["id"]: c["body"] for c in found["chunks"]}
+        system = lq_baselines.system_prompt(found)
+        cost = charged(count(system) + count(lq_baselines.user_message([bodies[i] for i in one_more], q["question"])),
+                       20)
+        assert len(one_more) == len(rag.kept) or cost > 4096  # it kept the longest prefix that fits
+        for built in (full, truncated, rag):
+            by_record, by_text = lq_baselines.present(built, q)
+            assert by_record == by_text
+        if q["needs"]:
+            assert all(lq_baselines.present(rag, q)[0])
+    with pytest.raises(ValueError, match="no LQ baseline"):
+        lq_baselines.build("window", found, found["questions"][0], [], 4096, 20, TOKENIZER)
+
+
+def test_a_corpus_validates_as_its_schema():
+    from cwabench2 import output
+
+    found = corpus()
+    document = {"$schema": output.schema_name("lq-corpus"), "family": "lq",
+                "generator": {"name": lq.GENERATOR, "version": lq.VERSION}, "tier": "x1", "parameters": {}, **found}
+    output.validate(document)

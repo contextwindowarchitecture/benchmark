@@ -52,11 +52,11 @@ def test_a_grader_that_disagrees_fails_s0_with_a_finding(small_config, monkeypat
 
 def test_config_refuses_what_this_build_does_not_have(small_config):
     config = small_config()
-    text = config.path.read_text().replace('suites = ["S0"]', 'suites = ["S0", "S4"]')
+    text = config.path.read_text().replace('suites = ["S0"]', 'suites = ["S0", "S6"]')
     config.path.write_text(text)
     with pytest.raises(config_mod.ConfigError, match="not implemented"):
         config_mod.load(config.path)
-    config.path.write_text(text.replace('"S0", "S4"', '"S0"').replace("[families.fr]", "[families.xx]"))
+    config.path.write_text(text.replace('"S0", "S6"', '"S0"').replace("[families.fr]", "[families.xx]"))
     with pytest.raises(config_mod.ConfigError, match="no such family"):
         config_mod.load(config.path)
 

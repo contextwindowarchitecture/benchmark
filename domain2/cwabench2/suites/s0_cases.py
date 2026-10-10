@@ -10,6 +10,11 @@ CHOICE = {"kind": "choice", "expected": "B", "options": ["A", "B", "C", "D"]}
 RECORD = {"kind": "record", "fields": {"venue": {"kind": "text", "expected": "Harwell Hall"},
                                        "capacity": {"kind": "number", "expected": "45"},
                                        "day": {"kind": "text", "expected": None}}}
+# LQ answers (conversations/longcontext.py): NOT FOUND for an unstated attribute, whose twin's value is a distractor;
+# a site's name for a comparison, the other site a distractor.
+NONE = {"kind": "text", "expected": "NOT FOUND", "distractors": ["JP-3710"]}
+SITE = {"kind": "text", "expected": "Morhurst observatory", "alternatives": ["Morhurst"],
+        "distractors": ["Pellbury depot"]}
 
 CASES = [
     # Numbers: format variants of the expected value.
@@ -88,6 +93,16 @@ CASES = [
     ("record-nan", RECORD, '{"venue": "Harwell Hall", "capacity": NaN, "day": null}', "unparsed", 0.0),
     ("record-prose", RECORD, "I don't have the record yet.", "unparsed", 0.0),
     ("record-array", RECORD, '["Harwell Hall", 45, null]', "unparsed", 0.0),
+    # LQ: abstaining, and naming a site.
+    ("none-exact", NONE, "NOT FOUND", "correct", 1.0),
+    ("none-sentence-case", NONE, "Not found.", "correct", 1.0),
+    ("none-bold", NONE, "**NOT FOUND**", "correct", 1.0),
+    ("none-twin-value", NONE, "JP-3710", "distractor", 0.0),
+    ("none-prose", NONE, "The documents do not say.", "wrong", 0.0),
+    ("site-with-article", SITE, "The Morhurst observatory.", "correct", 1.0),
+    ("site-name-only", SITE, "Morhurst", "correct", 1.0),
+    ("site-other", SITE, "Pellbury depot", "distractor", 0.0),
+    ("site-sentence", SITE, "The Morhurst observatory employs more people.", "wrong", 0.0),
 ]
 
 

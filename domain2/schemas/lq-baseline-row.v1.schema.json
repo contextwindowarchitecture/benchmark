@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d2:lq-baseline-row:v1",
+  "title": "LQ baseline row",
+  "description": "One LQ conventional arm's payload for one question (baselines/longcontext.py): its count, how many chunks it chose from and kept, and the fact-in-payload oracle by its record and its text; null for a `none` question.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d2/lq-baseline-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "corpus": {
+      "type": "string",
+      "pattern": "^lq-x[0-9.]+-[0-9]{2}$"
+    },
+    "family": {
+      "const": "lq"
+    },
+    "arm": {
+      "enum": [
+        "control-full",
+        "truncate-pinned",
+        "rag"
+      ]
+    },
+    "question_id": {
+      "type": "string",
+      "pattern": "^q[0-9]{2}$"
+    },
+    "tier": {
+      "type": "string",
+      "pattern": "^x[0-9.]+$"
+    },
+    "budget_input": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "outcome": {
+      "enum": [
+        "fits",
+        "overflow"
+      ]
+    },
+    "payload_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "input_tokens": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "charged": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "offered": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "kept": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "fact": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "needs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^d[0-9]{4,}:c[0-9]{2,}$"
+              },
+              "minItems": 1
+            },
+            "by_record": {
+              "type": "array",
+              "items": {
+                "type": "boolean"
+              }
+            },
+            "by_text": {
+              "type": "array",
+              "items": {
+                "type": "boolean"
+              }
+            },
+            "present": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "needs",
+            "by_record",
+            "by_text",
+            "present"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "case_id",
+    "corpus",
+    "family",
+    "arm",
+    "question_id",
+    "tier",
+    "budget_input",
+    "outcome",
+    "payload_hash",
+    "input_tokens",
+    "charged",
+    "offered",
+    "kept",
+    "fact"
+  ],
+  "additionalProperties": false
+}

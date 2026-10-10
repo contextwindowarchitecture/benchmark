@@ -1,0 +1,421 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d2:lq-gate-row:v1",
+  "title": "LQ gate row",
+  "description": "S1's gate for one LQ question in one CWA arm at the S4 budget (domain-2-plan.md, 8): every adapter's answer, the prediction, the shedding record and the fact-in-payload oracle by trace and by text; null when the question needs no fact (a `none` question).",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d2/lq-gate-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "corpus": {
+      "type": "string",
+      "pattern": "^lq-x[0-9.]+-[0-9]{2}$"
+    },
+    "family": {
+      "const": "lq"
+    },
+    "arm": {
+      "enum": [
+        "cwa-evidence",
+        "cwa-reinforced"
+      ]
+    },
+    "question_id": {
+      "type": "string",
+      "pattern": "^q[0-9]{2}$"
+    },
+    "tier": {
+      "type": "string",
+      "pattern": "^x[0-9.]+$"
+    },
+    "budget_input": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "candidates": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "excluded": {
+      "type": "object",
+      "additionalProperties": {
+        "enum": [
+          "below_threshold",
+          "duplicate_content",
+          "source_diversity_cap"
+        ]
+      }
+    },
+    "snapshot": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Probes: the frozen snapshot's blob, whose budget.input is its full size; this row's bytes set budget.input to budget_input"
+    },
+    "snapshot_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "expected": {
+      "type": "object",
+      "properties": {
+        "outcome": {
+          "enum": [
+            "assembled",
+            "refused",
+            "rejected",
+            "unsupported",
+            "crashed",
+            "timeout",
+            "invalid_output"
+          ]
+        },
+        "refusal_reason": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "payload_hash": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "input_tokens": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "included": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "outcome",
+        "refusal_reason",
+        "payload_hash",
+        "input_tokens",
+        "included"
+      ],
+      "additionalProperties": false
+    },
+    "answers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "adapter": {
+            "type": "string",
+            "minLength": 1
+          },
+          "outcome": {
+            "enum": [
+              "assembled",
+              "refused",
+              "rejected",
+              "unsupported",
+              "crashed",
+              "timeout",
+              "invalid_output"
+            ]
+          },
+          "exit_code": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "refusal_reason": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "payload_hash": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "trace_hash": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "input_tokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "audit_failed": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^A[0-9]+$"
+            }
+          },
+          "matches_prediction": {
+            "type": "boolean"
+          },
+          "wall_ms": {
+            "type": "number",
+            "minimum": 0
+          },
+          "problem": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "adapter",
+          "outcome",
+          "exit_code",
+          "refusal_reason",
+          "payload_hash",
+          "trace_hash",
+          "input_tokens",
+          "audit_failed",
+          "matches_prediction",
+          "wall_ms",
+          "problem"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "agree": {
+      "type": "boolean"
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "shedding": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "slots": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "candidates": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "included": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "tokens": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "omitted": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "candidates",
+                  "included",
+                  "tokens",
+                  "omitted"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "excluded": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "compressed": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "input_tokens": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "slots",
+            "excluded",
+            "compressed",
+            "input_tokens"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "From the payload source's trace: per slot, candidates, included and their tokens, omitted for budget; every exclusion by reason"
+    },
+    "fact": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "needs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^d[0-9]{4,}:c[0-9]{2,}$"
+              },
+              "minItems": 1
+            },
+            "by_trace": {
+              "type": "array",
+              "items": {
+                "type": "boolean"
+              }
+            },
+            "by_text": {
+              "type": "array",
+              "items": {
+                "type": "boolean"
+              }
+            },
+            "present": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "needs",
+            "by_trace",
+            "by_text",
+            "present"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "passed",
+        "failed"
+      ]
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{12}$"
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "case_id",
+    "corpus",
+    "family",
+    "arm",
+    "question_id",
+    "tier",
+    "budget_input",
+    "candidates",
+    "excluded",
+    "snapshot",
+    "snapshot_sha256",
+    "expected",
+    "answers",
+    "agree",
+    "groups",
+    "shedding",
+    "fact",
+    "verdict",
+    "findings"
+  ],
+  "additionalProperties": false
+}

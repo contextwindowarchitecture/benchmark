@@ -1,4 +1,4 @@
-"""The run configuration, domain2.toml (domain-2-plan.md, 12). This build reads the tables P0 to P4 need; the others
+"""The run configuration, domain2.toml (domain-2-plan.md, 12). This build reads the tables P0 to P5 need; the others
 (thresholds, caps, CI profiles) arrive with the phases that use them."""
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from . import baselines as baselines_mod
 from .application.snapshots import ARMS, Settings
 from .conversations import FAMILIES
 
-SUITES = ("S0", "S1", "S2", "S3", "S5", "S7")  # the suites built so far; S4 and S6 arrive later (domain-2-plan.md, 14)
+SUITES = ("S0", "S1", "S2", "S3", "S4", "S5", "S7")  # the suites built so far; S6 arrives later (domain-2-plan.md, 14)
 MODEL_MODES = ("llm", "replay")
 MODEL_DEFAULTS = {"base_url": "http://127.0.0.1:8000/v1", "model": "Qwen3.6-35B-A3B-8bit",
                   "api_key_env": "CWA_BENCH_MODEL_KEY", "temperature": 0, "seed": 7, "max_tokens": 512,
@@ -20,6 +20,10 @@ MODEL_DEFAULTS = {"base_url": "http://127.0.0.1:8000/v1", "model": "Qwen3.6-35B-
 S2_DEFAULTS = {"arms": None, "tiers": ["8192"], "repeats": 3, "reference": "truncate-pinned",
                "bootstrap_resamples": 2000, "bootstrap_seed": 20261009}
 S3_DEFAULTS = {**S2_DEFAULTS, "repeats": 5, "temperature": 0.7}
+S4_DEFAULTS = {"arms": ["control-full", "truncate-pinned", "rag", "cwa-evidence", "cwa-reinforced"], "budget": 8192,
+               "ratios": [0.25, 1.0, 4.0, 16.0], "candidates": 64, "repeats": 3, "reference": "rag",
+               "bootstrap_resamples": 2000, "bootstrap_seed": 20261009}
+LQ = "lq"  # the long-context family (conversations/longcontext.py): corpora, not conversations, and only S4 asks them
 ADAPTER_SUITES = ("S1",)  # suites that assemble, and so set up the adapters
 SIZES = ("pilot", "recorded")
 
@@ -86,10 +90,26 @@ class Config:
     model: dict = field(default_factory=lambda: dict(MODEL_DEFAULTS))
     s2: dict = field(default_factory=lambda: dict(S2_DEFAULTS))
     s3: dict = field(default_factory=lambda: dict(S3_DEFAULTS))
+    s4: dict = field(default_factory=lambda: dict(S4_DEFAULTS))
+    lq: FamilyConfig | None = None  # [families.lq]: the corpora S4 asks about
     baseline: baselines_mod.Settings = field(default_factory=baselines_mod.Settings)
 
     def section(self, name: str) -> dict:
         return self.settings.get(name, {})
+
+
+def requirements(suites: list[str], adapters: AdaptersConfig | None, lq: FamilyConfig | None) -> None:
+    """What the chosen suites need of each other and of the configuration; checked again when `run --suites` chooses
+    other suites than the file's."""
+    if set(suites) & set(ADAPTER_SUITES) and adapters is None:
+        raise ConfigError(f"{', '.join(sorted(set(suites) & set(ADAPTER_SUITES)))} assemble, so they need [adapters]")
+    for suite in ("S2", "S3", "S4", "S7"):
+        if suite in suites and "S1" not in suites:
+            raise ConfigError(f"{suite} uses what S1 gated or built, so it needs S1")
+    if "S4" in suites and lq is None:
+        raise ConfigError("S4 asks the LQ family's questions, so it needs [families.lq]")
+    if "S5" in suites and "S2" not in suites:
+        raise ConfigError("S5 reads S2's records, so it needs S2")
 
 
 def _table(data: dict, name: str) -> dict:
@@ -134,10 +154,11 @@ def load(path: str | Path) -> Config:
         raise ConfigError("[turns].checkpoint_every must be a positive integer")
 
     families: dict[str, FamilyConfig] = {}
+    lq = None
     for name, table in _table(data, "families").items():
         where = f"[families.{name}]"
-        if name not in FAMILIES:
-            raise ConfigError(f"{where}: no such family (available: {', '.join(FAMILIES)})")
+        if name not in FAMILIES and name != LQ:
+            raise ConfigError(f"{where}: no such family (available: {', '.join([*FAMILIES, LQ])})")
         table = dict(table)
         seed, sizes = table.pop("seed", None), table.pop("sizes", None)
         if not isinstance(seed, int):
@@ -145,6 +166,9 @@ def load(path: str | Path) -> Config:
         if not isinstance(sizes, dict) or set(sizes) != set(SIZES) or not all(
                 isinstance(v, int) and v >= 0 for v in sizes.values()):
             raise ConfigError(f"{where}.sizes must give {' and '.join(SIZES)} as counts")
+        if name == LQ:
+            lq = FamilyConfig(name, seed, dict(sizes), table)
+            continue
         families[name] = FamilyConfig(name, seed, dict(sizes), table)
     selected = run.get("families", list(families))
     missing = [f for f in selected if f not in families]
@@ -163,10 +187,6 @@ def load(path: str | Path) -> Config:
         if source not in use:
             raise ConfigError(f"[adapters].payload_source {source!r} is not in [adapters].use")
         adapters = AdaptersConfig((root / table["config"]).resolve(), list(use), source)
-    if set(suites) & set(ADAPTER_SUITES) and adapters is None:
-        raise ConfigError(f"{', '.join(sorted(set(suites) & set(ADAPTER_SUITES)))} assemble, so they need [adapters]")
-    if "S7" in suites and "S1" not in suites:
-        raise ConfigError("S7 compares S1's answers with the goldens, so it needs S1")
 
     arms = _table(data, "arms").get("cwa", list(ARMS))
     unknown_arms = [a for a in arms if a not in ARMS]
@@ -230,12 +250,31 @@ def load(path: str | Path) -> Config:
             raise ConfigError(f"[{name}].reference {table['reference']!r} is not one of [{name}].arms")
         if not isinstance(table["repeats"], int) or table["repeats"] < 1:
             raise ConfigError(f"[{name}].repeats must be a positive integer")
-        if name.upper() in suites and "S1" not in suites:
-            raise ConfigError(f"{name.upper()} sends only payloads S1 gated or built, so it needs S1")
         asked[name] = table
     s2, s3 = asked["s2"], asked["s3"]
-    if "S5" in suites and "S2" not in suites:
-        raise ConfigError("S5 reads S2's records, so it needs S2")
+    s4 = {**S4_DEFAULTS, **_table(data, "s4")}
+    unknown_keys = sorted(set(s4) - set(S4_DEFAULTS))
+    if unknown_keys:
+        raise ConfigError(f"[s4] has unknown keys: {', '.join(unknown_keys)}")
+    from .application.evidence import ARMS as LQ_CWA
+    from .baselines.longcontext import ARMS as LQ_BASELINES
+
+    stray = [a for a in s4["arms"] if a not in (*LQ_BASELINES, *LQ_CWA)]
+    if stray:
+        raise ConfigError(f"[s4].arms names arms the LQ family does not have: {', '.join(stray)} "
+                          f"(available: {', '.join([*LQ_BASELINES, *LQ_CWA])})")
+    if s4["reference"] not in s4["arms"]:
+        raise ConfigError(f"[s4].reference {s4['reference']!r} is not one of [s4].arms")
+    if not isinstance(s4["budget"], int) or s4["budget"] < 1:
+        raise ConfigError("[s4].budget must be a positive integer")
+    if not isinstance(s4["ratios"], list) or not s4["ratios"] or not all(
+            isinstance(r, (int, float)) and r > 0 for r in s4["ratios"]):
+        raise ConfigError("[s4].ratios must be a non-empty list of positive numbers")
+    for key in ("candidates", "repeats"):
+        if not isinstance(s4[key], int) or s4[key] < 1:
+            raise ConfigError(f"[s4].{key} must be a positive integer")
+    s4["ratios"] = [float(r) for r in s4["ratios"]]
+    requirements(suites, adapters, lq)
     s1 = _table(data, "s1")
     s7 = _table(data, "s7")
 
@@ -275,4 +314,6 @@ def load(path: str | Path) -> Config:
         model=model,
         s2=s2,
         s3=s3,
+        s4=s4,
+        lq=lq,
     )

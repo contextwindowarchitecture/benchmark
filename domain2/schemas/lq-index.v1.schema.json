@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d2:lq-index:v1",
+  "title": "LQ index",
+  "description": "The corpora the LQ family generated for a run (conversations/lq/index.json); each corpus is a blob.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d2/lq-index/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "family": {
+      "const": "lq"
+    },
+    "generator": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "seed": {
+      "type": "integer"
+    },
+    "size": {
+      "enum": [
+        "pilot",
+        "recorded"
+      ]
+    },
+    "budget": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "ratios": {
+      "type": "array",
+      "items": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      },
+      "minItems": 1
+    },
+    "parameters": {
+      "type": "object"
+    },
+    "corpora": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "corpus_id": {
+            "type": "string",
+            "pattern": "^lq-x[0-9.]+-[0-9]{2}$"
+          },
+          "tier": {
+            "type": "string",
+            "pattern": "^x[0-9.]+$"
+          },
+          "seed": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "tokens": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "documents": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "chunks": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "questions": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "corpus": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "corpus_id",
+          "tier",
+          "seed",
+          "tokens",
+          "documents",
+          "chunks",
+          "questions",
+          "corpus"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "family",
+    "generator",
+    "seed",
+    "size",
+    "budget",
+    "ratios",
+    "parameters",
+    "corpora"
+  ],
+  "additionalProperties": false
+}

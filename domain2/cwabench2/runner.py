@@ -2,7 +2,7 @@
 
 The run directory is Domain 1's (cwabench.rundir) under Domain 2's prefix: index.json, manifest.json, config.toml,
 contract.json, summary.json, findings.jsonl, suites/<id>/, blobs/, plus conversations/<family>/index.json, which lists
-each script this run generated with the digest of its blob.
+each script this run generated with the digest of its blob, and conversations/lq/index.json the LQ corpora, likewise.
 """
 from __future__ import annotations
 
@@ -22,13 +22,14 @@ from . import __version__, output
 from .application import producers
 from .config import ADAPTER_SUITES, Config, ConfigError
 from .conversations import FAMILIES, generate
+from .conversations import longcontext
 from .model import Model
-from .suites import (SuiteContext, SuiteResult, s0_selfcheck, s1_gate, s2_scripted, s3_unreliability, s5_cost,
-                     s7_goldens)
+from .suites import (SuiteContext, SuiteResult, s0_selfcheck, s1_gate, s2_scripted, s3_unreliability,
+                     s4_longcontext, s5_cost, s7_goldens)
 
-# Canonical order: S2 and S3 send what S1 gated or built, S5 reads S2's records, S7 reads S1's rows.
-SUITES = {"S0": s0_selfcheck, "S1": s1_gate, "S2": s2_scripted, "S3": s3_unreliability, "S5": s5_cost,
-          "S7": s7_goldens}
+# Canonical order: S2 to S4 send what S1 gated or built, S5 reads S2's records, S7 reads S1's rows.
+SUITES = {"S0": s0_selfcheck, "S1": s1_gate, "S2": s2_scripted, "S3": s3_unreliability, "S4": s4_longcontext,
+          "S5": s5_cost, "S7": s7_goldens}
 
 ROOT = Path(__file__).resolve().parent.parent
 # The harness digest covers Domain 2's own files and the Domain 1 code it runs (pyproject's path dependency).
@@ -47,6 +48,39 @@ def conversations(config: Config) -> dict[str, list[dict]]:
         scripts[name] = [generate(name, family.seed, turns, index, config.checkpoint_every, family.parameters)
                          for turns in config.turn_counts for index in range(family.sizes[config.size])]
     return scripts
+
+
+def corpora(config: Config) -> list[dict]:
+    """The LQ corpora S4 asks about: `sizes[size]` per ratio of [s4], in order (conversations/longcontext.py)."""
+    if "S4" not in config.suites or config.lq is None:
+        return []
+    family, s4 = config.lq, config.s4
+    found = []
+    for ratio in s4["ratios"]:
+        for index in range(family.sizes[config.size]):
+            corpus = longcontext.generate(family.seed, ratio, s4["budget"], index, family.parameters,
+                                          config.application.tokenizer)
+            tier = longcontext.tier_name(ratio)
+            found.append({"$schema": output.schema_name("lq-corpus"), "corpus_id": f"lq-{tier}-{index:02d}",
+                          "family": "lq", "generator": {"name": longcontext.GENERATOR, "version": longcontext.VERSION},
+                          "tier": tier, "parameters": dict(sorted(family.parameters.items())), **corpus})
+    return found
+
+
+def write_corpora(run_dir: RunDir, config: Config, found: list[dict]) -> None:
+    entries = []
+    for corpus in found:
+        output.validate(corpus)
+        entries.append({"corpus_id": corpus["corpus_id"], "tier": corpus["tier"], "seed": corpus["seed"],
+                        "tokens": corpus["tokens"], "documents": len(corpus["documents"]),
+                        "chunks": len(corpus["chunks"]), "questions": len(corpus["questions"]),
+                        "corpus": run_dir.blobs.put_json(corpus)})
+    run_dir.write_json("conversations/lq/index.json", {
+        "$schema": output.schema_name("lq-index"), "run_id": run_dir.run_id, "family": "lq",
+        "generator": {"name": longcontext.GENERATOR, "version": longcontext.VERSION}, "seed": config.lq.seed,
+        "size": config.size, "budget": config.s4["budget"], "ratios": config.s4["ratios"],
+        "parameters": dict(sorted(config.lq.parameters.items())), "corpora": entries,
+    }, "The LQ corpora this run generated, each a corpus blob")
 
 
 def write_conversations(run_dir: RunDir, config: Config, scripts: dict[str, list[dict]]) -> None:
@@ -165,7 +199,11 @@ def run(config: Config, build: bool = True, log: Callable[[str], None] = _log) -
         scripts = conversations(config)
         write_conversations(run_dir, config, scripts)
         log("conversations: " + ", ".join(f"{name} {len(s)}" for name, s in scripts.items()))
-        context = SuiteContext(config, contract, run_dir, scripts, ready, unavailable, log)
+        found = corpora(config)
+        if found:
+            write_corpora(run_dir, config, found)
+            log("corpora: " + ", ".join(f"{c['corpus_id']} {c['tokens']}" for c in found))
+        context = SuiteContext(config, contract, run_dir, scripts, ready, unavailable, log, corpora=found)
         run_producers(context)
         for suite in [s for s in SUITES if s in config.suites]:
             results.append(SUITES[suite].run(context))

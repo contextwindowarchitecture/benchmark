@@ -26,6 +26,7 @@ def _load(args) -> config_mod.Config:
         unknown = [s for s in suites if s not in config_mod.SUITES]
         if unknown:
             raise config_mod.ConfigError(f"suites not implemented yet: {', '.join(unknown)}")
+        config_mod.requirements(suites, config.adapters, config.lq)
         config = replace(config, suites=suites)
     if getattr(args, "size", None):
         config = replace(config, size=args.size)

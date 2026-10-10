@@ -1,6 +1,6 @@
-"""S5 · Cost and latency (domain-2-plan.md, 8), from S2's records alone: no assembly, no model call.
+"""S5 · Cost and latency (domain-2-plan.md, 8), from S2's records and, when it ran, S4's: no assembly, no model call.
 
-Per arm and tier:
+Per suite, arm and tier:
 - prompt and completion tokens, as the server reported them, per answered probe and per correct answer;
 - the latency of the call that answered, as recorded when the cache was filled, so a replay reports the same numbers:
   p50 and p95;
@@ -10,7 +10,7 @@ Per arm and tier:
   with the margin each size band would need, which is how `[budgets].margin_percent` is calibrated;
 - **budget overruns**, the gate: a call whose server prompt tokens exceed the budget its payload was charged against.
   That is what the margin exists to prevent (R-16), so the suite fails on any;
-- the answer length over the conversation: completion tokens by turn count, the study's answer bloat.
+- the answer length over the conversation: completion tokens by turn count, the study's answer bloat (S2).
 
 The prefix-cache counts a server reports are recorded per call in model/calls.jsonl and summed here; that question
 belongs to Domain 4.
@@ -31,14 +31,16 @@ TITLE = "Cost and latency"
 
 def run(ctx: SuiteContext) -> SuiteResult:
     started = now()
-    grades = [g for g in ctx.shared.get("s2_grades", []) if g["request_sha256"] is not None]
-    calls = {(c["request_sha256"], c["sample"]): c for c in ctx.shared.get("s2_calls", [])}
+    grades = [g for suite in ("s2", "s4") for g in ctx.shared.get(f"{suite}_grades", [])
+              if g["request_sha256"] is not None]
+    calls = {(c["request_sha256"], c["sample"]): c for suite in ("s2", "s4")
+             for c in ctx.shared.get(f"{suite}_calls", [])}
     margin = ctx.config.application.margin_percent
     groups = defaultdict(list)
     for row in grades:
-        groups[(row["arm"], row["tier"])].append(row)
+        groups[(row["suite"], row["arm"], row["tier"])].append(row)
     by_arm, suite_metrics, errors_all = [], [], []
-    for (arm, tier), rows in groups.items():
+    for (suite, arm, tier), rows in groups.items():
         prompt = [r["prompt_tokens"] for r in rows if isinstance(r["prompt_tokens"], int)]
         completion = [r["completion_tokens"] for r in rows if isinstance(r["completion_tokens"], int)]
         correct = sum(r["verdict"] == "correct" for r in rows)
@@ -52,10 +54,10 @@ def run(ctx: SuiteContext) -> SuiteResult:
                   if (r["request_sha256"], r["sample"]) in calls]
         by_turns = defaultdict(list)
         for r in rows:
-            if isinstance(r["completion_tokens"], int):
+            if isinstance(r["completion_tokens"], int) and "turn_count" in r:
                 by_turns[str(r["turn_count"])].append(r["completion_tokens"])
         entry = {
-            "arm": arm, "tier": tier, "answered": len(rows), "correct": correct,
+            "suite": suite, "arm": arm, "tier": tier, "answered": len(rows), "correct": correct,
             "prompt_tokens": percentiles(prompt), "completion_tokens": percentiles(completion),
             "prompt_tokens_per_correct": round(sum(prompt) / correct, 3) if correct else None,
             "latency_ms": percentiles(latency),
@@ -65,10 +67,12 @@ def run(ctx: SuiteContext) -> SuiteResult:
                                        for k, v in sorted(by_turns.items(), key=lambda kv: int(kv[0]))},
         }
         by_arm.append(entry)
+        family = "lq" if suite == "S4" else None
         suite_metrics.append(metrics.value("s5.prompt_tokens_per_correct", "Prompt tokens per correct answer",
-                                           entry["prompt_tokens_per_correct"], "tokens", suite=ID, arm=arm, tier=tier))
+                                           entry["prompt_tokens_per_correct"], "tokens", suite=ID, arm=arm,
+                                           family=family, tier=tier))
         suite_metrics.append(metrics.value("s5.latency_p50", "Latency, p50", entry["latency_ms"]["p50"], "ms",
-                                           suite=ID, arm=arm, tier=tier))
+                                           suite=ID, arm=arm, family=family, tier=tier))
     worst = max((-e for e in errors_all), default=None)
     worst = None if worst is None else max(0.0, worst)
     overruns = [r for r in grades if r["budget_input"] is not None and isinstance(r["prompt_tokens"], int)
@@ -102,7 +106,7 @@ def run(ctx: SuiteContext) -> SuiteResult:
         "files": {"results": "suites/S2/grades.jsonl", "findings": "findings.jsonl"},
         "cost": {"margin_percent": margin, "undercount_max": worst, "budget_overruns": len(overruns),
                  "undercount_by_size": bands, "by_arm": by_arm},
-    }, "S5's tokens, latency and estimator error per arm and tier, from S2's records")
+    }, "S5's tokens, latency and estimator error per suite, arm and tier, from S2's and S4's records")
     status = "pass" if covers is not False else "fail"
     findings = []
     if overruns:

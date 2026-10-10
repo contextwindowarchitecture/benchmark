@@ -13,7 +13,7 @@ commit = "16de4be0534583f135a597171c927d42c87ee82c"  # the same pin as domain1.t
 allow_dirty = false
 
 [run]
-suites = ["S0", "S1", "S2", "S3", "S5", "S7"]
+suites = ["S0", "S1", "S2", "S3", "S5", "S7"]          # S4 with `run --suites`, until its replies are cached
 families = ["vt", "fr", "cc", "ip"]
 size = "pilot"                                   # pilot | recorded: which of each family's sizes a run generates
 results_dir = "results/d2"
@@ -114,6 +114,19 @@ reference = "truncate-pinned"
 bootstrap_resamples = 2000
 bootstrap_seed = 20261009
 
+# S4 · Long context. The LQ family's questions ([families.lq]) over corpora of `ratios` times `budget` tokens, in each
+# of `arms`, `repeats` samples at the model's temperature. The retrieval arms (rag and the CWA arms) share the
+# retriever's best `candidates` chunks; `reference` is the arm the paired differences are taken from.
+[s4]
+arms = ["control-full", "truncate-pinned", "rag", "cwa-evidence", "cwa-reinforced"]
+budget = 8192
+ratios = [0.25, 1.0, 4.0, 16.0]
+candidates = 64
+repeats = 3
+reference = "rag"
+bootstrap_resamples = 2000
+bootstrap_seed = 20261009
+
 # S7 · Goldens. Adopt a run's candidates with `cwabench --domain 2 goldens accept`.
 [s7]
 goldens = "goldens/d2-goldens.json"
@@ -164,6 +177,13 @@ assignment_density = 0.5
 filler_sentences = 4
 reply_sentences = 3
 rules = ["brackets", "signoff", "uppercase"]
+
+# LQ · Long-context question answering (conversations/longcontext.py): corpora, not conversations, asked by S4 only.
+# `sizes` are corpora per ratio of [s4]; each has one question of each kind and format unless `questions` names some.
+[families.lq]
+seed = 20261013
+sizes = { pilot = 2, recorded = 10 }
+chunk_tokens = 128                               # a chunk's most tokens, cut at sentence boundaries (Domain 1's chunker)
 
 # Where findings were reported, by finding id (schemas/upstream.v1.schema.json). Kept by hand; optional.
 [findings]

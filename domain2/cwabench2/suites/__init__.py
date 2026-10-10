@@ -23,6 +23,7 @@ class SuiteContext:
     unavailable: dict[str, str] = field(default_factory=dict)  # adapter name → why setup failed
     log: Callable[[str], None] = lambda message: print(message, file=sys.stderr, flush=True)
     shared: dict = field(default_factory=dict)  # results one suite computes and a later one reuses
+    corpora: list[dict] = field(default_factory=list)  # the LQ corpora (conversations/longcontext.py), when S4 runs
 
 
 @dataclass
