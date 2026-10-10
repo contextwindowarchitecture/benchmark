@@ -39,8 +39,8 @@ uv run pytest                          # fast; needs the spec checkout, no assem
 uv run cwabench run --suites S1        # one suite; a full run is ~85 min, S7 alone ~70
 uv run cwabench ci nightly --fetch     # every suite but S7 against upstream main (~20 min)
 uv run cwabench validate               # re-check the latest run directory, of any installed domain
-cd ../domain2 && uv run pytest && uv run cwabench --domain 2 run   # Domain 2: tests, pilot run (~14 min;
-                                                                   #   --no-frames ~90 s)
+cd ../domain2 && uv run pytest && uv run cwabench --domain 2 run --no-frames   # Domain 2: tests, a pilot
+                                                                               #   run replaying the model (~6 min)
 ```
 
 - One command serves every domain: plain `cwabench` is Domain 1, and `cwabench --domain <n>` runs domain n's

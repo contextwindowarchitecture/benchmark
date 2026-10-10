@@ -1,6 +1,6 @@
 # Domain 2 harness
 
-Benchmarks long-horizon multi-turn stability: over a long conversation, does a model given CWA-assembled context keep doing the task where a model given conventionally assembled context degrades, with everything else held equal? Its working plan, `docs/plans/domain-2-plan.md`, is kept out of git; code comments cite it by section. This directory implements phases P0 to P3 of eight. S2 sends every probe to a model, by default replaying the committed cache of its replies, so a run needs no model.
+Benchmarks long-horizon multi-turn stability: over a long conversation, does a model given CWA-assembled context keep doing the task where a model given conventionally assembled context degrades, with everything else held equal? Its working plan, `docs/plans/domain-2-plan.md`, is kept out of git; code comments cite it by section. This directory implements phases P0 to P4 of eight. S2 and S3 send every probe to a model, and the model-based producers run before them, all by default replaying the committed cache of the model's replies, so a run needs no model.
 
 - **Conversation scripts.** Seeded generators write whole conversations with ground truth known by construction (`cwabench2/conversations/`). Every name, figure and booking is fictional. A script fixes:
   - the governance instructions and the output contract;
@@ -9,7 +9,9 @@ Benchmarks long-horizon multi-turn stability: over a long conversation, does a m
 
   A probe follows every tenth turn and the last. Its question is asked after turn t with turns 1 to t as history, and it never enters the history. Each probe carries what grading needs, the turns its answer needs (for the fact-in-payload oracle), and the single-turn texts of the FULL and CONCAT controls.
   - **VT, variable tracking.** Figures assigned and reassigned ("the Harwell account's credit limit is 4,200"), among distractor chains with near-miss names and filler. Every value in a conversation is distinct, so a wrong answer is classified exactly: an earlier value of the same figure is `stale`, another figure's value a `distractor`.
-  - **FR, facts revealed over turns.** A booking record (text and number fields) or a supply order (lines to total), revealed one fact per turn. A record probe asks for JSON with null for what is not known yet; an order probe asks for the running total.
+  - **FR, facts revealed over turns.** A booking record (text and number fields) or a supply order (lines to total), revealed one fact per turn. A record probe asks for JSON with null for what is not known yet; an order probe asks for the running total, worked step by step and ending with a `Total:` line.
+  - **CC, corrections.** VT's figures, each stated once and later corrected by the user, with the retracted value named beside the new one ("is 4,350, not 4,200"). Only corrections change a figure, so every stale answer is a value the user took back.
+  - **IP, instruction persistence.** A VT conversation whose instructions carry one rule: figures in square brackets, a closing "Kestrel desk", or capitals. Every answer is graded twice, for the figure and for the rule (`grading/compliance.py`).
 - **Graders** (`cwabench2/grading/`). Deterministic, with no judge model:
   - numbers by value, whatever their grouping;
   - text by a normalized key;
@@ -22,12 +24,17 @@ Benchmarks long-horizon multi-turn stability: over a long conversation, does a m
   - **Oracle state writer.** Puts every fact stated so far in `state.task`, at its current value. It holds the facts, never the answer.
   - **Memory producer.** Keeps the last 10 turns verbatim and compacts older fact-carrying turns into `interaction.memory`, with a turn source and an expiry. A memory whose fact a later turn replaced is reported as `revoked`, and an old one as `expired`, instead of being emitted.
 
+  - **The model-based producers** (`application/producers.py`), run before any snapshot is frozen, through the same cache as S2:
+    - the **extractor**, which after each user turn reads the task (the conversation's instructions), the state so far and the new message, and returns only what the message adds or changes; the application merges it into its state;
+    - the **rolling summarizer**, which updates a summary, told the task and a word limit, as each turn leaves the window. It is the `summary` baseline's summary, the strongest conventional control.
+
   The CWA arms are a ladder:
 
   | Arm | Payload |
   | --- | --- |
   | `cwa-history` | every prior turn as history |
-  | `cwa-state` | plus state |
+  | `cwa-state` | plus state, from the oracle state writer |
+  | `cwa-state-x` | plus state from a model-based extractor instead: the realistic arm |
   | `cwa-memory` | plus memory |
   | `cwa-pipeline` | plus the route's supersession and exact deduplication on history |
 
@@ -42,7 +49,7 @@ Benchmarks long-horizon multi-turn stability: over a long conversation, does a m
   | `window` | the last 10 turns, then as `truncate-pinned` |
   | `summary` | the system prompt, a rolling summary of the older turns, then the window; the summary is shed first, then the oldest window messages |
 
-  A baseline's payload has the shape `cwa-messages/v1` gives a request (system entries, then native `user` and `assistant` messages), so every arm will be handed to the model the same way. Its count is the same tokenizer's count of every text, with the same margin. The system prompt is the instructions and the output contract. The rolling summary is, for now, Domain 1's extractive stub applied to each older user turn. The cached LLM summarizer, the strongest control, arrives with the model client at P3. An `overflow` (the messages a baseline never drops exceed the budget) reaches no model.
+  A baseline's payload has the shape `cwa-messages/v1` gives a request (system entries, then native `user` and `assistant` messages), so every arm will be handed to the model the same way. Its count is the same tokenizer's count of every text, with the same margin. The system prompt is the instructions and the output contract. The rolling summary is the model's (`[baselines].summarizer = "llm"`), or Domain 1's extractive stub applied to each older user turn (`stub`). An `overflow` (the messages a baseline never drops exceed the budget) reaches no model.
 - **S0, self-check.**
   - The graders against 57 hand-planted replies.
   - Plants made from every probe of the run's own scripts: the expected answer written several ways, each stale and distractor value, an unrelated value, and a record with a field changed or dropped.
@@ -72,11 +79,14 @@ Benchmarks long-horizon multi-turn stability: over a long conversation, does a m
   - aptitude (the rate of correct answers), with a cluster-bootstrap interval over conversations;
   - the stale and unparsed rates;
   - accuracy with the needed facts in the payload and without;
+  - results by family and by turn count;
+  - on IP conversations, instruction persistence: the share of answers that follow the rule, by rule and turn count;
   - each arm's paired difference from `[s2].reference` (`truncate-pinned`) on the same probes and samples, with its interval.
 
   What fails the suite is the harness: a payload unequal to its gated bytes, or a call that failed or missed the cache.
-- **S5, cost and latency,** from S2's records alone: prompt and completion tokens per answer and per correct answer, latency p50 and p95 (as recorded when the cache was filled), answer length by turn count, prefix-cache tokens, and the token estimator's under-count against the server's prompt tokens. The margin must cover the largest under-count (R-16), or S5 fails.
-- **S7, goldens.** Probe answers all four assemblers agreed on, as predicted and audited clean, become candidate goldens. `goldens accept` adopts them, and later runs report drift. `goldens/d2-goldens.json` holds the pilot's 2,240.
+- **S3, unreliability.** S2's payloads at `[s3].tiers`, asked `[s3].repeats` times at `[s3].temperature` (5 at 0.7). Per arm and tier it reports the study's aptitude (A90, the 90th percentile of a probe's sample scores) and unreliability (U90−10, the 90th minus the 10th), in points and averaged over probes, with cluster-bootstrap intervals.
+- **S5, cost and latency,** from S2's records alone: prompt and completion tokens per answer and per correct answer, latency p50 and p95 (as recorded when the cache was filled), answer length by turn count, prefix-cache tokens, and the token estimator's under-count by prompt size. It fails on any call whose server prompt exceeds its budget (R-16), which is what the margin must prevent. The P4 pilot measured an under-count of up to 15.8% on text the model wrote (extracted state, summaries), so `[budgets].margin_percent` is 20.
+- **S7, goldens.** Probe answers all four assemblers agreed on, as predicted and audited clean, become candidate goldens. `goldens accept` adopts them, and later runs report drift. `goldens/d2-goldens.json` holds the pilot's 6,048.
 
 ## Run it
 
@@ -94,7 +104,7 @@ uv run pytest                                   # the harness's own tests, from 
 CWA_BENCH_REFERENCE=1 uv run pytest tests/test_gate.py   # S1 and S7 on the reference assembler, and a planted defect
 ```
 
-On this machine, a pilot run takes about 14 minutes with frames (24,640 snapshots, 98,560 answers, and 24,640 baseline payloads) and about 2 minutes with `--no-frames` (2,240 snapshots); replaying S2's 1,740 calls takes seconds. Filling the cache with `--model llm` took 27 minutes against a local omlx server running Qwen3.6-35B-A3B-8bit, and only `--model llm` calls a model. `run` builds the adapters first unless you pass `--no-build`. The exit code is 0 only when the run passes and its output validates.
+On this machine, a pilot run with `--no-frames` replays its 13,973 model calls (the producers' 2,610, S2's 4,683, S3's 6,680) and takes about 6 minutes, most of it S1's assembly; with frames S1 takes much longer. Filling the cache with `--model llm` took about 6 hours against a local omlx server running Qwen3.6-35B-A3B-8bit, about 2½ of them the summarizer. Only `--model llm` calls a model; omlx served two requests at once fastest (`[model].concurrency`), and its memory guard can reject a call when the machine is short of RAM, in which case another `--model llm` run fills just what is missing. `run` builds the adapters first unless you pass `--no-build`. The exit code is 0 only when the run passes and its output validates.
 
 ## What it needs
 
@@ -114,25 +124,26 @@ On this machine, a pilot run takes about 14 minutes with frames (24,640 snapshot
 | `[run]` | Suites, families, `size`, the results directory, timeout, concurrency |
 | `[adapters]` | Domain 1's configuration, the adapters to use, the payload source |
 | `[arms]` | The CWA arms and the baselines |
-| `[baselines]` | The window's length, the summarizer, the stub's extractive ratio |
+| `[baselines]` | The window's length, the summarizer (`llm` or `stub`), the summary's word limit, the stub's extractive ratio |
 | `[budgets]` | Absolute budgets and ratios, reserved output, margin, tokenizer, renderer |
 | `[application]` | The scripted clock, the history window, memory's lifetime |
 | `[turns]` | Turn counts and the probe interval |
 | `[families.<id>]` | Each family's seed, `sizes` (conversations per turn count) and its generator's parameters |
 | `[s1]` | Whether to assemble every turn as a frame, and whether to write timelines |
-| `[model]` | The mode, the endpoint and model, the request parameters, concurrency, the cache, the context limit |
+| `[model]` | The mode, the endpoint and model, the request parameters, concurrency, the cache, the context limit, the producers' token limit |
 | `[s2]` | The tiers S2 sends at, samples per payload, the reference arm, the bootstrap |
+| `[s3]` | The same for S3, and its sampling temperature |
 | `[s7]` | The goldens file |
 | `[findings]` | Where findings were reported upstream |
 
-The pilot sizes give 2 conversations per turn count (10, 50 and 100 turns), 12 scripts in all. The tables the later phases read (model, repeats, thresholds, caps, CI profiles) are added with those phases.
+The pilot sizes give 2 conversations per turn count (10, 50 and 100 turns) for VT, FR and CC, and 3 for IP (one per rule): 27 scripts in all. The tables the later phases read (thresholds, caps, CI profiles) are added with those phases.
 
 ## Output
 
 A run directory follows Domain 1's conventions under the prefix `cwa-bench-d2`. Every document names its schema (`"$schema": "cwa-bench-d2/<kind>/v1"`) and is validated against `schemas/<kind>.v1.schema.json` before it is written.
 
 - **Reused kinds.** `blob`, `contract`, `drift-row`, `finding`, `manifest`, `run-index`, `runs-index`, `timeline` and `upstream` are Domain 1's schemas with the prefix changed, and a test holds them equal.
-- **New kinds.** `conversation`, `conversation-index`, `self-check`, `turn-row`, `baseline-row`, `grade-row`, `call-row` and `goldens` are Domain 2's own.
+- **New kinds.** `conversation`, `conversation-index`, `self-check`, `turn-row`, `baseline-row`, `grade-row`, `call-row`, `producer-row` and `goldens` are Domain 2's own.
 - **Changed kinds.** `summary` and `suite-summary` carry Domain 2's metric shape, which has `arm`, `family` and `tier` where Domain 1's has `adapter`, and an optional `interval`.
 
 ```
@@ -149,7 +160,10 @@ results/d2/<run-id>/
   suites/S2/grades.jsonl                 # one row per probe, arm, tier and sample: the reply and its grade
   suites/S2/summary.json                 # aptitude, intervals, paired differences, by arm and tier
   suites/S5/summary.json                 # tokens, latency and the estimator's under-count, by arm and tier
-  model/calls.jsonl                      # one row per distinct request and sample: cache key and provenance
+  model/calls.jsonl                      # S2: one row per distinct request and sample, cache key and provenance
+  model/s3-calls.jsonl                   # the same for S3
+  producers/calls.jsonl                  # one row per producer call: the extractor's or summarizer's output
+  suites/S3/grades.jsonl  suites/S3/summary.json      # S3's grades, A90 and U90−10 by arm and tier
   suites/S7/candidate-goldens.json  suites/S7/drift.jsonl  suites/S7/summary.json
   timelines/<snapshot sha256>/<adapter>.json   # each conversation's last probe, per arm and budget
   blobs/sha256/<ab>/<hex>.json           # scripts, each probe's frozen snapshot, findings' reproducers
