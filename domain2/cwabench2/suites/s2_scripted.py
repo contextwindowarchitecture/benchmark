@@ -24,9 +24,7 @@ CWA payload equal to its gated bytes, and every call answered (a replay miss or 
 from __future__ import annotations
 
 import hashlib
-import threading
 from collections import Counter, defaultdict
-from concurrent.futures import ThreadPoolExecutor
 
 from cwabench.canon import jcs
 from cwabench.canon.tokenizers import TOKENIZERS
@@ -36,8 +34,9 @@ from .. import baselines, metrics, output, stats
 from ..application.snapshots import ARMS, Point
 from ..grading import grade
 from ..grading.compliance import complies
-from ..model import CacheMiss, EndpointError, Model
+from ..model import Model
 from . import SuiteContext, SuiteResult, finding, produced
+from . import calls as calls_mod
 from .s1_gate import _snapshots
 
 ID = "S2"
@@ -130,59 +129,10 @@ def execute(ctx: SuiteContext, suite: str, title: str, settings: dict, model_set
                         continue
                     planned.append((family, script, probe, arm, tier, budget, payload, tokens, present))
 
-    # One call per distinct request and sample, however many arms share it. The calls run as one stream per
-    # conversation, in order of arm, tier and probe with each payload's samples back to back, so consecutive requests
-    # share their prefix and a server's prefix cache answers most of it; `[model].concurrency` streams run at once.
-    # The order changes no reply: a reply is cached by its request, whenever it was made.
-    calls: dict[tuple[str, int], object] = {}
-    payload_of: dict[str, bytes] = {}
-    streams: dict[str, list[tuple[str, int]]] = {}
-    for family, script, probe, arm, tier, budget, payload, tokens, present in sorted(
-            planned, key=lambda p: (p[1]["conversation_id"], settings["arms"].index(p[3]), p[4], p[2]["after_turn"])):
-        if payload is None:
-            continue
-        sha = hashlib.sha256(payload).hexdigest()
-        if sha not in payload_of:
-            payload_of[sha] = payload
-            streams.setdefault(script["conversation_id"], []).extend(
-                (sha, sample) for sample in range(settings["repeats"]))
-    jobs = [job for stream in streams.values() for job in stream]
-    ctx.log(f"{ID}: {len(planned)} payloads, {len(payload_of)} distinct, {len(jobs)} calls in {len(streams)} streams")
-    errors = []
-    progress = {"done": 0}
-    lock = threading.Lock()
-
-    def ask(stream: list[tuple[str, int]]) -> list[tuple[tuple[str, int], object]]:
-        answered = []
-        for job in stream:
-            sha, sample = job
-            try:
-                answered.append((job, model.ask(payload_of[sha], sample)))
-            except (CacheMiss, EndpointError) as error:
-                answered.append((job, error))
-            with lock:
-                progress["done"] += 1
-                if progress["done"] % 200 == 0:
-                    ctx.log(f"{ID}: {progress['done']}/{len(jobs)} calls ({model.calls} to the endpoint)")
-        return answered
-
-    with ThreadPoolExecutor(max_workers=max(1, int(model_settings.get("concurrency", 2)))) as pool:
-        for answered in pool.map(ask, list(streams.values())):
-            for job, answer in answered:
-                calls[job] = answer
-                if isinstance(answer, Exception):
-                    errors.append(f"{type(answer).__name__}: {answer}")
-
-    call_rows = []
-    for (sha, sample), answer in sorted(calls.items()):
-        if isinstance(answer, Exception):
-            continue
-        call_rows.append({"$schema": output.schema_name("call-row"), "run_id": ctx.run.run_id, "suite": ID,
-                          "key": answer.key, "request_sha256": answer.request_sha256, "payload_sha256": sha,
-                          "sample": sample, "cache_hit": answer.cache_hit, "lookup_ms": answer.lookup_ms,
-                          "provenance": answer.provenance})
-    ctx.run.write_jsonl(calls_path, call_rows, "call-row", f"Provenance of every model call {ID} made or replayed: "
-                                                           "one row per distinct request and sample")
+    ordered = [(p[1]["conversation_id"], p[6]) for p in sorted(  # p: family, script, probe, arm, tier, …, payload
+        planned, key=lambda p: (p[1]["conversation_id"], settings["arms"].index(p[3]), p[4], p[2]["after_turn"]))]
+    calls, call_rows, errors, asked = calls_mod.ask(ctx, ID, model, ordered, settings["repeats"],
+                                                    int(model_settings.get("concurrency", 2)), calls_path)
 
     grades = []
     for family, script, probe, arm, tier, budget, payload, tokens, present in planned:
@@ -246,7 +196,7 @@ def execute(ctx: SuiteContext, suite: str, title: str, settings: dict, model_set
         "model": {"model": model.client.model, "endpoint_host": model.client.host, "mode": model.mode,
                   "params": model.params, "cache": str(model.cache.path), "cache_entries": model.cache.entries(),
                   "context_limit": config.model.get("context_limit"), "server": model.server(),
-                  "concurrency": max(1, int(model_settings.get("concurrency", 2))), "calls": len(jobs),
+                  "concurrency": max(1, int(model_settings.get("concurrency", 2))), "calls": asked,
                   "endpoint_calls": model.calls, "cache_hits": sum(r["cache_hit"] for r in call_rows),
                   "excluded_by_gate": dict(sorted(excluded.items()))},
         "by_arm": by_arm,

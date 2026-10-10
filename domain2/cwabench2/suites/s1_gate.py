@@ -355,9 +355,9 @@ def _parsed(data: bytes) -> dict:
     return json.loads(data.decode("utf-8"))
 
 
-def _row(ctx, report, script, family, arm, point: Point, tier, budget, frozen_ref, expected, data, result, tally,
-         present) -> tuple[dict, bool]:
-    case_id = f"{script['conversation_id']}/{arm}/{point.id}@{tier}"
+def _judge(report, arm: str, case_id: str, expected, data: bytes, result: dict, tally) -> list[str]:
+    """Every check S1 makes of one snapshot's answers: faults, the audit, the prediction, agreement and the fact
+    oracle's two readings. Returns the findings' ids; none means the snapshot passes."""
     found = []
     for answer in result["answers"]:
         adapter = answer["adapter"]
@@ -394,8 +394,23 @@ def _row(ctx, report, script, family, arm, point: Point, tier, budget, frozen_re
             tally["fact_oracle"][1] += 1
         if not fact["agree"]:
             found.append(report.add("self-check", ["fact_in_payload"], None, arm, case_id,
-                                    f"on {case_id} the trace says needed turns {fact['by_trace']} are included, the "
+                                    f"on {case_id} the trace says needed items {fact['by_trace']} are included, the "
                                     f"payload's text says {fact['by_text']}", data))
+    return found
+
+
+def expected_json(expected) -> dict:
+    return {"outcome": expected.outcome, "refusal_reason": expected.refusal_reason,
+            "payload_hash": expected.payload_hash, "input_tokens": expected.input_tokens,
+            "included": len(expected.included)}
+
+
+def _row(ctx, report, script, family, arm, point: Point, tier, budget, frozen_ref, expected, data, result, tally,
+         present) -> tuple[dict, bool]:
+    case_id = f"{script['conversation_id']}/{arm}/{point.id}@{tier}"
+    found = _judge(report, arm, case_id, expected, data, result, tally)
+    fact = result["fact"]
+    if fact is not None:
         present[(arm, tier)][0] += fact["present"]
         present[(arm, tier)][1] += 1
     answers = [{k: v for k, v in a.items() if not k.startswith("_")} for a in result["answers"]]
@@ -414,9 +429,7 @@ def _row(ctx, report, script, family, arm, point: Point, tier, budget, frozen_re
         "budget_input": budget,
         "snapshot": frozen_ref,
         "snapshot_sha256": hashlib.sha256(data).hexdigest(),
-        "expected": {"outcome": expected.outcome, "refusal_reason": expected.refusal_reason,
-                     "payload_hash": expected.payload_hash, "input_tokens": expected.input_tokens,
-                     "included": len(expected.included)},
+        "expected": expected_json(expected),
         "answers": answers,
         "agree": result["agree"],
         "groups": result["groups"],
