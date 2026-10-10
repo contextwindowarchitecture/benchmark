@@ -35,6 +35,8 @@ def _load(args) -> config_mod.Config:
         config = replace(config, model={**config.model, "mode": args.model})
     if getattr(args, "concurrency", None) is not None:
         config = replace(config, model={**config.model, "concurrency": args.concurrency})
+    if getattr(args, "base_url", None):
+        config = replace(config, model={**config.model, "base_url": args.base_url.rstrip("/")})
     return config
 
 
@@ -80,6 +82,9 @@ def main(argv: list[str] | None = None) -> int:
     run_cmd.add_argument("--concurrency", type=_positive, metavar="N",
                          help="model calls in flight, overriding [model].concurrency; what is sent and the results "
                               "written do not depend on it")
+    run_cmd.add_argument("--base-url", metavar="URL",
+                         help="the endpoint, overriding [model].base_url, for a server whose address changes (a rented "
+                              "pod); not part of any request, so no cache key depends on it")
 
     goldens_cmd = commands.add_parser("goldens", help="adopt a run's candidate goldens (S7)")
     goldens_sub = goldens_cmd.add_subparsers(dest="goldens_command", required=True)

@@ -75,15 +75,16 @@ def test_cwabench_runs_domain_2_through_its_entry_point(small_config, capsys):
     assert "valid" in capsys.readouterr().out
 
 
-def test_concurrency_flag_overrides_the_model_setting(small_config):
+def test_concurrency_and_base_url_flags_override_the_model_settings(small_config):
     import argparse
 
     from cwabench2 import cli
 
     config = small_config()
     args = argparse.Namespace(config=str(config.path), suites=None, size=None, no_frames=False, model=None,
-                              concurrency=16)
-    assert cli._load(args).model["concurrency"] == 16
+                              concurrency=16, base_url="https://pod-8000.proxy.example/v1/")
+    loaded = cli._load(args)
+    assert loaded.model["concurrency"] == 16 and loaded.model["base_url"] == "https://pod-8000.proxy.example/v1"
     assert cli._load(argparse.Namespace(config=str(config.path), concurrency=None)).model["concurrency"] == 2
     with pytest.raises(SystemExit):
         cli.main(["--config", str(config.path), "run", "--concurrency", "0"])

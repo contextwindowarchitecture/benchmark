@@ -98,6 +98,7 @@ uv run cwabench --domain 2 run                  # S0, S1, S2, S5, S7 at pilot si
 uv run cwabench --domain 2 run --model llm      # call the endpoint on a cache miss and fill model-cache/
 uv run cwabench --domain 2 run --no-frames      # S1 assembles the probes only
 uv run cwabench --domain 2 run --concurrency 32 # model calls in flight, overriding [model].concurrency
+uv run cwabench --domain 2 run --base-url URL   # the endpoint, overriding [model].base_url
 uv run cwabench --domain 2 run --size recorded  # the families' recorded sizes instead of their pilot sizes
 uv run cwabench --domain 2 validate             # re-check the latest run against its schemas and blob digests
 uv run cwabench --domain 2 goldens accept       # adopt the latest run's candidate goldens (S7)
