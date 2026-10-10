@@ -38,7 +38,8 @@ mkdir -p "$CWA_ROOT" "$HF_HOME" "$CWA_ROOT/logs"
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/go/bin:/opt/node/bin:$PATH"
 
 say "system packages"
-if ! command -v tmux >/dev/null || ! command -v zstd >/dev/null; then
+missing=$(for tool in git curl cc make pkg-config tmux zstd xz; do command -v "$tool" >/dev/null || echo "$tool"; done)
+if [ -n "$missing" ]; then
   $SUDO apt-get update -qq
   $SUDO env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git curl ca-certificates build-essential \
     pkg-config tmux zstd xz-utils >/dev/null
