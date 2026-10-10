@@ -1,0 +1,37 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "4a31ef625951aa54182726b862815223ebbc1e8d8e85b944882393e0e88bda60",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e2529634c29bc89923442398997ccbe4d4ee58afcc0e5a20dfdd3dc56d2fe875",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-09T23:40:30Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 24877.55,
+    "model": "Qwen3.6-35B-A3B-8bit",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "76ecf92373aa85f008cdf057e8320da9466bebf23a22d4b0e62f407b66e40bf7",
+    "response_id": "chatcmpl-2742df61",
+    "response_model": "Qwen3.6-35B-A3B-8bit",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6891,
+      "total_tokens": 7403
+    }
+  },
+  "text": "To calculate the total for the order so far, let's look at the items and quantities provided in the initial order lines and any subsequent additions:\n\n1.  **Ladders**: 315\n2.  **Crate**: 565 (from initial order)\n3.  **Tarps**: 245 (from initial order)\n4.  **Cable reels**: 425 (from initial order)\n\nThe user also explicitly added lines in the history:\n*   Turn t039: \"Add a line of 565 for the crates to the order.\" (This matches the initial crate quantity, suggesting the initial list might have been a summary or the user is confirming/adding to it. However, looking at the initial task `xstate:03`, the quantity for crates is already 565. Turn t039 says \"Add a line of 565 for the crates\". If this is an *additional* line, the total would be 565 + 565. If it's a confirmation or restatement, it remains 565. Let's look at the other additions.)\n*   Turn t045: \"Add a line of 245 for the tarps to the order.\" (Initial task `xstate:03` has tarps at 245. Again, this matches.)\n*   Turn t048: \"Add a line of 425 for the cable reels to the order.\" (Initial task `xstate:03` has cable reels at 425. This also matches.)\n\nIt appears the user is reiterating the quantities from the initial order in later turns, or perhaps the initial order was a draft and these are the confirmed final lines. Given the phrasing \"Add a line...\", it usually implies appending. However, since the quantities are identical to the initial list, it is highly likely these are confirmations of the same items rather than *additional* quantities of the same item type (which would be unusual for a supply order unless specified as \"more\"). Let's assume the order consists of the unique items listed in the initial task `xstate:03`, as the subsequent \"add\" commands match those exact quantities exactly.\n\nLet's sum the quantities from the initial order lines:\n*   Ladders: 315\n*   Crates: 565"
+}
