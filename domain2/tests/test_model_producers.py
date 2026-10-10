@@ -63,6 +63,63 @@ def test_producers_run_turn_by_turn_cache_and_replay(tmp_path, monkeypatch):
     assert errors and "CacheMiss" in errors[0]
 
 
+def test_producers_write_the_same_at_any_concurrency(tmp_path, monkeypatch):
+    import random
+    import re
+    import time
+
+    def chat(self, handed):  # a stateless fake, slow at random, so the chains finish out of order
+        time.sleep(random.random() / 500)
+        numbers = re.findall(r"\d[\d,]*", handed[1]["content"])
+        text = json.dumps({"figure": numbers[-1]} if numbers else {}) if handed[0]["content"].startswith(
+            "You keep the state") else "Figures: " + ", ".join(numbers)
+        return {"text": text, "id": "r", "model": self.model, "finish_reason": "stop", "latency_ms": 1.0,
+                "usage": {"prompt_tokens": 10, "completion_tokens": 5, "total_tokens": 15}, "cached_tokens": None}
+
+    monkeypatch.setattr("cwabench.producers.llm_summarizer.Client.chat", chat)
+    parameters = {"variables": 2, "distractors": 1, "assignment_density": 0.5, "filler_sentences": 1,
+                  "reply_sentences": 1}
+    scripts = [generate("vt", 3, turns, index, 10, parameters) for turns in (15, 25) for index in range(3)]
+
+    def produce(cache, concurrency, mode="llm"):
+        model = Model({**MODEL_DEFAULTS, "cache": cache}, tmp_path, mode)
+        produced, rows, errors = producers.produce(model, "20261009T000000Z-0000000", scripts, True, True, 10,
+                                                   concurrency, lambda m: None)
+        assert errors == []
+        return produced, [{k: v for k, v in r.items() if k not in ("cache_hit", "lookup_ms", "provenance")}
+                          for r in rows]
+
+    one, eight = produce("one", 1), produce("eight", 8)
+    assert one == eight and one[0]["vt-t025-02"].summaries
+    assert [(r["conversation"], r["producer"]) for r in one[1]][:2] == [("vt-t015-00", "extractor")] * 2
+    assert produce("eight", 1, "replay") == eight == produce("one", 8, "replay")
+
+
+def test_server_lists_the_configured_model_in_llm_mode_only(tmp_path, monkeypatch):
+    import io
+
+    seen = []
+
+    def urlopen(request, timeout):
+        seen.append(request)
+        return io.BytesIO(json.dumps({"data": [{"id": "other"}, {"id": MODEL_DEFAULTS["model"], "root": "weights",
+                                                                 "max_model_len": 131072}]}).encode())
+
+    monkeypatch.setattr("urllib.request.urlopen", urlopen)
+    monkeypatch.setenv("CWA_BENCH_MODEL_KEY", "k")
+    llm = Model({**MODEL_DEFAULTS, "api_key_env": "CWA_BENCH_MODEL_KEY"}, tmp_path, "llm")
+    assert llm.server() == {"id": MODEL_DEFAULTS["model"], "root": "weights", "max_model_len": 131072}
+    assert seen[0].full_url.endswith("/v1/models") and seen[0].get_header("Authorization") == "Bearer k"
+    assert Model({**MODEL_DEFAULTS, "model": "absent"}, tmp_path, "llm").server() is None
+    assert Model(dict(MODEL_DEFAULTS), tmp_path, "replay").server() is None and len(seen) == 2
+
+    def down(request, timeout):
+        raise OSError("refused")
+
+    monkeypatch.setattr("urllib.request.urlopen", down)
+    assert llm.server() is None
+
+
 def test_unreliability_percentiles():
     assert percentile([0, 100, 100, 100, 100], 10) == 40.0 and percentile([0, 100, 100, 100, 100], 90) == 100.0
     rows = [{"arm": "a", "tier": "8192", "conversation": "c", "probe_id": "p", "score": s} for s in (1, 1, 1, 1, 1)]

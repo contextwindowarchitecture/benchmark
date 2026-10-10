@@ -20,8 +20,8 @@ Two producers rewrite the conversation with the model, turn by turn, as a real a
   It is the study's strongest conventional control (RECAP/SNOWBALL).
 
 Every call goes through the model (model/), so it is cached and replayable exactly as S2's are, with sample 0 and the
-model's parameters. Calls of one conversation run in order, since each depends on the one before; conversations run
-in parallel. Each call is recorded as a `producer-row`.
+model's parameters. A producer's calls for one conversation run in order, since each depends on the one before;
+the producers and conversations run in parallel. Each call is recorded as a `producer-row`.
 """
 from __future__ import annotations
 
@@ -101,30 +101,38 @@ def _summarize(model: Model, run_id: str, script: dict, upto: int, words: int) -
 
 def produce(model: Model, run_id: str, scripts: list[dict], extract: bool, summarize: bool, window: int,
             concurrency: int, log, words: int = 150) -> tuple[dict[str, Produced], list[dict], list[str]]:
-    """Every conversation's producer outputs, the call rows, and the errors (a replay miss, an endpoint failure)."""
-    produced: dict[str, Produced] = {}
-    rows: list[dict] = []
-    errors: list[str] = []
+    """Every conversation's producer outputs, the call rows, and the errors (a replay miss, an endpoint failure).
 
-    def one(script):
-        out, mine = Produced(), []
+    Each producer of each conversation is one chain of calls, and the chains run `concurrency` at a time: a
+    conversation's extractor and summarizer do not depend on each other, so they run side by side. The outputs and
+    rows are assembled in the scripts' order, extractor before summarizer, whatever order the chains finish in."""
+    chains = [(script, name) for script in scripts
+              for name, wanted in (("extractor", extract), ("summarizer", summarize)) if wanted]
+
+    def one(chain):
+        script, name = chain
         try:
-            if extract:
-                out.states, found = _extract(model, run_id, script)
-                mine += found
-            if summarize:
-                out.summaries, found = _summarize(model, run_id, script, max(0, script["turn_count"] - window),
-                                                  words)
-                mine += found
+            if name == "extractor":
+                found, mine = _extract(model, run_id, script)
+            else:
+                found, mine = _summarize(model, run_id, script, max(0, script["turn_count"] - window), words)
         except (CacheMiss, EndpointError) as error:
-            return script, out, mine, f"{script['conversation_id']}: {type(error).__name__}: {error}"
-        return script, out, mine, None
+            return {}, [], f"{script['conversation_id']} {name}: {type(error).__name__}: {error}"
+        log(f"producers: {script['conversation_id']} {name} ({len(mine)} calls)")
+        return found, mine, None
 
     with ThreadPoolExecutor(max_workers=max(1, concurrency)) as pool:
-        for script, out, mine, error in pool.map(one, scripts):
-            produced[script["conversation_id"]] = out
-            rows += mine
-            if error:
-                errors.append(error)
-            log(f"producers: {script['conversation_id']} ({len(mine)} calls)")
+        results = list(pool.map(one, chains))
+    produced = {script["conversation_id"]: Produced() for script in scripts}
+    rows: list[dict] = []
+    errors: list[str] = []
+    for (script, name), (found, mine, error) in zip(chains, results):
+        out = produced[script["conversation_id"]]
+        if name == "extractor":
+            out.states = found
+        else:
+            out.summaries = found
+        rows += mine
+        if error:
+            errors.append(error)
     return produced, rows, errors

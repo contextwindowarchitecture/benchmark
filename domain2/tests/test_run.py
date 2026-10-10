@@ -75,6 +75,20 @@ def test_cwabench_runs_domain_2_through_its_entry_point(small_config, capsys):
     assert "valid" in capsys.readouterr().out
 
 
+def test_concurrency_flag_overrides_the_model_setting(small_config):
+    import argparse
+
+    from cwabench2 import cli
+
+    config = small_config()
+    args = argparse.Namespace(config=str(config.path), suites=None, size=None, no_frames=False, model=None,
+                              concurrency=16)
+    assert cli._load(args).model["concurrency"] == 16
+    assert cli._load(argparse.Namespace(config=str(config.path), concurrency=None)).model["concurrency"] == 2
+    with pytest.raises(SystemExit):
+        cli.main(["--config", str(config.path), "run", "--concurrency", "0"])
+
+
 def test_config_requires_adapters_for_s1_and_s1_for_s7(small_config):
     config = small_config()
     text = config.path.read_text()

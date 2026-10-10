@@ -97,6 +97,7 @@ uv sync                                         # at the benchmark root
 uv run cwabench --domain 2 run                  # S0, S1, S2, S5, S7 at pilot size, replaying the model's cache
 uv run cwabench --domain 2 run --model llm      # call the endpoint on a cache miss and fill model-cache/
 uv run cwabench --domain 2 run --no-frames      # S1 assembles the probes only
+uv run cwabench --domain 2 run --concurrency 32 # model calls in flight, overriding [model].concurrency
 uv run cwabench --domain 2 run --size recorded  # the families' recorded sizes instead of their pilot sizes
 uv run cwabench --domain 2 validate             # re-check the latest run against its schemas and blob digests
 uv run cwabench --domain 2 goldens accept       # adopt the latest run's candidate goldens (S7)
@@ -104,7 +105,7 @@ uv run pytest                                   # the harness's own tests, from 
 CWA_BENCH_REFERENCE=1 uv run pytest tests/test_gate.py   # S1 and S7 on the reference assembler, and a planted defect
 ```
 
-On this machine, a pilot run with `--no-frames` replays its 13,973 model calls (the producers' 2,610, S2's 4,683, S3's 6,680) and takes about 6 minutes, most of it S1's assembly; with frames S1 takes much longer. Filling the cache with `--model llm` took about 6 hours against a local omlx server running Qwen3.6-35B-A3B-8bit, about 2½ of them the summarizer. Only `--model llm` calls a model; omlx served two requests at once fastest (`[model].concurrency`), and its memory guard can reject a call when the machine is short of RAM, in which case another `--model llm` run fills just what is missing. `run` builds the adapters first unless you pass `--no-build`. The exit code is 0 only when the run passes and its output validates.
+On this machine, a pilot run with `--no-frames` replays its 13,973 model calls (the producers' 2,610, S2's 4,683, S3's 6,680) and takes about 6 minutes, most of it S1's assembly; with frames S1 takes much longer. Filling the cache with `--model llm` took about 6 hours against a local omlx server running Qwen3.6-35B-A3B-8bit, about 2½ of them the summarizer. Only `--model llm` calls a model; omlx served two requests at once fastest (`[model].concurrency`), and its memory guard can reject a call when the machine is short of RAM, in which case another `--model llm` run fills just what is missing. `--concurrency` changes only how many calls are in flight. A run writes the same grades and producer rows at any concurrency, since the requests and cache keys do not depend on it and the rows are written in the plan's order. Each conversation's extractor and summarizer are separate chains, so a server that batches well (vLLM on a GPU) can take a concurrency well above the number of conversations. In `llm` mode a server can still answer differently under different loads, which the cache records; S2's and S3's `summary.json` record the concurrency and, in `llm` mode, what the endpoint lists under the model's name in `/models` (`model.server`). `run` builds the adapters first unless you pass `--no-build`. The exit code is 0 only when the run passes and its output validates.
 
 ## What it needs
 
@@ -158,7 +159,8 @@ results/d2/<run-id>/
   suites/S1/baselines.jsonl              # one row per point, baseline and budget: count, kept and dropped,
                                          #   the system prompt and summary, and on probes the fact oracle
   suites/S2/grades.jsonl                 # one row per probe, arm, tier and sample: the reply and its grade
-  suites/S2/summary.json                 # aptitude, intervals, paired differences, by arm and tier
+  suites/S2/summary.json                 # aptitude, intervals, paired differences, by arm and tier; the model,
+                                         #   its mode, cache, concurrency and, in llm mode, the server's /models entry
   suites/S5/summary.json                 # tokens, latency and the estimator's under-count, by arm and tier
   model/calls.jsonl                      # S2: one row per distinct request and sample, cache key and provenance
   model/s3-calls.jsonl                   # the same for S3

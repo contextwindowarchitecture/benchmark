@@ -33,7 +33,16 @@ def _load(args) -> config_mod.Config:
         config = replace(config, frames=False)
     if getattr(args, "model", None):
         config = replace(config, model={**config.model, "mode": args.model})
+    if getattr(args, "concurrency", None) is not None:
+        config = replace(config, model={**config.model, "concurrency": args.concurrency})
     return config
+
+
+def _positive(text: str) -> int:
+    value = int(text)
+    if value < 1:
+        raise argparse.ArgumentTypeError("must be at least 1")
+    return value
 
 
 def _print_summary(run_dir: Path) -> None:
@@ -68,6 +77,9 @@ def main(argv: list[str] | None = None) -> int:
     run_cmd.add_argument("--no-frames", action="store_true", help="S1 assembles the probes only, not every turn")
     run_cmd.add_argument("--model", choices=("llm", "replay"),
                          help="S2's model mode, overriding [model].mode: llm calls the endpoint on a cache miss")
+    run_cmd.add_argument("--concurrency", type=_positive, metavar="N",
+                         help="model calls in flight, overriding [model].concurrency; what is sent and the results "
+                              "written do not depend on it")
 
     goldens_cmd = commands.add_parser("goldens", help="adopt a run's candidate goldens (S7)")
     goldens_sub = goldens_cmd.add_subparsers(dest="goldens_command", required=True)

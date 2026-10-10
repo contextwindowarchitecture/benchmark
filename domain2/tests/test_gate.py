@@ -162,6 +162,8 @@ def test_s2_replays_its_llm_run_byte_for_byte(tmp_path, spec, monkeypatch):
                 "cached_tokens": None}
 
     monkeypatch.setattr("cwabench.producers.llm_summarizer.Client.chat", chat)
+    served = {"id": "fake", "root": "weights"}
+    monkeypatch.setattr("cwabench2.model.Model.server", lambda self: served if self.mode == "llm" else None)
     extra = f"""
 [model]
 mode = "llm"
@@ -188,6 +190,7 @@ repeats = 2
     assert {m["id"] for m in s3["metrics"]} >= {"s3.aptitude_p90", "s3.unreliability"}
     grades = [json.loads(line) for line in (first / "suites/S2/grades.jsonl").read_text().splitlines()]
     assert {g["verdict"] for g in grades if g["arm"] == "concat"} >= {"overflow"}
+    assert summary["model"]["server"] == served and summary["model"]["concurrency"] == config.model["concurrency"]
     calls = len(answers)
 
     from dataclasses import replace
@@ -195,11 +198,19 @@ repeats = 2
     again, status = run(replace(config, model={**config.model, "mode": "replay"}), build=False, log=lambda m: None)
     assert status == "pass" and len(answers) == calls  # replay calls nothing
 
-    def strip(path):
-        return [{k: v for k, v in json.loads(line).items() if k != "run_id"} for line in path.read_text().splitlines()]
+    def strip(path):  # what differs between any two runs: the run's id and how long a cache read took
+        return [{k: v for k, v in json.loads(line).items() if k not in ("run_id", "lookup_ms")}
+                for line in path.read_text().splitlines()]
 
     for path in ("suites/S2/grades.jsonl", "suites/S3/grades.jsonl"):
         assert strip(again / path) == strip(first / path)
+    assert _read(again / "suites/S2/summary.json")["model"]["server"] is None  # a replay reaches no server
+    # What is written does not depend on how many calls are in flight
+    one, status = run(replace(config, model={**config.model, "mode": "replay", "concurrency": 1}), build=False,
+                      log=lambda m: None)
+    assert status == "pass" and len(answers) == calls
+    for path in ("suites/S2/grades.jsonl", "suites/S3/grades.jsonl", "producers/calls.jsonl"):
+        assert strip(one / path) == strip(again / path)
     assert all(json.loads(line)["cache_hit"] for line in (again / "producers/calls.jsonl").read_text().splitlines())
     hits = [json.loads(line)["cache_hit"] for line in (again / "model/calls.jsonl").read_text().splitlines()]
     assert hits and all(hits)

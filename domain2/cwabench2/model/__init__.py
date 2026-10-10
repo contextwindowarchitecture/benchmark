@@ -106,16 +106,20 @@ class Model:
         return Reply(entry["text"], entry["key"], material["request_sha256"], False, response["latency_ms"],
                      entry["provenance"])
 
-    def context_limit(self) -> int | None:
-        """The served model's context length, when the endpoint reports one (`max_model_len` in /models)."""
+    def server(self) -> dict | None:
+        """What the endpoint lists under the configured model name in /models (a vLLM server adds the weights it
+        loaded as `root`, and `max_model_len`), so a run records which server answered. Asked in llm mode only, since
+        a replay reaches no server; None when the endpoint lists nothing under the name or cannot be reached."""
         import urllib.request
 
-        try:
-            with urllib.request.urlopen(f"{self.client.base_url}/models", timeout=10) as response:
-                listed = json.loads(response.read().decode("utf-8")).get("data", [])
-        except (OSError, ValueError):
+        if self.mode != "llm":
             return None
-        for entry in listed:
-            if entry.get("id") == self.client.model and isinstance(entry.get("max_model_len"), int):
-                return entry["max_model_len"]
-        return None
+        headers = {"Authorization": f"Bearer {self.client._key}"} if self.client._key else {}
+        try:
+            request = urllib.request.Request(f"{self.client.base_url}/models", headers=headers)
+            with urllib.request.urlopen(request, timeout=10) as response:
+                listed = json.loads(response.read().decode("utf-8")).get("data", [])
+        except (OSError, ValueError, AttributeError):
+            return None
+        return next((entry for entry in listed if isinstance(entry, dict) and entry.get("id") == self.client.model),
+                    None)
