@@ -4,13 +4,15 @@
 #
 # It installs the toolchains the adapters build with, clones the specification and the four assemblers at the
 # commits the recorded run used, clones this repository, builds Domain 1's adapters, installs vLLM and starts it on
-# 127.0.0.1:8000 in a tmux session named `vllm`, as domain2/domain2.toml's [model] describes. Every step is skipped
-# when it is already done, so the script can be run again after a restart.
+# 127.0.0.1:8000 in a tmux session named `vllm`, as domain2/domain2.toml's [model] describes. When a vLLM of that
+# version already answers on 127.0.0.1:8000, started with that command, it is used as it is. Every step is skipped
+# when it is already done, so the script can be run again after a restart. Run it as root or as a user with sudo.
 #
 #   CWA_ROOT   where the checkouts go (default /workspace/cwa): the layout domain1.toml expects,
 #              $CWA_ROOT/{contextwindowarchitecture,assembler-*} and $CWA_ROOT/cwa-extended/benchmark
 #   HF_HOME    where the model's weights are kept (default /workspace/hf), on a volume that survives restarts
 #   BENCH_REF  the benchmark commit or branch to check out (default main)
+#   CWA_KEY_FILE  a file holding the server's API key, when it needs one (the runs read it too)
 set -euo pipefail
 
 CWA_ROOT=${CWA_ROOT:-/workspace/cwa}
@@ -31,14 +33,15 @@ declare -A COMMITS=(
 )
 
 say() { printf '\n== %s\n' "$*"; }
+SUDO=$([ "$(id -u)" -eq 0 ] || echo sudo)
 mkdir -p "$CWA_ROOT" "$HF_HOME" "$CWA_ROOT/logs"
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/go/bin:/opt/node/bin:$PATH"
 
 say "system packages"
 if ! command -v tmux >/dev/null || ! command -v zstd >/dev/null; then
-  apt-get update -qq
-  DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git curl ca-certificates build-essential pkg-config tmux \
-    zstd xz-utils >/dev/null
+  $SUDO apt-get update -qq
+  $SUDO env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git curl ca-certificates build-essential \
+    pkg-config tmux zstd xz-utils >/dev/null
 fi
 
 say "uv"
@@ -46,16 +49,16 @@ command -v uv >/dev/null || curl -LsSf https://astral.sh/uv/install.sh | sh
 
 say "node $NODE_VERSION and pnpm"
 if [ "$(node --version 2>/dev/null)" != "v$NODE_VERSION" ]; then
-  rm -rf /opt/node && mkdir -p /opt/node
+  $SUDO rm -rf /opt/node && $SUDO mkdir -p /opt/node
   curl -fsSL "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
-    | tar -xJ -C /opt/node --strip-components=1
+    | $SUDO tar -xJ -C /opt/node --strip-components=1
 fi
-corepack enable
+$SUDO env PATH="$PATH" corepack enable
 
 say "go $GO_VERSION"
 if [ "$(go version 2>/dev/null | awk '{print $3}')" != "go$GO_VERSION" ]; then
-  rm -rf /usr/local/go
-  curl -fsSL "https://go.dev/dl/go$GO_VERSION.linux-amd64.tar.gz" | tar -xz -C /usr/local
+  $SUDO rm -rf /usr/local/go
+  curl -fsSL "https://go.dev/dl/go$GO_VERSION.linux-amd64.tar.gz" | $SUDO tar -xz -C /usr/local
 fi
 
 say "rust $RUST_VERSION"
@@ -88,11 +91,20 @@ say "the benchmark's environment and Domain 1's adapters"
 (cd "$BENCH/domain1" && uv run cwabench setup)
 
 say "vLLM $VLLM_VERSION"
-if [ ! -x "$CWA_ROOT/vllm/bin/vllm" ]; then
+running=$(curl -fs -m 5 http://127.0.0.1:8000/version 2>/dev/null || true)
+if [ -n "$running" ]; then
+  if [ "$running" != "{\"version\":\"$VLLM_VERSION\"}" ]; then
+    echo "a server on 127.0.0.1:8000 reports $running, not vLLM $VLLM_VERSION; stop it or use it elsewhere" >&2
+    exit 1
+  fi
+  echo "using the vLLM $VLLM_VERSION already serving on 127.0.0.1:8000; check that it was started with the command"
+  echo "domain2/domain2.toml's [model] gives:"
+  ps -eo args | grep -E "[v]llm serve" | sed -E 's/(--api-key )[^ ]+/\1…/' || true
+elif [ ! -x "$CWA_ROOT/vllm/bin/vllm" ]; then
   uv venv -q --python 3.12 "$CWA_ROOT/vllm"
   uv pip install -q --python "$CWA_ROOT/vllm/bin/python" "vllm==$VLLM_VERSION"
 fi
-if ! tmux has-session -t vllm 2>/dev/null; then
+if [ -z "$running" ] && ! tmux has-session -t vllm 2>/dev/null; then
   tmux new-session -d -s vllm "HF_HOME=$HF_HOME $CWA_ROOT/vllm/bin/vllm serve Qwen/Qwen3.6-35B-A3B-FP8 \
     --served-model-name qwen3.6-35b-a3b-fp8 --host 127.0.0.1 --port 8000 --max-model-len 262144 \
     --gpu-memory-utilization 0.92 --max-num-seqs 256 --max-num-batched-tokens 16384 --enable-prefix-caching \
@@ -100,7 +112,7 @@ if ! tmux has-session -t vllm 2>/dev/null; then
 fi
 say "waiting for vLLM (the first start downloads about 35 GB of weights)"
 until curl -fs http://127.0.0.1:8000/health >/dev/null; do
-  if ! tmux has-session -t vllm 2>/dev/null; then
+  if [ -z "$running" ] && ! tmux has-session -t vllm 2>/dev/null; then
     echo "vLLM stopped; see $CWA_ROOT/logs/vllm.log" >&2
     exit 1
   fi
@@ -108,6 +120,7 @@ until curl -fs http://127.0.0.1:8000/health >/dev/null; do
 done
 curl -fs http://127.0.0.1:8000/version
 echo
-curl -fs http://127.0.0.1:8000/v1/models
+KEY=$( [ -n "${CWA_KEY_FILE:-}" ] && cat "$CWA_KEY_FILE" || true)
+curl -fs ${KEY:+-H "Authorization: Bearer $KEY"} http://127.0.0.1:8000/v1/models
 echo
 say "ready: $BENCH, vLLM on 127.0.0.1:8000"

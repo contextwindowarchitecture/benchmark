@@ -9,7 +9,8 @@
 #   2. S6 at pilot size, with S2 and S3 for its comparison with the scripted result (their pilot replies are already
 #      cached by the first run, whose conversations include the pilot's).
 #
-# Logs go to $CWA_ROOT/logs, and the runs to domain2/results/d2 as usual.
+# Logs go to $CWA_ROOT/logs, and the runs to domain2/results/d2 as usual. CWA_KEY_FILE names a file holding the
+# server's API key, when it needs one.
 set -uo pipefail
 
 CWA_ROOT=${CWA_ROOT:-/workspace/cwa}
@@ -17,6 +18,10 @@ BENCH="$CWA_ROOT/cwa-extended/benchmark"
 WORKERS=${WORKERS:-$(nproc)}
 CONCURRENCY=${CONCURRENCY:-128}
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/go/bin:/opt/node/bin:$PATH"
+if [ -n "${CWA_KEY_FILE:-}" ]; then  # the server's key, when it needs one, as domain2.toml's api_key_env names it
+  CWA_BENCH_MODEL_KEY=$(cat "$CWA_KEY_FILE")
+  export CWA_BENCH_MODEL_KEY
+fi
 mkdir -p "$CWA_ROOT/logs"
 cd "$BENCH/domain2"
 
