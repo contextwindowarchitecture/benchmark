@@ -2,7 +2,9 @@
 
 `base_url` reaches any server that speaks `POST /chat/completions` (OpenAI, OpenRouter, vLLM, SGLang, Ollama, a local
 MLX server). Requests ask for temperature 0 and, when configured, a seed; `extra_body` passes server-specific fields
-such as `chat_template_kwargs`. Every request parameter goes into the cache key and into the variant's method string
+such as `chat_template_kwargs`. Every request names the client in its `User-Agent` (`cwa-bench/<version>`), since
+some proxies refuse a library's default one (RunPod's refuses Python's); headers are not part of the request body, so
+they never change a cache key. Every request parameter goes into the cache key and into the variant's method string
 (`llm-summarize/v1 <model>@<params sha8>`), so a trace names exactly how its variant was made.
 
 Each chunk is summarized `repeat_k` times as samples 0 … k−1, each its own cache key and so its own model call: sample
@@ -74,6 +76,15 @@ class Client:
         """Everything about a request except its messages; part of every cache key."""
         return {**self.params, "extra_body": self.extra_body}
 
+    def headers(self) -> dict:
+        """The headers of every request to the endpoint: the client's name and, when configured, the key."""
+        from .. import __version__
+
+        headers = {"User-Agent": f"cwa-bench/{__version__}"}
+        if self._key:
+            headers["Authorization"] = f"Bearer {self._key}"
+        return headers
+
     def complete(self, system: str, user: str) -> dict:
         return self.chat([{"role": "system", "content": system}, {"role": "user", "content": user}])
 
@@ -84,9 +95,7 @@ class Client:
     def chat(self, messages: list[dict]) -> dict:
         """One chat completion. `usage` keeps the three standard counts; `cached_tokens` is the prompt prefix the
         server reports it reused, or None when it reports none."""
-        headers = {"Content-Type": "application/json"}
-        if self._key:
-            headers["Authorization"] = f"Bearer {self._key}"
+        headers = {"Content-Type": "application/json", **self.headers()}
         request = urllib.request.Request(f"{self.base_url}/chat/completions",
                                          json.dumps(self.body(messages)).encode("utf-8"), headers, method="POST")
         last = None

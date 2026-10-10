@@ -114,9 +114,8 @@ class Model:
 
         if self.mode != "llm":
             return None
-        headers = {"Authorization": f"Bearer {self.client._key}"} if self.client._key else {}
         try:
-            request = urllib.request.Request(f"{self.client.base_url}/models", headers=headers)
+            request = urllib.request.Request(f"{self.client.base_url}/models", headers=self.client.headers())
             with urllib.request.urlopen(request, timeout=10) as response:
                 listed = json.loads(response.read().decode("utf-8")).get("data", [])
         except (OSError, ValueError, AttributeError):

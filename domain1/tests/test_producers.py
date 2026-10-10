@@ -203,11 +203,13 @@ class FakeModel(BaseHTTPRequestHandler):
     """Answers /chat/completions with the passage's first sentence, numbered by request, or with a fixed text."""
 
     calls: ClassVar[list[dict]] = []
+    headers_seen: ClassVar[list[dict]] = []
     reply: str | None = None
 
     def do_POST(self):
         body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
         FakeModel.calls.append(body)
+        FakeModel.headers_seen.append(dict(self.headers))
         passage = body["messages"][-1]["content"].split("Passage:\n", 1)[-1]
         text = FakeModel.reply if FakeModel.reply is not None else chunker.sentences(passage)[0]
         data = json.dumps({"id": f"cmpl-{len(FakeModel.calls)}", "model": body["model"],
@@ -225,7 +227,7 @@ class FakeModel(BaseHTTPRequestHandler):
 
 @pytest.fixture
 def server():
-    FakeModel.calls, FakeModel.reply = [], None
+    FakeModel.calls, FakeModel.headers_seen, FakeModel.reply = [], [], None
     httpd = ThreadingHTTPServer(("127.0.0.1", 0), FakeModel)
     thread = threading.Thread(target=httpd.serve_forever, daemon=True)
     thread.start()
@@ -275,6 +277,18 @@ def test_reasoning_is_stripped_and_the_judge_is_cached(tmp_path, server):
     FakeModel.reply = "SUPPORTED"
     verdict = s.judge(PARENT, result.text)
     assert verdict.text == "SUPPORTED" and s.judge(PARENT, result.text).cache_hit
+
+
+def test_requests_name_the_client_and_carry_the_key(server, monkeypatch):
+    from cwabench import __version__
+    from cwabench.producers.llm_summarizer import Client
+
+    monkeypatch.setenv("CWA_BENCH_TEST_KEY", "secret")
+    Client(settings(server, api_key_env="CWA_BENCH_TEST_KEY")).complete("system", "Passage:\nOne sentence.")
+    Client(settings(server, api_key_env=None)).complete("system", "Passage:\nOne sentence.")
+    keyed, open_ = FakeModel.headers_seen
+    assert keyed["User-Agent"] == open_["User-Agent"] == f"cwa-bench/{__version__}"  # not urllib's, which some refuse
+    assert keyed["Authorization"] == "Bearer secret" and "Authorization" not in open_
 
 
 def test_an_unreachable_endpoint_is_an_endpoint_error(tmp_path):
