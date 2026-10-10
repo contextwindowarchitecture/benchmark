@@ -38,11 +38,13 @@ mkdir -p "$CWA_ROOT" "$HF_HOME" "$CWA_ROOT/logs"
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/go/bin:/opt/node/bin:$PATH"
 
 say "system packages"
-missing=$(for tool in git curl cc make pkg-config tmux zstd xz; do command -v "$tool" >/dev/null || echo "$tool"; done)
+missing=$(for tool in git curl cc make pkg-config tmux zstd xz podman; do
+  command -v "$tool" >/dev/null || echo "$tool"
+done)
 if [ -n "$missing" ]; then
   $SUDO apt-get update -qq
   $SUDO env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git curl ca-certificates build-essential \
-    pkg-config tmux zstd xz-utils >/dev/null
+    pkg-config tmux zstd xz-utils podman >/dev/null  # podman: Domain 1's Linux container (S2, S10)
 fi
 
 say "uv"
