@@ -173,6 +173,7 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "fixture":
             from cwabench.fixture import write_fixture
             from cwabench.rundir import load_upstream
+            from cwabench.validate import CONTRACT_UNAVAILABLE
 
             given = args.run_dir
             run_dir = Path(given) if given and Path(given).is_dir() else config.results_dir / (given or "latest")
@@ -180,10 +181,13 @@ def main(argv: list[str] | None = None) -> int:
             target, problems = write_fixture(run_dir.resolve(), out, rows=args.rows,
                                              upstream=load_upstream(config.upstream_path), domain=output.D2,
                                              log=lambda m: print(m, file=sys.stderr, flush=True))
+            # A run made where the spec checkout had another path or commit cannot have its spec-format files checked
+            # here; the fixture is still whole, so that is a warning, as Domain 1's fixture command treats it.
+            errors = [p for p in problems if not p.startswith(CONTRACT_UNAVAILABLE)]
             for problem in problems:
-                print(f"invalid fixture: {problem}", file=sys.stderr)
-            print(f"{target}: {'valid' if not problems else f'{len(problems)} problem(s)'}")
-            return 1 if problems else 0
+                print(f"{'invalid fixture' if problem in errors else 'warning'}: {problem}", file=sys.stderr)
+            print(f"{target}: {'valid' if not errors else f'{len(errors)} problem(s)'}")
+            return 1 if errors else 0
         if args.command == "validate":
             run_dir = Path(args.run_dir) if args.run_dir else config.results_dir / "latest"
             problems = validate_run(run_dir.resolve())
