@@ -42,3 +42,21 @@ def test_the_contract_pin_is_domain_1s():
 
 def test_the_upstream_file_validates():
     output.validate(json.loads((ROOT / "findings" / "upstream.json").read_text(encoding="utf-8")))
+
+
+FIXTURE = ROOT / "fixtures" / "runs" / "20261011T161204Z-9c870cd"
+
+
+def test_the_fixture_run_validates():
+    """The committed nightly pins the schemas to what the writers wrote (the summaries' typed blocks, the LQ corpora's
+    answers): a schema change the fixture no longer fits is a breaking one, not an additive one."""
+    from cwabench.validate import CONTRACT_UNAVAILABLE, validate_run
+
+    problems = [p for p in validate_run(FIXTURE) if not p.startswith(CONTRACT_UNAVAILABLE)]
+    assert problems == []
+    # validate_run checks a blob by its digest only, and the LQ corpora are blobs
+    blobs = [json.loads(p.read_text(encoding="utf-8")) for p in FIXTURE.glob("blobs/sha256/*/*.json")]
+    corpora = [d for d in blobs if d.get("$schema") == output.schema_name("lq-corpus")]
+    assert len(corpora) == 8
+    for document in corpora:
+        output.validate(document)

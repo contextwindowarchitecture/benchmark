@@ -227,36 +227,7 @@
             "description": "An interval for the value, when one is computed (S2: a cluster bootstrap over conversations)",
             "anyOf": [
               {
-                "type": "object",
-                "properties": {
-                  "low": {
-                    "type": "number"
-                  },
-                  "high": {
-                    "type": "number"
-                  },
-                  "level": {
-                    "type": "number",
-                    "exclusiveMinimum": 0,
-                    "exclusiveMaximum": 1
-                  },
-                  "method": {
-                    "type": "string",
-                    "minLength": 1
-                  },
-                  "resamples": {
-                    "type": "integer",
-                    "minimum": 1
-                  }
-                },
-                "required": [
-                  "low",
-                  "high",
-                  "level",
-                  "method",
-                  "resamples"
-                ],
-                "additionalProperties": false
+                "$ref": "#/$defs/interval"
               },
               {
                 "type": "null"
@@ -471,19 +442,362 @@
       "additionalProperties": false
     },
     "model": {
-      "description": "S2: the model, its mode and cache, and the calls made",
-      "type": "object"
+      "type": "object",
+      "description": "S2, S3, S4 and S6: the model, its mode and cache, and the calls made",
+      "properties": {
+        "model": {
+          "type": "string",
+          "description": "The configured model name"
+        },
+        "endpoint_host": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mode": {
+          "enum": [
+            "llm",
+            "replay"
+          ],
+          "description": "Whether the run called the endpoint or replayed the cache"
+        },
+        "params": {
+          "type": "object",
+          "description": "Every request's parameters but its messages; part of the cache key",
+          "properties": {
+            "temperature": {
+              "type": "number"
+            },
+            "max_tokens": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "seed": {
+              "type": "integer"
+            },
+            "extra_body": {
+              "type": "object",
+              "description": "The request body's extra fields, as configured ([model].extra_body); the server's own vocabulary"
+            }
+          },
+          "required": [
+            "temperature",
+            "max_tokens",
+            "extra_body"
+          ],
+          "additionalProperties": false
+        },
+        "cache": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The model cache's path on the machine that ran"
+        },
+        "cache_entries": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "context_limit": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "server": {
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "What the endpoint listed under the model's name in /models, as it gave it (a vLLM server adds the weights as `root` and `max_model_len`); null in replay mode or when it listed nothing"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "concurrency": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Calls in flight at once"
+        },
+        "calls": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Distinct requests and samples the suite asked for"
+        },
+        "endpoint_calls": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Calls that reached the endpoint; 0 in replay mode"
+        },
+        "cache_hits": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "excluded_by_gate": {
+          "type": "object",
+          "description": "S2, S3 and S4: probes left out per arm because S1's gate failed the arm",
+          "propertyNames": {
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "chains": {
+          "type": "object",
+          "description": "S6: the chains run and how they ended",
+          "properties": {
+            "total": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "by_end": {
+              "type": "object",
+              "description": "Chains by how they ended: `completed`, or the error class that halted them",
+              "propertyNames": {
+                "pattern": "^[A-Za-z][A-Za-z0-9_ -]*$"
+              },
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "probes_left_out": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "total",
+            "by_end",
+            "probes_left_out"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "model",
+        "endpoint_host",
+        "mode",
+        "params",
+        "cache",
+        "cache_entries",
+        "context_limit",
+        "server",
+        "concurrency",
+        "calls",
+        "endpoint_calls",
+        "cache_hits"
+      ],
+      "additionalProperties": false
     },
     "by_arm": {
-      "description": "S2: grades by arm and tier, with intervals and paired differences",
+      "description": "S2, S3, S4 and S6: grades by arm and tier, with intervals and paired differences; the shape is the suite's (S3 shares S2's)",
       "type": "array",
       "items": {
-        "type": "object"
+        "oneOf": [
+          {
+            "$ref": "#/$defs/scripted_arm"
+          },
+          {
+            "$ref": "#/$defs/lq_arm"
+          },
+          {
+            "$ref": "#/$defs/loop_arm"
+          }
+        ]
       }
     },
     "cost": {
-      "description": "S5: tokens, latency and the estimator's error by arm and tier",
-      "type": "object"
+      "type": "object",
+      "description": "S5: tokens, latency and the estimator's error by suite, arm and tier",
+      "properties": {
+        "margin_percent": {
+          "type": "number",
+          "minimum": 0,
+          "description": "The margin every budget charged over the payload's own token count ([budgets].margin_percent)"
+        },
+        "undercount_max": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "description": "The largest (server prompt tokens − own count) ÷ server prompt tokens over every answered call"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "budget_overruns": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Calls whose server prompt tokens exceeded their budget (R-16)"
+        },
+        "undercount_by_size": {
+          "type": "array",
+          "description": "The under-count by the server's prompt size, with the margin each band would need",
+          "items": {
+            "type": "object",
+            "properties": {
+              "server_tokens": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                ],
+                "items": false,
+                "minItems": 2,
+                "maxItems": 2,
+                "description": "The band: from the first, below the second; null for no upper bound"
+              },
+              "calls": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "undercount_max": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "margin_needed": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "The percent margin that covers the band's worst under-count"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "server_tokens",
+              "calls",
+              "undercount_max",
+              "margin_needed"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "by_arm": {
+          "type": "array",
+          "description": "Per suite, arm and tier, from S2's records and, when it ran, S4's",
+          "items": {
+            "type": "object",
+            "properties": {
+              "suite": {
+                "type": "string",
+                "pattern": "^S[0-9]+$"
+              },
+              "arm": {
+                "type": "string",
+                "minLength": 1
+              },
+              "tier": {
+                "type": "string",
+                "minLength": 1
+              },
+              "answered": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Grades with a reply"
+              },
+              "correct": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "prompt_tokens": {
+                "$ref": "#/$defs/percentiles"
+              },
+              "completion_tokens": {
+                "$ref": "#/$defs/percentiles"
+              },
+              "prompt_tokens_per_correct": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "latency_ms": {
+                "$ref": "#/$defs/percentiles"
+              },
+              "estimator_error": {
+                "$ref": "#/$defs/percentiles"
+              },
+              "cached_tokens": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Prefix-cache hits the server reported, summed"
+              },
+              "answer_length_by_turns": {
+                "type": "object",
+                "description": "Completion tokens by the conversation's turn count (S2's grades)",
+                "propertyNames": {
+                  "pattern": "^[1-9][0-9]*$"
+                },
+                "additionalProperties": {
+                  "$ref": "#/$defs/percentiles"
+                }
+              }
+            },
+            "required": [
+              "suite",
+              "arm",
+              "tier",
+              "answered",
+              "correct",
+              "prompt_tokens",
+              "completion_tokens",
+              "prompt_tokens_per_correct",
+              "latency_ms",
+              "estimator_error",
+              "cached_tokens",
+              "answer_length_by_turns"
+            ],
+            "additionalProperties": false,
+            "description": "Per suite, arm and tier, from S2's records and, when it ran, S4's; the estimator's error is (own count − server prompt tokens) ÷ server prompt tokens, per call"
+          }
+        }
+      },
+      "required": [
+        "margin_percent",
+        "undercount_max",
+        "budget_overruns",
+        "undercount_by_size",
+        "by_arm"
+      ],
+      "additionalProperties": false
     }
   },
   "required": [
@@ -500,5 +814,630 @@
     "metrics",
     "files"
   ],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "$defs": {
+    "interval": {
+      "type": "object",
+      "description": "A percentile interval for a rate or a difference: a seeded cluster bootstrap over conversations or corpora (domain-2-plan.md, 9)",
+      "properties": {
+        "low": {
+          "type": "number"
+        },
+        "high": {
+          "type": "number"
+        },
+        "level": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 1
+        },
+        "method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "resamples": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "low",
+        "high",
+        "level",
+        "method",
+        "resamples"
+      ],
+      "additionalProperties": false
+    },
+    "tally": {
+      "type": "object",
+      "description": "Observations and how many were graded correct",
+      "properties": {
+        "n": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "correct": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "n",
+        "correct"
+      ],
+      "additionalProperties": false
+    },
+    "given": {
+      "type": "object",
+      "description": "The grades split by whether the needed facts were in the payload sent",
+      "properties": {
+        "present": {
+          "$ref": "#/$defs/tally"
+        },
+        "absent": {
+          "$ref": "#/$defs/tally"
+        }
+      },
+      "required": [
+        "present",
+        "absent"
+      ],
+      "additionalProperties": false
+    },
+    "paired": {
+      "type": "object",
+      "description": "The arm less the reference arm on the same probes and samples: the mean per-observation difference in the share correct, with its interval; null for the reference arm, a control tier, or no shared observations",
+      "properties": {
+        "reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "n": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "difference": {
+          "type": "number"
+        },
+        "interval": {
+          "$ref": "#/$defs/interval"
+        }
+      },
+      "required": [
+        "reference",
+        "n",
+        "difference",
+        "interval"
+      ],
+      "additionalProperties": false
+    },
+    "scripted_verdicts": {
+      "type": "object",
+      "description": "How many grades took each verdict (grading/__init__.py), with the overflows that reached no model",
+      "properties": {
+        "correct": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "stale": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "distractor": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "wrong": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unparsed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "overflow": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "correct",
+        "stale",
+        "distractor",
+        "wrong",
+        "unparsed",
+        "overflow"
+      ],
+      "additionalProperties": false
+    },
+    "lq_verdicts": {
+      "type": "object",
+      "description": "How many grades took each verdict; `refused` is an answerable question answered NOT FOUND",
+      "properties": {
+        "correct": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "distractor": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "wrong": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unparsed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "overflow": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "refused": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "correct",
+        "distractor",
+        "wrong",
+        "unparsed",
+        "overflow",
+        "refused"
+      ],
+      "additionalProperties": false
+    },
+    "scripted_arm": {
+      "type": "object",
+      "description": "S2 and S3: one arm at one budget tier (`control` for the two controls)",
+      "properties": {
+        "arm": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The arm (domain-2-plan.md, 7)"
+        },
+        "tier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "n": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Grades: probes × samples"
+        },
+        "verdicts": {
+          "$ref": "#/$defs/scripted_verdicts"
+        },
+        "aptitude": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "The share correct (s2.aptitude)"
+        },
+        "interval": {
+          "$ref": "#/$defs/interval"
+        },
+        "given": {
+          "$ref": "#/$defs/given"
+        },
+        "by_turns": {
+          "type": "object",
+          "description": "By the conversation's turn count",
+          "propertyNames": {
+            "pattern": "^[1-9][0-9]*$"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/tally"
+          }
+        },
+        "by_family": {
+          "type": "object",
+          "description": "By task family (domain-2-plan.md, 6)",
+          "propertyNames": {
+            "pattern": "^[a-z]+$"
+          },
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "n": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "correct": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "stale": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "n",
+              "correct",
+              "stale"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "persistence": {
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "IP conversations: answers that follow the rule, by rule and by turn count; an overflow, which reaches no model, is left out. Null when no IP conversation reached this arm and tier",
+              "properties": {
+                "n": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "compliant": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "by_rule": {
+                  "type": "object",
+                  "description": "By the IP rule",
+                  "propertyNames": {
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "n": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "compliant": {
+                        "type": "integer",
+                        "minimum": 0
+                      }
+                    },
+                    "required": [
+                      "n",
+                      "compliant"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "by_turns": {
+                  "type": "object",
+                  "description": "By the conversation's turn count",
+                  "propertyNames": {
+                    "pattern": "^[1-9][0-9]*$"
+                  },
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "n": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "compliant": {
+                        "type": "integer",
+                        "minimum": 0
+                      }
+                    },
+                    "required": [
+                      "n",
+                      "compliant"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "n",
+                "compliant",
+                "by_rule",
+                "by_turns"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "paired": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/paired"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "arm",
+        "tier",
+        "n",
+        "verdicts",
+        "aptitude",
+        "interval",
+        "given",
+        "by_turns",
+        "by_family",
+        "persistence",
+        "paired"
+      ],
+      "additionalProperties": false
+    },
+    "lq_arm": {
+      "type": "object",
+      "description": "S4: one arm at one corpus tier (the ratio of the corpus to the budget)",
+      "properties": {
+        "arm": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The arm (domain-2-plan.md, 7)"
+        },
+        "tier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "n": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Grades: probes × samples"
+        },
+        "verdicts": {
+          "$ref": "#/$defs/lq_verdicts"
+        },
+        "accuracy": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "The share correct (s4.accuracy)"
+        },
+        "interval": {
+          "$ref": "#/$defs/interval"
+        },
+        "given": {
+          "$ref": "#/$defs/given"
+        },
+        "by_kind": {
+          "type": "object",
+          "description": "By the question's kind: one site, a comparison of two, or a value no document gives",
+          "propertyNames": {
+            "pattern": "^(single|multi|none)$"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/tally"
+          }
+        },
+        "by_format": {
+          "type": "object",
+          "description": "By the question's format",
+          "propertyNames": {
+            "pattern": "^(short|mcq)$"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/tally"
+          }
+        },
+        "abstained": {
+          "type": "object",
+          "description": "Answerable questions, and how many were answered NOT FOUND",
+          "properties": {
+            "n": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "n",
+            "count"
+          ],
+          "additionalProperties": false
+        },
+        "input_tokens_mean": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "description": "The payload's own token count, averaged over the grades"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "paired": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/paired"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "arm",
+        "tier",
+        "n",
+        "verdicts",
+        "accuracy",
+        "interval",
+        "given",
+        "by_kind",
+        "by_format",
+        "abstained",
+        "input_tokens_mean",
+        "paired"
+      ],
+      "additionalProperties": false
+    },
+    "loop_arm": {
+      "type": "object",
+      "description": "S6: one arm at the loop's budget tier",
+      "properties": {
+        "arm": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The arm (domain-2-plan.md, 7)"
+        },
+        "tier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "n": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Grades: probes × samples"
+        },
+        "verdicts": {
+          "$ref": "#/$defs/scripted_verdicts"
+        },
+        "aptitude": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "The share correct (s6.aptitude)"
+        },
+        "interval": {
+          "$ref": "#/$defs/interval"
+        },
+        "given": {
+          "$ref": "#/$defs/given"
+        },
+        "paired": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/paired"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "against_scripted": {
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "Per probe, the loop's share correct over its chains less the scripted suite's over its samples (S3 at S6's temperature, else S2), averaged, with its interval; null when neither ran",
+              "properties": {
+                "suite": {
+                  "type": "string",
+                  "pattern": "^S[0-9]+$"
+                },
+                "probes": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "difference": {
+                  "type": "number"
+                },
+                "interval": {
+                  "$ref": "#/$defs/interval"
+                }
+              },
+              "required": [
+                "suite",
+                "probes",
+                "difference",
+                "interval"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reply_tokens_by_turn": {
+          "type": "object",
+          "description": "The mean completion tokens of the model's own turns, by the first turn of each ten (1, 11, 21, …)",
+          "propertyNames": {
+            "pattern": "^[1-9][0-9]*$"
+          },
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      },
+      "required": [
+        "arm",
+        "tier",
+        "n",
+        "verdicts",
+        "aptitude",
+        "interval",
+        "given",
+        "paired",
+        "against_scripted",
+        "reply_tokens_by_turn"
+      ],
+      "additionalProperties": false
+    },
+    "percentiles": {
+      "type": "object",
+      "description": "p50, p95 and max by nearest rank, plus the total, over `count` values; null with none",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "p50": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "p95": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "max": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "total": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "count",
+        "p50",
+        "p95",
+        "max",
+        "total"
+      ],
+      "additionalProperties": false
+    }
+  }
 }
