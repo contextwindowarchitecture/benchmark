@@ -43,6 +43,7 @@ uv run cwabench validate               # re-check the latest run directory, of a
 cd ../domain2 && uv run pytest && uv run cwabench --domain 2 run --no-frames   # Domain 2: tests, a pilot run of
                                                                                #   every suite replaying the model
                                                                                #   (~12 min on 16 vCPUs)
+uv run cwabench --domain 2 ci nightly   # Domain 2's CI profile: replays, reports drift since its last run
 ```
 
 - Benchmark runs, the ones whose results are reported (Domain 2's `--model llm` and recorded-size runs, Domain 1's

@@ -114,8 +114,13 @@ def write_conversations(run_dir: RunDir, config: Config, scripts: dict[str, list
 
 
 def adapters_config(config: Config):
-    """Domain 1's configuration with only the adapters Domain 2 uses, in its order."""
+    """Domain 1's configuration with only the adapters Domain 2 uses, in its order; for a CI run with checkouts, read
+    from them and built under Domain 1's .build/ci/build, as Domain 1's CI does (cwabench/ci.py)."""
     d1 = d1_config.load(config.adapters.config)
+    if config.checkouts is not None:
+        from cwabench.ci import with_checkouts
+
+        d1 = with_checkouts(d1, config.checkouts)
     missing = [n for n in config.adapters.use if n not in d1.all_adapters]
     if missing:
         raise ConfigError(f"[adapters].use names adapters {config.adapters.config} has no table for: "
@@ -124,7 +129,7 @@ def adapters_config(config: Config):
 
 
 def manifest(run_dir: RunDir, config: Config, contract: Contract, status: str, finished_at: str | None,
-             adapters: dict) -> dict:
+             adapters: dict, ci: dict | None = None) -> dict:
     """Domain 1's manifest shape. Domain 2 runs in no container."""
     return {
         "$schema": output.schema_name("manifest"),
@@ -145,7 +150,7 @@ def manifest(run_dir: RunDir, config: Config, contract: Contract, status: str, f
         "seed": None,
         "suites": config.suites,
         "settings": {"timeout_s": config.timeout_s, "concurrency": config.concurrency},
-        "ci": None,
+        "ci": ci,
     }
 
 
@@ -184,7 +189,10 @@ def run_producers(ctx: SuiteContext) -> None:
         raise ProducerError(f"{len(errors)} producer call(s) failed; first: {errors[0][:300]}")
 
 
-def run(config: Config, build: bool = True, log: Callable[[str], None] = _log) -> tuple[Path, str]:
+def run(config: Config, build: bool = True, log: Callable[[str], None] = _log,
+        ci: dict | None = None) -> tuple[Path, str]:
+    """Run the configured suites. With `ci` ({"profile", "source", "mirrors"}), the run is one of a CI profile's: the
+    manifest says so, and ci.json compares it with the profile's previous run (ci.py)."""
     contract = Contract(config.contract_path, config.contract_commit, config.allow_dirty)
     d1 = adapters_config(config) if set(config.suites) & set(ADAPTER_SUITES) and config.adapters else None
     run_dir = RunDir(config, domain=output.D2, sources=SOURCES)
@@ -194,7 +202,7 @@ def run(config: Config, build: bool = True, log: Callable[[str], None] = _log) -
                        "Enumerations and texts from the pinned specification")
     ready, unavailable = setup_adapters(d1, build, log) if d1 is not None else ({}, {})
     adapters = adapter_entries(d1, ready, unavailable) if d1 is not None else {}
-    run_dir.write_json("manifest.json", manifest(run_dir, config, contract, "running", None, adapters), describe)
+    run_dir.write_json("manifest.json", manifest(run_dir, config, contract, "running", None, adapters, ci), describe)
 
     results: list[SuiteResult] = []
     status = "error"
@@ -215,7 +223,7 @@ def run(config: Config, build: bool = True, log: Callable[[str], None] = _log) -
         findings = [f for result in results for f in result.findings]
         run_dir.write_jsonl("findings.jsonl", findings, "finding", "Every failure in this run, one row per signature")
         status = worst(r.status for r in results) if results else "error"
-        run_dir.write_json("summary.json", {
+        summary = {
             "$schema": output.schema_name("summary"),
             "run_id": run_dir.run_id,
             "status": status,
@@ -227,12 +235,21 @@ def run(config: Config, build: bool = True, log: Callable[[str], None] = _log) -
             "metrics": [m for r in results for m in r.metrics],
             "findings": {"total": len(findings), "by_suite": {r.id: len(r.findings) for r in results},
                          "file": "findings.jsonl"},
-        }, "Headline metrics and per-suite status")
+        }
+        run_dir.write_json("summary.json", summary, "Headline metrics and per-suite status")
+        if ci is not None:
+            from cwabench.ci import report
+
+            from .ci import s7_goldens
+
+            report(run_dir, manifest(run_dir, config, contract, status, now(), adapters, ci), summary, findings, ci,
+                   s7_goldens)
     except BaseException:
         log(traceback.format_exc())
         status = "error"
         raise
     finally:
-        run_dir.write_json("manifest.json", manifest(run_dir, config, contract, status, now(), adapters), describe)
+        run_dir.write_json("manifest.json", manifest(run_dir, config, contract, status, now(), adapters, ci),
+                           describe)
         run_dir.finalize(status, [r.id for r in results])
     return run_dir.path, status

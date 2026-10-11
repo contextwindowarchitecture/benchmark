@@ -2,8 +2,8 @@
 #
 # This build is P0 to P6: the generators (VT, FR, CC, IP and the LQ corpora), the graders, S0, the application side
 # and its model-based producers, S1 (the assembly gate, and the baselines' payloads), S2 (the model's answers), S3
-# (unreliability), S4 (long context), S5 (cost and latency), S6 (model in the loop) and S7 (goldens). The tables the
-# later phases read (thresholds, caps, CI profiles) come with them.
+# (unreliability), S4 (long context), S5 (cost and latency), S6 (model in the loop) and S7 (goldens), and P7's CI
+# profiles ([ci.profiles]). The tables the later phases read (thresholds, caps) come with them.
 
 [contract]
 path = "../../../contextwindowarchitecture"
@@ -198,6 +198,21 @@ rules = ["brackets", "signoff", "uppercase"]
 seed = 20261013
 sizes = { pilot = 2, recorded = 10 }
 chunk_tokens = 128                               # a chunk's most tokens; Domain 1's chunker cuts at sentences
+
+# CI profiles (cwabench2/ci.py). `cwabench --domain 2 ci <profile>` runs one replaying the committed cache, never
+# calling a model, compares it with the profile's previous run (ci.json) and publishes it as results/d2/<profile>;
+# .github/workflows/domain2-ci.yml runs them by hand. S1 assembles the probes only (`frames`).
+[ci.profiles.nightly]
+description = "Every suite at pilot size, replaying the recorded run's cache"
+suites = ["S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7"]
+size = "pilot"
+frames = false
+
+[ci.profiles.weekly]
+description = "The recorded run's suites at recorded size, replaying its cache (S6 was recorded at pilot size only)"
+suites = ["S0", "S1", "S2", "S3", "S4", "S5", "S7"]
+size = "recorded"
+frames = false
 
 # Where findings were reported, by finding id (schemas/upstream.v1.schema.json). Kept by hand; optional.
 [findings]

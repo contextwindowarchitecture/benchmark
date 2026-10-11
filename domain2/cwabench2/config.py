@@ -99,6 +99,7 @@ class Config:
     s6: dict = field(default_factory=lambda: dict(S6_DEFAULTS))
     lq: FamilyConfig | None = None  # [families.lq]: the corpora S4 asks about
     baseline: baselines_mod.Settings = field(default_factory=baselines_mod.Settings)
+    checkouts: Path | None = None  # CI (ci.py): the spec and Domain 1's assemblers read from here, by directory name
 
     def section(self, name: str) -> dict:
         return self.settings.get(name, {})
@@ -330,7 +331,7 @@ def load(path: str | Path) -> Config:
         upstream_path=upstream_path,
         timeout_s=float(run.get("timeout_s", 60)),
         concurrency=max(1, int(run.get("concurrency", 1))),
-        settings={},
+        settings={"ci": _table(data, "ci")},  # [ci.profiles.*], read by ci.py
         adapters=adapters,
         arms=list(arms),
         budgets=budgets,

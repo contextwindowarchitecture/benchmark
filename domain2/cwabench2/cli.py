@@ -9,6 +9,7 @@ import sys
 from dataclasses import replace
 from pathlib import Path
 
+from cwabench.config import ConfigError as D1ConfigError
 from cwabench.contract import ContractError
 from cwabench.validate import validate_run
 
@@ -70,6 +71,25 @@ def _print_summary(run_dir: Path) -> None:
     print(f"\nfindings: {summary['findings']['total']}  →  {run_dir}")
 
 
+def _print_drift(report: dict) -> None:
+    if not report:
+        return
+    previous = report["previous"]["run_id"] if report["previous"] else "none"
+    print(f"\nci {report['profile']}: {report['verdict']} (previous {report['profile']} run: {previous})")
+    for bump in report["bumps"]:
+        print(f"  bump  {bump['what']}: {bump['from']} → {bump['to']}")
+    for suite in report["suites"]:
+        if suite["previous"] and suite["previous"] != suite["status"]:
+            print(f"  suite {suite['id']}: {suite['previous']} → {suite['status']}")
+    for metric in report["metrics"]:
+        where = " ".join(x for x in (metric.get("arm"), metric.get("family"), metric.get("tier")) if x) or "all"
+        print(f"  metric {metric['label']} ({where}): {metric['previous']} → {metric['value']}")
+    found = report["findings"]
+    print(f"  findings: {len(found['new'])} new, {len(found['resolved'])} resolved, {found['persisting']} persisting")
+    if report["goldens"]:
+        print(f"  goldens: {report['goldens']['drift'] or 'none compared'}")
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="cwabench --domain 2", description=__doc__)
     parser.add_argument("--config", default=str(DEFAULT_CONFIG), help="run configuration (default: domain2.toml)")
@@ -91,6 +111,19 @@ def main(argv: list[str] | None = None) -> int:
                          help="the endpoint, overriding [model].base_url, for a server whose address changes (a rented "
                               "pod); not part of any request, so no cache key depends on it")
 
+    ci_cmd = commands.add_parser("ci", help="run a CI profile ([ci.profiles.*]) replaying the cache, report drift, "
+                                           "and publish it as results/d2/<profile>")
+    ci_cmd.add_argument("profile", help="a profile in [ci.profiles], e.g. nightly or weekly")
+    ci_cmd.add_argument("--no-build", action="store_true", help="skip Domain 1's adapter builds; use what is built")
+    ci_cmd.add_argument("--workers", type=_positive, metavar="N",
+                        help="snapshots assembled at once (S1, S6), overriding [run].concurrency; a machine's cores")
+    where = ci_cmd.add_mutually_exclusive_group()
+    where.add_argument("--fetch", action="store_true",
+                       help="test upstream: Domain 1's mirrors under .build/ci/checkouts, assemblers at their default "
+                            "branch and the spec at the pinned commit")
+    where.add_argument("--checkouts",
+                       help="read the spec and every assembler from this directory, under the same names")
+
     goldens_cmd = commands.add_parser("goldens", help="adopt a run's candidate goldens (S7)")
     goldens_sub = goldens_cmd.add_subparsers(dest="goldens_command", required=True)
     accept_cmd = goldens_sub.add_parser("accept", help="adopt a run's candidate goldens as the baseline")
@@ -109,6 +142,19 @@ def main(argv: list[str] | None = None) -> int:
             for problem in problems:
                 print(f"invalid output: {problem}", file=sys.stderr)
             return 0 if status == "pass" and not problems else 1
+        if args.command == "ci":
+            from . import ci
+
+            run_dir, status, report = ci.run(config, args.profile, fetch_upstream=args.fetch,
+                                             checkouts=Path(args.checkouts) if args.checkouts else None,
+                                             build=not args.no_build,
+                                             log=lambda m: print(m, file=sys.stderr, flush=True))
+            _print_summary(run_dir)
+            _print_drift(report)
+            problems = validate_run(run_dir)
+            for problem in problems:
+                print(f"invalid output: {problem}", file=sys.stderr)
+            return 0 if status == "pass" and not problems else 1
         if args.command == "goldens":
             from .suites.s7_goldens import accept
 
@@ -123,7 +169,7 @@ def main(argv: list[str] | None = None) -> int:
                 print(problem)
             print(f"{run_dir}: {'valid' if not problems else f'{len(problems)} problem(s)'}")
             return 1 if problems else 0
-    except (config_mod.ConfigError, ContractError, ProducerError) as error:
+    except (config_mod.ConfigError, D1ConfigError, ContractError, ProducerError) as error:
         print(f"cwabench --domain 2: {error}", file=sys.stderr)
         return 2
     return 2

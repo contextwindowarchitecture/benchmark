@@ -1,6 +1,6 @@
 # Domain 2 harness
 
-Benchmarks long-horizon multi-turn stability: over a long conversation, does a model given CWA-assembled context keep doing the task where a model given conventionally assembled context degrades, with everything else held equal? Its working plan, `docs/plans/domain-2-plan.md`, is kept out of git; code comments cite it by section. This directory implements phases P0 to P6 of eight. S2 to S4 and S6 send their payloads to a model, and the model-based producers run before them, all by default replaying the committed cache of the model's replies (the recorded run's), so a run needs no model.
+Benchmarks long-horizon multi-turn stability: over a long conversation, does a model given CWA-assembled context keep doing the task where a model given conventionally assembled context degrades, with everything else held equal? Its working plan, `docs/plans/domain-2-plan.md`, is kept out of git; code comments cite it by section. This directory implements phases P0 to P6 of eight, and P7's CI profiles. S2 to S4 and S6 send their payloads to a model, and the model-based producers run before them, all by default replaying the committed cache of the model's replies (the recorded run's), so a run needs no model.
 
 - **Conversation scripts.** Seeded generators write whole conversations with ground truth known by construction (`cwabench2/conversations/`). Every name, figure and booking is fictional. A script fixes:
   - the governance instructions and the output contract;
@@ -107,7 +107,7 @@ The benchmark is a uv workspace, and Domain 2 runs through its one command, `cwa
 
 ```sh
 uv sync                                         # at the benchmark root
-uv run cwabench --domain 2 run                  # S0, S1, S2, S5, S7 at pilot size, replaying the model's cache
+uv run cwabench --domain 2 run                  # every suite at pilot size, replaying the model's cache
 uv run cwabench --domain 2 run --model llm      # call the endpoint on a cache miss and fill model-cache/
 uv run cwabench --domain 2 run --no-frames      # S1 assembles the probes only
 uv run cwabench --domain 2 run --concurrency 32 # model calls in flight, overriding [model].concurrency
@@ -118,11 +118,15 @@ uv run cwabench --domain 2 run --suites S0,S1,S2,S3,S6 --model llm   # the model
 uv run cwabench --domain 2 run --workers 16      # snapshots assembled at once, overriding [run].concurrency
 uv run cwabench --domain 2 validate             # re-check the latest run against its schemas and blob digests
 uv run cwabench --domain 2 goldens accept       # adopt the latest run's candidate goldens (S7)
+uv run cwabench --domain 2 ci nightly          # a CI profile, replaying: drift since its last run, in ci.json
+uv run cwabench --domain 2 ci nightly --fetch  # the same against the assemblers' upstream default branches
 uv run pytest                                   # the harness's own tests, from domain2/; needs the spec checkout
 CWA_BENCH_REFERENCE=1 uv run pytest tests/test_gate.py   # S1, S4, S6 and S7 on the reference assembler, a defect
 ```
 
 A pilot run of every suite with `--no-frames` replays its model calls in about 12 minutes on a 16-vCPU host (`--workers 16`), most of it S1's assembly and S6's inline gate; with frames S1 takes much longer. The recorded size replays in about 70 minutes there. Runs whose results are reported are made on that one GPU host, so every result comes from the same machine. The recorded run is made with `--model llm --size recorded` on one GPU host that runs vLLM and the harness together (`scripts/pod-setup.sh`), so it survives the machine that started it; an interrupted or partly failed `--model llm` run is resumed by running it again, which fills just what is missing. Only `--model llm` calls a model. `--concurrency` changes only how many calls are in flight. A run writes the same grades and producer rows at any concurrency, since the requests and cache keys do not depend on it and the rows are written in the plan's order. Each conversation's extractor and summarizer are separate chains, so a server that batches well (vLLM on a GPU) can take a concurrency well above the number of conversations. In `llm` mode a server can still answer differently under different loads, which the cache records; S2's and S3's `summary.json` record the concurrency and, in `llm` mode, what the endpoint lists under the model's name in `/models` (`model.server`). `run` builds the adapters first unless you pass `--no-build`. The exit code is 0 only when the run passes and its output validates.
+
+`ci <profile>` runs a profile of `[ci.profiles]`: its suites, size and `frames`, always replaying, so a CI run never calls a model and a reply the cache lacks fails it (a payload changed, which a change to an assembler or the harness can do). As Domain 1's CI does, it compares the run with the profile's previous run in the run's `ci.json` (what it was made from that changed, suite statuses, metrics and findings that changed, and S7's golden drift classes), gives a verdict (`baseline`, `unchanged`, `changed` or `regressed`), and publishes the run as `results/d2/<profile>`. The spec and Domain 1's assemblers are the configured checkouts by default; `--fetch` uses Domain 1's mirrors with each assembler at its default branch, and `--checkouts DIR` reads them from DIR, building under `../domain1/.build/ci/build` either way. `nightly` is every suite at pilot size; `weekly` the recorded run's suites at recorded size (S6 was recorded at pilot size only). `.github/workflows/domain2-ci.yml` runs a profile on a GitHub runner, by hand only for now: a regression check, while reported results come from the GPU host.
 
 ## What it needs
 
@@ -154,13 +158,14 @@ A pilot run of every suite with `--no-frames` replays its model calls in about 1
 | `[s4]` | S4's arms, the budget, the corpus ratios, the retriever's candidates, samples per payload, the reference arm, the bootstrap |
 | `[s6]` | S6's families, arms, budget tier, chains per conversation and arm (`repeats`), temperature, the reference arm, the bootstrap |
 | `[s7]` | The goldens file |
+| `[ci.profiles.<name>]` | A CI profile's description, suites, `size` and `frames`; it always replays |
 | `[findings]` | Where findings were reported upstream |
 
 `domain2.toml` is the recorded run's: vLLM 0.31.0 serving `Qwen/Qwen3.6-35B-A3B-FP8` beside the harness (its launch command is in the file), every sampling parameter stated in the request, the producers' token limit at 2,048, and `seed_per_sample`, so a sampled suite's samples (S3, S6) are independent draws: with one seed for every sample, a server that honours seeds would answer every sample of a request alike. Add `--base-url` when the server is not beside the harness, for example a RunPod pod through its proxy (`https://<pod>-8000.proxy.runpod.net/v1`), with its key in `CWA_BENCH_MODEL_KEY`. The P3 and P4 pilots ran against a local omlx server (`Qwen3.6-35B-A3B-8bit`, MLX); their configuration and cache replay at commit `12cbe73`.
 
 A server-specific configuration of your own, such as one for a single pod, can be named `<name>.local.toml`: git ignores it, and the run still keeps a copy as `config.toml`.
 
-The pilot sizes give 2 conversations per turn count (10, 50 and 100 turns) for VT, FR and CC, and 3 for IP (one per rule): 27 scripts in all. The LQ pilot is 2 corpora per ratio, 8 in all, with 6 questions each; the 16× corpus is about 132,000 tokens. The tables the later phases read (thresholds, caps, CI profiles) are added with those phases.
+The pilot sizes give 2 conversations per turn count (10, 50 and 100 turns) for VT, FR and CC, and 3 for IP (one per rule): 27 scripts in all. The LQ pilot is 2 corpora per ratio, 8 in all, with 6 questions each; the 16× corpus is about 132,000 tokens. The tables the later phases read (thresholds, caps) are added with those phases.
 
 ## Output
 
@@ -168,12 +173,14 @@ A run directory follows Domain 1's conventions under the prefix `cwa-bench-d2`. 
 
 - **Reused kinds.** `blob`, `contract`, `drift-row`, `finding`, `manifest`, `run-index`, `runs-index`, `timeline` and `upstream` are Domain 1's schemas with the prefix changed, and a test holds them equal.
 - **New kinds.** `conversation`, `conversation-index`, `self-check`, `turn-row`, `baseline-row`, `grade-row`, `call-row`, `producer-row`, `goldens`, for LQ `lq-corpus`, `lq-index`, `lq-gate-row`, `lq-baseline-row` and `lq-grade-row`, and for S6 `chain-row`, are Domain 2's own.
-- **Changed kinds.** `summary` and `suite-summary` carry Domain 2's metric shape, which has `arm`, `family` and `tier` where Domain 1's has `adapter`, and an optional `interval`.
+- **Changed kinds.** `summary` and `suite-summary` carry Domain 2's metric shape, which has `arm`, `family` and `tier` where Domain 1's has `adapter`, and an optional `interval`. `ci-report` is Domain 1's with Domain 2's metric units and, on each changed metric, its `arm`, `family` and `tier`.
 
 ```
 results/d2/index.json                    # every run, newest first; results/d2/latest links the newest
+results/d2/<profile>                     # a CI profile's newest run (ci)
 results/d2/<run-id>/
   index.json  manifest.json  config.toml  contract.json  summary.json  findings.jsonl
+  ci.json                                # a CI run: the drift since the profile's previous run
   conversations/<family>/index.json      # the scripts this run generated: id, seed, turns, probes, script blob
   conversations/lq/index.json            # with S4: the LQ corpora, each a corpus blob
   suites/S0/summary.json  suites/S0/results.jsonl     # one self-check row per check
