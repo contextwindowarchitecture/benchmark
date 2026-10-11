@@ -646,27 +646,20 @@
             "properties": {
               "server_tokens": {
                 "type": "array",
-                "prefixItems": [
-                  {
-                    "type": "integer",
-                    "minimum": 0
-                  },
-                  {
-                    "anyOf": [
-                      {
-                        "type": "integer",
-                        "minimum": 0
-                      },
-                      {
-                        "type": "null"
-                      }
-                    ]
-                  }
-                ],
-                "items": false,
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
                 "minItems": 2,
                 "maxItems": 2,
-                "description": "The band: from the first, below the second; null for no upper bound"
+                "description": "The band's bounds in the server's prompt tokens: from the first, below the second; the second is null for no upper bound"
               },
               "calls": {
                 "type": "integer",
