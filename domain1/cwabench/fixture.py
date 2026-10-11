@@ -4,7 +4,8 @@ A fixture is the run as it was written, cut down: every document is kept whole e
 or snapshots, which keep a sample; only a few sweep cells stay, with their timelines; and only the blobs the kept
 files name are copied. The result validates like a run, says in its index.json what it was cut from (`fixture`), and
 is listed in <fixtures>/index.json, a runs index written with no `latest` link, so a consumer points at the fixtures
-directory exactly as it points at results/d1.
+directory exactly as it points at results/d1. Another domain's run is cut the same way, given its domain: the run index
+and the fixtures' runs index carry that domain's prefix.
 """
 from __future__ import annotations
 
@@ -35,7 +36,7 @@ def sample(items: list, count: int) -> list:
 
 
 def write_fixture(run_dir: Path, out_dir: Path, *, rows: int = 12, frames: int = 16, sweeps: int = 2,
-                  upstream: dict[str, dict] | None = None,
+                  upstream: dict[str, dict] | None = None, domain: output.Domain = output.D1,
                   log: Callable[[str], None] = lambda message: None) -> tuple[Path, list[str]]:
     """Write <out_dir>/<run id> from the run at run_dir, and return it with validate_run's problems. `upstream` (the
     [findings].upstream map) refreshes each kept finding's link, as a new run would carry it."""
@@ -125,7 +126,7 @@ def write_fixture(run_dir: Path, out_dir: Path, *, rows: int = 12, frames: int =
     files.append({**next(e for e in index["files"] if e["path"] == blob_index), "rows": len(blobs)})
 
     output.write_json(target / "index.json", {
-        "$schema": output.schema_name("run-index"),
+        "$schema": domain.schema_name("run-index"),
         "run_id": index["run_id"],
         "status": index["status"],
         "suites": index["suites"],
@@ -133,7 +134,7 @@ def write_fixture(run_dir: Path, out_dir: Path, *, rows: int = 12, frames: int =
         "blobs": {**index["blobs"], "count": len(blobs)},
         "fixture": {"of": index["run_id"], "created_at": now(), "rows": rows, "frames": frames, "sweeps": sweeps},
     })
-    update_runs_index(out_dir, link=False)
+    update_runs_index(out_dir, link=False, domain=domain)
     log(f"fixture {target}: {len(files)} file(s), {len(blobs)} blob(s)")
     return target, validate_run(target)
 
