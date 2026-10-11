@@ -14,7 +14,7 @@ own directory:
 | `docs/` | Committed write-ups, one per domain, written once the domain's plan is fully implemented |
 | `pyproject.toml` | The uv workspace: every domain is a member, with one lockfile (`uv.lock`) and one environment |
 | `domain1/` | The Domain 1 harness (package `cwabench`, the `cwabench` command); start with `domain1/README.md` |
-| `domain2/` | The Domain 2 harness (package `cwabench2`, run as `cwabench --domain 2`), in progress; it builds on `domain1/`. Start with `domain2/README.md` |
+| `domain2/` | The Domain 2 harness (package `cwabench2`, run as `cwabench --domain 2`); it builds on `domain1/`. Start with `domain2/README.md`; its write-up is `docs/domain2.md` |
 | `../benchmark-ui` | The results UI, its design baseline (`DESIGN.md`) and its plan live in `contextwindowarchitecture/benchmark-ui`, a sibling checkout. It reads this repository (schemas, results, write-ups), never the reverse. Its harness changes (fixture runs, runs-index pointers, sweep curves, aggregates, upstream links on findings) are made here at that plan's UI-P0, when asked; until then, no UI work |
 | `scripts/` | `pod-setup.sh` sets up one Linux GPU host to run vLLM beside the harness; `pod-run.sh` runs both domains' tests and runs there (Domain 2's recorded run and S6, Domain 1's full run), detached in tmux |
 | `.github/workflows/` | CI, started by hand only (`workflow_dispatch`); don't add schedules or push triggers unasked |
