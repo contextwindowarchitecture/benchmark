@@ -1271,7 +1271,521 @@
     },
     "scale": {
       "type": "object",
-      "description": "S7: shapes, settings, constructible cells, skips, timeouts, threshold searches, sweeps and timing loops"
+      "description": "S7: shapes, settings, constructible cells, skips, timeouts, threshold searches, sweeps and timing loops",
+      "properties": {
+        "shapes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Every shape the corpus generator knows, with what it holds"
+        },
+        "settings": {
+          "type": "object",
+          "description": "The [s7] configuration in effect: the suite's defaults merged with domain1.toml's section. The keys named here are always written; any other key the section adds is carried as written",
+          "properties": {
+            "timeout_s": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "description": "The per-call timeout, in seconds"
+            },
+            "candidates": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "description": "The grid's candidate counts"
+            },
+            "candidate_tokens": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "description": "The grid's candidate token totals"
+            },
+            "budget_ratio": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "description": "The grid's budgets, as fractions of full"
+            },
+            "below_threshold": {
+              "type": "boolean",
+              "description": "Whether the grid also runs one token below the protected-only charged count (label threshold-1)"
+            },
+            "components_cell": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "minItems": 2,
+              "maxItems": 2,
+              "description": "Candidates and tokens of the cell run with every tokenizer and renderer"
+            },
+            "components_ratio": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "window_cell": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "minItems": 2,
+              "maxItems": 2,
+              "description": "Candidates and tokens of the cell run at fixed windows"
+            },
+            "window_shapes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "windows": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "description": "The fixed windows, in tokens (labels window:<n>)"
+            },
+            "threshold_cells": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "description": "Candidates and tokens of the cells whose refusal threshold is searched"
+            },
+            "sweep_cell": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "minItems": 2,
+              "maxItems": 2,
+              "description": "Candidates and tokens of the swept cell"
+            },
+            "sweep_step_percent": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "timeline_points": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "description": "Where a sweep writes timelines, as fractions of full"
+            },
+            "perf": {
+              "type": "boolean"
+            },
+            "perf_candidates": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "perf_tokens_per_candidate": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "perf_fixed_tokens": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "perf_fixed_candidates": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "perf_labels": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "perf_min_samples": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "perf_max_samples": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "perf_max_seconds": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "perf_ci_target": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "inprocess": {
+              "type": "boolean"
+            },
+            "throughput_cell": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "throughput_invocations": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "max_tests": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "shapes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "The shapes run, when the section narrows them"
+            },
+            "seed": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "timeout_s",
+            "candidates",
+            "candidate_tokens",
+            "budget_ratio",
+            "below_threshold",
+            "components_cell",
+            "components_ratio",
+            "window_cell",
+            "window_shapes",
+            "windows",
+            "threshold_cells",
+            "sweep_cell",
+            "sweep_step_percent",
+            "timeline_points",
+            "perf",
+            "perf_candidates",
+            "perf_tokens_per_candidate",
+            "perf_fixed_tokens",
+            "perf_fixed_candidates",
+            "perf_labels",
+            "perf_min_samples",
+            "perf_max_samples",
+            "perf_max_seconds",
+            "perf_ci_target",
+            "inprocess",
+            "throughput_cell",
+            "throughput_invocations",
+            "max_tests"
+          ]
+        },
+        "cells": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Cells in the grid"
+        },
+        "rows": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Rows in results.jsonl"
+        },
+        "not_constructible": {
+          "type": "array",
+          "description": "Grid cells the generator cannot build, and why",
+          "items": {
+            "type": "object",
+            "properties": {
+              "shape": {
+                "type": "string",
+                "minLength": 1
+              },
+              "candidates": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "candidate_tokens": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "why": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "shape",
+              "candidates",
+              "candidate_tokens",
+              "why"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "skipped": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Answers not asked for, over every row: an adapter's cells at least the work of one it timed out on"
+        },
+        "timeouts": {
+          "type": "array",
+          "description": "One per timeout warning finding",
+          "items": {
+            "type": "object",
+            "properties": {
+              "adapter": {
+                "type": "string",
+                "minLength": 1
+              },
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "adapter",
+              "summary"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "thresholds": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "One adapter's binary search for the smallest budget that assembles. A not_constructible search has only the cell, the adapter, the status and the detail; full_did_not_assemble has no found budget",
+            "properties": {
+              "cell": {
+                "$ref": "#/$defs/scale_cell"
+              },
+              "adapter": {
+                "type": "string",
+                "minLength": 1
+              },
+              "status": {
+                "enum": [
+                  "exact",
+                  "inexact",
+                  "full_did_not_assemble",
+                  "not_constructible"
+                ],
+                "description": "exact when the budget found equals the harness's computed one"
+              },
+              "detail": {
+                "type": "string",
+                "description": "Why the cell cannot be built"
+              },
+              "found": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "The smallest budget that assembled"
+              },
+              "computed": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "The harness's charged count of the protected items, or the floor"
+              },
+              "computed_from": {
+                "enum": [
+                  "protected",
+                  "floor"
+                ]
+              },
+              "protected": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "floor": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "full": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "probes": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Assemblies the search made"
+              },
+              "mispredicted": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Probes whose outcome or refusal code differs from the rules'"
+              },
+              "audit_failed": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Audit checks any probe failed"
+              }
+            },
+            "required": [
+              "cell",
+              "adapter",
+              "status"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "sweeps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "One budget sweep: what its file holds, without the frames",
+            "properties": {
+              "cell": {
+                "$ref": "#/$defs/scale_cell"
+              },
+              "path": {
+                "type": "string",
+                "pattern": "^suites/S7/sweeps/[0-9a-f]{64}\\.json$"
+              },
+              "agree": {
+                "type": "boolean",
+                "description": "Every adapter's frames are the same"
+              },
+              "frames": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "description": "Frames per adapter"
+              },
+              "exact_steps": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "The reference adapter's frames one token from a different frame"
+              },
+              "threshold": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "The smallest budget the reference adapter assembled at"
+              },
+              "computed": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "The harness's charged count of the protected items, or the floor"
+              },
+              "mispredicted": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "description": "Frames per adapter whose outcome or refusal code differs from the rules'"
+              },
+              "audit_failed": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "description": "Audit checks any frame failed, per adapter"
+              },
+              "timelines": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Timeline files the sweep wrote"
+              }
+            },
+            "required": [
+              "cell",
+              "path",
+              "agree",
+              "frames",
+              "exact_steps",
+              "threshold",
+              "computed",
+              "mispredicted",
+              "audit_failed",
+              "timelines"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "timing_loops": {
+          "type": "object",
+          "description": "Per adapter, whether its in-process timing loop ran",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "available": {
+                "type": "boolean"
+              },
+              "error": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "available",
+              "error"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "shapes",
+        "settings",
+        "cells",
+        "rows",
+        "not_constructible",
+        "skipped",
+        "timeouts",
+        "thresholds",
+        "sweeps",
+        "timing_loops"
+      ],
+      "additionalProperties": false
     },
     "summarizer": {
       "type": "object",
@@ -1292,5 +1806,45 @@
     "metrics",
     "files"
   ],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "$defs": {
+    "scale_cell": {
+      "type": "object",
+      "properties": {
+        "shape": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidates": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "candidate_tokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "tokenizer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "renderer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "seed": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "shape",
+        "candidates",
+        "candidate_tokens",
+        "tokenizer",
+        "renderer",
+        "seed"
+      ],
+      "additionalProperties": false,
+      "description": "A scale cell: the shape, its size and the components it was built with"
+    }
+  }
 }

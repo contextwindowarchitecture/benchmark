@@ -24,7 +24,53 @@
       "description": "false when the host slept during measurement"
     },
     "policy": {
-      "type": "object"
+      "type": "object",
+      "description": "When a cell's sampling stops: at least min_samples (min_slow once a sample takes slow_ms), at most max_samples or max_seconds, earlier once the 95% interval's half-width is within ci_target of the mean",
+      "properties": {
+        "warmup": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "min_samples": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "min_slow": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "slow_ms": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "max_samples": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "ci_target": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "serial": {
+          "type": "boolean",
+          "description": "Cells measured one at a time"
+        }
+      },
+      "required": [
+        "warmup",
+        "min_samples",
+        "min_slow",
+        "slow_ms",
+        "max_samples",
+        "max_seconds",
+        "ci_target",
+        "serial"
+      ],
+      "additionalProperties": false
     },
     "methods": {
       "type": "object",
@@ -700,7 +746,36 @@
     },
     "series": {
       "type": "object",
-      "description": "The perf series' parameters"
+      "description": "The perf series' parameters. Per shape, the candidates series is (n, fixed_tokens), the tokens series (fixed_candidates, tokens_per_candidate \u00d7 n) and the diagonal (n, tokens_per_candidate \u00d7 n), for n in candidates; a fit's points are those cells' p50s",
+      "properties": {
+        "candidates": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "minItems": 1
+        },
+        "fixed_tokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "fixed_candidates": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "tokens_per_candidate": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "candidates",
+        "fixed_tokens",
+        "fixed_candidates",
+        "tokens_per_candidate"
+      ],
+      "additionalProperties": false
     }
   },
   "required": [
