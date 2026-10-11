@@ -96,7 +96,7 @@ def test_the_default_config_is_the_recorded_runs():
     config = config_mod.load(Path(config_mod.__file__).resolve().parent.parent / "domain2.toml")
     assert config.model["cache"] == "model-cache" and config.model["seed_per_sample"]
     assert {"top_p", "top_k", "chat_template_kwargs"} <= set(config.model["extra_body"])  # the sampling, stated
-    assert config.application.margin_percent == 30
+    assert config.application.margin_percent == 35
 
 
 def test_workers_flag_overrides_the_run_setting(small_config):
