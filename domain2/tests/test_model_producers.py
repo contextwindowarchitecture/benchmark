@@ -63,6 +63,33 @@ def test_producers_run_turn_by_turn_cache_and_replay(tmp_path, monkeypatch):
     assert errors and "CacheMiss" in errors[0]
 
 
+def test_producers_are_told_the_task_without_a_reply_rule(tmp_path, monkeypatch):
+    systems = []
+
+    def chat(self, handed, overrides=None):
+        systems.append(handed[0]["content"])
+        return {"text": "{}", "id": "r", "model": self.model, "finish_reason": "stop", "latency_ms": 1.0,
+                "usage": {"prompt_tokens": 10, "completion_tokens": 5, "total_tokens": 15}, "cached_tokens": None}
+
+    monkeypatch.setattr("cwabench.producers.llm_summarizer.Client.chat", chat)
+    parameters = {"variables": 2, "distractors": 1, "assignment_density": 0.5, "filler_sentences": 1,
+                  "reply_sentences": 1}
+    vt = generate("vt", 3, 15, 0, 10, parameters)
+    ip = [generate("ip", 3, 15, index, 10, {**parameters, "rules": ["brackets", "signoff", "uppercase"]})
+          for index in range(3)]
+    assert producers.task(vt) == vt["instructions"]  # no rule: told the instructions as they are
+    for script in ip:  # the rule governs the replies; the producers are told the task it was added to
+        assert producers.task(script) == vt["instructions"] != script["instructions"]
+        assert script["instructions"].endswith(script["rule"]["text"])
+    model = Model(dict(MODEL_DEFAULTS), tmp_path, "llm")
+    _, _, errors = producers.produce(model, "20261009T000000Z-0000000", [vt, *ip], True, True, 10, 1, lambda m: None)
+    assert errors == [] and len(set(systems)) == 2  # one extractor and one summarizer prompt for all four
+    assert not any(script["rule"]["text"] in system for script in ip for system in systems)
+    # a script without a rule sends what it sent before, so its cache keys are unchanged
+    assert set(systems) == {producers.EXTRACT_SYSTEM.format(task=vt["instructions"]),
+                            producers.SUMMARY_SYSTEM.format(task=vt["instructions"], words=150)}
+
+
 def test_producers_write_the_same_at_any_concurrency(tmp_path, monkeypatch):
     import random
     import re

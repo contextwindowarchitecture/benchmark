@@ -32,6 +32,8 @@ Benchmarks long-horizon multi-turn stability: over a long conversation, does a m
     - the **extractor**, which after each user turn reads the task (the conversation's instructions), the state so far and the new message, and returns only what the message adds or changes; the application merges it into its state;
     - the **rolling summarizer**, which updates a summary, told the task and a word limit, as each turn leaves the window. It is the `summary` baseline's summary, the strongest conventional control.
 
+    Both are told the task without an IP conversation's rule, which governs the assistant's replies, not what the application keeps. Told it, the extractor wrote its state in capital letters under the uppercase rule, which the estimate under-counted by up to 37% (the server counted 58% more tokens), past the margin.
+
   The CWA arms are a ladder:
 
   | Arm | Payload |

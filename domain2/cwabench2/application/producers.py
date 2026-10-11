@@ -3,12 +3,12 @@
 Two producers rewrite the conversation with the model, turn by turn, as a real application would as the turns arrive:
 
 - **The extractor** (the `cwa-state-x` arm's state writer). After each user turn it reads the task (the conversation's
-  instructions), the state so far and the new message, and returns the updated state as a JSON object of the facts the
-  task needs and their current values. A real application's state writer knows the task it serves; told nothing of
-  it, the model recorded every remark about a lift or a coffee machine as state, which outgrew its reply within a long
-  conversation. A reply that is not a
-  JSON object keeps the state as it was and is counted. The state after turn k is written as state.task items, one per
-  key. This is the realistic counterpart of the oracle state writer (section 15: oracle-state circularity).
+  instructions, less an IP reply rule: `task`), the state so far and the new message, and returns the updated state as
+  a JSON object of the facts the task needs and their current values. A real application's state writer knows the
+  task it serves; told nothing of it, the model recorded every remark about a lift or a coffee machine as state, which
+  outgrew its reply within a long conversation. A reply that is not a JSON object keeps the state as it was and is
+  counted. The state after turn k is written as state.task items, one per key. This is the realistic counterpart of
+  the oracle state writer (section 15: oracle-state circularity).
 - **The rolling summarizer** (the `summary` baseline with `[baselines].summarizer = "llm"`). As each turn leaves the
   window it updates the summary with that turn's user and assistant messages; the summary after turn k covers turns 1
   to k. Like the extractor it is told the task, and keeps the facts the task needs: told nothing, the model kept every
@@ -59,6 +59,22 @@ class Produced:
     summaries: dict[int, str] = field(default_factory=dict)  # after turn k (0 … T − window): the rolling summary
 
 
+def task(script: dict) -> str:
+    """The task the producers are told: the conversation's instructions, less an IP rule (persistence.py). The rule
+    governs the assistant's replies, not what the application keeps. Told it, the extractor wrote its state in capital
+    letters under the uppercase rule, which estimate-utf8/v1 under-counted by up to 37% (the server counted 58% more
+    tokens), past any margin S5 allows; the summarizer would carry the rule into the summary arm's context the same
+    way. A script without a rule is told its instructions unchanged, so its requests and their cache keys stay as they
+    were."""
+    rule = script.get("rule")
+    if not rule:
+        return script["instructions"]
+    told = script["instructions"].removesuffix(f" {rule['text']}")
+    if told == script["instructions"]:
+        raise ValueError(f"{script['conversation_id']}: the instructions do not end with the rule")
+    return told
+
+
 def payload(system: str, user: str) -> bytes:
     return jcs.serialize_bytes({"system": [{"id": "system", "text": system}], "tools": [],
                                 "messages": [{"role": "user", "content": user}]})
@@ -77,7 +93,7 @@ def _extract(model: Model, run_id: str, script: dict) -> tuple[dict[int, dict], 
     states, rows, state = {0: {}}, [], {}
     for turn in script["turns"]:
         current = json.dumps(state, ensure_ascii=False, sort_keys=True) if state else "{}"
-        reply = model.ask(payload(EXTRACT_SYSTEM.format(task=script["instructions"]),
+        reply = model.ask(payload(EXTRACT_SYSTEM.format(task=task(script)),
                                   EXTRACT_USER.format(state=current, user=turn["user"])), 0)
         change, _ = json_object(strip_reasoning(reply.text))
         if change is not None:  # the application merges the change; a null value removes the fact
@@ -90,7 +106,7 @@ def _extract(model: Model, run_id: str, script: dict) -> tuple[dict[int, dict], 
 def summary_step(model: Model, script: dict, summary: str, user: str, assistant: str, words: int):
     """One summarizer call: the summary updated with one turn. Returns the new summary (the old one when the reply is
     empty), whether the reply had text, and the reply. S6 calls it with the model's own replies (suites/s6_loop.py)."""
-    reply = model.ask(payload(SUMMARY_SYSTEM.format(task=script["instructions"], words=words),
+    reply = model.ask(payload(SUMMARY_SYSTEM.format(task=task(script), words=words),
                               SUMMARY_USER.format(summary=summary or NOTHING, user=user, assistant=assistant)), 0)
     text = strip_reasoning(reply.text)
     return (text or summary), bool(text), reply
