@@ -213,10 +213,7 @@
           },
           "answer": {
             "type": "object",
-            "required": [
-              "kind",
-              "expected"
-            ],
+            "description": "How a reply is graded (grading/__init__.py): a number, a text key, or an option letter",
             "properties": {
               "kind": {
                 "enum": [
@@ -224,8 +221,43 @@
                   "text",
                   "choice"
                 ]
+              },
+              "expected": {
+                "type": "string",
+                "minLength": 1,
+                "description": "The right answer as text: the number's digits, the text key, or the letter"
+              },
+              "alternatives": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "description": "Other texts graded correct"
+              },
+              "distractors": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "description": "The twin site's value, which grades `distractor`"
+              },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-D]$"
+                },
+                "minItems": 2,
+                "description": "choice: the letters offered"
               }
-            }
+            },
+            "required": [
+              "kind",
+              "expected"
+            ],
+            "additionalProperties": false
           },
           "needs": {
             "type": "array",
