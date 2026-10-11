@@ -15,7 +15,9 @@ the same profile:
 
 The verdict is `baseline` (no previous run), `unchanged`, `changed` (bumps or values moved, nothing worse) or
 `regressed` (a new error finding, a suite or metric that got worse, or a golden regression). The report is the run's
-`ci.json`; the run is published as `results/d1/<profile>` beside `results/d1/latest`.
+`ci.json`; the run is published as `results/d1/<profile>` beside `results/d1/latest`. A domain that builds on this
+one reuses the mirrors, the comparison and publishing: `report` writes its run's domain's `ci-report`, with that
+domain's goldens reader, and a metric is told apart by its adapter or by its arm, family and tier.
 
 Where the assemblers come from:
 
@@ -34,7 +36,7 @@ from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Callable
 
-from . import gitinfo, output
+from . import gitinfo
 from .config import SUITES, Config, ConfigError
 from .rundir import STATUS_ORDER
 
@@ -192,13 +194,23 @@ def _goldens(summary: dict | None) -> dict | None:
             "removed": len(summary["goldens"].get("removed") or [])}
 
 
-def _metric_key(m: dict) -> tuple:
-    return m["id"], m["adapter"], m["label"]
+def s12_goldens(run_path: Path) -> dict | None:
+    """S12's golden drift classes in a run, as the report gives them: whether goldens were adopted, the count of each
+    drift class, and how many goldens the run did not make. Another domain passes its own reader to `compare`."""
+    return _goldens(_load(run_path / "suites" / "S12" / "summary.json"))
 
 
-def compare(run_path: Path, manifest: dict, summary: dict, findings: list[dict], previous: Path | None) -> dict:
+TIMINGS = ("ms", "exponent")  # units that move every run; a move in them alone changes nothing
+
+
+def _metric_key(m: dict) -> tuple:  # a metric's identity: Domain 1's adapter, or another domain's arm, family, tier
+    return m["id"], m.get("adapter"), m.get("arm"), m.get("family"), m.get("tier"), m["label"]
+
+
+def compare(run_path: Path, manifest: dict, summary: dict, findings: list[dict], previous: Path | None,
+            goldens: Callable[[Path], dict | None] = s12_goldens) -> dict:
     """The drift report's comparison, from the run's own documents and the previous run's directory."""
-    goldens_now = _goldens(_load(run_path / "suites" / "S12" / "summary.json"))
+    goldens_now = goldens(run_path)
     if previous is None:
         return {"previous": None, "verdict": "baseline", "bumps": [], "suites": [], "metrics": [],
                 "findings": {"new": [], "resolved": [], "persisting": 0}, "goldens": goldens_now}
@@ -217,7 +229,8 @@ def compare(run_path: Path, manifest: dict, summary: dict, findings: list[dict],
     for m in summary["metrics"]:
         before = old_metrics.get(_metric_key(m))
         if before is None or (before["value"], before["status"]) != (m["value"], m["status"]):
-            metrics.append({"id": m["id"], "label": m["label"], "suite": m["suite"], "adapter": m["adapter"],
+            metrics.append({"id": m["id"], "label": m["label"], "suite": m["suite"], "adapter": m.get("adapter"),
+                            **{k: m[k] for k in ("arm", "family", "tier") if k in m},
                             "unit": m["unit"], "value": m["value"], "status": m["status"],
                             "previous": None if before is None else before["value"],
                             "previous_status": None if before is None else before["status"]})
@@ -235,7 +248,7 @@ def compare(run_path: Path, manifest: dict, summary: dict, findings: list[dict],
     regressions = (goldens_now or {}).get("drift", {}).get("regression", 0)
     if any(f["severity"] == "error" for f in new) or worse_suites or worse_metrics or regressions:
         verdict = "regressed"
-    elif bumps or new or resolved or any(m["unit"] in ("rate", "count") or m["status"] != m["previous_status"]
+    elif bumps or new or resolved or any(m["unit"] not in TIMINGS or m["status"] != m["previous_status"]
                                          for m in metrics):  # timings move every run; alone they change nothing
         verdict = "changed"
     else:
@@ -252,17 +265,19 @@ def compare(run_path: Path, manifest: dict, summary: dict, findings: list[dict],
     }
 
 
-def report(run, manifest: dict, summary: dict, findings: list[dict], ci: dict) -> dict:
-    """Write the run's ci.json: the profile, where the code came from, and the comparison with the previous run."""
+def report(run, manifest: dict, summary: dict, findings: list[dict], ci: dict,
+           goldens: Callable[[Path], dict | None] = s12_goldens) -> dict:
+    """Write the run's ci.json: the profile, where the code came from, and the comparison with the previous run. The
+    report's schema is the run's domain's `ci-report`; `goldens` reads that domain's golden drift classes."""
     previous = previous_run(run.config.results_dir, ci["profile"], run.run_id)
     document = {
-        "$schema": output.schema_name("ci-report"),
+        "$schema": run.domain.schema_name("ci-report"),
         "run_id": run.run_id,
         "profile": ci["profile"],
         "status": summary["status"],
         "source": ci["source"],
         "mirrors": ci.get("mirrors"),
-        **compare(run.path, manifest, summary, findings, previous),
+        **compare(run.path, manifest, summary, findings, previous, goldens),
     }
     run.write_json("ci.json", document, f"CI ({ci['profile']}): what changed since the previous {ci['profile']} run")
     return document

@@ -200,6 +200,31 @@ def test_verdicts(tmp_path):
     assert golden["verdict"] == "regressed" and golden["goldens"]["drift"] == {"match": 10, "regression": 3}
 
 
+def test_another_domain_brings_its_goldens_and_metric_keys(tmp_path):
+    def armed(value: float) -> dict:  # a domain whose metrics name an arm and tier, not an adapter
+        return {"status": "pass", "suites": [{"id": "S2", "status": "pass"}],
+                "metrics": [{"id": "s2.aptitude", "label": "Aptitude", "suite": "S2", "arm": arm, "family": None,
+                             "tier": "8192", "unit": "rate", "value": value if arm == "rag" else 0.5,
+                             "status": "info"} for arm in ("rag", "window")]
+                + [{"id": "s5.tokens", "label": "Tokens", "suite": "S5", "arm": "rag", "family": None, "tier": None,
+                    "unit": "tokens", "value": 100 * value, "status": "info"}]}
+
+    before = previous(tmp_path)
+    (before / "summary.json").write_text(json.dumps(armed(0.9)))
+    now = tmp_path / "now"
+    now.mkdir()
+
+    def reader(path: Path) -> dict:
+        return {"adopted": True, "drift": {"match": 5}, "removed": 0}
+
+    same = ci.compare(now, manifest("n"), armed(0.9), [], before, goldens=reader)
+    assert same["verdict"] == "unchanged" and same["metrics"] == [] and same["goldens"]["drift"] == {"match": 5}
+    moved = ci.compare(now, manifest("n"), armed(0.95), [], before, goldens=reader)
+    assert moved["verdict"] == "changed"  # a result in tokens counts, as a rate does; only timings do not
+    assert [(m["id"], m["arm"], m["tier"], m["previous"]) for m in moved["metrics"]] == [
+        ("s2.aptitude", "rag", "8192", 0.9), ("s5.tokens", "rag", None, 90.0)]
+
+
 def test_previous_run_is_the_newest_earlier_run_of_the_same_profile(tmp_path):
     for run_id, profile in (("20261001T000000Z-aaaaaaa", "nightly"), ("20261002T000000Z-aaaaaaa", "weekly"),
                             ("20261003T000000Z-aaaaaaa", "nightly"), ("20261005T000000Z-aaaaaaa", "nightly")):
