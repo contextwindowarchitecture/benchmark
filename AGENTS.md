@@ -40,10 +40,15 @@ uv run pytest                          # fast; needs the spec checkout, no assem
 uv run cwabench run --suites S1        # one suite; a full run is ~85 min, S7 alone ~70
 uv run cwabench ci nightly --fetch     # every suite but S7 against upstream main (~20 min)
 uv run cwabench validate               # re-check the latest run directory, of any installed domain
-cd ../domain2 && uv run pytest && uv run cwabench --domain 2 run --no-frames   # Domain 2: tests, a pilot
-                                                                               #   run replaying the model (~6 min)
+cd ../domain2 && uv run pytest && uv run cwabench --domain 2 run --no-frames   # Domain 2: tests, a pilot run of
+                                                                               #   every suite replaying the model
+                                                                               #   (~12 min on 16 vCPUs)
 ```
 
+- Benchmark runs, the ones whose results are reported (Domain 2's `--model llm` and recorded-size runs, Domain 1's
+  full runs), are made on one remote GPU host, set up by `scripts/pod-setup.sh` and run by `scripts/pod-run.sh`, so
+  every result comes from the same machine. A development machine runs the tests and small checks; results are copied
+  back from the host when needed.
 - One command serves every domain: plain `cwabench` is Domain 1, and `cwabench --domain <n>` runs domain n's
   command, which its package registers under the `cwabench.domains` entry points. Domain 1's code names no other
   domain; a new domain adds itself as a workspace member with its own entry point.
