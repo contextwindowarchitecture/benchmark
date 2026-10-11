@@ -28,6 +28,7 @@ from cwabench.rundir import now
 
 from .. import metrics, output, stats
 from ..application import evidence
+from ..application import fact as fact_mod
 from ..baselines import longcontext as lq_baselines
 from ..conversations.longcontext import NOT_FOUND
 from ..grading import grade
@@ -55,7 +56,7 @@ def _payloads(ctx: SuiteContext, corpus: dict, question: dict, s1: dict, b1: dic
                 continue
             present = row["fact"]["present"] if row["fact"] else None
             if built.outcome != "fits":
-                yield arm, row["budget_input"], None, built.input_tokens, present, "overflow", None
+                yield arm, row["budget_input"], None, built.input_tokens, fact_mod.sent(present, None), "overflow", None
                 continue
             yield arm, row["budget_input"], built.payload, built.input_tokens, present, None, None
             continue
@@ -72,7 +73,7 @@ def _payloads(ctx: SuiteContext, corpus: dict, question: dict, s1: dict, b1: dic
             continue
         present = row["fact"]["present"] if row["fact"] else None
         if expected.outcome != "assembled":
-            yield arm, budget, None, None, present, "refused", None
+            yield arm, budget, None, None, fact_mod.sent(present, None), "refused", None
             continue
         yield arm, budget, expected.payload, expected.input_tokens, present, None, None
 

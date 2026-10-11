@@ -44,3 +44,10 @@ def by_text_chat(payload: bytes, evidence: dict[str, list[str]], needs: list[str
     request = json.loads(payload.decode("utf-8"))
     texts = [entry["text"] for entry in request.get("system", [])] + [m["content"] for m in request.get("messages", [])]
     return [any(fact in text for fact in evidence.get(need, []) for text in texts) for need in needs]
+
+
+def sent(present: bool | None, payload: bytes | None) -> bool | None:
+    """Whether the needed facts reached the model: present, and in a payload that was sent. A payload that overflows
+    its budget or is refused reaches no model, so its facts count as absent, as S1 counts a baseline's. None, for a
+    probe that needs no fact, stays None."""
+    return present if present is None else bool(present) and payload is not None

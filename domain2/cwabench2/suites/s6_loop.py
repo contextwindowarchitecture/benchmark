@@ -121,7 +121,7 @@ class Loop:
             built = baselines.at(chain.arm, script, point, self.budget, config.baseline, chained)
             present = all(fact_mod.by_trace(set(built.kept), built.carriers, needs)) if needs else None
             if built.outcome != "fits":
-                return None, self.budget, built.input_tokens, present, "overflow"
+                return None, self.budget, built.input_tokens, fact_mod.sent(present, None), "overflow"
             return built.payload, self.budget, built.input_tokens, present, "answered"
         arm = ARMS[chain.arm]
         if arm.selection is not None:  # the format control: the window baseline's selection, at its own full size
@@ -196,11 +196,12 @@ class Loop:
         return chain
 
     def _left_out(self, chain: Chain, probes: list[dict], outcome: str | None = None) -> None:
-        """Probes after a halt: an overflow grades as in S2; any other halt leaves them out."""
+        """Probes after a halt: an overflow grades as in S2, its facts not sent; any other halt leaves them out."""
         first = next((r["outcome"] for r in chain.turns if r["outcome"] != "answered"), outcome)
         for probe in probes:
             if first == "overflow":
-                chain.grades.append(self._grade_row(chain, probe, self.budget, None, None, None, None))
+                present = False if probe["needs"] else None
+                chain.grades.append(self._grade_row(chain, probe, self.budget, None, None, present, None))
             else:
                 chain.excluded += 1
 

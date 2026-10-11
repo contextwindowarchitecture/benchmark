@@ -15,8 +15,9 @@ A `replay` run therefore writes the same grades as the `llm` run that filled the
 run id. Calls are made once per distinct request and sample, however many arms send the same payload.
 
 Measured, never gated: per arm and tier, aptitude (the rate of correct answers) with a cluster-bootstrap interval
-over conversations, the stale and unparsed rates, accuracy with the needed facts in the payload and without, results
-by family and turn count, each arm's difference from `[s2].reference` on the same probes and samples, and on IP
+over conversations, the stale and unparsed rates, accuracy with the needed facts in the payload sent and without (an
+overflow or a refusal sends nothing, so its facts count as not sent, as S1 counts a baseline's), results by family
+and turn count, each arm's difference from `[s2].reference` on the same probes and samples, and on IP
 conversations instruction persistence: the share of answers that follow the conversation's rule
 (grading/compliance.py). What gates the suite is the harness: every
 CWA payload equal to its gated bytes, and every call answered (a replay miss or an endpoint error fails it).
@@ -31,6 +32,7 @@ from cwabench.canon.tokenizers import TOKENIZERS
 from cwabench.rundir import now
 
 from .. import baselines, metrics, output, stats
+from ..application import fact as fact_mod
 from ..application.snapshots import ARMS, Point
 from ..grading import grade
 from ..grading.compliance import complies
@@ -75,7 +77,8 @@ def _payloads(ctx: SuiteContext, settings: dict, script: dict, probe: dict, s1: 
                     yield arm, tier, row["budget_input"], None, None, None, "the baseline differs from S1's"
                     continue
                 payload = built.payload if built.outcome == "fits" else None
-                yield arm, tier, row["budget_input"], payload, built.input_tokens, row["fact"]["present"], None
+                present = fact_mod.sent(row["fact"]["present"], payload)
+                yield arm, tier, row["budget_input"], payload, built.input_tokens, present, None
                 continue
             if not ctx.shared.get("gate", {}).get(f"{cid}/{arm}", False):
                 yield arm, tier, None, None, None, None, "gate"
@@ -91,7 +94,8 @@ def _payloads(ctx: SuiteContext, settings: dict, script: dict, probe: dict, s1: 
             if source is None or expected.payload_hash != source["payload_hash"]:
                 yield arm, tier, budget, None, None, None, "the payload differs from the gated bytes"
                 continue
-            yield arm, tier, budget, expected.payload, expected.input_tokens, row["fact"]["present"], None
+            present = fact_mod.sent(row["fact"]["present"], expected.payload)
+            yield arm, tier, budget, expected.payload, expected.input_tokens, present, None
 
 
 def run(ctx: SuiteContext) -> SuiteResult:

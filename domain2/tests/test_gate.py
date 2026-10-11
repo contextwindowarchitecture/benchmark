@@ -190,6 +190,14 @@ repeats = 2
     assert {m["id"] for m in s3["metrics"]} >= {"s3.aptitude_p90", "s3.unreliability"}
     grades = [json.loads(line) for line in (first / "suites/S2/grades.jsonl").read_text().splitlines()]
     assert {g["verdict"] for g in grades if g["arm"] == "concat"} >= {"overflow"}
+    for suite in ("S2", "S3"):  # an overflow reaches no model, so its facts count as not sent, as S1 counts them
+        rows = [json.loads(line) for line in (first / f"suites/{suite}/grades.jsonl").read_text().splitlines()]
+        assert all(g["fact_present"] is False for g in rows if g["payload_sha256"] is None)
+        concat = next(e for e in _read(first / f"suites/{suite}/summary.json")["by_arm"]
+                      if e["arm"] == "concat" and e["tier"] == "700")
+        sent = [g for g in rows if g["arm"] == "concat" and g["tier"] == "700" and g["fact_present"]]
+        assert concat["verdicts"]["overflow"] and concat["given"]["present"]["n"] == len(sent)
+        assert concat["given"]["absent"]["n"] >= concat["verdicts"]["overflow"]
     assert summary["model"]["server"] == served and summary["model"]["concurrency"] == config.model["concurrency"]
     calls = len(answers)
 

@@ -63,6 +63,17 @@ def test_the_fact_oracle_reads_baselines_both_ways():
             assert by_record == fact.by_text_chat(built.payload, built.evidence, needs), (arm, budget)
 
 
+def test_an_overflowing_payload_sends_no_fact():
+    """An overflow holds every fact and reaches no model: S2, S3, S4 and S6 count its facts as not sent, as S1 does."""
+    script = generate("vt", 9, 60, 0, 10, VT)
+    point = last(script)
+    built = baselines.at("concat", script, point, 600, baselines.Settings())
+    held = all(fact.by_trace(set(built.kept), built.carriers, point.probe["needs"]))
+    assert built.outcome == "overflow" and held
+    assert fact.sent(held, None) is False and fact.sent(held, built.payload) is True
+    assert fact.sent(False, built.payload) is False and fact.sent(None, None) is None
+
+
 def test_the_format_control_takes_the_window_selection_exactly(spec):
     from cwabench import gitinfo
     from cwabench.contract import Contract
