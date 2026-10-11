@@ -14,7 +14,7 @@ from cwabench.contract import ContractError
 from cwabench.validate import validate_run
 
 from . import config as config_mod
-from . import output  # noqa: F401  (registers Domain 2's prefix, so validate_run reads its documents)
+from . import output  # registers Domain 2's prefix, so validate_run reads its documents
 from .runner import ProducerError, run
 
 DEFAULT_CONFIG = Path(__file__).resolve().parent.parent / "domain2.toml"
@@ -132,6 +132,14 @@ def main(argv: list[str] | None = None) -> int:
     validate_cmd = commands.add_parser("validate", help="check a run directory against its schemas and blob digests")
     validate_cmd.add_argument("run_dir", nargs="?", help="default: the latest run")
 
+    fixture_cmd = commands.add_parser("fixture", help="write a run trimmed to a sample of its rows and the blobs they "
+                                                      "name, for consumers' tests")
+    fixture_cmd.add_argument("run_dir", nargs="?",
+                             help="a run directory, or a run id or profile under the results (default: the latest run)")
+    fixture_cmd.add_argument("--out", help="the fixtures directory (default: fixtures/runs beside the config)")
+    fixture_cmd.add_argument("--rows", type=_positive, default=12,
+                             help="rows kept per JSONL file; findings keep every row")
+
     args = parser.parse_args(argv)
     try:
         config = _load(args)
@@ -162,6 +170,20 @@ def main(argv: list[str] | None = None) -> int:
             target, count = accept(config, run_dir.resolve())
             print(f"adopted {count} golden(s) from {run_dir.resolve().name} → {target}")
             return 0
+        if args.command == "fixture":
+            from cwabench.fixture import write_fixture
+            from cwabench.rundir import load_upstream
+
+            given = args.run_dir
+            run_dir = Path(given) if given and Path(given).is_dir() else config.results_dir / (given or "latest")
+            out = Path(args.out).resolve() if args.out else config.root / "fixtures" / "runs"
+            target, problems = write_fixture(run_dir.resolve(), out, rows=args.rows,
+                                             upstream=load_upstream(config.upstream_path), domain=output.D2,
+                                             log=lambda m: print(m, file=sys.stderr, flush=True))
+            for problem in problems:
+                print(f"invalid fixture: {problem}", file=sys.stderr)
+            print(f"{target}: {'valid' if not problems else f'{len(problems)} problem(s)'}")
+            return 1 if problems else 0
         if args.command == "validate":
             run_dir = Path(args.run_dir) if args.run_dir else config.results_dir / "latest"
             problems = validate_run(run_dir.resolve())

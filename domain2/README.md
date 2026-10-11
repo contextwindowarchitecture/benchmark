@@ -120,6 +120,7 @@ uv run cwabench --domain 2 validate             # re-check the latest run agains
 uv run cwabench --domain 2 goldens accept       # adopt the latest run's candidate goldens (S7)
 uv run cwabench --domain 2 ci nightly          # a CI profile, replaying: drift since its last run, in ci.json
 uv run cwabench --domain 2 ci nightly --fetch  # the same against the assemblers' upstream default branches
+uv run cwabench --domain 2 fixture <run>       # write fixtures/runs/<run-id>: the run trimmed, for consumers' tests
 uv run pytest                                   # the harness's own tests, from domain2/; needs the spec checkout
 CWA_BENCH_REFERENCE=1 uv run pytest tests/test_gate.py   # S1, S4, S6 and S7 on the reference assembler, a defect
 ```
@@ -207,6 +208,8 @@ results/d2/<run-id>/
   timelines/<snapshot sha256>/<adapter>.json   # each conversation's last probe, per arm and budget
   blobs/sha256/<ab>/<hex>.json           # scripts, each probe's frozen snapshot, findings' reproducers
 ```
+
+`cwabench --domain 2 fixture <run>` writes `fixtures/runs/<run-id>` with Domain 1's fixture writer: the run trimmed to a sample of its rows (12 per JSONL file; findings whole) and golden entries, and only the blobs the kept files name, every script and corpus its indexes list among them. It validates like a run, its `index.json` says what it was cut from (`fixture`), and `fixtures/runs/index.json` lists the fixtures with no `latest` link. A recorded-size run's indexes name about 20 MB of scripts and corpora, so the committed fixture is a pilot-size run of every suite.
 
 A script names no run, so its blob digest is the same in every run with the same family, seed, turn count and parameters. A generator's `VERSION` moves when its output for the same inputs changes.
 

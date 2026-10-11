@@ -8,7 +8,7 @@ import pytest
 from cwabench.validate import validate_run
 from cwabench2 import ci
 from cwabench2 import config as config_mod
-from cwabench2.runner import adapters_config
+from cwabench2.runner import adapters_config, run
 
 DOMAIN1 = Path(__file__).resolve().parent.parent.parent / "domain1" / "domain1.toml"
 PROFILES = """
@@ -74,3 +74,21 @@ def test_ci_runs_reports_drift_and_publishes(small_config):
     assert status == "pass" and validate_run(second) == []
     assert report["previous"]["run_id"] == first.name and report["verdict"] == "unchanged"
     assert published.resolve() == second.resolve()
+
+
+def test_a_fixture_is_the_run_cut_down_under_domain_2s_prefix(small_config, tmp_path):
+    from cwabench2.cli import main
+
+    config = small_config()
+    run_dir, status = run(config, build=False, log=lambda _: None)
+    assert status == "pass"
+    out = tmp_path / "fixtures"
+    assert main(["--config", str(config.path), "fixture", run_dir.name, "--out", str(out), "--rows", "2"]) == 0
+    fixture = out / run_dir.name
+    assert validate_run(fixture) == []
+    index = json.loads((fixture / "index.json").read_text())
+    assert index["$schema"] == "cwa-bench-d2/run-index/v1" and index["fixture"]["of"] == run_dir.name
+    assert json.loads((out / "index.json").read_text())["$schema"] == "cwa-bench-d2/runs-index/v1"
+    assert not (out / "latest").exists()  # a fixtures directory has no latest link
+    rows = (fixture / "suites" / "S0" / "results.jsonl").read_text().splitlines()
+    assert len(rows) == 2 < len((run_dir / "suites" / "S0" / "results.jsonl").read_text().splitlines())
