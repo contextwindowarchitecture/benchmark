@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "1b82cfbcc0f89bc6236575dedea390cc879ca008f796b5b12792d6aca6928b6d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "06d5b08bc4ed8e87e858fc9009af637cadaa6140bee3700e76d00a26478d8cf2",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T07:56:44Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 6051.995,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "97955df46e43fb2ec66e23b6b80172206276dab229850abbfe44dbbed005d93e",
+    "response_id": "chatcmpl-b660e9342e7df99f",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 366,
+      "prompt_tokens": 6078,
+      "total_tokens": 6444
+    }
+  },
+  "text": "To calculate the total for the supply order, let's look at the items listed in the initial task and any updates provided during the session.\n\n1.  **Initial Items (from `xstate:01`):**\n    *   Ladders: 165\n    *   Toolkits: 225\n    *   Lamps: 225\n    *   Lanterns: 525\n\n2.  **Updates during the session:**\n    *   In `turn:t065`, the user said: \"Add a line of 225 for the lamps to the order.\"\n        *   This updates the Lamp quantity from 225 to 225 + 225 = 450.\n    *   In `turn:t100`, the user said: \"Add a line of 525 for the lanterns to the order.\"\n        *   This updates the Lantern quantity from 525 to 525 + 525 = 1050.\n\n3.  **Final Quantities:**\n    *   Ladders: 165\n    *   Toolkits: 225\n    *   Lamps: 450\n    *   Lanterns: 1050\n\n4.  **Calculation:**\n    *   165 (Ladders)\n    *   + 225 (Toolkits) = 390\n    *   + 450 (Lamps) = 840\n    *   + 1050 (Lanterns) = 1890\n\nTotal: 1890"
+}

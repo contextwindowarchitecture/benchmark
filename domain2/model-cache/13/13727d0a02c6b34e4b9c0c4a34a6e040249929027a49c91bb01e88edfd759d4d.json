@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "13727d0a02c6b34e4b9c0c4a34a6e040249929027a49c91bb01e88edfd759d4d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "7ad9fde8c27e87bc14e560be1f17d178eb977c0d607f061f20a4f535f8af06db",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T08:16:42Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 3046.718,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "6c99c3ad3e5841df2436b81a26dbf9f26abe06ccf8d6e565e3fbf6670fdaaaa9",
+    "response_id": "chatcmpl-b2a2b9eedf35f539",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 342,
+      "prompt_tokens": 6074,
+      "total_tokens": 6416
+    }
+  },
+  "text": "To determine the total for the order, I will look at the items added so far:\n\n1.  From the initial order details:\n    *   Ladders: 215\n    *   Lamps: 350\n\n2.  From turn t029:\n    *   \"Take 25 off the order for the returned stock.\"\n    *   This implies a reduction of 25. It is most likely applied to the stock being returned, but without specific item attribution, I will apply it as a general deduction from the total quantity or assume it reduces the count of the items listed. However, usually, in these tasks, if an item isn't specified for a reduction, it might be unclear. Let's look closer. \"Take 25 off the order\". This is a global reduction.\n\n3.  From turn t048:\n    *   \"Add a line of 350 for the lamps to the order.\"\n    *   This adds 350 to the lamp quantity.\n\nLet's calculate the totals per item:\n\n*   **Ladders**: 215\n*   **Lamps**: Initial 350 + Added 350 = 700\n\nNow, apply the deduction from turn t029:\n*   Total Quantity before deduction: 215 (ladders) + 700 (lamps) = 915\n*   Deduction: 25\n*   Final Total: 915 - 25 = 890\n\nTotal: 890"
+}

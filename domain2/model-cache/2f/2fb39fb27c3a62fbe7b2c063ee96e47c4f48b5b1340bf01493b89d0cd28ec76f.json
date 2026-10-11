@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "2fb39fb27c3a62fbe7b2c063ee96e47c4f48b5b1340bf01493b89d0cd28ec76f",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "cea4812dcb5667e3473089686616624cadfc5db769753b5e80e0dfc48a80225b",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-11T03:06:05Z",
+    "cached_tokens": 1056,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 18277.138,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "d19fa9c1daf8e37722a9e1c3fa94fe87fa4622c1cb332afed0abd89237b4d23b",
+    "response_id": "chatcmpl-80ce2a7b8e364cd0",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 1526,
+      "total_tokens": 2038
+    }
+  },
+  "text": "To calculate the total for the order so far, let's look at the line items provided in the initial task setup and any subsequent modifications mentioned in the conversation history.\n\n1.  **Initial Order Line**:\n    *   Item: Ladders\n    *   Quantity: 370\n    *   *Note: In `turn:t001:user`, the user said \"Add a line of 400 for the ladders to the order.\" This implies the initial state might have been different or this was an update. However, the `<task id=\"xstate:01\">` explicitly states `order_lines: [{\"item\": \"ladders\", \"quantity\": 370}]`. Let's assume the current state of the order lines is defined by the explicit state provided, but we must check if the user's instruction in `t001` *changed* this state from a previous value or if it *is* the value. The prompt says \"Add a line of 400... to the order\". Usually, this means adding 400 to the existing amount. If the starting point was 0, it would be 400. If it was 370, it would be 770. However, the `xstate` shows 370. Let's look closer at the history.*\n    *   Actually, let's re-read the history carefully.\n    *   `turn:t001:user`: \"Add a line of 400 for the ladders to the order.\"\n    *   `turn:t004:user`: \"Take 30 off the order for the returned stock.\"\n    *   The `xstate` at the beginning of this session provides the *current* known state: `order_lines: [{\"item\": \"ladders\", \"quantity\": 370}]`. This suggests that the previous actions (adding 400, etc.) have already been processed or the state provided is the result of prior interactions not fully detailed in the immediate history, OR the `xstate` is the ground truth for what is currently in the system.\n    *   However, usually in these tasks, the `xstate` represents the *current* state of the order. If the user just said \"Add a line of 400\", and the state is 370, it's possible the state *is* 370."
+}

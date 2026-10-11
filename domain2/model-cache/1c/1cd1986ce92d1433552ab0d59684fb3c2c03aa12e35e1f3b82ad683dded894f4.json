@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "1cd1986ce92d1433552ab0d59684fb3c2c03aa12e35e1f3b82ad683dded894f4",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "1d26bc060673eff0433e566adc0f8ad0b0011d9993e1cbc567aa9af4534ef4ec",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T02:25:26Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 14835.61,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "2588eb8e22ad7213b072bb630dbcc7fdc25f5741f1fc1a5febd1bb2742c65919",
+    "response_id": "chatcmpl-9da43fa993a37f85",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 5521,
+      "total_tokens": 6033
+    }
+  },
+  "text": "To determine the total for the Istworth depot order, let's track the changes to the line items step by step based on the conversation history.\n\n1.  **Initial State (from `xstate:01`):**\n    *   Ladders: 335\n    *   Lamps: 555\n\n2.  **Turn t001:** \"Add a line of 400 for the ladders to the order.\"\n    *   Ladders: 335 + 400 = 735\n    *   Lamps: 555\n\n3.  **Turn t004:** \"Take 30 off the order for the returned stock.\"\n    *   The instruction is general (\"the order\"), but typically in these contexts, if not specified, it might apply to the most recently modified item or be a general deduction. However, looking at the pattern of specific item requests vs general \"order\" requests, let's look for other specific item adjustments. There are no other specific item quantity changes mentioned in the history. Usually, \"take X off the order\" implies a reduction in the total count. Without a specific item attached, it's ambiguous. However, often in these tests, if it's not specified, it might apply to the largest item or be a total deduction. Let's look closer. Actually, usually, if it's not specified, it's safer to assume it applies to the total sum or the most prominent item. Let's re-read carefully. \"Take 30 off the order\". Later in t030, \"Take 35 off the order\".\n    *   Let's check if there are other interpretations. If I assume it reduces the total quantity:\n    *   Current Total Quantity: 735 + 555 = 1290.\n    *   Minus 30 = 1260.\n    *   Let's see if there's a more specific interpretation. Often, \"the order\" refers to the entire list. Let's hold this thought and calculate the final sum.\n\n    *Alternative Interpretation:* Does it apply to a specific item? No item is named.\n    *Let's look at the final query.* \"What does the order come to so far?\" This usually asks for the total quantity of items.\n\n    Let's re-evaluate the \"Take 30 off\" and \""
+}

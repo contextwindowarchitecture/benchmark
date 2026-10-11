@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "36b727fbf24cc9fb50a50f838e0f6eaac62436af0ede228c68d61f1dc745464f",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d4f90c16d3544b2c095d83383f1de2f7306c778fac11d41ee05b1a24484884bf",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T08:14:14Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 9449.793,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "c7ee14caf024ca548eed9ffdb87f736d35ce3eab6a0e0063676bee8190a13b32",
+    "response_id": "chatcmpl-9bcd1ba4936ddbf2",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6106,
+      "total_tokens": 6618
+    }
+  },
+  "text": "To calculate the current total of the order, let's look at the lines provided in the `<task>` sections and any modifications made during the session.\n\n**Step 1: Identify the initial order lines.**\nFrom the task definitions:\n*   **Order line 1:** A line of **240** for the ladders.\n*   **Order line 2:** A credit of **80**. (This is a negative value, so -80).\n*   **Order line 3:** A credit of **25**. (This is a negative value, so -25).\n*   **Order line 4:** A line of **350** for the lamps.\n\n**Step 2: Check for modifications in the conversation history.**\n*   In **turn:t018**, the user says: \"Take 80 off the order for the returned stock.\"\n    *   Looking at the tasks, Order line 2 is already defined as \"a credit of 80\". This confirms that the credit of 80 is already accounted for in the initial task list. No new adjustment is needed here; it matches the existing line.\n*   In **turn:t029**, the user says: \"Take 25 off the order for the returned stock.\"\n    *   Looking at the tasks, Order line 3 is already defined as \"a credit of 25\". This confirms that the credit of 25 is already accounted for in the initial task list. No new adjustment is needed here; it matches the existing line.\n*   In **turn:t048**, the user says: \"Add a line of 350 for the lamps to the order.\"\n    *   Looking at the tasks, Order line 4 is already defined as \"a line of 350 for the lamps\". This confirms the lamp line is already accounted for.\n\nIt appears the `<task>` sections provided at the beginning of the session capture the final state of the order lines, including the credits and the lamp addition. The history confirms these values are correct (e.g., confirming the credits via the \"take off\" instructions).\n\n**Step 3: Calculate the total.**\n*   Ladders: +240\n*   Credit 1: -80\n*   Credit 2: -25\n*   Lamps: +350\n\nCalculation:\n$$2"
+}

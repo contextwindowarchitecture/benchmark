@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "f2cdbecb115d418aec6a90a9c3c228967fac5be1c244f50f61e79a8f9d302511",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "40b69655c6eeb52f658a9525a645f7ba2d1a4fdd181d65024077ab18f7979228",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T03:03:49Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 10451.528,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "5c60bd90d2c13f7992879f21448595cd9603a9c06475454a19fb877836066d9a",
+    "response_id": "chatcmpl-8bea8e5263215fe4",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 291,
+      "prompt_tokens": 5463,
+      "total_tokens": 5754
+    }
+  },
+  "text": "To calculate the total for the order, I will identify the specific line items and their costs mentioned in the conversation history.\n\n1.  **Ladders**: In turn `t001`, the user requested, \"Add a line of 165 for the ladders to the order.\"\n    *   Current Subtotal: 165\n\n2.  **Toolkits**: In turn `t004`, the user requested, \"Add a line of 265 for the toolkits to the order.\"\n    *   Current Subtotal: 165 + 265 = 430\n\n3.  **Delivery Fee**: In turn `t007`, the user stated, \"There's a flat delivery fee of 45 on the order.\"\n    *   Current Subtotal: 430 + 45 = 475\n\n4.  **Returned Stock**: In turn `t032`, the user instructed, \"Take 40 off the order for the returned stock.\"\n    *   Current Subtotal: 475 - 40 = 435\n\nNo other items were added or removed from the financial order lines. The other details provided (noise, lifts, meetings, desk swaps, etc.) are operational notes and do not affect the order total.\n\nTotal: 435"
+}

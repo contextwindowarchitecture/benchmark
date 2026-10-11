@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "2bf49e22158f381abbf32e6a8e4f4052dccae6cd59eada9dc6974e3f0ff1b993",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "9dc009af1b25620fe77fc18565a06af1a8613f6ecbc795df08f9f1c6c9f434c3",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T02:21:34Z",
+    "cached_tokens": 10560,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 16023.517,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "63c63dd3871b1c0b017c5eee9dfcb56de0f47907030732984a8b2e495112c50a",
+    "response_id": "chatcmpl-9217452bfe7be973",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 373,
+      "prompt_tokens": 10754,
+      "total_tokens": 11127
+    }
+  },
+  "text": "To calculate the total for the supply order, I will identify each line item added to the order and sum their quantities.\n\n1.  **Line 1:** In turn `t001`, the user requested: \"Add a line of 515 for the crates to the order.\"\n    *   Quantity: 515\n\n2.  **Line 2:** In turn `t017`, the user requested: \"Add a line of 400 for the ladders to the order.\"\n    *   Quantity: 400\n\n3.  **Line 3:** In turn `t048`, the user requested: \"Add a line of 520 for the lamps to the order.\"\n    *   Quantity: 520\n\n4.  **Adjustments:**\n    *   In turn `t038`, the user said: \"Take 35 off the order for the returned stock.\"\n    *   In turn `t044`, the user said: \"Take 50 off the order for the returned stock.\"\n    *   In turn `t078`, the user said: \"Take 80 off the order for the returned stock.\"\n\nLet's sum the additions first:\n515 + 400 + 520 = 1435\n\nNow, let's subtract the returns:\n1435 - 35 - 50 - 80\n\nCalculation:\n1435 - 35 = 1400\n1400 - 50 = 1350\n1350 - 80 = 1270\n\nTotal: 1270"
+}

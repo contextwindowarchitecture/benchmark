@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "e3fdd850f9ddf695e4a64cb15cd41af4ff00e8a9af16afab61dad2cf12ff719e",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e897d65ffd1ee5819a73834c8e2d246e7a58bb6f33ea969ea30cf9f3b343d3ce",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T08:17:19Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 1774.729,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "a1b2010a064e715f1a610fc6d4074d0054f2be06e77d91f747144cf489c784b3",
+    "response_id": "chatcmpl-a1c41e88154d6c54",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 309,
+      "prompt_tokens": 6313,
+      "total_tokens": 6622
+    }
+  },
+  "text": "To determine the total for the order, I will calculate the cost for each item based on the quantities provided in the initial order lines and then sum them up.\n\n**Initial Order Lines (from task `xstate:24`):**\n*   Crates: 400\n*   Ladders: 350\n*   Lamps: 520\n\n**Adjustment (from history `turn:t078`):**\n*   The user stated: \"Take 80 off the order for the returned stock.\"\n*   This deduction applies to the total quantity of items ordered.\n\n**Step 1: Calculate the initial total quantity.**\n$$400 \\text{ (crates)} + 350 \\text{ (ladders)} + 520 \\text{ (lamps)} = 1270 \\text{ items}$$\n\n**Step 2: Apply the deduction for returned stock.**\n$$1270 - 80 = 1190 \\text{ items}$$\n\n**Step 3: Verify if specific item quantities were adjusted.**\nThe user's instruction \"Take 80 off the order\" is a general deduction from the order total. Without specific instructions on which item category to reduce, and given the output contract asks for the \"total\" based on the lines, I will provide the total quantity of items remaining in the order.\n\n**Total: 1190**"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "62d3b0e3d555aa98c1fc2271c3dcdb1b33d95805ca83144f539d916f3ee1d68b",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "b9b44e78396ab1806d935b205b62088c4c2907679bdac74e1139c45f0fc12ac5",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T07:48:58Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 177773.441,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "97708538230c178e03ded800e952171404eba88222d08daebab588321561c85c",
+    "response_id": "chatcmpl-8d28c5411aca89e1",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6086,
+      "total_tokens": 6598
+    }
+  },
+  "text": "To calculate the total for the order so far, I will sum the values of the specific line items mentioned in the conversation history.\n\n1.  **Tarps**: In turn t014, the user requested to \"Add a line of 50 for the tarps to the order.\"\n    *   Current Subtotal: 50\n2.  **Lamps**: In turn t015, the user requested to \"Add a line of 320 for the lamps to the order.\"\n    *   Current Subtotal: 50 + 320 = 370\n3.  **Cable Reels**: In turn t024, the user requested to \"Add a line of 105 for the cable reels to the order.\"\n    *   Current Subtotal: 370 + 105 = 475\n4.  **Returned Stock**: In turn t023, the user requested to \"Take 70 off the order for the returned stock.\"\n    *   Current Subtotal: 475 - 70 = 405\n\nThere is also a mention in turn t012 of a \"flat delivery fee of 30\", but typically \"lines\" refer to the itemized goods unless specified as a fee added to the total. However, looking at the standard interpretation of \"order lines\" in this context, the items are tarps, lamps, and cable reels. The delivery fee is a charge, not necessarily a line item in the same sense, but often included in the final total. Let's look at the phrasing \"What does the order come to so far?\". Usually, this implies the sum of the line items added. If the delivery fee is considered part of the order total, it would be 405 + 30 = 435. However, without explicit instruction to include the delivery fee in the \"lines\" sum, I will stick to the explicit item lines. Wait, looking at turn t012: \"There's a flat delivery fee of 30 on the order.\" This is a statement of fact about the order structure. The user then asks to add lines. The question asks for the total. Usually, a total includes all charges. Let's re-read carefully.\n\nThe prompt asks \"What does the order come to so far?\".\nItems added:\n- Tarps: 5"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "a0a941793a423f04300b2437422feb9b719c91586bd701d300066fd62f6bd470",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "fae0e6a29c73b49f2c2130701c7055d46a6ec86159fa9e8e58411a507615ceff",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T07:57:14Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 6308.547,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "f34d252b40b0d5eb11881408d505c11151472a1e459335bf4152329990730426",
+    "response_id": "chatcmpl-9cb1d380863ddaa9",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6078,
+      "total_tokens": 6590
+    }
+  },
+  "text": "To calculate the total for the order, let's look at the current lines:\n\n1.  **Helmets**: 380\n2.  **Ladders**: 150\n3.  **Toolkits**: 210 (from the initial list)\n4.  **Lanterns**: 210 (from the initial list)\n5.  **Tarps**: 555 (from the initial list)\n\nIn turn `t070`, you added 575 for tarps.\nIn turn `t087`, you subtracted 20 from the order for returned stock.\n\nLet's apply these changes step by step:\n\n1.  Start with the initial quantities:\n    *   Helmets: 380\n    *   Ladders: 150\n    *   Toolkits: 210\n    *   Lanterns: 210\n    *   Tarps: 555\n\n2.  Add the new line for tarps from `t070`:\n    *   Tarps: 555 + 575 = 1130\n\n3.  Subtract the returned stock from `t087`:\n    *   The instruction was \"Take 20 off the order\". Usually, this applies to the most recent or relevant item, or generally to the total. Given the context of \"returned stock\" without a specific item, it often implies a general reduction or applies to the item being discussed or the largest recent addition. However, looking at the pattern of these tasks, \"Take 20 off the order\" typically reduces the total count. Let's assume it reduces the total quantity by 20.\n\n    Let's sum the items first:\n    *   Helmets: 380\n    *   Ladders: 150\n    *   Toolkits: 210\n    *   Lanterns: 210\n    *   Tarps: 1130\n\n    Sum = 380 + 150 + 210 + 210 + 1130\n    Sum = 530 + 210 + 210 + 1130\n    Sum = 740 + 210 + 1130\n    Sum"
+}

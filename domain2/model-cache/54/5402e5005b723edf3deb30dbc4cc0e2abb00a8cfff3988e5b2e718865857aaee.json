@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "5402e5005b723edf3deb30dbc4cc0e2abb00a8cfff3988e5b2e718865857aaee",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "2045d095467238f830f81c71953829767eb05a7f0a361dbaa29c7c47c1425791",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T03:03:35Z",
+    "cached_tokens": 4224,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 13764.052,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "e02f9ea3294bb16ed912cfe15d7c2c3ada7472dcdddcb9eec4bb5a0bfcd44275",
+    "response_id": "chatcmpl-b698bd2ce6ba217a",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 375,
+      "prompt_tokens": 4321,
+      "total_tokens": 4696
+    }
+  },
+  "text": "To calculate the total for the order, let's look at the items added:\n\n1.  Ladders: 350\n2.  Tarps: 50\n3.  Lamps: 250 (Note: One line was added for 320, but another line was taken off for returned stock. Let's re-verify the lamp count. Looking at the history:\n    *   Turn t015: \"Add a line of 320 for the lamps to the order.\"\n    *   Turn t023: \"Take 70 off the order for the returned stock.\" It doesn't specify which item the 70 is taken off. However, looking at the current state provided in `<task id=\"xstate:02\">`, the order lines are explicitly listed as:\n        *   ladders: 350\n        *   tarps: 50\n        *   lamps: 250\n        *   cable reels: 105\n    *   Let's check if the math holds up. 320 - 70 = 250. This matches the \"lamps\" quantity in the current state. So, the 70 was deducted from the lamps.\n4.  Cable reels: 105\n\nSumming these up:\n*   Ladders: 350\n*   Tarps: 50\n*   Lamps: 250\n*   Cable reels: 105\n\n350 + 50 = 400\n400 + 250 = 650\n650 + 105 = 755\n\nTotal: 755"
+}

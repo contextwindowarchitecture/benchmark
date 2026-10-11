@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "4f9d7067c3b49ba0b282dcf1ac0cd2eda1f3521f32128c13b172379e516006de",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "bc0cd8dc5114356aab7e4ec769f2a85a6a9076ba3727af4acb35aaa3e35bf6f6",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T03:13:51Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 3066.575,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "8f1583404076b4bf15c8bb2ce433f518c61274d32870c627c9740c34b807adeb",
+    "response_id": "chatcmpl-8e18e42db4a3ab40",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 182,
+      "prompt_tokens": 1565,
+      "total_tokens": 1747
+    }
+  },
+  "text": "To determine the total for the order so far, we look at the specific supply lines recorded in the task memories:\n\n1.  **Crates**: 515 (from `mem:t001`)\n2.  **Ladders**: 400 (from `mem:t017`)\n3.  **Returned Stock Credit**: -35 (from `mem:t001`'s counterpart in `task id=\"state:line-03\"` and `turn:t038`, which specifies taking 35 off the order).\n\nThe conversation history regarding room preferences, desk swaps, and umbrella reports does not affect the supply order totals.\n\nCalculation:\n515 (crates) + 400 (ladders) - 35 (credit) = 880\n\nTotal: 880"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "6038c263d2cd38296054286a7ae17407143f3d00de9c8651780036260999728c",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "aaebaf4a72e154691f29ef34844d548a6ec181b3526f64969bf5ef9822dfb3a7",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T02:17:36Z",
+    "cached_tokens": 2112,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 20030.262,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "319cd9c22f3842e9bd9b57911aba7e9c6218a589a09d8121b89759914f5b188b",
+    "response_id": "chatcmpl-b0e1f8bbd31ceb1c",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 455,
+      "prompt_tokens": 4112,
+      "total_tokens": 4567
+    }
+  },
+  "text": "To determine the total for the supply order, I will review the items added or modified in the conversation history.\n\n1.  **Ladders**: In turn `t001`, the user requested to \"Add a line of 400 for the ladders\".\n    *   Current total for ladders: 400\n\n2.  **Returned Stock (Ladders)**: In turn `t004`, the user requested to \"Take 30 off the order for the returned stock\". Since this was the only item on the order at that time, it reduces the ladder count.\n    *   Calculation: 400 - 30 = 370\n    *   Current total for ladders: 370\n\n3.  **Lamps**: In turn `t020`, the user requested to \"Add a line of 555 for the lamps\".\n    *   Current total for lamps: 555\n\n4.  **Returned Stock (Lamps)**: In turn `t030`, the user requested to \"Take 35 off the order for the returned stock\". This applies to the current order total.\n    *   Calculation: 370 (ladders) + 555 (lamps) = 925\n    *   Subtract returned stock: 925 - 35 = 890\n\nLet's double-check the logic. Usually, \"returned stock\" deductions apply to the specific item returned or the general order total if unspecified. Given the phrasing \"Take X off the order\", it is a direct reduction of the total sum.\n\n*   Initial Ladders: 400\n*   Deduction 1: -30\n*   New Ladders Subtotal: 370\n*   Add Lamps: +555\n*   Current Order Total: 370 + 555 = 925\n*   Deduction 2: -35\n*   Final Order Total: 925 - 35 = 890\n\nTotal: 890"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "1ceb4245b2efe2c44c0b5f7f5a387492c87ed22f1f49caf63d81eca72f118595",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "7ba4db9ec3c913b03c0bceb823727a9edcbe0e6172ff2526afc32479ab5b09a3",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T08:14:37Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 4878.6,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "c00a32fa15b844da587af9825b57b152adbbba9407c441ca14021f48c08755e2",
+    "response_id": "chatcmpl-8cd3d208dd17e69e",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 275,
+      "prompt_tokens": 6034,
+      "total_tokens": 6309
+    }
+  },
+  "text": "To determine the current total for the order, we look at the items specified in the initial task and any subsequent adjustments.\n\n1.  **Initial Order (from task xstate:01):**\n    *   Ladders: 165\n    *   Toolkits: 225\n    *   Lamps: 225\n\n2.  **Adjustments:**\n    *   In turn `t032`, the user stated: \"Take 40 off the order for the returned stock.\" This reduces the total quantity by 40.\n    *   In turn `t065`, the user stated: \"Add a line of 225 for the lamps to the order.\" This increases the quantity of lamps by 225.\n\n3.  **Calculation:**\n    *   Start with the sum of the initial items: $165 + 225 + 225 = 615$\n    *   Apply the reduction for returned stock: $615 - 40 = 575$\n    *   Apply the addition for the extra lamps: $575 + 225 = 800$\n\nThe order comes to 800.\n\nTotal: 800"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "478471a13aed3ec9e2bf5db19007c6aa0971d3a931376e23777e9f7e446dd5af",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "3a42b1eddfc71ba5b3056b82e9e95d52eb311f60f8a3c48574921722ef7054fc",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-11T08:17:02Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 2720.708,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "cd711b6e3544ec5934880b8bd0ee94cc6581865fa98d8b6b3a001e627250f97b",
+    "response_id": "chatcmpl-b1cba4b81807a05f",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 275,
+      "prompt_tokens": 6057,
+      "total_tokens": 6332
+    }
+  },
+  "text": "Let's look at the current order status.\n\n1.  **Tarps**: 370 units\n2.  **Toolkits**: 525 units\n3.  **Lamps**: 180 units\n4.  **Cable reels**:\n    *   Initial quantity: 160\n    *   Adjustment in turn t049: \"Take 65 off the order for the returned stock.\" -> $160 - 65 = 95$\n    *   Addition in turn t085: \"Add a line of 160 for the cable reels to the order.\" -> $95 + 160 = 255$\n    *   Final quantity for Cable reels: 255 units\n\nNow, let's sum them up:\n*   Tarps: 370\n*   Toolkits: 525\n*   Lamps: 180\n*   Cable reels: 255\n\n$370 + 525 = 895$\n$895 + 180 = 1075$\n$1075 + 255 = 1330$\n\nTotal: 1330"
+}

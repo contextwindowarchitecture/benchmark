@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "36ab1ec688e34ae8b4881f0b2172e247fa45511f1177fc5cd87f32fa04cffdfb",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "1f4385fcd6275e20476c0c85c2fd22bb2dd9b69cde9c81069ba5f91363d03674",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T08:15:19Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 5734.381,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "8776373268fbc64cadbbacf57439daf1ffa941e01c0c60031215993cc03d9864",
+    "response_id": "chatcmpl-98053eccdbb3cb16",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 329,
+      "prompt_tokens": 6144,
+      "total_tokens": 6473
+    }
+  },
+  "text": "To determine the total of the order so far, we need to sum the values of the specific order lines provided in the task instructions. The conversational history contains various office updates but does not add or modify the core order lines defined at the start, except for the credit adjustments which are already accounted for in the line definitions.\n\nHere are the order lines:\n1.  **Line 1:** 515 (for the crates)\n2.  **Line 2:** 400 (for the ladders)\n3.  **Line 3:** -35 (credit/returned stock)\n4.  **Line 4:** -50 (credit/returned stock)\n5.  **Line 5:** 520 (for the lamps)\n6.  **Line 6:** -80 (credit/returned stock)\n\nLet's calculate the total step by step:\n\n1.  Start with Line 1: 515\n2.  Add Line 2: 515 + 400 = 915\n3.  Subtract Line 3: 915 - 35 = 880\n4.  Subtract Line 4: 880 - 50 = 830\n5.  Add Line 5: 830 + 520 = 1350\n6.  Subtract Line 6: 1350 - 80 = 1270\n\nTotal: 1270"
+}

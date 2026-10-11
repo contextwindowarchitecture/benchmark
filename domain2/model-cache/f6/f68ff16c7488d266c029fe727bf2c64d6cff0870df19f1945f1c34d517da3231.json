@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "f68ff16c7488d266c029fe727bf2c64d6cff0870df19f1945f1c34d517da3231",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "807a25364a8528340e6a838c94ad76be1e3cae1ccec5994643468b4023da1b5d",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-11T03:04:11Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 17331.108,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "ac3224b3cdd7c9465e9fd9591721d0586ea858431d1ca2a6c04cb9b5b50509a7",
+    "response_id": "chatcmpl-83ba719e648a7193",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 460,
+      "prompt_tokens": 5416,
+      "total_tokens": 5876
+    }
+  },
+  "text": "To determine the total for the supply order, I need to identify all the specific items added to the order along with their corresponding line totals from the conversation history.\n\nHere is the step-by-step breakdown of the items added:\n\n1.  **Ladders**: In turn `t001`, the user stated, \"Add a line of 330 for the ladders to the order.\"\n    *   Current Items: 1 ladder line, value 330.\n\n2.  **Helmets**: In turn `t002`, the user stated, \"Add a line of 330 for the helmets to the order.\"\n    *   Current Items: Ladders (330), Helmets (330).\n\n3.  **Cable Reels**: In turn `t034`, the user stated, \"Add a line of 315 for the cable reels to the order.\"\n    *   Current Items: Ladders (330), Helmets (330), Cable Reels (315).\n\n4.  **Toolkits**: In turn `t036`, the user stated, \"Add a line of 570 for the toolkits to the order.\"\n    *   Current Items: Ladders (330), Helmets (330), Cable Reels (315), Toolkits (570).\n\nNo other items were explicitly added to the supply order with a monetary value. The other information provided in the history relates to room availability, staff swaps, maintenance issues (lifts, painting, coffee machines), and meeting locations, which do not contribute to the supply order total.\n\nNow, I will sum the values:\n*   Ladders: 330\n*   Helmets: 330\n*   Cable reels: 315\n*   Toolkits: 570\n\nCalculation:\n330 + 330 = 660\n660 + 315 = 975\n975 + 570 = 1545\n\nTotal: 1545"
+}

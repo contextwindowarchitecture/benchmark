@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "ff58cd2f41b41d743182b4bbcc4c6d613e289547d8e03ae82c2bd4f5744497b1",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "4a54aa045f5cfb3467dede9b7ba908c383947300f5692295b620827dc6e09f8d",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T07:46:55Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 110978.452,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "7bb54d2b478d05ab1f2abb502bd94427c16d76044c1e3c69f846c5a1e7cecd78",
+    "response_id": "chatcmpl-8c8fbc8e8cb8ba97",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 309,
+      "prompt_tokens": 6034,
+      "total_tokens": 6343
+    }
+  },
+  "text": "To calculate the total for the order, I will sum up the quantities of the items added so far:\n\n1.  **Toolkits**: 60 (added in turn t012)\n2.  **Tarps**: 55 (added in turn t028)\n3.  **Helmets**: 135 (added in turn t031)\n4.  **Cable reels**: 570 (added in turn t049)\n\nNote: In turn t027, 80 was removed from the order for returned stock. However, the prompt asks for the order \"so far\" based on the lines added. Typically, \"returned stock\" adjustments are subtracted from the total. Let's look at the phrasing: \"Take 80 off the order for the returned stock.\" This implies a subtraction.\n\nLet's re-evaluate the calculation including the subtraction:\n*   Toolkits: +60\n*   Tarps: +55\n*   Helmets: +135\n*   Cable reels: +570\n*   Returned stock: -80\n\nCalculation:\n60 + 55 = 115\n115 + 135 = 250\n250 + 570 = 820\n820 - 80 = 740\n\nTotal: 740"
+}

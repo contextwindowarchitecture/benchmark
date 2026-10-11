@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "7ba9d65fd75fb191a5fb8a571996f462dc89cb2bf1e02af298f26dd679c01e56",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "444526e314bc18deebedde6a6a763e0c5108d51b33075ca480a33b5b5ecf50a0",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T08:12:35Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 11452.383,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "11bdb64ab5a5c4fa943cb43f82ce08e27e7852b69998e94421f478fb461bf530",
+    "response_id": "chatcmpl-9440c7609a589bb8",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 335,
+      "prompt_tokens": 6067,
+      "total_tokens": 6402
+    }
+  },
+  "text": "To calculate the current total of the order, I need to look for any items added or removed from the supply list throughout the conversation.\n\n1.  **Addition**: In turn `t017`, the user said, \"Add a line of 400 for the ladders to the order.\" This adds **400** to the order.\n2.  **Subtraction**: In turn `t038`, the user said, \"Take 35 off the order for the returned stock.\" This subtracts **35** from the order.\n3.  **Addition**: In turn `t044`, the user said, \"Take 50 off the order for the returned stock.\" This subtracts **50** from the order.\n4.  **Addition**: In turn `t048`, the user said, \"Add a line of 520 for the lamps to the order.\" This adds **520** to the order.\n\nNow, let's calculate the total step by step:\n- Start with 0.\n- Add 400 (ladders): 0 + 400 = 400.\n- Subtract 35 (returned stock): 400 - 35 = 365.\n- Subtract 50 (returned stock): 365 - 50 = 315.\n- Add 520 (lamps): 315 + 520 = 835.\n\nTotal: 835"
+}

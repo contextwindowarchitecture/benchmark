@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "608f9cf6bb1d0c1fd1431e4b8535b03704879284cfe3e6f570582af7f2a3a76a",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "43bc2d5c94474353c8242b53263f39434261675e15fa01a790bde396a76e7af5",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T07:56:17Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 6042.66,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "9e83f010046c7608d3559ac9cfca1caf33fb7623f011c02a9631666fecd2e490",
+    "response_id": "chatcmpl-932471d8695d0281",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 332,
+      "prompt_tokens": 6151,
+      "total_tokens": 6483
+    }
+  },
+  "text": "To calculate the total for the current order, we look at the items listed in the `order_items` state and the updates provided in the conversation history.\n\n1.  **Ladders**: The initial quantity is 330. There have been no changes to this item.\n    *   Subtotal: 330\n2.  **Cable reels**: The initial quantity is 315. There have been no changes to this item.\n    *   Subtotal: 315\n3.  **Toolkits**: The initial quantity is 570. There have been no changes to this item.\n    *   Subtotal: 570\n4.  **Tarps**: The initial quantity is 445. In turn `t076`, the user stated, \"Add a line of 445 for the tarps to the order.\" This adds 445 to the existing 445.\n    *   Subtotal: 445 + 445 = 890\n\nNow, we sum the subtotals:\n330 (Ladders) + 315 (Cable reels) + 570 (Toolkits) + 890 (Tarps)\n\n*   330 + 315 = 645\n*   645 + 570 = 1215\n*   1215 + 890 = 2105\n\nTotal: 2105"
+}

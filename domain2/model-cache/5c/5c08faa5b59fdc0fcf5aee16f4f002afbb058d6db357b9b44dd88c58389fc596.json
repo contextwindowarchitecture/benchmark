@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "5c08faa5b59fdc0fcf5aee16f4f002afbb058d6db357b9b44dd88c58389fc596",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "dd8c77a5b87ba6bfcea3e50dd0287b3c40457ebb53cf00317e57f16eadadff53",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T02:10:25Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 89393.048,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "e5700d2c827aaf29a830a6bd5265c4731070201b0b08f2f0fb4b7a0c76016424",
+    "response_id": "chatcmpl-a4e0c09d7df0529d",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 354,
+      "prompt_tokens": 1630,
+      "total_tokens": 1984
+    }
+  },
+  "text": "To determine the total for the Harcroft depot order, we need to look at the initial order lines and apply any adjustments mentioned during the session.\n\n1.  **Initial Order Lines:**\n    *   Crates: 240\n    *   Toolkits: 470\n    *   Lamps: 175\n\n2.  **Adjustments:**\n    *   In turn `t001`, the user asked to \"Add a line of 275 for the crates\". This updates the crates quantity from 240 to $240 + 275 = 515$.\n    *   In turn `t002`, the user asked to \"Take 35 off the order for the returned stock\". This is a general reduction of 35 from the total order value.\n    *   In turn `t007`, the user asked to \"Take 80 off the order for the returned stock\". This is a further general reduction of 80 from the total order value.\n\n3.  **Calculation:**\n    *   **Crates:** 515\n    *   **Toolkits:** 470\n    *   **Lamps:** 175\n    *   **Subtotal of items:** $515 + 470 + 175 = 1160$\n    *   **Deductions:** $35 + 80 = 115$\n    *   **Final Total:** $1160 - 115 = 1045$\n\nTotal: 1045"
+}

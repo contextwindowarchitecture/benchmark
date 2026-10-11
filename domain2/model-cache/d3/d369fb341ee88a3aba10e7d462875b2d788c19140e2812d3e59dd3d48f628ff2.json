@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "d369fb341ee88a3aba10e7d462875b2d788c19140e2812d3e59dd3d48f628ff2",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "037c972a040024fa9b83b458c43e4d1634a713eb2453324d3ba9c314803683e6",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T07:53:28Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 10939.579,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "1914ef6839ab0755f7c08fe84dc6f143e06c08770ee333e83fd9845f1df251f7",
+    "response_id": "chatcmpl-af88b02c03d8f547",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 251,
+      "prompt_tokens": 5979,
+      "total_tokens": 6230
+    }
+  },
+  "text": "To calculate the total for the order so far, I need to identify all the line items and their quantities from the conversation history.\n\n1.  **Scan for order lines:** I will look through the user's inputs for any mentions of adding items to the order.\n    *   In `turn:t019`, the user says: \"Add a line of 155 for the helmets to the order.\"\n    *   In `turn:t036`, the user says: \"Take 70 off the order for the returned stock.\"\n\n2.  **Identify other items:** I will check if there are any other items mentioned.\n    *   Scanning the rest of the history, there are no other mentions of adding specific quantities of items to the supply order. The other messages concern office logistics, room preferences, desk swaps, and meeting notes.\n\n3.  **Calculate the total:**\n    *   Initial addition: 155 helmets.\n    *   Subtraction for returns: 70.\n    *   Calculation: $155 - 70 = 85$.\n\nThe order comes to 85.\n\nTotal: 85"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "cf9574d9866de3fddd118bdbec6433247ca60e433cae691ccd06423ef5cee5a8",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d6b773e623c9543c96cee9e8515d3713e6dfd9786f799d807f0039f23f6c8aeb",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T02:30:57Z",
+    "cached_tokens": 6336,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 7987.83,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "7c2ce4f02a23e2607f65532daa394452bb24a62ac57ce3f6b14e21951bda6885",
+    "response_id": "chatcmpl-bc244979d7e5c98a",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 8116,
+      "total_tokens": 8628
+    }
+  },
+  "text": "To determine the total for the Nevbury depot order, we need to track the quantities of each item added or removed from the list.\n\n**Initial Order Lines:**\n*   Ladders: 215\n*   Lamps: 350\n\n**Changes during the session:**\n\n1.  **Turn t001:** User adds 240 ladders.\n    *   Ladders: 215 + 240 = 455\n2.  **Turn t018:** User removes 80 from the order for returned stock.\n    *   The prompt says \"Take 80 off the order\". It does not specify an item. In previous similar contexts or general inventory logic without specific item assignment, this is often ambiguous. However, looking at the pattern of the conversation, specific items are usually targeted. Let's look closer. \"Take 80 off the order for the returned stock.\" It doesn't say \"for the ladders\" or \"for the lamps\".\n    *   Let's re-read carefully. Usually, if it's not specified, it might apply to the most recent addition or be a general reduction. However, in these types of logic puzzles, if an item isn't specified, it's often a trick or applies to a specific context. Let's look at the other reduction.\n    *   **Turn t029:** User removes 25 from the order for returned stock. \"Take 25 off the order for the returned stock.\" Again, no item specified.\n    *   Let's look at the items available: Ladders and Lamps.\n    *   Is there a convention? Often, \"returned stock\" implies a reduction in the total count. If the item isn't specified, it's safer to assume it reduces the total quantity regardless of item, or perhaps it reduces the most recently modified item? Or maybe it reduces the largest item?\n    *   Let's look at the phrasing again. \"Take 80 off the order\". \"Take 25 off the order\".\n    *   Let's assume for a moment these are general reductions to the total count, or perhaps they apply to the item that was most recently added or modified?\n    *   Actually, let's look at the structure.\n        *   Start: Ladders 215, Lamps 350.\n        *   t001:"
+}

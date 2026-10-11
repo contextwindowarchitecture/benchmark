@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "6f0cbabbe87ae87281ba95537d135b418da862df759e1906786ed6ff52152706",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "1ab290ef8403fc7249071cadd674fe52b782ea1cfc64a61e6855b89be9967e66",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T08:05:55Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 88797.391,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "c3a18d846c1a4823e26829be1f1f1d1feccf44489e61e2d5058f8c9fe433f817",
+    "response_id": "chatcmpl-bb86fda5fcb43754",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 285,
+      "prompt_tokens": 6023,
+      "total_tokens": 6308
+    }
+  },
+  "text": "To determine the total for the order, I need to look through the conversation history for any specific line items added or removed from the supply order.\n\n1.  **Turn t020**: The user states, \"Add a line of 555 for the lamps to the order.\"\n    *   Current Subtotal: 555\n\n2.  **Turn t030**: The user states, \"Take 35 off the order for the returned stock.\"\n    *   Calculation: 555 - 35 = 520\n    *   Current Subtotal: 520\n\n3.  **Turn t040**: The user states, \"There's a flat delivery fee of 15 on the order.\"\n    *   Calculation: 520 + 15 = 535\n    *   Current Subtotal: 535\n\n4.  **Turn t045**: The user states, \"Add a line of 570 for the cable reels to the order.\"\n    *   Calculation: 535 + 570 = 1105\n    *   Current Subtotal: 1105\n\nThere are no other additions or subtractions to the order in the provided history.\n\nTotal: 1105"
+}

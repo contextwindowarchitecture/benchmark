@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "a14d7a44c98b5564fe395d0da983ce0128d379b2651fd039db79e844a0fa13c8",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "4a65c5ca24534f8620a030a9a24f1fcc798fab543c6592079dfa4cca042fdd0f",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T03:12:17Z",
+    "cached_tokens": 3168,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 4494.189,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "ff6ef134983871cac671396c35e9fccba1be5bc354a8ce1a75deb4d0dfe5b971",
+    "response_id": "chatcmpl-9afeebacedf257dc",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 257,
+      "prompt_tokens": 4118,
+      "total_tokens": 4375
+    }
+  },
+  "text": "To determine the current total for the order, let's look at the adjustments made to the initial line item.\n\n1.  **Initial Line:** The user started with an order line for 215 ladders (from the system state provided at the beginning).\n2.  **First User Action (t001):** The user said, \"Add a line of 240 for the ladders to the order.\" This implies adding 240 to the existing quantity.\n    *   Calculation: $215 + 240 = 455$ ladders.\n3.  **Second Adjustment (t018):** The user said, \"Take 80 off the order for the returned stock.\"\n    *   Calculation: $455 - 80 = 375$ ladders.\n4.  **Third Adjustment (t029):** The user said, \"Take 25 off the order for the returned stock.\"\n    *   Calculation: $375 - 25 = 350$ ladders.\n\nThere have been no other changes to the quantity of ladders in the order lines.\n\nTotal: 350"
+}

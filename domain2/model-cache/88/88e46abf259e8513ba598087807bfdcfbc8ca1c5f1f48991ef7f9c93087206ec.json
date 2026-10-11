@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "88e46abf259e8513ba598087807bfdcfbc8ca1c5f1f48991ef7f9c93087206ec",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "549e8362a6fb892873a60f71bc8a423ae604bcf8182cbba443b52f08a5b1eff9",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T02:21:18Z",
+    "cached_tokens": 10560,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 16691.291,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "63c63dd3871b1c0b017c5eee9dfcb56de0f47907030732984a8b2e495112c50a",
+    "response_id": "chatcmpl-a693376abfbb6f40",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 415,
+      "prompt_tokens": 10754,
+      "total_tokens": 11169
+    }
+  },
+  "text": "To calculate the total for the supply order, I will identify each line item added to the order and sum their quantities.\n\n1.  **Line 1:** In turn `t001`, the user requested: \"Add a line of 515 for the crates to the order.\"\n    *   Quantity: 515\n2.  **Line 2:** In turn `t017`, the user requested: \"Add a line of 400 for the ladders to the order.\"\n    *   Quantity: 400\n3.  **Line 3:** In turn `t048`, the user requested: \"Add a line of 520 for the lamps to the order.\"\n    *   Quantity: 520\n\nThere were also adjustments made to the order:\n*   In turn `t038`, the user said: \"Take 35 off the order for the returned stock.\"\n*   In turn `t044`, the user said: \"Take 50 off the order for the returned stock.\"\n*   In turn `t078`, the user said: \"Take 80 off the order for the returned stock.\"\n\nLet's calculate the total step by step:\n\n1.  Start with the first line: 515\n2.  Add the second line: 515 + 400 = 915\n3.  Add the third line: 915 + 520 = 1435\n4.  Subtract the first return adjustment: 1435 - 35 = 1400\n5.  Subtract the second return adjustment: 1400 - 50 = 1350\n6.  Subtract the third return adjustment: 1350 - 80 = 1270\n\nTotal: 1270"
+}

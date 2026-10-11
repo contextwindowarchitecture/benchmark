@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "5c08fbdb6b18eb4a1b17ee5c5d965c30fc2e88ddb8b80b90962ed97197789eac",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "124ab57b57da4de3fe51b7d7d3cb420b6b5902c9692e2688dcd3e0e0d36004d6",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-11T02:57:35Z",
+    "cached_tokens": 2112,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 19468.788,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "64f9cbfd4606085fc3782a353f9890af14d03ca2a2282e62d15ef947ec6d4bd6",
+    "response_id": "chatcmpl-aca8881f7a4ee5d3",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 387,
+      "prompt_tokens": 2842,
+      "total_tokens": 3229
+    }
+  },
+  "text": "To determine the total for the supply order, let's look at the specific line items added by the user throughout the session:\n\n1.  In turn `t001`, the user requested: \"Add a line of **335** for the ladders to the order.\"\n2.  In turn `t013`, the user requested: \"Add a line of **400** for the cable reels to the order.\"\n3.  In turn `t015`, the user requested: \"Add a line of **120** for the helmets to the order.\"\n4.  In turn `t017`, the user requested: \"Add a line of **545** for the toolkits to the order.\"\n5.  In turn `t019`, the user requested: \"Add a line of **95** for the lamps to the order.\"\n\nThere was also a mention in turn `t007` of a \"flat delivery fee of 35,\" but the prompt asks for the order total based on the lines added. Typically, \"lines\" refers to the items themselves. However, even if we exclude the delivery fee as a separate administrative charge rather than an order line item, the calculation for the items is:\n\n335 (ladders)\n+ 400 (cable reels)\n+ 120 (helmets)\n+ 545 (toolkits)\n+ 95 (lamps)\n-------\n335 + 400 = 735\n735 + 120 = 855\n855 + 545 = 1400\n1400 + 95 = 1495\n\nTotal: 1495"
+}

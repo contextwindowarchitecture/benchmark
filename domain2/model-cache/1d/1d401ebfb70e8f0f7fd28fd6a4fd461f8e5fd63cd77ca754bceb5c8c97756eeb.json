@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "1d401ebfb70e8f0f7fd28fd6a4fd461f8e5fd63cd77ca754bceb5c8c97756eeb",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "504c0d7e83984297158bd802478d6db3549a2648590b87ddeb3becc6f4d22712",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T03:06:18Z",
+    "cached_tokens": 1056,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 15658.37,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "3d22b8bf0023d3c6c6ecad00d23390f244bc54ff8c3765355b91b1f25e25b1bb",
+    "response_id": "chatcmpl-84c720d3745bceed",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 427,
+      "prompt_tokens": 1482,
+      "total_tokens": 1909
+    }
+  },
+  "text": "Based on the conversation history, I have processed the following updates regarding the supply order:\n\n1.  **Return Stock:** You asked to take 80 off the order for returned stock. This is a deduction of 80.\n2.  **Tarps:** You asked to add a line of 55 for the tarps. This is an addition of 55.\n\nNo other specific line items or quantities for the supply order were mentioned in the previous turns. The rest of the conversation concerned office logistics (desk swaps, room availability, staff coverage, etc.).\n\nAssuming the order started at 0 or we are only counting the explicit changes mentioned so far in this context:\n\n*   Deduction: -80\n*   Addition: +55\n\nNet change: -25\n\nIf this is the only activity on the order so far, the total comes to -25. However, typically an order total refers to the sum of positive line items. If there were previous items not recalled in this short context, I would need that info. Based *strictly* on the explicit order instructions in the provided history:\n\nLine 1: Tarps (55)\nLine 2: Returned stock adjustment (-80)\n\nTotal: -25\n\n(Note: If \"returned stock\" implies a negative value against a positive total, and no base total was given, the net is -25. If the user implies these are the only lines, the total is -25. If the user implies these are adjustments to a running total we don't see, I cannot calculate the absolute total without the base. However, usually, in these prompts, if no base is given, we sum the explicit additions. Let's assume the question asks for the net value of the order lines discussed.)\n\nLet's re-read carefully. \"Take 80 off the order... Add a line of 55\".\n\nIf the order had no other items:\n55 - 80 = -25.\n\nTotal: -25"
+}

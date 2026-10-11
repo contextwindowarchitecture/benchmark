@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "d37df2514c0be7cfb6188e1038a8ee155ac9285371e865f99438b8acdd8149b9",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "ec2e80cd12b575f2f1843fc083f126d04eacda59cbb5022017b271d9861ee756",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T07:51:23Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 59364.102,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "5fc7c270c3f7afba6b2cceec52abe63d3ac0f8ad84141190b2f748ae82242d83",
+    "response_id": "chatcmpl-95ba2d8b41cf8ffe",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 12093,
+      "total_tokens": 12605
+    }
+  },
+  "text": "To calculate the total for the order, I need to identify all the line items added to the supply order in the conversation history.\n\n1.  **Scan for order additions:** I will look for phrases like \"Add a line of [quantity] for [item] to the order\" or \"Take [quantity] off the order for [item]\".\n\n    *   **Turn t027:** \"Take 70 off the order for the returned stock.\"\n        *   This is a deduction. However, usually, an order starts at 0 or has an initial balance. Without an initial balance specified, a deduction from 0 would result in a negative number, which is unusual for a \"total so far\" unless there was a previous positive balance. Let's look for positive additions first. If there are no positive additions, the total might be 0 or negative. But typically, \"returned stock\" implies a credit against a previous order or a negative line item. Let's assume for now we are summing net values.\n        *   Line 1: -70 (Returned stock)\n\n    *   **Turn t042:** \"Add a line of 150 for the tarps to the order.\"\n        *   Line 2: +150 (Tarps)\n\n    *   **Turn t047:** \"There's a flat delivery fee of 55 on the order.\"\n        *   This is a fixed fee added to the total.\n        *   Line 3: +55 (Delivery fee)\n\n    *   **Turn t098:** \"Add a line of 165 for the lanterns to the order.\"\n        *   Line 4: +165 (Lanterns)\n\n2.  **Calculate the sum:**\n\n    *   Start with 0.\n    *   Add -70 (Returned stock): $0 - 70 = -70$\n    *   Add 150 (Tarps): $-70 + 150 = 80$\n    *   Add 55 (Delivery fee): $80 + 55 = 135$\n    *   Add 165 (Lanterns): $135 + 165 = 300$\n\n3.  **Verification:**\n    *   Are there any other order"
+}

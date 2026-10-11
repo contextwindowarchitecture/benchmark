@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "acff31a9debbec30c248efea6e79e6c8fcee1cc19538a115342d96be5e8eacee",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "6a040e0a97813365a21dd3025f50364a47b15d48764bd7d7021e19aa279028f2",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T02:21:20Z",
+    "cached_tokens": 7392,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 13031.183,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "7ebe4152d8e6b99adc25fad9612a69bfe408e2347029845419b342cdfee96e96",
+    "response_id": "chatcmpl-976f1309dd006ac1",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 327,
+      "prompt_tokens": 8112,
+      "total_tokens": 8439
+    }
+  },
+  "text": "To calculate the total for the supply order, I need to identify all the line items added by the user.\n\n1.  **Turn t001**: The user requested \"a line of 165 for the ladders\".\n    *   Item: Ladders\n    *   Cost: 165\n\n2.  **Turn t004**: The user requested \"a line of 265 for the toolkits\".\n    *   Item: Toolkits\n    *   Cost: 265\n\n3.  **Turn t007**: The user mentioned \"a flat delivery fee of 45 on the order\".\n    *   Item: Delivery Fee\n    *   Cost: 45\n\n4.  **Turn t032**: The user requested to \"Take 40 off the order for the returned stock\".\n    *   Item: Returned Stock Credit\n    *   Cost: -40\n\nNo other line items or costs were added in the subsequent turns.\n\n**Calculation:**\n*   Ladders: 165\n*   Toolkits: 265\n*   Delivery Fee: 45\n*   Returned Stock: -40\n\nSum: 165 + 265 + 45 - 40\n165 + 265 = 430\n430 + 45 = 475\n475 - 40 = 435\n\nTotal: 435"
+}

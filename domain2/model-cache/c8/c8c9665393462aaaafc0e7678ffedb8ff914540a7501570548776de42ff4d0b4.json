@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "c8c9665393462aaaafc0e7678ffedb8ff914540a7501570548776de42ff4d0b4",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "b33d92c18c426a1287401713603e3aa53b64b1428bb17f81893a74d951d41f93",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-11T08:05:47Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 85089.09,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "41b2155ac5296cf5994d2ee1b102d09b817a7f63a8532b14045fccca37e509fa",
+    "response_id": "chatcmpl-ba0cc46ee9620e9b",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 271,
+      "prompt_tokens": 6091,
+      "total_tokens": 6362
+    }
+  },
+  "text": "To determine the total for the order, let's review the items added so far:\n\n1.  From turn t025: A line of 155 for the cable reels.\n2.  From turn t043: Take 65 off for returned stock. This implies a deduction. However, looking at the context of \"lines\" in supply orders, usually, returns are subtracted from a subtotal or handled as negative lines. Let's look for other additions.\n3.  From turn t044: A line of 160 for the crates.\n4.  From turn t050: A flat delivery fee of 25.\n\nLet's calculate the sum:\n*   Cable reels: 155\n*   Crates: 160\n*   Delivery fee: 25\n\nSubtotal of additions: 155 + 160 + 25 = 340\n\nNow, consider the return from turn t043: \"Take 65 off the order for the returned stock.\"\nThis reduces the total by 65.\n\nCalculation:\n340 (additions) - 65 (return) = 275\n\nTotal: 275"
+}

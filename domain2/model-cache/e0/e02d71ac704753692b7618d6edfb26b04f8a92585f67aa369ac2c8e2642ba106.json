@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "e02d71ac704753692b7618d6edfb26b04f8a92585f67aa369ac2c8e2642ba106",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "38757b03f45c6b213d846517940dc55d0161a89eba5f5ce06473b72e9699af93",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-11T08:11:34Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 13417.617,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "c5f488d847fad61a5320178a127aa563e9562b517097e77b3334e2c146399ec6",
+    "response_id": "chatcmpl-ba3162f4f4224c6c",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 399,
+      "prompt_tokens": 6055,
+      "total_tokens": 6454
+    }
+  },
+  "text": "To calculate the total for the supply order, I need to identify all the line items and their values from the conversation history.\n\n1.  **Scan for order items:** I will look through the user's inputs for any mentions of adding items to the order, adjusting quantities, or specifying prices.\n    *   Turn t027: \"Take 70 off the order for the returned stock.\" (This is an adjustment, not an addition of a specific item with a base price, but it reduces the total. However, without a base total or previous items, this is just a deduction. Let's look for additions first.)\n    *   Turn t042: \"Add a line of 150 for the tarps to the order.\" (This is a clear addition of 150).\n    *   Turn t047: \"There's a flat delivery fee of 55 on the order.\" (This is an addition of 55).\n\n2.  **Check for other items:**\n    *   The rest of the conversation consists of office updates (repainting, noise, umbrella reports, stand-up locations, desk swaps, coverage for out-of-office staff). None of these are supply order line items.\n\n3.  **Compile the lines:**\n    *   Tarps: 150\n    *   Delivery fee: 55\n    *   Returned stock adjustment: -70\n\n4.  **Calculate the total:**\n    *   Start with 0.\n    *   Add Tarps: 0 + 150 = 150\n    *   Add Delivery fee: 150 + 55 = 205\n    *   Subtract Returned stock adjustment: 205 - 70 = 135\n\nThe order comes to 135.\n\nTotal: 135"
+}

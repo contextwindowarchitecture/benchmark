@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "b138d0ddd8847fac3a96633abf5038cf84bcc48263b65e5b6380b8553b2d522e",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "9b5f607806532ad675c08d1d41c299f73c2fbb219311693c3dce45f7eeb8f2fb",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T07:53:11Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 8850.333,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "bdd93751fcdb261faf4889eb25d9d531bb6e3f0121cade106d0006d477ffca33",
+    "response_id": "chatcmpl-9e30e145955a662c",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 252,
+      "prompt_tokens": 6052,
+      "total_tokens": 6304
+    }
+  },
+  "text": "To determine the total for the supply order, I need to identify all the specific line items added to the order during the session.\n\n1.  **Scan for order additions:** I will look through the user's inputs for phrases like \"Add a line of [quantity] for [item] to the order.\"\n    *   In `turn:t034`, the user said: \"Add a line of 315 for the cable reels to the order.\"\n    *   In `turn:t036`, the user said: \"Add a line of 570 for the toolkits to the order.\"\n    *   Scanning the remaining turns (`t037` to `t070`), there are no further instructions to add items to the supply order. The other inputs concern room availability, desk swaps, staff coverage, meeting locations, and reminders, which are not part of the supply order.\n\n2.  **Calculate the total:**\n    *   Cable reels: 315\n    *   Toolkits: 570\n    *   Total: 315 + 570 = 885\n\nTotal: 885"
+}

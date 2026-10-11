@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "c150f14114f0d1db9c3fff5a2074b1eabc72f6e4998589a70e6ddc4763bf625d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "3928eea1d4e33cbe990e36dba55b669e68030a674cce726550c9900cff706898",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T03:03:47Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 8416.14,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "2899e6409895c5f4cf0417ea44a2bb3804956311b77375e16fd46a1e4bc74180",
+    "response_id": "chatcmpl-b8cad4b45dcc4123",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 240,
+      "prompt_tokens": 2893,
+      "total_tokens": 3133
+    }
+  },
+  "text": "To determine the total for the order so far, let's review the relevant order lines mentioned in the conversation:\n\n1.  **Order line 1:** Added in turn `t001` (\"Add a line of 400 for the ladders to the order.\"). This is a positive line for 400.\n2.  **Order line 2:** Added in turn `t004` (\"Take 30 off the order for the returned stock.\"). This is a credit/negative line for -30.\n3.  **Order line 3:** Added in turn `t020` (\"Add a line of 555 for the lamps to the order.\"). This is a positive line for 555.\n\nNow, let's calculate the total step by step:\n\n1.  Start with the first line: 400\n2.  Add the second line (credit): 400 - 30 = 370\n3.  Add the third line: 370 + 555 = 925\n\nTotal: 925"
+}

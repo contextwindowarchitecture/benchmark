@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "95977a4824b3e60f2a081faa422c250e4e490e8ba86a0851ebfcc5503b1f3801",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "7544d1691d716d30fdec5934d671095f4d5171eb6604098e7b62707337625e24",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T07:57:17Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 6522.538,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "c8825b6e9798357ff333925815bf5fcae0caa27f764a0ca58bfed6bc569516a1",
+    "response_id": "chatcmpl-8952432f4e012616",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6051,
+      "total_tokens": 6563
+    }
+  },
+  "text": "To determine the current total for the order, I will track the changes to the line items step by step.\n\n**Initial Order (from task xstate:01):**\n*   Ladders: 215\n*   Lamps: 350\n\n**Modifications:**\n\n1.  **Turn t018:** \"Take 80 off the order for the returned stock.\"\n    *   The prompt does not specify which item, but typically \"returned stock\" adjustments in these scenarios apply to the first item or are ambiguous. However, looking at the pattern of such tasks, if not specified, it often applies to the first item listed or is a general reduction. Let's look for specific item mentions. There are no specific item mentions for this reduction. In similar contexts, if unspecified, it might apply to the first item or be a general deduction. Let's assume it applies to the first item (Ladders) unless a later instruction clarifies. *Correction*: Often in these specific logic puzzles, if the item isn't specified, it might be a trick or apply to a specific context. However, without a specific item, I will apply it to the first item, **Ladders**.\n    *   Ladders: $215 - 80 = 135$\n    *   Lamps: 350\n\n2.  **Turn t029:** \"Take 25 off the order for the returned stock.\"\n    *   Again, no specific item is mentioned. I will apply this to the first item, **Ladders**.\n    *   Ladders: $135 - 25 = 110$\n    *   Lamps: 350\n\n3.  **Turn t048:** \"Add a line of 350 for the lamps to the order.\"\n    *   This explicitly adds to **Lamps**.\n    *   Ladders: 110\n    *   Lamps: $350 + 350 = 700$\n\n**Current Order Lines:**\n*   Ladders: 110\n*   Lamps: 700\n\n**Calculation:**\n*   Ladders: 110\n*   Lamps: 700\n*   Total: $110 + 700 = 810$\n\nTotal: 81"
+}

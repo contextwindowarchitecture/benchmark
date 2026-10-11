@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "bc5cdd822ad1710e3822d2f162fd5ed33c1295358441e55c88f6b2703926bad5",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "28bed37086e97460b65dbbd9723fb61da0227db3359eb0363352c55893b1b98f",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T02:28:29Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 4489.956,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "b8bdf2aaa3e6a8f303d2315f14d3f7c4db256805f05e64272bdbaf8552e70101",
+    "response_id": "chatcmpl-a26d541518f40bae",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 244,
+      "prompt_tokens": 6971,
+      "total_tokens": 7215
+    }
+  },
+  "text": "To determine the total for the order, I will look at the items added so far.\n\n1.  **Ladders**: 165 units were added in turn t001.\n2.  **Toolkits**: 265 units were added in turn t004.\n\nThere was also a note in turn t032 to \"Take 40 off the order for the returned stock.\" However, the query asks for the order lines' total based on the items listed in the current state (`items: [{\"item\": \"ladders\", \"quantity\": 165}, {\"item\": \"toolkits\", \"quantity\": 225}]`). The current state shows toolkits at 225, which implies the deduction of 40 from the original 265 has already been applied to the final quantity in the state.\n\nLet's verify the quantities in the current state:\n- Ladders: 165\n- Toolkits: 225\n\nTotal = 165 + 225\n\n165 + 225 = 390\n\nTotal: 390"
+}

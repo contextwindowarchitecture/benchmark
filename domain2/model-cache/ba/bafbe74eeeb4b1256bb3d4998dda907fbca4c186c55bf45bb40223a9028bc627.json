@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "bafbe74eeeb4b1256bb3d4998dda907fbca4c186c55bf45bb40223a9028bc627",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "83bde14c0d6fe863adddae2075e0bebded29ecf96af5842514c409ce8c6e0d13",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T08:16:42Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 4785.219,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "3caa5d3f43639db193028f0d3ffbf39ea6583e62cedc90d860546bf699f05bd0",
+    "response_id": "chatcmpl-b3d42b15dc6fe792",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6118,
+      "total_tokens": 6630
+    }
+  },
+  "text": "To determine the total for the order, I will review the order lines provided and any adjustments made during the session.\n\n1.  **Initial Order Lines (from task `xstate:09`):**\n    *   Crates: 480\n    *   Ladders: 350\n    *   Lamps: 520\n\n2.  **Adjustments:**\n    *   In turn `t038`, the user stated: \"Take 35 off the order for the returned stock.\" This applies to the general order.\n    *   In turn `t044`, the user stated: \"Take 50 off the order for the returned stock.\" This is another reduction.\n    *   In turn `t048`, the user stated: \"Add a line of 520 for the lamps to the order.\" This increases the lamp count.\n\n    *Note: The prompt asks for the order \"so far\". The adjustments in `t038` and `t044` were specific reductions (\"returned stock\"), while `t048` was an addition of a specific item line. Usually, in these supply order contexts, \"returned stock\" deductions apply to the total quantity unless specified otherwise. However, looking at the structure, the initial lines are specific items. Let's look at the standard interpretation:\n    - Initial Lamps: 520\n    - Addition: +520 Lamps\n    - Reductions: -35 and -50 from the total order? Or specific items? The prompt says \"Take 35 off the order\" and \"Take 50 off the order\". It does not specify which item. Typically, if not specified, it might reduce the total count. Let's calculate the sum of the items first, then apply the reductions to the total if that's the convention, or check if there's a default item. Without a default item, reductions usually apply to the total sum.\n\n    Let's calculate:\n    - Crates: 480\n    - Ladders: 350\n    - Lamps: 520 (initial) + 520 (added) = 1040\n    \n    Total before reductions: 480 + 350 + 1040 = 1870\n    \n    Reductions:\n    -35 (from"
+}

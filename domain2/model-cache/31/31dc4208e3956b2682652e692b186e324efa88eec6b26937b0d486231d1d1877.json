@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "31dc4208e3956b2682652e692b186e324efa88eec6b26937b0d486231d1d1877",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "2f7dde90d34e645da4db9c2e2c561dfb318af638a7178da4f106a4ab0f495efd",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T07:57:29Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 4645.661,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "6bc55c92e5f33d7a591d87ebd559a32c04ef11a0f4ba61457077b9a40c88b3c9",
+    "response_id": "chatcmpl-b8462becbbbce8b2",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6142,
+      "total_tokens": 6654
+    }
+  },
+  "text": "To determine the total for the order, let's look at the current lines based on the updates provided in the session.\n\n1.  **Initial Order (from task `xstate:05`):**\n    *   Crates: 480\n    *   Ladders: 350\n    *   Lamps: 520\n\n2.  **Update in turn `t017`:**\n    *   \"Add a line of 400 for the ladders to the order.\"\n    *   New Ladders total: 350 + 400 = 750\n\n3.  **Update in turn `t038`:**\n    *   \"Take 35 off the order for the returned stock.\"\n    *   The user did not specify which item, but typically \"returned stock\" implies a reduction in the total quantity. However, without a specific item attached, this is ambiguous. Let's look for further clarifications. In many such tasks, if not specified, it might apply to the most recently added or a general total. But looking at turn `t044`, there is another reduction. Let's hold on this. Usually, if an item isn't specified, it's safer to assume it applies to the total count or a specific item if context implies. Let's re-read carefully. \"Take 35 off the order\". This is a general reduction. Let's assume it reduces the total quantity of items.\n    *   Wait, let's look at turn `t044`: \"Take 50 off the order for the returned stock.\"\n    *   Let's look at turn `t048`: \"Add a line of 520 for the lamps to the order.\"\n\n    Let's re-evaluate the items line by line to be precise.\n\n    *   **Crates:** Started at 480. No changes mentioned for crates specifically.\n    *   **Ladders:** Started at 350. Added 400 in `t017`. Total: 750.\n    *   **Lamps:** Started at 520. Added 520 in `t048`. Total: 1040.\n\n    Now, let's handle the \"returned stock\" reductions.\n    *   `t038`: \"Take 35"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "5bb2a949dfe4aaf309a6936e9687fa0ba3e773518591d864648eb6a33bfca9be",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "c2d30af7e046e337a5ac4b4dbb157b8102469a612766a4c809f81b4e7ec422dd",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T08:13:05Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 10493.965,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "edc506421d99afea57b08dd6b1f72d94c3161d0c08bc8502d643c5ec2511394c",
+    "response_id": "chatcmpl-9872fd3496d8f7fb",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6024,
+      "total_tokens": 6536
+    }
+  },
+  "text": "To calculate the total for the order so far, I will review the conversation history for any specific line items added to the supply order.\n\n1.  **Turn t049**: The user states, \"Take 65 off the order for the returned stock.\" This implies a subtraction or a negative line item, but without a starting total or a positive line item preceding it, we treat this as a note of adjustment rather than a cumulative total unless a base is established. However, looking further:\n2.  **Turn t085**: The user states, \"Add a line of 160 for the cable reels to the order.\"\n\nThere are no other explicit monetary values or quantities added to a supply order list in the history. The other lines refer to office logistics, stand-up locations, sick leave, and desk swaps, which are not supply order items.\n\nTherefore, the only positive line item added to the order is 160. The previous mention of \"65 off\" likely refers to a deduction from a specific stock count or a previous total not explicitly defined as a cumulative sum in this context, but typically in these tasks, unless a base total is given, we sum the explicit additions. If \"Take 65 off\" is interpreted as a -65 line item and \"Add 160\" as a +160 line item, the net is 95. However, usually, \"Take X off\" implies a reduction from a previous balance. Without a starting balance, we must look at what was *added*.\n\nLet's re-read carefully.\n- Turn t049: \"Take 65 off the order...\"\n- Turn t085: \"Add a line of 160...\"\n\nIf we assume the order started at 0:\n- Start: 0\n- Take 65 off: -65\n- Add 160: +160\n- Total: 160 - 65 = 95.\n\nHowever, often \"Take 65 off\" might refer to a specific item previously listed. No item was listed before t049.\nLet's look for any other numbers.\n- Turn t085 is the only addition.\n\nIf the instruction \"Take 65 off the order\" is a standalone instruction to reduce a running total, and we have no running total, it's ambiguous. But usually, in these"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "492a838e8502cd733fdd6a127a661d6db5728cb8e8f1b97b5f503210546bb40c",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "948e55183d8448f1c57923103450f81ce74c47705b77c5d4f7def4a08302d018",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T07:53:02Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 14623.265,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "62d453b456f4294efc760c8eae3f1d851b6331b89f46ea44381d522541fc408b",
+    "response_id": "chatcmpl-b7acac4ace284f36",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 406,
+      "prompt_tokens": 6024,
+      "total_tokens": 6430
+    }
+  },
+  "text": "To calculate the total for the order so far, I need to identify all the line items added to the supply order in the conversation history.\n\n1.  **Scan for order additions:** I will look for phrases like \"Add a line of [quantity] for [item] to the order\" or \"Take [quantity] off the order\".\n\n    *   **Turn t014:** \"Add a line of 360 for the lanterns to the order.\"\n        *   Item: Lanterns\n        *   Quantity: 360\n    *   **Turn t019:** \"Add a line of 155 for the helmets to the order.\"\n        *   Item: Helmets\n        *   Quantity: 155\n    *   **Turn t036:** \"Take 70 off the order for the returned stock.\"\n        *   This is a deduction. The item isn't specified, but it reduces the total quantity.\n        *   Deduction: 70\n\n2.  **Calculate the total:**\n    *   Start with Lanterns: 360\n    *   Add Helmets: 360 + 155 = 515\n    *   Subtract returned stock: 515 - 70 = 445\n\n3.  **Final Verification:**\n    *   Are there any other items? Scanning the rest of the history...\n    *   t000-t013: No order items.\n    *   t015-t035: No order items.\n    *   t037-t050: No order items.\n\n    The only items are the lanterns, the helmets, and the deduction.\n\n    Total = 360 + 155 - 70 = 445\n\nTotal: 445"
+}

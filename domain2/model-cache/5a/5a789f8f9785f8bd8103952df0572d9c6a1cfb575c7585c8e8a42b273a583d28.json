@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "5a789f8f9785f8bd8103952df0572d9c6a1cfb575c7585c8e8a42b273a583d28",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "6ddf63fda9a3434e6a562103dc6a26cbff296ac4d13df8b01389aa8ec721545d",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T08:09:46Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 21057.367,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "f1bc285974ac9761e20d978e5c0067dd5d8fe9773b2ffb1ca47b331f3942709e",
+    "response_id": "chatcmpl-bdadf3323c805034",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 263,
+      "prompt_tokens": 5866,
+      "total_tokens": 6129
+    }
+  },
+  "text": "To calculate the total for the order, I need to look back at the specific line items that were added to the supply order during this session. Let's go through the conversation to find those additions:\n\n1.  In the message: \"Add a line of 400 for the ladders to the order.\" - This adds **400**.\n2.  In the message: \"Take 35 off the order for the returned stock.\" - This subtracts **35**.\n3.  In the message: \"Take 50 off the order for the returned stock.\" - This subtracts **50**.\n4.  In the message: \"Add a line of 520 for the lamps to the order.\" - This adds **520**.\n\nNow, let's add them up step by step:\n\n*   Start with the first addition: 400\n*   Subtract the first return: 400 - 35 = 365\n*   Subtract the second return: 365 - 50 = 315\n*   Add the second addition (lamps): 315 + 520 = 835\n\nTotal: 835"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "59c1881cb445d5aedeef0ab2d4ee27f4662382cb15d17e8282a622fe51cc584d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "85dd53970c9feaf10cb7e442481aceecf2000b1a6c49b6e501be28a3448d4d06",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T02:20:10Z",
+    "cached_tokens": 3168,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 9534.014,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "e8eb3f79379f4b3059454be74b74d4b351f7fb5452bd39d7b7ed072424ba80b6",
+    "response_id": "chatcmpl-8e91f5a18302287f",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 240,
+      "prompt_tokens": 4078,
+      "total_tokens": 4318
+    }
+  },
+  "text": "To determine the total for the supply order, I need to identify all the items and quantities added to the order throughout the session.\n\n1.  **Scan for order lines:** I will look through the user's inputs for any requests to add items to the supply order.\n    *   In `turn:t001`, the user states: \"Add a line of 120 for the lanterns to the order.\"\n    *   I will scan the remaining turns (`t002` through `t030`) to see if any other items were added.\n    *   `t002` - `t030` contain information about staff absences, desk swaps, room availability, coffee machines, umbrellas, and painting schedules, but no further requests to add items to the supply order.\n\n2.  **Calculate the total:**\n    *   Item: Lanterns\n    *   Quantity: 120\n\n3.  **Format the output:**\n    *   The only line item is 120.\n    *   Total: 120\n\nTotal: 120"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "54b882ab2c11b52ffefc720967e1ec7e8c323d47e32c47f4530557abe6800e02",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "552aa2e7a69b2d950e56ce0785fe02ae509f0d37f026a35994a66d193f889ae8",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T08:11:03Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 17837.182,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "1914ef6839ab0755f7c08fe84dc6f143e06c08770ee333e83fd9845f1df251f7",
+    "response_id": "chatcmpl-8d36dd0d2f80cac9",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 5979,
+      "total_tokens": 6491
+    }
+  },
+  "text": "To calculate the total for the order so far, I need to review the history for any line items added to the supply order.\n\n1.  **Turn t019**: The user states, \"Add a line of 155 for the helmets to the order.\"\n    *   Item: Helmets\n    *   Quantity: 155\n    *   Unit Price/Total per item: The prompt says \"a line of 155\". In supply ordering contexts, this usually implies a quantity of 155 units. Without a specific unit price provided in the text, I must look for other clues. However, often in these logic puzzles, if a price isn't given, it might be a total cost for that line, or the quantity is the only number. Let's re-read carefully. \"Add a line of 155\". This is ambiguous. Is it 155 items? Or is the cost 155?\n    *   Let's check if there are other items.\n    *   Scanning the rest of the history (t020 to t060):\n        *   t036: \"Take 70 off the order for the returned stock.\" This implies a deduction. Again, is this 70 items or 70 currency? \"Take 70 off the order\" usually refers to the total value or quantity. Given \"Add a line of 155\", it is highly probable these numbers refer to the *quantity* of items or the *cost* of the line.\n        *   Let's look for unit prices. There are no unit prices mentioned in the conversation (e.g., \"$5 each\").\n        *   If \"155\" is the quantity, we don't have a price.\n        *   If \"155\" is the cost for that line, then the line total is 155.\n        *   If \"70\" is a deduction from the total, it is likely a cost deduction.\n\n    Let's assume the numbers refer to the monetary value of the line items or adjustments, as is common when no unit price is specified in these types of constrained dialogue tasks.\n\n    *   **Line 1 (t019)**: Helmets. Value: 155.\n    *   **Line 2 (t036)**: Returned stock deduction. Value: -"
+}

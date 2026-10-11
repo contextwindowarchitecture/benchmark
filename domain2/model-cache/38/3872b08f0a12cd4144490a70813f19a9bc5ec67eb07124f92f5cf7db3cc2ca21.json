@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "3872b08f0a12cd4144490a70813f19a9bc5ec67eb07124f92f5cf7db3cc2ca21",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "598a1c451e840402bd4fc15f1f40351ecad112156913b98988fa5cef3496b5e0",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T08:16:13Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 6710.415,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "4cceef3cb51bb9134df3749d430c59014e5c781b09e2fe84c843f758fbb8ae3f",
+    "response_id": "chatcmpl-a79b23eefa6d06ea",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6034,
+      "total_tokens": 6546
+    }
+  },
+  "text": "To determine the total for the order, let's look at the lines provided and any adjustments made.\n\n1.  **Initial Order Lines:**\n    *   Ladders: 215\n    *   Lamps: 350\n\n2.  **Adjustments:**\n    *   In turn `t018`, the user said: \"Take 80 off the order for the returned stock.\"\n    *   In turn `t029`, the user said: \"Take 25 off the order for the returned stock.\"\n    *   In turn `t048`, the user said: \"Add a line of 350 for the lamps to the order.\"\n\nLet's calculate the running totals for each item:\n\n*   **Ladders:**\n    *   Initial: 215\n    *   No specific adjustments mentioned for ladders in the \"returned stock\" instructions (usually applied to the total or a specific line, but here the instruction was generic \"off the order\". However, looking at the pattern, \"returned stock\" deductions are often applied to the total sum or specific high-volume items. Let's look closer. The prompt says \"Take 80 off the order\" and \"Take 25 off the order\". It doesn't specify an item. Often in these tasks, if not specified, it might be deducted from the total. However, let's look at the lamp line.\n    *   Wait, let's re-read carefully. \"Take 80 off the order for the returned stock.\" \"Take 25 off the order for the returned stock.\"\n    *   Let's check if there were specific item deductions. No.\n    *   Let's check the final addition: \"Add a line of 350 for the lamps\".\n\n    Let's sum the initial items first:\n    *   Ladders: 215\n    *   Lamps (initial): 350\n    *   Total Initial: 215 + 350 = 565\n\n    Now apply the deductions:\n    *   Deduction 1: -80\n    *   Deduction 2: -25\n    *   Total Deductions: -105\n    *   Subtotal after deductions: 565 - 105 = 460\n\n    Now apply the addition:\n    *"
+}

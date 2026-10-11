@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "dcd417cc5f8a0c12204241bd924f01844ecee4d0aa31fd31966331e2ca33784b",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "316798ab75dfa1669ec313963f00e9080c062e16c3cd29f0c6360a67e2c49147",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T02:52:02Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 82914.552,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "e5700d2c827aaf29a830a6bd5265c4731070201b0b08f2f0fb4b7a0c76016424",
+    "response_id": "chatcmpl-a5d611cca4d467e2",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 1630,
+      "total_tokens": 2142
+    }
+  },
+  "text": "To determine the total for the Harcroft depot order, we need to look at the items requested and any adjustments made to the quantities.\n\n1.  **Crates**: The initial request was for 240. In turn `t001`, you asked to add a line of 275 for crates. In turn `t002`, you instructed to \"Take 35 off the order for the returned stock.\"\n    *   Calculation: 275 - 35 = 240 crates.\n\n2.  **Toolkits**: In turn `t004`, you added a line of 470 for toolkits. No adjustments were made to this quantity.\n    *   Quantity: 470 toolkits.\n\n3.  **Lamps**: In turn `t005`, you added a line of 175 for lamps. No adjustments were made to this quantity.\n    *   Quantity: 175 lamps.\n\n4.  **Additional Adjustments**: In turn `t007`, you instructed to \"Take 80 off the order for the returned stock.\" Typically, unless specified otherwise, general \"returned stock\" deductions are applied to the largest volume item or distributed. However, looking at the phrasing \"Take X off the order,\" it often implies a reduction in the total line items or a specific item. Let's look closer. In turn `t002`, \"Take 35 off... for returned stock\" was applied to crates because it was the only item on the order at that time. In turn `t007`, when we have all three items, \"Take 80 off the order\" is ambiguous. However, in previous similar tasks, if the item isn't specified, it is often deducted from the first item mentioned or the total. Let's re-read the pattern.\n    *   Turn `t002`: \"Take 35 off the order for the returned stock.\" At that time, only Crates (275) were on the order. So Crates became 240.\n    *   Turn `t007`: \"Take 80 off the order for the returned stock.\" At this point, Crates (240), Toolkits (470), and Lamps (175) are on the order. Without a specific item named, standard interpretation in these logic"
+}

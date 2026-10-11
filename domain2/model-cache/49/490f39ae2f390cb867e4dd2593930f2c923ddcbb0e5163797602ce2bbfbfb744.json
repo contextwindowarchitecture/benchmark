@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "490f39ae2f390cb867e4dd2593930f2c923ddcbb0e5163797602ce2bbfbfb744",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "465690cb51ebda9cfcabdd290496d2feb44b43eaa141bbad5ad9017598194d5a",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T03:06:23Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 9029.948,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "8d4b08faf0287b4a4d3dd82e91f3e8da5b1b8a3b4af777cdff62d3c3f579804e",
+    "response_id": "chatcmpl-8e1fec6c48e94250",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 245,
+      "prompt_tokens": 5466,
+      "total_tokens": 5711
+    }
+  },
+  "text": "To calculate the current order total, I need to look at the items added and removed from the supply list for the Zelby depot.\n\n1.  **Added Item:** In turn `t001`, the user requested to \"Add a line of 465 for the ladders\".\n    *   Current Subtotal: 465\n\n2.  **Added Item:** In turn `t014`, the user requested to \"Add a line of 360 for the lanterns\".\n    *   Current Subtotal: 465 + 360 = 825\n\n3.  **Added Item:** In turn `t019`, the user requested to \"Add a line of 155 for the helmets\".\n    *   Current Subtotal: 825 + 155 = 980\n\n4.  **Removed Item:** In turn `t036`, the user requested to \"Take 70 off the order for the returned stock\".\n    *   Final Total: 980 - 70 = 910\n\nTotal: 910"
+}

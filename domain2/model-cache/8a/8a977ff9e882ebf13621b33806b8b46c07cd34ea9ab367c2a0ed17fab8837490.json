@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "8a977ff9e882ebf13621b33806b8b46c07cd34ea9ab367c2a0ed17fab8837490",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "deaa00e900d2f3df1f9f061ae8d0a03aa6edd3cd3b6157d8db09252d2e807099",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T08:13:45Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 9930.988,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "07720c202196b81ca560353c920fbf19df62614e60fdb5cbb4da5e07f8ca09f9",
+    "response_id": "chatcmpl-b92b06fb0f324824",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6088,
+      "total_tokens": 6600
+    }
+  },
+  "text": "To calculate the total for the order so far, I need to track the line items added and any adjustments made to the stock returns.\n\n1.  **Identify Added Lines:**\n    *   In turn `t048`, the user stated: \"Add a line of 520 for the lamps to the order.\" This adds **520** to the order total.\n\n2.  **Identify Adjustments to Stock Returns:**\n    *   The prompt mentions \"returned stock\" orders in other turns (`t038` and `t078`), but these are reductions *off* a separate \"returned stock\" order, not direct subtractions from the main supply order total unless the main order includes returned stock. However, standard interpretation of \"order for the returned stock\" implies a separate line item for returns. The question asks for the \"order\" total, which typically refers to the new supply order being built up.\n    *   Let's re-read carefully. \"Take 35 off the order for the returned stock.\" and \"Take 50 off the order for the returned stock.\" and \"Take 80 off the order for the returned stock.\" These are adjustments to a specific sub-total or line item called \"returned stock\".\n    *   Usually, in these supply order tasks, there is one main \"Order Total\". If \"returned stock\" is a separate line item (a negative cost or a separate category), it might be included in the grand total. However, without a starting value for the \"returned stock\" order, we cannot calculate its net value.\n    *   Let's look for any other items.\n    *   Scanning the history for other \"Add a line...\" or similar positive additions to the *main* order.\n    *   Turn `t048`: \"Add a line of 520 for the lamps to the order.\"\n\n    Are there any other additions?\n    *   Turns `t038`, `t044`, `t078` reduce the *returned stock* order.\n    *   There are no other \"Add...\" commands for the main order.\n\n    If the \"order\" refers to the entire bill including returns, we are missing the initial value of the returned stock. However, often in these specific logic puzzles, if a starting value isn't given, the \"returned stock\" might be a distractor or a separate"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "489d473a4a16304783d056c05aa4a132a6031b469675aabcb02ee5e3aa569351",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "fcd9460c04064aba986424dc734e8fd19b8f0115da85cb1a244030c571b28a76",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T02:23:47Z",
+    "cached_tokens": 7392,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 11545.45,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "797cdc19412fd4ebb8ff7db30257c3bc211b49a8745f0911ed56ebccb50da459",
+    "response_id": "chatcmpl-9286a52ad67198b8",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 300,
+      "prompt_tokens": 9412,
+      "total_tokens": 9712
+    }
+  },
+  "text": "To calculate the total for the supply order, I will identify all the line items added by the user and sum their quantities.\n\n1.  **Ladders**: In turn `t001`, the user requested to \"Add a line of 465 for the ladders\".\n    *   Current Total: 465\n\n2.  **Lanterns**: In turn `t014`, the user requested to \"Add a line of 360 for the lanterns\".\n    *   Current Total: 465 + 360 = 825\n\n3.  **Helmets**: In turn `t019`, the user requested to \"Add a line of 155 for the helmets\".\n    *   Current Total: 825 + 155 = 980\n\n4.  **Returned Stock Deduction**: In turn `t036`, the user requested to \"Take 70 off the order for the returned stock\".\n    *   Current Total: 980 - 70 = 910\n\n5.  **Returned Stock Deduction**: In turn `t067`, the user requested to \"Take 45 off the order for the returned stock\".\n    *   Current Total: 910 - 45 = 865\n\nTotal: 865"
+}

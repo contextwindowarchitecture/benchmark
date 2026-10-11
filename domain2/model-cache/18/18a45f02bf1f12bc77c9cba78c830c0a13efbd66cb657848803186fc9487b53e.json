@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "18a45f02bf1f12bc77c9cba78c830c0a13efbd66cb657848803186fc9487b53e",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "b3bf4614a5f5df475ab3816e84b2100c593965e445bbaa17f8613080cc3c1c41",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T02:51:43Z",
+    "cached_tokens": 1056,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 62993.341,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "75b58ad8c74ac4902edc528b4f083f3f01212ed10028ab0728a98b60afd86e80",
+    "response_id": "chatcmpl-944cc1a6999ed00f",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 387,
+      "prompt_tokens": 1652,
+      "total_tokens": 2039
+    }
+  },
+  "text": "To calculate the total for the Istbury depot order, we need to sum the quantities of each item line by line.\n\n1.  **Lamps**: The initial task lists 380 lamps. The user added 460 lamps in turn t001.\n    $380 + 460 = 840$ lamps.\n\n2.  **Cable reels**: The initial task lists 230 cable reels. The user added 310 cable reels in turn t002.\n    $230 + 310 = 540$ cable reels.\n\n3.  **Toolkits**: The initial task lists 20 toolkits. The user added 100 toolkits in turn t005.\n    $20 + 100 = 120$ toolkits.\n\n4.  **Lanterns**: The initial task lists 345 lanterns. The user added 425 lanterns in turn t008.\n    $345 + 425 = 770$ lanterns.\n\n5.  **Returned stock**: In turn t009, the user requested to take 80 off the order for returned stock. This is a deduction from the total count.\n\nNow, we sum the final quantities for each item and apply the deduction:\n$840 \\text{ (lamps)} + 540 \\text{ (cable reels)} + 120 \\text{ (toolkits)} + 770 \\text{ (lanterns)} = 2270$\n\nSubtract the returned stock:\n$2270 - 80 = 2190$\n\nTotal: 2190"
+}

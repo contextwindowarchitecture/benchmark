@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "5d49256100d90da7db11aa7830ad96714d20d091cd7a64dabbfc09a7042c9508",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "68702f8a1aa24263d8cff8c6c277b753ccc0886dbf38d4dfde4b8fef5b86733e",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T02:23:00Z",
+    "cached_tokens": 8448,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 9756.899,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "b486d06c3ee812279395ac3ea03ab82211a2093e26726b874a7fca8736b43b05",
+    "response_id": "chatcmpl-a65639630461cb6d",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 255,
+      "prompt_tokens": 9341,
+      "total_tokens": 9596
+    }
+  },
+  "text": "To calculate the total for the supply order, I need to identify all the line items added or removed from the order throughout the session.\n\n1.  **Turn t001**: \"Add a line of 415 for the cable reels to the order.\"\n    *   Current Total: 415\n\n2.  **Turn t027**: \"Take 70 off the order for the returned stock.\"\n    *   Calculation: 415 - 70 = 345\n    *   Current Total: 345\n\n3.  **Turn t042**: \"Add a line of 150 for the tarps to the order.\"\n    *   Calculation: 345 + 150 = 495\n    *   Current Total: 495\n\n4.  **Turn t047**: \"There's a flat delivery fee of 55 on the order.\"\n    *   Calculation: 495 + 55 = 550\n    *   Current Total: 550\n\nNo other order modifications were mentioned in the subsequent turns.\n\nTotal: 550"
+}

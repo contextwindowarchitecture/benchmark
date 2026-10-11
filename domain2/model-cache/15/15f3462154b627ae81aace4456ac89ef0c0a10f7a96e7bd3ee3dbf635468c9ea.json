@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "15f3462154b627ae81aace4456ac89ef0c0a10f7a96e7bd3ee3dbf635468c9ea",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "dff53062b990e1130b3bcaa32f763d0e258757aeaffec3937fcb4214a704f579",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T03:10:04Z",
+    "cached_tokens": 4224,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 5848.306,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "3e71305f059f96384fa19bb8cae47b47ec1a45ab20af232cb09ef726411c43d7",
+    "response_id": "chatcmpl-a414e4822afb0896",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 249,
+      "prompt_tokens": 4484,
+      "total_tokens": 4733
+    }
+  },
+  "text": "To determine the total of the supply order so far, I will review the items added to the order throughout our session.\n\n1.  **Ladders**: In turn `t001`, the user asked to \"Add a line of 330 for the ladders to the order.\" This is the only item explicitly added to the supply order.\n2.  **Helmets**: In turn `t002`, the user said, \"Add a line of 330 for the helmets to the order.\" I should check if this was actually added to the order state. Looking at `xstate:14`, the `order_items` only lists `[{\"item\": \"ladders\", \"quantity\": 330}]`. The assistant's response in `t002` was generic (\"All right, I have that...\") and did not confirm the addition to the order list, nor did subsequent history updates modify the `order_items` state to include helmets. The `order_items` state remains consistent with just the ladders.\n\nTherefore, the order consists only of the ladders.\n\n*   Ladders: 330\n\nTotal: 330"
+}

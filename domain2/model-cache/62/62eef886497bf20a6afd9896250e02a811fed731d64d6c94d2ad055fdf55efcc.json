@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "62eef886497bf20a6afd9896250e02a811fed731d64d6c94d2ad055fdf55efcc",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "0add99703785f8978013387ed7781198895e893097063cf501fb5d082852de5f",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T02:21:54Z",
+    "cached_tokens": 8448,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 15290.527,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "ac538d9e5286fa41dc40dec755ae6c7553068621295f8a907c7ee4cf1dadbd3f",
+    "response_id": "chatcmpl-84cfc69838a3249d",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 346,
+      "prompt_tokens": 9351,
+      "total_tokens": 9697
+    }
+  },
+  "text": "To determine the total for the supply order, I need to identify all the specific line items added to the order throughout the session.\n\n1.  **Turn t001**: The user requested, \"Add a line of 330 for the ladders to the order.\"\n    *   Item: Ladders\n    *   Cost: 330\n\n2.  **Turn t002**: The user requested, \"Add a line of 330 for the helmets to the order.\"\n    *   Item: Helmets\n    *   Cost: 330\n\n3.  **Turn t034**: The user requested, \"Add a line of 315 for the cable reels to the order.\"\n    *   Item: Cable reels\n    *   Cost: 315\n\n4.  **Turn t036**: The user requested, \"Add a line of 570 for the toolkits to the order.\"\n    *   Item: Toolkits\n    *   Cost: 570\n\nNo other supply items were added to the order in the subsequent turns.\n\nNow, I will sum these amounts:\n330 (ladders) + 330 (helmets) + 315 (cable reels) + 570 (toolkits)\n\n*   330 + 330 = 660\n*   660 + 315 = 975\n*   975 + 570 = 1545\n\nTotal: 1545"
+}

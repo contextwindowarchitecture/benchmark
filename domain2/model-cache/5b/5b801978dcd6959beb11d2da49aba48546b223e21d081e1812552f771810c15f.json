@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "5b801978dcd6959beb11d2da49aba48546b223e21d081e1812552f771810c15f",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "8452f7d01cfa56987b1c82e26964a2a00df39a7c3d6e737962ca516db6ac1e8c",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T03:10:14Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 5683.237,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "6c08b267e35a58bcfd33230e38c60d08048678a03d37bc82a59e0b86a6050bb2",
+    "response_id": "chatcmpl-bcd2b3f5d99ad9be",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 250,
+      "prompt_tokens": 5692,
+      "total_tokens": 5942
+    }
+  },
+  "text": "To determine the current total of the order, let's look at the lines recorded so far:\n\n1.  **Crates**: In the first turn, the user requested to add a line of 515 for crates. However, in the state provided at the beginning of this session (`order_lines`), the quantity for crates is listed as **480**. This suggests that a correction or return was processed after the initial addition (likely referring to the \"Take 35 off the order\" mentioned in turn t038, as 515 - 35 = 480).\n2.  **Ladders**: In turn t017, the user requested to add a line of 400 for ladders. This is confirmed in the current state (`order_lines`).\n\nSo, the current order lines are:\n*   Crates: 480\n*   Ladders: 400\n\nNow, let's add them up step by step:\n*   Start with Crates: 480\n*   Add Ladders: 480 + 400 = 880\n\nTotal: 880"
+}

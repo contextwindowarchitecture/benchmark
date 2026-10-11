@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "e859dd3eb663541f63991d7b146fc5681c1a2c58909b8f093362241ef4bed83c",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "20090287ab17a2accae04bf88b0bb05775cfaf2d85d18fc199e0f937e86d767f",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T02:20:11Z",
+    "cached_tokens": 7392,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 13972.467,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "870105141f47c3658063d923787e0dafdb12082cae1e4077d960fb4c62bdfb4b",
+    "response_id": "chatcmpl-9a77bb16ad074dd2",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 351,
+      "prompt_tokens": 8080,
+      "total_tokens": 8431
+    }
+  },
+  "text": "To calculate the total for the supply order, I will identify the specific line items added by the user and sum their quantities.\n\n1.  **Line Item 1:** In turn `t001`, the user requested: \"Add a line of 515 for the crates to the order.\"\n    *   Quantity: 515\n\n2.  **Line Item 2:** In turn `t017`, the user requested: \"Add a line of 400 for the ladders to the order.\"\n    *   Quantity: 400\n\n3.  **Line Item 3:** In turn `t048`, the user requested: \"Add a line of 520 for the lamps to the order.\"\n    *   Quantity: 520\n\n4.  **Adjustments:**\n    *   In turn `t038`, the user requested: \"Take 35 off the order for the returned stock.\"\n    *   In turn `t044`, the user requested: \"Take 50 off the order for the returned stock.\"\n\n**Calculation:**\n\n*   Start with crates: 515\n*   Add ladders: 515 + 400 = 915\n*   Add lamps: 915 + 520 = 1435\n*   Subtract returned stock (1): 1435 - 35 = 1400\n*   Subtract returned stock (2): 1400 - 50 = 1350\n\nTotal: 1350"
+}

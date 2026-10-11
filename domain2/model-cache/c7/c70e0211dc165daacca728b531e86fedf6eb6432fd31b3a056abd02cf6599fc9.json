@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "c70e0211dc165daacca728b531e86fedf6eb6432fd31b3a056abd02cf6599fc9",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "7a6ccefbbdfa4e545c144d5879e158b8eb24149c6c8e485e10b2b643d17e4071",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-11T08:13:27Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 7649.81,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "edc506421d99afea57b08dd6b1f72d94c3161d0c08bc8502d643c5ec2511394c",
+    "response_id": "chatcmpl-8baa0ed3cd86f9c9",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 419,
+      "prompt_tokens": 6024,
+      "total_tokens": 6443
+    }
+  },
+  "text": "To calculate the total for the order so far, we need to identify the specific items and quantities mentioned in the conversation history that relate to purchasing or stock adjustments.\n\n1.  **Scan for order items:**\n    *   In `turn:t049`, the user states: \"Take 65 off the order for the returned stock.\" This implies a reduction of 65 units from a previous total or a negative line item. However, without a starting total or other positive line items explicitly added *to the order* in the preceding turns, we must look for additions.\n    *   In `turn:t085`, the user states: \"Add a line of 160 for the cable reels to the order.\"\n\n2.  **Analyze the context of \"Take 65 off\":**\n    *   The phrase \"Take 65 off the order\" usually implies an adjustment to an existing sum. If no prior sum was established, this could be interpreted as a starting point of 0, resulting in -65, or it refers to a bulk order not explicitly detailed with a base number in the text. However, in supply order contexts within these types of prompts, if a specific additive line is given later (\"Add a line of 160\"), we typically sum the explicit additions and subtractions provided.\n    *   Let's look for any other items. Scanning the rest of the history:\n        *   Turns mention meetings, desk swaps, umbrella locations, lift status, temperature preferences, and people being out/covering.\n        *   No other physical goods or quantities are added to the \"order\".\n\n3.  **Calculate the total:**\n    *   Adjustment 1: -65 (from `turn:t049`)\n    *   Adjustment 2: +160 (from `turn:t085`)\n\n    Total = -65 + 160\n    Total = 95\n\nTotal: 95"
+}

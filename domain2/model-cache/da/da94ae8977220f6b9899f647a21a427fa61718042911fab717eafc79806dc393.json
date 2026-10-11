@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "da94ae8977220f6b9899f647a21a427fa61718042911fab717eafc79806dc393",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "2833aba6cd1ac5399811c732ee7a2d197cd2601b5e951656b0eef47a69ac2313",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T02:58:47Z",
+    "cached_tokens": 3168,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 14228.953,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "b11895c85580df89bf091209405e0b8bfb022331b42e0ac51eb370eefa1b79cc",
+    "response_id": "chatcmpl-b71b6536ba8464dc",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 312,
+      "prompt_tokens": 4151,
+      "total_tokens": 4463
+    }
+  },
+  "text": "To calculate the total for the Varstead depot supply order, I need to sum up all the line items added by the user.\n\n1.  **Ladders**: In turn `t001`, the user added a line of **350** for the ladders.\n2.  **Tarps**: In turn `t014`, the user added a line of **50** for the tarps.\n3.  **Lamps**: In turn `t015`, the user added a line of **320** for the lamps.\n4.  **Cable reels**: In turn `t024`, the user added a line of **105** for the cable reels.\n5.  **Returned stock**: In turn `t023`, the user instructed to take **70** off the order. This is a deduction.\n\nNow, let's calculate the total:\n\n*   Start with the positive items: $350 + 50 + 320 + 105$\n*   $350 + 50 = 400$\n*   $400 + 320 = 720$\n*   $720 + 105 = 825$\n\nNow, subtract the deduction for returned stock:\n*   $825 - 70 = 755$\n\nTotal: 755"
+}

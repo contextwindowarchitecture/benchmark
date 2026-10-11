@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "a6c75f7182db87c9699f972e1886305c80239420b18f13d944984dfe9bc6444d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d478f616c7601986c9f4d88f6ce61bec80fdb74321de819b79dfbf8c867fc5e5",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T07:52:49Z",
+    "cached_tokens": 11616,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 12198.035,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "3d5211d85803c293545b8ec1f142382dd96d790af305f32dba633fc561eb0e08",
+    "response_id": "chatcmpl-925780bb9d83d2c8",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 323,
+      "prompt_tokens": 12094,
+      "total_tokens": 12417
+    }
+  },
+  "text": "To calculate the total for the order, I need to identify all the line items added or modified in the conversation history.\n\n1.  **Ladders**: In turn `t017`, the user said, \"Add a line of 400 for the ladders to the order.\"\n    *   Current total for ladders: 400\n\n2.  **Lamps**: In turn `t048`, the user said, \"Add a line of 520 for the lamps to the order.\"\n    *   Current total for lamps: 520\n\n3.  **Returned Stock Adjustments**:\n    *   In turn `t038`, the user said, \"Take 35 off the order for the returned stock.\"\n    *   In turn `t044`, the user said, \"Take 50 off the order for the returned stock.\"\n    *   In turn `t078`, the user said, \"Take 80 off the order for the returned stock.\"\n    *   Total deductions for returned stock: 35 + 50 + 80 = 165\n\nNow, let's sum the additions and subtract the deductions:\n\n*   Additions: 400 (ladders) + 520 (lamps) = 920\n*   Deductions: 165\n\nTotal: 920 - 165 = 755\n\nTotal: 755"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "d5ae88245e4044484bc1d6c453f3b98247b192e0671d5f648559a740be04ef9f",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "0fbee3b61e95c83a65b97920b1bfc443a0e9d1a13d860ca22608d6619a944dee",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-11T08:14:03Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 9325.249,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "07720c202196b81ca560353c920fbf19df62614e60fdb5cbb4da5e07f8ca09f9",
+    "response_id": "chatcmpl-90f48b85accd876f",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6088,
+      "total_tokens": 6600
+    }
+  },
+  "text": "Based on the conversation history, here is the current status of the supply order:\n\n1.  **Returned Stock**: Initially, there was an order for returned stock.\n    *   In turn `t038`, the user said: \"Take 35 off the order for the returned stock.\"\n    *   In turn `t044`, the user said: \"Take 50 off the order for the returned stock.\"\n    *   In turn `t078`, the user said: \"Take 80 off the order for the returned stock.\"\n    *   *Note*: The prompt does not specify the *starting* quantity of the returned stock order. However, in these types of supply order tasks, if a starting quantity isn't explicitly given as a positive addition (e.g., \"Add 100 to the returned stock\"), and only subtractions are mentioned, it often implies the net result is what's being tracked, or the starting amount was zero/irrelevant if we are just summing up *additions*. Let's look for any *additions* to the order.\n    *   Looking closely at the history, there are no lines like \"Add X to the order for [item]\". The only adjustments are subtractions (\"Take X off\"). Without a base quantity for the returned stock, we cannot calculate a total for that specific line. However, usually, if no base is given, it might be treated as 0, or the question implies summing up all *positive* line items added. Let's re-read carefully.\n    *   Wait, is there any other item?\n    *   In turn `t048`, the user said: \"Add a line of 520 for the lamps to the order.\"\n\n    So, we have:\n    *   **Lamps**: +520\n    *   **Returned Stock**: The user has taken 35, 50, and 80 *off* the order. If no initial amount was specified, the order for returned stock is effectively being reduced from an unknown start, or if we assume the \"order\" refers to the net items to be purchased/received, and no items were *added* to the returned stock line, it remains at 0 or is invalid. However, typically in these logs, if items are removed, there must be an initial amount. Since none is provided in the text ("
+}

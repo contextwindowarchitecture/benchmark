@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "f5ba03666e9deaf262005881fbc8cc6eaf2b2db4556796db8329fcf4cb688254",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "3c448f73320337d9caa32219e440a277dd3e4622d1de919931350b3111e33890",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T03:06:24Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 18832.748,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "a663b4eaf0c97d9e2066094718622a40504c6d59db613470e7c27d3b78c3828c",
+    "response_id": "chatcmpl-82b0dda4ee39cf86",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 2867,
+      "total_tokens": 3379
+    }
+  },
+  "text": "To determine the total for the Istworth depot order, let's look at the lines provided and any adjustments made during the session:\n\n1.  **Initial Lines:**\n    *   Ladders: 370\n    *   Lamps: 555\n\n2.  **Adjustments:**\n    *   In turn `t001`, the user requested: \"Add a line of 400 for the ladders to the order.\"\n        *   New Ladders quantity: $370 + 400 = 770$\n    *   In turn `t004`, the user requested: \"Take 30 off the order for the returned stock.\"\n        *   This instruction is generic (\"the order\"), but typically applies to the most recently modified item or is a general reduction. However, looking at the context of supply orders, \"returned stock\" usually implies a reduction in the total items ordered. Without a specific item attached, and given the phrasing \"Take 30 off the order\", it is safest to interpret this as a reduction to the total quantity or the most significant recent item. Let's look closer. Usually, if it's item-specific, it says \"take 30 off the ladders\". Since it says \"the order\", it might be a general deduction. However, in these types of logic puzzles, if it doesn't specify an item, it often applies to the last added or modified quantity, or is a distractor. Let's re-read carefully.\n        *   Wait, let's look at the specific wording: \"Take 30 off the order for the returned stock.\"\n        *   If I apply it to the total:\n            *   Ladders: 770\n            *   Lamps: 555\n            *   Total before deduction: $770 + 555 = 1325$\n            *   Total after deduction: $1325 - 30 = 1295$\n        *   Alternatively, if it applies to the last item modified (Ladders):\n            *   Ladders: $770 - 30 = 740$\n            *   Lamps: 555\n            *   Total: $740 + 555 = 1295$\n        *   In both interpretations (deducting"
+}

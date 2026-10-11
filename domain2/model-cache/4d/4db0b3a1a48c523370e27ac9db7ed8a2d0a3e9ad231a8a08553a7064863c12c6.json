@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "4db0b3a1a48c523370e27ac9db7ed8a2d0a3e9ad231a8a08553a7064863c12c6",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "b6dcbb54e04a7e6da89bfd563e5f366dc5d63d9f8d3f3770034c39b932ea886e",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T03:05:00Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 8186.078,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "5728408fd040c51c4cebd1c642e575e1c4128aee15b92746f751e98d607c16ae",
+    "response_id": "chatcmpl-9bdf24019f63ff77",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 225,
+      "prompt_tokens": 5378,
+      "total_tokens": 5603
+    }
+  },
+  "text": "To determine the total for the Nevbury depot supply order, we need to look at the quantity adjustments made to the items throughout the session.\n\n1.  **Ladders**: In the first turn, the user requested to add a line of **240** for the ladders.\n2.  **Returned Stock**: In turn 018, the user instructed to \"Take 80 off the order for the returned stock.\" This reduces the total by 80.\n3.  **Returned Stock (Second Adjustment)**: In turn 029, the user instructed to \"Take 25 off the order for the returned stock.\" This reduces the total by an additional 25.\n\nThere are no other items mentioned in the order lines.\n\nCalculation:\n*   Start with Ladders: 240\n*   Subtract first returned stock: 240 - 80 = 160\n*   Subtract second returned stock: 160 - 25 = 135\n\nTotal: 135"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "137dcef87c020e036d1599a0ea392619ec5103bef9e9886f8402fc09cbed5322",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "7f0dcf819f62e8e9e2a6b7a522d55cce496e09e5e31bd1acacbe0225644b9029",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T07:52:13Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 23742.965,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "5544383f86e3d7840cd91574a718894d358f78e2ea0099cb767e06148abe2f60",
+    "response_id": "chatcmpl-9bab22528d1bc351",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 271,
+      "prompt_tokens": 5977,
+      "total_tokens": 6248
+    }
+  },
+  "text": "To calculate the total for the order, I need to identify the line items and their costs from the conversation history.\n\n1.  **Scan for order lines:** I will look for any mentions of items being added to the supply order with associated prices.\n2.  **Scan for discounts/fees:** I will look for any flat fees or adjustments to the order total.\n\n**Reviewing the history:**\n*   **Turn t007:** \"There's a flat delivery fee of 45 on the order.\" -> This is a fee, not a line item for a product, but it contributes to the total cost.\n*   **Turn t032:** \"Take 40 off the order for the returned stock.\" -> This is a discount/adjustment.\n*   **Other turns:** The rest of the conversation contains updates about office conditions (repainting, noise, cold rooms), staff swaps, absences, meeting locations, and reminders. There are no specific product line items (e.g., \"5 boxes of paper\", \"1 printer\") mentioned with prices.\n\n**Calculation:**\n*   Flat delivery fee: +45\n*   Discount for returned stock: -40\n\nTotal = 45 - 40 = 5\n\nTotal: 5"
+}

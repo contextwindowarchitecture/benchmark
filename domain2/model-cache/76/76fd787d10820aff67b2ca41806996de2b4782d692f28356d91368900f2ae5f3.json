@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "76fd787d10820aff67b2ca41806996de2b4782d692f28356d91368900f2ae5f3",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "fd523cd27cf79501a85bf98047788415b93cf8882045b89490dc572b8c7dfefc",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T08:13:11Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 5950.389,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "7d7c5c9273eff30432b822d1499cbe06e4f75eed0c424282c3907400b853a77c",
+    "response_id": "chatcmpl-86a18742a61478ae",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 326,
+      "prompt_tokens": 6058,
+      "total_tokens": 6384
+    }
+  },
+  "text": "To determine the total for the order so far, I need to look through the conversation history for any specific instructions to add or remove items from the supply order.\n\n1.  **Scan for additions:**\n    *   In **turn:t048**, the user states: \"Add a line of 520 for the lamps to the order.\" This adds **520** to the order.\n\n2.  **Scan for subtractions:**\n    *   In **turn:t038**, the user states: \"Take 35 off the order for the returned stock.\" This subtracts **35** from the order.\n    *   In **turn:t044**, the user states: \"Take 50 off the order for the returned stock.\" This subtracts **50** from the order.\n\n3.  **Check for other items:**\n    *   Scanning the rest of the history (turns t026–t070), there are no other mentions of adding or removing specific quantities or prices from the supply order. The other lines discuss office logistics, room availability, swaps, and reminders, but do not contribute to the supply order total.\n\n4.  **Calculate the total:**\n    *   Start with the addition: 520\n    *   Subtract the first return: 520 - 35 = 485\n    *   Subtract the second return: 485 - 50 = 435\n\nTotal: 435"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "fe6ad4fb7b239601a37163580fec9e4bea9f83117c4286ee7d2b0631be6548db",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "69b49de41c368afa4228ed514a5894d0cdbf93f1d320ce19b625643379c9f13e",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T07:56:17Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 9052.558,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "1423867f25969a9022b1211e7590cf4febc56048eaff6187507e67892ff4d577",
+    "response_id": "chatcmpl-a4b58e330fc14b8f",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6121,
+      "total_tokens": 6633
+    }
+  },
+  "text": "To determine the total for the order, let's look at the items and quantities provided in the initial task and any updates made during the session.\n\n1.  **Initial Order Lines (from task xstate:01):**\n    *   Lanterns: 120\n    *   Ladders: 180\n    *   Tarps: 220\n    *   Cable reels: 240\n    *   Toolkits: 230\n\n2.  **Updates during the session:**\n    *   In turn t038, the user asked to \"Add a line of 180 for the ladders to the order.\"\n        *   Previous ladders: 180\n        *   Added: 180\n        *   New total for ladders: 180 + 180 = 360\n    *   In turn t050, the user asked to \"Add a line of 220 for the tarps to the order.\"\n        *   Previous tarps: 220\n        *   Added: 220\n        *   New total for tarps: 220 + 220 = 440\n    *   In turn t056, the user asked to \"Add a line of 240 for the cable reels to the order.\"\n        *   Previous cable reels: 240\n        *   Added: 240\n        *   New total for cable reels: 240 + 240 = 480\n    *   In turn t068, the user asked to \"Add a line of 230 for the toolkits to the order.\"\n        *   Previous toolkits: 230\n        *   Added: 230\n        *   New total for toolkits: 230 + 230 = 460\n\n3.  **Final Quantities:**\n    *   Lanterns: 120\n    *   Ladders: 360\n    *   Tarps: 440\n    *   Cable reels: 480\n    *   Toolkits: 460\n\n4.  **Calculation:**\n    *   120 (Lanterns)\n    *"
+}

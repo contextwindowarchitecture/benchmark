@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "9e599757984148e13b0e2357413df6af789990702b48eb5fab6c4832c2163bb8",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d40cc8872e85c397af76e676c56e95852db84795ea624c16211e4408b165806d",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T02:23:32Z",
+    "cached_tokens": 2112,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 20236.721,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "a663b4eaf0c97d9e2066094718622a40504c6d59db613470e7c27d3b78c3828c",
+    "response_id": "chatcmpl-99ea92e14df5a7e0",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 2867,
+      "total_tokens": 3379
+    }
+  },
+  "text": "To determine the total for the Istworth depot order, let's look at the lines added so far:\n\n1.  **Ladders**: The initial order had 370. In turn `t001`, the user asked to \"Add a line of 400 for the ladders\". This phrasing typically implies setting the quantity to 400 or adding a new line item of 400. Given the context of \"Add a line... for the ladders\", and the previous existence of ladders, it usually means updating the quantity to 400. Let's assume the quantity is now 400.\n2.  **Lamps**: The initial order had 555. In turn `t020`, the user asked to \"Add a line of 555 for the lamps\". Similar to the ladders, this likely updates the quantity to 555 (or confirms it).\n\nLet's re-evaluate the \"Add a line\" instruction.\n- Turn `t001`: \"Add a line of 400 for the ladders\". Previous quantity was 370. If it meant *add to*, it would be 770. If it meant *set to*, it would be 400. In supply order contexts, \"Add a line of X for Item Y\" often means \"Create/Update the line item for Item Y with quantity X\". Let's look for any subtraction instructions.\n- Turn `t004`: \"Take 30 off the order for the returned stock.\" This is ambiguous. Does it apply to a specific item? Usually, if not specified, it might apply to the most recent or largest item, or it's a general deduction. However, looking at the items, \"ladders\" and \"lamps\" are distinct. Without a specific item mentioned, this is tricky. Let's look closer. \"Take 30 off the order for the returned stock.\" It doesn't specify which item. Often in these tests, if it's not specified, it might apply to the first item or be a general total deduction. But wait, looking at the pattern of these prompts, \"Take 30 off the order\" usually implies a specific item if one is mentioned, or it's a distractor if no item is linked. However, let's look at the phrasing again. \"Take 30 off the order for the"
+}

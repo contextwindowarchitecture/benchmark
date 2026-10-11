@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "4a97be9663d7e8460d65287ea62abd3a50bbaf10ac39b80e99528d46a99ab81a",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "55da117f3d355723c6526b24350861f266065fb00f5baef4ee94f1c58a3f606c",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T02:20:35Z",
+    "cached_tokens": 6336,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 10371.037,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "401295e09e474762ab698a5cd31264a02dbf12f7c10389957abea1101eec5895",
+    "response_id": "chatcmpl-97c61d4ec4c1f313",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 267,
+      "prompt_tokens": 6775,
+      "total_tokens": 7042
+    }
+  },
+  "text": "To calculate the total for the Fenbury depot supply order, I will sum the line items provided in the conversation history.\n\n1.  **Ladders**: In turn `t001`, the user requested to \"Add a line of 165 for the ladders to the order.\"\n    *   Current Subtotal: 165\n\n2.  **Toolkits**: In turn `t004`, the user requested to \"Add a line of 265 for the toolkits to the order.\"\n    *   Current Subtotal: 165 + 265 = 430\n\n3.  **Delivery Fee**: In turn `t007`, the user stated, \"There's a flat delivery fee of 45 on the order.\"\n    *   Current Subtotal: 430 + 45 = 475\n\n4.  **Returned Stock**: In turn `t032`, the user instructed to \"Take 40 off the order for the returned stock.\"\n    *   Current Subtotal: 475 - 40 = 435\n\nThere are no other line items, fees, or adjustments mentioned in the history.\n\nTotal: 435"
+}

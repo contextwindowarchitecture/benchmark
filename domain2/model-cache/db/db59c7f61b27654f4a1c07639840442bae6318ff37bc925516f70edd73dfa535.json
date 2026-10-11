@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "db59c7f61b27654f4a1c07639840442bae6318ff37bc925516f70edd73dfa535",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e33cd9f48943a069fbd38ce400e2680e706068acf5c53eb8d0aee1e58fef77d9",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T02:22:58Z",
+    "cached_tokens": 1056,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 12343.195,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "05b427d4226435b59a00e2e8727648749afb82b35d75209ecf50de64a9767acd",
+    "response_id": "chatcmpl-b8c8c2ecfe37806c",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 303,
+      "prompt_tokens": 1531,
+      "total_tokens": 1834
+    }
+  },
+  "text": "To calculate the total for the order so far, I need to identify all the line items and adjustments mentioned in the conversation history.\n\n1.  **Line Item:** In turn `t044`, the user requested to \"Add a line of 160 for the crates to the order.\"\n    *   Current Subtotal: 160\n\n2.  **Adjustment:** In turn `t043`, the user requested to \"Take 25 off the order for the returned stock.\"\n    *   *Correction*: The user said \"Take 65 off\". Let me re-read turn `t043`.\n    *   Turn `t043` text: \"Take 65 off the order for the returned stock.\"\n    *   Adjustment: -65\n    *   Current Subtotal: 160 - 65 = 95\n\n3.  **Line Item/Fee:** In turn `t050`, the user stated, \"There's a flat delivery fee of 25 on the order.\"\n    *   Current Subtotal: 95 + 25 = 120\n\nThere are no other monetary values or line items mentioned in the history.\n\nCalculation:\n160 (crates) - 65 (returned stock) + 25 (delivery fee) = 120\n\nTotal: 120"
+}

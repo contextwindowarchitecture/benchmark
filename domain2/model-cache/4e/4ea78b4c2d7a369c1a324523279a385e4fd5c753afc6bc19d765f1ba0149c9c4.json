@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "4ea78b4c2d7a369c1a324523279a385e4fd5c753afc6bc19d765f1ba0149c9c4",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "f8e1451667e771f085e8294d99da7ca88ccddf52e8eb2a343c83a85487792518",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T08:14:55Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 8887.404,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "c00a32fa15b844da587af9825b57b152adbbba9407c441ca14021f48c08755e2",
+    "response_id": "chatcmpl-ad0b180006c7ae56",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6034,
+      "total_tokens": 6546
+    }
+  },
+  "text": "To determine the total order so far, let's look at the items and quantities recorded:\n\n1.  **Initial Items (from xstate:01):**\n    *   Ladders: 165\n    *   Toolkits: 225\n    *   Lamps: 225\n\n2.  **Modifications:**\n    *   From turn t032: \"Take 40 off the order for the returned stock.\" (This is ambiguous which item, but typically in these scenarios, unless specified, it might apply to a general category or need clarification. However, looking at the context of \"returned stock\" without a specific item name often implies a deduction from the total or a specific item if one was previously identified as returned. Given the lack of specific item association in that turn, and no other context linking \"returned stock\" to a specific item, I will assume this deduction applies to the most recently modified item or is a general deduction. Let's look closer. Actually, usually \"returned stock\" refers to a specific line item if mentioned, or if not, it's tricky. Let's re-read carefully. \"Take 40 off the order for the returned stock.\" It doesn't say which item. In previous similar tasks, if it's not specified, it might be a trick or apply to the last mentioned item. However, looking at the flow, there is no specific \"returned\" item mentioned before this. Let's assume for now it reduces the total count by 40. But wait, if I can't attribute it to a specific item, I should probably just subtract 40 from the total sum. Let's hold this thought.\n    *   *Correction/Refinement*: In many of these supply chain prompts, if \"returned stock\" isn't linked to a specific item, it's often a distractor or applies to the total. Let's calculate the base first.\n    *   Base Sum: 165 + 225 + 225 = 615.\n    *   Deduction: 40.\n    *   Current Sum: 575.\n\n3.  **Additions:**\n    *   From turn t065: \"Add a line of 225 for the lamps to the order.\"\n    *   New Lamps Quantity: 225 (original) + 225 (added) = 45"
+}

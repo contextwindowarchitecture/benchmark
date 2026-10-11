@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "c18c389bf5b4a0cbee80d6f25d1a7eef6e3a46e10a1cd180c0d8331c4de8decc",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "683b0edc35971a10fa4b6ff591bb15632504c24bbcc7569bc2a612df429683f4",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T07:57:07Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 3736.78,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "a77e524ed05398e975066b3a5dbbd009058596cb91356805b91f55a574ee512d",
+    "response_id": "chatcmpl-84ae88232d33840d",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 278,
+      "prompt_tokens": 6098,
+      "total_tokens": 6376
+    }
+  },
+  "text": "To determine the total for the order, let's look at the items and quantities provided in the initial task and any subsequent updates.\n\n1.  **Initial Order Lines (from task xstate:01):**\n    *   Cable reels: 415\n    *   Ladders: 25\n    *   Tarps: 150\n\n2.  **Updates from History:**\n    *   In turn `t027`, the user stated: \"Take 70 off the order for the returned stock.\" This applies to the total quantity.\n    *   In turn `t042`, the user stated: \"Add a line of 150 for the tarps to the order.\" This adds 150 to the tarp quantity.\n\n3.  **Calculation:**\n    *   **Cable reels:** 415\n    *   **Ladders:** 25\n    *   **Tarps:** Initial 150 + Added 150 = 300\n    *   **Subtotal before return adjustment:** 415 + 25 + 300 = 740\n    *   **Return adjustment:** 740 - 70 = 670\n\nTotal: 670"
+}

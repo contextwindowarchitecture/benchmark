@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "c8a1ad2d351755030ab0f3ffe69db371df7d291a6eea6eba385ef3ad655af4d7",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "abbbc915c6fb280e81532d77a2c12a7959db9bc14b7b28a07dc3b3148b8b627e",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T08:10:43Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 15100.253,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "6f188943c53598789c3e1eb64ceac9eaeb585af2863fda2a133b5f35ecae596c",
+    "response_id": "chatcmpl-bcf8f87de4f14a8b",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 412,
+      "prompt_tokens": 6035,
+      "total_tokens": 6447
+    }
+  },
+  "text": "To calculate the total for the supply order, I need to identify the specific line items and their values from the conversation history. Most of the updates in this session concern office logistics (temperature, standing up locations, desk swaps, meeting notes, etc.). I will scan the history for any explicit order modifications.\n\n1.  **Scan for order items:**\n    *   Scanning turns t001 to t047: The user provides various updates about office conditions, people swapping desks, being out of office, umbrella locations, and meeting notes. There are no mentions of adding items or quantities to a supply order in these turns.\n    *   Scanning turn t048: The user states, \"Add a line of 350 for the lamps to the order.\" This adds an item with a value of 350.\n    *   Scanning turn t029: The user states, \"Take 25 off the order for the returned stock.\" This subtracts 25 from the order total.\n    *   Scanning turn t018: The user states, \"Take 80 off the order for the returned stock.\" This subtracts 80 from the order total.\n\n2.  **Compile the order lines:**\n    *   Lamps: +350\n    *   Returned stock correction: -25\n    *   Returned stock correction: -80\n\n3.  **Calculate the total:**\n    *   Start with 0.\n    *   Add 350 (Lamps): $0 + 350 = 350$\n    *   Subtract 25 (Returned stock): $350 - 25 = 325$\n    *   Subtract 80 (Returned stock): $325 - 80 = 245$\n\nThe order comes to 245.\n\nTotal: 245"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "50ec5c3e299c78bceabad9ab17eb7ff8764e9e7f52d868acbb85e2414238ebdf",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e9ba58ddcc8b3092d14fd407aaf734649cc86c3e8364e8720f6ffada86d0e16b",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T02:18:28Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 13832.757,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "d977f3188ce0426bda4b3617c77d46e7cd8a61b5a86b966cb68576b1fca43238",
+    "response_id": "chatcmpl-9c7252ec0c171225",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 345,
+      "prompt_tokens": 5451,
+      "total_tokens": 5796
+    }
+  },
+  "text": "To calculate the total for the supply order, I will review the items added to the order throughout the session.\n\n1.  **Ladders**: In turn `t001`, the user requested to \"Add a line of 400 for the ladders\".\n    *   Current Subtotal: 400\n\n2.  **Returned Stock (Deduction)**: In turn `t004`, the user requested to \"Take 30 off the order for the returned stock\".\n    *   Calculation: 400 - 30 = 370\n    *   Current Subtotal: 370\n\n3.  **Lamps**: In turn `t020`, the user requested to \"Add a line of 555 for the lamps\".\n    *   Calculation: 370 + 555 = 925\n    *   Current Subtotal: 925\n\n4.  **Returned Stock (Deduction)**: In turn `t030`, the user requested to \"Take 35 off the order for the returned stock\".\n    *   Calculation: 925 - 35 = 890\n    *   Current Subtotal: 890\n\n5.  **Delivery Fee**: In turn `t040`, the user stated, \"There's a flat delivery fee of 15 on the order.\"\n    *   Calculation: 890 + 15 = 905\n    *   Current Subtotal: 905\n\nTotal: 905"
+}

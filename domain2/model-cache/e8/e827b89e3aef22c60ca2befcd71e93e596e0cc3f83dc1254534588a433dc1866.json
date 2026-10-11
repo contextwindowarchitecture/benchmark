@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "e827b89e3aef22c60ca2befcd71e93e596e0cc3f83dc1254534588a433dc1866",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "b4d0b00cac1f3b0a4d36579fe5514c0b33829181ae092890b0ff072224601d80",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T02:29:48Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 9097.154,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "b94ffe72aac0ff2152372d7906ff09db2e00e2fcec90b763be3678687a9fc6fe",
+    "response_id": "chatcmpl-b394038ccf31f8f9",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 11222,
+      "total_tokens": 11734
+    }
+  },
+  "text": "To calculate the total for the supply order, let's look at the current lines:\n\n1.  **Crates**: 400 (Added in turn t001)\n2.  **Ladders**: 400 (Added in turn t017)\n3.  **Lamps**: 520 (Added in turn t048)\n\nThere were also some adjustments for returned stock:\n*   Turn t038: \"Take 35 off the order for the returned stock.\"\n*   Turn t044: \"Take 50 off the order for the returned stock.\"\n*   Turn t078: \"Take 80 off the order for the returned stock.\"\n\nHowever, the prompt asks for the order lines specifically. Usually, \"order lines\" refers to the items added. Let's look at the state variable `order_lines` provided in the initial context (xstate:15) which lists: `[{\"item\": \"crates\", \"quantity\": 400}, {\"item\": \"ladders\", \"quantity\": 350}, {\"item\": \"lamps\", \"quantity\": 520}]`.\n\nWait, the user added lines in the conversation.\n*   t001: \"Add a line of 515 for the crates\". But the state says 400. Let's re-read carefully.\n    *   t001 User: \"Add a line of 515 for the crates\".\n    *   t017 User: \"Add a line of 400 for the ladders\".\n    *   t048 User: \"Add a line of 520 for the lamps\".\n    *   t038 User: \"Take 35 off the order\".\n    *   t044 User: \"Take 50 off the order\".\n    *   t078 User: \"Take 80 off the order\".\n\nThe `order_lines` state in xstate:15 seems to be an initial snapshot or a different set of data. The user's instructions in the history are the active commands.\nLet's trace the order based on the user's explicit commands in the history:\n\n1.  **t001**: Add 515 crates.\n2.  **t017**: Add 4"
+}

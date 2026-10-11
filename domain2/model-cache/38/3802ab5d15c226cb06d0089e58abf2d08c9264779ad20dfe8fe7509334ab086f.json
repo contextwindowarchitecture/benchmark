@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "3802ab5d15c226cb06d0089e58abf2d08c9264779ad20dfe8fe7509334ab086f",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "9875360f73c6a6a790e185bb05f059dfaed73f9db08994e8dd0321bf6aa9e363",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T08:10:28Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 17577.016,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "6f188943c53598789c3e1eb64ceac9eaeb585af2863fda2a133b5f35ecae596c",
+    "response_id": "chatcmpl-b999673666fd79e9",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 373,
+      "prompt_tokens": 6035,
+      "total_tokens": 6408
+    }
+  },
+  "text": "To calculate the total for the supply order, I need to identify all the line items and their quantities or values from the conversation history.\n\n1.  **Scan for order adjustments:**\n    *   In turn `t018`, the user stated: \"Take 80 off the order for the returned stock.\" This is a deduction of 80.\n    *   In turn `t029`, the user stated: \"Take 25 off the order for the returned stock.\" This is a deduction of 25.\n    *   In turn `t048`, the user stated: \"Add a line of 350 for the lamps to the order.\" This is an addition of 350.\n\n2.  **Verify other items:**\n    *   I have reviewed the entire history for any other items being added (e.g., \"Add X for Y\") or removed.\n    *   There are mentions of \"returned stock\" adjustments and the specific item \"lamps\".\n    *   There are no other monetary values or quantities assigned to other items in the supply order context. The rest of the conversation concerns logistics, room availability, temperature issues, desk swaps, and meeting notes, which do not constitute supply order lines.\n\n3.  **Calculate the total:**\n    *   Start with 0.\n    *   Subtract 80: $0 - 80 = -80$\n    *   Subtract 25: $-80 - 25 = -105$\n    *   Add 350: $-105 + 350 = 245$\n\nThe net total for the order is 245.\n\nTotal: 245"
+}

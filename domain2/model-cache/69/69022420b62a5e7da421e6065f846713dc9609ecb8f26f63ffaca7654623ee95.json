@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "69022420b62a5e7da421e6065f846713dc9609ecb8f26f63ffaca7654623ee95",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "285d3c6ad5fa974e74baa5b5940a2f42dc7368f07faf76ae166c14560e54bab4",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T03:04:22Z",
+    "cached_tokens": 2112,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 18737.886,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "c146b3515b5d688bfceaee1436bba411ddbb7e0c4430daf3700c2812922e0774",
+    "response_id": "chatcmpl-ab1e4b40f7d2e6c4",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 2250,
+      "total_tokens": 2762
+    }
+  },
+  "text": "To calculate the total for the supply order, let's break down the lines provided in the summary and the updates:\n\n1.  **Initial Order Lines:**\n    *   465 ladders\n    *   360 lanterns\n    *   155 helmets\n\n2.  **Returns/Deductions:**\n    *   The summary states: \"Deduct 115 from returned stock.\"\n    *   Later, there is an explicit instruction: \"Take 35 off the order for the returned stock.\"\n\n    *Clarification on Deductions:* The prompt asks for the \"total\" of the order. Usually, \"total\" in a supply context implies the net quantity needed. However, the initial summary says \"Deduct 115 from returned stock,\" which might mean the *returned stock* is 115, or that 115 units are deducted *from* the order. The later instruction \"Take 35 off the order\" is a specific action. Let's look at the phrasing carefully.\n    \n    The summary says: \"Supply order: Zelby depot (465 ladders, 360 lanterns, 155 helmets). Deduct 115 from returned stock.\" This is slightly ambiguous. Does it mean \"Return 115 items\" or \"Deduct 115 from the total order\"?\n    \n    The later instruction says: \"Take 35 off the order for the returned stock.\" This suggests a specific deduction of 35 from the total order count.\n    \n    Let's assume the \"Deduct 115 from returned stock\" in the summary was an initial note about stock levels, but the explicit instruction to the assistant was \"Take 35 off the order\". However, looking at the history, the user has been adding various \"slow lift\" and \"swap\" updates, and this is the first time they explicitly asked for the *order total*.\n    \n    Let's re-read the summary line: \"Supply order: Zelby depot (465 ladders, 360 lanterns, 155 helmets). Deduct 115 from returned stock.\"\n    \n    And the user instruction: \"Take 35 off the order for the returned stock.\"\n    \n    If I interpret \"Deduct 115 from returned stock\" as meaning the *returned stock value* is "
+}

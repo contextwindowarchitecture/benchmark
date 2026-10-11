@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "76d3db2767d59123b673a165dfa2908815acd7a361f000b130aa6cab4bdd9070",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "4c77fb07958e57ebbec85c15cabe01983979692bc01d5e9cf8d81bd619b46110",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T08:11:20Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 8613.888,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "c5f488d847fad61a5320178a127aa563e9562b517097e77b3334e2c146399ec6",
+    "response_id": "chatcmpl-84a4a8b930cef264",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 253,
+      "prompt_tokens": 6055,
+      "total_tokens": 6308
+    }
+  },
+  "text": "To calculate the total for the order, I need to identify all the financial lines added by the user.\n\n1.  **Returned Stock Adjustment**: In turn `t027`, the user said, \"Take 70 off the order for the returned stock.\" This is a deduction of 70.\n2.  **Tarps**: In turn `t042`, the user said, \"Add a line of 150 for the tarps to the order.\" This is an addition of 150.\n3.  **Delivery Fee**: In turn `t047`, the user said, \"There's a flat delivery fee of 55 on the order.\" This is an addition of 55.\n\nLet's sum these up step by step:\n\n*   Start with 0.\n*   Subtract 70 (returned stock): $0 - 70 = -70$.\n*   Add 150 (tarps): $-70 + 150 = 80$.\n*   Add 55 (delivery fee): $80 + 55 = 135$.\n\nTotal: 135"
+}

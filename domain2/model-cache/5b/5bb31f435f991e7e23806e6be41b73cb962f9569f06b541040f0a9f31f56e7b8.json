@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "5bb31f435f991e7e23806e6be41b73cb962f9569f06b541040f0a9f31f56e7b8",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "f9f628e64a1e10ceb5e540816e8765720fb29ed096a27237e1af22bef7a454e3",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T07:56:02Z",
+    "cached_tokens": 11616,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 9005.544,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "76b78901a5a4a3f0ee5cf757189f0229dde237559053d740e625100ba52a8528",
+    "response_id": "chatcmpl-884d9b3c2f353e47",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 12062,
+      "total_tokens": 12574
+    }
+  },
+  "text": "To determine the total for the order, I will track the quantities for each item as they are added or modified.\n\n1.  **Initial Order Lines:**\n    *   Helmets: 380\n    *   Ladders: 150\n    *   Toolkits: 210\n    *   Lanterns: 210\n    *   Tarps: 555\n\n2.  **Modifications:**\n    *   In turn `t055`, the user added 150 for ladders.\n        *   New Ladders total: 150 + 150 = 300\n    *   In turn `t057`, the user added 210 for toolkits.\n        *   New Toolkits total: 210 + 210 = 420\n    *   In turn `t059`, the user added 210 for lanterns.\n        *   New Lanterns total: 210 + 210 = 420\n    *   In turn `t070`, the user added 575 for tarps.\n        *   New Tarps total: 555 + 575 = 1130\n    *   In turn `t087`, the user took 20 off the order for returned stock. The prompt does not specify which item, but typically \"returned stock\" implies a reduction in the total count. Without specific item attribution, I will assume this reduces the overall total by 20. Alternatively, if it refers to a specific item not mentioned, it might be ambiguous. However, looking at the pattern of previous turns, specific items are usually named (e.g., \"Take 20 off the order for the helmets\"). Since it just says \"the order\", I will subtract 20 from the final sum.\n\nLet's sum the current line items:\n*   Helmets: 380\n*   Ladders: 300\n*   Toolkits: 420\n*   Lanterns: 420\n*   Tarps: 1130\n\nSum of items: 380 + 300 + 420 + 420 + 1130 = 2650\n\nSubtract the"
+}

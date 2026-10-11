@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "2f91ab5bc0c6a7d3a1ddeb309bfb59e652df5339196adf443a05d23536743eb2",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "bffa4e00be6f290dadff699976a6471a5304b32d0af65a8f955be68a7d92e4e8",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T03:02:50Z",
+    "cached_tokens": 1056,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 19127.804,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "385b2e58f22e7a10b312fea3630ec2540d9c11abffce703195166970a88204fa",
+    "response_id": "chatcmpl-b213a07e5cfdd477",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 1683,
+      "total_tokens": 2195
+    }
+  },
+  "text": "Let's add up the supply order lines:\n\n1. Cable reels (Line 415): 0 (base item, no quantity specified in initial prompt, usually implies 1 unit or just listing the item category, but let's look for quantities. The prompt only listed \"Line 415: Cable reels\" without a quantity. Usually, if no quantity is given, it might be 1 or 0. Let's look at the other items.\n2. Ladders (Line 95): No quantity specified.\n3. New: 150 tarps.\n4. Deduct: 70 units.\n5. Flat delivery fee: 55.\n\nWait, looking at standard supply order logic in these prompts, if a line item doesn't have a quantity, it's often treated as 1 unit or the line itself is the item. However, \"150 tarps\" is explicit. \"Deduct 70 units\" is explicit.\n\nLet's re-read the initial setup carefully:\n- Line 415: Cable reels. (No quantity stated)\n- Line 95: Ladders. (No quantity stated)\n- New: 150 tarps.\n- Deduct 70 units (returned stock).\n- Flat delivery fee: 55.\n\nIf we assume the lines \"Cable reels\" and \"Ladders\" are just 1 unit each (or perhaps the user hasn't provided quantities for them, but usually in these tasks, if it's not specified, it might be 0 or 1. Let's look for clues. Often, \"Line X: Item\" implies a single line item. Without a price or quantity, it's hard to total.\n\nHowever, usually, these \"Total\" questions rely on the explicit numbers given.\nItems with explicit numbers:\n- Tarps: 150\n- Deduction: -70\n- Delivery Fee: 55\n\nIf we just sum the numerical values provided:\n150 (tarps) - 70 (deduction) + 55 (delivery) = 135.\n\nBut wait, are Cable reels and Ladders free? Or is the \"Total\" asking for the cost? The prompt doesn't give unit prices for Cable reels or Ladders. It only gives a \"Flat delivery fee: 55\".\n\nIf the question asks for the"
+}

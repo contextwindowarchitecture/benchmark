@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "e53cb6b8c396d7337908b5398a57156cc23ef69873740d4b344fc6a70f5483ce",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e6b414201bd3bb16d7507688ea38f6f80fbf29727b9f5a9de6ea7d99c1202cd7",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T08:04:14Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 88248.312,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "7bb54d2b478d05ab1f2abb502bd94427c16d76044c1e3c69f846c5a1e7cecd78",
+    "response_id": "chatcmpl-91700e3967a5b4ba",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 266,
+      "prompt_tokens": 6034,
+      "total_tokens": 6300
+    }
+  },
+  "text": "To calculate the total for the supply order, we need to identify all the lines added to the order in the conversation history and sum their quantities.\n\n1.  **Turn t012**: \"Add a line of 60 for the toolkits to the order.\"\n    *   Current Total: 60\n2.  **Turn t027**: \"Take 80 off the order for the returned stock.\"\n    *   This is a subtraction.\n    *   Current Total: 60 - 80 = -20\n3.  **Turn t028**: \"Add a line of 55 for the tarps to the order.\"\n    *   Current Total: -20 + 55 = 35\n4.  **Turn t031**: \"Add a line of 135 for the helmets to the order.\"\n    *   Current Total: 35 + 135 = 170\n5.  **Turn t049**: \"Add a line of 570 for the cable reels to the order.\"\n    *   Current Total: 170 + 570 = 740\n\nTotal: 740"
+}

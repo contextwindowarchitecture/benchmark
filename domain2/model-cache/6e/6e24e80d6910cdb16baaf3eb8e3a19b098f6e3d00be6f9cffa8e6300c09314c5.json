@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "6e24e80d6910cdb16baaf3eb8e3a19b098f6e3d00be6f9cffa8e6300c09314c5",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d3225ca15319b42c08d927f57f4d6ac75b81337e12271daee71903ba6c055ff6",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T02:24:11Z",
+    "cached_tokens": 11616,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 11534.241,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "67203138ca7932afc41082a6aee05f669b89cab8f523bdb36c9b18cd1350991f",
+    "response_id": "chatcmpl-b6eb33420233450d",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 326,
+      "prompt_tokens": 11927,
+      "total_tokens": 12253
+    }
+  },
+  "text": "To calculate the total for the supply order, I will identify the specific line items mentioned in the conversation history and sum their values.\n\n1.  **Cable reels:** In turn `t001`, the user requested to \"Add a line of 415 for the cable reels to the order.\"\n    *   Current Subtotal: 415\n\n2.  **Ladders:** In turn `t009`, the user requested to \"Add a line of 95 for the ladders to the order.\"\n    *   Current Subtotal: 415 + 95 = 510\n\n3.  **Returned stock deduction:** In turn `t027`, the user requested to \"Take 70 off the order for the returned stock.\"\n    *   Current Subtotal: 510 - 70 = 440\n\n4.  **Tarps:** In turn `t042`, the user requested to \"Add a line of 150 for the tarps to the order.\"\n    *   Current Subtotal: 440 + 150 = 590\n\n5.  **Delivery fee:** In turn `t047`, the user stated, \"There's a flat delivery fee of 55 on the order.\"\n    *   Current Subtotal: 590 + 55 = 645\n\nThere are no other supply line items or fees mentioned in the history.\n\nTotal: 645"
+}

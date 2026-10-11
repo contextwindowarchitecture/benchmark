@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "e2e7fecda42e2615a43af66a0edce72c099f1e5de409752b9c292f8b787aadc7",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "49e03f7716570897521562ec6aa5d274bfc5e2537fffec27a8d3151aaa3abf0f",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T02:30:15Z",
+    "cached_tokens": 3168,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 8209.156,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "ff6ef134983871cac671396c35e9fccba1be5bc354a8ce1a75deb4d0dfe5b971",
+    "response_id": "chatcmpl-96ebb29efad6d2b3",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 4118,
+      "total_tokens": 4630
+    }
+  },
+  "text": "To determine the current total for the Nevbury depot order, we need to track the changes to the line items provided in the conversation history.\n\n1.  **Initial State (from task xstate:01):**\n    *   Ladders: 215\n\n2.  **User Input (turn:t001):**\n    *   \"Add a line of 240 for the ladders to the order.\"\n    *   This phrasing typically implies setting the quantity to 240 or adding 240 to the existing amount. However, in supply order contexts, \"Add a line of [X]\" often means \"Set the quantity for this item to [X]\" if it's a new entry, or \"Add [X] units\" if it's an addition. Let's look at the phrasing carefully: \"Add a line of 240\". The initial state already had ladders. Usually, if someone says \"Add 240 ladders\", it's +240. If they say \"Change the order to 240 ladders\", it's =240.\n    *   Let's re-read the first user turn: \"Add a line of 240 for the ladders to the order.\"\n    *   Let's look at later turns for clarification on how \"Add\" vs \"Take off\" is handled.\n    *   Turn t018: \"Take 80 off the order for the returned stock.\" -> This is clearly subtraction.\n    *   Turn t029: \"Take 25 off the order for the returned stock.\" -> This is clearly subtraction.\n    *   The first instruction was \"Add a line of 240\". Given the initial state was 215, if I add 240, it becomes 455. If I set it to 240, it becomes 240.\n    *   Let's look at the standard interpretation of \"Add a line\". If the line didn't exist, it would be created. Since it did exist, \"Add a line of 240\" is ambiguous. However, often in these prompts, \"Add [quantity]\" means addition. But \"Add a line of [quantity]\" might mean \"Set the quantity to [quantity]\".\n    *   Let's look at the context. \"I'm putting together a supply order..."
+}

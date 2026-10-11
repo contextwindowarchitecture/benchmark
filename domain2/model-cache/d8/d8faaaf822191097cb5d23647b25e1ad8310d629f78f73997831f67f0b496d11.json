@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "d8faaaf822191097cb5d23647b25e1ad8310d629f78f73997831f67f0b496d11",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "6656ebee9bfa54c238b983c1ea9440aa3704c8cd4a2462c70db9a30aea142546",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T08:14:56Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 8881.827,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "e90c5dc464ee5bd3e591f50f10196132da311c01cd78f9905aa2703357004bc1",
+    "response_id": "chatcmpl-8ebbf3be5ed5e2cf",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6078,
+      "total_tokens": 6590
+    }
+  },
+  "text": "Let's calculate the total for the order lines provided so far.\n\n1.  **Cable reels**: 415 units\n2.  **Ladders**: The initial order was for 25 units. In turn t009, 95 were added.\n    *   25 + 95 = 120 units\n3.  **Tarps**: The initial order was for 150 units. In turn t042, 150 were added.\n    *   150 + 150 = 300 units\n\nThere are no deductions mentioned for these specific items (the deduction in t027 was for \"returned stock\" but did not specify an item, and usually, we only deduct if explicitly linked to a line item or if instructed to adjust the subtotal. However, looking closely at t027: \"Take 70 off the order for the returned stock.\" Without a specific item attached, this is ambiguous. In previous similar tasks, if the item isn't specified, it might apply to the total or be ignored if not linked. Let's re-read carefully. Usually, \"returned stock\" implies a reduction in quantity of a specific item. If no item is named, it's safer to assume it might not apply to the specific line items unless specified. However, often in these prompts, if it's not attached to an item, it might be a general reduction. But let's look at the items. Cable reels, Ladders, Tarps. None are specified. I will proceed with the item totals first.\n\nWait, let's look at the instruction in t027 again: \"Take 70 off the order for the returned stock.\" It doesn't say \"for the ladders\" or \"for the tarps\". In many supply chain contexts, if not specified, it might be deducted from the total value or quantity. However, since we are summing quantities, and no item is specified, I will calculate the sum of the defined lines first.\n\nLet's assume the deduction applies to the total quantity if not specified, or perhaps it's a distractor if no item is linked. But typically, \"returned stock\" reduces the count of *something*. If I can't identify what, I might have to leave it or assume it reduces the total. Let's look at the items again.\nCable reels: 415\nLadders: "
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "3fa7352b1d4bd3d9748e82ca1365aaee23360b5b60f81009b3b92335a41c71c1",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "4848567660bc9bec3880fc078ab5d5738e240d572f786309fd1cf55fdfab7033",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T02:21:22Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 15593.112,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "1c91159270b2afddd8dd7797cd34a9bedd1756b3b7f75caa704871d988853384",
+    "response_id": "chatcmpl-aaa47f9c64eceede",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 380,
+      "prompt_tokens": 5665,
+      "total_tokens": 6045
+    }
+  },
+  "text": "To calculate the total for the order, let's look at the items added so far:\n\n1.  **Ladders**: 350 (Added in turn t001)\n2.  **Tarps**: 50 (Added in turn t014)\n3.  **Lamps**: 320 (Added in turn t015)\n4.  **Cable reels**: 105 (Added in turn t024)\n\nThere was also a mention in turn t023 to \"Take 70 off the order for the returned stock.\" However, the current order lines provided in the system state (`xstate:02`) do not reflect this deduction yet, nor do they include a specific line item for the deduction. The prompt asks for the order \"so far\" based on the lines. Let's sum the quantities of the items currently listed in the order lines.\n\n350 (ladders) + 50 (tarps) + 320 (lamps) + 105 (cable reels) = 825\n\nIf the deduction of 70 is to be applied to the total quantity:\n825 - 70 = 755\n\nHowever, usually, \"order lines\" refer to the items being purchased. The deduction might be a separate financial adjustment or a reduction in a specific item if not specified. Given the instruction to \"add up the order's lines step by step\", I will sum the quantities of the items listed.\n\nStep 1: Ladders = 350\nStep 2: Tarps = 50\nStep 3: Lamps = 320\nStep 4: Cable reels = 105\n\nTotal: 825"
+}

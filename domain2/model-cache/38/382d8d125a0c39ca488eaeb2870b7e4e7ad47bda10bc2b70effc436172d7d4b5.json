@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "382d8d125a0c39ca488eaeb2870b7e4e7ad47bda10bc2b70effc436172d7d4b5",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "69bad1e948c77bd87193430bcf1b7ebdce2869c271dd297f13d84cea572fc35d",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T08:13:10Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 4803.347,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "edc506421d99afea57b08dd6b1f72d94c3161d0c08bc8502d643c5ec2511394c",
+    "response_id": "chatcmpl-994baf2150ef2e8a",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 272,
+      "prompt_tokens": 6024,
+      "total_tokens": 6296
+    }
+  },
+  "text": "To calculate the total for the supply order, I need to identify all items explicitly added to the order in the conversation history.\n\n1.  **Turn t049**: \"Take 65 off the order for the returned stock.\"\n    *   This is a deduction. The base order is currently 0.\n    *   Current Total: -65.\n    *   *Note: Typically, \"taking off\" implies there was an initial order, or it's a net calculation. However, without an initial positive order amount mentioned elsewhere, this creates a negative balance. Let's look for any positive additions.*\n\n2.  **Turn t085**: \"Add a line of 160 for the cable reels to the order.\"\n    *   This is an addition.\n    *   Current Total: -65 + 160 = 95.\n\nThere are no other items explicitly added or removed from the *order* (financial/stock count) in the history. The rest of the conversation involves room changes, personnel swaps, and reminders, which do not affect the supply order total.\n\nSo, the calculation is:\n-65 (returned stock) + 160 (cable reels) = 95.\n\nTotal: 95"
+}

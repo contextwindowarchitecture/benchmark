@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "2bdc45f4bec149ee571cda5e741bacb30baeec3f8986e62e0542c08c14777db9",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "26bbbf474136275bbfb56743b0bcaf8eb223a4710f0d990b05348ada5a70b94b",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T02:59:44Z",
+    "cached_tokens": 1056,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 8526.498,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "fcb72d9cd7251a2e53ce507a18ccf6dd9ef5cfabd94fea160fc7794f3fc2961c",
+    "response_id": "chatcmpl-8dced30983851c49",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 199,
+      "prompt_tokens": 1471,
+      "total_tokens": 1670
+    }
+  },
+  "text": "To calculate the order total, let's review the relevant supply line instructions provided in the conversation history:\n\n1.  **Turn t001**: The user instructed to \"Add a line of 400 for the ladders to the order.\"\n    *   Current Ladders quantity: 400\n\n2.  **Turn t004**: The user instructed to \"Take 30 off the order for the returned stock.\"\n    *   This applies to the existing line for ladders (as it is the only item currently on the order).\n    *   New Ladders quantity: 400 - 30 = 370\n\nThere are no other supply lines or adjustments mentioned in the history.\n\n**Calculation:**\n*   Initial Ladders: 400\n*   Returned Stock adjustment: -30\n*   Final Ladders: 370\n\nTotal: 370"
+}

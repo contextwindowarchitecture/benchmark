@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "3b9166bd54eb9449916f0d2b76b67c990347444024c0cf45d4e1e75b6855cc71",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "f5130f92806f18e927d16d79e244a3a40a56181990f2e2af21748b72ee671215",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T07:52:37Z",
+    "cached_tokens": 11616,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 20339.075,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "3d5211d85803c293545b8ec1f142382dd96d790af305f32dba633fc561eb0e08",
+    "response_id": "chatcmpl-9d37598b9a6cbfca",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 340,
+      "prompt_tokens": 12094,
+      "total_tokens": 12434
+    }
+  },
+  "text": "To calculate the total for the order, I need to identify all the line items added or modified in the conversation history.\n\n1.  **Scan for order modifications:**\n    *   In turn `t017`, the user said: \"Add a line of 400 for the ladders to the order.\"\n    *   In turn `t038`, the user said: \"Take 35 off the order for the returned stock.\"\n    *   In turn `t044`, the user said: \"Take 50 off the order for the returned stock.\"\n    *   In turn `t048`, the user said: \"Add a line of 520 for the lamps to the order.\"\n    *   In turn `t078`, the user said: \"Take 80 off the order for the returned stock.\"\n\n2.  **Calculate the total:**\n    *   Start with the ladders: +400\n    *   Subtract returned stock (first instance): -35\n    *   Subtract returned stock (second instance): -50\n    *   Add the lamps: +520\n    *   Subtract returned stock (third instance): -80\n\n    Calculation:\n    $400 - 35 = 365$\n    $365 - 50 = 315$\n    $315 + 520 = 835$\n    $835 - 80 = 755$\n\nTotal: 755"
+}

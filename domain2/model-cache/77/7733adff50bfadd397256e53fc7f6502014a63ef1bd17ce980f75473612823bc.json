@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "7733adff50bfadd397256e53fc7f6502014a63ef1bd17ce980f75473612823bc",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "1c8923ea980ecf7d6f74137199c345322843ac12594b72cb7491b885e86be141",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T07:53:18Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 10290.806,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "75a676a6bfc644d13f4388bd93afadc6b9ca4a74f5514cff9d020d98672122d2",
+    "response_id": "chatcmpl-96321040fe0a7d8e",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 278,
+      "prompt_tokens": 6016,
+      "total_tokens": 6294
+    }
+  },
+  "text": "To determine the total for the order, I need to look through the conversation history for any items that were explicitly added to or removed from the supply order.\n\n1.  **Turn t017**: The user said, \"Add a line of 400 for the ladders to the order.\"\n    *   Current Total: 400\n\n2.  **Turn t038**: The user said, \"Take 35 off the order for the returned stock.\"\n    *   Calculation: 400 - 35 = 365\n    *   Current Total: 365\n\n3.  **Turn t044**: The user said, \"Take 50 off the order for the returned stock.\"\n    *   Calculation: 365 - 50 = 315\n    *   Current Total: 315\n\n4.  **Turn t048**: The user said, \"Add a line of 520 for the lamps to the order.\"\n    *   Calculation: 315 + 520 = 835\n    *   Current Total: 835\n\nThere are no other additions or subtractions to the order in the provided history.\n\nTotal: 835"
+}

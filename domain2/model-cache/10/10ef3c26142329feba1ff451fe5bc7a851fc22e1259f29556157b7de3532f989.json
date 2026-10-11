@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "10ef3c26142329feba1ff451fe5bc7a851fc22e1259f29556157b7de3532f989",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "91d8ebceb0391f3da3e840d3ccfc64b1932a5b52c2349e3a24f5183be0118e77",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T02:59:38Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 14167.331,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "30f81420bdb0b30af7fefc3e54dafeb6b8191c2dc929eb60a6563f355cbcffc9",
+    "response_id": "chatcmpl-833e6d315a0851d4",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 332,
+      "prompt_tokens": 5560,
+      "total_tokens": 5892
+    }
+  },
+  "text": "To determine the total for the supply order, I will look through the conversation history for any lines added to or removed from the order.\n\n1.  **Turn t001**: The user added a line of **230** for the crates.\n    *   Current Total: 230\n2.  **Turn t012**: The user added a line of **60** for the toolkits.\n    *   Current Total: 230 + 60 = 290\n3.  **Turn t027**: The user took **80** off the order for the returned stock.\n    *   Current Total: 290 - 80 = 210\n4.  **Turn t028**: The user added a line of **55** for the tarps.\n    *   Current Total: 210 + 55 = 265\n5.  **Turn t031**: The user added a line of **135** for the helmets.\n    *   Current Total: 265 + 135 = 400\n\nThere are no other additions or subtractions to the order in the remaining turns.\n\nStep-by-step calculation:\n230 (crates)\n+ 60 (toolkits)\n- 80 (returned stock)\n+ 55 (tarps)\n+ 135 (helmets)\n= 400\n\nTotal: 400"
+}

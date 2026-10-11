@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "56fd23775e912ed3be63310d45da272eb73590cd35a01891cea2741c8d10af3e",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d1d9259ae4f5808af64854c84faa313d02b6014af5372dd47a64a9a9e8814bd6",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T07:53:31Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 12897.515,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "75a676a6bfc644d13f4388bd93afadc6b9ca4a74f5514cff9d020d98672122d2",
+    "response_id": "chatcmpl-ac689e0b2753b5cf",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 314,
+      "prompt_tokens": 6016,
+      "total_tokens": 6330
+    }
+  },
+  "text": "To determine the total for the order, I need to identify all the items added to the supply list and their associated costs. I will scan the conversation history for any lines that explicitly mention adding items to the order.\n\n1.  **Scan for order additions:**\n    *   In `turn:t017`, the user states: \"Add a line of 400 for the ladders to the order.\"\n    *   In `turn:t048`, the user states: \"Add a line of 520 for the lamps to the order.\"\n    *   In `turn:t038`, the user states: \"Take 35 off the order for the returned stock.\" This is a deduction.\n    *   In `turn:t044`, the user states: \"Take 50 off the order for the returned stock.\" This is a deduction.\n\n2.  **Calculate the total:**\n    *   Ladders: +400\n    *   Lamps: +520\n    *   Returned stock (first deduction): -35\n    *   Returned stock (second deduction): -50\n\n    Calculation:\n    $400 + 520 = 920$\n    $920 - 35 = 885$\n    $885 - 50 = 835$\n\nThe order comes to 835.\n\nTotal: 835"
+}

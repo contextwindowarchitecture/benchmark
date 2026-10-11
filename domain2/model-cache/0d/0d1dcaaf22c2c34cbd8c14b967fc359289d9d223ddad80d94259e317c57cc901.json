@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "0d1dcaaf22c2c34cbd8c14b967fc359289d9d223ddad80d94259e317c57cc901",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "df69e62e4b7b3061609c308e8140ebea70eca9233287bc6581f23e081a8b352f",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-11T08:14:32Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 3830.989,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "2f4eed55ea23f94c1227d9673ee071b4d6bc08581d9cc39f3bec46fa653bb3e0",
+    "response_id": "chatcmpl-9615b29bdadee64c",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 203,
+      "prompt_tokens": 6073,
+      "total_tokens": 6276
+    }
+  },
+  "text": "To calculate the order total so far, we look at the items specified in the initial task setup (`xstate:01`):\n\n1.  **Ladders**: 165 units\n2.  **Toolkits**: 225 units\n\nThere are no other items added to the supply order in the conversation history. Note that the instruction \"Take 40 off the order for the returned stock\" from turn `t032` was ambiguous regarding which item to deduct from, and typically in these scenarios, unless a specific item is named for a deduction, we sum the explicit line items provided for the supply order. However, looking closely at the prompt's structure, it asks for the \"order\" based on the lines given. The lines given are 165 ladders and 225 toolkits.\n\nLet's sum the quantities:\n$$165 + 225 = 390$$\n\nTotal: 390"
+}

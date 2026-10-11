@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "96130857a287a08f036e2f3a41c387cbb50a3daf703d41dd689da9be544ab034",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "7b22bd26d0bfea4937f1a8e9ee95390cadfab503cdeced27a464eab8317833fa",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T03:01:50Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 12437.733,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "d977f3188ce0426bda4b3617c77d46e7cd8a61b5a86b966cb68576b1fca43238",
+    "response_id": "chatcmpl-ac966b58f2de1e5f",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 330,
+      "prompt_tokens": 5451,
+      "total_tokens": 5781
+    }
+  },
+  "text": "To calculate the total for the order, I need to look at the specific supply line items mentioned in the conversation history.\n\n1.  **Ladders**: In turn `t001`, the user said, \"Add a line of 400 for the ladders to the order.\"\n2.  **Returned Stock**: In turn `t004`, the user said, \"Take 30 off the order for the returned stock.\" This is a deduction.\n3.  **Lamps**: In turn `t020`, the user said, \"Add a line of 555 for the lamps to the order.\"\n4.  **Returned Stock**: In turn `t030`, the user said, \"Take 35 off the order for the returned stock.\" This is another deduction.\n5.  **Delivery Fee**: In turn `t040`, the user said, \"There's a flat delivery fee of 15 on the order.\" This is an addition.\n\nNow, let's calculate the total step by step:\n\n*   Start with Ladders: 400\n*   Subtract first returned stock adjustment: 400 - 30 = 370\n*   Add Lamps: 370 + 555 = 925\n*   Subtract second returned stock adjustment: 925 - 35 = 890\n*   Add delivery fee: 890 + 15 = 905\n\nTotal: 905"
+}

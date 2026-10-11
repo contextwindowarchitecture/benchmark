@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "e15b42804155c08812111d02ef145e332f94ead11f84773b47b7344767c620b1",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d368630f3c1687e8b1d0b7925941ca1e3e0bedb19c27b1f351ea008c8ceddc6f",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T08:16:13Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 6616.386,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "658c305ef39d1ed2d10e500aca478a3d0409c769d67ac457175f1e84a72c1d59",
+    "response_id": "chatcmpl-a53fb133e0727e38",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6113,
+      "total_tokens": 6625
+    }
+  },
+  "text": "To calculate the total for the order to Istton, let's look at the current lines:\n\n1.  **Tarps**: 370\n2.  **Toolkits**: We started with 525. In turn t035, you asked to add a line of 525 for toolkits. In turn t049, you asked to take 65 off the order for returned stock. The prompt for t049 says \"Take 65 off the order for the returned stock\" without specifying an item, but typically this applies to the most recently added or ambiguous items, or implies a general reduction. However, looking at the sequence:\n    *   Initial order: Tarps (370), Toolkits (525), Lamps (180).\n    *   Turn t035: \"Add a line of 525 for the toolkits\". This brings Toolkits to 525 + 525 = 1050? Or is it replacing/adding to the existing line? Usually \"Add a line\" implies addition. Let's assume addition. Current Toolkits: 1050.\n    *   Turn t042: \"Add a line of 180 for the lamps\". This brings Lamps to 180 + 180 = 360?\n    *   Turn t049: \"Take 65 off the order for the returned stock\". This is ambiguous. Did it apply to Tarps, Toolkits, or Lamps? Without a specific item mentioned, it's unclear. However, often in these tasks, if no item is specified, it might apply to the first item, or it's a distractor. Let's look closer. \"Take 65 off the order\". If it's a general reduction, it reduces the total. Let's assume it reduces the total count of items by 65. Or perhaps it reduces a specific line. Let's re-read carefully.\n    \n    Let's re-evaluate the \"Add a line\" instructions.\n    *   Start: Tarps 370, Toolkits 525, Lamps 180.\n    *   t035: \"Add a line of 525 for the toolkits\". New Toolkits total = 525 (original) + 525 (new"
+}

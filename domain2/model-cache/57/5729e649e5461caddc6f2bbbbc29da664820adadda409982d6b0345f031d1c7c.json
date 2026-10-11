@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "5729e649e5461caddc6f2bbbbc29da664820adadda409982d6b0345f031d1c7c",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "8232a1891f6ccbc3cf78b956448312c266f58e432003d2b1bc123069b5b156b2",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T02:16:18Z",
+    "cached_tokens": 2112,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 36006.013,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "39095cb8ae3212b6e766248cb12a220303b047da45b8e875f2e77e4063ad8954",
+    "response_id": "chatcmpl-90cbe9f8e38368af",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 4108,
+      "total_tokens": 4620
+    }
+  },
+  "text": "To calculate the total for the supply order, I will sum the values of the specific line items mentioned in the conversation history.\n\n1.  **Lanterns**: In turn `t001`, the user requested to \"Add a line of 340 for the lanterns to the order.\"\n2.  **Tarps**: In turn `t024`, the user requested to \"Add a line of 180 for the tarps to the order.\"\n3.  **Helmets**: In turn `t028`, the user requested to \"Add a line of 465 for the helmets to the order.\"\n\nThere is also a mention of a \"flat delivery fee of 30\" in turn `t014`. However, the user's instruction in `t001`, `t024`, and `t028` specifically asks to \"Add a line... for [item] to the order,\" implying these are the line items to be summed. The delivery fee is a flat fee, not a line item for a specific product quantity in the same sense, but typically \"order total\" includes all charges. Let's look at the phrasing \"What does the order come to so far?\". Usually, this implies the sum of the line items added. If the delivery fee is part of the order cost, it should be included. Let's re-read carefully. \"Add a line of 340...\". \"Add a line of 180...\". \"Add a line of 465...\". The delivery fee was stated as \"There's a flat delivery fee of 30 on the order.\" This sounds like a condition of the order rather than a line item added during the session. However, without explicit instruction to exclude it, a total usually includes all costs. But looking at the pattern of \"Add a line of X for Y\", the assistant is tracking specific line items. The delivery fee is a static fact. Let's assume the question asks for the sum of the *added line items* unless specified otherwise. However, \"order total\" typically includes shipping. Let's look at the prompt's `format id=\"policy:output-contract\"`. It says \"add up the order's lines step by step\". This suggests focusing on the lines. The delivery fee is not described as a \"line\". It is described as a \"fee... on the order\".\n\nLet's stick"
+}

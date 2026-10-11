@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "34d61cf522567af4aa38940b2d4845e667d02bcc03ba89f6d526444e7ca750cd",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "dbde24e31802fa55f9c3c245cebb8d7ad1ff4c5c64ec5fcf86d0ccbca41ea3c3",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T02:19:08Z",
+    "cached_tokens": 6336,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 13488.031,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "708f9369f495b60f0d2d5e2ab1fb33a22f173098517c3ca73e385164ef980d1d",
+    "response_id": "chatcmpl-b86d443b4ee46378",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 340,
+      "prompt_tokens": 6792,
+      "total_tokens": 7132
+    }
+  },
+  "text": "To calculate the total for the supply order, I will sum the quantities of the items added to the order throughout the session.\n\n1.  **Ladders**: In turn `t001`, the user requested to \"Add a line of 400 for the ladders\".\n    *   Current total: 400\n2.  **Returned Stock Adjustment**: In turn `t004`, the user requested to \"Take 30 off the order for the returned stock\".\n    *   Calculation: 400 - 30 = 370\n    *   Current total: 370\n3.  **Lamps**: In turn `t020`, the user requested to \"Add a line of 555 for the lamps\".\n    *   Calculation: 370 + 555 = 925\n    *   Current total: 925\n4.  **Returned Stock Adjustment**: In turn `t030`, the user requested to \"Take 35 off the order for the returned stock\".\n    *   Calculation: 925 - 35 = 890\n    *   Current total: 890\n5.  **Cable Reels**: In turn `t045`, the user requested to \"Add a line of 570 for the cable reels\".\n    *   Calculation: 890 + 570 = 1460\n    *   Current total: 1460\n\nTotal: 1460"
+}

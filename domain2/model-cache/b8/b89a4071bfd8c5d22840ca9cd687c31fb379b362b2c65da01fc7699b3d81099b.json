@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "b89a4071bfd8c5d22840ca9cd687c31fb379b362b2c65da01fc7699b3d81099b",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "482866020243f520edafe65bd165b387dd6466d332f066a314ca5ab9d0ff4197",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T03:04:07Z",
+    "cached_tokens": 1056,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 9659.604,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "6fd0517f8dc8cbee4eaffa0f8d284e733f87434afdb79b96faa1a624b7ca9de0",
+    "response_id": "chatcmpl-8f05d1b0774ef941",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 265,
+      "prompt_tokens": 1473,
+      "total_tokens": 1738
+    }
+  },
+  "text": "To calculate the total for the supply order, I need to identify all the line items and their associated costs from the conversation history.\n\n1.  **Scan for order lines and prices:**\n    *   In `turn:t031:user`, the user states: \"Add a line of 300 for the lamps to the order.\" This is a confirmed line item with a cost of 300.\n    *   In `turn:t033:user`, the user states: \"There's a flat delivery fee of 25 on the order.\" This is a confirmed fee with a cost of 25.\n\n2.  **Check for other potential costs:**\n    *   The rest of the history (`turn:t032` through `turn:t040`) consists of updates about desk swaps, room availability, office maintenance (painting, noise), staff absences, and coffee machine status. None of these entries introduce new supply items or additional costs to the order.\n\n3.  **Calculate the total:**\n    *   Lamps: 300\n    *   Delivery Fee: 25\n    *   Total: 300 + 25 = 325\n\nTotal: 325"
+}

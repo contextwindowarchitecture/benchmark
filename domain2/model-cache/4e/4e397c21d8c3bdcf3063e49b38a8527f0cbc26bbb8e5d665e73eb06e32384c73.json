@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "4e397c21d8c3bdcf3063e49b38a8527f0cbc26bbb8e5d665e73eb06e32384c73",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "7d1bda81bd07c16e41e02e985094566db8db79691dd6ae62989c6ec314458cfd",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T08:10:40Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 10972.32,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "61067613d63e9a8046c61d84cea21784e784ab5092bdadf75ea5066758fd2ddd",
+    "response_id": "chatcmpl-ac3d12a1eac6f116",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 300,
+      "prompt_tokens": 6096,
+      "total_tokens": 6396
+    }
+  },
+  "text": "To determine the total for the order so far, we need to look for any line items added or removed from the supply list.\n\n1.  **Scan for additions:**\n    *   In turn t009, the user said: \"Add a line of 95 for the ladders to the order.\"\n    *   In turn t042, the user said: \"Add a line of 150 for the tarps to the order.\"\n\n2.  **Scan for subtractions:**\n    *   In turn t027, the user said: \"Take 70 off the order for the returned stock.\"\n\n3.  **Check for other items:**\n    *   In turn t047, the user mentioned: \"There's a flat delivery fee of 55 on the order.\" This is an additional cost to be included in the final total.\n\n4.  **Calculate the total:**\n    *   Ladders: 95\n    *   Tarps: 150\n    *   Returned stock (deduction): -70\n    *   Delivery fee: 55\n\n    Calculation:\n    95 + 150 = 245\n    245 - 70 = 175\n    175 + 55 = 230\n\nTotal: 230"
+}

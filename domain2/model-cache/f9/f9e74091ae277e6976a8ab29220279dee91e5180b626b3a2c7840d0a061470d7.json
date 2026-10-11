@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "f9e74091ae277e6976a8ab29220279dee91e5180b626b3a2c7840d0a061470d7",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "118a6beee2d0f59001dc7cf9c4cfb12b3fe69aaec1e7a91a7c4dd78292a189d1",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T08:15:45Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 6007.389,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "a77e524ed05398e975066b3a5dbbd009058596cb91356805b91f55a574ee512d",
+    "response_id": "chatcmpl-8e806b3d87cbea86",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 402,
+      "prompt_tokens": 6098,
+      "total_tokens": 6500
+    }
+  },
+  "text": "To calculate the current total of the order, we need to look at the specific instructions given regarding the items in the supply order.\n\n1.  **Initial Order Lines:**\n    *   Cable reels: 415\n    *   Ladders: 25\n    *   Tarps: 150\n\n2.  **Modifications:**\n    *   In turn `t027`, you stated: \"Take 70 off the order for the returned stock.\" This applies to the total quantity.\n    *   In turn `t042`, you stated: \"Add a line of 150 for the tarps to the order.\" This adds 150 tarps to the existing tarp count.\n\n**Step-by-Step Calculation:**\n\n*   **Cable reels:** The initial quantity was 415. There were no changes to this item.\n    *   Current Cable reels: **415**\n*   **Ladders:** The initial quantity was 25. There were no changes to this item.\n    *   Current Ladders: **25**\n*   **Tarps:**\n    *   Initial quantity: 150\n    *   Added in turn `t042`: +150\n    *   Subtotal for Tarps: 150 + 150 = 300\n    *   Current Tarps: **300**\n\n*   **Gross Total before adjustment:**\n    *   415 (Cable reels) + 25 (Ladders) + 300 (Tarps) = 740\n\n*   **Adjustment for returned stock:**\n    *   Subtract 70 from the gross total.\n    *   740 - 70 = 670\n\nTotal: 670"
+}

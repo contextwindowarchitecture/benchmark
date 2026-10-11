@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "d7bac8067c49a22d38dfe196b96e166ee23ba5fa63fd9e6ef7a33f4be6059c8a",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "8bab60ef2d701a1517e185828df3f417452e9102a5653df93ee5f2cc7d19d2ad",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T08:11:01Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 17977.227,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "6f188943c53598789c3e1eb64ceac9eaeb585af2863fda2a133b5f35ecae596c",
+    "response_id": "chatcmpl-97fb186bb9033c85",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6035,
+      "total_tokens": 6547
+    }
+  },
+  "text": "To determine the current total of the order, I need to look for any adjustments made to the stock or specific line items added.\n\n1.  **Check for adjustments to returned stock:**\n    *   In turn `t018`, the user instructed: \"Take 80 off the order for the returned stock.\"\n    *   In turn `t029`, the user instructed: \"Take 25 off the order for the returned stock.\"\n    *   No other adjustments to the order total have been mentioned.\n\n2.  **Check for new line items:**\n    *   In turn `t048`, the user instructed: \"Add a line of 350 for the lamps to the order.\"\n    *   No other line items have been added.\n\n3.  **Calculate the total:**\n    *   The base value of the order is not provided in the history. However, the prompt asks for the total *so far* based on the lines given. Since no initial base order amount was established in the provided conversation history, I can only sum the explicit additions and subtractions mentioned relative to a baseline, or assume the question implies the net change if a baseline isn't known.\n    *   Wait, typically in these supply order tasks, if no initial total is given, I cannot calculate a final absolute total. However, often \"the order\" refers to a running total. Let's re-read carefully.\n    *   There is no initial order total provided in the text.\n    *   Let's look for any other implicit totals. There are none.\n    *   Is it possible the question implies I should just list the adjustments? Or is there a standard starting point?\n    *   Let's look at the format policy: \"When asked for the total, add up the order's lines step by step, then give the total on a last line of its own as 'Total: ' and the number.\"\n    *   Since I cannot invent a starting number, I must assume the \"order\" consists of the items explicitly added or subtracted *if* the context implies a zero start, OR I should state that the total cannot be calculated without a base.\n    *   However, looking at similar patterns in these types of prompts, usually, there is an initial order or the \"lines\" refer to the specific modifications.\n    *   Let's look at the specific items:\n        *   L"
+}

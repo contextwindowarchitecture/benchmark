@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "84de014e2948e1bf024bbf046452342e95f93f8a979c1f6c7d34531a4137588d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "bf8cbf18797ca51a3a7fd16af5c5bbdf82a46e01b71897d6039e3f1f064cbdc5",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T07:52:17Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 28922.053,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "3d5211d85803c293545b8ec1f142382dd96d790af305f32dba633fc561eb0e08",
+    "response_id": "chatcmpl-866da197ac724cfc",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 341,
+      "prompt_tokens": 12094,
+      "total_tokens": 12435
+    }
+  },
+  "text": "To calculate the total for the order, I need to identify all the line items added or modified in the conversation history.\n\n1.  **Scan for order additions:**\n    *   In turn `t017`, the user said: \"Add a line of 400 for the ladders to the order.\"\n    *   In turn `t048`, the user said: \"Add a line of 520 for the lamps to the order.\"\n\n2.  **Scan for order reductions:**\n    *   In turn `t038`, the user said: \"Take 35 off the order for the returned stock.\"\n    *   In turn `t044`, the user said: \"Take 50 off the order for the returned stock.\"\n    *   In turn `t078`, the user said: \"Take 80 off the order for the returned stock.\"\n\n3.  **Calculate the total:**\n    *   Start with 0.\n    *   Add 400 (ladders): 400\n    *   Add 520 (lamps): 400 + 520 = 920\n    *   Subtract 35 (returned stock): 920 - 35 = 885\n    *   Subtract 50 (returned stock): 885 - 50 = 835\n    *   Subtract 80 (returned stock): 835 - 80 = 755\n\nTotal: 755"
+}

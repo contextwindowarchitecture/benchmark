@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "da3222dd730f3c9f007b4bafa37cc5e16d2b0788f8de9382de6acd76b761b210",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "8326cecaf421393a6df338c994fa01aa86a634b1fca9f50f9f929b55428e282b",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T02:23:36Z",
+    "cached_tokens": 10560,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 14523.033,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "3d7980eae8dacb8de0de8f05d7e325f0729ad836716b384b431780418c1664d6",
+    "response_id": "chatcmpl-8ee49c7e306cd127",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 368,
+      "prompt_tokens": 10633,
+      "total_tokens": 11001
+    }
+  },
+  "text": "To calculate the total for the supply order, I will identify all the line items added or modified in the conversation history.\n\n1.  **Turn t001**: \"Add a line of 415 for the cable reels to the order.\"\n    *   Item: Cable reels\n    *   Quantity: 415\n\n2.  **Turn t009**: \"Add a line of 95 for the ladders to the order.\"\n    *   Item: Ladders\n    *   Quantity: 95\n\n3.  **Turn t027**: \"Take 70 off the order for the returned stock.\"\n    *   This is a deduction from the total quantity.\n    *   Adjustment: -70\n\n4.  **Turn t042**: \"Add a line of 150 for the tarps to the order.\"\n    *   Item: Tarps\n    *   Quantity: 150\n\n5.  **Turn t047**: \"There's a flat delivery fee of 55 on the order.\"\n    *   This is a fixed fee added to the total.\n    *   Adjustment: +55\n\nNow, I will sum these values step by step:\n\n*   Start with Cable reels: 415\n*   Add Ladders: 415 + 95 = 510\n*   Subtract returned stock: 510 - 70 = 440\n*   Add Tarps: 440 + 150 = 590\n*   Add delivery fee: 590 + 55 = 645\n\nTotal: 645"
+}

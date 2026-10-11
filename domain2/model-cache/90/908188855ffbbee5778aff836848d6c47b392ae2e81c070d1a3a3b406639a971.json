@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "908188855ffbbee5778aff836848d6c47b392ae2e81c070d1a3a3b406639a971",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "1635b0ef8fb0fe1586e18d91b1da38f230c4a7732d1c56bab36a5b2b894385b0",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T08:09:36Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 45155.162,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "deaafa0181189255d6b9e8a30056cb993dd3ffba01d43bd3a9b20820483d750e",
+    "response_id": "chatcmpl-a53f7c2e6db13a73",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6194,
+      "total_tokens": 6706
+    }
+  },
+  "text": "To calculate the total for the order so far, let's review the items and quantities based on the initial order lines and subsequent adjustments:\n\n1.  **Initial Order Lines (from `xstate:11`):**\n    *   Lamps: 115\n    *   Ladders: 255\n    *   Cable reels: 90\n    *   Crates: 160\n\n2.  **Adjustments:**\n    *   **Turn t025:** User said \"Add a line of 155 for the cable reels to the order.\"\n        *   New Cable reels count: 90 + 155 = 245\n    *   **Turn t043:** User said \"Take 65 off the order for the returned stock.\"\n        *   This is ambiguous regarding *which* item, but typically in these contexts, if not specified, it might apply to the most recently modified or a specific context. However, looking at the pattern of previous instructions, sometimes it's item-specific. Let's look closer. \"Take 65 off the order for the returned stock.\" It doesn't specify an item. In many similar tasks, this often implies a reduction from the largest current stock or a general deduction. However, without a specific item, I will look for other clues. Wait, often \"returned stock\" implies a reduction from the previous addition or a specific item. Let's re-read carefully.\n        *   Actually, let's look at Turn t044: \"Add a line of 160 for the crates to the order.\"\n        *   Let's re-evaluate the sequence.\n        *   Start: Lamps 115, Ladders 255, Cable reels 90, Crates 160.\n        *   t025: Add 155 cable reels. Cable reels = 90 + 155 = 245.\n        *   t043: \"Take 65 off the order for the returned stock.\" It doesn't say which item. In many similar prompts, if the item isn't specified, it might refer to the *lamps* or *ladders* if they are high value, or it might be a trick. However, looking at the history, there is no specific item mentioned for \"returned stock\". Let's assume it applies"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "9b213e1026ada32f70883ddfc138d755420707f334c74b9d16b794918be4501a",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "9addc8a8318c5b1abf0475e2f9e1c9ba3303f8f5bc1c16be84b6309954a2709a",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T02:31:39Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 8375.581,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "2f354538b13413cee447526f25280b8bc3d84fa3af2caefd8a2206167f3e2b56",
+    "response_id": "chatcmpl-9d5704c43a7eecd7",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 10778,
+      "total_tokens": 11290
+    }
+  },
+  "text": "To determine the total for the Nevbury depot order, I will track the changes to the initial quantities provided in the system state and the user's instructions throughout the session.\n\n**Initial Order Lines (from `xstate:01`):**\n*   Ladders: 215\n*   Lamps: 350\n*   Tarps: 405\n\n**Order Modifications:**\n\n1.  **Turn t001:** User adds 240 ladders.\n    *   Ladders: $215 + 240 = 455$\n\n2.  **Turn t018:** User subtracts 80 from the order for returned stock. The user does not specify which item, but typically \"returned stock\" implies a general reduction or the most recent/additional items. However, looking at the pattern of specific item additions later, and the lack of specific item designation here, I need to look for context. In similar tasks, if the item isn't specified, it often applies to the most recently added or a specific category. Let's look further. Actually, usually, if it's not specified, it might be ambiguous. But let's look at the other adjustments.\n    *   *Correction/Refinement:* In many of these supply chain prompts, \"returned stock\" without a specific item often refers to a generic deduction or implies a specific item if one was just discussed. Here, no item was just discussed. However, looking at turn t029, there is another deduction. Let's hold on the specific item for the deduction and see if the final totals make sense or if there's a convention. Often, if not specified, it might apply to the first item or the largest. Let's look at the other specific additions first.\n\n3.  **Turn t029:** User subtracts 25 from the order for returned stock.\n    *   Again, no item specified.\n\n4.  **Turn t048:** User adds 350 lamps.\n    *   Lamps: $350 + 350 = 700$\n\n5.  **Turn t075:** User adds 405 tarps.\n    *   Tarps: $405 + 405 = 810$\n\n**Re-evaluating the \"Returned Stock\" Deductions:**\nIn these types of logical"
+}

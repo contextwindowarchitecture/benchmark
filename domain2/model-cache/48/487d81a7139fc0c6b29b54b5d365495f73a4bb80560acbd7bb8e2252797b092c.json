@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "487d81a7139fc0c6b29b54b5d365495f73a4bb80560acbd7bb8e2252797b092c",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e4b52c48ab6c758fa76b7f1362131651adb34d3213949286704ef7134401598a",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T07:53:11Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 8993.928,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "b866956fb110da5f3287605ad8f0639384ed31e4a9a77c68cd5e16ccf994650d",
+    "response_id": "chatcmpl-ae83f1a3bea341f4",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 247,
+      "prompt_tokens": 6028,
+      "total_tokens": 6275
+    }
+  },
+  "text": "To calculate the total for the order so far, I need to identify all the line items added to the supply order in the conversation history.\n\n1.  **Turn t035**: The user said, \"Add a line of 525 for the toolkits to the order.\"\n    *   Item: Toolkits\n    *   Quantity: 525\n\n2.  **Turn t042**: The user said, \"Add a line of 180 for the lamps to the order.\"\n    *   Item: Lamps\n    *   Quantity: 180\n\n3.  **Turn t049**: The user said, \"Take 65 off the order for the returned stock.\"\n    *   This is a deduction from the total quantity.\n    *   Adjustment: -65\n\nNow, I will sum these values:\n*   Start with Toolkits: 525\n*   Add Lamps: 525 + 180 = 705\n*   Subtract Returned Stock: 705 - 65 = 640\n\nTotal: 640"
+}

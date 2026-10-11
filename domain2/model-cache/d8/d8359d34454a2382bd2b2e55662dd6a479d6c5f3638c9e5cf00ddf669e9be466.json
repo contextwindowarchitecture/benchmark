@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "d8359d34454a2382bd2b2e55662dd6a479d6c5f3638c9e5cf00ddf669e9be466",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "8408758da8fa2c56e65f770726d4730e8ffccd5c3fb901cf528b6daa3132149d",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T07:43:46Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 93899.618,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "c3a18d846c1a4823e26829be1f1f1d1feccf44489e61e2d5058f8c9fe433f817",
+    "response_id": "chatcmpl-9f5b0b8a79b57367",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 249,
+      "prompt_tokens": 6023,
+      "total_tokens": 6272
+    }
+  },
+  "text": "To calculate the total for the order, I need to look for any items that have been added or removed from the supply list.\n\n1.  **Scan for additions:**\n    *   In turn `t020`, the user said: \"Add a line of 555 for the lamps to the order.\"\n    *   In turn `t045`, the user said: \"Add a line of 570 for the cable reels to the order.\"\n\n2.  **Scan for subtractions:**\n    *   In turn `t030`, the user said: \"Take 35 off the order for the returned stock.\"\n\n3.  **Calculate the total:**\n    *   Start with 0.\n    *   Add 555 (lamps): $0 + 555 = 555$\n    *   Subtract 35 (returned stock): $555 - 35 = 520$\n    *   Add 570 (cable reels): $520 + 570 = 1090$\n\nTotal: 1090"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "c003d12a794baafa3a6ea0cb9e9d7ae5925f9accc2fdde2a7dcb7da8777c017d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d1ce9d926c06e812dd2f1818a7c5941fa5756953889e571e435589e80b1cf119",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T03:09:12Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 12145.452,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "2588eb8e22ad7213b072bb630dbcc7fdc25f5741f1fc1a5febd1bb2742c65919",
+    "response_id": "chatcmpl-8694c99dd4d86ad4",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 5521,
+      "total_tokens": 6033
+    }
+  },
+  "text": "To determine the total for the order, let's look at the items and quantities added so far:\n\n1.  **Ladders**: The initial order had 335. In turn `t001`, the user asked to \"Add a line of 400 for the ladders\". This phrasing usually implies adding to the existing amount or setting a new total, but in supply contexts, \"add a line of X\" often means adding X to the current count. However, looking at turn `t020`, the user says \"Add a line of 555 for the lamps\". The initial order in `xstate:01` already had 555 lamps. This suggests the user is refining quantities. Let's re-read carefully.\n    *   Initial state: Ladders 335, Lamps 555.\n    *   Turn `t001`: \"Add a line of 400 for the ladders\". This likely means the quantity becomes $335 + 400 = 735$ or simply sets it to 400? In previous similar tasks, \"add X\" usually means increment. Let's assume increment for now. So Ladders = $335 + 400 = 735$.\n    *   Turn `t004`: \"Take 30 off the order for the returned stock.\" This applies to the total order or specific items? Usually, if not specified, it might apply to the most recent or all. But often in these prompts, it applies to the item previously mentioned or the total. Let's look for item-specific adjustments. No item was specified for the deduction in `t004`. Let's look at `t030`: \"Take 35 off the order for the returned stock.\" Again, no item specified.\n    *   Let's reconsider the \"Add a line\" phrasing. If I have 335 ladders, and I \"add a line of 400\", do I now have 735? Or is the \"line\" a new entry? The format `order_lines` suggests a list of items. If I add a line for ladders, it might replace or append. Given the singular \"ladders\" item, it's likely updating the quantity.\n    *   Let's look at the lamps. Initial: 555."
+}

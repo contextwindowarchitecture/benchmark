@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "eacf2b0803a48a04148a5208eb66a251366ce96c4c7ac6d3eb30062253d5780e",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "b77a2c3efdd15ea486f2420c381cdb7106da642f785ac14558105248c7d8699b",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T02:18:46Z",
+    "cached_tokens": 1056,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 19685.82,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "4cf91d992541b5a3f86c7a7b94c60ead16c1afb3855527c8753ea138b28f6fe3",
+    "response_id": "chatcmpl-812a7036e10571a5",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 508,
+      "prompt_tokens": 1581,
+      "total_tokens": 2089
+    }
+  },
+  "text": "Let's add up the supply order for the Selbury depot step by step.\n\n1.  **Cable reels (Line item 415):** The quantity isn't specified in the summary, so I will assume this refers to the line item number itself or a standard unit if no quantity was given. However, looking at the other items, let's look for quantities.\n    *   *Correction*: The prompt says \"Line item 415: Cable reels.\" It doesn't give a quantity. Usually, in these tasks, if a quantity isn't explicitly stated as a number to add, it might be a single unit or the number is the ID. Let's look at the other items.\n    *   \"Line item 95: Ladders.\" Again, no quantity.\n    *   \"New line: 150 tarps.\" This has a clear quantity.\n    *   \"Deduct 70 units for returned stock.\" This is a deduction.\n    *   \"Flat delivery fee: 55.\" This is a fixed cost.\n\n    *Re-evaluating the \"Line item\" phrasing*: Often in these prompts, \"Line item X\" implies the quantity is X, or it's a specific SKU. However, without explicit quantities for the first two, I cannot sum them accurately unless I assume the number *is* the quantity. Let's assume the numbers 415 and 95 are the quantities for Cable reels and Ladders respectively, as is common in simplified order summaries where \"Line item 415\" might be a typo for \"415 units of...\" or simply the quantity. Let's proceed with that assumption:\n    *   Cable reels: 415\n    *   Ladders: 95\n    *   Tarps: 150\n\n2.  **Add the items:**\n    *   415 (Cable reels) + 95 (Ladders) = 510\n    *   510 + 150 (Tarps) = 660\n\n3.  **Apply deductions:**\n    *   660 - 70 (Returned stock) = 590\n\n4.  **Add delivery fee:**\n    *   590 + 55 (Delivery fee) = 645\n\nTotal: 645"
+}

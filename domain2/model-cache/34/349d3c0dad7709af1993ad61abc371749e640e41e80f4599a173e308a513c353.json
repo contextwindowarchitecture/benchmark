@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "349d3c0dad7709af1993ad61abc371749e640e41e80f4599a173e308a513c353",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e8944327b96117e47489b0fe646bfed12f8f44ec94e79be0a2e18bef62757cac",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-11T08:15:37Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 8670.047,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "ada70a2ce46ae8526f0caa832bfa45a5d06965aed8819b090ac758eeed2e23c9",
+    "response_id": "chatcmpl-b93bda7bff8afd0c",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6119,
+      "total_tokens": 6631
+    }
+  },
+  "text": "To calculate the total for the order so far, we need to aggregate the quantities from the initial order and any subsequent additions or subtractions mentioned in the conversation history.\n\n1.  **Initial Order (from `<task id=\"xstate:01\">`)**:\n    *   Tarps: 370\n    *   Toolkits: 525\n    *   Lamps: 180\n    *   *Subtotal*: $370 + 525 + 180 = 1075$\n\n2.  **Modifications**:\n    *   **Turn t035**: The user said, \"Add a line of 525 for the toolkits to the order.\"\n        *   New Toolkit Quantity: $525 \\text{ (initial)} + 525 \\text{ (added)} = 1050$\n        *   Current Subtotal: $370 \\text{ (tarps)} + 1050 \\text{ (toolkits)} + 180 \\text{ (lamps)} = 1600$\n    *   **Turn t042**: The user said, \"Add a line of 180 for the lamps to the order.\"\n        *   New Lamp Quantity: $180 \\text{ (initial)} + 180 \\text{ (added)} = 360$\n        *   Current Subtotal: $370 \\text{ (tarps)} + 1050 \\text{ (toolkits)} + 360 \\text{ (lamps)} = 1780$\n    *   **Turn t049**: The user said, \"Take 65 off the order for the returned stock.\"\n        *   This is a general reduction. We subtract 65 from the total.\n        *   Final Calculation: $1780 - 65 = 1715$\n\n**Breakdown:**\n*   Tarps: 370\n*   Toolkits: 1050\n*   Lamps: 360\n*   Returns adjustment: -65\n\n$370 + 1050 + 360 - 65 = 1715$\n\nTotal: 1715"
+}

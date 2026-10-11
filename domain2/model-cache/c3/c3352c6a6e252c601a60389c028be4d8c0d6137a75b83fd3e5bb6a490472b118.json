@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "c3352c6a6e252c601a60389c028be4d8c0d6137a75b83fd3e5bb6a490472b118",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e086b6c4b70c55cbda3f5a4e3c9ff3d018571d32c50a38585b8db3e19bea37b8",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T02:01:26Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 73001.025,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "077b47ca682e42b515229c4d45d775ccffe7a58e3d95745995f0b906107c7fdd",
+    "response_id": "chatcmpl-8ab6ed5e0ba414ea",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 292,
+      "prompt_tokens": 1545,
+      "total_tokens": 1837
+    }
+  },
+  "text": "To calculate the total for the Harcroft depot supply order, let's look at the specific line items added by the user:\n\n1.  **Crate**: 275 units (from turn t001)\n2.  **Returned Stock**: -35 units (from turn t002)\n3.  **Toolkits**: 470 units (from turn t004)\n4.  **Lamps**: 175 units (from turn t005)\n5.  **Returned Stock**: -80 units (from turn t007)\n6.  **Delivery Fee**: 45 flat fee (from turn t008)\n\nNow, let's sum these values step by step:\n\n*   Start with the crates: 275\n*   Subtract the first returned stock adjustment: 275 - 35 = 240\n*   Add the toolkits: 240 + 470 = 710\n*   Add the lamps: 710 + 175 = 885\n*   Subtract the second returned stock adjustment: 885 - 80 = 805\n*   Add the flat delivery fee: 805 + 45 = 850\n\nTotal: 850"
+}

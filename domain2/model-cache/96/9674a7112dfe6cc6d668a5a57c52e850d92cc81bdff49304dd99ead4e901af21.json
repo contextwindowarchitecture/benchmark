@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "9674a7112dfe6cc6d668a5a57c52e850d92cc81bdff49304dd99ead4e901af21",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "5c17355e17af593a80f0a3dc9f81ac5004cc5e600ae0073fa8dc98b955b4dd41",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T02:29:24Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 4222.848,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "42e9f1bd0687809d7d59716892fb0b6d0124371ab26242e9098f33d4b2f849d1",
+    "response_id": "chatcmpl-a0ad777cd57db89b",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 228,
+      "prompt_tokens": 6857,
+      "total_tokens": 7085
+    }
+  },
+  "text": "To calculate the total for the Selbury depot order, let's look at the lines added so far:\n\n1.  **Cable reels**: 415\n2.  **Ladders**: 95 (added in turn t009)\n3.  **Tarps**: 150 (added in turn t042)\n\nThere was also a request in turn t027 to \"Take 70 off the order for the returned stock.\" Since this was a general instruction without specifying an item, and typically returns are applied to specific line items or the total, I will apply this deduction to the final sum to reflect the net order value.\n\nStep-by-step calculation:\n*   Start with Cable reels: 415\n*   Add Ladders: 415 + 95 = 510\n*   Add Tarps: 510 + 150 = 660\n*   Subtract returned stock: 660 - 70 = 590\n\nTotal: 590"
+}

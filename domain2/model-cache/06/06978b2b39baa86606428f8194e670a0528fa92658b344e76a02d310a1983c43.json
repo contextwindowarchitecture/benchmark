@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "06978b2b39baa86606428f8194e670a0528fa92658b344e76a02d310a1983c43",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "c2677abefef9ae1f226b08ab4a45ef119d03e4c468fe7cb7d22627f0584adbb7",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T03:09:00Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 11505.556,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "2588eb8e22ad7213b072bb630dbcc7fdc25f5741f1fc1a5febd1bb2742c65919",
+    "response_id": "chatcmpl-b62a4f481a790d18",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 5521,
+      "total_tokens": 6033
+    }
+  },
+  "text": "To determine the current total of the order, let's track the changes to the line items step by step.\n\n1.  **Initial State (from task xstate:01):**\n    *   Ladders: 335\n    *   Lamps: 555\n\n2.  **Turn t001:** \"Add a line of 400 for the ladders.\"\n    *   Ladders: 335 + 400 = 735\n    *   Lamps: 555\n\n3.  **Turn t020:** \"Add a line of 555 for the lamps.\"\n    *   Ladders: 735\n    *   Lamps: 555 + 555 = 1,110\n\n4.  **Turn t004:** \"Take 30 off the order for the returned stock.\"\n    *   The instruction is general (\"the order\"), but typically in these scenarios, if not specified, it might apply to the most recent addition or be split. However, looking at the pattern of other \"return\" instructions (like turn t030), they also say \"the order\". Without a specific item attached, this is ambiguous. Let's look for clues. Usually, \"returned stock\" implies specific items. If no item is specified, it often applies to the largest quantity or is a general deduction. Let's assume it applies to the Ladders first as they are the first item listed in the history, or check if there's a convention. Actually, often these prompts imply a specific item if context suggests. Here, no item is specified. Let's look at turn t030 as well. \"Take 35 off the order\".\n    *   Let's re-read carefully. In turn t004, it says \"Take 30 off the order\". In turn t030, it says \"Take 35 off the order\".\n    *   If I assume it applies to the first item (Ladders) or is split, it changes the total. However, a common interpretation in these specific supply chain logic puzzles when \"the order\" is mentioned without a specific item key is that it reduces the total count of the order by that amount, or it might be a mistake in my tracking. Let's look at the items again.\n    *   Let's assume the deduction"
+}

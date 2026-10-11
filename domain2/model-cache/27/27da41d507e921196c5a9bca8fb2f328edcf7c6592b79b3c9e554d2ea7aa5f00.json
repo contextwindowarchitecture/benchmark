@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "27da41d507e921196c5a9bca8fb2f328edcf7c6592b79b3c9e554d2ea7aa5f00",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e9dabb8f6b7dc95807c6a03c6311dcb85a981857f262357bbddc5f33772ddf48",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-11T02:57:20Z",
+    "cached_tokens": 2112,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 13802.038,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "78137dd532c59058a37c598925460f633baa5b6b21420d9674edad5d067268e3",
+    "response_id": "chatcmpl-83792e324bb32305",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 261,
+      "prompt_tokens": 2786,
+      "total_tokens": 3047
+    }
+  },
+  "text": "To determine the total for the supply order, we need to identify all monetary values or line items with associated costs mentioned in the conversation history.\n\n1.  **Scan for order lines:**\n    *   In `turn:t001:user`, the user states: \"Add a line of 340 for the lanterns to the order.\" This is the only explicit line item with a value added to the supply order.\n    *   In `turn:t014:user`, the user states: \"There's a flat delivery fee of 30 on the order.\" This is a fixed cost added to the order.\n\n2.  **Check for other items:**\n    *   The rest of the conversation (`turn:t002` to `turn:t020`) consists of office updates, reminders about room availability, desk swaps, people being out of office, and notes about sending messages. None of these entries add new items or costs to the *supply order*.\n\n3.  **Calculate the total:**\n    *   Lanterns: 340\n    *   Delivery fee: 30\n    *   Total: 340 + 30 = 370\n\nTotal: 370"
+}

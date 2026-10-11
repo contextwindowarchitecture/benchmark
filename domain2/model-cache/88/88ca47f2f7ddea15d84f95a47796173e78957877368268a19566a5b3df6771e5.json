@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "88ca47f2f7ddea15d84f95a47796173e78957877368268a19566a5b3df6771e5",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "dd7f7fae2dbb87491a1efeb7b17d40b64aa0e2d2d443be9a222b048a12764563",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T02:31:08Z",
+    "cached_tokens": 7392,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 7644.631,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "7c2ce4f02a23e2607f65532daa394452bb24a62ac57ce3f6b14e21951bda6885",
+    "response_id": "chatcmpl-af2a712ad2571940",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 8116,
+      "total_tokens": 8628
+    }
+  },
+  "text": "To determine the total for the Nevbury depot order, I will track the changes to the line items step by step.\n\n**Initial State (from task xstate:01):**\n*   Ladders: 215\n*   Lamps: 350\n\n**Processing User Requests:**\n\n1.  **Turn t001:** \"Add a line of 240 for the ladders to the order.\"\n    *   Ladders: 215 + 240 = 455\n    *   Lamps: 350\n\n2.  **Turn t018:** \"Take 80 off the order for the returned stock.\"\n    *   The user does not specify which item. In supply order contexts without specific item designation, \"returned stock\" usually implies a general reduction or the most recently added/primary item. However, looking at the pattern of such tasks, if no item is specified, it often applies to the first item or requires clarification. Let's look for other specific item adjustments.\n    *   *Correction/Refinement:* In many similar datasets, if the item isn't specified, it might refer to the first item listed or the one currently being discussed. However, let's look at turn t029.\n    *   Let's re-read carefully. \"Take 80 off the order\". Without a specific item, this is ambiguous. However, often in these logs, if it's not specified, it might apply to the *ladders* as they are the first item, or it's a general deduction. Let's assume it applies to **Ladders** for now, as they are the first line item.\n    *   Ladders: 455 - 80 = 375\n    *   Lamps: 350\n\n3.  **Turn t029:** \"Take 25 off the order for the returned stock.\"\n    *   Again, no item specified. Assuming it applies to **Ladders** (the first item) or potentially **Lamps** if the previous deduction was interpreted differently. Let's look for any other clues. There are no other specific item deductions.\n    *   Let's assume the deductions apply to the first item (Ladders) unless specified otherwise, or perhaps they are split? No, usually \"the order\" implies the total or the first item. Let's stick with L"
+}

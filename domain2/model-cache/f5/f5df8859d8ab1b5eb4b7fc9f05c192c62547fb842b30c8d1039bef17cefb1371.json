@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "f5df8859d8ab1b5eb4b7fc9f05c192c62547fb842b30c8d1039bef17cefb1371",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "779c6a545d5fb8a81bb4bef25a7fade3cce3c3ab2e9495b6fb24e6acba01f48c",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T02:43:03Z",
+    "cached_tokens": 1056,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 84712.993,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "9f86e7584b6e98508430770804ae5a598f6b7a0db5103a3990f01ddad7c35a25",
+    "response_id": "chatcmpl-ac02f1e936b56366",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 435,
+      "prompt_tokens": 1524,
+      "total_tokens": 1959
+    }
+  },
+  "text": "To calculate the total for the supply order, let's look at the items added in the conversation:\n\n1.  In turn t001, you added a line of **510** for the lanterns.\n2.  In turn t003, you added a line of **395** for the ladders.\n3.  In turn t006, you added a line of **540** for the cable reels.\n4.  In turn t009, you added a line of **230** for the helmets.\n5.  In turn t010, you added a line of **180** for the lamps.\n\nThere is also a flat delivery fee of 60 mentioned in turn t004, but typically \"order lines\" refer to the itemized goods unless specified otherwise. However, looking at the instruction \"add up the order's lines\", usually refers to the specific item quantities/costs listed as lines. Let's sum the item lines first:\n\n510 + 395 = 905\n905 + 540 = 1445\n1445 + 230 = 1675\n1675 + 180 = 1855\n\nIf the delivery fee is considered part of the total cost of the order, we would add 60.\n1855 + 60 = 1915\n\nHowever, standard practice for \"order lines\" often excludes shipping fees unless they are line items themselves. The prompt asks \"What does the order come to so far?\". Usually, this implies the sum of the line items provided. Let's provide the sum of the explicit lines added for goods.\n\nLines:\n- Lanterns: 510\n- Ladders: 395\n- Cable reels: 540\n- Helmets: 230\n- Lamps: 180\n\nTotal: 1855"
+}

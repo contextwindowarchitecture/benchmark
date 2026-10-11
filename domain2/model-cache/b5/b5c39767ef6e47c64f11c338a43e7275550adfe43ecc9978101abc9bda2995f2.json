@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "b5c39767ef6e47c64f11c338a43e7275550adfe43ecc9978101abc9bda2995f2",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "f42ed97a7836e31759d710d23a9c097219d39a49d2ebbd1ff8957be9aa413579",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-11T08:12:47Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 11870.373,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "11bdb64ab5a5c4fa943cb43f82ce08e27e7852b69998e94421f478fb461bf530",
+    "response_id": "chatcmpl-8275fbfbc2778871",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 348,
+      "prompt_tokens": 6067,
+      "total_tokens": 6415
+    }
+  },
+  "text": "To determine the total for the order, I need to look for specific instructions regarding line items and prices in the conversation history.\n\n1.  **Search for order additions:**\n    *   In `turn:t017`, the user states: \"Add a line of 400 for the ladders to the order.\"\n    *   In `turn:t48`, the user states: \"Add a line of 520 for the lamps to the order.\"\n\n2.  **Search for order deductions/returns:**\n    *   In `turn:t38`, the user states: \"Take 35 off the order for the returned stock.\"\n    *   In `turn:t44`, the user states: \"Take 50 off the order for the returned stock.\"\n\n3.  **Check for other items:**\n    *   The rest of the conversation consists of reminders, office status updates (repainting, noisy lifts, umbrella left behind), meeting room changes, and desk swaps. There are no other mentions of adding items or specific prices to the supply order.\n\n4.  **Calculate the total:**\n    *   Start with the ladders: 400\n    *   Add the lamps: 520\n    *   Subtract the first return: 35\n    *   Subtract the second return: 50\n\n    Calculation:\n    $400 + 520 = 920$\n    $920 - 35 = 885$\n    $885 - 50 = 835$\n\nTotal: 835"
+}

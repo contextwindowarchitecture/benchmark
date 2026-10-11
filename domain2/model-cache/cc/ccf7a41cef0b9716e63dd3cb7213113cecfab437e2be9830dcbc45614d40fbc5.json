@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "ccf7a41cef0b9716e63dd3cb7213113cecfab437e2be9830dcbc45614d40fbc5",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "85c6860770e6f0055ce04e35190f6eccb4d14fb296564bc81db3c24950ac55e1",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T03:10:25Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 7864.025,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "6c08b267e35a58bcfd33230e38c60d08048678a03d37bc82a59e0b86a6050bb2",
+    "response_id": "chatcmpl-997d6c81136ab568",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 406,
+      "prompt_tokens": 5692,
+      "total_tokens": 6098
+    }
+  },
+  "text": "To calculate the total for the order so far, I will look at the order lines provided and any modifications made during the session.\n\n1.  **Initial Order Lines:**\n    *   Crates: 480\n    *   Ladders: 400\n\n2.  **Modifications:**\n    *   In turn `t001`, the user requested: \"Add a line of 515 for the crates to the order.\"\n        *   New Crates total: 480 + 515 = 995\n        *   Ladders total: 400\n    *   In turn `t017`, the user requested: \"Add a line of 400 for the ladders to the order.\"\n        *   Crates total: 995\n        *   New Ladders total: 400 + 400 = 800\n    *   In turn `t038`, the user requested: \"Take 35 off the order for the returned stock.\"\n        *   This is a general reduction of the total order quantity.\n        *   Previous Total: 995 (Crates) + 800 (Ladders) = 1795\n        *   New Total: 1795 - 35 = 1760\n\nLet's verify the items breakdown:\n*   Crates: 480 (initial) + 515 (added) = 995\n*   Ladders: 400 (initial) + 400 (added) = 800\n*   Subtotal: 995 + 800 = 1795\n*   Deduction: 35\n*   Final Total: 1760\n\nTotal: 1760"
+}

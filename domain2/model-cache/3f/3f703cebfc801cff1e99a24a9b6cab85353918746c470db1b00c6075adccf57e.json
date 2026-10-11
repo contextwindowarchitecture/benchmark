@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "3f703cebfc801cff1e99a24a9b6cab85353918746c470db1b00c6075adccf57e",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "1f052cf6e3aea4d30c650ec8c11f6e3dc2ee3189c42e94204944fd9fdd8ee290",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T03:04:52Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 8611.502,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "5728408fd040c51c4cebd1c642e575e1c4128aee15b92746f751e98d607c16ae",
+    "response_id": "chatcmpl-bd21eb71d9810ff2",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 233,
+      "prompt_tokens": 5378,
+      "total_tokens": 5611
+    }
+  },
+  "text": "To determine the total for the Nevbury depot supply order, we need to look at the specific line items mentioned in the conversation history.\n\n1.  **Identify Order Lines:**\n    *   In `turn:t001:user`, the user states: \"Add a line of 240 for the ladders to the order.\"\n    *   In `turn:t018:user`, the user states: \"Take 80 off the order for the returned stock.\"\n    *   In `turn:t029:user`, the user states: \"Take 25 off the order for the returned stock.\"\n\n2.  **Calculate the Total:**\n    *   Start with the initial order for ladders: 240\n    *   Subtract the returned stock amount from turn t018: 240 - 80 = 160\n    *   Subtract the returned stock amount from turn t029: 160 - 25 = 135\n\nThe order comes to 130.\n\nTotal: 135"
+}

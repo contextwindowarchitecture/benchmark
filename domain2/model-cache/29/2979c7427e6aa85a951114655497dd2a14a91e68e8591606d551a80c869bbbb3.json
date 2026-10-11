@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "2979c7427e6aa85a951114655497dd2a14a91e68e8591606d551a80c869bbbb3",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "8378bb15b3dafe5322db5364ce68f18c6865f56dce56f146b1c012610f003a16",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T02:32:00Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 5983.766,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "8a2dd082dce518980e106c11dd50911737ef174ac67009db78ed4a0a3e2dcc05",
+    "response_id": "chatcmpl-b032fb91393185f3",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 12125,
+      "total_tokens": 12637
+    }
+  },
+  "text": "To determine the current total for the Nevbury depot order, let's track the changes to the initial line items provided in the task description.\n\n**Initial Order Lines:**\n*   Ladders: 215\n*   Lamps: 350\n*   Tarps: 405\n*   Helmets: 175\n\n**Changes made during the session:**\n\n1.  **Turn t001:** \"Add a line of 240 for the ladders to the order.\"\n    *   Ladders: 215 + 240 = 455\n\n2.  **Turn t018:** \"Take 80 off the order for the returned stock.\"\n    *   The user does not specify which item, but typically \"returned stock\" implies a reduction from the most recently added or largest quantity, or it might be a general deduction. However, looking at the context of supply orders, if no item is specified, it's ambiguous. Let's look for other specific item adjustments.\n    *   *Correction/Refinement:* In many of these tasks, if an item isn't specified for a deduction, it often applies to the item mentioned in the immediate context or is a general reduction. However, looking at turn t029, there is another deduction. Let's look at the specific item additions first.\n    *   Let's re-read t018 carefully: \"Take 80 off the order for the returned stock.\" It doesn't specify an item. Let's hold on this and see if other turns clarify or if I need to make an assumption. Usually, in these prompts, if it's not specified, it might be a trick or apply to a specific item mentioned nearby. There are no items mentioned nearby in t018. Let's look at t029.\n\n3.  **Turn t029:** \"Take 25 off the order for the returned stock.\"\n    *   Again, no item specified.\n\n4.  **Turn t048:** \"Add a line of 350 for the lamps to the order.\"\n    *   Lamps: 350 (initial) + 350 (added) = 700\n\n5.  **Turn t075:** \"Add a line of 405 for the tarps to the order.\"\n    *   Tar"
+}

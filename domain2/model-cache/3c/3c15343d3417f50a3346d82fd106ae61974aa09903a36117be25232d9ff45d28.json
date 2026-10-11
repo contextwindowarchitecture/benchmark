@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "3c15343d3417f50a3346d82fd106ae61974aa09903a36117be25232d9ff45d28",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "febffe18b57a5daaa6ed6d6e2441d212b380019f8b41ec4050fef845aac8e068",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T02:51:02Z",
+    "cached_tokens": 1056,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 56309.197,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "2f30fcd00dcd4124a683bf7aba4d991230af1ad989405b9696ceb54e9fdba738",
+    "response_id": "chatcmpl-bd0af2668ac6d6e5",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 397,
+      "prompt_tokens": 1757,
+      "total_tokens": 2154
+    }
+  },
+  "text": "To calculate the total for the Harby depot supply order, we need to sum the values of all the current order lines. Based on the updates provided throughout the session, here is the breakdown:\n\n1.  **Helmets**: The initial line was 330. In turn `t001`, you added 370 more.\n    *   $330 + 370 = 700$\n2.  **Delivery fee**: This is a flat fee of 25 (confirmed in turn `t002`).\n    *   $25$\n3.  **Returned stock**: The initial line was -120. In turn `t006`, you took 40 off (subtracting 40, so -40). In turn `t007`, you took 70 off (subtracting 70, so -70). In turn `t009`, you took 50 off (subtracting 50, so -50).\n    *   $-120 - 40 - 70 - 50 = -280$\n4.  **Cable reels**: Added in turn `t010` with a quantity/value of 285.\n    *   $285$\n\nNow, let's sum these totals:\n$$700 \\text{ (helmets)} + 25 \\text{ (delivery)} - 280 \\text{ (returned)} + 285 \\text{ (cable reels)}$$\n\n$$700 + 25 = 725$$\n$$725 - 280 = 445$$\n$$445 + 285 = 730$$\n\nTotal: 730"
+}

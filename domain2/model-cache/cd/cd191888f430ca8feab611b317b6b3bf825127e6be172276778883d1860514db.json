@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "cd191888f430ca8feab611b317b6b3bf825127e6be172276778883d1860514db",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "5525d2a165a1b98cd6f0d1dc4e00bb2f3ae2962558fb82d1236c6e6369d6b81a",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T08:09:01Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 32048.703,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "8ab47f04d53041c68e28fd0add7105771b7bd871ea477552de675115df326e09",
+    "response_id": "chatcmpl-bacc34cb2e157389",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 344,
+      "prompt_tokens": 6153,
+      "total_tokens": 6497
+    }
+  },
+  "text": "To determine the total for the order, let's review the lines provided in the task descriptions:\n\n1.  **Crates:** 230\n2.  **Toolkits:** 60\n3.  **Credit:** -80 (A credit reduces the total)\n4.  **Tarps:** 55\n5.  **Helmets:** 135\n6.  **Cable reels:** 570\n\nNote: Although lines for toolkits, tarps, helmets, and cable reels were repeated in later history turns (turns 012, 028, 031, 049), the task descriptions in `<task id=\"state:line-02\">` through `<task id=\"state:line-06\">` represent the definitive initial lines for those items. There are no additional unique items added in the subsequent turns that weren't already accounted for in these state lines. The credit in line 3 is the only adjustment.\n\nLet's calculate the sum step by step:\n\n*   Start with Crates: 230\n*   Add Toolkits: 230 + 60 = 290\n*   Apply Credit: 290 - 80 = 210\n*   Add Tarps: 210 + 55 = 265\n*   Add Helmets: 265 + 135 = 400\n*   Add Cable reels: 400 + 570 = 970\n\nTotal: 970"
+}

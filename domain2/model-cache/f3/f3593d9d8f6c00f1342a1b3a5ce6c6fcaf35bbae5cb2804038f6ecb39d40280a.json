@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "f3593d9d8f6c00f1342a1b3a5ce6c6fcaf35bbae5cb2804038f6ecb39d40280a",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "521172252ef5248575669a4ea9ce557486f9165d1c6344f2d5da6c688467c4bd",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T07:51:35Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 42996.078,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "0a8882d1649b905c6549502cbc15b5143bcdf6606bc3ab2c6280628c4ecadaf1",
+    "response_id": "chatcmpl-839b2acf6a00c404",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 427,
+      "prompt_tokens": 5946,
+      "total_tokens": 6373
+    }
+  },
+  "text": "Based on the conversation so far, there is only one line item mentioned for the order:\n\n1.  Lamps: 520\n\nThere was also a mention of taking 80 off the order for returned stock, but that was a deduction, not a line item added to the total in the same way. However, typically \"what does the order come to\" implies the sum of the items added. Let's look at the specific instruction: \"Take 50 off the order for the returned stock\" and \"Take 80 off the order for the returned stock.\" These are deductions. The only addition was \"Add a line of 520 for the lamps\".\n\nIf we assume the question asks for the total of the items *added* to the order:\nTotal: 520\n\nIf we assume the question asks for the net total after deductions:\n520 - 50 - 80 = 390\n\nHowever, usually, in these supply order contexts, unless specified as a \"net total\", it refers to the sum of the goods. But let's look closer. The prompt says \"add up the order's lines step by step\". The only \"line\" added was the lamps. The deductions are adjustments.\n\nLet's re-read carefully.\n\"Add a line of 520 for the lamps to the order.\"\n\"Take 50 off the order for the returned stock.\"\n\"Take 80 off the order for the returned stock.\"\n\nIf I treat the deductions as part of the order calculation:\nLine 1: Lamps 520\nDeduction 1: -50\nDeduction 2: -80\n\nTotal: 520 - 50 - 80 = 390.\n\nLet's provide the step-by-step addition.\n\n1. Lamps: 520\n2. Returned stock deduction: -50\n3. Returned stock deduction: -80\n\nTotal: 390"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "287f231c76ba9a7240ff11bf447f727d7291116ce740173d732577d9159faa9c",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "1529613805631e32ad2ee39d7bb0db56f6bfe542ab06d8976dd6055ec85fd9f9",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T08:13:35Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 4302.766,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "07720c202196b81ca560353c920fbf19df62614e60fdb5cbb4da5e07f8ca09f9",
+    "response_id": "chatcmpl-97c89e9145f73cef",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 225,
+      "prompt_tokens": 6088,
+      "total_tokens": 6313
+    }
+  },
+  "text": "To calculate the total for the order so far, I need to identify all additions and subtractions made to the order lines in the conversation history.\n\n1.  **Turn t038**: \"Take 35 off the order for the returned stock.\"\n    *   Current Total: -35\n\n2.  **Turn t044**: \"Take 50 off the order for the returned stock.\"\n    *   Current Total: -35 - 50 = -85\n\n3.  **Turn t048**: \"Add a line of 520 for the lamps to the order.\"\n    *   Current Total: -85 + 520 = 435\n\n4.  **Turn t078**: \"Take 80 off the order for the returned stock.\"\n    *   Current Total: 435 - 80 = 355\n\nThere have been no other additions or subtractions to the order lines recorded in the history.\n\nTotal: 355"
+}

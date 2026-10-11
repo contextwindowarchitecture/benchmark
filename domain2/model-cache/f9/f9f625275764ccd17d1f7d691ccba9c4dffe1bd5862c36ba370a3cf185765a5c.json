@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "f9f625275764ccd17d1f7d691ccba9c4dffe1bd5862c36ba370a3cf185765a5c",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "2fbc6edff323f6d690ce56f3af83e378ce4664973edcceebcf9a7240947745f3",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-11T08:16:19Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 6186.815,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "f34d252b40b0d5eb11881408d505c11151472a1e459335bf4152329990730426",
+    "response_id": "chatcmpl-ac6ba90bffce0260",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6078,
+      "total_tokens": 6590
+    }
+  },
+  "text": "To calculate the total order, let's look at the items and quantities provided in the initial task and any subsequent additions or removals.\n\n1.  **Initial Order Lines:**\n    *   Helmets: 380\n    *   Ladders: 150\n    *   Toolkits: 210\n    *   Lanterns: 210\n    *   Tarps: 555\n\n2.  **Additions/Modifications during the session:**\n    *   Turn t057: \"Add a line of 210 for the toolkits\". The initial list already had 210 toolkits. This usually implies an *additional* line or a correction. However, looking at the pattern of \"Add a line of X for Y\", it typically adds to the existing stock or creates a separate line. Let's assume it adds to the quantity.\n        *   New Toolkit quantity: 210 (initial) + 210 (added) = 420.\n    *   Turn t059: \"Add a line of 210 for the lanterns\".\n        *   New Lantern quantity: 210 (initial) + 210 (added) = 420.\n    *   Turn t070: \"Add a line of 575 for the tarps\".\n        *   New Tarp quantity: 555 (initial) + 575 (added) = 1130.\n    *   Turn t087: \"Take 20 off the order for the returned stock\". This is a general deduction.\n        *   Total deduction: 20.\n\n3.  **Calculating the Subtotals:**\n    *   Helmets: 380\n    *   Ladders: 150\n    *   Toolkits: 420\n    *   Lanterns: 420\n    *   Tarps: 1130\n\n    Sum of items: $380 + 150 + 420 + 420 + 1130 = 2500$\n\n4.  **Applying the Deduction:**\n    *   Total: $2500 - 20 = 2480$\n\nTotal: 24"
+}

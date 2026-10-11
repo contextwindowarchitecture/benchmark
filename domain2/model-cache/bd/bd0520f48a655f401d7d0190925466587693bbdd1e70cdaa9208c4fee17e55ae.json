@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "bd0520f48a655f401d7d0190925466587693bbdd1e70cdaa9208c4fee17e55ae",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "7f9c4177e02134df2ecc792ec4167a6e13121d25e1961c78e8be332ecc63845b",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T07:56:57Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 7742.372,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "4cceef3cb51bb9134df3749d430c59014e5c781b09e2fe84c843f758fbb8ae3f",
+    "response_id": "chatcmpl-a16df3cc9198bf7f",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6034,
+      "total_tokens": 6546
+    }
+  },
+  "text": "To determine the total for the order, I will look at the items and quantities recorded in the session history.\n\n1.  **Initial Order Lines (from task xstate:01):**\n    *   Ladders: 215\n    *   Lamps: 350\n\n2.  **Modifications to the Order:**\n    *   **Turn t018:** \"Take 80 off the order for the returned stock.\"\n        *   This instruction is ambiguous regarding which item it applies to. However, in previous similar contexts or standard accounting practices without specific item assignment, it often applies to the most recently added or a specific category. Let's look for more specific instructions.\n        *   Wait, looking closely at turn t018: \"Take 80 off the order for the returned stock.\" It doesn't specify the item.\n        *   Let's check turn t029: \"Take 25 off the order for the returned stock.\" Again, no item specified.\n        *   Let's check turn t048: \"Add a line of 350 for the lamps to the order.\" This is a specific addition.\n\n    Let's re-evaluate the \"returned stock\" instructions. Usually, if an item isn't specified, it might apply to the total or a specific item mentioned in context. However, without explicit item assignment, these are tricky. Let's look at the final state of the order lines.\n\n    *   **Start:**\n        *   Ladders: 215\n        *   Lamps: 350\n    *   **Turn t048:** \"Add a line of 350 for the lamps to the order.\"\n        *   This implies adding *another* 350 lamps, or updating the quantity. The phrasing \"Add a line of 350 for the lamps\" suggests adding 350 to the existing lamp count or creating a new line item. Given the initial line was 350, and this is an addition, it likely means the total lamps become 350 + 350 = 700. Or it could mean the line *is* 350. Let's assume it adds to the quantity.\n        *   Current Lamps: 350 (initial) + 350 (added) = 700.\n       "
+}

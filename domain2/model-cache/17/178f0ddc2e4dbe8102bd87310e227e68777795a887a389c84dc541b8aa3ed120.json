@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "178f0ddc2e4dbe8102bd87310e227e68777795a887a389c84dc541b8aa3ed120",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "0958b9f090eb886c19f6c3014299da2316ee40d11ce74a3a63330e9ba9f833ec",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T02:53:22Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 80610.638,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "e5700d2c827aaf29a830a6bd5265c4731070201b0b08f2f0fb4b7a0c76016424",
+    "response_id": "chatcmpl-8bf6553b7421585f",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 1630,
+      "total_tokens": 2142
+    }
+  },
+  "text": "To determine the total for the Harcroft depot supply order, let's break down the items line by step based on the instructions provided in the session:\n\n1.  **Crates**: The initial baseline in the system state was 240. In turn `t001`, the user asked to add a line of 275 for crates.\n    *   Current quantity: 275\n2.  **Toolkits**: In turn `t004`, the user asked to add a line of 470 for toolkits.\n    *   Current quantity: 470\n3.  **Lamps**: In turn `t005`, the user asked to add a line of 175 for lamps.\n    *   Current quantity: 175\n4.  **Returned Stock Adjustment**: In turn `t002`, the user instructed to \"Take 35 off the order for the returned stock.\" In turn `t007`, the user instructed to \"Take 80 off the order for the returned stock.\"\n    *   Total deduction: 35 + 80 = 115\n\nLet's calculate the sum of the item lines first:\n*   Crates: 275\n*   Toolkits: 470\n*   Lamps: 175\n*   Sum of items: 275 + 470 + 175 = 920\n\nNow, apply the deductions for returned stock:\n*   920 (Sum of items) - 115 (Returned stock deductions) = 805\n\nNote: The flat delivery fee of 45 mentioned in turn `t008` is typically an additional charge on the final total, not a subtraction from the item sum. The question asks what the order comes to \"so far,\" which usually refers to the subtotal of goods unless specified otherwise. However, often \"total\" in these contexts implies the final payable amount. Let's provide the item total and note the delivery fee if necessary, but standard practice for \"what does the order come to\" with line items is the sum of those lines. Let's look at the structure. The lines are the items. The deductions are applied to the order lines. The delivery fee is a separate charge.\n\nLet's re-verify the \"Take X off the order\" instruction."
+}

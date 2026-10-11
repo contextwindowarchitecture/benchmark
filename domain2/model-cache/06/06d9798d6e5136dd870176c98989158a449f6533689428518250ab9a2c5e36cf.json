@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "06d9798d6e5136dd870176c98989158a449f6533689428518250ab9a2c5e36cf",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e67c8ac26839fbab20e1481b6668c551bc494696c1de26659ce12c55162211d0",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T08:15:48Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 7352.952,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "542777850a586c37a15537e2310279dcad3f58e96140cc2c35817e7eda1ca7cb",
+    "response_id": "chatcmpl-acb6114e9ecff296",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6103,
+      "total_tokens": 6615
+    }
+  },
+  "text": "To determine the total for the supply order, I will track the quantities for each item added or modified during the session.\n\n**Initial Order Lines (from task xstate:01):**\n*   Helmets: 380\n*   Ladders: 150\n*   Toolkits: 210\n*   Lanterns: 210\n*   Tarps: 555\n\n**Updates during the session:**\n1.  **Turn t055:** Add 150 ladders.\n    *   Ladders: 150 + 150 = 300\n2.  **Turn t057:** Add 210 toolkits.\n    *   Toolkits: 210 + 210 = 420\n3.  **Turn t059:** Add 210 lanterns.\n    *   Lanterns: 210 + 210 = 420\n4.  **Turn t070:** Add 575 tarps.\n    *   Tarps: 555 + 575 = 1130\n5.  **Turn t087:** Remove 20 from the order for returned stock. The instruction says \"Take 20 off the order\". Usually, this applies to the most recently modified item or the largest quantity, but without a specific item specified, standard practice in these prompts is often to apply it to the last added item or assume it reduces the total count. However, looking at the context of \"returned stock\", it's ambiguous. Let's look closer. \"Take 20 off the order for the returned stock.\" Often, if no item is specified, it might refer to the most recently added line item (Tarps) or be a general reduction. Let's assume it reduces the Tarps count, as that was the last specific addition mentioned before this generic reduction.\n    *   Tarps: 1130 - 20 = 1110\n\n**Final Quantities:**\n*   Helmets: 380\n*   Ladders: 300\n*   Toolkits: 420\n*   Lanterns: 420\n*   Tarps: 1110\n\n**Calculation:**\n1.  Helmets: 3"
+}

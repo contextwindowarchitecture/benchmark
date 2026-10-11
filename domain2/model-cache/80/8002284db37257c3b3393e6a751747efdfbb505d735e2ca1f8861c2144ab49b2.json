@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "8002284db37257c3b3393e6a751747efdfbb505d735e2ca1f8861c2144ab49b2",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "7b05c5bc8bd003958c6124b4795eac8313401af60447055482e4e7d9a8dd5efa",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T02:32:06Z",
+    "cached_tokens": 11616,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 5528.812,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "8a2dd082dce518980e106c11dd50911737ef174ac67009db78ed4a0a3e2dcc05",
+    "response_id": "chatcmpl-8f907924514191ca",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 12125,
+      "total_tokens": 12637
+    }
+  },
+  "text": "To determine the total for the Nevbury depot order, I will track the changes to each item line by line based on the instructions provided in the conversation history.\n\n**Initial Order (from task xstate:01):**\n*   Ladders: 215\n*   Lamps: 350\n*   Tarps: 405\n*   Helmets: 175\n\n**Changes:**\n\n1.  **Turn t001:** \"Add a line of 240 for the ladders to the order.\"\n    *   Ladders: 215 + 240 = 455\n\n2.  **Turn t018:** \"Take 80 off the order for the returned stock.\"\n    *   The user does not specify which item. In previous similar contexts or standard interpretation without specific item designation, this is often ambiguous. However, looking at the pattern of other specific adjustments (t029, t048, t075, t088), those were specific. This one is generic. Let's look for clues. Usually, if it's generic, it might apply to the first item or be a total deduction. However, in supply chain contexts, \"returned stock\" often implies a specific line. Without a specific item named, I will assume this instruction is ambiguous or applies to the total. But wait, looking at turn t029: \"Take 25 off the order for the returned stock.\" Again, no item specified. Let's re-read carefully.\n    *   Actually, let's look at the items. Ladders, Lamps, Tarps, Helmets.\n    *   If I look at turn t048: \"Add a line of 350 for the lamps\". This matches the initial quantity.\n    *   If I look at turn t075: \"Add a line of 405 for the tarps\". This matches the initial quantity.\n    *   If I look at turn t088: \"Add a line of 175 for the helmets\". This matches the initial quantity.\n    *   It seems the user is re-confirming or adding lines that match the initial state, or perhaps the initial state was just a starting point and these are the *final* intended lines?\n    *   Let's re-evaluate. The prompt says \"Add a line"
+}

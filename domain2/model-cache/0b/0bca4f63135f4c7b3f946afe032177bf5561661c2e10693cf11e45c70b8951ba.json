@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "0bca4f63135f4c7b3f946afe032177bf5561661c2e10693cf11e45c70b8951ba",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "786e991ad9f6da3cc4c652dad172840844c72f9ff4ca50d09ed5e735ba8f0903",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T07:57:27Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 1821.317,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "6c99c3ad3e5841df2436b81a26dbf9f26abe06ccf8d6e565e3fbf6670fdaaaa9",
+    "response_id": "chatcmpl-a2863e842552fd3c",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 208,
+      "prompt_tokens": 6074,
+      "total_tokens": 6282
+    }
+  },
+  "text": "To determine the total for the order, let's look at the items added so far:\n\n1.  From the initial order lines:\n    *   Ladders: 215\n    *   Lamps: 350\n\n2.  From turn t029, the user instructed to \"Take 25 off the order for the returned stock.\" This applies to the total quantity.\n\n3.  From turn t048, the user instructed to \"Add a line of 350 for the lamps to the order.\"\n\nLet's calculate the running total:\n\n*   Start with Ladders: 215\n*   Add initial Lamps: 215 + 350 = 565\n*   Subtract returned stock: 565 - 25 = 540\n*   Add additional Lamps: 540 + 350 = 890\n\nTotal: 890"
+}

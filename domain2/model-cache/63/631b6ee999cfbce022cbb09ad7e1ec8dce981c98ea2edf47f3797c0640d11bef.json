@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "631b6ee999cfbce022cbb09ad7e1ec8dce981c98ea2edf47f3797c0640d11bef",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "a90df06185e7eaaea657db78bb0bf4f81e79eaa29a22c2941b75a96c144401be",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-11T03:09:24Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 12080.554,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "2588eb8e22ad7213b072bb630dbcc7fdc25f5741f1fc1a5febd1bb2742c65919",
+    "response_id": "chatcmpl-b9a2bd3fa6b652ed",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 5521,
+      "total_tokens": 6033
+    }
+  },
+  "text": "To determine the total for the Istworth depot order, let's track the changes to the line items step by step.\n\n1.  **Initial Order (from `xstate:01`):**\n    *   Ladders: 335\n    *   Lamps: 555\n\n2.  **Turn t001:** User asks to \"Add a line of 400 for the ladders\".\n    *   Ladders: 335 + 400 = 735\n    *   Lamps: 555\n\n3.  **Turn t004:** User asks to \"Take 30 off the order for the returned stock.\"\n    *   The prompt does not specify which item, but typically \"returned stock\" applies to the most recently added or primary item, or is a general deduction. However, looking at the context of supply orders, if not specified, it's ambiguous. Let's look for other specific item adjustments. There are no other specific item adjustments mentioned for \"returned stock\". Usually, in these tasks, unless specified, it might apply to the first item or is a generic reduction. Let's re-read carefully. \"Take 30 off the order\". This is a general deduction. Let's assume it reduces the total quantity of the order or applies to a specific item. Without a specific item tag, standard practice in these logic puzzles is often to apply it to the first item listed or the largest, OR it's a general total deduction. Let's look at turn t030.\n    *   Let's hold on the exact allocation of the 30 and 35 deductions until we see if there's a pattern or if they are item-specific. Actually, looking at turn t030: \"Take 35 off the order for the returned stock.\" Again, no item specified.\n    *   Let's look at the structure. Often, if an item isn't specified, it might be applied to the *first* item in the list, or it's a flat reduction of the total. Let's assume for a moment it reduces the **Ladders** as they are the first item, or perhaps it's a total reduction. Let's calculate the totals both ways if needed, but usually, these deductions apply to the *first* item mentioned in the line or the current main item. Let's assume it applies to **Ladders** as a default unless"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "c40c327cd423a8891a99174830a553e8af467a37cc2ae6ad6f35c2d108bc9348",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "768a158afab6637ef691b7890d4ed06b2d436486969f26d4a330400451115533",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T08:16:31Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 5023.073,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "c8825b6e9798357ff333925815bf5fcae0caa27f764a0ca58bfed6bc569516a1",
+    "response_id": "chatcmpl-ba93f49b6e68ee86",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6051,
+      "total_tokens": 6563
+    }
+  },
+  "text": "To determine the current total for the order, let's track the changes to the line items provided in the initial setup and subsequent updates.\n\n**Initial Order (from `xstate:01`):**\n*   Ladders: 215\n*   Lamps: 350\n\n**Modifications:**\n1.  **Turn `t018`**: \"Take 80 off the order for the returned stock.\"\n    *   This instruction does not specify an item, but in previous similar contexts within this session, generic reductions often apply to the stock or are ambiguous. However, looking at the pattern of specific item requests later, this is a general reduction. Let's look for more specific item updates.\n    *   Actually, usually in these tasks, if an item isn't specified for a reduction, it might be ambiguous. But let's look at `t029` and others.\n    *   Let's re-read carefully. `t018` says \"Take 80 off the order for the returned stock.\" It doesn't say *which* item. Often, if it's not specified, it might be a trick or apply to a default. However, looking at `t029`: \"Take 25 off the order for the returned stock.\" Again, unspecified.\n    *   Let's look for explicit item additions or subtractions.\n    *   `t048`: \"Add a line of 350 for the lamps to the order.\"\n\n    Let's re-evaluate the \"returned stock\" instructions. In many of these supply order tasks, if the item isn't specified, it might refer to a specific context or be a distractor. However, often \"returned stock\" implies a reduction from the total quantity of *something*. Without a specific item, it's hard to distribute. Let's look closer at the prompt history. Is there a convention?\n    Usually, if it says \"Take X off the order\", and it's not item-specific, it might be a reduction in the *total* count or it might be ignored if not actionable. But wait, in `t018`, it says \"Take 80 off the order...\". In `t029`, \"Take 25 off the order...\".\n    \n    Let's look at the items again.\n    Ladders: 215\n    Lamps: 350"
+}

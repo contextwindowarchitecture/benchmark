@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "4df6a8a04601f38b5e6aeff3d5448cb0fc1f84fcd59b93cc51f2dc657180b6d9",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "80933b807ed0ecc618107056b8587b5e170e483282fff6cf145e7b7992edc4cb",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T08:14:50Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 5572.696,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "3133713b751308f4c53d0a5eef33386cc8cd7ebfd80e24317008b1aeb2cf1c3c",
+    "response_id": "chatcmpl-9008638e246e2d33",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 323,
+      "prompt_tokens": 6090,
+      "total_tokens": 6413
+    }
+  },
+  "text": "To determine the order total so far, I will sum the quantities of the items added to the order based on the specific instructions given in the conversation history.\n\n1.  **Ladders**: In turn `t055`, the user requested adding a line of 150 for ladders.\n2.  **Toolkits**: In turn `t057`, the user requested adding a line of 210 for toolkits.\n3.  **Lanterns**: In turn `t059`, the user requested adding a line of 210 for lanterns.\n4.  **Tarps**: In turn `t070`, the user requested adding a line of 575 for tarps.\n\nNote: The initial task `xstate:01` listed helmets with a quantity of 380, but no specific instruction to add helmets to the order was given in the conversational turns (only ladders, toolkits, lanterns, and tarps were explicitly added via \"Add a line...\" commands). Therefore, I will only sum the items explicitly added during the session.\n\nStep-by-step addition:\n*   Ladders: 150\n*   Toolkits: 150 + 210 = 360\n*   Lanterns: 360 + 210 = 570\n*   Tarps: 570 + 575 = 1145\n\nTotal: 1145"
+}

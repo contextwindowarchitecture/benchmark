@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "b33fec8c48ff03d441578d71f7a94afce873749db7017af0157050a2862a2671",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "ed4acd69e82ab77ccf7dcbd5a162a582e78ce2e963b2494f30a9bc928c62916d",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-11T03:12:21Z",
+    "cached_tokens": 3168,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 3873.254,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "ff6ef134983871cac671396c35e9fccba1be5bc354a8ce1a75deb4d0dfe5b971",
+    "response_id": "chatcmpl-97c8c060e7dbf5f8",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 238,
+      "prompt_tokens": 4118,
+      "total_tokens": 4356
+    }
+  },
+  "text": "To calculate the total for the Nevbury depot order, we follow the instructions in the history:\n\n1.  **Initial Order Line**: The order started with **215** ladders (from `xstate:01`).\n2.  **User Addition**: In turn `t001`, the user instructed to \"Add a line of 240 for the ladders to the order.\"\n    *   Current Total: $215 + 240 = 455$ ladders.\n3.  **User Subtraction 1**: In turn `t018`, the user instructed to \"Take 80 off the order for the returned stock.\"\n    *   Current Total: $455 - 80 = 375$ ladders.\n4.  **User Subtraction 2**: In turn `t029`, the user instructed to \"Take 25 off the order for the returned stock.\"\n    *   Current Total: $375 - 25 = 350$ ladders.\n\nTotal: 350"
+}

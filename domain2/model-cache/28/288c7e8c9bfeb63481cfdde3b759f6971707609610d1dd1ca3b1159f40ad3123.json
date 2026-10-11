@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "288c7e8c9bfeb63481cfdde3b759f6971707609610d1dd1ca3b1159f40ad3123",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "30a0bdc270d2daa823bfe4d313cdb7dca47cd2ce8377505d95983d53e6510a3c",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-11T08:16:56Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 4875.205,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "3caa5d3f43639db193028f0d3ffbf39ea6583e62cedc90d860546bf699f05bd0",
+    "response_id": "chatcmpl-92a15b46c4901b25",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6118,
+      "total_tokens": 6630
+    }
+  },
+  "text": "To calculate the total for the supply order, let's break down the line items provided in the initial state and any subsequent updates.\n\n1.  **Initial Order Lines (from `order_lines` in xstate:05):**\n    *   Crates: 480\n    *   Ladders: 350\n    *   Lamps: 520\n\n2.  **Adjustments found in history:**\n    *   In turn `t038`, the user said: \"Take 35 off the order for the returned stock.\" This applies to the order generally or implies a reduction. However, looking at the specific items, usually \"returned stock\" adjustments might be item-specific or general. Let's look for more specific item adjustments.\n    *   In turn `t044`, the user said: \"Take 50 off the order for the returned stock.\"\n    *   In turn `t048`, the user said: \"Add a line of 520 for the lamps to the order.\"\n\n    Let's re-evaluate how these adjustments are applied. Often in these tasks, unless specified as a specific item, \"returned stock\" might be ambiguous. However, looking at turn `t048`, it explicitly adds to *lamps*. Let's look closer at the \"Take X off the order\" instructions. In similar contexts, if not item-specific, it might reduce the total count. But without an item specified, it's tricky. Let's look at the phrasing again.\n    \n    Actually, let's look at the specific item changes.\n    *   Start: Crates: 480, Ladders: 350, Lamps: 520.\n    *   Turn `t048`: \"Add a line of 520 for the lamps\". This means Lamps increase by 520. New Lamp count = 520 + 520 = 1040.\n    *   What about the \"Take X off the order\" instructions?\n        *   Turn `t038`: \"Take 35 off the order for the returned stock.\"\n        *   Turn `t044`: \"Take 50 off the order for the returned stock.\"\n    \n    If these are general reductions to the total order, we subtract them from the sum. If they are item-specific"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "c4c6c98451a6c2d683eae6d69c1aa1fab8f6acd1c8cb8354e3712693c057be5a",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "96ba75e76ccfe839e2cbbad6d64e1f496cabd2e92c99d151733a0ddc5cf554ff",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T08:15:32Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 8540.077,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "542777850a586c37a15537e2310279dcad3f58e96140cc2c35817e7eda1ca7cb",
+    "response_id": "chatcmpl-b54887aaf567e233",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6103,
+      "total_tokens": 6615
+    }
+  },
+  "text": "To determine the total for the order, let's review the items added and adjusted throughout the session.\n\n1.  **Initial Order Lines (from task xstate:01):**\n    *   Helmets: 380\n    *   Ladders: 150\n    *   Toolkits: 210\n    *   Lanterns: 210\n    *   Tarps: 555\n\n2.  **Modifications:**\n    *   In turn t055, the user asked to add a line of 150 for ladders.\n        *   New Ladders count: 150 + 150 = 300\n    *   In turn t057, the user asked to add a line of 210 for toolkits.\n        *   New Toolkits count: 210 + 210 = 420\n    *   In turn t059, the user asked to add a line of 210 for lanterns.\n        *   New Lanterns count: 210 + 210 = 420\n    *   In turn t070, the user asked to add a line of 575 for tarps.\n        *   New Tarps count: 555 + 575 = 1130\n    *   In turn t087, the user asked to take 20 off the order for returned stock. Since no specific item was mentioned for the return, and typically returns apply to the most recently adjusted or largest bulk item, or are treated as a general reduction, I need to look for context. However, usually, if no item is specified, it might be ambiguous. Let's re-read carefully. \"Take 20 off the order for the returned stock.\" Without a specific item, this is tricky. However, looking at the pattern of previous additions, they were item-specific. A general \"take off the order\" usually implies a reduction in the total count. Let's assume it reduces the total quantity by 20 items. To be precise, often in these logic puzzles, if no item is specified, it might reduce the last added item or just the total. Let's look at the phrasing again. It doesn't say \"for tarps\" or \"for helmets\". It just says \"the order"
+}

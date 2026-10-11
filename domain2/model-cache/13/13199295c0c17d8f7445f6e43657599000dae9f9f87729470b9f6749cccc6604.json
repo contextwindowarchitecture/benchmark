@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "13199295c0c17d8f7445f6e43657599000dae9f9f87729470b9f6749cccc6604",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "5fd0fabc6f0d188a2834d443adf9786b0a971f3a8d3512336cb7034b4ffa311a",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T02:22:01Z",
+    "cached_tokens": 6336,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 9666.741,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "660d16d423c3c25f951c0d7f9617ee88b32b27eb5cccf6a6742a153c7bfc7466",
+    "response_id": "chatcmpl-8dfc040a19fa0c61",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 212,
+      "prompt_tokens": 6725,
+      "total_tokens": 6937
+    }
+  },
+  "text": "To calculate the total for the Nevbury depot supply order, I will sum the quantities of the items added so far.\n\n1.  **Ladders**: 240 units (added in turn t001)\n2.  **Lamps**: 350 units (added in turn t048)\n\nThere were also adjustments for returned stock:\n*   Turn t018: \"Take 80 off the order\"\n*   Turn t029: \"Take 25 off the order\"\n\nLet's calculate the net total:\n*   Start with Ladders: 240\n*   Add Lamps: 240 + 350 = 590\n*   Subtract returned stock (t018): 590 - 80 = 510\n*   Subtract returned stock (t029): 510 - 25 = 485\n\nTotal: 485"
+}

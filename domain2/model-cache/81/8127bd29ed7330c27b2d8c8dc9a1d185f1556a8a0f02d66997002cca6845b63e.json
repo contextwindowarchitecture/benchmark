@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "8127bd29ed7330c27b2d8c8dc9a1d185f1556a8a0f02d66997002cca6845b63e",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "345b4fe41c56e0cc8dd3284a6d009933f489e5abd064559389723e1dc1c80a23",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T07:51:39Z",
+    "cached_tokens": 11616,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 52201.492,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "d76c77963b881ae4bcc5b13bc0733171ddacc84b510ce3d89f21845d30cd714b",
+    "response_id": "chatcmpl-98125c82f4b55d0e",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 12123,
+      "total_tokens": 12635
+    }
+  },
+  "text": "To calculate the total for the order so far, I will look for any lines added to the order in the conversation history.\n\n1.  **Turn t029**: \"Take 25 off the order for the returned stock.\"\n    *   This is a deduction, not an addition of a new line item with a positive value. Usually, \"take off\" implies a reduction from a previous total or a negative line item. However, without a starting total or previous positive lines, this is tricky. Let's look for positive additions first.\n2.  **Turn t048**: \"Add a line of 350 for the lamps to the order.\"\n    *   Current Total: 350\n3.  **Turn t075**: \"Add a line of 405 for the tarps to the order.\"\n    *   Current Total: 350 + 405 = 755\n4.  **Turn t088**: \"Add a line of 175 for the helmets to the order.\"\n    *   Current Total: 755 + 175 = 930\n\nThe instruction \"Take 25 off the order for the returned stock\" in turn t029 likely refers to a reduction. If we assume the order started at 0, and we only have additions, we might ignore the deduction if it was meant to be applied to a non-existent previous total, or it might be a negative line. However, standard supply orders usually list items to be purchased. \"Take off\" often implies a credit or return. Without a prior balance, it's ambiguous if this reduces the current sum. Let's re-read carefully.\n\nUsually, in these tasks, \"Add a line of X\" increases the total. \"Take X off\" decreases it.\nLet's assume the order starts at 0.\n- t029: -25\n- t048: +350\n- t075: +405\n- t088: +175\n\nTotal = -25 + 350 + 405 + 175\nTotal = 325 + 405 + 175\nTotal = 730 + 175\nTotal = 905\n\nLet's double-check if there are any other additions."
+}

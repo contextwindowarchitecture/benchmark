@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "58ac2d47948d8b16a9f42bd835febd90c918ed0ea33c9a852218822604810811",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "2497ae8101febbf718792a148451761531813666509189d92db385742ebb45b5",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T02:06:52Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 53957.378,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "2f30fcd00dcd4124a683bf7aba4d991230af1ad989405b9696ceb54e9fdba738",
+    "response_id": "chatcmpl-bcdcc92e5c985f4f",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 327,
+      "prompt_tokens": 1757,
+      "total_tokens": 2084
+    }
+  },
+  "text": "To calculate the total for the Harby depot supply order, let's break down the lines based on the updates provided:\n\n1.  **Helmets**: The initial order had 330. In turn `t001`, the user added 370.\n    *   $330 + 370 = 700$\n2.  **Delivery fee**: This is a flat fee of 25.\n    *   $25$\n3.  **Returned stock**: The initial order had -120. In turn `t006`, 40 was taken off (making it -160). In turn `t007`, 70 was taken off (making it -230). In turn `t009`, 50 was taken off (making it -280).\n    *   $-280$\n4.  **Cable reels**: Added in turn `t010` with a quantity of 285.\n    *   $285$\n\nNow, summing these values:\n$$700 + 25 - 280 + 285$$\n\nStep-by-step addition:\n*   $700 + 25 = 725$\n*   $725 - 280 = 445$\n*   $445 + 285 = 730$\n\nTotal: 730"
+}

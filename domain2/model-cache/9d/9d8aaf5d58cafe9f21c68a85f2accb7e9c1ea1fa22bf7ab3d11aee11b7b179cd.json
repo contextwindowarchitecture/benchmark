@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "9d8aaf5d58cafe9f21c68a85f2accb7e9c1ea1fa22bf7ab3d11aee11b7b179cd",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "5c3e32797cd97880e308b14a14773608700f7af623eecfd3f137c8c6559f5101",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-11T07:51:33Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 54369.002,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "6899d3903d9e1be8756462b8260e6abe02f943844a2c3bb012b7fcd42be91c5c",
+    "response_id": "chatcmpl-90ebbfcd0054ab67",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 12045,
+      "total_tokens": 12557
+    }
+  },
+  "text": "To calculate the total for the order so far, I will look for any specific line items added to the supply order in the conversation history.\n\n1.  **Turn t032**: The user said, \"Take 40 off the order for the returned stock.\" This implies a deduction of 40. However, without a starting total or previous positive line items, this is a net adjustment. Let's look for positive additions first.\n2.  **Turn t065**: The user said, \"Add a line of 225 for the lamps to the order.\" This adds 225 to the order.\n3.  **Turn t100**: The user said, \"Add a line of 525 for the lanterns to the order.\" This adds 525 to the order.\n\nThere are no other explicit monetary values added to the supply order lines in the history. The \"Take 40 off\" in turn t032 is ambiguous without a base total, but typically in these tasks, if no base is given, we sum the explicit additions. However, looking closely at the prompt structure, usually \"Take X off\" implies a negative value if there is a running total, or it might be a distractor if no base exists. Let's assume the order starts at 0 unless specified otherwise, or that the \"Take 40 off\" was a correction to a previous state not fully captured or a standalone negative line.\n\nLet's re-evaluate. Usually, these prompts build a list.\n- Line 1: Lamps, 225 (from t065)\n- Line 2: Lanterns, 525 (from t100)\n\nWhat about the \"Take 40 off\"? If the order was empty, taking 40 off would result in -40. Then adding 225 and 525.\nTotal = -40 + 225 + 525 = 710.\n\nHowever, often \"Take X off\" is a correction to a previous sum. If there was no previous sum, it might just be a negative line item. Let's look for any other items.\nScanning the history again for \"Add a line\" or \"Take ... off\":\n- t032: \"Take 40 off the order for the returned stock.\"\n- t065:"
+}

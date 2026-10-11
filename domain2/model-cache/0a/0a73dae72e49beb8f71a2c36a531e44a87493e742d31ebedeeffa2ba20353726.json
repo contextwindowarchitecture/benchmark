@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "0a73dae72e49beb8f71a2c36a531e44a87493e742d31ebedeeffa2ba20353726",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "bbae2809d852abb3eadeea3865621efe49f90a89f238e896e858cd8e086dcb19",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-11T03:07:09Z",
+    "cached_tokens": 2112,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 17691.488,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "a663b4eaf0c97d9e2066094718622a40504c6d59db613470e7c27d3b78c3828c",
+    "response_id": "chatcmpl-88cfee02b5e5eb9c",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 2867,
+      "total_tokens": 3379
+    }
+  },
+  "text": "To determine the total for the Istworth depot supply order, let's review the items and quantities added to the order:\n\n1.  **Initial Order Lines:**\n    *   Ladders: 370\n    *   Lamps: 555\n\n2.  **Updates from User:**\n    *   In `turn:t001:user`, the user said: \"Add a line of 400 for the ladders to the order.\"\n        *   This implies adding 400 ladders to the existing count or setting a new line. Given the phrasing \"Add a line... to the order\", and the initial state having 370 ladders, this usually means adding to the quantity if it's a running total, or it could mean a separate line. However, standard interpretation in these tasks is cumulative unless stated otherwise as \"replace\". Let's look for subtraction instructions.\n    *   In `turn:t004:user`, the user said: \"Take 30 off the order for the returned stock.\"\n        *   This is a general instruction to subtract 30 from the total order. It doesn't specify an item, so it typically applies to the total quantity or the first applicable item. In many similar contexts, if not specified, it might reduce the most recent addition or the total. Let's assume it reduces the total count of items.\n    *   In `turn:t020:user`, the user said: \"Add a line of 555 for the lamps to the order.\"\n        *   The initial order already had 555 lamps. Adding another line of 555 lamps likely means adding 555 more lamps to the existing 555.\n\nLet's re-evaluate the item counts carefully.\n*   **Ladders:** Started at 370. User added 400. Total Ladders = 370 + 400 = 770.\n*   **Lamps:** Started at 555. User added 555. Total Lamps = 555 + 555 = 1110.\n\nNow, apply the deduction: \"Take 30 off the order for the returned stock.\"\nThis instruction usually applies to the total quantity of the order.\nTotal Quantity = (Total Ladders) + (Total Lamps)\nTotal Quantity = 7"
+}

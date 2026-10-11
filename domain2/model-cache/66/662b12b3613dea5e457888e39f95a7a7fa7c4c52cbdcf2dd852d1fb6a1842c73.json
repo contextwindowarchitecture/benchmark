@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "662b12b3613dea5e457888e39f95a7a7fa7c4c52cbdcf2dd852d1fb6a1842c73",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "9f273e0274292411f7ecb18bbc5563548dac50b7b5de79d4bb5ed50833bafd1d",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T02:23:51Z",
+    "cached_tokens": 2112,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 18659.163,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "a663b4eaf0c97d9e2066094718622a40504c6d59db613470e7c27d3b78c3828c",
+    "response_id": "chatcmpl-962bf8fb2c038c6b",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 2867,
+      "total_tokens": 3379
+    }
+  },
+  "text": "To determine the total for the Istworth depot order, let's look at the lines added so far:\n\n1.  **Ladders**: The initial order had 370. In turn `t001`, the user asked to \"Add a line of 400 for the ladders\". This implies the quantity is now 400 (replacing or adding to the previous line, but typically \"add a line of X\" in these contexts sets the quantity for that item to X unless specified as \"add X to\"). However, looking at the phrasing \"Add a line of 400\", it usually means the line item quantity is 400. Let's re-read carefully. \"Add a line of 400 for the ladders\". The previous state was 370. If it's an addition, it would be 770. If it's a replacement/set, it's 400. In supply order contexts, \"add a line of [quantity]\" often means \"set the quantity to [quantity]\" or \"add [quantity] to the existing\". Let's look at the second instruction.\n2.  **Lamps**: The initial order had 555. In turn `t020`, the user asked to \"Add a line of 555 for the lamps\".\n3.  **Adjustment**: In turn `t004`, the user said \"Take 30 off the order for the returned stock.\" This is a general reduction.\n\nLet's re-evaluate the \"Add a line of X\" phrasing.\n- Turn `t001`: \"Add a line of 400 for the ladders\". Initial was 370.\n- Turn `t020`: \"Add a line of 555 for the lamps\". Initial was 555.\n\nIf \"Add a line of 400\" means *add* 400 to the existing 370, the total is 770.\nIf \"Add a line of 400\" means *set* the line to 400, the total is 400.\n\nLet's look at the lamps. Initial 555. \"Add a line of 555\". If it means add, it's 1110. If it means set, it's 555"
+}

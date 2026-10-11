@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "3a29088743e058f13cde1d957509c52c714c354bfc3e74ed9af94e4199b3f8b8",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "394b547a908507926ea37848a701e6e96e9e98093483bc9649e059484cf87efe",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-11T03:00:47Z",
+    "cached_tokens": 1056,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 20664.261,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "b9f8761cd2352adbb1d4d65501d2aeb00e9e4a5b1c8d75cafc5679647a0bc362",
+    "response_id": "chatcmpl-b38344df2a265fbe",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 1559,
+      "total_tokens": 2071
+    }
+  },
+  "text": "To calculate the total for the Selbury depot supply order, I will add up the line items and fees mentioned so far.\n\n1.  **Line item 415 (Cable reels):** 1 unit (Implied standard order line, typically 1 unless quantity specified otherwise, but looking at previous context \"Line item 415: Cable reels\" was added. No specific quantity was given for this line in the immediate prompt history, but often line items refer to the SKU. Let's look for explicit quantities.\n    *   *Correction*: In the summary, it says \"Line item 415: Cable reels\" and \"Line item 95: Ladders\". No quantities were explicitly stated for these in the summary text provided in the prompt. However, usually, if a user asks for a total, there are numbers. Let's re-read the conversation history carefully.\n    *   The user said: \"Add a line of 150 for the tarps to the order.\" -> **Tarps: 150**.\n    *   The user said: \"There's a flat delivery fee of 55 on the order.\" -> **Delivery Fee: 55**.\n    *   The summary mentions \"Line item 415: Cable reels\" and \"Line item 95: Ladders\". It also mentions \"Adjusted order: Deduct 70 units for returned stock.\"\n    *   Wait, the prompt summary says \"Key items to add: Line item 415... Line item 95... Adjusted order: Deduct 70 units\". It doesn't give the *cost* or the *quantity* of the initial items 415 and 95.\n    *   Let's look at the specific instruction: \"When asked for the total, add up the order's lines step by step\".\n    *   If quantities aren't provided for 415 and 95, I cannot sum them. However, often in these logic puzzles, \"Line item 415\" might refer to a quantity of 415? No, that's an ID.\n    *   Let's look closer at the summary: \"Key items to add: Line item 415: Cable reels.\" This likely refers to the SKU.\n    *   Is it possible the user implies specific quantities in the text?\n        *   \"Add a line of 1"
+}

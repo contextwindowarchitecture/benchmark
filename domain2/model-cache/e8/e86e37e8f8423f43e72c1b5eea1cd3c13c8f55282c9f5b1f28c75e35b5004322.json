@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "e86e37e8f8423f43e72c1b5eea1cd3c13c8f55282c9f5b1f28c75e35b5004322",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "9899d3bc3be4d9044154db149cf1d7d59b55a9e883f6848eb79b4ccd339fc1c7",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T07:53:41Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 9980.261,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "11bdb64ab5a5c4fa943cb43f82ce08e27e7852b69998e94421f478fb461bf530",
+    "response_id": "chatcmpl-883411ae1704ca99",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 268,
+      "prompt_tokens": 6067,
+      "total_tokens": 6335
+    }
+  },
+  "text": "To calculate the total for the order, I need to identify all the line items added by the user.\n\n1.  **Ladders**: In turn `t017`, the user said, \"Add a line of 400 for the ladders to the order.\"\n2.  **Returned Stock (Deduction)**: In turn `t038`, the user said, \"Take 35 off the order for the returned stock.\"\n3.  **Lamps**: In turn `t048`, the user said, \"Add a line of 520 for the lamps to the order.\"\n4.  **Returned Stock (Deduction)**: In turn `t044`, the user said, \"Take 50 off the order for the returned stock.\"\n\nLet's sum these up step by step:\n\n*   Start with the ladders: 400\n*   Subtract the first returned stock deduction: 400 - 35 = 365\n*   Add the lamps: 365 + 520 = 885\n*   Subtract the second returned stock deduction: 885 - 50 = 835\n\nTotal: 835"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "88c64b22a26e29b36ef106814dc7b9e0e00de62d072c5b54b2717952670fcdec",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "8a8545a413dc9b537f97d002152d9ebda02fdffa970c2970176d76e24d089fd1",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T08:07:41Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 26043.432,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "f762f27129f6e780808de9a55fbc857721bf9e22a9a8145f9670d4b158f9cd60",
+    "response_id": "chatcmpl-95df79a4d009e2f9",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 251,
+      "prompt_tokens": 5929,
+      "total_tokens": 6180
+    }
+  },
+  "text": "Based on the details provided in the conversation, here is the breakdown of the order adjustments:\n\n1.  **Lamps**: There was a request to **\"Add a line of 520 for the lamps to the order.\"**\n2.  **Returned Stock**: There were two separate requests to deduct from the order for returned stock:\n    *   **\"Take 50 off the order for the returned stock.\"**\n    *   **\"Take 80 off the order for the returned stock.\"**\n\n**Calculation:**\n*   Start: +520 (Lamps)\n*   Deduction: -50 (Returned Stock)\n*   Deduction: -80 (Returned Stock)\n\n**Total:** 520 - 50 - 80 = **390**\n\nThe order comes to **390** so far (assuming no other items were added to the order that weren't explicitly mentioned as part of the \"order\" calculation in the text). Note that the prompt only explicitly mentions adding the lamps and taking off stock; it doesn't mention a base order total, so the net change/addition to the order is 390."
+}

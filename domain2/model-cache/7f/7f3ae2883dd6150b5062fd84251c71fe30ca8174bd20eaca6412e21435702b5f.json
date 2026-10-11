@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "7f3ae2883dd6150b5062fd84251c71fe30ca8174bd20eaca6412e21435702b5f",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "f06849146b4f01a5813d24e950de5c1e75a425d4a59ab66fd60aac5683fe7a65",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T07:56:45Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 8558.423,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "0bcba9b507b9c1f5829c7c4d6bb5d9412c812937facb0179882973f2beb20f99",
+    "response_id": "chatcmpl-812eec0f4e7e98de",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6047,
+      "total_tokens": 6559
+    }
+  },
+  "text": "To calculate the total for the order, let's break down the items and their quantities based on the initial list and the updates provided during the session.\n\n1.  **Ladders**: The initial quantity was 315. No changes were made to this item.\n    *   Quantity: 315\n2.  **Cables reels**: The initial quantity was 425. In turn `t048`, the user added a line of 425 for cable reels. However, looking at the initial list in `xstate:01`, \"cable reels\" were already listed with a quantity of 425. The instruction in `t048` says \"Add a line of 425 for the cable reels to the order.\" This implies an *additional* 425, or it could be a restatement. Let's look closely at the phrasing. Usually, \"Add a line of X for Y\" implies adding to the existing total if Y is already there, or setting it if it's new. Given the initial state had 425, and the user explicitly said \"Add a line of 425\", I will treat this as an addition.\n    *   Initial: 425\n    *   Added: 425\n    *   Total Cable Reels: 850\n3.  **Crates**: The initial quantity was 565. In turn `t039`, the user said \"Add a line of 565 for the crates to the order.\"\n    *   Initial: 565\n    *   Added: 565\n    *   Total Crates: 1130\n4.  **Tarps**: The initial quantity was 245. In turn `t045`, the user said \"Add a line of 245 for the tarps to the order.\"\n    *   Initial: 245\n    *   Added: 245\n    *   Total Tarps: 490\n\nLet's re-read the prompt carefully. \"Add a line of 565 for the crates to the order.\" If the item was already in the order, does this mean the total becomes 565 (replacement) or 565 + 565 (addition)? In supply chain contexts, \"add a"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "1fcd729faaa7e4be3d5d8031057ea27dcefe23e507ef30d67f923d802c6d9dee",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "ff670be762f454dfd1d141a8d1a0b233b50b696e3abd400cc65cc3b62ce4bebd",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-11T03:02:09Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 19210.404,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "d977f3188ce0426bda4b3617c77d46e7cd8a61b5a86b966cb68576b1fca43238",
+    "response_id": "chatcmpl-9d664ca016262945",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 5451,
+      "total_tokens": 5963
+    }
+  },
+  "text": "To calculate the total for the supply order, I need to identify all the items added to the order and their quantities.\n\n1.  **Ladders:** In turn `t001`, the user stated: \"Add a line of 400 for the ladders to the order.\"\n    *   Ladders: 400\n\n2.  **Returned Stock (Deduction):** In turn `t004`, the user stated: \"Take 30 off the order for the returned stock.\"\n    *   This is a deduction from the total quantity.\n\n3.  **Lamps:** In turn `t020`, the user stated: \"Add a line of 555 for the lamps to the order.\"\n    *   Lamps: 555\n\n4.  **Returned Stock (Deduction):** In turn `t030`, the user stated: \"Take 35 off the order for the returned stock.\"\n    *   This is another deduction from the total quantity.\n\n5.  **Delivery Fee:** In turn `t040`, the user stated: \"There's a flat delivery fee of 15 on the order.\"\n    *   The question asks \"What does the order come to so far?\". Typically, \"order total\" or \"what it comes to\" implies the sum of the line items unless specified as \"total cost including delivery\". However, looking at the context of \"supply order\", usually one sums the item quantities. Let's look at the phrasing. \"Add a line of 400...\", \"Take 30 off...\", \"Add a line of 555...\", \"Take 35 off...\". These are all manipulations of the item count/quantity. The delivery fee is a cost, not a line item quantity. The prompt asks for the total of the *order*. In many inventory/ordering contexts, the \"order\" refers to the items. If it meant cost, it would likely ask for the \"total cost\". Given the previous instructions were about quantities (lines), I will calculate the total quantity of items.\n\n    Let's re-read carefully: \"What does the order come to so far?\"\n    Usually, this implies the sum of the quantities of the items ordered.\n\n    Calculation:\n    *   Start with Ladders: 400\n    *   Subtract first returned stock: 400 -"
+}

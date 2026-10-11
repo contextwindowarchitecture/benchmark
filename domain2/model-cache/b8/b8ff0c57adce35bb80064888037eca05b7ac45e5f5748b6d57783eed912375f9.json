@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "b8ff0c57adce35bb80064888037eca05b7ac45e5f5748b6d57783eed912375f9",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "6983e3fb214ab5928b5155211d5d2eaefa9fe0acc8fe215fa33d83b732e001c6",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-11T08:11:33Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 15134.842,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "2d8a0fe1ae4638e0d0e4eca2de82551af09ad55c6da6cf8c071578d029de47c4",
+    "response_id": "chatcmpl-94f2c1f57698dcd4",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 432,
+      "prompt_tokens": 6051,
+      "total_tokens": 6483
+    }
+  },
+  "text": "To calculate the total for the order, I need to review the changes made to the order for returned stock and any new items added.\n\n1.  **Initial State**: The order starts with a baseline (which is not explicitly given as a number, but we track the *changes*).\n2.  **Turn t018**: \"Take 80 off the order for the returned stock.\" -> Change: **-80**\n3.  **Turn t029**: \"Take 25 off the order for the returned stock.\" -> Change: **-25**\n4.  **Turn t048**: \"Add a line of 350 for the lamps to the order.\" -> Change: **+350**\n\nThere are no other modifications to the order quantities or prices mentioned in the history.\n\nCalculating the net change:\n-80 - 25 + 350 =\n-105 + 350 =\n245\n\nSince the prompt asks \"What does the order come to so far?\", and no base value was provided, I will assume the question refers to the net adjustment made to the order or that the base was 0 for this specific calculation of changes. However, typically in these scenarios, if a base isn't given, the \"total\" refers to the sum of the line items added.\n\nLet's re-read carefully.\n- t018: -80\n- t029: -25\n- t048: +350\n\nTotal adjustment = 245.\n\nIf the user is asking for the total value of the order *lines* added/removed:\nThe only positive line added is 350.\nThe negatives are reductions.\n\nUsually, \"Total\" implies the sum of the current order value. Without a starting balance, I can only provide the net value of the adjustments.\n\nNet value = 350 - 80 - 25 = 245.\n\nTotal: 245"
+}

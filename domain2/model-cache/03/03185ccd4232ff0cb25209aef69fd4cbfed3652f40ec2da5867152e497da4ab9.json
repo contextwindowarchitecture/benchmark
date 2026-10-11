@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "03185ccd4232ff0cb25209aef69fd4cbfed3652f40ec2da5867152e497da4ab9",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "37390c262f066c2cf85426c749e7481f532a5c9b07fb114624c46301ef4f2b5e",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-11T08:11:56Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 8957.855,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "1fde20aa996e04c204dcb1890e491b6ec499128d2ec3427c2c53b3aa5664d3ce",
+    "response_id": "chatcmpl-b480f34a390a8634",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 250,
+      "prompt_tokens": 6027,
+      "total_tokens": 6277
+    }
+  },
+  "text": "Based on the conversation history, here is the current state of the supply order:\n\n1.  **Returned stock deduction:** In turn t027, the user stated, \"Take 70 off the order for the returned stock.\"\n2.  **Tarps addition:** In turn t042, the user stated, \"Add a line of 150 for the tarps to the order.\"\n3.  **Delivery fee:** In turn t047, the user stated, \"There's a flat delivery fee of 55 on the order.\"\n\nNo other numerical line items were added or removed from the supply order itself (other messages concerned room availability, staff swaps, or meeting locations).\n\nCalculating the total:\n-   Starting balance: 0\n-   Subtract returned stock: -70\n-   Add tarps: +150\n-   Add delivery fee: +55\n\nStep-by-step:\n-   0 - 70 = -70\n-   -70 + 150 = 80\n-   80 + 55 = 135\n\nTotal: 135"
+}
