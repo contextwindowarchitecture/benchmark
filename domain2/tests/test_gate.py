@@ -275,11 +275,11 @@ questions = ["single-short", "multi-mcq", "none-short"]
     first, status = run(config, build=False, log=lambda m: None)
     assert status == "pass" and validate_run(first) == []
     s1 = _read(first / "suites/S1/summary.json")
-    assert s1["gate"]["failed"] == [] and s1["rows"]["lq"] == 2 * 3 * 2  # corpora × questions × CWA arms
+    assert s1["gate"]["failed"] == [] and s1["rows"]["lq"] == 2 * 3 * 3  # corpora × questions × CWA arms
     gated = [json.loads(line) for line in (first / "suites/S1/lq.jsonl").read_text().splitlines()]
     assert all(r["verdict"] == "passed" and r["expected"]["outcome"] == "assembled" for r in gated)
     grades = [json.loads(line) for line in (first / "suites/S4/grades.jsonl").read_text().splitlines()]
-    assert len(grades) == 2 * 3 * 5 * 2  # corpora × questions × arms × samples
+    assert len(grades) == 2 * 3 * 6 * 2  # corpora × questions × arms × samples
     full = {g["tier"]: g["verdict"] for g in grades if g["arm"] == "control-full"}
     assert full["x4"] == "overflow" and full["x0.5"] != "overflow"  # 4 × 1,024 tokens + margin > 6,000 − reserve
     none = [g for g in grades if g["kind"] == "none" and g["verdict"] != "overflow"]

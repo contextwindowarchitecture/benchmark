@@ -10,7 +10,11 @@ its producers are the benchmark's own (the policy registry, the conversation for
 **The arms.** The spec publishes one profile for the route, `long-context-reinforced`, which places the
 instructions twice: as the system message and again just before the query. `cwa-reinforced` uses its placement as
 published. `cwa-evidence` is the same placement with the second occurrence of the instructions removed, so the two
-differ in the reinforcement alone.
+differ in the reinforcement alone. `cwa-ranked` is `cwa-evidence` with each evidence id led by the retriever's rank
+(`chunk:r001:d0042:c03`), so the spec's id order renders the evidence best first, as `rag` lists it; the ranking that
+admission and fitting use is the same, so the two keep the same evidence and differ in its order alone. In the
+recorded run the CWA arms trailed `rag` on comparison questions with both facts present, as `control-full` did, and
+the spec renders a placement's items by id (conformance/README.md, Rendering): this arm tests that order.
 
 **The snapshot.** The instructions and output contract (protected), the question as the query (protected) and each
 retrieved candidate as its own evidence.knowledge item (application/retrieval.py), its relevance the retriever's,
@@ -22,7 +26,7 @@ any chunk past `max_per_source` for its document, in rank order (`source_diversi
 lowest-ranked of the rest until the payload fits, so the kept evidence is the longest prefix of that ranking that
 fits (conformance/README.md, Fitting). With fewer than `min_included` chunks left, assembly refuses with
 `evidence_required`; with the protected items alone over budget, with `protected_content_over_budget`. Evidence renders
-in id order, the corpus's own (each chunk's id is its document's and position).
+in id order: the corpus's own (each chunk's id is its document's and position), or for `cwa-ranked` the retriever's.
 """
 from __future__ import annotations
 
@@ -40,7 +44,15 @@ from .writers import START, TENANT, USER
 SPEC_PROFILE = "long-context-reinforced"
 SPEC_ROUTE = "long-context-qa"
 ROUTE = "cwa-bench-lq"
-ARMS = {"cwa-evidence": False, "cwa-reinforced": True}  # arm → whether the instructions are placed twice
+
+
+@dataclass(frozen=True)
+class Arm:
+    reinforced: bool  # the instructions placed twice, as the spec's profile places them
+    ranked: bool = False  # each evidence id led by the retriever's rank, so id order is rank order
+
+
+ARMS = {"cwa-evidence": Arm(False), "cwa-reinforced": Arm(True), "cwa-ranked": Arm(False, ranked=True)}
 PRODUCERS = {
     "policy-registry": {"kind": "policy", "slots": ["governance.instructions", "governance.output_contract"]},
     "conversation": {"kind": "interaction", "slots": ["interaction.query"]},
@@ -104,7 +116,8 @@ def check(contract) -> list[str]:
     try:
         route = route_policy(contract)
         documents = [("route_policy.schema.json", route)]
-        documents += [("profile.schema.json", profile(contract, route, r)) for r in ARMS.values()]
+        documents += [("profile.schema.json", profile(contract, route, r)) for r in sorted(
+            {a.reinforced for a in ARMS.values()})]
     except (ProfileError, KeyError) as error:
         return [str(error)]
     for name, document in documents:
@@ -112,7 +125,7 @@ def check(contract) -> list[str]:
         if errors:
             problems.append(f"{name}: {errors[0].message[:200]}")
     used = {slot for producer in route["producers"].values() for slot in producer["slots"]}
-    for reinforced in ARMS.values():
+    for reinforced in sorted({a.reinforced for a in ARMS.values()}):
         missing = sorted(used - {p["slot"] for p in placement(contract, reinforced)})
         if missing:
             problems.append(f"the placement does not place {', '.join(missing)}")
@@ -157,14 +170,18 @@ class Frozen:
                         rendered.count(self.snapshot["tokenizer"]))
 
 
-def item_id(chunk_id: str) -> str:
-    return f"chunk:{chunk_id}"
+def item_id(chunk_id: str, rank: int | None = None) -> str:
+    """An evidence item's id: the chunk's, or led by its rank among the candidates (from 1) for a ranked arm."""
+    return f"chunk:{chunk_id}" if rank is None else f"chunk:r{rank:03d}:{chunk_id}"
 
 
-def freeze(contract, corpus: dict, question: dict, candidates: list[tuple[str, float]], reinforced: bool,
+def freeze(contract, corpus: dict, question: dict, candidates: list[tuple[str, float]], arm: Arm,
            settings) -> Frozen:
-    """The snapshot for `question` with the retriever's `candidates` as evidence; `settings` are the application's
-    (snapshots.Settings: reserved output, margin, tokenizer, renderer)."""
+    """The snapshot for `question` with the retriever's `candidates` as evidence, best first; `settings` are the
+    application's (snapshots.Settings: reserved output, margin, tokenizer, renderer)."""
+    if len(candidates) > 999:
+        raise ValueError("a ranked id has three digits for the rank: at most 999 candidates")
+    reinforced = arm.reinforced
     chunks = {c["id"]: c for c in corpus["chunks"]}
     sources = {d["id"]: d for d in corpus["documents"]}
     governance = [
@@ -175,11 +192,12 @@ def freeze(contract, corpus: dict, question: dict, candidates: list[tuple[str, f
     ]
     query = writers.item(contract, f"question:{question['question_id']}", "interaction.query", question["question"],
                          source=f"question:{question['question_id']}", freshness=ASKED)
-    evidence_items = []
-    for chunk_id, relevance in candidates:
+    evidence_items, ids = [], {}
+    for rank, (chunk_id, relevance) in enumerate(candidates, 1):
         c = chunks[chunk_id]
+        ids[chunk_id] = item_id(chunk_id, rank if arm.ranked else None)
         evidence_items.append(writers.item(
-            contract, item_id(chunk_id), "evidence.knowledge", c["body"], source=c["source"],
+            contract, ids[chunk_id], "evidence.knowledge", c["body"], source=c["source"],
             source_version=sources[c["document"]]["source_version"], freshness=START, relevance=relevance,
             scope={"tenant": TENANT}))
     route = route_policy(contract)
@@ -220,7 +238,7 @@ def freeze(contract, corpus: dict, question: dict, candidates: list[tuple[str, f
             continue
         per_source[entry["source"]] = per_source.get(entry["source"], 0) + 1
         kept.append(entry)
-    carriers = {need: [item_id(need)] for need in question["needs"]}
+    carriers = {need: [ids.get(need, item_id(need))] for need in question["needs"]}
     frozen = Frozen(snapshot, [*governance, query], kept, excluded, carriers,
                     {need: list(texts) for need, texts in question["evidence"].items()},
                     int(rule.get("min_included", 1)) if route["requires_evidence"] else 0)

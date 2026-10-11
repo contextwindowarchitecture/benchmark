@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import json
+import re
+
 import pytest
 
 from cwabench import gitinfo
@@ -114,7 +117,7 @@ def test_the_prediction_admits_caps_and_sheds_from_the_lowest_rank(contract):
     others = [c["id"] for c in found["chunks"] if c["id"] not in (crowded[0], "d0001:c01")]
     candidates += [(chunk_id, round(0.9 - n / 100, 4)) for n, chunk_id in enumerate(others[:12])]
     rule = evidence.route_policy(contract)["slots"]["evidence.knowledge"]
-    frozen = evidence.freeze(contract, found, q, candidates, False, Settings(margin_percent=20))
+    frozen = evidence.freeze(contract, found, q, candidates, evidence.ARMS["cwa-evidence"], Settings(margin_percent=20))
     assert frozen.excluded.get("chunk:d0001:c01") == "below_threshold"
     per_source = {}
     for entry in frozen.ranked:
@@ -127,6 +130,30 @@ def test_the_prediction_admits_caps_and_sheds_from_the_lowest_rank(contract):
     assert frozen.expect(frozen.floor).refusal_reason == "evidence_required"
     best = frozen.expect(frozen.full)
     assert evidence.item_id(crowded[0]) in best.included and best.outcome == "assembled"
+
+    # The ranked arm: the same evidence kept at every budget, rendered best first instead of in the corpus's order
+    def chunk_of(item: str) -> str:
+        return re.sub(r"^chunk:(r[0-9]{3}:)?", "", item)
+
+    ordered = retrieve(Index(found["chunks"]), q["query"], 20)  # best first
+    plain = evidence.freeze(contract, found, q, ordered, evidence.ARMS["cwa-evidence"], Settings(margin_percent=20))
+    ranked = evidence.freeze(contract, found, q, ordered, evidence.ARMS["cwa-ranked"], Settings(margin_percent=20))
+    assert [chunk_of(e["id"]) for e in ranked.ranked] == [chunk_of(e["id"]) for e in plain.ranked]
+    assert {chunk_of(i): why for i, why in ranked.excluded.items()} == {
+        chunk_of(i): why for i, why in plain.excluded.items()}
+    assert [e["id"] for e in ranked.ranked] == sorted(e["id"] for e in ranked.ranked)  # id order is rank order
+    for budget in (ranked.full, ranked.full // 2, ranked.full // 4):
+        assert {chunk_of(i) for i in ranked.expect(budget).included} == {
+            chunk_of(i) for i in plain.expect(budget).included}
+
+    def order(frozen) -> list[str]:  # the kept chunks in the order the payload shows them
+        text = "".join(m["content"] for m in json.loads(frozen.expect(frozen.full).payload)["messages"])
+        at = {chunk_of(e["id"]): text.index(e["body"]) for e in frozen.ranked}
+        return sorted(at, key=at.get)
+
+    assert order(ranked) == [chunk_of(e["id"]) for e in ranked.ranked] != order(plain)  # best first, not by document
+    assert ranked.carriers == {need: [evidence.item_id(need, [c for c, _ in ordered].index(need) + 1)
+                                      if need in dict(ordered) else evidence.item_id(need)] for need in q["needs"]}
 
 
 def test_the_baselines_keep_what_their_rule_says():

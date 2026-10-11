@@ -21,7 +21,8 @@ MODEL_DEFAULTS = {"base_url": "http://127.0.0.1:8000/v1", "model": "Qwen3.6-35B-
 S2_DEFAULTS = {"arms": None, "tiers": ["8192"], "repeats": 3, "reference": "truncate-pinned",
                "bootstrap_resamples": 2000, "bootstrap_seed": 20261009}
 S3_DEFAULTS = {**S2_DEFAULTS, "repeats": 5, "temperature": 0.7}
-S4_DEFAULTS = {"arms": ["control-full", "truncate-pinned", "rag", "cwa-evidence", "cwa-reinforced"], "budget": 8192,
+S4_DEFAULTS = {"arms": ["control-full", "truncate-pinned", "rag", "cwa-evidence", "cwa-reinforced", "cwa-ranked"],
+               "budget": 8192,
                "ratios": [0.25, 1.0, 4.0, 16.0], "candidates": 64, "repeats": 3, "reference": "rag",
                "bootstrap_resamples": 2000, "bootstrap_seed": 20261009}
 S6_DEFAULTS = {"families": ["vt"], "arms": ["truncate-pinned", "window", "summary", "cwa-history", "cwa-state",
