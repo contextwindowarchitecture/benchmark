@@ -8,7 +8,8 @@
 #   2. Domain 2's S6 at pilot size, with S2 and S3 for its comparison with the scripted result;
 #   3. Domain 2's recorded run (every family at its recorded size; S0 to S5 and S7) against the model beside it;
 #   4. Domain 1's tests, its opt-in tests on the reference assembler and in the container (once in each engine
-#      installed), S2 and S10, the suites that use the container, with Docker, and a full run with Podman.
+#      installed), S2 and S10, the suites that use the container, with Docker (skipped when Docker is not
+#      installed), and a full run with Podman, S11 replaying the committed summarizer cache as CI does.
 #
 # Each domain's headline run (Domain 2's recorded run, Domain 1's full run) is made last, so it is the domain's
 # `latest`, the run the results site shows first.
@@ -79,6 +80,10 @@ model_run d2-s6 --size pilot --suites S0,S1,S2,S3,S6
 model_run d2-recorded --size recorded --suites S0,S1,S2,S3,S4,S5,S7
 step d1-tests "$BENCH/domain1" uv run pytest -q
 step d1-tests-opt-in "$BENCH/domain1" env CWA_BENCH_REFERENCE=1 CWA_BENCH_CONTAINER=1 uv run pytest -q
-step d1-run-docker "$BENCH/domain1" uv run cwabench run --suites S2,S10 --container-engine docker
-step d1-run "$BENCH/domain1" uv run cwabench run
+if command -v docker >/dev/null; then
+  step d1-run-docker "$BENCH/domain1" uv run cwabench run --suites S2,S10 --container-engine docker
+else
+  note "d1-run-docker skipped: Docker is not installed"
+fi
+step d1-run "$BENCH/domain1" uv run cwabench run --summarizer replay
 note "done"
