@@ -37,6 +37,7 @@ def sample(items: list, count: int) -> list:
 
 def write_fixture(run_dir: Path, out_dir: Path, *, rows: int = 12, frames: int = 16, sweeps: int = 2,
                   upstream: dict[str, dict] | None = None, domain: output.Domain = output.D1,
+                  contract_path: Path | None = None,
                   log: Callable[[str], None] = lambda message: None) -> tuple[Path, list[str]]:
     """Write <out_dir>/<run id> from the run at run_dir, and return it with validate_run's problems. `upstream` (the
     [findings].upstream map) refreshes each kept finding's link, as a new run would carry it."""
@@ -136,7 +137,7 @@ def write_fixture(run_dir: Path, out_dir: Path, *, rows: int = 12, frames: int =
     })
     update_runs_index(out_dir, link=False, domain=domain)
     log(f"fixture {target}: {len(files)} file(s), {len(blobs)} blob(s)")
-    return target, validate_run(target)
+    return target, validate_run(target, contract_path)
 
 
 def _load(path: Path) -> dict:

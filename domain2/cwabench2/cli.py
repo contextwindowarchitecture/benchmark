@@ -146,7 +146,7 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "run":
             run_dir, status = run(config, build=not args.no_build)
             _print_summary(run_dir)
-            problems = validate_run(run_dir)
+            problems = validate_run(run_dir, config.contract_path)
             for problem in problems:
                 print(f"invalid output: {problem}", file=sys.stderr)
             return 0 if status == "pass" and not problems else 1
@@ -159,7 +159,7 @@ def main(argv: list[str] | None = None) -> int:
                                              log=lambda m: print(m, file=sys.stderr, flush=True))
             _print_summary(run_dir)
             _print_drift(report)
-            problems = validate_run(run_dir)
+            problems = validate_run(run_dir, config.contract_path)
             for problem in problems:
                 print(f"invalid output: {problem}", file=sys.stderr)
             return 0 if status == "pass" and not problems else 1
@@ -180,6 +180,7 @@ def main(argv: list[str] | None = None) -> int:
             out = Path(args.out).resolve() if args.out else config.root / "fixtures" / "runs"
             target, problems = write_fixture(run_dir.resolve(), out, rows=args.rows,
                                              upstream=load_upstream(config.upstream_path), domain=output.D2,
+                                             contract_path=config.contract_path,
                                              log=lambda m: print(m, file=sys.stderr, flush=True))
             # A run made where the spec checkout had another path or commit cannot have its spec-format files checked
             # here; the fixture is still whole, so that is a warning, as Domain 1's fixture command treats it.
@@ -190,7 +191,7 @@ def main(argv: list[str] | None = None) -> int:
             return 1 if errors else 0
         if args.command == "validate":
             run_dir = Path(args.run_dir) if args.run_dir else config.results_dir / "latest"
-            problems = validate_run(run_dir.resolve())
+            problems = validate_run(run_dir.resolve(), config.contract_path)
             for problem in problems:
                 print(problem)
             print(f"{run_dir}: {'valid' if not problems else f'{len(problems)} problem(s)'}")

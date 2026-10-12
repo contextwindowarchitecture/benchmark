@@ -12,7 +12,10 @@ from .contract import Contract
 CONTRACT_UNAVAILABLE = "cannot load the run's contract to check spec-format files"
 
 
-def validate_run(run_dir: Path) -> list[str]:
+def validate_run(run_dir: Path, contract_path: Path | None = None) -> list[str]:
+    """The run's problems, or none. Spec-format files are checked against the spec checkout the manifest names, or,
+    where that path is not on this machine (a run copied from another host), against `contract_path`, this machine's
+    checkout, when it is at the run's commit."""
     problems: list[str] = []
 
     def load(relative: str):
@@ -33,10 +36,15 @@ def validate_run(run_dir: Path) -> list[str]:
             problems.append(f"{name}: {error}")
 
     contract = None
-    try:
-        contract = Contract(Path(manifest["contract"]["path"]), manifest["contract"]["commit"], allow_dirty=True)
-    except Exception as error:  # the spec checkout may have moved since the run; report, don't stop
-        problems.append(f"{CONTRACT_UNAVAILABLE}: {error}")
+    recorded = Path(manifest["contract"]["path"])
+    for path in [recorded] + ([contract_path] if contract_path and contract_path != recorded else []):
+        try:  # Contract refuses a checkout at another commit, so a fallback checks against the same files
+            contract = Contract(path, manifest["contract"]["commit"], allow_dirty=True)
+            break
+        except Exception as error:  # the spec checkout may have moved since the run; report, don't stop
+            failure = error
+    if contract is None:
+        problems.append(f"{CONTRACT_UNAVAILABLE}: {failure}")
 
     for entry in index["files"]:
         path = run_dir / entry["path"]

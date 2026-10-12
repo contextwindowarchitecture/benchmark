@@ -331,13 +331,13 @@ def test_curve_summarizes_each_frame():
 S7_FIXTURE = Path(__file__).resolve().parent.parent / "fixtures" / "runs" / "20261008T073129Z-a1d69f8"
 
 
-def test_the_s7_fixture_pins_the_scale_block_and_the_perf_series():
+def test_the_s7_fixture_pins_the_scale_block_and_the_perf_series(spec):
     """The suite summary's scale block and the perf summary's policy and series are typed as the writer writes them:
     the committed S7 run validates, and a key the writer never writes is refused."""
     from cwabench import output
     from cwabench.validate import validate_run
 
-    assert validate_run(S7_FIXTURE) == []
+    assert validate_run(S7_FIXTURE, spec) == []  # the fixture names the spec checkout of the machine that made it
     summary = json.loads((S7_FIXTURE / "suites" / "S7" / "summary.json").read_text(encoding="utf-8"))
     assert summary["scale"]["sweeps"] and summary["scale"]["thresholds"]
     with pytest.raises(output.OutputError):

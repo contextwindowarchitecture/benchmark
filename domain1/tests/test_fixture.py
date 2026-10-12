@@ -46,3 +46,21 @@ def test_fixture_is_a_valid_trimmed_run(fake_config, tmp_path):
     runs = json.loads((tmp_path / "fixtures" / "index.json").read_text(encoding="utf-8"))
     assert [r["run_id"] for r in runs["runs"]] == [run_dir.name]
     assert not (tmp_path / "fixtures" / "latest").exists()
+
+
+def test_a_run_copied_from_another_host_validates_against_this_checkout(fake_config, spec, tmp_path):
+    """A run's manifest names the spec checkout of the machine that made it; where that path is not here, validate_run
+    checks against this machine's checkout at the same commit, and says so only when it has none."""
+    import shutil
+
+    from cwabench.validate import CONTRACT_UNAVAILABLE
+
+    run_dir, _ = run(fake_config("oracle"), build=False, log=lambda _: None)
+    copied = shutil.copytree(run_dir, tmp_path / "copied" / run_dir.name)
+    manifest = json.loads((copied / "manifest.json").read_text(encoding="utf-8"))
+    manifest["contract"]["path"] = str(tmp_path / "elsewhere" / "contextwindowarchitecture")
+    (copied / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+
+    assert [p for p in validate_run(copied) if p.startswith(CONTRACT_UNAVAILABLE)]
+    assert validate_run(copied, spec) == []
+    assert validate_run(copied, tmp_path / "nowhere")[0].startswith(CONTRACT_UNAVAILABLE)
