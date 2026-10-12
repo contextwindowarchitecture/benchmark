@@ -12,6 +12,9 @@
 #      installed), the nightly profile with Podman (every suite but S7, S2's platform and toolchain matrix, S11
 #      replaying the committed summarizer cache), and a dedicated S7 run.
 #
+# Domain 1 never calls the model, so vLLM is stopped before its steps (the `vllm` tmux session pod-setup.sh starts),
+# leaving the machine quiet for S7's timings. Run scripts/pod-setup.sh again to start it.
+#
 # Each domain's reported runs are made last, so the newest is the domain's `latest`: Domain 2's recorded run, and
 # Domain 1's S7 run after its nightly run, the two runs the results site's Domain 1 overview and docs/domain1.md
 # combine. The nightly profile reads the checkouts pod-setup.sh pinned, not upstream main (no --fetch).
@@ -80,6 +83,15 @@ step d2-tests "$BENCH/domain2" uv run pytest -q
 step d2-tests-reference "$BENCH/domain2" env CWA_BENCH_REFERENCE=1 uv run pytest -q tests/test_gate.py
 model_run d2-s6 --size pilot --suites S0,S1,S2,S3,S6
 model_run d2-recorded --size recorded --suites S0,S1,S2,S3,S4,S5,S7
+if tmux has-session -t vllm 2>/dev/null; then
+  tmux kill-session -t vllm
+  for _ in $(seq 60); do curl -fs -m 2 http://127.0.0.1:8000/health >/dev/null || break; sleep 2; done
+fi
+if curl -fs -m 2 http://127.0.0.1:8000/health >/dev/null; then
+  note "a model server still answers on 127.0.0.1:8000; S7's timings share the machine with it"
+else
+  note "vLLM stopped for Domain 1"
+fi
 step d1-tests "$BENCH/domain1" uv run pytest -q
 step d1-tests-opt-in "$BENCH/domain1" env CWA_BENCH_REFERENCE=1 CWA_BENCH_CONTAINER=1 uv run pytest -q
 if command -v docker >/dev/null; then
