@@ -83,7 +83,7 @@ S2 and S10 also need a container engine: Podman (on macOS with a running machine
 | `cwabench/canon/validity.py` | The snapshot checks, independently: which one a snapshot breaks. Every published rejection breaks exactly one. |
 | `cwabench/canon/render.py` | The three published renderers, from the spec's text: the payload a given set of items renders to, and its count. S0 checks it writes every published payload byte for byte. S7 uses it for the full size, the protected-only threshold and the floored one. |
 | `cwabench/timelines.py` | Assembly timelines: one event stream per answer across the eight stages, from the snapshot and trace alone. |
-| `cwabench/perf.py` | Timed invocations with the child's own peak RSS (`wait4`), sampling until the 95% CI is tight, log-log fits. |
+| `cwabench/perf.py` | Timed invocations with the adapter's own peak RSS, sampling until the 95% CI is tight, log-log fits. Each invocation is spawned, timed and reaped (`wait4`) by `rusage_spawn.c`, compiled under `.build/perf/` with `cc` on first use: on Linux a child spawned straight from the harness would report the harness's peak. |
 
 | Module | What it generates |
 | --- | --- |

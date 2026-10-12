@@ -203,6 +203,33 @@ def test_invoke_measured_reports_the_childs_own_peak_rss(tmp_path):
     assert measured.rss_bytes is not None and measured.rss_bytes > 64 * 1024 * 1024
 
 
+def test_invoke_measured_reports_the_childs_peak_not_the_harnesss(tmp_path):
+    """On Linux a child spawned straight from a large process inherits its peak RSS at exec (exec_mmap carries the old
+    mm's hiwater into signal->maxrss); the S7 run of 2026-10-12 recorded the harness's 1.13 GB for every adapter."""
+    import resource
+
+    ballast = bytearray(b"\x01") * (512 * 1024 * 1024)  # written, so resident
+    peak = perf._rss_bytes(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
+    assert peak >= 512 * 1024 * 1024
+    adapter = _script(tmp_path, "import sys\nsys.stdout.write(sys.stdin.read())\n")
+    measured = perf.invoke_measured(adapter, b"hello", 30, tmp_path)
+    del ballast
+    assert measured.invocation.exit_code == 0 and measured.invocation.stdout == b"hello"
+    assert measured.rss_bytes is not None and measured.rss_bytes < 128 * 1024 * 1024 < peak
+
+
+def test_invoke_measured_reports_exit_codes_signals_and_missing_commands(tmp_path):
+    exits = perf.invoke_measured(_script(tmp_path, "import sys\nsys.stderr.write('no')\nsys.exit(3)\n"), b"", 30,
+                                 tmp_path)
+    assert exits.invocation.exit_code == 3 and exits.invocation.stderr == b"no" and exits.rss_bytes is not None
+    killed = perf.invoke_measured(_script(tmp_path, "import os, signal\nos.kill(os.getpid(), signal.SIGKILL)\n"), b"",
+                                  30, tmp_path)
+    assert killed.invocation.exit_code is None and b"killed by signal 9" in killed.invocation.stderr
+    adapter = _script(tmp_path, "")
+    missing = perf.invoke_measured(adapter, b"", 30, tmp_path, command=[str(tmp_path / "no-such-command")])
+    assert missing.invocation.exit_code is None and missing.rss_bytes is None and missing.invocation.stderr
+
+
 def test_invoke_measured_times_out(tmp_path):
     adapter = _script(tmp_path, "import time\ntime.sleep(30)\n")
     measured = perf.invoke_measured(adapter, b"", 0.5, tmp_path)

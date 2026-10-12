@@ -611,7 +611,7 @@ def run_perf(ctx: SuiteContext, settings: dict, cache: CellCache, plan: dict, gr
 
     def e2e(adapter, data):
         """One timed end-to-end run: (ms, rss, outcome kind, self-reported ms) or None on a failure."""
-        measured = perf.invoke_measured(adapter, data, timeout, ctx.config.root)
+        measured = perf.invoke_measured(adapter, data, timeout, ctx.config.root, build_dir=ctx.config.build_dir)
         outcome = adapters_mod.classify(measured.invocation)
         if outcome.kind in FAULTS:
             return None, outcome.kind
@@ -714,7 +714,7 @@ def _inprocess(ctx, adapter, data, policy, timeout, record, cell, label, budget,
         want = min(want, policy.max_samples - stats.n) or 1
         measured = perf.invoke_measured(adapter, data, timeout * (want + 1), ctx.config.root,
                                         command=adapter.timing_command, args=["1", str(want)],
-                                        env={**adapter.env, **adapter.timing_env})
+                                        env={**adapter.env, **adapter.timing_env}, build_dir=ctx.config.build_dir)
         invocation = measured.invocation
         if invocation.timed_out or invocation.exit_code != 0:
             return {"error": "timeout" if invocation.timed_out else

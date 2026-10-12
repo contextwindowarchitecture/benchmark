@@ -9,12 +9,15 @@ and a fourth series where the assembler reports its own stage timings in trace.t
 """
 from __future__ import annotations
 
+import hashlib
 import math
 import os
+import signal
 import subprocess
 import threading
 import time
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Callable
 
 from .adapters import Adapter, Invocation
@@ -37,39 +40,75 @@ def t95(df: int) -> float:
 @dataclass(frozen=True)
 class Measured:
     invocation: Invocation
-    rss_bytes: int | None  # the child's peak resident set, from wait4
+    rss_bytes: int | None  # the adapter process's own peak resident set, from wait4 in rusage_spawn
 
 
 def _rss_bytes(ru_maxrss: int) -> int:
     return ru_maxrss if os.uname().sysname == "Darwin" else ru_maxrss * 1024  # macOS reports bytes, Linux KiB
 
 
+_SPAWN_SOURCE = Path(__file__).with_name("rusage_spawn.c")
+_spawners: dict[Path, Path] = {}
+
+
+def spawner(build_dir: Path) -> Path:
+    """rusage_spawn.c, compiled once per source under build_dir/perf. A child spawned straight from the harness would
+    report the harness's peak RSS on Linux (see the source), so every measured invocation goes through it."""
+    build_dir = Path(build_dir).resolve()
+    if build_dir not in _spawners:
+        source = _SPAWN_SOURCE.read_bytes()
+        binary = build_dir / "perf" / f"rusage_spawn-{hashlib.sha256(source).hexdigest()[:12]}"
+        if not binary.exists():
+            binary.parent.mkdir(parents=True, exist_ok=True)
+            partial = binary.with_name(f"{binary.name}.{os.getpid()}.tmp")
+            built = subprocess.run([os.environ.get("CC", "cc"), "-O2", "-o", str(partial), str(_SPAWN_SOURCE)],
+                                   capture_output=True, text=True)
+            if built.returncode != 0:
+                raise RuntimeError(f"cannot build {_SPAWN_SOURCE.name}: {built.stderr.strip()}")
+            partial.replace(binary)
+        _spawners[build_dir] = binary
+    return _spawners[build_dir]
+
+
 def invoke_measured(adapter: Adapter, snapshot: bytes, timeout: float, cwd, command: list[str] | None = None,
-                    args: list[str] | None = None, env: dict[str, str] | None = None) -> Measured:
-    """adapters.invoke, plus the child's own peak RSS: os.wait4 reports the rusage of exactly that process."""
+                    args: list[str] | None = None, env: dict[str, str] | None = None,
+                    build_dir: Path | None = None) -> Measured:
+    """adapters.invoke, plus the adapter's own peak RSS. The adapter is spawned by rusage_spawn (built under build_dir,
+    by default cwd/.build), which reaps it with wait4 and times it from spawn to reap, so the wall time is the
+    adapter process's whole life and the peak is its own, not the harness's."""
     environment = {**os.environ, **(env if env is not None else adapter.env)}
     argv = [*(command or adapter.command), *(args or [])]
+    helper = spawner(build_dir if build_dir is not None else Path(cwd) / ".build")
+    report_read, report_write = os.pipe()
     started = time.perf_counter()
     try:
-        process = subprocess.Popen(argv, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                   cwd=cwd, env=environment)
+        process = subprocess.Popen([str(helper), str(report_write), *argv], stdin=subprocess.PIPE,
+                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=cwd, env=environment,
+                                   pass_fds=(report_write,), start_new_session=True)
     except OSError as error:
+        os.close(report_read)
+        os.close(report_write)
         return Measured(Invocation(None, b"", str(error).encode(), (time.perf_counter() - started) * 1000, False), None)
-    out, err = [], []
+    os.close(report_write)
+    out, err, report = [], [], []
 
     def pump(stream, into):
         into.append(stream.read())
         stream.close()
 
     readers = [threading.Thread(target=pump, args=(process.stdout, out), daemon=True),
-               threading.Thread(target=pump, args=(process.stderr, err), daemon=True)]
+               threading.Thread(target=pump, args=(process.stderr, err), daemon=True),
+               threading.Thread(target=pump, args=(os.fdopen(report_read, "rb"), report), daemon=True)]
     for reader in readers:
         reader.start()
     timed_out = threading.Event()
 
     def kill():
         timed_out.set()
-        process.kill()
+        try:
+            os.killpg(process.pid, signal.SIGKILL)  # rusage_spawn and the adapter, its own session
+        except ProcessLookupError:
+            pass
 
     timer = threading.Timer(timeout, kill)
     timer.start()
@@ -78,21 +117,30 @@ def invoke_measured(adapter: Adapter, snapshot: bytes, timeout: float, cwd, comm
             process.stdin.write(snapshot)
         except BrokenPipeError:
             pass
-        process.stdin.close()
-        _, status, usage = os.wait4(process.pid, 0)
+        try:
+            process.stdin.close()
+        except BrokenPipeError:
+            pass
+        process.wait()
     finally:
         timer.cancel()
     elapsed = (time.perf_counter() - started) * 1000
-    process.returncode = os.waitstatus_to_exitcode(status)
     for reader in readers:
         reader.join()
     stdout, stderr = (out[0] if out else b""), (err[0] if err else b"")
     if timed_out.is_set():
         return Measured(Invocation(None, stdout, stderr, elapsed, True), None)
-    code = process.returncode if process.returncode >= 0 else None
-    if code is None:
-        stderr += f"\nkilled by signal {-process.returncode}".encode()
-    return Measured(Invocation(code, stdout, stderr, elapsed, False), _rss_bytes(usage.ru_maxrss))
+    fields = (report[0] if report else b"").decode("ascii", "replace").split()
+    if fields[:1] == ["E"] and len(fields) == 2:
+        return Measured(Invocation(None, stdout, stderr + os.strerror(int(fields[1])).encode(), elapsed, False), None)
+    if fields[:1] != ["W"] or len(fields) != 4:
+        stderr += f"\nrusage_spawn exited {process.returncode} without a report".encode()
+        return Measured(Invocation(None, stdout, stderr, elapsed, False), None)
+    status, maxrss, ns = (int(f) for f in fields[1:])
+    code = os.waitstatus_to_exitcode(status)
+    if code < 0:
+        stderr += f"\nkilled by signal {-code}".encode()
+    return Measured(Invocation(code if code >= 0 else None, stdout, stderr, ns / 1e6, False), _rss_bytes(maxrss))
 
 
 @dataclass
