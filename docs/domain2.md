@@ -240,11 +240,13 @@ recorded comparison.
 
 ### Goldens (S7)
 
-The 6,048 probe snapshots all four assemblers agreed on, adopted as goldens: every later run compares each
-assembler's answer with them. The CI replay matched 24,192 of 24,192. The recorded run of 2026-10-12 matched every
-answer it could compare, 21,504 of 21,504, with no regression. It did not make 672 of the goldens' snapshots, all
-`cwa-state-x`: with the refilled replies the extractor wrote a different state, so those snapshots changed; its other
-196,224 answers have no golden yet.
+The 6,048 probe snapshots all four assemblers agreed on in a pilot-size CI replay of every suite on the same host
+(`20261012T135118Z-f2fee09`, 2026-10-12), adopted as goldens: every later run compares each assembler's answer with
+them. Against the goldens adopted the day before from the first recorded run's replies, that replay and the recorded
+run of 2026-10-12 each matched every answer they could compare, 21,504 of 21,504, with no regression. Neither made 672
+of those goldens' snapshots, all `cwa-state-x`: with the refilled replies the extractor wrote a different state, so
+those snapshots changed, and the adopted goldens hold the snapshots the clean pipeline now makes in their place. The
+recorded run's other 196,224 answers are at recorded size only and have no golden.
 
 ## What the run corrected along the way
 
