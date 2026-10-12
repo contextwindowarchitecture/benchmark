@@ -28,7 +28,8 @@ NODE_VERSION=24.20.0
 GO_VERSION=1.27.0
 RUST_VERSION=1.99
 VLLM_VERSION=0.31.0
-VLLM_IMAGE=docker.io/vllm/vllm-openai:v$VLLM_VERSION@sha256:c1c9f6fd5c109ba7f0546a59f5b2f15fb87f64c77782e90a27b648b42a8e67c3
+VLLM_DIGEST=sha256:c1c9f6fd5c109ba7f0546a59f5b2f15fb87f64c77782e90a27b648b42a8e67c3  # the tag's manifest list
+VLLM_IMAGE=docker.io/vllm/vllm-openai:v$VLLM_VERSION@$VLLM_DIGEST
 # The server's arguments, as domain2/domain2.toml's [model] gives them
 VLLM_ARGS=(Qwen/Qwen3.6-35B-A3B-FP8 --served-model-name qwen3.6-35b-a3b-fp8 --host 127.0.0.1 --port 8000
   --max-model-len 262144 --gpu-memory-utilization 0.92 --max-num-seqs 256 --max-num-batched-tokens 16384
