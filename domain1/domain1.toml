@@ -221,7 +221,7 @@ uv = "ghcr.io/astral-sh/uv:0.12"
 # 1.80 (rust-version; there is no trixie image for it, and a bookworm binary runs on the trixie final stage).
 [container.variants.amd64]
 platform = "linux/amd64"
-description = "Linux x86_64 (emulated on an arm64 host)"
+description = "Linux x86_64 (native on an x86_64 host, emulated on an arm64 one)"
 [container.variants."python-3.11"]
 images = { python = "docker.io/library/python:3.11-slim-trixie" }
 description = "Python 3.11, the floor assembler-python declares"
