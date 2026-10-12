@@ -9,15 +9,16 @@ protocol: snapshot bytes on stdin; a payload and trace, a rejection, or an "unsu
 [`domain1/`](../domain1/README.md).
 
 **The result:** on the pinned specification (contract `16de4be`), all four assemblers pass every suite. The benchmark
-found five defects on the way: three in the assemblers, one in a shared adapter, and one in the specification's own
-tooling. All five were reported upstream and fixed, and the minimized reproducers became conformance cases.
+found five defects during its development: three in the assemblers, one in a shared adapter, and one in the
+specification's own tooling. All five were reported upstream and fixed, and the minimized reproducers became
+conformance cases.
 
 ## What it proves, and what it does not
 
 It shows, for each assembler:
 
 - **Determinism (R-23).** The same frozen snapshot gives the same payload bytes and the same decision. This holds
-  across repeated runs, processes, environments, platforms, toolchains and all four implementations.
+  across repeated runs, processes, environments, containers, toolchains and all four implementations.
 - **Correct decisions.** Every admission, exclusion, conflict, pipeline, fitting and refusal decision the trace records
   is the one the rules require (R-1–R-4, R-6, R-7, R-9–R-17, R-20–R-22, R-24–R-26).
 - **Budgeting under pressure (R-16, R-17).** Protected content is rendered whole or the assembly is refused. Items are
@@ -56,21 +57,24 @@ mutants it misses is listed, along with why it is beyond reach without assemblin
 
 ## Suites and results
 
-These numbers come from the nightly run of 2026-10-08, against each assembler's `main`. The counts are per assembler,
-and are the same for all four.
+These numbers come from the nightly run of 2026-10-12 (`cwabench ci nightly`, run `20261012T084246Z-c5ce648`), made
+on the one host every reported result comes from: an AWS EC2 g7e.4xlarge, x86_64 Linux (Ubuntu 26.04, kernel
+7.0.0-1014-aws) with 16 vCPUs, whose GPU Domain 1 does not use. It ran against the assembler commits
+`scripts/pod-setup.sh` pins, not upstream `main`: Python `31f8271`, TypeScript `c533e44`, Go `fdd7e2f` and Rust
+`92b4d6f`. The counts are per assembler, and are the same for all four except where noted.
 
 | Suite | What it does | Result |
 | --- | --- | --- |
 | S0 · Oracle self-check | The checks above, every run | all pass |
 | S1 · Conformance replay | 65 cases and 25 rejections; each also compared with the report the assembler commits | 65/65 and 25/25, audit 65/65, 90/90 match the committed report |
-| S2 · Repeatability | 98 snapshots, repeated on the host and across 15 environment cells (time zones, locales, threads, an empty environment, no HOME, a concurrent burst), on Linux with the clock shifted ±30 years, and on 7 platform and toolchain variants | 4,900/4,900 decisions identical to the host baseline |
+| S2 · Repeatability | 98 snapshots, repeated on the host and across 14 environment cells (time zones, locales, threads, an empty environment, no HOME, an empty working directory, a concurrent burst), in a Linux container, with the clock shifted ±30 years, and on 7 platform and toolchain variants | 4,900/4,900 decisions identical to the host baseline; Go 4,704/4,704, since its clock cannot be shifted |
 | S4 · Metamorphic relations | 4,393 relation instances from 296 seeds | 4,393/4,393 hold |
 | S5 · Generative fuzzing | 10,000 valid snapshots, steered toward unexercised behaviour, and 2,000 mutants that each break one snapshot check | 10,000/10,000 audit clean and agree, 2,000/2,000 rejected, no crash |
 | S6 · Admission and pipeline | Every exclusion reason in every slot, 466 reason-precedence pairs, pipeline order | 920/920 labels matched |
 | S7 · Budget pressure at scale | 10 to 10,000 candidates and 10k to 2M tokens, 8 shapes, 5 budget ratios; threshold search; budget sweeps | see below |
 | S8 · Refusal and fitting | Every combination of the 6 refusal conditions, evidence degradation curves, exact fitting cases | 138/138 labels matched |
 | S9 · Conflicts | Instruction and fact conflict groups; trust and verification must not change a decision | 204/204 labels matched |
-| S10 · Purity | No network namespace, a read-only root, and `strace` on every syscall | 0 network syscalls, 0 file writes, 294/294 answers unchanged |
+| S10 · Purity | No network namespace, a read-only root, and `strace` on every syscall | 0 network syscalls, 0 file writes, 196/196 answers unchanged |
 | S11 · Producer pipeline | Assembly over summarizer output (below) | 201/201 |
 | S12 · Consensus goldens | 1,352 answers all four agree on, compared with adopted goldens | 1,352/1,352 match, no regressions |
 
@@ -78,72 +82,78 @@ All 35 reason codes (29 exclusions and 6 refusals) are exercised and pass for ev
 
 ### Platforms and toolchains
 
-S2 runs each variant in a container and compares every answer with the macOS arm64 host:
+S2 runs each variant in a container and compares every answer with the host's own first answer. The host is native
+x86_64 Linux, so every row below is x86_64; the counts are summed over the four assemblers:
 
 | Variant | Decisions | Payloads | Traces |
 | --- | --- | --- | --- |
-| Linux arm64, the default toolchains (Python 3.14, Node 24, Go 1.27, Rust 1.99) | 1,176/1,176 | 612/612 | 876/876 |
-| Linux x86_64 (emulated) | 392/392 | 204/204 | 292/292 |
+| Linux, the default toolchains (Python 3.14, Node 24, Go 1.27, Rust 1.99) | 1,176/1,176 | 612/612 | 876/876 |
+| The same, with the clock 30 years earlier and later (Python, TypeScript, Rust) | 588/588 | 306/306 | 438/438 |
+| Linux x86_64, the platform variant (native here, the same image as the first row) | 392/392 | 204/204 | 292/292 |
 | Python 3.11 (the declared floor), 3.12, 3.13 | 392/392 each | 204/204 each | 292/292 each |
 | Node 22 (the declared floor) | 392/392 | 204/204 | 292/292 |
 | Go 1.26 (the go.mod floor) | 392/392 | 204/204 | 292/292 |
 | Rust 1.80 (the declared MSRV) | 392/392 | 204/204 | 292/292 |
 
 Payloads and traces are compared only where the reference answer has one, so a rejection counts as a decision only.
-Each assembler builds and runs at the minimum toolchain it declares.
+Each assembler builds and runs at the minimum toolchain it declares. libfaketime does not reach Go's runtime, which
+reads the clock without libc; the run's probe shows the shift took for the other three. Go's answers in the two
+clock-shifted cells are recorded but not counted, which is why its total is 4,704.
 
 ### Budget pressure at scale (S7)
 
-These results come from a dedicated S7 run on the same day; the nightly profile leaves S7 out, since it takes about 70
-minutes. Before any assembler runs, the harness renders each snapshot itself and computes the outcome every budget must
-give.
-The grid has 232 cells and 1,317 rows, and the four assemblers answered 4,181 times. Every answer was judged against
-the prediction, for protected preservation, by the auditor and by agreement, and none failed. All four agree on every
-row that at least one of them answered.
+These results come from a dedicated S7 run on the same host and day (`cwabench run --suites S7`, run
+`20261012T090317Z-c5ce648`); the nightly profile leaves S7 out, since it took 1 h 50 min (09:03–10:53 UTC). Before
+any assembler runs, the harness renders each snapshot itself and computes the outcome every budget must give.
+The grid has 232 cells and 1,317 rows, and the four assemblers answered 3,896 times (135 more calls timed out). Every
+answer was judged against the prediction, for protected preservation, by the auditor and by agreement, and none failed.
+All four agree on every row that at least one of them answered.
 
 - **Refusal threshold exactness.** For each of 64 searches (shape × size × assembler), a binary search is never told
   the answer. Each one found the exact charged count below which assembly must refuse.
 - **Shedding curves.** Each shape is assembled from full size down to refusal, refined to single-token boundaries:
   12,740 frames in all. The four assemblers agree frame for frame, and tier order holds on the curve itself.
-- **The viability doc's case: 500k tokens into a 128k window.** Rust assembled it in 5.6 s, Go in 6.1 s and
-  TypeScript in 12.1 s. Python exceeded the 30 s timeout.
+- **The viability doc's case: 500k tokens into a 128k window.** Rust assembled it in 7.8 s, Go in 14.3 s and
+  TypeScript in 29.3 s, just inside the 30 s timeout. Python exceeded it.
 
 Fitting re-counts the whole payload after every reduction, which the specification notes. The benchmark measured the
 cost:
 
 | In-process scaling exponent (median over shapes) | Python | TypeScript | Go | Rust |
 | --- | --- | --- | --- | --- |
-| No budget pressure | 0.96 | 0.64 | 0.94 | 0.96 |
-| Budget at 10% of the candidates' tokens | 1.91 | 1.98 | 1.70 | 1.83 |
+| No budget pressure | 0.96 | 0.73 | 0.92 | 0.96 |
+| Budget at 10% of the candidates' tokens | 1.91 | 2.09 | 1.72 | 1.85 |
 
 Without pressure, time grows linearly with the payload. Under heavy pressure it grows nearly quadratically in all four
 implementations. Rust alone enforces slot caps in linear time (exponent 1.01, against 1.5–1.8 for the others).
 Timeouts are performance findings, never correctness failures.
 
-| On an Apple silicon Mac | Python | TypeScript | Go | Rust |
+| On the GPU host (x86_64 Linux, 16 vCPUs) | Python | TypeScript | Go | Rust |
 | --- | --- | --- | --- | --- |
-| Minimal snapshot, end to end, p50 | 71.6 ms | 99.9 ms | 18.6 ms | 14.8 ms |
-| Throughput, 100 × 10k at 50%, concurrency 1 → 8 (snapshots/s) | 5.9 → 38.9 | 7.6 → 44.8 | 24.1 → 76.5 | 30.1 → 98.7 |
-| Peak RSS | 44 MB | 315 MB | 28 MB | 18 MB |
+| Minimal snapshot, end to end, p50 | 89.1 ms | 151.5 ms | 11.2 ms | 3.7 ms |
+| Throughput, 100 × 10k at 50%, concurrency 1 → 8 (snapshots/s) | 4.1 → 31.4 | 4.7 → 28.0 | 18.5 → 105.4 | 39.5 → 248.5 |
 
 These absolute numbers describe one host. The exponents and the comparisons between assemblers are what carry over to
-other machines.
+other machines. Peak memory is left out: on this host the run recorded the same 1.13 GB peak for every assembler and
+cell, which is not the assembler's own.
 
 ### Summarization before freeze (S11)
 
 R-18 forbids model calls during assembly, so summaries must be precomputed by a producer and frozen into the snapshot
 as variants. S11 builds that pipeline over a synthetic corpus about fictional companies. The corpus is chunked into
 24 evidence items, and each item is frozen three ways: with no variants, with deterministic stub variants, and with an
-LLM's summaries. The LLM run used Qwen3.6-35B-A3B at temperature 0 with a fixed seed.
+LLM's summaries. Those come from Qwen3.6-35B-A3B (the FP8 build, served by vLLM 0.31.0 on the same host) at
+temperature 0 with a fixed seed, and the nightly run replays them from the committed cache.
 
 Assembly over every frozen variant set is deterministic and agreed across all four assemblers (201/201). The trace
 names each selected variant's id and method. The summarizer itself is only measured:
 
-- **Fidelity.** All 120 summaries pass the deterministic checks: no number, date, id, URL or name the source lacks;
-  no new imperative or role marker; length within the band.
-- **Repeat stability.** Even at temperature 0 with a fixed seed, only 76% of repeated summaries are identical.
-- **Decision flips.** Freezing a different repeat changes the payload in 34 of 40 pairs, but it never changes which
-  items are included.
+- **Fidelity.** 117 of 120 summaries pass the deterministic checks: no number, date, id, URL or name the source
+  lacks; no new imperative or role marker; length within the band. The other 3 each add an imperative or role marker,
+  and are dropped before freezing.
+- **Repeat stability.** Even at temperature 0 with a fixed seed, only 78% of repeated summaries are identical.
+- **Decision flips.** Freezing a different repeat changes the payload in 39 of 40 pairs. At the tightest budget (20%
+  of the full size) it also changes which items are included, in 4 of that budget's 10 pairs.
 - **Fit utility.** Across the budget sweep, evidence items survive (whole or summarized) at these rates: 44% with no
   variants, 79% with the LLM's, 89% with the stubs. The stubs include a first sentence that is usually shorter than
   the model's summary.
@@ -152,8 +162,12 @@ The committed cache of LLM responses lets this run be replayed without a model, 
 
 ## Defects it found
 
-Each defect was minimized automatically to a one- or two-item reproducer, reported, fixed upstream, and adopted by the
-specification as a conformance case.
+These defects were found during the benchmark's development, not in the reported runs, which have no correctness
+finding. Each was minimized automatically to a one- or two-item reproducer, reported, fixed upstream, and adopted by
+the specification as a conformance case. The run that recorded them is a failing development-time run of 2026-10-08
+(`20261008T004213Z-e824f1b`), kept as a committed fixture. It was made on a development machine (macOS arm64), at an
+older contract commit (`4e957ab`) and older assembler commits, and reports nothing. It records the three assembler
+defects; the adapter and tooling defects are not among its findings.
 
 | Where | Defect | Found by |
 | --- | --- | --- |
@@ -183,8 +197,10 @@ new conformance cases, and changed `admission-reasons`.
   - an answer that varies between runs.
 - **Mistakes shared by all four implementations** pass the differential oracle. Only the labels and the auditor can
   catch them, and their own tests come first.
-- **Emulated x86_64** tests the binaries, not native hardware, and its Rust adapter is cross-compiled because `rustc`
-  does not run under QEMU on arm64. A run on a native x86_64 runner is the stronger evidence.
+- **One architecture.** Every reported answer comes from x86_64 Linux. S2's platform variant is native on this host
+  and uses the same image as its container baseline, so no reported run checks arm64.
+- **Go's clock is not shifted.** libfaketime does not reach Go's runtime, so S2's clock-shift cells say nothing about
+  Go's clock reads, and S10 does not judge clock reads at all.
 - **The fidelity checks** confirm that each fact in a summary appears in its source, not that relations between facts
   survive.
 - **The specification is a draft.** Every result is tied to the pinned contract commit, and goldens are re-baselined
@@ -196,9 +212,13 @@ new conformance cases, and changed `admission-reasons`.
 cd domain1
 uv sync
 uv run cwabench setup                       # build the four adapters from sibling checkouts
-uv run cwabench run                         # every suite; about 85 minutes, 70 of them S7
+uv run cwabench run                         # every suite; S7 alone took 1 h 50 min on the GPU host
 uv run cwabench ci nightly --fetch          # every suite but S7, against upstream main, with a drift report
 ```
+
+The reported runs were made on the GPU host by `scripts/pod-run.sh`, after `scripts/pod-setup.sh` set it up:
+`cwabench ci nightly` without `--fetch`, so at the pinned assembler commits (20 minutes), and
+`cwabench run --suites S7`.
 
 `domain1/README.md` lists the checkouts each run needs. Every run writes a self-describing, schema-validated run
 directory. Each `cwabench ci` run also writes a drift report against the previous run of the same profile: contract,
