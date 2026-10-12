@@ -3,16 +3,21 @@
 # run the benchmark and the model beside it, so a long `--model llm` run depends on nothing else.
 #
 # It installs the toolchains the adapters build with, clones the specification and the four assemblers at the
-# commits the recorded run used, clones this repository, builds Domain 1's adapters, installs vLLM and starts it on
-# 127.0.0.1:8000 in a tmux session named `vllm`, as domain2/domain2.toml's [model] describes. When a vLLM of that
-# version already answers on 127.0.0.1:8000, started with that command, it is used as it is. Every step is skipped
-# when it is already done, so the script can be run again after a restart. Run it as root or as a user with sudo.
+# commits the recorded run used, clones this repository, builds Domain 1's adapters, and starts vLLM on
+# 127.0.0.1:8000 as domain2/domain2.toml's [model] describes. With Docker (the default when it is installed), vLLM
+# runs in the container `cwa-vllm` from the vLLM image pinned by digest below, which carries its own CUDA toolkit, so
+# every host serves the model from the same build. Without Docker (a RunPod pod), vLLM is pip-installed and run in a
+# tmux session named `vllm`; that needs a CUDA toolkit on the host, since vLLM compiles DeepGEMM's kernels with nvcc.
+# When a vLLM of that version already answers on 127.0.0.1:8000, it is used as it is. Every step is skipped when it is
+# already done, so the script can be run again after a restart. Run it as root or as a user with sudo.
 #
 #   CWA_ROOT   where the checkouts go (default /workspace/cwa): the layout domain1.toml expects,
 #              $CWA_ROOT/{contextwindowarchitecture,assembler-*} and $CWA_ROOT/cwa-extended/benchmark
 #   HF_HOME    where the model's weights are kept (default /workspace/hf), on a volume that survives restarts
 #   BENCH_REF  the benchmark commit or branch to check out (default main)
 #   CWA_KEY_FILE  a file holding the server's API key, when it needs one (the runs read it too)
+#   VLLM_RUNTIME  docker or venv (default docker when Docker is installed)
+#   HF_TOKEN   passed to vLLM when set, for the Hugging Face Hub's higher download limits
 set -euo pipefail
 
 CWA_ROOT=${CWA_ROOT:-/workspace/cwa}
@@ -23,6 +28,11 @@ NODE_VERSION=24.20.0
 GO_VERSION=1.27.0
 RUST_VERSION=1.99
 VLLM_VERSION=0.31.0
+VLLM_IMAGE=docker.io/vllm/vllm-openai:v$VLLM_VERSION@sha256:c1c9f6fd5c109ba7f0546a59f5b2f15fb87f64c77782e90a27b648b42a8e67c3
+# The server's arguments, as domain2/domain2.toml's [model] gives them
+VLLM_ARGS=(Qwen/Qwen3.6-35B-A3B-FP8 --served-model-name qwen3.6-35b-a3b-fp8 --host 127.0.0.1 --port 8000
+  --max-model-len 262144 --gpu-memory-utilization 0.92 --max-num-seqs 256 --max-num-batched-tokens 16384
+  --enable-prefix-caching --enable-prompt-tokens-details --generation-config vllm)
 # The specification as domain1.toml pins it, and the assemblers the recorded run assembled with
 declare -A COMMITS=(
   [contextwindowarchitecture]=16de4be0534583f135a597171c927d42c87ee82c
@@ -103,20 +113,48 @@ if [ -n "$running" ]; then
   echo "using the vLLM $VLLM_VERSION already serving on 127.0.0.1:8000; check that it was started with the command"
   echo "domain2/domain2.toml's [model] gives:"
   ps -eo args | grep -E "[v]llm serve" | sed -E 's/(--api-key )[^ ]+/\1…/' || true
-elif [ ! -x "$CWA_ROOT/vllm/bin/vllm" ]; then
-  uv venv -q --python 3.12 "$CWA_ROOT/vllm"
-  uv pip install -q --python "$CWA_ROOT/vllm/bin/python" "vllm==$VLLM_VERSION"
 fi
-if [ -z "$running" ] && ! tmux has-session -t vllm 2>/dev/null; then
-  tmux new-session -d -s vllm "HF_HOME=$HF_HOME $CWA_ROOT/vllm/bin/vllm serve Qwen/Qwen3.6-35B-A3B-FP8 \
-    --served-model-name qwen3.6-35b-a3b-fp8 --host 127.0.0.1 --port 8000 --max-model-len 262144 \
-    --gpu-memory-utilization 0.92 --max-num-seqs 256 --max-num-batched-tokens 16384 --enable-prefix-caching \
-    --enable-prompt-tokens-details --generation-config vllm 2>&1 | tee $CWA_ROOT/logs/vllm.log"
+VLLM_RUNTIME=${VLLM_RUNTIME:-$(command -v docker >/dev/null && echo docker || echo venv)}
+DOCKER="docker"
+if [ "$VLLM_RUNTIME" = docker ] && ! docker info >/dev/null 2>&1; then
+  DOCKER="$SUDO --preserve-env=HF_TOKEN docker"
+fi
+alive() {  # whether the server this script started is still up
+  case "$VLLM_RUNTIME" in
+    docker) [ "$($DOCKER inspect -f '{{.State.Running}}' cwa-vllm 2>/dev/null)" = true ] ;;
+    *) tmux has-session -t vllm 2>/dev/null ;;
+  esac
+}
+if [ -z "$running" ] && [ "$VLLM_RUNTIME" = docker ]; then
+  if [ "$($DOCKER inspect -f '{{.Config.Image}}' cwa-vllm 2>/dev/null)" = "$VLLM_IMAGE" ]; then
+    $DOCKER start cwa-vllm >/dev/null
+  else
+    $DOCKER rm -f cwa-vllm >/dev/null 2>&1 || true
+    $DOCKER pull -q "$VLLM_IMAGE"
+    # Host networking keeps --host 127.0.0.1 as it is; the weights are kept in $HF_HOME across restarts
+    $DOCKER run -d --name cwa-vllm --gpus all --ipc=host --network host \
+      -v "$HF_HOME:/root/.cache/huggingface" -e HF_HOME=/root/.cache/huggingface ${HF_TOKEN:+-e HF_TOKEN} \
+      --entrypoint vllm "$VLLM_IMAGE" serve "${VLLM_ARGS[@]}" >/dev/null
+  fi
+elif [ -z "$running" ]; then
+  if [ ! -x "$CWA_ROOT/vllm/bin/vllm" ]; then
+    uv venv -q --python 3.12 "$CWA_ROOT/vllm"
+    uv pip install -q --python "$CWA_ROOT/vllm/bin/python" "vllm==$VLLM_VERSION"
+  fi
+  if ! tmux has-session -t vllm 2>/dev/null; then
+    tmux new-session -d -s vllm "HF_HOME=$HF_HOME $CWA_ROOT/vllm/bin/vllm serve ${VLLM_ARGS[*]} 2>&1 \
+      | tee $CWA_ROOT/logs/vllm.log"
+  fi
 fi
 say "waiting for vLLM (the first start downloads about 35 GB of weights)"
 until curl -fs http://127.0.0.1:8000/health >/dev/null; do
-  if [ -z "$running" ] && ! tmux has-session -t vllm 2>/dev/null; then
-    echo "vLLM stopped; see $CWA_ROOT/logs/vllm.log" >&2
+  if [ -z "$running" ] && ! alive; then
+    if [ "$VLLM_RUNTIME" = docker ]; then
+      $DOCKER logs --tail 40 cwa-vllm >&2 || true
+      echo "vLLM stopped; see \`$DOCKER logs cwa-vllm\`" >&2
+    else
+      echo "vLLM stopped; see $CWA_ROOT/logs/vllm.log" >&2
+    fi
     exit 1
   fi
   sleep 10

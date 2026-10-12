@@ -12,9 +12,9 @@
 #      installed), the nightly profile with Podman (every suite but S7, S2's platform and toolchain matrix, S11
 #      replaying the committed summarizer cache), and a dedicated S7 run.
 #
-# Domain 1 never calls the model, so vLLM is stopped before its steps (the `vllm` tmux session pod-setup.sh starts,
-# or a running Docker container whose image names vllm), leaving the machine quiet for S7's timings. Start it again
-# afterwards: scripts/pod-setup.sh, or `docker start <container>`.
+# Domain 1 never calls the model, so vLLM is stopped before its steps (pod-setup.sh's `cwa-vllm` container or `vllm`
+# tmux session, or any running container whose image names vllm), leaving the machine quiet for S7's timings.
+# scripts/pod-setup.sh starts it again.
 #
 # Each domain's reported runs are made last, so the newest is the domain's `latest`: Domain 2's recorded run, and
 # Domain 1's S7 run after its nightly run, the two runs the results site's Domain 1 overview and docs/domain1.md
@@ -86,8 +86,10 @@ model_run d2-s6 --size pilot --suites S0,S1,S2,S3,S6
 model_run d2-recorded --size recorded --suites S0,S1,S2,S3,S4,S5,S7
 tmux kill-session -t vllm 2>/dev/null
 if command -v docker >/dev/null; then
-  for container in $(docker ps --format '{{.ID}} {{.Image}}' | awk 'tolower($2) ~ /vllm/ {print $1}'); do
-    docker stop -t 60 "$container" >/dev/null && note "stopped the vLLM container $container"
+  DOCKER="docker"
+  docker info >/dev/null 2>&1 || DOCKER="sudo docker"
+  for container in $($DOCKER ps --format '{{.ID}} {{.Image}}' | awk 'tolower($2) ~ /vllm/ {print $1}'); do
+    $DOCKER stop -t 60 "$container" >/dev/null && note "stopped the vLLM container $container"
   done
 fi
 for _ in $(seq 60); do curl -fs -m 2 http://127.0.0.1:8000/health >/dev/null || break; sleep 2; done
