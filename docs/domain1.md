@@ -103,7 +103,7 @@ clock-shifted cells are recorded but not counted, which is why its total is 4,70
 ### Budget pressure at scale (S7)
 
 These results come from a dedicated S7 run on the same host and day (`cwabench run --suites S7`, run
-`20261012T090317Z-c5ce648`); the nightly profile leaves S7 out, since it took 1 h 50 min (09:03–10:53 UTC). Before
+`20261012T154357Z-a6bbb5b`); the nightly profile leaves S7 out, since it took 1 h 50 min (15:43–17:33 UTC). Before
 any assembler runs, the harness renders each snapshot itself and computes the outcome every budget must give.
 The grid has 232 cells and 1,317 rows, and the four assemblers answered 3,896 times (135 more calls timed out). Every
 answer was judged against the prediction, for protected preservation, by the auditor and by agreement, and none failed.
@@ -113,29 +113,33 @@ All four agree on every row that at least one of them answered.
   the answer. Each one found the exact charged count below which assembly must refuse.
 - **Shedding curves.** Each shape is assembled from full size down to refusal, refined to single-token boundaries:
   12,740 frames in all. The four assemblers agree frame for frame, and tier order holds on the curve itself.
-- **The viability doc's case: 500k tokens into a 128k window.** Rust assembled it in 7.8 s, Go in 14.3 s and
-  TypeScript in 29.3 s, just inside the 30 s timeout. Python exceeded it.
+- **The viability doc's case: 500k tokens into a 128k window.** Rust assembled it in 8.4 s, Go in 14.3 s and
+  TypeScript in 26.6 s, inside the 30 s timeout. Python exceeded it.
 
 Fitting re-counts the whole payload after every reduction, which the specification notes. The benchmark measured the
 cost:
 
 | In-process scaling exponent (median over shapes) | Python | TypeScript | Go | Rust |
 | --- | --- | --- | --- | --- |
-| No budget pressure | 0.96 | 0.73 | 0.92 | 0.96 |
+| No budget pressure | 0.96 | 0.72 | 0.93 | 0.96 |
 | Budget at 10% of the candidates' tokens | 1.91 | 2.09 | 1.72 | 1.85 |
 
 Without pressure, time grows linearly with the payload. Under heavy pressure it grows nearly quadratically in all four
-implementations. Rust alone enforces slot caps in linear time (exponent 1.01, against 1.5–1.8 for the others).
+implementations. Rust alone enforces slot caps in linear time (exponent 1.02, against 1.5–1.8 for the others).
 Timeouts are performance findings, never correctness failures.
 
 | On the GPU host (x86_64 Linux, 16 vCPUs) | Python | TypeScript | Go | Rust |
 | --- | --- | --- | --- | --- |
-| Minimal snapshot, end to end, p50 | 89.1 ms | 151.5 ms | 11.2 ms | 3.7 ms |
-| Throughput, 100 × 10k at 50%, concurrency 1 → 8 (snapshots/s) | 4.1 → 31.4 | 4.7 → 28.0 | 18.5 → 105.4 | 39.5 → 248.5 |
+| Minimal snapshot, end to end, p50 | 89.0 ms | 150.8 ms | 11.0 ms | 3.7 ms |
+| Throughput, 100 × 10k at 50%, concurrency 1 → 8 (snapshots/s) | 4.1 → 31.0 | 4.7 → 27.6 | 18.8 → 106.6 | 39.4 → 233.9 |
+| Peak memory, minimal snapshot | 27.3 MiB | 84.9 MiB | 10.6 MiB | 5.0 MiB |
+| Peak memory, largest over the 216 performance cells | 38.8 MiB | 358.0 MiB | 23.1 MiB | 17.4 MiB |
 
 These absolute numbers describe one host. The exponents and the comparisons between assemblers are what carry over to
-other machines. Peak memory is left out: on this host the run recorded the same 1.13 GB peak for every assembler and
-cell, which is not the assembler's own.
+other machines. Peak memory is each assembler process's own peak resident set, reported by `wait4` in a small
+process that starts the assembler and times it, so the harness's own memory is not counted (an earlier run on this
+host, before that was fixed, recorded the harness's 1.13 GB for every assembler). TypeScript's peak grows with the
+payload: its 358 MiB is on the 100k-token cells at 10% of the budget; the other three stay under 40 MiB.
 
 ### Summarization before freeze (S11)
 
