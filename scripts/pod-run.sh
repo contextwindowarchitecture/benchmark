@@ -5,10 +5,13 @@
 # The steps, in order; a step that fails is recorded and the next one runs:
 #
 #   1. Domain 2's tests, and its opt-in tests on the reference assembler;
-#   2. Domain 2's recorded run (every family at its recorded size; S0 to S5 and S7) against the model beside it;
-#   3. Domain 2's S6 at pilot size, with S2 and S3 for its comparison with the scripted result;
+#   2. Domain 2's S6 at pilot size, with S2 and S3 for its comparison with the scripted result;
+#   3. Domain 2's recorded run (every family at its recorded size; S0 to S5 and S7) against the model beside it;
 #   4. Domain 1's tests, its opt-in tests on the reference assembler and in the container (once in each engine
-#      installed), a full run with Podman, and S2 and S10, the suites that use the container, again with Docker.
+#      installed), S2 and S10, the suites that use the container, with Docker, and a full run with Podman.
+#
+# Each domain's headline run (Domain 2's recorded run, Domain 1's full run) is made last, so it is the domain's
+# `latest`, the run the results site shows first.
 #
 # A model run is made in `llm` mode and made again only when calls failed: the second pass calls the model for just
 # what the first could not fill, since everything answered is in the cache. Any other failure is the run's result.
@@ -72,10 +75,10 @@ fi
 
 step d2-tests "$BENCH/domain2" uv run pytest -q
 step d2-tests-reference "$BENCH/domain2" env CWA_BENCH_REFERENCE=1 uv run pytest -q tests/test_gate.py
-model_run d2-recorded --size recorded --suites S0,S1,S2,S3,S4,S5,S7
 model_run d2-s6 --size pilot --suites S0,S1,S2,S3,S6
+model_run d2-recorded --size recorded --suites S0,S1,S2,S3,S4,S5,S7
 step d1-tests "$BENCH/domain1" uv run pytest -q
 step d1-tests-opt-in "$BENCH/domain1" env CWA_BENCH_REFERENCE=1 CWA_BENCH_CONTAINER=1 uv run pytest -q
-step d1-run "$BENCH/domain1" uv run cwabench run
 step d1-run-docker "$BENCH/domain1" uv run cwabench run --suites S2,S10 --container-engine docker
+step d1-run "$BENCH/domain1" uv run cwabench run
 note "done"
