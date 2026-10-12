@@ -355,7 +355,7 @@ def test_curve_summarizes_each_frame():
 
 # The typed blocks ------------------------------------------------------------------------------------------------------
 
-S7_FIXTURE = Path(__file__).resolve().parent.parent / "fixtures" / "runs" / "20261012T090317Z-c5ce648"
+S7_FIXTURE = Path(__file__).resolve().parent.parent / "fixtures" / "runs" / "20261012T154357Z-a6bbb5b"
 
 
 def test_the_s7_fixture_pins_the_scale_block_and_the_perf_series(spec):
