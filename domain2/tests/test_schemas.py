@@ -44,7 +44,7 @@ def test_the_upstream_file_validates():
     output.validate(json.loads((ROOT / "findings" / "upstream.json").read_text(encoding="utf-8")))
 
 
-FIXTURE = ROOT / "fixtures" / "runs" / "20261011T161204Z-9c870cd"
+FIXTURE = ROOT / "fixtures" / "runs" / "20261012T135118Z-f2fee09"
 
 
 def test_the_fixture_run_validates():

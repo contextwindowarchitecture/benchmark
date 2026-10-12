@@ -1,0 +1,3904 @@
+{
+  "$schema": "cwa-bench-d2/suite-summary/v1",
+  "run_id": "20261012T135118Z-f2fee09",
+  "suite": "S5",
+  "title": "Cost and latency",
+  "status": "pass",
+  "started_at": "2026-10-12T13:58:38.021Z",
+  "finished_at": "2026-10-12T13:58:38.053Z",
+  "requirements": [
+    "R-16"
+  ],
+  "corpora": [
+    {
+      "id": "vt",
+      "count": 6
+    },
+    {
+      "id": "fr",
+      "count": 6
+    },
+    {
+      "id": "cc",
+      "count": 6
+    },
+    {
+      "id": "ip",
+      "count": 9
+    }
+  ],
+  "adapters": [],
+  "metrics": [
+    {
+      "id": "s5.budget_overruns",
+      "label": "Calls whose server prompt exceeds their budget",
+      "suite": "S5",
+      "arm": null,
+      "family": null,
+      "tier": null,
+      "unit": "count",
+      "value": 0,
+      "numerator": null,
+      "denominator": null,
+      "target": 0,
+      "status": "pass",
+      "description": "of 10089 calls with a budget (R-16)"
+    },
+    {
+      "id": "s5.undercount_max",
+      "label": "Largest token under-count",
+      "suite": "S5",
+      "arm": null,
+      "family": null,
+      "tier": null,
+      "unit": "rate",
+      "value": 0.256198347107438,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": "(server prompt tokens − own count) ÷ server prompt tokens, over every answered call; by size in the summary"
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "control-full",
+      "family": null,
+      "tier": "control",
+      "unit": "tokens",
+      "value": 165.472,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "control-full",
+      "family": null,
+      "tier": "control",
+      "unit": "ms",
+      "value": 386.124,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "control-concat",
+      "family": null,
+      "tier": "control",
+      "unit": "tokens",
+      "value": 407.218,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "control-concat",
+      "family": null,
+      "tier": "control",
+      "unit": "ms",
+      "value": 425.892,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "concat",
+      "family": null,
+      "tier": "8192",
+      "unit": "tokens",
+      "value": 3303.905,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "concat",
+      "family": null,
+      "tier": "8192",
+      "unit": "ms",
+      "value": 472.72,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "concat",
+      "family": null,
+      "tier": "16384",
+      "unit": "tokens",
+      "value": 5161.882,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "concat",
+      "family": null,
+      "tier": "16384",
+      "unit": "ms",
+      "value": 519.804,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "truncate",
+      "family": null,
+      "tier": "8192",
+      "unit": "tokens",
+      "value": 4731.424,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "truncate",
+      "family": null,
+      "tier": "8192",
+      "unit": "ms",
+      "value": 579.364,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "truncate",
+      "family": null,
+      "tier": "16384",
+      "unit": "tokens",
+      "value": 5161.882,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "truncate",
+      "family": null,
+      "tier": "16384",
+      "unit": "ms",
+      "value": 519.804,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "truncate-pinned",
+      "family": null,
+      "tier": "8192",
+      "unit": "tokens",
+      "value": 4703.95,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "truncate-pinned",
+      "family": null,
+      "tier": "8192",
+      "unit": "ms",
+      "value": 570.974,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "truncate-pinned",
+      "family": null,
+      "tier": "16384",
+      "unit": "tokens",
+      "value": 5161.882,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "truncate-pinned",
+      "family": null,
+      "tier": "16384",
+      "unit": "ms",
+      "value": 519.804,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "window",
+      "family": null,
+      "tier": "8192",
+      "unit": "tokens",
+      "value": 2130.364,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "window",
+      "family": null,
+      "tier": "8192",
+      "unit": "ms",
+      "value": 507.603,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "window",
+      "family": null,
+      "tier": "16384",
+      "unit": "tokens",
+      "value": 2130.364,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "window",
+      "family": null,
+      "tier": "16384",
+      "unit": "ms",
+      "value": 507.603,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "summary",
+      "family": null,
+      "tier": "8192",
+      "unit": "tokens",
+      "value": 1923.691,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "summary",
+      "family": null,
+      "tier": "8192",
+      "unit": "ms",
+      "value": 484.713,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "summary",
+      "family": null,
+      "tier": "16384",
+      "unit": "tokens",
+      "value": 1923.691,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "summary",
+      "family": null,
+      "tier": "16384",
+      "unit": "ms",
+      "value": 484.713,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-history",
+      "family": null,
+      "tier": "8192",
+      "unit": "tokens",
+      "value": 5670.607,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-history",
+      "family": null,
+      "tier": "8192",
+      "unit": "ms",
+      "value": 563.888,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-history",
+      "family": null,
+      "tier": "16384",
+      "unit": "tokens",
+      "value": 6614.368,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-history",
+      "family": null,
+      "tier": "16384",
+      "unit": "ms",
+      "value": 584.139,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-state",
+      "family": null,
+      "tier": "8192",
+      "unit": "tokens",
+      "value": 4701.472,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-state",
+      "family": null,
+      "tier": "8192",
+      "unit": "ms",
+      "value": 568.051,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-state",
+      "family": null,
+      "tier": "16384",
+      "unit": "tokens",
+      "value": 6364.191,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-state",
+      "family": null,
+      "tier": "16384",
+      "unit": "ms",
+      "value": 587.627,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-state-x",
+      "family": null,
+      "tier": "8192",
+      "unit": "tokens",
+      "value": 5405.411,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-state-x",
+      "family": null,
+      "tier": "8192",
+      "unit": "ms",
+      "value": 525.728,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-state-x",
+      "family": null,
+      "tier": "16384",
+      "unit": "tokens",
+      "value": 7308.546,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-state-x",
+      "family": null,
+      "tier": "16384",
+      "unit": "ms",
+      "value": 552.704,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-memory",
+      "family": null,
+      "tier": "8192",
+      "unit": "tokens",
+      "value": 1723.079,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-memory",
+      "family": null,
+      "tier": "8192",
+      "unit": "ms",
+      "value": 435.266,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-memory",
+      "family": null,
+      "tier": "16384",
+      "unit": "tokens",
+      "value": 1723.079,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-memory",
+      "family": null,
+      "tier": "16384",
+      "unit": "ms",
+      "value": 435.266,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-pipeline",
+      "family": null,
+      "tier": "8192",
+      "unit": "tokens",
+      "value": 1723.079,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-pipeline",
+      "family": null,
+      "tier": "8192",
+      "unit": "ms",
+      "value": 435.266,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-pipeline",
+      "family": null,
+      "tier": "16384",
+      "unit": "tokens",
+      "value": 1723.079,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-pipeline",
+      "family": null,
+      "tier": "16384",
+      "unit": "ms",
+      "value": 435.266,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-format",
+      "family": null,
+      "tier": "8192",
+      "unit": "tokens",
+      "value": 2791.526,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-format",
+      "family": null,
+      "tier": "8192",
+      "unit": "ms",
+      "value": 394.517,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-format",
+      "family": null,
+      "tier": "16384",
+      "unit": "tokens",
+      "value": 2791.526,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-format",
+      "family": null,
+      "tier": "16384",
+      "unit": "ms",
+      "value": 394.517,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "control-full",
+      "family": "lq",
+      "tier": "x0.25",
+      "unit": "tokens",
+      "value": 3469.742,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "control-full",
+      "family": "lq",
+      "tier": "x0.25",
+      "unit": "ms",
+      "value": 1775.094,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "truncate-pinned",
+      "family": "lq",
+      "tier": "x0.25",
+      "unit": "tokens",
+      "value": 3469.742,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "truncate-pinned",
+      "family": "lq",
+      "tier": "x0.25",
+      "unit": "ms",
+      "value": 1775.094,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "rag",
+      "family": "lq",
+      "tier": "x0.25",
+      "unit": "tokens",
+      "value": 1681.629,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "rag",
+      "family": "lq",
+      "tier": "x0.25",
+      "unit": "ms",
+      "value": 653.622,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-evidence",
+      "family": "lq",
+      "tier": "x0.25",
+      "unit": "tokens",
+      "value": 1282.333,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-evidence",
+      "family": "lq",
+      "tier": "x0.25",
+      "unit": "ms",
+      "value": 1091.18,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-reinforced",
+      "family": "lq",
+      "tier": "x0.25",
+      "unit": "tokens",
+      "value": 1317.333,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-reinforced",
+      "family": "lq",
+      "tier": "x0.25",
+      "unit": "ms",
+      "value": 928.52,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-ranked",
+      "family": "lq",
+      "tier": "x0.25",
+      "unit": "tokens",
+      "value": 1444.727,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-ranked",
+      "family": "lq",
+      "tier": "x0.25",
+      "unit": "ms",
+      "value": 884.394,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "control-full",
+      "family": "lq",
+      "tier": "x1",
+      "unit": "tokens",
+      "value": 9313.091,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "control-full",
+      "family": "lq",
+      "tier": "x1",
+      "unit": "ms",
+      "value": 1673.673,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "truncate-pinned",
+      "family": "lq",
+      "tier": "x1",
+      "unit": "tokens",
+      "value": 11166.0,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "truncate-pinned",
+      "family": "lq",
+      "tier": "x1",
+      "unit": "ms",
+      "value": 656.076,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "rag",
+      "family": "lq",
+      "tier": "x1",
+      "unit": "tokens",
+      "value": 4152.167,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "rag",
+      "family": "lq",
+      "tier": "x1",
+      "unit": "ms",
+      "value": 1141.006,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-evidence",
+      "family": "lq",
+      "tier": "x1",
+      "unit": "tokens",
+      "value": 2971.583,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-evidence",
+      "family": "lq",
+      "tier": "x1",
+      "unit": "ms",
+      "value": 1204.124,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-reinforced",
+      "family": "lq",
+      "tier": "x1",
+      "unit": "tokens",
+      "value": 3006.583,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-reinforced",
+      "family": "lq",
+      "tier": "x1",
+      "unit": "ms",
+      "value": 733.583,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-ranked",
+      "family": "lq",
+      "tier": "x1",
+      "unit": "tokens",
+      "value": 3077.583,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-ranked",
+      "family": "lq",
+      "tier": "x1",
+      "unit": "ms",
+      "value": 1046.679,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "control-full",
+      "family": "lq",
+      "tier": "x4",
+      "unit": "tokens",
+      "value": 43190.769,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "control-full",
+      "family": "lq",
+      "tier": "x4",
+      "unit": "ms",
+      "value": 1986.44,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "truncate-pinned",
+      "family": "lq",
+      "tier": "x4",
+      "unit": "tokens",
+      "value": 16535.5,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "truncate-pinned",
+      "family": "lq",
+      "tier": "x4",
+      "unit": "ms",
+      "value": 510.53,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "rag",
+      "family": "lq",
+      "tier": "x4",
+      "unit": "tokens",
+      "value": 5363.417,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "rag",
+      "family": "lq",
+      "tier": "x4",
+      "unit": "ms",
+      "value": 1168.654,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-evidence",
+      "family": "lq",
+      "tier": "x4",
+      "unit": "tokens",
+      "value": 6064.457,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-evidence",
+      "family": "lq",
+      "tier": "x4",
+      "unit": "ms",
+      "value": 1313.941,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-reinforced",
+      "family": "lq",
+      "tier": "x4",
+      "unit": "tokens",
+      "value": 6433.636,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-reinforced",
+      "family": "lq",
+      "tier": "x4",
+      "unit": "ms",
+      "value": 861.122,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-ranked",
+      "family": "lq",
+      "tier": "x4",
+      "unit": "tokens",
+      "value": 6040.5,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-ranked",
+      "family": "lq",
+      "tier": "x4",
+      "unit": "ms",
+      "value": 1005.551,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "control-full",
+      "family": "lq",
+      "tier": "x16",
+      "unit": "tokens",
+      "value": 191425.696,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "control-full",
+      "family": "lq",
+      "tier": "x16",
+      "unit": "ms",
+      "value": 2138.348,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "truncate-pinned",
+      "family": "lq",
+      "tier": "x16",
+      "unit": "tokens",
+      "value": 16875.75,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "truncate-pinned",
+      "family": "lq",
+      "tier": "x16",
+      "unit": "ms",
+      "value": 563.41,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "rag",
+      "family": "lq",
+      "tier": "x16",
+      "unit": "tokens",
+      "value": 5637.917,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "rag",
+      "family": "lq",
+      "tier": "x16",
+      "unit": "ms",
+      "value": 1271.298,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-evidence",
+      "family": "lq",
+      "tier": "x16",
+      "unit": "tokens",
+      "value": 7452.4,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-evidence",
+      "family": "lq",
+      "tier": "x16",
+      "unit": "ms",
+      "value": 1070.08,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-reinforced",
+      "family": "lq",
+      "tier": "x16",
+      "unit": "tokens",
+      "value": 6763.545,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-reinforced",
+      "family": "lq",
+      "tier": "x16",
+      "unit": "ms",
+      "value": 820.423,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.prompt_tokens_per_correct",
+      "label": "Prompt tokens per correct answer",
+      "suite": "S5",
+      "arm": "cwa-ranked",
+      "family": "lq",
+      "tier": "x16",
+      "unit": "tokens",
+      "value": 6344.667,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s5.latency_p50",
+      "label": "Latency, p50",
+      "suite": "S5",
+      "arm": "cwa-ranked",
+      "family": "lq",
+      "tier": "x16",
+      "unit": "ms",
+      "value": 1042.328,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    }
+  ],
+  "files": {
+    "results": "suites/S2/grades.jsonl",
+    "findings": "findings.jsonl"
+  },
+  "cost": {
+    "margin_percent": 35,
+    "undercount_max": 0.256198347107438,
+    "budget_overruns": 0,
+    "undercount_by_size": [
+      {
+        "server_tokens": [
+          0,
+          500
+        ],
+        "calls": 747,
+        "undercount_max": 0.245614,
+        "margin_needed": 33
+      },
+      {
+        "server_tokens": [
+          500,
+          2000
+        ],
+        "calls": 5478,
+        "undercount_max": 0.256198,
+        "margin_needed": 35
+      },
+      {
+        "server_tokens": [
+          2000,
+          8000
+        ],
+        "calls": 4107,
+        "undercount_max": 0.118433,
+        "margin_needed": 14
+      },
+      {
+        "server_tokens": [
+          8000,
+          null
+        ],
+        "calls": 765,
+        "undercount_max": 0.070197,
+        "margin_needed": 8
+      }
+    ],
+    "by_arm": [
+      {
+        "suite": "S2",
+        "arm": "control-full",
+        "tier": "control",
+        "answered": 432,
+        "correct": 432,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 171,
+          "p95": 180,
+          "max": 192,
+          "total": 71484
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 6,
+          "p95": 166,
+          "max": 198,
+          "total": 10997
+        },
+        "prompt_tokens_per_correct": 165.472,
+        "latency_ms": {
+          "count": 432,
+          "p50": 386.124,
+          "p95": 9149.092,
+          "max": 12778.482,
+          "total": 633643.278
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": -0.122,
+          "p95": -0.024,
+          "max": 0.008,
+          "total": -51.033
+        },
+        "cached_tokens": 0,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 6,
+            "p95": 182,
+            "max": 198,
+            "total": 880
+          },
+          "50": {
+            "count": 135,
+            "p50": 6,
+            "p95": 127,
+            "max": 182,
+            "total": 3661
+          },
+          "100": {
+            "count": 270,
+            "p50": 6,
+            "p95": 167,
+            "max": 193,
+            "total": 6456
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "control-concat",
+        "tier": "control",
+        "answered": 432,
+        "correct": 422,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 326,
+          "p95": 978,
+          "max": 1071,
+          "total": 171846
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 6,
+          "p95": 131,
+          "max": 164,
+          "total": 9964
+        },
+        "prompt_tokens_per_correct": 407.218,
+        "latency_ms": {
+          "count": 432,
+          "p50": 425.892,
+          "p95": 6655.913,
+          "max": 11923.464,
+          "total": 596320.413
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": -0.18,
+          "p95": -0.012,
+          "max": 0.015,
+          "total": -71.918
+        },
+        "cached_tokens": 6336,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 6,
+            "p95": 158,
+            "max": 158,
+            "total": 792
+          },
+          "50": {
+            "count": 135,
+            "p50": 6,
+            "p95": 122,
+            "max": 158,
+            "total": 3337
+          },
+          "100": {
+            "count": 270,
+            "p50": 6,
+            "p95": 131,
+            "max": 164,
+            "total": 5835
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "concat",
+        "tier": "8192",
+        "answered": 297,
+        "correct": 275,
+        "prompt_tokens": {
+          "count": 297,
+          "p50": 3137,
+          "p95": 5456,
+          "max": 5560,
+          "total": 908574
+        },
+        "completion_tokens": {
+          "count": 297,
+          "p50": 6,
+          "p95": 74,
+          "max": 107,
+          "total": 5565
+        },
+        "prompt_tokens_per_correct": 3303.905,
+        "latency_ms": {
+          "count": 297,
+          "p50": 472.72,
+          "p95": 3820.94,
+          "max": 5503.707,
+          "total": 309944.992
+        },
+        "estimator_error": {
+          "count": 297,
+          "p50": 0.015,
+          "p95": 0.038,
+          "max": 0.045,
+          "total": 4.726
+        },
+        "cached_tokens": 722304,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 6,
+            "p95": 74,
+            "max": 74,
+            "total": 540
+          },
+          "50": {
+            "count": 135,
+            "p50": 6,
+            "p95": 81,
+            "max": 107,
+            "total": 2875
+          },
+          "100": {
+            "count": 135,
+            "p50": 6,
+            "p95": 51,
+            "max": 104,
+            "total": 2150
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "concat",
+        "tier": "16384",
+        "answered": 432,
+        "correct": 397,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 4356,
+          "p95": 10095,
+          "max": 10955,
+          "total": 2049267
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 6,
+          "p95": 74,
+          "max": 131,
+          "total": 8407
+        },
+        "prompt_tokens_per_correct": 5161.882,
+        "latency_ms": {
+          "count": 432,
+          "p50": 519.804,
+          "p95": 3538.782,
+          "max": 5503.707,
+          "total": 439160.212
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": 0.016,
+          "p95": 0.037,
+          "max": 0.045,
+          "total": 7.497
+        },
+        "cached_tokens": 1751904,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 6,
+            "p95": 74,
+            "max": 74,
+            "total": 540
+          },
+          "50": {
+            "count": 135,
+            "p50": 6,
+            "p95": 81,
+            "max": 107,
+            "total": 2875
+          },
+          "100": {
+            "count": 270,
+            "p50": 6,
+            "p95": 73,
+            "max": 131,
+            "total": 4992
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "truncate",
+        "tier": "8192",
+        "answered": 432,
+        "correct": 361,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 4356,
+          "p95": 5990,
+          "max": 6048,
+          "total": 1708044
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 6,
+          "p95": 66,
+          "max": 151,
+          "total": 8242
+        },
+        "prompt_tokens_per_correct": 4731.424,
+        "latency_ms": {
+          "count": 432,
+          "p50": 579.364,
+          "p95": 3528.077,
+          "max": 5503.707,
+          "total": 448435.885
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": 0.015,
+          "p95": 0.038,
+          "max": 0.045,
+          "total": 7.455
+        },
+        "cached_tokens": 1197504,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 6,
+            "p95": 74,
+            "max": 74,
+            "total": 540
+          },
+          "50": {
+            "count": 135,
+            "p50": 6,
+            "p95": 81,
+            "max": 107,
+            "total": 2875
+          },
+          "100": {
+            "count": 270,
+            "p50": 8,
+            "p95": 60,
+            "max": 151,
+            "total": 4827
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "truncate",
+        "tier": "16384",
+        "answered": 432,
+        "correct": 397,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 4356,
+          "p95": 10095,
+          "max": 10955,
+          "total": 2049267
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 6,
+          "p95": 74,
+          "max": 131,
+          "total": 8407
+        },
+        "prompt_tokens_per_correct": 5161.882,
+        "latency_ms": {
+          "count": 432,
+          "p50": 519.804,
+          "p95": 3538.782,
+          "max": 5503.707,
+          "total": 439160.212
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": 0.016,
+          "p95": 0.037,
+          "max": 0.045,
+          "total": 7.497
+        },
+        "cached_tokens": 1751904,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 6,
+            "p95": 74,
+            "max": 74,
+            "total": 540
+          },
+          "50": {
+            "count": 135,
+            "p50": 6,
+            "p95": 81,
+            "max": 107,
+            "total": 2875
+          },
+          "100": {
+            "count": 270,
+            "p50": 6,
+            "p95": 73,
+            "max": 131,
+            "total": 4992
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "truncate-pinned",
+        "tier": "8192",
+        "answered": 432,
+        "correct": 363,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 4356,
+          "p95": 5975,
+          "max": 6011,
+          "total": 1707534
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 6,
+          "p95": 66,
+          "max": 107,
+          "total": 7974
+        },
+        "prompt_tokens_per_correct": 4703.95,
+        "latency_ms": {
+          "count": 432,
+          "p50": 570.974,
+          "p95": 3528.077,
+          "max": 5503.707,
+          "total": 410010.907
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": 0.015,
+          "p95": 0.038,
+          "max": 0.045,
+          "total": 7.564
+        },
+        "cached_tokens": 1197504,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 6,
+            "p95": 74,
+            "max": 74,
+            "total": 540
+          },
+          "50": {
+            "count": 135,
+            "p50": 6,
+            "p95": 81,
+            "max": 107,
+            "total": 2875
+          },
+          "100": {
+            "count": 270,
+            "p50": 6,
+            "p95": 60,
+            "max": 104,
+            "total": 4559
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "truncate-pinned",
+        "tier": "16384",
+        "answered": 432,
+        "correct": 397,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 4356,
+          "p95": 10095,
+          "max": 10955,
+          "total": 2049267
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 6,
+          "p95": 74,
+          "max": 131,
+          "total": 8407
+        },
+        "prompt_tokens_per_correct": 5161.882,
+        "latency_ms": {
+          "count": 432,
+          "p50": 519.804,
+          "p95": 3538.782,
+          "max": 5503.707,
+          "total": 439160.212
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": 0.016,
+          "p95": 0.037,
+          "max": 0.045,
+          "total": 7.497
+        },
+        "cached_tokens": 1751904,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 6,
+            "p95": 74,
+            "max": 74,
+            "total": 540
+          },
+          "50": {
+            "count": 135,
+            "p50": 6,
+            "p95": 81,
+            "max": 107,
+            "total": 2875
+          },
+          "100": {
+            "count": 270,
+            "p50": 6,
+            "p95": 73,
+            "max": 131,
+            "total": 4992
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "window",
+        "tier": "8192",
+        "answered": 432,
+        "correct": 231,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 1136,
+          "p95": 1210,
+          "max": 1336,
+          "total": 492114
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 6,
+          "p95": 55,
+          "max": 230,
+          "total": 7503
+        },
+        "prompt_tokens_per_correct": 2130.364,
+        "latency_ms": {
+          "count": 432,
+          "p50": 507.603,
+          "p95": 2497.997,
+          "max": 4725.388,
+          "total": 329807.605
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": 0.015,
+          "p95": 0.041,
+          "max": 0.052,
+          "total": 6.681
+        },
+        "cached_tokens": 291456,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 6,
+            "p95": 74,
+            "max": 74,
+            "total": 540
+          },
+          "50": {
+            "count": 135,
+            "p50": 6,
+            "p95": 81,
+            "max": 230,
+            "total": 2747
+          },
+          "100": {
+            "count": 270,
+            "p50": 6,
+            "p95": 51,
+            "max": 67,
+            "total": 4216
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "window",
+        "tier": "16384",
+        "answered": 432,
+        "correct": 231,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 1136,
+          "p95": 1210,
+          "max": 1336,
+          "total": 492114
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 6,
+          "p95": 55,
+          "max": 230,
+          "total": 7503
+        },
+        "prompt_tokens_per_correct": 2130.364,
+        "latency_ms": {
+          "count": 432,
+          "p50": 507.603,
+          "p95": 2497.997,
+          "max": 4725.388,
+          "total": 329807.605
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": 0.015,
+          "p95": 0.041,
+          "max": 0.052,
+          "total": 6.681
+        },
+        "cached_tokens": 291456,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 6,
+            "p95": 74,
+            "max": 74,
+            "total": 540
+          },
+          "50": {
+            "count": 135,
+            "p50": 6,
+            "p95": 81,
+            "max": 230,
+            "total": 2747
+          },
+          "100": {
+            "count": 270,
+            "p50": 6,
+            "p95": 51,
+            "max": 67,
+            "total": 4216
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "summary",
+        "tier": "8192",
+        "answered": 432,
+        "correct": 369,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 1655,
+          "p95": 2159,
+          "max": 2701,
+          "total": 709842
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 6,
+          "p95": 109,
+          "max": 512,
+          "total": 14131
+        },
+        "prompt_tokens_per_correct": 1923.691,
+        "latency_ms": {
+          "count": 432,
+          "p50": 484.713,
+          "p95": 3290.254,
+          "max": 5691.246,
+          "total": 365368.057
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": 0.0,
+          "p95": 0.027,
+          "max": 0.058,
+          "total": 0.018
+        },
+        "cached_tokens": 327360,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 6,
+            "p95": 74,
+            "max": 74,
+            "total": 540
+          },
+          "50": {
+            "count": 135,
+            "p50": 6,
+            "p95": 100,
+            "max": 137,
+            "total": 3115
+          },
+          "100": {
+            "count": 270,
+            "p50": 6,
+            "p95": 387,
+            "max": 512,
+            "total": 10476
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "summary",
+        "tier": "16384",
+        "answered": 432,
+        "correct": 369,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 1655,
+          "p95": 2159,
+          "max": 2701,
+          "total": 709842
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 6,
+          "p95": 109,
+          "max": 512,
+          "total": 14131
+        },
+        "prompt_tokens_per_correct": 1923.691,
+        "latency_ms": {
+          "count": 432,
+          "p50": 484.713,
+          "p95": 3290.254,
+          "max": 5691.246,
+          "total": 365368.057
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": 0.0,
+          "p95": 0.027,
+          "max": 0.058,
+          "total": 0.018
+        },
+        "cached_tokens": 327360,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 6,
+            "p95": 74,
+            "max": 74,
+            "total": 540
+          },
+          "50": {
+            "count": 135,
+            "p50": 6,
+            "p95": 100,
+            "max": 137,
+            "total": 3115
+          },
+          "100": {
+            "count": 270,
+            "p50": 6,
+            "p95": 387,
+            "max": 512,
+            "total": 10476
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "cwa-history",
+        "tier": "8192",
+        "answered": 432,
+        "correct": 346,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 5706,
+          "p95": 6138,
+          "max": 6168,
+          "total": 1962030
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 8,
+          "p95": 168,
+          "max": 512,
+          "total": 14599
+        },
+        "prompt_tokens_per_correct": 5670.607,
+        "latency_ms": {
+          "count": 432,
+          "p50": 563.888,
+          "p95": 2408.529,
+          "max": 10268.253,
+          "total": 395992.668
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": -0.009,
+          "p95": 0.005,
+          "max": 0.01,
+          "total": -3.8
+        },
+        "cached_tokens": 1250304,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 6,
+            "p95": 151,
+            "max": 166,
+            "total": 819
+          },
+          "50": {
+            "count": 135,
+            "p50": 8,
+            "p95": 246,
+            "max": 419,
+            "total": 5161
+          },
+          "100": {
+            "count": 270,
+            "p50": 8,
+            "p95": 160,
+            "max": 512,
+            "total": 8619
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "cwa-history",
+        "tier": "16384",
+        "answered": 432,
+        "correct": 399,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 5706,
+          "p95": 12184,
+          "max": 12265,
+          "total": 2639133
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 8,
+          "p95": 180,
+          "max": 512,
+          "total": 14894
+        },
+        "prompt_tokens_per_correct": 6614.368,
+        "latency_ms": {
+          "count": 432,
+          "p50": 584.139,
+          "p95": 2038.726,
+          "max": 10268.253,
+          "total": 400598.996
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": -0.009,
+          "p95": 0.007,
+          "max": 0.01,
+          "total": -3.73
+        },
+        "cached_tokens": 2041248,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 6,
+            "p95": 151,
+            "max": 166,
+            "total": 819
+          },
+          "50": {
+            "count": 135,
+            "p50": 8,
+            "p95": 246,
+            "max": 419,
+            "total": 5428
+          },
+          "100": {
+            "count": 270,
+            "p50": 8,
+            "p95": 157,
+            "max": 512,
+            "total": 8647
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "cwa-state",
+        "tier": "8192",
+        "answered": 432,
+        "correct": 426,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 5854,
+          "p95": 6188,
+          "max": 6251,
+          "total": 2002827
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 8,
+          "p95": 135,
+          "max": 231,
+          "total": 11713
+        },
+        "prompt_tokens_per_correct": 4701.472,
+        "latency_ms": {
+          "count": 432,
+          "p50": 568.051,
+          "p95": 1528.756,
+          "max": 11161.613,
+          "total": 334409.384
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": -0.019,
+          "p95": -0.0,
+          "max": 0.003,
+          "total": -9.034
+        },
+        "cached_tokens": 1160544,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 8,
+            "p95": 165,
+            "max": 165,
+            "total": 888
+          },
+          "50": {
+            "count": 135,
+            "p50": 8,
+            "p95": 120,
+            "max": 231,
+            "total": 3705
+          },
+          "100": {
+            "count": 270,
+            "p50": 8,
+            "p95": 159,
+            "max": 207,
+            "total": 7120
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "cwa-state",
+        "tier": "16384",
+        "answered": 432,
+        "correct": 423,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 5854,
+          "p95": 12238,
+          "max": 12345,
+          "total": 2692053
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 8,
+          "p95": 134,
+          "max": 195,
+          "total": 11302
+        },
+        "prompt_tokens_per_correct": 6364.191,
+        "latency_ms": {
+          "count": 432,
+          "p50": 587.627,
+          "p95": 1528.756,
+          "max": 11161.613,
+          "total": 342111.053
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": -0.017,
+          "p95": 0.001,
+          "max": 0.003,
+          "total": -8.424
+        },
+        "cached_tokens": 1716000,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 8,
+            "p95": 165,
+            "max": 165,
+            "total": 888
+          },
+          "50": {
+            "count": 135,
+            "p50": 8,
+            "p95": 120,
+            "max": 195,
+            "total": 3549
+          },
+          "100": {
+            "count": 270,
+            "p50": 8,
+            "p95": 145,
+            "max": 174,
+            "total": 6865
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "cwa-state-x",
+        "tier": "8192",
+        "answered": 432,
+        "correct": 387,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 5877,
+          "p95": 6666,
+          "max": 6843,
+          "total": 2091894
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 7,
+          "p95": 131,
+          "max": 512,
+          "total": 13189
+        },
+        "prompt_tokens_per_correct": 5405.411,
+        "latency_ms": {
+          "count": 432,
+          "p50": 525.728,
+          "p95": 1438.355,
+          "max": 10589.471,
+          "total": 306505.974
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": -0.026,
+          "p95": -0.007,
+          "max": -0.001,
+          "total": -17.31
+        },
+        "cached_tokens": 1224960,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 5,
+            "p95": 152,
+            "max": 152,
+            "total": 729
+          },
+          "50": {
+            "count": 135,
+            "p50": 6,
+            "p95": 133,
+            "max": 512,
+            "total": 5600
+          },
+          "100": {
+            "count": 270,
+            "p50": 7,
+            "p95": 127,
+            "max": 209,
+            "total": 6860
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "cwa-state-x",
+        "tier": "16384",
+        "answered": 432,
+        "correct": 390,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 5877,
+          "p95": 12377,
+          "max": 12950,
+          "total": 2850333
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 7,
+          "p95": 124,
+          "max": 512,
+          "total": 11617
+        },
+        "prompt_tokens_per_correct": 7308.546,
+        "latency_ms": {
+          "count": 432,
+          "p50": 552.704,
+          "p95": 1437.229,
+          "max": 10589.471,
+          "total": 306896.171
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": -0.024,
+          "p95": -0.003,
+          "max": 0.0,
+          "total": -14.851
+        },
+        "cached_tokens": 1770912,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 5,
+            "p95": 152,
+            "max": 152,
+            "total": 729
+          },
+          "50": {
+            "count": 135,
+            "p50": 7,
+            "p95": 133,
+            "max": 512,
+            "total": 4689
+          },
+          "100": {
+            "count": 270,
+            "p50": 7,
+            "p95": 76,
+            "max": 188,
+            "total": 6199
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "cwa-memory",
+        "tier": "8192",
+        "answered": 432,
+        "correct": 428,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 1721,
+          "p95": 1814,
+          "max": 1848,
+          "total": 737478
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 8,
+          "p95": 73,
+          "max": 165,
+          "total": 9311
+        },
+        "prompt_tokens_per_correct": 1723.079,
+        "latency_ms": {
+          "count": 432,
+          "p50": 435.266,
+          "p95": 1366.536,
+          "max": 11161.613,
+          "total": 266124.52
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": -0.057,
+          "p95": -0.021,
+          "max": 0.0,
+          "total": -23.172
+        },
+        "cached_tokens": 304128,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 8,
+            "p95": 165,
+            "max": 165,
+            "total": 888
+          },
+          "50": {
+            "count": 135,
+            "p50": 8,
+            "p95": 79,
+            "max": 162,
+            "total": 3284
+          },
+          "100": {
+            "count": 270,
+            "p50": 8,
+            "p95": 69,
+            "max": 164,
+            "total": 5139
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "cwa-memory",
+        "tier": "16384",
+        "answered": 432,
+        "correct": 428,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 1721,
+          "p95": 1814,
+          "max": 1848,
+          "total": 737478
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 8,
+          "p95": 73,
+          "max": 165,
+          "total": 9311
+        },
+        "prompt_tokens_per_correct": 1723.079,
+        "latency_ms": {
+          "count": 432,
+          "p50": 435.266,
+          "p95": 1366.536,
+          "max": 11161.613,
+          "total": 266124.52
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": -0.057,
+          "p95": -0.021,
+          "max": 0.0,
+          "total": -23.172
+        },
+        "cached_tokens": 304128,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 8,
+            "p95": 165,
+            "max": 165,
+            "total": 888
+          },
+          "50": {
+            "count": 135,
+            "p50": 8,
+            "p95": 79,
+            "max": 162,
+            "total": 3284
+          },
+          "100": {
+            "count": 270,
+            "p50": 8,
+            "p95": 69,
+            "max": 164,
+            "total": 5139
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "cwa-pipeline",
+        "tier": "8192",
+        "answered": 432,
+        "correct": 428,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 1721,
+          "p95": 1814,
+          "max": 1848,
+          "total": 737478
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 8,
+          "p95": 73,
+          "max": 165,
+          "total": 9311
+        },
+        "prompt_tokens_per_correct": 1723.079,
+        "latency_ms": {
+          "count": 432,
+          "p50": 435.266,
+          "p95": 1366.536,
+          "max": 11161.613,
+          "total": 266124.52
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": -0.057,
+          "p95": -0.021,
+          "max": 0.0,
+          "total": -23.172
+        },
+        "cached_tokens": 304128,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 8,
+            "p95": 165,
+            "max": 165,
+            "total": 888
+          },
+          "50": {
+            "count": 135,
+            "p50": 8,
+            "p95": 79,
+            "max": 162,
+            "total": 3284
+          },
+          "100": {
+            "count": 270,
+            "p50": 8,
+            "p95": 69,
+            "max": 164,
+            "total": 5139
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "cwa-pipeline",
+        "tier": "16384",
+        "answered": 432,
+        "correct": 428,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 1721,
+          "p95": 1814,
+          "max": 1848,
+          "total": 737478
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 8,
+          "p95": 73,
+          "max": 165,
+          "total": 9311
+        },
+        "prompt_tokens_per_correct": 1723.079,
+        "latency_ms": {
+          "count": 432,
+          "p50": 435.266,
+          "p95": 1366.536,
+          "max": 11161.613,
+          "total": 266124.52
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": -0.057,
+          "p95": -0.021,
+          "max": 0.0,
+          "total": -23.172
+        },
+        "cached_tokens": 304128,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 8,
+            "p95": 165,
+            "max": 165,
+            "total": 888
+          },
+          "50": {
+            "count": 135,
+            "p50": 8,
+            "p95": 79,
+            "max": 162,
+            "total": 3284
+          },
+          "100": {
+            "count": 270,
+            "p50": 8,
+            "p95": 69,
+            "max": 164,
+            "total": 5139
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "cwa-format",
+        "tier": "8192",
+        "answered": 432,
+        "correct": 232,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 1496,
+          "p95": 1570,
+          "max": 1696,
+          "total": 647634
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 8,
+          "p95": 65,
+          "max": 512,
+          "total": 10826
+        },
+        "prompt_tokens_per_correct": 2791.526,
+        "latency_ms": {
+          "count": 432,
+          "p50": 394.517,
+          "p95": 1769.011,
+          "max": 20227.425,
+          "total": 321212.793
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": -0.014,
+          "p95": 0.006,
+          "max": 0.012,
+          "total": -5.755
+        },
+        "cached_tokens": 304128,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 6,
+            "p95": 151,
+            "max": 166,
+            "total": 819
+          },
+          "50": {
+            "count": 135,
+            "p50": 8,
+            "p95": 101,
+            "max": 306,
+            "total": 3661
+          },
+          "100": {
+            "count": 270,
+            "p50": 8,
+            "p95": 59,
+            "max": 512,
+            "total": 6346
+          }
+        }
+      },
+      {
+        "suite": "S2",
+        "arm": "cwa-format",
+        "tier": "16384",
+        "answered": 432,
+        "correct": 232,
+        "prompt_tokens": {
+          "count": 432,
+          "p50": 1496,
+          "p95": 1570,
+          "max": 1696,
+          "total": 647634
+        },
+        "completion_tokens": {
+          "count": 432,
+          "p50": 8,
+          "p95": 65,
+          "max": 512,
+          "total": 10826
+        },
+        "prompt_tokens_per_correct": 2791.526,
+        "latency_ms": {
+          "count": 432,
+          "p50": 394.517,
+          "p95": 1769.011,
+          "max": 20227.425,
+          "total": 321212.793
+        },
+        "estimator_error": {
+          "count": 432,
+          "p50": -0.014,
+          "p95": 0.006,
+          "max": 0.012,
+          "total": -5.755
+        },
+        "cached_tokens": 304128,
+        "answer_length_by_turns": {
+          "10": {
+            "count": 27,
+            "p50": 6,
+            "p95": 151,
+            "max": 166,
+            "total": 819
+          },
+          "50": {
+            "count": 135,
+            "p50": 8,
+            "p95": 101,
+            "max": 306,
+            "total": 3661
+          },
+          "100": {
+            "count": 270,
+            "p50": 8,
+            "p95": 59,
+            "max": 512,
+            "total": 6346
+          }
+        }
+      },
+      {
+        "suite": "S4",
+        "arm": "control-full",
+        "tier": "x0.25",
+        "answered": 36,
+        "correct": 31,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 2955,
+          "p95": 3059,
+          "max": 3059,
+          "total": 107562
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 3,
+          "p95": 6,
+          "max": 9,
+          "total": 114
+        },
+        "prompt_tokens_per_correct": 3469.742,
+        "latency_ms": {
+          "count": 36,
+          "p50": 1775.094,
+          "p95": 71686.627,
+          "max": 71994.774,
+          "total": 203085.198
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": 0.069,
+          "p95": 0.077,
+          "max": 0.077,
+          "total": 2.537
+        },
+        "cached_tokens": 71808,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "truncate-pinned",
+        "tier": "x0.25",
+        "answered": 36,
+        "correct": 31,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 2955,
+          "p95": 3059,
+          "max": 3059,
+          "total": 107562
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 3,
+          "p95": 6,
+          "max": 9,
+          "total": 114
+        },
+        "prompt_tokens_per_correct": 3469.742,
+        "latency_ms": {
+          "count": 36,
+          "p50": 1775.094,
+          "p95": 71686.627,
+          "max": 71994.774,
+          "total": 203085.198
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": 0.069,
+          "p95": 0.077,
+          "max": 0.077,
+          "total": 2.537
+        },
+        "cached_tokens": 71808,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "rag",
+        "tier": "x0.25",
+        "answered": 36,
+        "correct": 35,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 1541,
+          "p95": 2300,
+          "max": 2300,
+          "total": 58857
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 2,
+          "p95": 6,
+          "max": 6,
+          "total": 111
+        },
+        "prompt_tokens_per_correct": 1681.629,
+        "latency_ms": {
+          "count": 36,
+          "p50": 653.622,
+          "p95": 3067.603,
+          "max": 3310.77,
+          "total": 33120.688
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": 0.057,
+          "p95": 0.094,
+          "max": 0.094,
+          "total": 2.074
+        },
+        "cached_tokens": 25344,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "cwa-evidence",
+        "tier": "x0.25",
+        "answered": 36,
+        "correct": 36,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 1082,
+          "p95": 2567,
+          "max": 2567,
+          "total": 46164
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 3,
+          "p95": 6,
+          "max": 9,
+          "total": 118
+        },
+        "prompt_tokens_per_correct": 1282.333,
+        "latency_ms": {
+          "count": 36,
+          "p50": 1091.18,
+          "p95": 2094.929,
+          "max": 2398.514,
+          "total": 43131.993
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": -0.052,
+          "p95": -0.019,
+          "max": -0.019,
+          "total": -1.845
+        },
+        "cached_tokens": 19008,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "cwa-reinforced",
+        "tier": "x0.25",
+        "answered": 36,
+        "correct": 36,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 1117,
+          "p95": 2602,
+          "max": 2602,
+          "total": 47424
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 2,
+          "p95": 6,
+          "max": 6,
+          "total": 111
+        },
+        "prompt_tokens_per_correct": 1317.333,
+        "latency_ms": {
+          "count": 36,
+          "p50": 928.52,
+          "p95": 1729.513,
+          "max": 1919.192,
+          "total": 37727.517
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": -0.049,
+          "p95": -0.014,
+          "max": -0.014,
+          "total": -1.628
+        },
+        "cached_tokens": 27456,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "cwa-ranked",
+        "tier": "x0.25",
+        "answered": 36,
+        "correct": 33,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 1114,
+          "p95": 2655,
+          "max": 2655,
+          "total": 47676
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 3,
+          "p95": 6,
+          "max": 9,
+          "total": 130
+        },
+        "prompt_tokens_per_correct": 1444.727,
+        "latency_ms": {
+          "count": 36,
+          "p50": 884.394,
+          "p95": 1990.781,
+          "max": 2107.113,
+          "total": 35178.963
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": -0.072,
+          "p95": -0.043,
+          "max": -0.043,
+          "total": -2.569
+        },
+        "cached_tokens": 19008,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "control-full",
+        "tier": "x1",
+        "answered": 36,
+        "correct": 33,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 8511,
+          "p95": 8601,
+          "max": 8601,
+          "total": 307332
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 3,
+          "p95": 9,
+          "max": 9,
+          "total": 131
+        },
+        "prompt_tokens_per_correct": 9313.091,
+        "latency_ms": {
+          "count": 36,
+          "p50": 1673.673,
+          "p95": 70914.811,
+          "max": 71328.351,
+          "total": 202389.635
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": 0.08,
+          "p95": 0.091,
+          "max": 0.091,
+          "total": 3.043
+        },
+        "cached_tokens": 287232,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "truncate-pinned",
+        "tier": "x1",
+        "answered": 36,
+        "correct": 18,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 5562,
+          "p95": 5642,
+          "max": 5642,
+          "total": 200988
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 3,
+          "p95": 6,
+          "max": 6,
+          "total": 107
+        },
+        "prompt_tokens_per_correct": 11166.0,
+        "latency_ms": {
+          "count": 36,
+          "p50": 656.076,
+          "p95": 2407.485,
+          "max": 2604.894,
+          "total": 32401.333
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": 0.077,
+          "p95": 0.092,
+          "max": 0.092,
+          "total": 2.983
+        },
+        "cached_tokens": 179520,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "rag",
+        "tier": "x1",
+        "answered": 36,
+        "correct": 36,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 4242,
+          "p95": 5480,
+          "max": 5480,
+          "total": 149478
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 3,
+          "p95": 9,
+          "max": 9,
+          "total": 147
+        },
+        "prompt_tokens_per_correct": 4152.167,
+        "latency_ms": {
+          "count": 36,
+          "p50": 1141.006,
+          "p95": 2701.611,
+          "max": 2855.628,
+          "total": 49694.865
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": 0.067,
+          "p95": 0.101,
+          "max": 0.101,
+          "total": 2.535
+        },
+        "cached_tokens": 90816,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "cwa-evidence",
+        "tier": "x1",
+        "answered": 36,
+        "correct": 36,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 2014,
+          "p95": 5466,
+          "max": 5466,
+          "total": 106977
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 3,
+          "p95": 9,
+          "max": 9,
+          "total": 143
+        },
+        "prompt_tokens_per_correct": 2971.583,
+        "latency_ms": {
+          "count": 36,
+          "p50": 1204.124,
+          "p95": 2536.201,
+          "max": 2551.226,
+          "total": 45820.052
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": -0.047,
+          "p95": -0.001,
+          "max": -0.001,
+          "total": -1.558
+        },
+        "cached_tokens": 57024,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "cwa-reinforced",
+        "tier": "x1",
+        "answered": 36,
+        "correct": 36,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 2049,
+          "p95": 5501,
+          "max": 5501,
+          "total": 108237
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 3,
+          "p95": 9,
+          "max": 9,
+          "total": 140
+        },
+        "prompt_tokens_per_correct": 3006.583,
+        "latency_ms": {
+          "count": 36,
+          "p50": 733.583,
+          "p95": 1496.46,
+          "max": 1638.765,
+          "total": 31505.216
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": -0.046,
+          "p95": 0.0,
+          "max": 0.0,
+          "total": -1.456
+        },
+        "cached_tokens": 85536,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "cwa-ranked",
+        "tier": "x1",
+        "answered": 36,
+        "correct": 36,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 2086,
+          "p95": 5650,
+          "max": 5650,
+          "total": 110793
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 4,
+          "p95": 9,
+          "max": 9,
+          "total": 167
+        },
+        "prompt_tokens_per_correct": 3077.583,
+        "latency_ms": {
+          "count": 36,
+          "p50": 1046.679,
+          "p95": 1886.922,
+          "max": 1970.522,
+          "total": 38927.062
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": -0.068,
+          "p95": -0.025,
+          "max": -0.025,
+          "total": -2.351
+        },
+        "cached_tokens": 57024,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "control-full",
+        "tier": "x4",
+        "answered": 36,
+        "correct": 26,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 31093,
+          "p95": 31325,
+          "max": 31325,
+          "total": 1122960
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 3,
+          "p95": 6,
+          "max": 8,
+          "total": 133
+        },
+        "prompt_tokens_per_correct": 43190.769,
+        "latency_ms": {
+          "count": 36,
+          "p50": 1986.44,
+          "p95": 43037.234,
+          "max": 57735.814,
+          "total": 207597.533
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": 0.088,
+          "p95": 0.09,
+          "max": 0.09,
+          "total": 3.206
+        },
+        "cached_tokens": 1041216,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "truncate-pinned",
+        "tier": "x4",
+        "answered": 36,
+        "correct": 12,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 5482,
+          "p95": 5613,
+          "max": 5613,
+          "total": 198426
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 3,
+          "p95": 3,
+          "max": 3,
+          "total": 91
+        },
+        "prompt_tokens_per_correct": 16535.5,
+        "latency_ms": {
+          "count": 36,
+          "p50": 510.53,
+          "p95": 1787.197,
+          "max": 1978.481,
+          "total": 26177.927
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": 0.08,
+          "p95": 0.096,
+          "max": 0.096,
+          "total": 3.099
+        },
+        "cached_tokens": 174240,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "rag",
+        "tier": "x4",
+        "answered": 36,
+        "correct": 36,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 5326,
+          "p95": 5767,
+          "max": 5767,
+          "total": 193083
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 3,
+          "p95": 8,
+          "max": 8,
+          "total": 123
+        },
+        "prompt_tokens_per_correct": 5363.417,
+        "latency_ms": {
+          "count": 36,
+          "p50": 1168.654,
+          "p95": 2292.651,
+          "max": 3001.661,
+          "total": 45105.593
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": 0.091,
+          "p95": 0.13,
+          "max": 0.13,
+          "total": 3.215
+        },
+        "cached_tokens": 120384,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "cwa-evidence",
+        "tier": "x4",
+        "answered": 36,
+        "correct": 35,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 6087,
+          "p95": 6294,
+          "max": 6294,
+          "total": 212256
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 4,
+          "p95": 8,
+          "max": 8,
+          "total": 152
+        },
+        "prompt_tokens_per_correct": 6064.457,
+        "latency_ms": {
+          "count": 36,
+          "p50": 1313.941,
+          "p95": 2327.043,
+          "max": 2673.639,
+          "total": 49206.846
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": -0.021,
+          "p95": 0.02,
+          "max": 0.02,
+          "total": -0.689
+        },
+        "cached_tokens": 122496,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "cwa-reinforced",
+        "tier": "x4",
+        "answered": 36,
+        "correct": 33,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 6076,
+          "p95": 6329,
+          "max": 6329,
+          "total": 212310
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 4,
+          "p95": 8,
+          "max": 8,
+          "total": 162
+        },
+        "prompt_tokens_per_correct": 6433.636,
+        "latency_ms": {
+          "count": 36,
+          "p50": 861.122,
+          "p95": 1752.41,
+          "max": 2162.127,
+          "total": 35347.088
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": -0.019,
+          "p95": 0.02,
+          "max": 0.02,
+          "total": -0.621
+        },
+        "cached_tokens": 158400,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "cwa-ranked",
+        "tier": "x4",
+        "answered": 36,
+        "correct": 36,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 6245,
+          "p95": 6494,
+          "max": 6494,
+          "total": 217458
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 4,
+          "p95": 8,
+          "max": 8,
+          "total": 156
+        },
+        "prompt_tokens_per_correct": 6040.5,
+        "latency_ms": {
+          "count": 36,
+          "p50": 1005.551,
+          "p95": 1705.479,
+          "max": 1778.352,
+          "total": 37956.826
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": -0.041,
+          "p95": -0.003,
+          "max": -0.003,
+          "total": -1.435
+        },
+        "cached_tokens": 126720,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "control-full",
+        "tier": "x16",
+        "answered": 36,
+        "correct": 23,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 122079,
+          "p95": 122555,
+          "max": 122555,
+          "total": 4402791
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 5,
+          "p95": 9,
+          "max": 46,
+          "total": 225
+        },
+        "prompt_tokens_per_correct": 191425.696,
+        "latency_ms": {
+          "count": 36,
+          "p50": 2138.348,
+          "p95": 56244.876,
+          "max": 60609.277,
+          "total": 219402.732
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": 0.083,
+          "p95": 0.086,
+          "max": 0.086,
+          "total": 3.033
+        },
+        "cached_tokens": 4146912,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "truncate-pinned",
+        "tier": "x16",
+        "answered": 36,
+        "correct": 12,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 5617,
+          "p95": 5646,
+          "max": 5646,
+          "total": 202509
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 3,
+          "p95": 3,
+          "max": 8,
+          "total": 102
+        },
+        "prompt_tokens_per_correct": 16875.75,
+        "latency_ms": {
+          "count": 36,
+          "p50": 563.41,
+          "p95": 1101.692,
+          "max": 1495.958,
+          "total": 24459.446
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": 0.066,
+          "p95": 0.076,
+          "max": 0.076,
+          "total": 2.506
+        },
+        "cached_tokens": 179520,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "rag",
+        "tier": "x16",
+        "answered": 36,
+        "correct": 36,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 5540,
+          "p95": 5958,
+          "max": 5958,
+          "total": 202965
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 3,
+          "p95": 6,
+          "max": 8,
+          "total": 135
+        },
+        "prompt_tokens_per_correct": 5637.917,
+        "latency_ms": {
+          "count": 36,
+          "p50": 1271.298,
+          "p95": 2164.291,
+          "max": 2344.336,
+          "total": 48461.614
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": 0.075,
+          "p95": 0.137,
+          "max": 0.137,
+          "total": 2.467
+        },
+        "cached_tokens": 126720,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "cwa-evidence",
+        "tier": "x16",
+        "answered": 36,
+        "correct": 30,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 6161,
+          "p95": 6578,
+          "max": 6578,
+          "total": 223572
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 3,
+          "p95": 6,
+          "max": 6,
+          "total": 120
+        },
+        "prompt_tokens_per_correct": 7452.4,
+        "latency_ms": {
+          "count": 36,
+          "p50": 1070.08,
+          "p95": 1860.238,
+          "max": 2187.023,
+          "total": 42360.162
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": -0.03,
+          "p95": 0.021,
+          "max": 0.021,
+          "total": -1.127
+        },
+        "cached_tokens": 135168,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "cwa-reinforced",
+        "tier": "x16",
+        "answered": 36,
+        "correct": 33,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 6149,
+          "p95": 6464,
+          "max": 6464,
+          "total": 223197
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 3,
+          "p95": 8,
+          "max": 8,
+          "total": 135
+        },
+        "prompt_tokens_per_correct": 6763.545,
+        "latency_ms": {
+          "count": 36,
+          "p50": 820.423,
+          "p95": 1430.573,
+          "max": 1710.899,
+          "total": 30290.114
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": -0.029,
+          "p95": 0.021,
+          "max": 0.021,
+          "total": -1.098
+        },
+        "cached_tokens": 174240,
+        "answer_length_by_turns": {}
+      },
+      {
+        "suite": "S4",
+        "arm": "cwa-ranked",
+        "tier": "x16",
+        "answered": 36,
+        "correct": 36,
+        "prompt_tokens": {
+          "count": 36,
+          "p50": 6305,
+          "p95": 6629,
+          "max": 6629,
+          "total": 228408
+        },
+        "completion_tokens": {
+          "count": 36,
+          "p50": 4,
+          "p95": 8,
+          "max": 8,
+          "total": 157
+        },
+        "prompt_tokens_per_correct": 6344.667,
+        "latency_ms": {
+          "count": 36,
+          "p50": 1042.328,
+          "p95": 1762.058,
+          "max": 1963.25,
+          "total": 38143.647
+        },
+        "estimator_error": {
+          "count": 36,
+          "p50": -0.051,
+          "p95": -0.003,
+          "max": -0.003,
+          "total": -1.889
+        },
+        "cached_tokens": 137280,
+        "answer_length_by_turns": {}
+      }
+    ]
+  }
+}

@@ -1,0 +1,854 @@
+{
+  "$schema": "cwa-bench-d2/suite-summary/v1",
+  "run_id": "20261012T135118Z-f2fee09",
+  "suite": "S6",
+  "title": "Model in the loop",
+  "status": "pass",
+  "started_at": "2026-10-12T13:58:38.075Z",
+  "finished_at": "2026-10-12T14:01:35.971Z",
+  "requirements": [],
+  "corpora": [
+    {
+      "id": "vt",
+      "count": 6
+    }
+  ],
+  "adapters": [],
+  "metrics": [
+    {
+      "id": "s6.call_errors",
+      "label": "Chains halted on a failed or missing model call",
+      "suite": "S6",
+      "arm": null,
+      "family": null,
+      "tier": null,
+      "unit": "count",
+      "value": 0,
+      "numerator": null,
+      "denominator": null,
+      "target": 0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s6.budget_overruns",
+      "label": "Calls whose server prompt exceeds their budget",
+      "suite": "S6",
+      "arm": null,
+      "family": null,
+      "tier": null,
+      "unit": "count",
+      "value": 0,
+      "numerator": null,
+      "denominator": null,
+      "target": 0,
+      "status": "pass",
+      "description": "Turns and probes (R-16)"
+    },
+    {
+      "id": "s6.aptitude",
+      "label": "Correct answers",
+      "suite": "S6",
+      "arm": "truncate-pinned",
+      "family": null,
+      "tier": "8192",
+      "unit": "rate",
+      "value": 0.9479166666666666,
+      "numerator": 91,
+      "denominator": 96,
+      "target": null,
+      "status": "info",
+      "description": "All probes and chains; the interval is a cluster bootstrap over conversations",
+      "interval": {
+        "low": 0.891892,
+        "high": 1.0,
+        "level": 0.95,
+        "method": "cluster-bootstrap/conversation",
+        "resamples": 2000
+      }
+    },
+    {
+      "id": "s6.stale_rate",
+      "label": "Answers giving an earlier value",
+      "suite": "S6",
+      "arm": "truncate-pinned",
+      "family": null,
+      "tier": "8192",
+      "unit": "rate",
+      "value": 0.03125,
+      "numerator": 3,
+      "denominator": 96,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s6.against_scripted",
+      "label": "Aptitude in the loop less S3's scripted",
+      "suite": "S6",
+      "arm": "truncate-pinned",
+      "family": null,
+      "tier": "8192",
+      "unit": "rate",
+      "value": -0.008333,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": "Per probe, the share correct over the samples, averaged; negative when the model's own replies hurt"
+    },
+    {
+      "id": "s6.aptitude",
+      "label": "Correct answers",
+      "suite": "S6",
+      "arm": "window",
+      "family": null,
+      "tier": "8192",
+      "unit": "rate",
+      "value": 0.71875,
+      "numerator": 69,
+      "denominator": 96,
+      "target": null,
+      "status": "info",
+      "description": "All probes and chains; the interval is a cluster bootstrap over conversations",
+      "interval": {
+        "low": 0.576577,
+        "high": 0.928571,
+        "level": 0.95,
+        "method": "cluster-bootstrap/conversation",
+        "resamples": 2000
+      }
+    },
+    {
+      "id": "s6.stale_rate",
+      "label": "Answers giving an earlier value",
+      "suite": "S6",
+      "arm": "window",
+      "family": null,
+      "tier": "8192",
+      "unit": "rate",
+      "value": 0.0,
+      "numerator": 0,
+      "denominator": 96,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s6.against_scripted",
+      "label": "Aptitude in the loop less S3's scripted",
+      "suite": "S6",
+      "arm": "window",
+      "family": null,
+      "tier": "8192",
+      "unit": "rate",
+      "value": 0.0125,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": "Per probe, the share correct over the samples, averaged; negative when the model's own replies hurt"
+    },
+    {
+      "id": "s6.aptitude",
+      "label": "Correct answers",
+      "suite": "S6",
+      "arm": "summary",
+      "family": null,
+      "tier": "8192",
+      "unit": "rate",
+      "value": 0.9270833333333334,
+      "numerator": 89,
+      "denominator": 96,
+      "target": null,
+      "status": "info",
+      "description": "All probes and chains; the interval is a cluster bootstrap over conversations",
+      "interval": {
+        "low": 0.837838,
+        "high": 1.0,
+        "level": 0.95,
+        "method": "cluster-bootstrap/conversation",
+        "resamples": 2000
+      }
+    },
+    {
+      "id": "s6.stale_rate",
+      "label": "Answers giving an earlier value",
+      "suite": "S6",
+      "arm": "summary",
+      "family": null,
+      "tier": "8192",
+      "unit": "rate",
+      "value": 0.0,
+      "numerator": 0,
+      "denominator": 96,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s6.against_scripted",
+      "label": "Aptitude in the loop less S3's scripted",
+      "suite": "S6",
+      "arm": "summary",
+      "family": null,
+      "tier": "8192",
+      "unit": "rate",
+      "value": -0.072917,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": "Per probe, the share correct over the samples, averaged; negative when the model's own replies hurt"
+    },
+    {
+      "id": "s6.aptitude",
+      "label": "Correct answers",
+      "suite": "S6",
+      "arm": "cwa-history",
+      "family": null,
+      "tier": "8192",
+      "unit": "rate",
+      "value": 0.9583333333333334,
+      "numerator": 92,
+      "denominator": 96,
+      "target": null,
+      "status": "info",
+      "description": "All probes and chains; the interval is a cluster bootstrap over conversations",
+      "interval": {
+        "low": 0.916667,
+        "high": 1.0,
+        "level": 0.95,
+        "method": "cluster-bootstrap/conversation",
+        "resamples": 2000
+      }
+    },
+    {
+      "id": "s6.stale_rate",
+      "label": "Answers giving an earlier value",
+      "suite": "S6",
+      "arm": "cwa-history",
+      "family": null,
+      "tier": "8192",
+      "unit": "rate",
+      "value": 0.03125,
+      "numerator": 3,
+      "denominator": 96,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s6.against_scripted",
+      "label": "Aptitude in the loop less S3's scripted",
+      "suite": "S6",
+      "arm": "cwa-history",
+      "family": null,
+      "tier": "8192",
+      "unit": "rate",
+      "value": 0.045833,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": "Per probe, the share correct over the samples, averaged; negative when the model's own replies hurt"
+    },
+    {
+      "id": "s6.aptitude",
+      "label": "Correct answers",
+      "suite": "S6",
+      "arm": "cwa-state",
+      "family": null,
+      "tier": "8192",
+      "unit": "rate",
+      "value": 0.9166666666666666,
+      "numerator": 88,
+      "denominator": 96,
+      "target": null,
+      "status": "info",
+      "description": "All probes and chains; the interval is a cluster bootstrap over conversations",
+      "interval": {
+        "low": 0.864865,
+        "high": 1.0,
+        "level": 0.95,
+        "method": "cluster-bootstrap/conversation",
+        "resamples": 2000
+      }
+    },
+    {
+      "id": "s6.stale_rate",
+      "label": "Answers giving an earlier value",
+      "suite": "S6",
+      "arm": "cwa-state",
+      "family": null,
+      "tier": "8192",
+      "unit": "rate",
+      "value": 0.08333333333333333,
+      "numerator": 8,
+      "denominator": 96,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s6.against_scripted",
+      "label": "Aptitude in the loop less S3's scripted",
+      "suite": "S6",
+      "arm": "cwa-state",
+      "family": null,
+      "tier": "8192",
+      "unit": "rate",
+      "value": -0.033333,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": "Per probe, the share correct over the samples, averaged; negative when the model's own replies hurt"
+    },
+    {
+      "id": "s6.aptitude",
+      "label": "Correct answers",
+      "suite": "S6",
+      "arm": "cwa-memory",
+      "family": null,
+      "tier": "8192",
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 96,
+      "denominator": 96,
+      "target": null,
+      "status": "info",
+      "description": "All probes and chains; the interval is a cluster bootstrap over conversations",
+      "interval": {
+        "low": 1.0,
+        "high": 1.0,
+        "level": 0.95,
+        "method": "cluster-bootstrap/conversation",
+        "resamples": 2000
+      }
+    },
+    {
+      "id": "s6.stale_rate",
+      "label": "Answers giving an earlier value",
+      "suite": "S6",
+      "arm": "cwa-memory",
+      "family": null,
+      "tier": "8192",
+      "unit": "rate",
+      "value": 0.0,
+      "numerator": 0,
+      "denominator": 96,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s6.against_scripted",
+      "label": "Aptitude in the loop less S3's scripted",
+      "suite": "S6",
+      "arm": "cwa-memory",
+      "family": null,
+      "tier": "8192",
+      "unit": "rate",
+      "value": 0.0,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": "Per probe, the share correct over the samples, averaged; negative when the model's own replies hurt"
+    },
+    {
+      "id": "s6.agreement",
+      "label": "Snapshots every adapter answered alike",
+      "suite": "S6",
+      "arm": null,
+      "family": null,
+      "tier": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 3168,
+      "denominator": 3168,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s6.audit",
+      "label": "Answers that pass the trace audit",
+      "suite": "S6",
+      "arm": null,
+      "family": null,
+      "tier": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 12672,
+      "denominator": 12672,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s6.prediction",
+      "label": "Answers equal to the prediction",
+      "suite": "S6",
+      "arm": null,
+      "family": null,
+      "tier": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 12672,
+      "denominator": 12672,
+      "target": 1.0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s6.blank_replies",
+      "label": "Blank replies stored as (no reply)",
+      "suite": "S6",
+      "arm": null,
+      "family": null,
+      "tier": null,
+      "unit": "count",
+      "value": 0,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    }
+  ],
+  "files": {
+    "results": "suites/S6/grades.jsonl",
+    "findings": "findings.jsonl"
+  },
+  "model": {
+    "model": "qwen3.6-35b-a3b-fp8",
+    "endpoint_host": "127.0.0.1:8000",
+    "mode": "replay",
+    "params": {
+      "temperature": 0.7,
+      "max_tokens": 512,
+      "seed": 7,
+      "extra_body": {
+        "top_p": 1.0,
+        "top_k": -1,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "frequency_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    "cache": "/workspace/cwa/cwa-extended/benchmark/domain2/model-cache",
+    "cache_entries": 136779,
+    "context_limit": 262144,
+    "server": null,
+    "concurrency": 32,
+    "calls": 6029,
+    "endpoint_calls": 0,
+    "cache_hits": 6029,
+    "chains": {
+      "total": 108,
+      "by_end": {
+        "completed": 108
+      },
+      "probes_left_out": 0
+    }
+  },
+  "by_arm": [
+    {
+      "arm": "truncate-pinned",
+      "tier": "8192",
+      "n": 96,
+      "verdicts": {
+        "correct": 91,
+        "stale": 3,
+        "distractor": 2,
+        "wrong": 0,
+        "unparsed": 0,
+        "overflow": 0
+      },
+      "aptitude": 0.9479166666666666,
+      "interval": {
+        "low": 0.891892,
+        "high": 1.0,
+        "level": 0.95,
+        "method": "cluster-bootstrap/conversation",
+        "resamples": 2000
+      },
+      "given": {
+        "present": {
+          "n": 96,
+          "correct": 91
+        },
+        "absent": {
+          "n": 0,
+          "correct": 0
+        }
+      },
+      "paired": null,
+      "against_scripted": {
+        "suite": "S3",
+        "probes": 32,
+        "difference": -0.008333,
+        "interval": {
+          "low": -0.043478,
+          "high": 0.027778,
+          "level": 0.95,
+          "method": "cluster-bootstrap/conversation",
+          "resamples": 2000
+        }
+      },
+      "reply_tokens_by_turn": {
+        "1": 5.2,
+        "11": 5.2,
+        "21": 5.2,
+        "31": 5.2,
+        "41": 5.2,
+        "51": 5.0,
+        "61": 5.0,
+        "71": 5.0,
+        "81": 5.0,
+        "91": 5.0
+      }
+    },
+    {
+      "arm": "window",
+      "tier": "8192",
+      "n": 96,
+      "verdicts": {
+        "correct": 69,
+        "stale": 0,
+        "distractor": 26,
+        "wrong": 0,
+        "unparsed": 1,
+        "overflow": 0
+      },
+      "aptitude": 0.71875,
+      "interval": {
+        "low": 0.576577,
+        "high": 0.928571,
+        "level": 0.95,
+        "method": "cluster-bootstrap/conversation",
+        "resamples": 2000
+      },
+      "given": {
+        "present": {
+          "n": 69,
+          "correct": 66
+        },
+        "absent": {
+          "n": 27,
+          "correct": 3
+        }
+      },
+      "paired": {
+        "reference": "truncate-pinned",
+        "n": 96,
+        "difference": -0.229167,
+        "interval": {
+          "low": -0.318841,
+          "high": -0.037037,
+          "level": 0.95,
+          "method": "cluster-bootstrap/conversation",
+          "resamples": 2000
+        }
+      },
+      "against_scripted": {
+        "suite": "S3",
+        "probes": 32,
+        "difference": 0.0125,
+        "interval": {
+          "low": -0.051852,
+          "high": 0.071429,
+          "level": 0.95,
+          "method": "cluster-bootstrap/conversation",
+          "resamples": 2000
+        }
+      },
+      "reply_tokens_by_turn": {
+        "1": 5.2,
+        "11": 5.2,
+        "21": 5.2,
+        "31": 5.2,
+        "41": 5.2,
+        "51": 5.0,
+        "61": 5.0,
+        "71": 5.0,
+        "81": 5.0,
+        "91": 5.0
+      }
+    },
+    {
+      "arm": "summary",
+      "tier": "8192",
+      "n": 96,
+      "verdicts": {
+        "correct": 89,
+        "stale": 0,
+        "distractor": 6,
+        "wrong": 0,
+        "unparsed": 1,
+        "overflow": 0
+      },
+      "aptitude": 0.9270833333333334,
+      "interval": {
+        "low": 0.837838,
+        "high": 1.0,
+        "level": 0.95,
+        "method": "cluster-bootstrap/conversation",
+        "resamples": 2000
+      },
+      "given": {
+        "present": {
+          "n": 90,
+          "correct": 89
+        },
+        "absent": {
+          "n": 6,
+          "correct": 0
+        }
+      },
+      "paired": {
+        "reference": "truncate-pinned",
+        "n": 96,
+        "difference": -0.020833,
+        "interval": {
+          "low": -0.054054,
+          "high": 0.0,
+          "level": 0.95,
+          "method": "cluster-bootstrap/conversation",
+          "resamples": 2000
+        }
+      },
+      "against_scripted": {
+        "suite": "S3",
+        "probes": 32,
+        "difference": -0.072917,
+        "interval": {
+          "low": -0.162162,
+          "high": 0.0,
+          "level": 0.95,
+          "method": "cluster-bootstrap/conversation",
+          "resamples": 2000
+        }
+      },
+      "reply_tokens_by_turn": {
+        "1": 5.2,
+        "11": 5.2,
+        "21": 5.2,
+        "31": 5.2,
+        "41": 5.2,
+        "51": 5.0,
+        "61": 5.0,
+        "71": 5.0,
+        "81": 5.0,
+        "91": 5.0
+      }
+    },
+    {
+      "arm": "cwa-history",
+      "tier": "8192",
+      "n": 96,
+      "verdicts": {
+        "correct": 92,
+        "stale": 3,
+        "distractor": 1,
+        "wrong": 0,
+        "unparsed": 0,
+        "overflow": 0
+      },
+      "aptitude": 0.9583333333333334,
+      "interval": {
+        "low": 0.916667,
+        "high": 1.0,
+        "level": 0.95,
+        "method": "cluster-bootstrap/conversation",
+        "resamples": 2000
+      },
+      "given": {
+        "present": {
+          "n": 96,
+          "correct": 92
+        },
+        "absent": {
+          "n": 0,
+          "correct": 0
+        }
+      },
+      "paired": {
+        "reference": "truncate-pinned",
+        "n": 96,
+        "difference": 0.010417,
+        "interval": {
+          "low": 0.0,
+          "high": 0.027027,
+          "level": 0.95,
+          "method": "cluster-bootstrap/conversation",
+          "resamples": 2000
+        }
+      },
+      "against_scripted": {
+        "suite": "S3",
+        "probes": 32,
+        "difference": 0.045833,
+        "interval": {
+          "low": -0.037037,
+          "high": 0.104505,
+          "level": 0.95,
+          "method": "cluster-bootstrap/conversation",
+          "resamples": 2000
+        }
+      },
+      "reply_tokens_by_turn": {
+        "1": 5.2,
+        "11": 5.2,
+        "21": 5.2,
+        "31": 5.2,
+        "41": 5.2,
+        "51": 5.3,
+        "61": 5.3,
+        "71": 5.3,
+        "81": 5.3,
+        "91": 5.3
+      }
+    },
+    {
+      "arm": "cwa-state",
+      "tier": "8192",
+      "n": 96,
+      "verdicts": {
+        "correct": 88,
+        "stale": 8,
+        "distractor": 0,
+        "wrong": 0,
+        "unparsed": 0,
+        "overflow": 0
+      },
+      "aptitude": 0.9166666666666666,
+      "interval": {
+        "low": 0.864865,
+        "high": 1.0,
+        "level": 0.95,
+        "method": "cluster-bootstrap/conversation",
+        "resamples": 2000
+      },
+      "given": {
+        "present": {
+          "n": 96,
+          "correct": 88
+        },
+        "absent": {
+          "n": 0,
+          "correct": 0
+        }
+      },
+      "paired": {
+        "reference": "truncate-pinned",
+        "n": 96,
+        "difference": -0.03125,
+        "interval": {
+          "low": -0.12,
+          "high": 0.043478,
+          "level": 0.95,
+          "method": "cluster-bootstrap/conversation",
+          "resamples": 2000
+        }
+      },
+      "against_scripted": {
+        "suite": "S3",
+        "probes": 32,
+        "difference": -0.033333,
+        "interval": {
+          "low": -0.064865,
+          "high": 0.0,
+          "level": 0.95,
+          "method": "cluster-bootstrap/conversation",
+          "resamples": 2000
+        }
+      },
+      "reply_tokens_by_turn": {
+        "1": 5.2,
+        "11": 5.3,
+        "21": 5.4,
+        "31": 5.3,
+        "41": 5.4,
+        "51": 5.6,
+        "61": 5.5,
+        "71": 5.6,
+        "81": 5.9,
+        "91": 6.0
+      }
+    },
+    {
+      "arm": "cwa-memory",
+      "tier": "8192",
+      "n": 96,
+      "verdicts": {
+        "correct": 96,
+        "stale": 0,
+        "distractor": 0,
+        "wrong": 0,
+        "unparsed": 0,
+        "overflow": 0
+      },
+      "aptitude": 1.0,
+      "interval": {
+        "low": 1.0,
+        "high": 1.0,
+        "level": 0.95,
+        "method": "cluster-bootstrap/conversation",
+        "resamples": 2000
+      },
+      "given": {
+        "present": {
+          "n": 96,
+          "correct": 96
+        },
+        "absent": {
+          "n": 0,
+          "correct": 0
+        }
+      },
+      "paired": {
+        "reference": "truncate-pinned",
+        "n": 96,
+        "difference": 0.052083,
+        "interval": {
+          "low": 0.0,
+          "high": 0.108108,
+          "level": 0.95,
+          "method": "cluster-bootstrap/conversation",
+          "resamples": 2000
+        }
+      },
+      "against_scripted": {
+        "suite": "S3",
+        "probes": 32,
+        "difference": 0.0,
+        "interval": {
+          "low": 0.0,
+          "high": 0.0,
+          "level": 0.95,
+          "method": "cluster-bootstrap/conversation",
+          "resamples": 2000
+        }
+      },
+      "reply_tokens_by_turn": {
+        "1": 5.2,
+        "11": 5.0,
+        "21": 5.2,
+        "31": 5.2,
+        "41": 5.5,
+        "51": 5.1,
+        "61": 5.5,
+        "71": 5.8,
+        "81": 6.1,
+        "91": 6.2
+      }
+    }
+  ]
+}
