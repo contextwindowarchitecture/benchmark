@@ -7,13 +7,14 @@
 #   1. Domain 2's tests, and its opt-in tests on the reference assembler;
 #   2. Domain 2's S6 at pilot size, with S2 and S3 for its comparison with the scripted result;
 #   3. Domain 2's recorded run (every family at its recorded size; S0 to S5 and S7) against the model beside it;
-#   4. Domain 1's tests, its opt-in tests on the reference assembler and in the container (once in each engine
+#   4. Domain 1's S11 in `llm` mode against the same model, filling its summarizer cache for the nightly to replay;
+#   5. Domain 1's tests, its opt-in tests on the reference assembler and in the container (once in each engine
 #      installed), S2 and S10, the suites that use the container, with Docker (skipped when Docker is not
 #      installed), the nightly profile with Podman (every suite but S7, S2's platform and toolchain matrix, S11
-#      replaying the committed summarizer cache), and a dedicated S7 run.
+#      replaying the cache step 4 filled), and a dedicated S7 run.
 #
-# Domain 1 never calls the model, so vLLM is stopped before its steps (pod-setup.sh's `cwa-vllm` container or `vllm`
-# tmux session, or any running container whose image names vllm), leaving the machine quiet for S7's timings.
+# Nothing after step 4 calls the model, so vLLM is stopped then (pod-setup.sh's `cwa-vllm` container or `vllm` tmux
+# session, or any running container whose image names vllm), leaving the machine quiet for S7's timings.
 # scripts/pod-setup.sh starts it again.
 #
 # Each domain's reported runs are made last, so the newest is the domain's `latest`: Domain 2's recorded run, and
@@ -22,8 +23,8 @@
 #
 # A model run is made in `llm` mode and made again only when calls failed: the second pass calls the model for just
 # what the first could not fill, since everything answered is in the cache. Any other failure is the run's result.
-# With FRESH_CACHE=1, Domain 2's cache is moved aside first (to model-cache.<time>), so every reply comes from this
-# host's server.
+# With FRESH_CACHE=1, Domain 2's model cache and Domain 1's summarizer cache are moved aside first (to
+# <cache>.<time>), so every reply comes from this host's server.
 #
 # Logs go to $CWA_ROOT/logs, each step's verdict to $CWA_ROOT/logs/runs.log, and the runs to each domain's results
 # directory as usual. CWA_KEY_FILE names a file holding the server's API key, when it needs one.
@@ -37,7 +38,8 @@ LOGS="$CWA_ROOT/logs"
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/go/bin:/opt/node/bin:$PATH"
 if [ -n "${CWA_KEY_FILE:-}" ]; then  # the server's key, when it needs one, as domain2.toml's api_key_env names it
   CWA_BENCH_MODEL_KEY=$(cat "$CWA_KEY_FILE")
-  export CWA_BENCH_MODEL_KEY
+  CWA_BENCH_SUMMARIZER_KEY=$CWA_BENCH_MODEL_KEY  # the same server's key, as domain1.toml's [summarizer] names it
+  export CWA_BENCH_MODEL_KEY CWA_BENCH_SUMMARIZER_KEY
 fi
 mkdir -p "$LOGS"
 
@@ -75,15 +77,20 @@ model_run() {  # model_run <name> <cwabench run arguments>…: Domain 2 in llm m
   return 1
 }
 
-if [ "${FRESH_CACHE:-0}" = 1 ] && [ -d "$BENCH/domain2/model-cache" ]; then
-  mv "$BENCH/domain2/model-cache" "$BENCH/domain2/model-cache.$(date -u +%Y%m%dT%H%M%SZ)"
-  note "Domain 2's cache moved aside; starting empty"
+if [ "${FRESH_CACHE:-0}" = 1 ]; then
+  for cache in "$BENCH/domain2/model-cache" "$BENCH/domain1/summarizer-cache"; do
+    if [ -d "$cache" ]; then
+      mv "$cache" "$cache.$(date -u +%Y%m%dT%H%M%SZ)"
+      note "${cache#"$BENCH/"} moved aside; starting empty"
+    fi
+  done
 fi
 
 step d2-tests "$BENCH/domain2" uv run pytest -q
 step d2-tests-reference "$BENCH/domain2" env CWA_BENCH_REFERENCE=1 uv run pytest -q tests/test_gate.py
 model_run d2-s6 --size pilot --suites S0,S1,S2,S3,S6
 model_run d2-recorded --size recorded --suites S0,S1,S2,S3,S4,S5,S7
+step d1-s11-fill "$BENCH/domain1" uv run cwabench run --suites S11 --summarizer llm
 tmux kill-session -t vllm 2>/dev/null
 if command -v docker >/dev/null; then
   DOCKER="docker"

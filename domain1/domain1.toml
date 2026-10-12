@@ -161,12 +161,12 @@ macos_sandbox = true
 [summarizer]
 mode = "stub"                                    # off | stub | llm | replay; `run --summarizer` overrides it
 base_url = "http://127.0.0.1:8000/v1"            # any OpenAI-compatible server
-model = "Qwen3.6-35B-A3B-8bit"                   # the model the committed cache was filled with
+model = "qwen3.6-35b-a3b-fp8"                    # the served name of Qwen/Qwen3.6-35B-A3B-FP8: Domain 2's server
+                                                 #   (domain2.toml's [model], started by scripts/pod-setup.sh)
 api_key_env = "CWA_BENCH_SUMMARIZER_KEY"         # read from the environment; empty for a local server
 temperature = 0
 seed = 7                                         # sent when set; part of every cache key
 max_tokens = 400
-extra_body = { chat_template_kwargs = { enable_thinking = false } }  # server-specific request fields
 request_timeout_s = 120
 concurrency = 2                                  # summarizer requests in flight
 cache = "summarizer-cache"                       # content-addressed; commit it to replay an LLM corpus in CI
@@ -183,6 +183,17 @@ sweep_step_percent = 2
 determinism_ratios = [1.0, 0.6, 0.3, 0.1]        # budgets where every adapter answers again, determinism_repeats times
 determinism_repeats = 3
 flip_ratios = [0.8, 0.6, 0.4, 0.2]               # budgets where every sample's snapshot is assembled
+
+# Server-specific request fields: thinking off, and the sampling stated in full at vLLM's neutral values (no nucleus
+# or top-k cut, no penalties), as Domain 2 states them, so every call records them
+[summarizer.extra_body]
+top_p = 1.0
+top_k = -1
+min_p = 0.0
+presence_penalty = 0.0
+frequency_penalty = 0.0
+repetition_penalty = 1.0
+chat_template_kwargs = { enable_thinking = false }
 
 # S12 · Consensus goldens. Adopt a run's candidates with `cwabench goldens accept`; nothing adopts them automatically.
 [s12]
