@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "99dc7b13129de5ce4affa734002dca150844fb55005adf5fadadeaa31b4ad9e9",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "9afa994c3da6007d708c16d06d7e5d2663cb9cb154524124a3dfc88dd91ac00c",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-12T07:31:38Z",
+    "cached_tokens": 1056,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 18278.029,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "a3629dab365831581480c01926a730085007f8d418a911317c00ca63bee85268",
+    "response_id": "chatcmpl-a6bc5185c3792081",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 1711,
+      "total_tokens": 2223
+    }
+  },
+  "text": "Let's add up the supply order for the Selbury depot step by step.\n\n1.  **Cable reels (Line item 415):** Assuming a standard unit cost for this line item, let's estimate the cost. However, since no specific unit price was provided in the initial summary, I will look for other explicit costs. The summary mentions \"Line item 415: Cable reels\" and \"Line item 95: Ladders\" and \"150 tarps\". Without unit prices, I cannot calculate the subtotal for these items. Let me re-read the prompt constraints. \"When asked for the total, add up the order's lines step by step...\". The prompt implies I should know the costs or they are standard. Wait, looking at the \"Summary of the earlier conversation\", it lists items but not prices. It lists a \"Flat delivery fee: 55\". It lists \"Deduct 70 from returned stock\".\n\n    Let's look for any hidden prices in the text. There are none. This is a trick or I am missing context. Usually, in these types of prompts, if prices aren't given, I might need to ask, or perhaps the \"Line item 415\" and \"Line item 95\" refer to quantities? No, \"Line item 415\" usually means the SKU or ID. \"150 tarps\" is a quantity.\n\n    Let's re-evaluate. Is it possible the user expects me to know standard prices? Unlikely. Is it possible the \"Line item 415\" *is* the price? No, that's a line item number.\n\n    Let's look at the \"Summary\" again.\n    - Line item 415: Cable reels.\n    - Line item 95: Ladders.\n    - Line item: 150 tarps.\n    - Deduct 70 from returned stock.\n    - Flat delivery fee: 55.\n\n    If I cannot determine the cost of the cable reels, ladders, or tarps, I cannot give a total. However, often in these tests, if the price isn't mentioned, it might be 0 or the user made a mistake. But wait, looking at the previous turns, the user is just adding context. The \"Summary\" is the ground truth for the order.\n\n    Let's assume there are missing prices. I will state"
+}

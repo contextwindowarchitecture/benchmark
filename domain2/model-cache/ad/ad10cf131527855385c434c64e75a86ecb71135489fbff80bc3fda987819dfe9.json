@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "ad10cf131527855385c434c64e75a86ecb71135489fbff80bc3fda987819dfe9",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "2f9b6211130fcdf06e1279f3c022c06704a3bee6f1a2459319956629c0a32698",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T08:20:56Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 8240.496,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "326404ba9f12fc45935f5b42ca8fd34974eedd49f267afb20e15cd4e3278cd68",
+    "response_id": "chatcmpl-bbd75a5fdce4f42b",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6065,
+      "total_tokens": 6577
+    }
+  },
+  "text": "To calculate the total for the supply order from Zelby, let's review the current lines and any modifications made during the session:\n\n1.  **Initial Order Lines:**\n    *   Ladders: 465\n    *   Lanterns: 360\n    *   Helmets: 155\n\n2.  **Modifications:**\n    *   In turn `t019`, a line of 155 for helmets was added. However, looking at the initial state in `t01`, helmets were already listed with a quantity of 155. The user said \"Add a line of 155 for the helmets\". This phrasing is slightly ambiguous. Did they mean add *another* 155? Or was this just a reiteration?\n    *   Let's look at the context. Usually, \"add a line\" implies a new entry or an increment. If the initial list had 155 helmets, and the user says \"Add a line of 155 for the helmets\", it likely means an *additional* 155. So, Helmets would become $155 + 155 = 310$.\n    *   In turn `t036`, the user said \"Take 70 off the order for the returned stock.\" This is a general deduction. It doesn't specify which item. In many of these tasks, unless specified, it might apply to the largest item or be a general deduction from the total. However, often \"returned stock\" implies a specific item. Without specific instruction on *which* item, I need to check if there's a pattern or if it's a total deduction.\n    *   Let's re-read carefully.\n        *   `t01`: `{\"item\": \"ladders\", \"quantity\": 465}, {\"item\": \"lanterns\", \"quantity\": 360}, {\"item\": \"helmets\", \"quantity\": 155}`\n        *   `t019`: \"Add a line of 155 for the helmets\". This strongly suggests increasing the helmet count by 155. New Helmet count: $155 + 155 = 310$.\n        *   `t036`: \"Take 70 off the order for the returned stock.\" This is a global deduction.\n\n   "
+}

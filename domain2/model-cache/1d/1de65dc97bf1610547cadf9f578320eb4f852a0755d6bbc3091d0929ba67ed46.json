@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "1de65dc97bf1610547cadf9f578320eb4f852a0755d6bbc3091d0929ba67ed46",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "fa61c6e9c2e3cfa8a7df54e7f002a71ac3d51072cdb31cd59472d471454bdb39",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-12T08:22:01Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 8467.484,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "ba68467f8556b016330906e26fec1909e1a6c022aab80eac9bde18e5c15b0524",
+    "response_id": "chatcmpl-951f8de6d9384f1a",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6125,
+      "total_tokens": 6637
+    }
+  },
+  "text": "To determine the total order so far, let's look at the items and quantities provided in the initial order lines and any subsequent adjustments.\n\n1.  **Initial Order Lines (from task `xstate:03`):**\n    *   Crates: 430\n    *   Ladders: 400\n    *   Lamps: 520\n\n2.  **Adjustments:**\n    *   In turn `t038`, the user said: \"Take 35 off the order for the returned stock.\" This applies to the total order.\n    *   In turn `t044`, the user said: \"Take 50 off the order for the returned stock.\" This applies to the total order.\n    *   In turn `t048`, the user said: \"Add a line of 520 for the lamps to the order.\"\n\nLet's calculate the totals step by step:\n\n*   **Start with the initial quantities:**\n    *   Crates: 430\n    *   Ladders: 400\n    *   Lamps: 520\n    *   Initial Total = 430 + 400 + 520 = 1350\n\n*   **Apply Adjustments:**\n    *   Subtract 35 (returned stock): 1350 - 35 = 1315\n    *   Subtract 50 (returned stock): 1315 - 50 = 1265\n    *   Add 520 (Lamps): 1265 + 520 = 1785\n\nAlternatively, we can sum the final quantities of each item if we assume the adjustments apply to the total mix or specific items. However, the prompt \"Take X off the order for the returned stock\" usually implies a deduction from the total count unless specified otherwise. The addition of \"a line of 520 for the lamps\" specifically increases the lamp count.\n\nLet's re-read carefully.\n- Initial: 430 Crates, 400 Ladders, 520 Lamps.\n- \"Take 35 off the order\": Total becomes 1350 - 35 = 1315.\n- \"Take 50 off the order\": Total becomes 1"
+}

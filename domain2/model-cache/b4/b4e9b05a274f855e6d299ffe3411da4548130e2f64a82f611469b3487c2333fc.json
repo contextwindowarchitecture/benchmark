@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "b4e9b05a274f855e6d299ffe3411da4548130e2f64a82f611469b3487c2333fc",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "aa17c3b7887aa2bc4206a826eb30a02534ebad0ca3d3fa3bd04e9f2a85d0b9dd",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T08:20:44Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 4034.869,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "7971e393dff2ddfcdc75ffa5910cd9fcd11706bc42ea1dfc5f6dd02d86936a39",
+    "response_id": "chatcmpl-ac98c055feeea9c1",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 259,
+      "prompt_tokens": 6092,
+      "total_tokens": 6351
+    }
+  },
+  "text": "To calculate the total for the order so far, I need to look at the initial order lines and any adjustments made during the session.\n\n1.  **Initial Order Lines (from task id=\"xstate:04\"):**\n    *   Cable reels: 415\n    *   Ladders: 25\n\n2.  **Adjustments:**\n    *   In turn `t027`, the user said: \"Take 70 off the order for the returned stock.\"\n        *   This reduces the total quantity by 70.\n    *   In turn `t042`, the user said: \"Add a line of 150 for the tarps to the order.\"\n        *   This increases the total quantity by 150.\n\n3.  **Calculation:**\n    *   Start with initial items: $415 + 25 = 440$\n    *   Apply deduction: $440 - 70 = 370$\n    *   Apply addition: $370 + 150 = 520$\n\nThe order comes to 520.\n\nTotal: 520"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "f5b7f41800615a4bcb620eaffd44b5b3d7df3fa2c595516d4c5fca540f937287",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "5359f9e6edca2089896b015d507cc3cd50dfe910d6b869a6f72c3d1da5680392",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-12T08:05:55Z",
+    "cached_tokens": 1056,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 23623.597,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "286f37703b877aae6a0ff0cf13ebdb2ace75ce35ba5169323dc90215dc109cea",
+    "response_id": "chatcmpl-8d1ca1cc2d568433",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 476,
+      "prompt_tokens": 1606,
+      "total_tokens": 2082
+    }
+  },
+  "text": "Let's add up the supply order for the Varstead depot.\n\nFirst, the items:\n- 350 ladders\n- 50 tarps\n- 320 lamps\n- 105 cable reels\n\nTotal items: 350 + 50 + 320 + 105 = 825\n\nNext, the financial adjustments:\n- Flat delivery fee: 30\n- Deduct for returned stock: 70\n\nTotal adjustments: 30 - 70 = -40\n\nCombining the item count and the net adjustment (assuming the question asks for the total number of items including the net stock change):\n825 + (-40) = 785\n\nIf the question refers to the total line items or just the physical goods ordered, it is 825. However, usually, in these contexts, \"total\" refers to the final count of goods after adjustments.\n\nLet's re-read the prompt instructions: \"When asked for the total, add up the order's lines step by step, then give the total on a last line of its own as 'Total: ' and the number.\"\n\nThe \"order's lines\" typically refers to the supply items. The delivery fee and deductions are usually financial adjustments, not supply lines. However, \"returned stock\" reduces the net supply. The delivery fee is a cost, not a supply line.\n\nLet's look at the items again:\n1. Ladders: 350\n2. Tarps: 50\n3. Lamps: 320\n4. Cable reels: 105\n\nSum of items: 350 + 50 + 320 + 105 = 825.\n\nThe delivery fee (30) and deduction (70) are financial, not supply quantities. Unless the user implies \"total cost\" or \"net stock\", but the prompt says \"add up the order's lines\". The lines provided were: \"350 ladders, 50 tarps, 320 lamps, and 105 cable reels.\"\n\nSo, the total is the sum of these items.\n\nTotal: 825"
+}

@@ -7,11 +7,11 @@
     "sample": 1
   },
   "provenance": {
-    "at": "2026-10-11T08:01:36Z",
+    "at": "2026-10-12T08:08:34Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 72964.841,
+    "latency_ms": 8683.179,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "41b2155ac5296cf5994d2ee1b102d09b817a7f63a8532b14045fccca37e509fa",
-    "response_id": "chatcmpl-a7fb29fab9b2f348",
+    "response_id": "chatcmpl-863e18126d1d7deb",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 1,
     "usage": {
-      "completion_tokens": 238,
+      "completion_tokens": 212,
       "prompt_tokens": 6091,
-      "total_tokens": 6329
+      "total_tokens": 6303
     }
   },
-  "text": "To calculate the total for the order so far, I need to sum the monetary values of the lines added to the order.\n\n1.  **Cable reels**: In turn t025, the user requested to \"Add a line of 155 for the cable reels to the order.\"\n    *   Subtotal: 155\n2.  **Returned stock**: In turn t043, the user requested to \"Take 65 off the order for the returned stock.\"\n    *   Calculation: 155 - 65 = 90\n3.  **Crates**: In turn t044, the user requested to \"Add a line of 160 for the crates to the order.\"\n    *   Calculation: 90 + 160 = 250\n4.  **Delivery fee**: In turn t050, the user stated, \"There's a flat delivery fee of 25 on the order.\"\n    *   Calculation: 250 + 25 = 275\n\nTotal: 275"
+  "text": "To calculate the total for the order so far, I need to look for any line items that have been added or removed.\n\n1.  In turn t025, the user added a line of **155** for the cable reels.\n2.  In turn t043, the user took **65** off the order for returned stock.\n3.  In turn t044, the user added a line of **160** for the crates.\n4.  In turn t050, the user added a flat delivery fee of **25**.\n\nCalculating the sum:\n155 (cable reels) - 65 (returned stock) + 160 (crates) + 25 (delivery fee)\n\n155 - 65 = 90\n90 + 160 = 250\n250 + 25 = 275\n\nTotal: 275"
 }

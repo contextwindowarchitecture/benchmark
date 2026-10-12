@@ -7,11 +7,11 @@
     "sample": 1
   },
   "provenance": {
-    "at": "2026-10-11T02:57:34Z",
+    "at": "2026-10-12T08:06:55Z",
     "cached_tokens": 3168,
     "endpoint_host": "127.0.0.1:8000",
-    "finish_reason": "stop",
-    "latency_ms": 10652.289,
+    "finish_reason": "length",
+    "latency_ms": 22430.482,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "39095cb8ae3212b6e766248cb12a220303b047da45b8e875f2e77e4063ad8954",
-    "response_id": "chatcmpl-a144e0e625b05839",
+    "response_id": "chatcmpl-aeb0768d45f56e92",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 1,
     "usage": {
-      "completion_tokens": 222,
+      "completion_tokens": 512,
       "prompt_tokens": 4108,
-      "total_tokens": 4330
+      "total_tokens": 4620
     }
   },
-  "text": "To calculate the total for the supply order, we need to sum the values of the specific line items added by the user.\n\n1.  **Lanterns:** In turn `t001`, the user requested to \"Add a line of 340 for the lanterns to the order.\"\n2.  **Tarps:** In turn `t024`, the user requested to \"Add a line of 180 for the tarps to the order.\"\n3.  **Helmets:** In turn `t028`, the user requested to \"Add a line of 465 for the helmets to the order.\"\n\nThere are no other monetary values or line items for goods listed in the order history.\n\nStep-by-step calculation:\n*   Lanterns: 340\n*   Tarps: 180\n*   Helmets: 465\n\nSum: 340 + 180 + 465 = 985\n\nTotal: 985"
+  "text": "To calculate the total for the supply order, we need to sum the values of the specific line items added by the user.\n\n1.  **Lanterns:** In the first turn, the user requested to \"Add a line of 340 for the lanterns to the order.\"\n    *   Current Subtotal: 340\n\n2.  **Tarps:** In turn 24, the user requested to \"Add a line of 180 for the tarps to the order.\"\n    *   Current Subtotal: 340 + 180 = 520\n\n3.  **Helmets:** In turn 28, the user requested to \"Add a line of 465 for the helmets to the order.\"\n    *   Current Subtotal: 520 + 465 = 985\n\nThere is also a mention of a \"flat delivery fee of 30\" in turn 14, but typically \"lines of the order\" refers to the itemized goods unless shipping is explicitly added as a line item in the summation context. However, looking at the pattern of \"Add a line of [amount] for [item]\", the delivery fee was stated as a fact about the order structure rather than an added line item in the same iterative manner. Usually, in these prompts, only the explicitly added \"lines\" are summed unless specified otherwise. Let's re-read carefully. \"Add a line of...\" is the specific phrasing for the items. The delivery fee is \"There's a flat delivery fee of 30 on the order.\" This is a condition of the order, not necessarily a line item added to the list of goods in the same way. However, often \"what does the order come to\" implies the final cost including fees. Let's look at the items again.\n\nItems:\n- Lanterns: 340\n- Tarps: 180\n- Helmets: 465\n\nSum of items: 340 + 180 + 465 = 985.\n\nIf the delivery fee is included in the \"order total\":\n985 + 30 = 1015.\n\nLet's check if there are any other line items.\n- Turn 1: 340 (Lanterns)\n- Turn 24: 18"
 }

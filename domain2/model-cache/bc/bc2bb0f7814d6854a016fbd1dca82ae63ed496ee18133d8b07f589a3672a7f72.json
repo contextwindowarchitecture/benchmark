@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "bc2bb0f7814d6854a016fbd1dca82ae63ed496ee18133d8b07f589a3672a7f72",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "147ad6bcba0f59814dcb80cbe38306951fc291eb4053537686d1763c74668a55",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-12T08:20:23Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 8864.321,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "474f9afbac08bcf91bc3e68914588a354089c4f22fcab8feee6c96fe6adcedda",
+    "response_id": "chatcmpl-aaefb87c647d8d2c",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6119,
+      "total_tokens": 6631
+    }
+  },
+  "text": "To determine the current total of the order, I need to track the changes to the line items and any fees mentioned in the history.\n\n**1. Initial Order Lines (from `xstate:04`):**\n*   Cable reels: 415\n*   Ladders: 25\n\n**2. Additions to the Order:**\n*   **Turn t009:** \"Add a line of 95 for the ladders to the order.\"\n    *   Ladders: 25 + 95 = 120\n*   **Turn t027:** \"Take 70 off the order for the returned stock.\"\n    *   The prompt does not specify which item was returned. However, usually, if an item isn't specified, it might apply to the most recent or largest quantity, or we assume it applies to the main bulk item (cable reels) if not specified. Let's look closer. Often in these tests, if it doesn't specify, it might be ambiguous. However, looking at the previous context, cable reels are 415. Ladders are 120. Let's assume the return applies to **cable reels** as they are the primary high-volume item, unless specified otherwise. *Correction*: In many similar tasks, if the item isn't specified, it's safer to check if there's a pattern. But without specific instruction, I will apply it to **cable reels** as the default bulk item.\n    *   Cable reels: 415 - 70 = 345\n*   **Turn t042:** \"Add a line of 150 for the tarps to the order.\"\n    *   Tarps: 150\n\n**3. Delivery Fees:**\n*   **Turn t047:** \"There's a flat delivery fee of 55 on the order.\"\n    *   This is a cost, not a line item quantity, but it contributes to the total *cost*. The question asks \"What does the order come to\", which usually implies the total monetary value. However, the `policy:output-contract` says \"When asked for the total, add up the order's lines step by step...\". This phrasing often refers to the *sum of quantities* if the items don't have prices, or it implies a sum of costs. Since no prices are given for the items ("
+}

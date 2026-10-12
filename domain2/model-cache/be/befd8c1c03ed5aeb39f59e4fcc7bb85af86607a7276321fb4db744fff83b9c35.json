@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "befd8c1c03ed5aeb39f59e4fcc7bb85af86607a7276321fb4db744fff83b9c35",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "477615d70acd1d437c356393f710ab373c22114cff0eae705befd7e05e456a8f",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-12T08:10:50Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 18814.681,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "3af8073dbb412a47d8407087803c7a995379c68bf9f1dc503e1da272f763b127",
+    "response_id": "chatcmpl-bb2a306feef0cb84",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6049,
+      "total_tokens": 6561
+    }
+  },
+  "text": "To determine the total for the order so far, we need to sum the quantities of all items explicitly added to the order.\n\n1.  **Initial Order Lines** (from `xstate:02`):\n    *   Lanterns: 595\n    *   Tarps: 370\n    *   Lamps: 300\n    *   Ladders: 490\n    *   Helmets: 485\n\n2.  **Additional Additions**:\n    *   From `turn:t018`: Add a line of 370 for tarps.\n    *   From `turn:t031`: Add a line of 300 for lamps.\n    *   From `turn:t046`: Add a line of 490 for ladders.\n    *   From `turn:t049`: Add a line of 485 for helmets.\n\n3.  **Calculation**:\n    *   **Lanterns**: 595 (No additions)\n    *   **Tarps**: 370 (initial) + 370 (added) = 740\n    *   **Lamps**: 300 (initial) + 300 (added) = 600\n    *   **Ladders**: 490 (initial) + 490 (added) = 980\n    *   **Helmets**: 485 (initial) + 485 (added) = 970\n\n    Now, summing the totals for each item:\n    *   595 (Lanterns)\n    *   + 740 (Tarps)\n    *   + 600 (Lamps)\n    *   + 980 (Ladders)\n    *   + 970 (Helmets)\n\n    Step-by-step sum:\n    *   595 + 740 = 1335\n    *   1335 + 600 = 1935\n    *   1935 + 980 = 2915\n    *   2915 + 970 = 3885\n\nTotal: 38"
+}

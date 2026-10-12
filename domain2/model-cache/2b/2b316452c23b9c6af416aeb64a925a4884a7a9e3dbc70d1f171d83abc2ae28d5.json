@@ -7,11 +7,11 @@
     "sample": 3
   },
   "provenance": {
-    "at": "2026-10-11T08:12:06Z",
+    "at": "2026-10-12T08:16:17Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 9999.178,
+    "latency_ms": 5832.509,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "1fde20aa996e04c204dcb1890e491b6ec499128d2ec3427c2c53b3aa5664d3ce",
-    "response_id": "chatcmpl-8213324212458ec7",
+    "response_id": "chatcmpl-875c1fa3212e1194",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 3,
     "usage": {
-      "completion_tokens": 279,
+      "completion_tokens": 200,
       "prompt_tokens": 6027,
-      "total_tokens": 6306
+      "total_tokens": 6227
     }
   },
-  "text": "To calculate the current total for the order, I need to look for any additions or subtractions to the line items in the conversation history.\n\n1.  **Turn t027**: \"Take 70 off the order for the returned stock.\"\n    *   This implies a deduction of 70. Since no starting total or previous positive line items are mentioned before this, we treat this as a -70 adjustment. However, typically orders start at 0 unless specified. Let's look for positive additions.\n\n2.  **Turn t042**: \"Add a line of 150 for the tarps to the order.\"\n    *   This is a positive addition of 150.\n\n3.  **Turn t047**: \"There's a flat delivery fee of 55 on the order.\"\n    *   This is a positive addition of 55.\n\nLet's sum these values:\n*   -70 (from t027)\n*   +150 (from t042)\n*   +55 (from t047)\n\nCalculation:\n$150 + 55 - 70$\n$205 - 70 = 135$\n\nTotal: 135"
+  "text": "To calculate the current order total, I need to identify all monetary adjustments made to the order in the conversation history.\n\n1.  **Turn t027**: The user states, \"Take 70 off the order for the returned stock.\"\n    *   Adjustment: -70\n\n2.  **Turn t042**: The user states, \"Add a line of 150 for the tarps to the order.\"\n    *   Adjustment: +150\n\n3.  **Turn t047**: The user states, \"There's a flat delivery fee of 55 on the order.\"\n    *   Adjustment: +55\n\nNow, summing these values:\n-70 + 150 + 55\n\nStep-by-step:\n-70 + 150 = 80\n80 + 55 = 135\n\nTotal: 135"
 }

@@ -7,11 +7,11 @@
     "sample": 1
   },
   "provenance": {
-    "at": "2026-10-11T08:15:25Z",
+    "at": "2026-10-12T08:18:55Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 6394.402,
+    "latency_ms": 4821.099,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "8776373268fbc64cadbbacf57439daf1ffa941e01c0c60031215993cc03d9864",
-    "response_id": "chatcmpl-8a3ce9c94e65e2e3",
+    "response_id": "chatcmpl-99e385b8dbb6df55",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 1,
     "usage": {
-      "completion_tokens": 381,
+      "completion_tokens": 265,
       "prompt_tokens": 6144,
-      "total_tokens": 6525
+      "total_tokens": 6409
     }
   },
-  "text": "To calculate the total for the order so far, we need to sum the values of the order lines and credits provided in the task instructions.\n\n1.  **Order Line 1**: A line of 515 for the crates. (+515)\n2.  **Order Line 2**: A line of 400 for the ladders. (+400)\n3.  **Order Line 3**: A credit of 35. (-35)\n4.  **Order Line 4**: A credit of 50. (-50)\n5.  **Order Line 5**: A line of 520 for the lamps. (+520)\n6.  **Order Line 6**: A credit of 80. (-80)\n\nNote: While the user mentioned \"Take 35 off...\" and \"Take 50 off...\" in the history, these correspond to the credits already listed in the explicit order lines 3 and 4. The mention of \"Take 80 off...\" in turn t078 corresponds to order line 6. The mention of \"Add a line of 520 for the lamps\" in turn t048 corresponds to order line 5. There are no other order lines or credits specified in the task instructions.\n\nLet's calculate the total:\n*   Start with 0.\n*   Add 515: 515\n*   Add 400: 915\n*   Subtract 35: 880\n*   Subtract 50: 830\n*   Add 520: 1350\n*   Subtract 80: 1270\n\nTotal: 1270"
+  "text": "To calculate the total for the order so far, we need to sum the charges and subtract the credits.\n\n1.  **Order Line 1:** 515 (Crates)\n2.  **Order Line 2:** 400 (Ladders)\n3.  **Order Line 3:** -35 (Credit)\n4.  **Order Line 4:** -50 (Credit)\n5.  **Order Line 5:** 520 (Lamps)\n6.  **Order Line 6:** -80 (Credit)\n\nLet's add them up step by step:\n\n*   Start with Line 1: 515\n*   Add Line 2: 515 + 400 = 915\n*   Subtract Line 3: 915 - 35 = 880\n*   Subtract Line 4: 880 - 50 = 830\n*   Add Line 5: 830 + 520 = 1350\n*   Subtract Line 6: 1350 - 80 = 1270\n\nTotal: 1270"
 }

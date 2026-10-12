@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "f72800014d7de7358442a196a53b8727995920189cfda5671ff95fc3307705ee",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e29316128e3351a7afd01e01a2c9f33107338969b5e3636057ac111933bfcb4b",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-12T07:42:41Z",
+    "cached_tokens": 8448,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 7207.433,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "1c79c191a98647cf96217a1c936a638747f4ba576723cdc8a1eef5e1b364ba2a",
+    "response_id": "chatcmpl-be7746eaf616c229",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 9498,
+      "total_tokens": 10010
+    }
+  },
+  "text": "To determine the total for the Zelby depot order, let's track the changes to the line items step by step based on the conversation history.\n\n**Initial Order (from task xstate:01):**\n*   Ladders: 420\n*   Lanterns: 360\n*   Helmets: 155\n\n**Updates:**\n\n1.  **Turn t001:** \"Add a line of 465 for the ladders to the order.\"\n    *   Ladders: 420 + 465 = 885\n\n2.  **Turn t014:** \"Add a line of 360 for the lanterns to the order.\"\n    *   Lanterns: 360 + 360 = 720\n\n3.  **Turn t019:** \"Add a line of 155 for the helmets to the order.\"\n    *   Helmets: 155 + 155 = 310\n\n4.  **Turn t036:** \"Take 70 off the order for the returned stock.\"\n    *   The user does not specify which item. In supply order contexts without specific item designation, this is often applied to the largest quantity or treated as a general reduction. However, looking at the pattern of previous \"take off\" instructions in similar tasks, if the item isn't specified, it's ambiguous. Let's look closer. Usually, these prompts imply a specific item if it's a return, or it might be a general deduction. Let's re-read carefully. \"Take 70 off the order for the returned stock.\" It doesn't say \"for the ladders\".\n    *   *Self-Correction/Refinement:* In many of these specific logic puzzles, if the item isn't named, it might refer to the first item mentioned in the current context or the largest item. However, often \"returned stock\" implies a specific line. Let's look at the next return.\n    *   Turn t067: \"Take 45 off the order for the returned stock.\"\n    *   Let's assume for a moment the deduction applies to the **Ladders** as they are the first item and often the primary stock, or perhaps it's a general total deduction. Let's calculate the totals first.\n    *   Current Totals before deductions:\n"
+}

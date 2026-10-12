@@ -7,11 +7,11 @@
     "sample": 0
   },
   "provenance": {
-    "at": "2026-10-11T08:01:57Z",
+    "at": "2026-10-12T08:11:15Z",
     "cached_tokens": 0,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 101097.07,
+    "latency_ms": 10080.719,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "c3a18d846c1a4823e26829be1f1f1d1feccf44489e61e2d5058f8c9fe433f817",
-    "response_id": "chatcmpl-937fc4d1307bf155",
+    "response_id": "chatcmpl-93e984fa5e3dc7b8",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 0,
     "usage": {
-      "completion_tokens": 307,
+      "completion_tokens": 287,
       "prompt_tokens": 6023,
-      "total_tokens": 6330
+      "total_tokens": 6310
     }
   },
-  "text": "To calculate the total for the order so far, I will look for any specific line items added to the supply order in the conversation history.\n\n1.  **Scan for order additions:**\n    *   In `turn:t020`, the user stated: \"Add a line of 555 for the lamps to the order.\"\n    *   In `turn:t045`, the user stated: \"Add a line of 570 for the cable reels to the order.\"\n    *   In `turn:t030`, the user stated: \"Take 35 off the order for the returned stock.\" This is a deduction.\n    *   In `turn:t040`, the user stated: \"There's a flat delivery fee of 15 on the order.\" This is an addition to the total cost.\n\n2.  **Calculate the total:**\n    *   Lamps: +555\n    *   Cable reels: +570\n    *   Returned stock deduction: -35\n    *   Delivery fee: +15\n\n    Calculation:\n    $555 + 570 = 1125$\n    $1125 - 35 = 1090$\n    $1090 + 15 = 1105$\n\nThe order comes to 1105.\n\nTotal: 1105"
+  "text": "To calculate the total for the order so far, I will review the items added to the supply order in the conversation history.\n\n1.  **Lamps**: In turn `t020`, the user stated: \"Add a line of 555 for the lamps to the order.\"\n    *   Current Subtotal: 555\n\n2.  **Returned Stock Adjustment**: In turn `t030`, the user stated: \"Take 35 off the order for the returned stock.\"\n    *   Calculation: 555 - 35 = 520\n    *   Current Subtotal: 520\n\n3.  **Flat Delivery Fee**: In turn `t040`, the user stated: \"There's a flat delivery fee of 15 on the order.\"\n    *   Calculation: 520 + 15 = 535\n    *   Current Subtotal: 535\n\n4.  **Cable Reels**: In turn `t045`, the user stated: \"Add a line of 570 for the cable reels to the order.\"\n    *   Calculation: 535 + 570 = 1105\n    *   Current Subtotal: 1105\n\nTotal: 1105"
 }

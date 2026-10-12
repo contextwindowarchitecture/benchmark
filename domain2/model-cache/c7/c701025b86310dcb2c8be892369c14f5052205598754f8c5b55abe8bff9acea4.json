@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "c701025b86310dcb2c8be892369c14f5052205598754f8c5b55abe8bff9acea4",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "1e1aefd79d516a98a02b83a27995ed8bfc08a23b482a0c14797940df15ac42a3",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-12T07:42:59Z",
+    "cached_tokens": 10560,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 5756.179,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "4253d53a9c37d886e20bad081b5c970027692bf26f40a75bc622f549542a8101",
+    "response_id": "chatcmpl-a6fee95ad868aeda",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 10820,
+      "total_tokens": 11332
+    }
+  },
+  "text": "To determine the total for the Zelby depot order, let's track the changes to the line items step by step based on the instructions provided in the session.\n\n1.  **Initial Order Lines:**\n    *   Ladders: 420\n    *   Lanterns: 360\n    *   Helmets: 155\n\n2.  **Turn t001:** \"Add a line of 465 for the ladders to the order.\"\n    *   Ladders: 420 + 465 = 885\n\n3.  **Turn t014:** \"Add a line of 360 for the lanterns to the order.\"\n    *   Lanterns: 360 + 360 = 720\n\n4.  **Turn t019:** \"Add a line of 155 for the helmets to the order.\"\n    *   Helmets: 155 + 155 = 310\n\n5.  **Turn t036:** \"Take 70 off the order for the returned stock.\"\n    *   The instruction does not specify which item, but typically \"returned stock\" without a specific item qualifier in these types of prompts often applies to the first item or is a general deduction. However, looking at the pattern of previous similar tasks, if no item is specified, it is often ambiguous. Let's look closer. Usually, if it's a general deduction, it might apply to the largest item or be split. But in many of these specific \"supply order\" datasets, if the item isn't named, it's often a mistake in the prompt or implies a specific context. Let's re-read carefully. \"Take 70 off the order for the returned stock.\" It doesn't say \"for the ladders\". Let's assume for a moment it applies to the first item listed (Ladders) or check if there's a convention. Actually, in many of these generated scenarios, if the item isn't specified, it's often treated as a deduction from the *total* or the *first* item. Let's look at turn t067.\n    *   Let's hold on this and check t067 first.\n\n6.  **Turn t067:** \"Take 45 off the order for the returned stock.\"\n    *   Again, no item"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "1db3a572f2dcfbb5f16215c824adffe172573486f15b3c1ce2cc058e7e4a36d2",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "fc9440713749b494db0dbcb1c603194a8931de733bd4e94716b3f402ae5d88d7",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-12T08:17:54Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 7064.437,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "136ff4aad5c5006eb579acfb7eba04cece3d82c31c8db4acde40f67a80daf657",
+    "response_id": "chatcmpl-aa4e729261a0f56e",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 365,
+      "prompt_tokens": 6109,
+      "total_tokens": 6474
+    }
+  },
+  "text": "To determine the total for the order, let's look at the items that have been added or modified:\n\n1.  **Ladders**: The initial order included 370 ladders. There were no changes to this quantity.\n    *   Quantity: 370\n2.  **Lamps**: The initial order included 555 lamps. In turn `t020`, the user specified to \"Add a line of 555 for the lamps to the order.\" Since 555 was already the quantity, this confirms the quantity remains 555.\n    *   Quantity: 555\n3.  **Cable Reels**: The initial order included 570 cable reels. In turn `t045`, the user specified to \"Add a line of 570 for the cable reels to the order.\" This confirms the quantity remains 570.\n    *   Quantity: 570\n4.  **Returns**: In turn `t030`, the user stated, \"Take 35 off the order for the returned stock.\" This reduction applies to the overall order. It is standard to apply returns to the first item or generally reduce the total count. Let's apply this reduction to the total sum.\n\nLet's sum the items:\n*   Ladders: 370\n*   Lamps: 555\n*   Cable Reels: 570\n\nSubtotal: 370 + 555 + 570 = 1495\n\nNow, apply the return deduction:\n1495 - 35 = 1460\n\nTotal: 1460"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "dce13a3fd8f4f9dbd0cd9150d3e59fb49e8dc3200fc8e21a42c1416800fc2473",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "b1db5d0968e628a22a61fc24e9016057dca4f08810b561a960e2379c67b21bcf",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-12T08:12:22Z",
+    "cached_tokens": 1056,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 18621.911,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "6ff6726002f3791cc9fab5c3a9219dcd5ef79ee275344c620bfa1467524b5e0f",
+    "response_id": "chatcmpl-b3c3a78d9ddb5125",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 1621,
+      "total_tokens": 2133
+    }
+  },
+  "text": "To calculate the total, I need to sum up the specific line items mentioned in the earlier conversation.\n\n1.  Line 465\n2.  Line 360\n3.  Line 155\n\nLet's add them step by step:\n465 + 360 = 825\n825 + 155 = 980\n\nThere was also an instruction to subtract 45 from returned stock, but typically \"order lines\" refer to the items being purchased/ordered. If the question implies the net total of the order including the stock adjustment:\n980 - 45 = 935\n\nHowever, usually, when asked for the order total from \"lines\", we sum the positive line items unless specified as a net invoice total. Given the phrasing \"add up the order's lines\", I will provide the sum of the lines first. If the subtraction is part of the order calculation (e.g., a credit note or deduction), it would be included. Let's assume the standard interpretation of summing the requested lines.\n\nLines: 465, 360, 155.\nTotal of lines: 980.\n\nIf the subtraction is part of the final order value:\nTotal: 935\n\nLet's look at the prompt instruction: \"add up the order's lines step by step, then give the total on a last line of its own\". The \"lines\" are explicitly 465, 360, and 155. The subtraction of 45 was a separate action (\"Subtract 45 from returned stock\"). Usually, an order total sums the items ordered. I will provide the sum of the lines. If the user intended the net value, they might need to clarify, but \"order's lines\" strongly points to the items.\n\nLet's re-read carefully: \"Action: Add lines 465, 360, 155. Subtract 45 from returned stock.\"\nIf I am putting together a supply order, and I have returned stock, does that reduce the order? Yes, often.\nSo, 465 + 360 + 155 = 980.\n980 - 45 = 935.\n\nI will provide the step-by-step addition of the lines and the final total including the"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "e5d880d5b0bd10fbf9f612b28dcbdc861ae65c2bff8b3c703fd80491a6d17ab4",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "4e9c10c27c397cf2f14f1b766b97de4d8988b13068b5b5992c1c108d56bfc1eb",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T07:42:34Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 7822.63,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "1c79c191a98647cf96217a1c936a638747f4ba576723cdc8a1eef5e1b364ba2a",
+    "response_id": "chatcmpl-8ae4484ba367a548",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 9498,
+      "total_tokens": 10010
+    }
+  },
+  "text": "To determine the total for the Zelby depot order, let's track the changes to the line items step by step based on the instructions provided in the conversation history.\n\n**Initial Order (from task xstate:01):**\n*   Ladders: 420\n*   Lanterns: 360\n*   Helmets: 155\n\n**Changes:**\n\n1.  **Turn t001:** \"Add a line of 465 for the ladders to the order.\"\n    *   Ladders: 420 + 465 = 885\n\n2.  **Turn t014:** \"Add a line of 360 for the lanterns to the order.\"\n    *   Lanterns: 360 + 360 = 720\n\n3.  **Turn t019:** \"Add a line of 155 for the helmets to the order.\"\n    *   Helmets: 155 + 155 = 310\n\n4.  **Turn t036:** \"Take 70 off the order for the returned stock.\"\n    *   The instruction does not specify which item, but typically \"returned stock\" implies a reduction from the total or a specific item. However, looking at the pattern of previous \"add line\" instructions, they specified the item. This instruction is ambiguous regarding *which* item. Let's look for any other specific item reductions. There are none. In supply order contexts without a specified item, this often applies to the total sum or the largest/most recent item. However, a safer interpretation in these logic puzzles, if unspecified, is often to apply it to the total or check if it was meant for a specific item. Let's re-read carefully. \"Take 70 off the order\". It doesn't say \"for the ladders\" or similar. Let's assume it reduces the total quantity.\n    *   Current Total Quantity: 885 (Ladders) + 720 (Lanterns) + 310 (Helmets) = 1915.\n    *   New Total Quantity: 1915 - 70 = 1845.\n\n    *Alternative Interpretation:* If \"returned stock\" refers to a specific item, it's unclear. But usually, if it's not"
+}

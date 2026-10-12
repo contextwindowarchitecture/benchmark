@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "ee46efbe5f07d978b2b1164bd1c540d73d55542423298c0ee83cb2bdabb52af2",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "81257fffbd35c39be2ebcc3d85112863d09cf12ebbef147f7e2e0913757fdb1b",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T07:35:39Z",
+    "cached_tokens": 2112,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 18295.689,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "e9ece9c7d65b66159d0952f2b68adb63fb999e141e489d5e7ffca1d394d19a49",
+    "response_id": "chatcmpl-8eebda6e00c945e8",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 4182,
+      "total_tokens": 4694
+    }
+  },
+  "text": "To determine the current total for the order, let's track the changes to the line items step by step.\n\n1.  **Initial Order (from task xstate:01):**\n    *   Ladders: 370\n    *   Lamps: 555\n\n2.  **Turn t001:**\n    *   User says: \"Add a line of 400 for the ladders to the order.\"\n    *   Current Ladders: 370 + 400 = 770\n    *   Current Lamps: 555\n\n3.  **Turn t004:**\n    *   User says: \"Take 30 off the order for the returned stock.\"\n    *   The user does not specify which item, but typically \"returned stock\" adjustments in these contexts apply to the most recently added or primary item, or it's a general deduction. However, looking at the pattern of such tasks, if the item isn't specified, it often applies to the first item or requires clarification. Let's look closer. In similar datasets, if the item isn't specified, it might be ambiguous. However, let's re-read carefully. \"Take 30 off the order\". Without a specific item, this is tricky. Let's look at turn t030.\n    *   Let's assume for a moment it applies to the first item (Ladders) or is a general reduction. But wait, usually, these prompts are precise. Let's look at the next specific instruction.\n    *   Actually, let's look at the structure. Often, \"Take X off the order\" implies a reduction in quantity. If no item is named, it's ambiguous. However, in many of these specific \"supply order\" logic puzzles, if the item isn't named, it might refer to the *first* item listed or the one currently being discussed. Let's hold on this and check if there's a pattern.\n    *   Let's re-evaluate. Is there a default? No. Let's look at the final turn.\n    *   Let's look at Turn t020: \"Add a line of 555 for the lamps to the order.\" This is a specific addition.\n    *   Let's look at Turn t030: \"Take 35 off the order for the returned stock.\" Again, no item specified."
+}

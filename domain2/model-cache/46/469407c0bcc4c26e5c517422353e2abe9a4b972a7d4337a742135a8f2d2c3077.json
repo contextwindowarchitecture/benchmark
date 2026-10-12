@@ -7,11 +7,11 @@
     "sample": 2
   },
   "provenance": {
-    "at": "2026-10-11T07:46:32Z",
+    "at": "2026-10-12T07:29:09Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 41073.101,
+    "latency_ms": 7440.726,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0
     },
     "payload_sha256": "db884839f14f8741a05f657220b0efd0e38fa17eac128298c7a02e32fda5c83c",
-    "response_id": "chatcmpl-b3a9b2b1f6358017",
+    "response_id": "chatcmpl-b15796843459e08e",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 2,
     "usage": {
-      "completion_tokens": 114,
+      "completion_tokens": 161,
       "prompt_tokens": 5877,
-      "total_tokens": 5991
+      "total_tokens": 6038
     }
   },
-  "text": "I have reviewed the conversation history to identify any items added to the supply order.\n\n1.  I found one line item mentioned: \"Add a line of 350 for the lamps to the order.\"\n2.  I also found a deduction: \"Take 25 off the order for the returned stock.\"\n\nLet's calculate the total:\n*   Lamps: 350\n*   Returned stock deduction: -25\n\n350 - 25 = 325\n\nTotal: 325"
+  "text": "I have reviewed the conversation history to identify any lines added to the supply order.\n\n1.  I found one line item mentioned: \"Add a line of 350 for the lamps to the order.\"\n2.  I also found two lines for returns/stock adjustments: \"Take 80 off the order for the returned stock\" and \"Take 25 off the order for the returned stock.\"\n\nLet's calculate the total:\n- Lamps: +350\n- Returned stock adjustment 1: -80\n- Returned stock adjustment 2: -25\n\nCalculation:\n350 - 80 = 270\n270 - 25 = 245\n\nTotal: 245"
 }

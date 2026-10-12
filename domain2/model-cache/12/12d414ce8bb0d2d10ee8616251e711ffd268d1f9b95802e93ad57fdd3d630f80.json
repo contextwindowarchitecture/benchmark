@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "12d414ce8bb0d2d10ee8616251e711ffd268d1f9b95802e93ad57fdd3d630f80",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "4f9df888c5912352e907a63ce62eaf79388a873a85edda302fb0dfad5c352f6f",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-12T08:20:31Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 8312.853,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "474f9afbac08bcf91bc3e68914588a354089c4f22fcab8feee6c96fe6adcedda",
+    "response_id": "chatcmpl-96c9566a694b0949",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6119,
+      "total_tokens": 6631
+    }
+  },
+  "text": "To determine the total for the order so far, let's look at the line items and adjustments provided in the history.\n\n1.  **Initial Order (from `order_lines` in `xstate:04`):**\n    *   Cable reels: 415\n    *   Ladders: 25\n\n2.  **Adjustment (from `turn:t009:user`):**\n    *   \"Add a line of 95 for the ladders to the order.\"\n    *   New Ladders count: 25 + 95 = 120\n\n3.  **Adjustment (from `turn:t027:user`):**\n    *   \"Take 70 off the order for the returned stock.\"\n    *   This implies a reduction of 70 from the total quantity.\n    *   Cable reels: 415\n    *   Ladders: 120\n    *   Total before deduction: 415 + 120 = 535\n    *   Total after deduction: 535 - 70 = 465\n\nLet's verify if there are any other order modifications.\n*   `turn:t042:user` mentions adding tarps, but the user did not specify a quantity for the tarps in that turn or subsequent turns. The prompt asks for the total *so far*. Since no quantity was given for the tarps, we cannot include them in a numerical total, or we assume the \"order\" refers to the quantified lines currently in the system. However, looking closely at `turn:t042`, it says \"Add a line of 150 for the tarps\". I missed this in the initial scan. Let me re-evaluate.\n\n**Re-evaluation:**\n\n1.  **Initial Order:**\n    *   Cable reels: 415\n    *   Ladders: 25\n\n2.  **Adjustment 1 (`turn:t009`):**\n    *   Add 95 Ladders.\n    *   Ladders: 25 + 95 = 120.\n\n3.  **Adjustment 2 (`turn:t027`):**\n    *   Take 70 off the order.\n    *   Current Total: 415 (cables) + 120 ("
+}

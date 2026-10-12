@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "20c69de172e3754f809a01a073874dc8ad5bd8cdea689d6893776b248b37b36d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "df069ca3b5fd335eac830d9c75c1bff9f534f987de7cf71961bad6150a83b21d",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-12T08:20:40Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 8419.556,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "474f9afbac08bcf91bc3e68914588a354089c4f22fcab8feee6c96fe6adcedda",
+    "response_id": "chatcmpl-a4b69c292e822d7d",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6119,
+      "total_tokens": 6631
+    }
+  },
+  "text": "To determine the total for the order so far, we need to look at the initial order lines and apply any subsequent changes mentioned in the session history.\n\n1.  **Initial Order (from `xstate:04`):**\n    *   Cable reels: 415\n    *   Ladders: 25\n\n2.  **Addition (from `turn:t009`):**\n    *   \"Add a line of 95 for the ladders to the order.\"\n    *   New Ladders quantity: 25 + 95 = 120\n\n3.  **Subtraction (from `turn:t027`):**\n    *   \"Take 70 off the order for the returned stock.\"\n    *   The prompt does not specify which item was returned. However, in typical supply order contexts without specific item attribution in a \"returned stock\" line item, and given the previous addition was specifically for ladders, we must look for clues. Often, \"returned stock\" implies a reduction to the most recently modified or largest batch, but strictly speaking, it's ambiguous. Let's look closer.\n    *   Wait, let's re-read the context. The user says \"Take 70 off the order\". Usually, if it doesn't specify an item, it might apply to the total or the last added item. However, looking at the pattern of other updates (like \"Add a line of 150 for the tarps\" in `turn:t042`), specific items are named.\n    *   Let's check if there are other order changes.\n    *   `turn:t042`: \"Add a line of 150 for the tarps to the order.\"\n\n    Let's re-evaluate the sequence of order changes:\n    *   Start: Cable reels: 415, Ladders: 25.\n    *   `turn:t009`: Add 95 Ladders. -> Ladders: 120.\n    *   `turn:t027`: Take 70 off the order for returned stock. (Item unspecified).\n    *   `turn:t042`: Add 150 Tarps.\n\n    If the 70 off is unspecified, it is safest to assume it reduces the total quantity or applies to the most logical item. However, in many of these logic"
+}

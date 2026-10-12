@@ -7,11 +7,11 @@
     "sample": 0
   },
   "provenance": {
-    "at": "2026-10-11T08:09:16Z",
+    "at": "2026-10-12T08:07:41Z",
     "cached_tokens": 0,
     "endpoint_host": "127.0.0.1:8000",
-    "finish_reason": "stop",
-    "latency_ms": 17886.661,
+    "finish_reason": "length",
+    "latency_ms": 21532.033,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "ff711d85d8ac77623d57c39c3c2cf9c6bc50fab85939816e602063d4e7fffbb5",
-    "response_id": "chatcmpl-90d432962238a0d0",
+    "response_id": "chatcmpl-b8d440d21f2dafd8",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 0,
     "usage": {
-      "completion_tokens": 200,
+      "completion_tokens": 512,
       "prompt_tokens": 5868,
-      "total_tokens": 6068
+      "total_tokens": 6380
     }
   },
-  "text": "Based on the conversation history, there have been two adjustments made to the order for returned stock:\n\n1.  \"Take 70 off the order for the returned stock.\" (-70)\n2.  \"Take 45 off the order for the returned stock.\" (-45)\n\nHowever, no initial itemized list of products or starting total was provided in this session. The lines discussed so far have been about office logistics (repainting, swaps, coverages, etc.) and these two deductions.\n\nIf we assume these are the only financial lines relevant to the current context and they are deductions from a baseline, I cannot calculate a final total without the starting amount.\n\nIf you are referring to a specific list of items that hasn't been entered yet, please provide the items and quantities.\n\nIf you meant to ask for the sum of the deductions mentioned:\n-70 + -45 = -115\n\nTotal: -115"
+  "text": "Based on the conversation history, there are two adjustments to the order for returned stock that have been mentioned:\n\n1.  \"Take 70 off the order for the returned stock.\"\n2.  \"Take 45 off the order for the returned stock.\"\n\nAssuming the base order was 0 or these are the only line items provided so far as deductions, I will add them up. Since they are deductions (\"take off\"), I will treat them as negative values if we are calculating a net total from zero, or simply sum the values if we are just tracking the adjustments. However, usually \"what does the order come to\" implies a final sum. Without a starting base price, I can only sum the explicit monetary adjustments mentioned.\n\nLet's look at the specific lines:\n- Line 1: -70\n- Line 2: -45\n\nTotal adjustment: -115\n\nIf the user is asking for the sum of the *values* mentioned in the context of the order lines provided:\n70 + 45 = 115\n\nHowever, since these are deductions, the total reduction is 115. If the question implies a running total of a bill where these are the only items, it would be -115. But typically in these prompts, if no base is given, I should just sum the numbers provided in the \"order\" context.\n\nLet's re-read the prompt instructions: \"When asked for the total, add up the order's lines step by step, then give the total on a last line of its own as \"Total: \" and the number.\"\n\nThe \"lines\" in the order context are the monetary adjustments.\nLine 1: 70 (deduction)\nLine 2: 45 (deduction)\n\nIf I treat them as positive numbers representing the magnitude of the lines:\n70 + 45 = 115\n\nIf I treat them as the actual value added to the order (which is negative):\n-70 + -45 = -115\n\nGiven the ambiguity of a \"bill\" without a base, but the explicit instruction to \"add up the order's lines\", I will sum the absolute values of the adjustments if they are the only lines, or assume a base of 0. Let's assume the question asks for the sum of the amounts mentioned for the stock returns.\n\nStep 1: First adjustment is 7"
 }

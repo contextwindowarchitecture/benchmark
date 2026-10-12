@@ -7,11 +7,11 @@
     "sample": 4
   },
   "provenance": {
-    "at": "2026-10-11T03:00:14Z",
+    "at": "2026-10-12T08:08:58Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 21167.28,
+    "latency_ms": 9081.015,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "78bf93ab5dd9ca60558554dc21d6c2a1dd33ba2c1eba5484f7b3d61bb32a687c",
-    "response_id": "chatcmpl-b6d5e4fafa0417f2",
+    "response_id": "chatcmpl-9a503655e640b4e9",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 4,
     "usage": {
-      "completion_tokens": 496,
+      "completion_tokens": 234,
       "prompt_tokens": 5496,
-      "total_tokens": 5992
+      "total_tokens": 5730
     }
   },
-  "text": "To calculate the total for the supply order, I will review all the line items added to the order in the conversation history.\n\n1.  **Ladders**: In turn t001, the user added \"350 for the ladders\".\n2.  **Tarps**: In turn t014, the user added \"50 for the tarps\".\n3.  **Lamps**: In turn t015, the user added \"320 for the lamps\".\n4.  **Cable reels**: In turn t024, the user added \"105 for the cable reels\".\n5.  **Returned stock**: In turn t023, the user instructed to \"Take 70 off the order\". This is a deduction.\n\nThere is also a mention of a flat delivery fee of 30 in turn t012, but typically \"lines in the order\" refers to the itemized stock unless specified as a fee to be added to the total. However, looking at the phrasing \"Add a line of... for the [item]\", the delivery fee was stated as \"There's a flat delivery fee of 30 on the order.\" Usually, in these types of prompts, if it's not explicitly added as a line item in the same format (e.g., \"Add a line of 30 for delivery\"), it might be excluded from the \"lines\" sum or it might be included. Let's look closely at the instruction: \"put together a supply order from lines they give...\". The delivery fee was a statement of fact about the order, not a command to add a line. The commands were \"Add a line of...\". Therefore, I will sum the items explicitly added as lines and the deduction.\n\nLet's sum the additions and subtractions:\n*   Ladders: +350\n*   Tarps: +50\n*   Lamps: +320\n*   Cable reels: +105\n*   Returned stock deduction: -70\n\nCalculation:\n350 + 50 = 400\n400 + 320 = 720\n720 + 105 = 825\n825 - 70 = 755\n\nTotal: 755"
+  "text": "To calculate the total for the supply order, I will review all the line items added to the order throughout the session.\n\n1.  **Ladders**: 350 (Added in turn t001)\n2.  **Tarps**: 50 (Added in turn t014)\n3.  **Lamps**: 320 (Added in turn t015)\n4.  **Flat Delivery Fee**: 30 (Added in turn t012)\n5.  **Returned Stock**: -70 (Subtracted in turn t023)\n6.  **Cable Reels**: 105 (Added in turn t024)\n\nNow, summing these values:\n350 + 50 = 400\n400 + 320 = 720\n720 + 30 = 750\n750 - 70 = 680\n680 + 105 = 785\n\nTotal: 785"
 }

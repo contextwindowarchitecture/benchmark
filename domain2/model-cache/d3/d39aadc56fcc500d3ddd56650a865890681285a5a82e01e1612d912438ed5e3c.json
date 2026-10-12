@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "d39aadc56fcc500d3ddd56650a865890681285a5a82e01e1612d912438ed5e3c",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "9f2a4cb8680f26287fde27b15ea2325bfa012feb1bbface7bbf54bf9db330aaf",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-12T08:20:13Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 8154.178,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "9464c11fec0654a578d4d236cc7c5e67c97ef31bcb1019272578c70b8e39343a",
+    "response_id": "chatcmpl-b1901c64e4503ac6",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 5847,
+      "total_tokens": 6359
+    }
+  },
+  "text": "To determine the total for the order so far, I will review the order lines provided in the session history.\n\n1.  In turn `t001`, the user requested: \"Add a line of 515 for the crates to the order.\"\n    *   Current crates: 515\n\n2.  In turn `t017`, the user requested: \"Add a line of 400 for the ladders to the order.\"\n    *   Current ladders: 400\n\n3.  In turn `t038`, the user requested: \"Take 35 off the order for the returned stock.\"\n    *   The user did not specify which item to reduce, but typically \"returned stock\" refers to the largest bulk item or the first item added unless specified. However, looking at the context, there is no specific item associated with the return in that turn. Let's look closer. Usually, if an item isn't specified, it might refer to the most recent addition or the primary item. However, without a specific item name, this is ambiguous. Let's re-read the prompt constraints. The prompt asks for the total. Let's look at the order lines provided in the system state `xstate:03`.\n    *   `xstate:03` shows: `[{\"item\": \"crates\", \"quantity\": 480}, {\"item\": \"ladders\", \"quantity\": 400}]`.\n    *   Wait, the system state `xstate:03` seems to reflect a *prior* state or a separate tracking mechanism. Let's trace the user's explicit instructions against the history, as the \"current\" state in the prompt headers might be a snapshot or a distractor. The prompt says \"I'm putting together a supply order...\". The history contains the actual conversation.\n    *   Let's re-evaluate `xstate:03`. It lists 480 crates and 400 ladders.\n    *   The user in `t001` said \"Add a line of 515 for the crates\".\n    *   The user in `t038` said \"Take 35 off the order\".\n    *   If we assume the system state `xstate:03` is the *result* of previous operations or a baseline, I need to be careful. However, usually,"
+}

@@ -7,11 +7,11 @@
     "sample": 2
   },
   "provenance": {
-    "at": "2026-10-11T02:43:42Z",
-    "cached_tokens": 1056,
+    "at": "2026-10-12T07:57:04Z",
+    "cached_tokens": 0,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 34081.841,
+    "latency_ms": 79248.257,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "17c39f70f31e5b1c379adecc28d20297240b4a74355bc83dd73d9afccd52e56a",
-    "response_id": "chatcmpl-a70082424d8f01be",
+    "response_id": "chatcmpl-a4de2f5518da44ee",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 2,
     "usage": {
-      "completion_tokens": 168,
+      "completion_tokens": 415,
       "prompt_tokens": 1527,
-      "total_tokens": 1695
+      "total_tokens": 1942
     }
   },
-  "text": "To calculate the total for the Harby depot supply order, I will sum the values of the lines added so far:\n\n1.  Helmets: +370\n2.  Flat delivery fee: +25\n3.  Returned stock adjustment: -40\n4.  Returned stock adjustment: -70\n5.  Returned stock adjustment: -50\n6.  Cable reels: +285\n\nCalculation:\n370 + 25 = 395\n395 - 40 = 355\n355 - 70 = 285\n285 - 50 = 235\n235 + 285 = 520\n\nTotal: 520"
+  "text": "To calculate the total for the supply order, I need to identify all the monetary adjustments made to the order throughout the conversation.\n\n1.  **Initial Order Adjustment**: In turn `t002`, the user stated: \"There's a flat delivery fee of 25 on the order.\" This adds **25**.\n2.  **First Return Adjustment**: In turn `t006`, the user stated: \"Take 40 off the order for the returned stock.\" This subtracts **40**.\n3.  **Second Return Adjustment**: In turn `t007`, the user stated: \"Take 70 off the order for the returned stock.\" This subtracts **70**.\n4.  **Third Return Adjustment**: In turn `t009`, the user stated: \"Take 50 off the order for the returned stock.\" This subtracts **50**.\n5.  **Helmet Line Item**: In turn `t001`, the user stated: \"Add a line of 370 for the helmets to the order.\" This adds **370**.\n6.  **Cable Reels Line Item**: In turn `t010`, the user stated: \"Add a line of 285 for the cable reels to the order.\" This adds **285**.\n\nNow, I will sum these values step by step:\n\n*   Start with the delivery fee: 25\n*   Subtract the first return: 25 - 40 = -15\n*   Subtract the second return: -15 - 70 = -85\n*   Subtract the third return: -85 - 50 = -135\n*   Add the helmets: -135 + 370 = 235\n*   Add the cable reels: 235 + 285 = 520\n\nTotal: 520"
 }

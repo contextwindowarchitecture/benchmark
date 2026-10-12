@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "683f523c14c66119be6ba00005cd56aed072360a228b77c39157801df5796036",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "af0773bceda5632d68d53b870f195b145ae3e2c50d1c8a3f87bc327c4f98e7a5",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-12T07:24:55Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 90792.37,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "d17bc2f41400aa97e63a48b6043dc28108d1029ac67b4e915f6fc568d2bf9213",
+    "response_id": "chatcmpl-a6596944dae2d83a",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 464,
+      "prompt_tokens": 1629,
+      "total_tokens": 2093
+    }
+  },
+  "text": "To determine the total for the Harcroft depot order, we need to aggregate the quantities from the initial setup and the adjustments made during the session.\n\n1.  **Initial Order Lines:**\n    *   Crates: 240\n    *   Toolkits: 470\n    *   Lamps: 95\n\n2.  **Adjustments:**\n    *   **Add 275 crates:** The user requested adding a line of 275 for crates.\n        *   New Crates total: $240 + 275 = 515$\n    *   **Add 470 toolkits:** The user requested adding a line of 470 for toolkits.\n        *   New Toolkits total: $470 + 470 = 940$\n    *   **Add 175 lamps:** The user requested adding a line of 175 for lamps.\n        *   New Lamps total: $95 + 175 = 270$\n    *   **Take 35 off returned stock:** The user requested taking 35 off the order. This is a general reduction.\n        *   Current Subtotal: $515 + 940 + 270 = 1725$\n        *   After reduction: $1725 - 35 = 1690$\n    *   **Take 80 off returned stock:** The user requested taking 80 off the order.\n        *   Current Subtotal: $1690 - 80 = 1610$\n\n3.  **Final Calculation:**\n    *   Crates: 515\n    *   Toolkits: 940\n    *   Lamps: 270\n    *   Less returned stock adjustments: $-35 - 80 = -115$\n    *   Total: $515 + 940 + 270 - 115 = 1610$\n\nTotal: 1610"
+}

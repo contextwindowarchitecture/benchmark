@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "75db753c6adda6e9343365b755055181611d5a204707e217314f1d8252c13eaf",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "2d5baa55088c727a01235de3beb484a1c0c7aac4fcc344bdba7dd2eee5c6d20e",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-12T08:12:36Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 17998.155,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "dc8de9aad3c0fed1014ab40e5ec9624d75f21c627d24ca8e67c9df38d6e04d7f",
+    "response_id": "chatcmpl-a90d83f9cb7eac16",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6150,
+      "total_tokens": 6662
+    }
+  },
+  "text": "To determine the total order cost so far, we need to look at the items and quantities specified in the initial task and any subsequent updates.\n\n**Initial Order Items (from `xstate:03`):**\n*   Lanterns: 340\n*   Tarps: 180\n*   Helmets: 465\n*   Ladders: 240\n*   Lamps: 310\n\n**Updates to Order Items:**\n*   Turn `t024`: \"Add a line of 180 for the tarps to the order.\"\n    *   Note: The initial order already had 180 tarps. Adding another 180 means the total tarps are now $180 + 180 = 360$.\n*   Turn `t028`: \"Add a line of 465 for the helmets to the order.\"\n    *   Note: The initial order already had 465 helmets. Adding another 465 means the total helmets are now $465 + 465 = 930$.\n*   Turn `t037`: \"Add a line of 240 for the ladders to the order.\"\n    *   Note: The initial order already had 240 ladders. Adding another 240 means the total ladders are now $240 + 240 = 480$.\n*   Turn `t040`: \"Add a line of 310 for the lamps to the order.\"\n    *   Note: The initial order already had 310 lamps. Adding another 310 means the total lamps are now $310 + 310 = 620$.\n\n**Final Item Counts:**\n*   Lanterns: 340\n*   Tarps: 360\n*   Helmets: 930\n*   Ladders: 480\n*   Lamps: 620\n\n**Delivery Fee:**\n*   From `t014`: \"There's a flat delivery fee of 30 on the order.\"\n\nSince no prices per item were provided in the context, I assume the question \"What does the order come to so far?\" refers to the total **quantity** of items, or potentially the total"
+}

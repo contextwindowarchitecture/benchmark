@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "e3bc1924a045b74db1f2f8f1dce80847350684e828ea59a8e80486d6b14f8fdc",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e5591c961f7c51589a6c9dfc75cb8277a40a83b3c7eb0442e1dacc9810330653",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T08:21:42Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 8700.455,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "ba68467f8556b016330906e26fec1909e1a6c022aab80eac9bde18e5c15b0524",
+    "response_id": "chatcmpl-936635d1fd4aa846",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 500,
+      "prompt_tokens": 6125,
+      "total_tokens": 6625
+    }
+  },
+  "text": "To determine the total for the order, I will break down the line items step by step based on the information provided in the state and conversation history.\n\n1.  **Initial Order Lines (from `xstate:03`):**\n    *   Crates: 430\n    *   Ladders: 400\n    *   Lamps: 520\n\n2.  **Adjustments from History:**\n    *   **Turn t038:** The user said, \"Take 35 off the order for the returned stock.\"\n        *   This applies to the total quantity.\n    *   **Turn t044:** The user said, \"Take 50 off the order for the returned stock.\"\n        *   This applies to the total quantity.\n    *   **Turn t048:** The user said, \"Add a line of 520 for the lamps to the order.\"\n        *   This adds 520 to the Lamp quantity.\n\n3.  **Calculation:**\n\n    *   **Crates:** The initial quantity was 430. No specific adjustments were made to crates alone in the history.\n        *   Current Crates: 430\n\n    *   **Ladders:** The initial quantity was 400. No specific adjustments were made to ladders alone in the history.\n        *   Current Ladders: 400\n\n    *   **Lamps:** The initial quantity was 520. In turn t048, 520 more lamps were added.\n        *   Current Lamps: 520 + 520 = 1040\n\n    *   **Returned Stock Deductions:**\n        *   Turn t038: -35\n        *   Turn t044: -50\n        *   Total Deduction: 35 + 50 = 85\n\n    *   **Total Summation:**\n        *   Sum of items: 430 (Crates) + 400 (Ladders) + 1040 (Lamps) = 1870\n        *   Subtract returned stock: 1870 - 85 = 1785\n\nTotal: 1785"
+}

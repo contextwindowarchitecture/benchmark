@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "0fce053a46cdae20e727d0b93c3357e31e2b4f4ec2fab622421bca9a89ceaf74",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "35a98122def639a6f4ef2df7955552d8656b6d8e99f520ccc88ac721707439ce",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-12T08:20:38Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 8404.827,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "3f471f264f8301b95e1d93172895e9f108dd196bcd1c5dbd331ecd3ee3069786",
+    "response_id": "chatcmpl-830f0b494f18e5cb",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6090,
+      "total_tokens": 6602
+    }
+  },
+  "text": "To determine the total for the order, I will track the initial quantities and apply any additions or subtractions mentioned in the session.\n\n1.  **Initial Order Lines** (from `xstate:03`):\n    *   Crates: 430\n    *   Ladders: 400\n    *   Lamps: 520\n\n2.  **Modifications**:\n    *   **Turn t017**: User says, \"Add a line of 400 for the ladders to the order.\"\n        *   New Ladder quantity: 400 + 400 = 800\n    *   **Turn t038**: User says, \"Take 35 off the order for the returned stock.\"\n        *   This is a general reduction, not specific to an item. The standard interpretation in these tasks, unless specified otherwise, is to apply it to the largest quantity or simply reduce the total. However, looking at previous patterns, if it's not item-specific, it's often subtracted from the total sum. Let's look for item-specific subtractions first. There are none. So, we subtract 35 from the total sum.\n    *   **Turn t044**: User says, \"Take 50 off the order for the returned stock.\"\n        *   Subtract another 50 from the total sum.\n    *   **Turn t048**: User says, \"Add a line of 520 for the lamps to the order.\"\n        *   New Lamp quantity: 520 + 520 = 1040\n\n3.  **Calculation**:\n    *   **Crates**: 430\n    *   **Ladders**: 800 (400 initial + 400 added)\n    *   **Lamps**: 1040 (520 initial + 520 added)\n\n    *   **Subtotal before returns**: 430 + 800 + 1040 = 2270\n    *   **Less Returns**:\n        *   From t038: -35\n        *   From t044: -50\n        *   Total reduction: 85\n\n    *   **Final Total**: 2270 -"
+}

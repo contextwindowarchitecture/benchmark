@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "874b14cd3021ec85b8e669308395efe0890991aa2148167919df1e6c9e7f8d85",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "2e05510d267e2c6f1cfd37bb9b1ee8618db495c154a2f55d7b50f7610adc72d1",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-12T08:20:43Z",
+    "cached_tokens": 6336,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 3362.553,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "e1f5fb08d679b4f0ddaa32263b3a6f493a546c53cf80062fe7247c485bd0d795",
+    "response_id": "chatcmpl-8edb63254c91b37e",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 225,
+      "prompt_tokens": 6415,
+      "total_tokens": 6640
+    }
+  },
+  "text": "To calculate the total for the supply order so far, we look at the items explicitly added to the order in the conversation history:\n\n1.  **Lamps**: In turn `t065`, the user requested to \"Add a line of 225 for the lamps to the order.\"\n    *   Lamps: 225\n2.  **Lanterns**: In turn `t100`, the user requested to \"Add a line of 525 for the lanterns to the order.\"\n    *   Lanterns: 525\n\nOther quantities mentioned in the `<task>` tags (such as `ladder_quantity: 165`, `toolkits_quantity: 265`) appear to be current inventory levels or facility statuses rather than items added to this specific new order. The order only contains the items explicitly added by the user's commands.\n\nCalculation:\n225 (Lamps) + 525 (Lanterns) = 750\n\nTotal: 750"
+}

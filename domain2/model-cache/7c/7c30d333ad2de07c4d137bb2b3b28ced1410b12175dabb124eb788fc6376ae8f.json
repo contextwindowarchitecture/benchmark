@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "7c30d333ad2de07c4d137bb2b3b28ced1410b12175dabb124eb788fc6376ae8f",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "6309d155902134781e0a55f1be98af9abd857a7f7f393231e9452086d62482fd",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T08:12:30Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 10001.4,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "103dd138f4288b3dc7ff3e3f6d7757bce95a2c8535068fc9d62cc9609cbd2aff",
+    "response_id": "chatcmpl-ac4d78804655feac",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 289,
+      "prompt_tokens": 6207,
+      "total_tokens": 6496
+    }
+  },
+  "text": "To calculate the total cost of the order, we need to sum the costs of the individual items based on the quantities provided. However, the order lines provided do not include unit prices, only quantities. Without unit prices, it is impossible to calculate a monetary total.\n\nIf the question implies a total *quantity* of items, we can sum the quantities (treating negative values as reductions):\n\n1.  **Lamps**: 115\n2.  **Ladders**: 255\n3.  **Harbour room**: 1\n4.  **Cable reels**: 155\n5.  **Returned stock**: -65\n6.  **Crates**: 160\n\nSumming these values:\n$115 + 255 + 1 + 155 - 65 + 160$\n\nStep-by-step:\n1.  $115 + 255 = 370$\n2.  $370 + 1 = 371$\n3.  $371 + 155 = 526$\n4.  $526 - 65 = 461$\n5.  $461 + 160 = 621$\n\nTotal: 621"
+}

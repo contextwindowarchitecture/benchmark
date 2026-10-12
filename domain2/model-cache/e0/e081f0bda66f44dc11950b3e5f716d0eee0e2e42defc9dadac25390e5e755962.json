@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "e081f0bda66f44dc11950b3e5f716d0eee0e2e42defc9dadac25390e5e755962",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "86d8b3264c967f79f259fc6142f51eb96ccc4b7be8b4a7141ec2c6fc4b1a312c",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-12T08:16:18Z",
+    "cached_tokens": 3168,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 15085.249,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "e9ece9c7d65b66159d0952f2b68adb63fb999e141e489d5e7ffca1d394d19a49",
+    "response_id": "chatcmpl-9f838b7b255a988a",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 4182,
+      "total_tokens": 4694
+    }
+  },
+  "text": "To determine the total for the supply order for the Istworth depot, we need to track the changes to the order lines provided in the conversation history.\n\n1.  **Initial Order (from `<task id=\"xstate:01\">`):**\n    *   Ladders: 370\n    *   Lamps: 555\n\n2.  **Update in Turn 001:**\n    *   User says: \"Add a line of 400 for the ladders to the order.\"\n    *   Current Ladders: 370 + 400 = 770\n    *   Current Lamps: 555\n\n3.  **Update in Turn 004:**\n    *   User says: \"Take 30 off the order for the returned stock.\"\n    *   The prompt doesn't specify which item, but typically \"returned stock\" without specific item qualification implies a general reduction or applies to the first/most prominent item. However, looking at the pattern of such tasks, usually, if it's not specified, it might apply to the total or a specific item. Let's look closer. \"Take 30 off the order\" usually implies a reduction in quantity. Without a specific item tag, it's ambiguous. However, in similar contexts, if no item is named, it often reduces the first item or the total. Let's assume it reduces the Ladders count as they were the most recently adjusted, or it reduces the total quantity. Let's look for other clues. There are no other item-specific reductions until the end. Let's assume it reduces the Ladders count for now, as they are the first item listed and the most active.\n    *   Current Ladders: 770 - 30 = 740\n    *   Current Lamps: 555\n\n4.  **Update in Turn 020:**\n    *   User says: \"Add a line of 555 for the lamps to the order.\"\n    *   Wait, the initial order already had 555 lamps. Does this mean we add another 555? Or is it a correction? The phrasing \"Add a line of...\" suggests adding to the existing quantity.\n    *   Current Lamps: 555 (initial) + 555 (added) = 1110\n    *"
+}

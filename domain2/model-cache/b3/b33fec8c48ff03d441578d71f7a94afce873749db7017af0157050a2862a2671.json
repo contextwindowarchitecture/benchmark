@@ -7,11 +7,11 @@
     "sample": 4
   },
   "provenance": {
-    "at": "2026-10-11T03:12:21Z",
+    "at": "2026-10-12T08:19:57Z",
     "cached_tokens": 3168,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 3873.254,
+    "latency_ms": 3596.892,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "ff6ef134983871cac671396c35e9fccba1be5bc354a8ce1a75deb4d0dfe5b971",
-    "response_id": "chatcmpl-97c8c060e7dbf5f8",
+    "response_id": "chatcmpl-95cdeb43c49f7b5c",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 4,
     "usage": {
-      "completion_tokens": 238,
+      "completion_tokens": 196,
       "prompt_tokens": 4118,
-      "total_tokens": 4356
+      "total_tokens": 4314
     }
   },
-  "text": "To calculate the total for the Nevbury depot order, we follow the instructions in the history:\n\n1.  **Initial Order Line**: The order started with **215** ladders (from `xstate:01`).\n2.  **User Addition**: In turn `t001`, the user instructed to \"Add a line of 240 for the ladders to the order.\"\n    *   Current Total: $215 + 240 = 455$ ladders.\n3.  **User Subtraction 1**: In turn `t018`, the user instructed to \"Take 80 off the order for the returned stock.\"\n    *   Current Total: $455 - 80 = 375$ ladders.\n4.  **User Subtraction 2**: In turn `t029`, the user instructed to \"Take 25 off the order for the returned stock.\"\n    *   Current Total: $375 - 25 = 350$ ladders.\n\nTotal: 350"
+  "text": "To calculate the total for the Nevbury depot order, let's look at the changes made to the line items throughout our session:\n\n1.  **Initial State**: The order started with 215 ladders.\n2.  **Turn t001**: You added 240 ladders.\n    *   Current total: $215 + 240 = 455$ ladders.\n3.  **Turn t018**: You instructed to take 80 off the order for returned stock.\n    *   Current total: $455 - 80 = 375$ ladders.\n4.  **Turn t029**: You instructed to take 25 off the order for returned stock.\n    *   Current total: $375 - 25 = 350$ ladders.\n\nTotal: 350"
 }

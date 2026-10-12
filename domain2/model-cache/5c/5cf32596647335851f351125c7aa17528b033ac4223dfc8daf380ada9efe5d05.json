@@ -7,11 +7,11 @@
     "sample": 3
   },
   "provenance": {
-    "at": "2026-10-11T08:16:32Z",
+    "at": "2026-10-12T08:21:03Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 1499.025,
+    "latency_ms": 4215.161,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "c8825b6e9798357ff333925815bf5fcae0caa27f764a0ca58bfed6bc569516a1",
-    "response_id": "chatcmpl-8a507976ba54c928",
+    "response_id": "chatcmpl-9d6a87adc6b10b56",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 3,
     "usage": {
-      "completion_tokens": 166,
+      "completion_tokens": 259,
       "prompt_tokens": 6051,
-      "total_tokens": 6217
+      "total_tokens": 6310
     }
   },
-  "text": "Let's review the order lines to calculate the total.\n\n1.  **Ladders**: The initial order was for 215. There have been no changes to this quantity.\n    *   Current Ladders: 215\n2.  **Lamps**: The initial order was for 350. In turn t048, the user added a line of 350 for lamps.\n    *   Current Lamps: 350 + 350 = 700\n\nNow, let's sum the quantities:\n*   Ladders: 215\n*   Lamps: 700\n*   Total: 215 + 700 = 915\n\nTotal: 915"
+  "text": "Let's review the order lines to calculate the total.\n\n1.  **Ladders**: The initial order was for 215.\n2.  **Lamps**: The initial order was for 350. In turn t048, you added a line of 350 for lamps. So, 350 (initial) + 350 (added) = 700 lamps.\n3.  **Returned Stock Adjustments**:\n    *   In turn t018, you said to \"Take 80 off the order for the returned stock.\"\n    *   In turn t029, you said to \"Take 25 off the order for the returned stock.\"\n    *   Total deduction for returned stock: 80 + 25 = 105.\n\nNow, let's sum the items:\n*   Ladders: 215\n*   Lamps: 700\n*   Subtotal: 215 + 700 = 915\n\nSubtract the returned stock adjustments:\n*   915 - 105 = 810\n\nTotal: 810"
 }

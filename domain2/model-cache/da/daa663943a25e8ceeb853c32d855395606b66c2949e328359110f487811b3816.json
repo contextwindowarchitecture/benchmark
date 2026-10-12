@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "daa663943a25e8ceeb853c32d855395606b66c2949e328359110f487811b3816",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "6634d93702d5c0c0045359e940917cda87502a386eae687c8d80f9c780ac0f5b",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T08:01:17Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 65007.6,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "d17bc2f41400aa97e63a48b6043dc28108d1029ac67b4e915f6fc568d2bf9213",
+    "response_id": "chatcmpl-92eaea69413b3595",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 445,
+      "prompt_tokens": 1629,
+      "total_tokens": 2074
+    }
+  },
+  "text": "To calculate the total supply order for the Harcroft depot, we need to aggregate the quantities of each item based on the instructions provided throughout the session.\n\n1.  **Crates**:\n    *   Initial order: 240 (from `<task id=\"xstate:01\">`)\n    *   Added in turn t001: +275\n    *   Total for crates: $240 + 275 = 515$\n\n2.  **Toolkits**:\n    *   Initial order: 470 (from `<task id=\"xstate:01\">`)\n    *   Added in turn t004: +470\n    *   Total for toolkits: $470 + 470 = 940$\n\n3.  **Lamps**:\n    *   Initial order: 95 (from `<task id=\"xstate:01\">`)\n    *   Added in turn t005: +175\n    *   Total for lamps: $95 + 175 = 270$\n\n4.  **Adjustments for Returned Stock**:\n    *   Turn t002: Take 35 off the order.\n    *   Turn t007: Take 80 off the order.\n    *   Total deduction: $35 + 80 = 115$\n\n5.  **Delivery Fee**:\n    *   Turn t008: Flat delivery fee of 45.\n\n**Calculation:**\n*   Sum of items: $515 \\text{ (crates)} + 940 \\text{ (toolkits)} + 270 \\text{ (lamps)} = 1725$\n*   Subtract returned stock: $1725 - 115 = 1610$\n*   Add delivery fee: $1610 + 45 = 1655$\n\nTotal: 1655"
+}

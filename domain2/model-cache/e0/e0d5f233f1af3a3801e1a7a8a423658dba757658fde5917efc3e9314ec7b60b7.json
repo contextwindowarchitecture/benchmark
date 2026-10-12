@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "e0d5f233f1af3a3801e1a7a8a423658dba757658fde5917efc3e9314ec7b60b7",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "b956c3e95437217853f8c2ac1df2ee9ac9abdcc5008578772539897b9ca8f18a",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-12T08:19:11Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 4130.783,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "3294c76e6379564caa2250aafe6331151b42c72505b3859c986d96d9f80ddbb8",
+    "response_id": "chatcmpl-99e59d152d416a31",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 234,
+      "prompt_tokens": 5642,
+      "total_tokens": 5876
+    }
+  },
+  "text": "To calculate the total for the supply order, I will identify the items and quantities added to the order throughout the session.\n\n1.  **Ladders**: In turn `t001`, the user requested to \"Add a line of 165 for the ladders to the order.\"\n    *   Quantity: 165\n\n2.  **Toolkits**: In turn `t004`, the user requested to \"Add a line of 265 for the toolkits to the order.\"\n    *   Quantity: 265\n\n3.  **Returns**: In turn `t032`, the user requested to \"Take 40 off the order for the returned stock.\" This reduces the total quantity.\n    *   Adjustment: -40\n\nNow, I will sum these values:\n*   Start with Ladders: 165\n*   Add Toolkits: 165 + 265 = 430\n*   Subtract Returns: 430 - 40 = 390\n\nTotal: 390"
+}

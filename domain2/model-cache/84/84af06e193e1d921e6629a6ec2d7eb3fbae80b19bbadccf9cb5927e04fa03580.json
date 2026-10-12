@@ -7,11 +7,11 @@
     "sample": 4
   },
   "provenance": {
-    "at": "2026-10-11T02:45:48Z",
-    "cached_tokens": 0,
+    "at": "2026-10-12T07:58:34Z",
+    "cached_tokens": 1056,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 58013.748,
+    "latency_ms": 49179.924,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "17c39f70f31e5b1c379adecc28d20297240b4a74355bc83dd73d9afccd52e56a",
-    "response_id": "chatcmpl-be1f00031c286a34",
+    "response_id": "chatcmpl-acd6436bf21fbb4c",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 4,
     "usage": {
-      "completion_tokens": 289,
+      "completion_tokens": 396,
       "prompt_tokens": 1527,
-      "total_tokens": 1816
+      "total_tokens": 1923
     }
   },
-  "text": "To determine the total for the Harby depot supply order, let's look at the line items added during the session:\n\n1.  In turn 1, a line of 370 was added for the helmets.\n2.  In turn 2, a flat delivery fee of 25 was added.\n3.  In turn 6, 40 was subtracted for returned stock.\n4.  In turn 7, 70 was subtracted for returned stock.\n5.  In turn 9, 50 was subtracted for returned stock.\n6.  In turn 10, a line of 285 was added for the cable reels.\n\nLet's calculate the total step by step:\n*   Start with helmets: 370\n*   Add delivery fee: 370 + 25 = 395\n*   Subtract returned stock (turn 6): 395 - 40 = 355\n*   Subtract returned stock (turn 7): 355 - 70 = 285\n*   Subtract returned stock (turn 9): 285 - 50 = 235\n*   Add cable reels: 235 + 285 = 520\n\nTotal: 520"
+  "text": "To determine the total for the supply order, I need to sum up all the line items and adjustments mentioned throughout the session.\n\n1.  **Initial Line Item:**\n    *   In `turn:t001:user`, the user said: \"Add a line of 370 for the helmets to the order.\"\n    *   Current Subtotal: 370\n\n2.  **Delivery Fee:**\n    *   In `turn:t002:user`, the user said: \"There's a flat delivery fee of 25 on the order.\"\n    *   Current Subtotal: 370 + 25 = 395\n\n3.  **Return Adjustment 1:**\n    *   In `turn:t006:user`, the user said: \"Take 40 off the order for the returned stock.\"\n    *   Current Subtotal: 395 - 40 = 355\n\n4.  **Return Adjustment 2:**\n    *   In `turn:t007:user`, the user said: \"Take 70 off the order for the returned stock.\"\n    *   Current Subtotal: 355 - 70 = 285\n\n5.  **Return Adjustment 3:**\n    *   In `turn:t009:user`, the user said: \"Take 50 off the order for the returned stock.\"\n    *   Current Subtotal: 285 - 50 = 235\n\n6.  **Final Line Item:**\n    *   In `turn:t010:user`, the user said: \"Add a line of 285 for the cable reels to the order.\"\n    *   Current Subtotal: 235 + 285 = 520\n\nTotal: 520"
 }

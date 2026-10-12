@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "6cda9222703de1b4b5e9a3c23961f6bd08a350bf19a066f23d4ce70a9b328f98",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d110e16b847814552598e0e9be9856c8783eafdd76e9dd3acb291a9e113959fa",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-12T07:42:42Z",
+    "cached_tokens": 11616,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 7296.184,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "cb806c409c2e43437f5e2e5787046270722226f6aa671420f39908b0005f1ac2",
+    "response_id": "chatcmpl-bcf736bdd6097cf4",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 12216,
+      "total_tokens": 12728
+    }
+  },
+  "text": "To calculate the total for the order, let's track the changes to the line items step by step based on the conversation history.\n\n1.  **Initial Order (from task xstate:03):**\n    *   Crates: 350\n    *   Ladders: 400\n    *   Lamps: 520\n\n2.  **Turn t017:** User says, \"Add a line of 400 for the ladders to the order.\"\n    *   Ladders: 400 + 400 = 800\n\n3.  **Turn t038:** User says, \"Take 35 off the order for the returned stock.\"\n    *   This is a general reduction. Usually, in these types of prompts, unless specified which item, it applies to the first item or is a general deduction. However, looking at the pattern of specific item additions, let's look for specific item reductions. There are no specific item reductions mentioned until later or implied. Let's re-read carefully. \"Take 35 off the order\" usually implies a total deduction or a deduction from a specific line if context suggests. Without a specific item named, it's ambiguous. However, often in these tests, if it's not specified, it might apply to the first item or be a total sum reduction. Let's look at the next specific instruction.\n    *   Actually, let's look at **Turn t044**: \"Take 50 off the order for the returned stock.\"\n    *   And **Turn t078**: \"Take 80 off the order for the returned stock.\"\n    *   These are generic \"off the order\" instructions. In many supply chain contexts, if not specified, it might reduce the total quantity. Let's assume these reduce the total count of items. Or do they reduce a specific item? Let's look for clues. There are no clues linking \"returned stock\" to a specific item. Let's assume these are total quantity reductions for now, or perhaps they apply to the first item listed (Crates). Let's try applying them to the first item (Crates) as a default if no item is specified, or just subtract from the total.\n    *   Let's check if there's a pattern.\n    *   Let's look at **Turn t048**: \"Add a line of 520"
+}

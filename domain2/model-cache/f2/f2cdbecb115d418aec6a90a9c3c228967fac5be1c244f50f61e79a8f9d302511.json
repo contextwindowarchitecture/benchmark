@@ -7,11 +7,11 @@
     "sample": 3
   },
   "provenance": {
-    "at": "2026-10-11T03:03:49Z",
+    "at": "2026-10-12T08:12:52Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 10451.528,
+    "latency_ms": 7339.875,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "5c60bd90d2c13f7992879f21448595cd9603a9c06475454a19fb877836066d9a",
-    "response_id": "chatcmpl-8bea8e5263215fe4",
+    "response_id": "chatcmpl-ae3f6b7ae06ed8b2",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 3,
     "usage": {
-      "completion_tokens": 291,
+      "completion_tokens": 210,
       "prompt_tokens": 5463,
-      "total_tokens": 5754
+      "total_tokens": 5673
     }
   },
-  "text": "To calculate the total for the order, I will identify the specific line items and their costs mentioned in the conversation history.\n\n1.  **Ladders**: In turn `t001`, the user requested, \"Add a line of 165 for the ladders to the order.\"\n    *   Current Subtotal: 165\n\n2.  **Toolkits**: In turn `t004`, the user requested, \"Add a line of 265 for the toolkits to the order.\"\n    *   Current Subtotal: 165 + 265 = 430\n\n3.  **Delivery Fee**: In turn `t007`, the user stated, \"There's a flat delivery fee of 45 on the order.\"\n    *   Current Subtotal: 430 + 45 = 475\n\n4.  **Returned Stock**: In turn `t032`, the user instructed, \"Take 40 off the order for the returned stock.\"\n    *   Current Subtotal: 475 - 40 = 435\n\nNo other items were added or removed from the financial order lines. The other details provided (noise, lifts, meetings, desk swaps, etc.) are operational notes and do not affect the order total.\n\nTotal: 435"
+  "text": "To calculate the total for the order so far, let's look at the items added:\n\n1.  In turn t001, a line of 165 was added for the ladders.\n2.  In turn t004, a line of 265 was added for the toolkits.\n3.  In turn t007, a flat delivery fee of 45 was added.\n4.  In turn t032, 40 was taken off the order for returned stock.\n\nNow, let's add them up step by step:\n\n*   Start with the ladders: 165\n*   Add the toolkits: 165 + 265 = 430\n*   Add the delivery fee: 430 + 45 = 475\n*   Subtract the returned stock: 475 - 40 = 435\n\nTotal: 435"
 }

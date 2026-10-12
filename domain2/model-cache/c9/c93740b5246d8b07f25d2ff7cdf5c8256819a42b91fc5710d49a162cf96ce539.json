@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "c93740b5246d8b07f25d2ff7cdf5c8256819a42b91fc5710d49a162cf96ce539",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "84f798a1c464579d8d666e38bc56dc8c39916f0ce07b637d89097f205007e2c3",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T08:20:45Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 6039.115,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "83771f3180ef053f1eb1d86a6641c2aa0935c210195fa62517507ced949690d4",
+    "response_id": "chatcmpl-a8556fb975a7a335",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 378,
+      "prompt_tokens": 6176,
+      "total_tokens": 6554
+    }
+  },
+  "text": "Let's update the order lines based on the latest instructions.\n\n1.  **Initial Order Lines (from task xstate:20):**\n    *   Ladders: 330\n    *   Cable reels: 315\n    *   Toolkits: 570\n    *   Tarps: 445\n    *   Lanterns: 585\n\n2.  **Updates from Conversation History:**\n    *   In turn `t076`, the user said: \"Add a line of 445 for the tarps to the order.\"\n        *   Current Tarps: 445 + 445 = 890\n    *   In turn `t096`, the user said: \"Add a line of 585 for the lanterns to the order.\"\n        *   Current Lanterns: 585 + 585 = 1170\n\n3.  **Final Order Lines:**\n    *   Ladders: 330\n    *   Cable reels: 315\n    *   Toolkits: 570\n    *   Tarps: 890\n    *   Lanterns: 1170\n\n4.  **Calculation:**\n    *   330 (Ladders)\n    *   + 315 (Cable reels) = 645\n    *   + 570 (Toolkits) = 1215\n    *   + 890 (Tarps) = 2105\n    *   + 1170 (Lanterns) = 3275\n\nTotal: 3275"
+}

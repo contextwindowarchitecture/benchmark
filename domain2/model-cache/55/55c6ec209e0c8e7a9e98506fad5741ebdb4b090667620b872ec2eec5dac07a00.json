@@ -7,11 +7,11 @@
     "sample": 2
   },
   "provenance": {
-    "at": "2026-10-11T02:57:47Z",
+    "at": "2026-10-12T08:06:41Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 6996.73,
+    "latency_ms": 11302.587,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "b98bfd3e79d95552082d4fe34e9c764180d15b472b7c76a5b730fe85b13de88c",
-    "response_id": "chatcmpl-a2d28547b9f340df",
+    "response_id": "chatcmpl-9c514337ecccc9b4",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 2,
     "usage": {
-      "completion_tokens": 137,
+      "completion_tokens": 266,
       "prompt_tokens": 5439,
-      "total_tokens": 5576
+      "total_tokens": 5705
     }
   },
-  "text": "To calculate the total for the supply order, I will sum up the items added to the order so far.\n\n1.  **Lanterns**: 595\n2.  **Tarps**: 370\n3.  **Lamps**: 300\n4.  **Flat delivery fee**: 25\n\nStep-by-step addition:\n- 595 + 370 = 965\n- 965 + 300 = 1265\n- 1265 + 25 = 1290\n\nTotal: 1290"
+  "text": "To calculate the total for the supply order, I will sum up the line items provided in the conversation history.\n\n1.  **Lanterns**: In turn `t001`, the user requested to \"Add a line of 595 for the lanterns to the order.\"\n    *   Current Subtotal: 595\n\n2.  **Tarps**: In turn `t018`, the user requested to \"Add a line of 370 for the tarps to the order.\"\n    *   Current Subtotal: 595 + 370 = 965\n\n3.  **Lamps**: In turn `t031`, the user requested to \"Add a line of 300 for the lamps to the order.\"\n    *   Current Subtotal: 965 + 300 = 1265\n\n4.  **Delivery Fee**: In turn `t033`, the user stated, \"There's a flat delivery fee of 25 on the order.\"\n    *   Current Subtotal: 1265 + 25 = 1290\n\nThe order comes to so far:\nTotal: 1290"
 }

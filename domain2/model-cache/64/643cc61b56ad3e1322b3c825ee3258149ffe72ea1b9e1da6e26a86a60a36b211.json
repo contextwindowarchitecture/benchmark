@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "643cc61b56ad3e1322b3c825ee3258149ffe72ea1b9e1da6e26a86a60a36b211",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "eb048bbdb18d5a75e2347280d8f67cb9696b8d0733c16fcb4e14a893ebb4fa91",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T08:21:19Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 6410.245,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "ace1f626eb8234be7d97df2f68dbb6f82a728e77778cd9967bccc3197f276286",
+    "response_id": "chatcmpl-99ab824a43423eb5",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 372,
+      "prompt_tokens": 6073,
+      "total_tokens": 6445
+    }
+  },
+  "text": "Let's go through the order lines step by step.\n\n1.  **Ladders**: The initial quantity was 420.\n2.  **Lanterns**: The initial quantity was 360.\n3.  **Helments**: The initial quantity was 155.\n\nNow, let's apply the adjustments to the returned stock:\n*   In turn t036, you said: \"Take 70 off the order for the returned stock.\"\n*   In turn t067, you said: \"Take 45 off the order for the returned stock.\"\n\nTotal deduction for returned stock = 70 + 45 = 115.\n\nThe policy doesn't specify which item the returned stock deduction applies to, but typically \"returned stock\" implies a reduction in the total quantity of items ordered. However, without specific instructions on which item to deduct from, and given the phrasing \"off the order\", it is often treated as a total reduction or deducted from a general stock bucket. Let's look at the context. Usually, if it's not specified, it might be deducted from the largest item or treated as a total discount. However, in these types of prompts, if it's not specified, it's safer to assume it reduces the total count of items.\n\nLet's sum the initial quantities:\n420 (ladders) + 360 (lanterns) + 155 (helmets) = 935.\n\nNow subtract the returned stock deductions:\n935 - 70 = 865\n865 - 45 = 820\n\nSo the total order comes to 820 items.\n\nTotal: 820"
+}

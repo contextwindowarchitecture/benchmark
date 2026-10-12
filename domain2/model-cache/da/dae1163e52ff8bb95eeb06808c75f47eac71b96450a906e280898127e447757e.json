@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "dae1163e52ff8bb95eeb06808c75f47eac71b96450a906e280898127e447757e",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "a78d60892defba4dd2f049c8073967605cd227ac8145081e83569671d57e92d2",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-12T08:19:56Z",
+    "cached_tokens": 3168,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 7362.412,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "2cbe3f6777b4fa56dfa605a45b9f2f21456b08e5f1831c4d85974cfb27fb230a",
+    "response_id": "chatcmpl-abfed8e288edfe58",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 391,
+      "prompt_tokens": 4201,
+      "total_tokens": 4592
+    }
+  },
+  "text": "To determine the total order so far, let's look at the items added or modified:\n\n1.  **Cable reels**: In turn `t001`, 415 cable reels were added.\n2.  **Ladders**: In turn `t009`, 95 ladders were added.\n3.  **Returned stock**: In turn `t027`, 70 items were taken off the order for returned stock. However, the user did not specify which item these 70 were subtracted from. Typically, if not specified, it might apply to the most recent addition or be a general deduction, but without specific itemization, we must look at the explicit line items defined in the state.\n\nLooking at the current state provided in `xstate:02`:\n`order_lines: [{\"item\": \"cable reels\", \"quantity\": 415}, {\"item\": \"ladders\", \"quantity\": 25}]`\n\nWait, the prompt's state shows `ladders: 25`. Let's trace back to see how we got from 95 to 25.\n- Turn `t009`: Add 95 ladders.\n- Turn `t027`: \"Take 70 off the order for the returned stock.\"\n\nIf we assume the 70 returned stock applies to the ladders (as they were the most recently added distinct line item before that turn, or potentially the only one capable of having that specific deduction applied in this context), then:\n$95 - 70 = 25$ ladders.\n\nSo the current lines are:\n- Cable reels: 415\n- Ladders: 25\n\nTotal:\n$415 + 25 = 440$\n\nTotal: 440"
+}

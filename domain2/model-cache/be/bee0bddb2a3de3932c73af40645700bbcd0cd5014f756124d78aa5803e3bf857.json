@@ -7,11 +7,11 @@
     "sample": 0
   },
   "provenance": {
-    "at": "2026-10-11T02:44:07Z",
+    "at": "2026-10-12T07:55:44Z",
     "cached_tokens": 0,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 69500.967,
+    "latency_ms": 86920.946,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "077b47ca682e42b515229c4d45d775ccffe7a58e3d95745995f0b906107c7fdd",
-    "response_id": "chatcmpl-91837a8c05a6fae2",
+    "response_id": "chatcmpl-a59ebd2b9bf64303",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 0,
     "usage": {
-      "completion_tokens": 346,
+      "completion_tokens": 356,
       "prompt_tokens": 1545,
-      "total_tokens": 1891
+      "total_tokens": 1901
     }
   },
-  "text": "To determine the total for the Harcroft depot supply order, let's look at the specific line items requested by the user throughout the session:\n\n1.  **Crates**: The user requested a line of **275** for crates (turn t001).\n2.  **Returned Stock Adjustment**: The user requested to take **35** off the order for returned stock (turn t002).\n3.  **Toolkits**: The user requested a line of **470** for toolkits (turn t004).\n4.  **Lamps**: The user requested a line of **175** for lamps (turn t005).\n5.  **Returned Stock Adjustment**: The user requested to take **80** off the order for returned stock (turn t007).\n6.  **Delivery Fee**: The user specified a flat delivery fee of **45** on the order (turn t008).\n\nNow, let's calculate the sum step by step:\n\n*   Start with the first item: 275\n*   Subtract the first stock adjustment: 275 - 35 = 240\n*   Add the toolkits: 240 + 470 = 710\n*   Add the lamps: 710 + 175 = 885\n*   Subtract the second stock adjustment: 885 - 80 = 805\n*   Add the delivery fee: 805 + 45 = 850\n\nTotal: 850"
+  "text": "To determine the total for the Harcroft depot supply order, let's look at the specific line items requested by the user throughout the session:\n\n1.  **Crates**: In the first turn, the user requested adding a line of **275** for crates.\n2.  **Returned Stock Adjustment**: In the second turn, the user requested taking **35** off the order for returned stock. This is a deduction.\n3.  **Toolkits**: In the fourth turn, the user requested adding a line of **470** for toolkits.\n4.  **Lamps**: In the fifth turn, the user requested adding a line of **175** for lamps.\n5.  **Returned Stock Adjustment (Second)**: In the seventh turn, the user requested taking **80** off the order for returned stock. This is another deduction.\n6.  **Delivery Fee**: In the eighth turn, the user specified a flat delivery fee of **45** on the order. This is an addition.\n\nNow, let's calculate the sum step by step:\n\n*   Start with Crates: 275\n*   Subtract first Returned Stock adjustment: 275 - 35 = 240\n*   Add Toolkits: 240 + 470 = 710\n*   Add Lamps: 710 + 175 = 885\n*   Subtract second Returned Stock adjustment: 885 - 80 = 805\n*   Add Delivery Fee: 805 + 45 = 850\n\nTotal: 850"
 }

@@ -7,11 +7,11 @@
     "sample": 2
   },
   "provenance": {
-    "at": "2026-10-11T08:13:05Z",
+    "at": "2026-10-12T08:15:15Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
-    "finish_reason": "stop",
-    "latency_ms": 3549.092,
+    "finish_reason": "length",
+    "latency_ms": 16210.148,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "7d7c5c9273eff30432b822d1499cbe06e4f75eed0c424282c3907400b853a77c",
-    "response_id": "chatcmpl-bbb7ca83886bcac6",
+    "response_id": "chatcmpl-a0f29eabb0adae51",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 2,
     "usage": {
-      "completion_tokens": 184,
+      "completion_tokens": 512,
       "prompt_tokens": 6058,
-      "total_tokens": 6242
+      "total_tokens": 6570
     }
   },
-  "text": "To determine the total for the order so far, I will review the history for any items added or removed from the supply order.\n\n1.  **Turn t038**: The user said, \"Take 35 off the order for the returned stock.\"\n    *   Order Total: -35\n\n2.  **Turn t044**: The user said, \"Take 50 off the order for the returned stock.\"\n    *   Order Total: -35 - 50 = -85\n\n3.  **Turn t048**: The user said, \"Add a line of 520 for the lamps to the order.\"\n    *   Order Total: -85 + 520 = 435\n\nThere are no other adjustments to the supply order in the provided history.\n\nTotal: 435"
+  "text": "To determine the total for the order so far, I will review the history for any items added or removed from the supply order.\n\n1.  **Turn t038**: \"Take 35 off the order for the returned stock.\"\n    *   This implies there was a previous total, but since no initial order total is provided in the visible history, we treat this as a deduction from a base of 0 if it's a net adjustment, or simply note the reduction. However, usually, these prompts imply a running total. Let's look for additions.\n2.  **Turn t044**: \"Take 50 off the order for the returned stock.\"\n    *   This is another deduction.\n3.  **Turn t048**: \"Add a line of 520 for the lamps to the order.\"\n    *   This is an addition of 520.\n\nLet's re-evaluate. Often in these tasks, if no starting balance is given, we might assume the \"takes\" are adjustments to a hypothetical existing order, or perhaps the user is tracking a specific list. However, without a starting number, we can only sum the explicit *additions* and *subtractions* relative to a zero baseline if that's the convention, or more likely, the prompt implies there is an existing order context not fully shown, OR these are the only transactions.\n\nLet's look closer at the phrasing. \"Take 35 off...\" and \"Take 50 off...\". If we assume a starting balance of 0:\n*   Start: 0\n*   Turn t038: -35\n*   Turn t044: -50\n*   Turn t048: +520\n\nTotal: 520 - 35 - 50 = 435.\n\nHowever, it is also possible that \"Take off\" refers to removing items from a list, not a monetary value, but the question asks \"What does the order come to\", implying a monetary total. The item added is \"520 for the lamps\". The others are just numbers (\"35\", \"50\"). It is standard in these problems that the numbers represent currency/units.\n\nLet's double-check if there are other items.\n*   t038: -35\n*   t044: -50\n*   t"
 }

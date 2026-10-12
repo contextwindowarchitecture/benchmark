@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "7a6abad238155ff9079c9b526888a309ea50ac73632052e1ccb7de8f21e6074a",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "c9b28c4fd5c082e7d4b229e73b9054a27490b0b6627aab6bb3d730f5f7601dad",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T07:43:18Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 4799.481,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "ba68467f8556b016330906e26fec1909e1a6c022aab80eac9bde18e5c15b0524",
+    "response_id": "chatcmpl-9bcba33926cf4728",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 384,
+      "prompt_tokens": 6125,
+      "total_tokens": 6509
+    }
+  },
+  "text": "To calculate the total for the order so far, let's look at the items listed in the initial order lines and any adjustments made during the session.\n\n1.  **Initial Order Lines (from task id=\"xstate:03\"):**\n    *   Crates: 430\n    *   Ladders: 400\n    *   Lamps: 520\n\n2.  **Adjustments:**\n    *   In turn t038, the user said: \"Take 35 off the order for the returned stock.\" This applies to the total quantity.\n    *   In turn t044, the user said: \"Take 50 off the order for the returned stock.\" This applies to the total quantity.\n    *   In turn t048, the user said: \"Add a line of 520 for the lamps to the order.\" This adds 520 to the total quantity.\n\nLet's sum these up step by step:\n\n*   Start with the initial quantities:\n    *   Crates: 430\n    *   Ladders: 400\n    *   Lamps: 520\n    *   Subtotal: 430 + 400 + 520 = 1350\n\n*   Apply the deductions:\n    *   Subtract 35: 1350 - 35 = 1315\n    *   Subtract 50: 1315 - 50 = 1265\n\n*   Apply the addition:\n    *   Add 520 (for the extra lamps): 1265 + 520 = 1785\n\nTotal: 1785"
+}

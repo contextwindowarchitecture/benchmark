@@ -7,11 +7,11 @@
     "sample": 2
   },
   "provenance": {
-    "at": "2026-10-11T02:22:26Z",
+    "at": "2026-10-12T07:33:40Z",
     "cached_tokens": 7392,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 5745.869,
+    "latency_ms": 7717.365,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0
     },
     "payload_sha256": "d244fdc39bf7decf1d68be4b89330448c859e12b1bcd52d874c9bd6743f1d5ef",
-    "response_id": "chatcmpl-a94c7fe598635f67",
+    "response_id": "chatcmpl-8fd786f7eb50636f",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 2,
     "usage": {
-      "completion_tokens": 135,
+      "completion_tokens": 196,
       "prompt_tokens": 8046,
-      "total_tokens": 8181
+      "total_tokens": 8242
     }
   },
-  "text": "To calculate the total for the Nevbury depot supply order, I will sum the quantities of the items added so far.\n\n1.  **Ladders**: In the first turn, the user requested to add a line of **240** for the ladders.\n2.  **Lamps**: In turn 48, the user requested to add a line of **350** for the lamps.\n\nThere are no other items added to the order in the history provided.\n\nCalculation:\n240 (ladders) + 350 (lamps) = 590\n\nTotal: 590"
+  "text": "To calculate the total for the Nevbury depot supply order, I will sum the quantities of the items added so far.\n\n1.  **Ladders**: 240 units (added in turn t001)\n2.  **Lamps**: 350 units (added in turn t048)\n\nThere were also adjustments for returned stock:\n*   -80 units (turn t018)\n*   -25 units (turn t029)\n\nLet's calculate the net total:\n*   Start with Ladders: 240\n*   Add Lamps: 240 + 350 = 590\n*   Subtract first return adjustment: 590 - 80 = 510\n*   Subtract second return adjustment: 510 - 25 = 485\n\nTotal: 485"
 }

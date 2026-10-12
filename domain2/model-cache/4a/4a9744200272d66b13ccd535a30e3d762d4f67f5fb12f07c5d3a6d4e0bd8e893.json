@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "4a9744200272d66b13ccd535a30e3d762d4f67f5fb12f07c5d3a6d4e0bd8e893",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "a10f75bc32cf9cc931a110014cbd493077bec11a2ff6bc476a531d3128e9d965",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-12T08:20:17Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 4362.812,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "9464c11fec0654a578d4d236cc7c5e67c97ef31bcb1019272578c70b8e39343a",
+    "response_id": "chatcmpl-a2836d0ad6fbcf16",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 254,
+      "prompt_tokens": 5847,
+      "total_tokens": 6101
+    }
+  },
+  "text": "To determine the total for the supply order, I will look at the items added to the order and any adjustments made.\n\n1.  **Initial Order Lines:**\n    *   Crates: 515 (Added in turn t001)\n    *   Ladders: 400 (Added in turn t017)\n\n2.  **Adjustments:**\n    *   In turn t038, the user stated: \"Take 35 off the order for the returned stock.\"\n    *   This implies a reduction of 35 from the total quantity. The prompt does not specify which item was returned, but since the query asks for the total sum of the order lines so far, we subtract this amount from the sum of the items.\n\n3.  **Calculation:**\n    *   Crates: 515\n    *   Ladders: 400\n    *   Subtotal: $515 + 400 = 915$\n    *   Adjustment: $-35$\n    *   Total: $915 - 35 = 880$\n\nTotal: 880"
+}

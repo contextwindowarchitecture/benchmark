@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "97b08ef975327c872e5994a805c03f40e3cecf3a8866bc3de5cc7a0564c3a010",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "3861cf727cd8c2eb616f88c452989e9f62e4f51890f07824275581abefb6e158",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-12T08:03:13Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 51848.85,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "d17bc2f41400aa97e63a48b6043dc28108d1029ac67b4e915f6fc568d2bf9213",
+    "response_id": "chatcmpl-a3ee60ea265da522",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 480,
+      "prompt_tokens": 1629,
+      "total_tokens": 2109
+    }
+  },
+  "text": "To determine the total for the Harcroft depot supply order, we need to look at the final quantities established through the various adjustments made during the session.\n\nHere is the step-by-step breakdown:\n\n1.  **Crates**:\n    *   Start with the initial line: 240\n    *   Add 275 in turn `t001`: $240 + 275 = 515$\n    *   No further adjustments were made for crates.\n    *   **Final Crates**: 515\n\n2.  **Toolkits**:\n    *   Start with the initial line: 470\n    *   Add 470 in turn `t004`: $470 + 470 = 940$\n    *   No further adjustments were made for toolkits.\n    *   **Final Toolkits**: 940\n\n3.  **Lamps**:\n    *   Start with the initial line: 95\n    *   Add 175 in turn `t005`: $95 + 175 = 270$\n    *   No further adjustments were made for lamps.\n    *   **Final Lamps**: 270\n\n4.  **Returned Stock Adjustment**:\n    *   Subtract 35 in turn `t002`.\n    *   Subtract 80 in turn `t007`.\n    *   Total deduction: $35 + 80 = 115$\n\n5.  **Delivery Fee**:\n    *   A flat fee of 45 was added in turn `t008`.\n\n**Calculation:**\n*   Sum of items: $515 \\text{ (crates)} + 940 \\text{ (toolkits)} + 270 \\text{ (lamps)} = 1,725$\n*   Subtract returned stock: $1,725 - 115 = 1,610$\n*   Add delivery fee: $1,610 + 45 = 1,655$\n\nTotal: 1655"
+}

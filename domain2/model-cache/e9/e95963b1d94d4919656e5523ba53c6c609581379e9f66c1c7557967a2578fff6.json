@@ -7,11 +7,11 @@
     "sample": 4
   },
   "provenance": {
-    "at": "2026-10-11T08:16:30Z",
+    "at": "2026-10-12T08:19:39Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
-    "finish_reason": "length",
-    "latency_ms": 5125.302,
+    "finish_reason": "stop",
+    "latency_ms": 3422.635,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "658c305ef39d1ed2d10e500aca478a3d0409c769d67ac457175f1e84a72c1d59",
-    "response_id": "chatcmpl-8d975c123d2d12e5",
+    "response_id": "chatcmpl-87bced308df34753",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 4,
     "usage": {
-      "completion_tokens": 512,
+      "completion_tokens": 203,
       "prompt_tokens": 6113,
-      "total_tokens": 6625
+      "total_tokens": 6316
     }
   },
-  "text": "To determine the current total for the order from Istton, let's review the lines added so far:\n\n1.  **Tarps**: 370\n2.  **Toolkits**: 525 (Added in turn t035)\n3.  **Lamps**: 180 (Added in turn t042)\n\nIn turn t049, the user requested to \"Take 65 off the order for the returned stock.\" Since no specific item was mentioned for this reduction, and typically \"returned stock\" adjustments in these scenarios apply to the most recently added or ambiguous line, or potentially need to be tracked. However, looking at the standard interpretation of such prompts where a blanket reduction is applied without specifying an item, it often reduces the total quantity. Let's look at the items.\n\nWait, looking closer at the history:\n- Turn t027: Initial order `tarps: 370`, `toolkits: 525`, `lamps: 180`.\n- Turn t035: \"Add a line of 525 for the toolkits to the order.\" -> This seems redundant or an addition. The initial order already had 525 toolkits. Did it double? Or was it a correction? The prompt says \"Add a line...\". Usually, this implies adding to the existing list. If it was a correction, it would say \"update\". Let's assume it adds 525 more toolkits.\n- Turn t042: \"Add a line of 180 for the lamps to the order.\" -> Again, initial order had 180 lamps. This likely adds another 180 lamps.\n- Turn t049: \"Take 65 off the order for the returned stock.\" -> This reduces the total quantity by 65.\n\nLet's re-evaluate the \"Add a line\" instructions. In many similar contexts, if an item already exists, adding a line might mean increasing the quantity.\nInitial:\n- Tarps: 370\n- Toolkits: 525\n- Lamps: 180\n\nTurn t035: Add 525 Toolkits.\nNew Toolkits Total: 525 + 525 = 1050.\n\nTurn t042: Add 180 Lamps.\n"
+  "text": "To determine the current total for the order from Istton, let's review the order lines established so far:\n\n1.  **Tarps:** 370 units\n2.  **Toolkits:** 525 units (added in turn t035)\n3.  **Lamps:** 180 units (added in turn t042)\n4.  **Adjustment:** -65 units (subtracted in turn t049 for returned stock)\n\nLet's calculate the sum step by step:\n\n*   Start with Tarps: 370\n*   Add Toolkits: 370 + 525 = 895\n*   Add Lamps: 895 + 180 = 1,075\n*   Subtract returned stock: 1,075 - 65 = 1,010\n\nTotal: 1010"
 }

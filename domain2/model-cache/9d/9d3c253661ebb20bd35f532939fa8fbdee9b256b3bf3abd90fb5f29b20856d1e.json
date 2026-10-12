@@ -7,11 +7,11 @@
     "sample": 0
   },
   "provenance": {
-    "at": "2026-10-11T02:22:34Z",
+    "at": "2026-10-12T07:33:51Z",
     "cached_tokens": 7392,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 8214.951,
+    "latency_ms": 11350.159,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0
     },
     "payload_sha256": "afa0a4cfc826490a08678da3232bb0cc7e6bd85918e6e58881a46497b011fb15",
-    "response_id": "chatcmpl-92d9adf5922086f6",
+    "response_id": "chatcmpl-84a536a50e68857e",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 0,
     "usage": {
-      "completion_tokens": 196,
+      "completion_tokens": 275,
       "prompt_tokens": 9371,
-      "total_tokens": 9567
+      "total_tokens": 9646
     }
   },
-  "text": "To calculate the total for the Nevbury depot supply order, I will sum the quantities of the items added so far.\n\n1.  **Ladders**: 240 units (added in turn t001)\n2.  **Lamps**: 350 units (added in turn t048)\n\nThere were also adjustments for returned stock:\n*   Take 80 off (turn t018)\n*   Take 25 off (turn t029)\n\nLet's calculate the net total:\n*   Start with Ladders: 240\n*   Add Lamps: 240 + 350 = 590\n*   Subtract returned stock: 590 - 80 = 510\n*   Subtract returned stock: 510 - 25 = 485\n\nTotal: 485"
+  "text": "To calculate the total for the Nevbury depot supply order, I will sum the quantities of the items added to the order throughout the session.\n\n1.  **Ladders**: In the first turn, the user requested to add a line of **240** for the ladders.\n2.  **Returned Stock (Deductions)**:\n    *   In turn 018, the user requested to \"Take 80 off the order for the returned stock.\" This is a deduction of **80**.\n    *   In turn 029, the user requested to \"Take 25 off the order for the returned stock.\" This is a deduction of **25**.\n3.  **Lamps**: In turn 048, the user requested to add a line of **350** for the lamps.\n\nNow, I will calculate the total step by step:\n\n*   Start with Ladders: 240\n*   Subtract first returned stock deduction: 240 - 80 = 160\n*   Subtract second returned stock deduction: 160 - 25 = 135\n*   Add Lamps: 135 + 350 = 485\n\nTotal: 485"
 }

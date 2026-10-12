@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "b349b61fb783f7e50a52deaf3aed3917226ad0c81d1141067df6c1d0586ea40d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d4450de59efeebc76d15364b7328462f8ff1ec710c999f360c21b4e9f31a93a9",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T07:42:12Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 6947.157,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "f910ad38eda12fb65e5791d9902ed17c267a84f598cca9f8b0dbe39864886ded",
+    "response_id": "chatcmpl-817aa5d4cda26267",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 484,
+      "prompt_tokens": 10799,
+      "total_tokens": 11283
+    }
+  },
+  "text": "To calculate the total for the order, let's look at the items added so far:\n\n1.  **Cable reels**: 415 units\n2.  **Ladders**: 25 units added, then 70 were removed for returned stock.\n    *   Net ladders: 25 - 70 = -45. However, typically in these scenarios, if the quantity goes negative, it implies a credit or that the initial order was adjusted. Let's look closer. The prompt says \"Add a line of 95 for the ladders\" in turn t009. Then in turn t027, \"Take 70 off the order for the returned stock.\"\n    *   Let's re-read carefully.\n    *   Turn t004: Add 415 cable reels.\n    *   Turn t009: Add 95 ladders.\n    *   Turn t027: Take 70 off the order for returned stock. It doesn't specify which item, but usually, it applies to the most recent or relevant stock. However, looking at the state provided in the initial block:\n        *   `order_lines: [{\"item\": \"cable reels\", \"quantity\": 415}, {\"item\": \"ladders\", \"quantity\": 25}]`\n    \n    Wait, the initial state block `<task id=\"xstate:04\">` shows the current state of the order lines. It lists:\n    *   Cable reels: 415\n    *   Ladders: 25\n    \n    This suggests that the \"Take 70 off\" instruction might have been applied to the ladders (95 - 70 = 25), resulting in the current state of 25 ladders. The state block represents the *current* status. I should trust the `order_lines` in the task definition as the ground truth for the current items.\n\n    So, the current order lines are:\n    1.  Cable reels: 415\n    2.  Ladders: 25\n\n    Let's sum them up:\n    415 + 25 = 440\n\n    Total: 440"
+}

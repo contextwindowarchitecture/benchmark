@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "ae9c8ca1f9cb9f29337f5dc2354a167fa9a09ccc42173407e2c4302c7c4cb807",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "5a221d88cbea854d790fcc8d18f24c770022bca7a0285f07ef3970be9e10214c",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-12T08:05:53Z",
+    "cached_tokens": 1056,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 25575.145,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "9974b145168729d91b6cd04cf454e04cc4ed3b1f409d3cf9e68f87e228541586",
+    "response_id": "chatcmpl-a1cbed0da997ca91",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 1740,
+      "total_tokens": 2252
+    }
+  },
+  "text": "Let's add up the order line by line.\n\n1. Lamps: 115\n2. Ladders: 255\n3. Cable reels: 155\n4. Crates: 160\n\nSubtotal for items: 115 + 255 + 155 + 160 = 685\n\nThere was a mention of removing 65 for returned stock, but the prompt asks for the order \"so far\" based on the lines added. Usually, \"order total\" implies the net cost. Let's look at the previous turn. The user said \"Take 65 off the order for the returned stock.\" Then later \"Add a line of 160 for the crates\".\n\nLet's re-read the full context of the order construction.\nInitial: 115 lamps, 255 ladders, 155 cable reels.\nUpdate: \"Take 65 off the order for the returned stock.\" This likely applies to one of the existing items or is a negative line. It doesn't specify which item. However, usually, if not specified, it might be a flat reduction or applied to the largest/most recent. But wait, in supply orders, \"take 65 off\" often implies a specific item return. Without a specific item mentioned, I should probably treat it as a deduction from the total sum or ask. However, looking at the pattern of these prompts, it often acts as a line item adjustment. Let's assume it's a deduction from the total value first, or perhaps it's a negative quantity for a specific item? No, it says \"Take 65 off the order\". This usually means a negative line item or a reduction in total.\n\nLet's look at the items again.\nLamps: 115\nLadders: 255\nCable reels: 155\nCrates: 160\n\nIf I subtract 65 from the total:\n115 + 255 + 155 + 160 - 65 = 620.\n\nThen there is a flat delivery fee of 25.\n620 + 25 = 645.\n\nLet's double check if \"Take 65 off\" applies to a specific item. The prompt just says \"Take 65 off the order\". It"
+}

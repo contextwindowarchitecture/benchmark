@@ -7,11 +7,11 @@
     "sample": 1
   },
   "provenance": {
-    "at": "2026-10-11T07:53:54Z",
+    "at": "2026-10-12T07:36:35Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 13263.512,
+    "latency_ms": 8182.58,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0
     },
     "payload_sha256": "11bdb64ab5a5c4fa943cb43f82ce08e27e7852b69998e94421f478fb461bf530",
-    "response_id": "chatcmpl-86750120e5457dec",
+    "response_id": "chatcmpl-95d836a09097e660",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 1,
     "usage": {
-      "completion_tokens": 363,
+      "completion_tokens": 243,
       "prompt_tokens": 6067,
-      "total_tokens": 6430
+      "total_tokens": 6310
     }
   },
-  "text": "To calculate the total for the order, I need to identify all the line items added or modified in the conversation history.\n\n1.  **Turn t017**: \"Add a line of 400 for the ladders to the order.\"\n    *   Item: Ladders\n    *   Quantity: 400\n    *   Current Subtotal: 400\n\n2.  **Turn t038**: \"Take 35 off the order for the returned stock.\"\n    *   This is a deduction from the total order value (assuming \"returned stock\" refers to a reduction in the total cost/quantity of the order, or a credit).\n    *   Adjustment: -35\n    *   Current Subtotal: 400 - 35 = 365\n\n3.  **Turn t044**: \"Take 50 off the order for the returned stock.\"\n    *   Adjustment: -50\n    *   Current Subtotal: 365 - 50 = 315\n\n4.  **Turn t048**: \"Add a line of 520 for the lamps to the order.\"\n    *   Item: Lamps\n    *   Quantity: 520\n    *   Current Subtotal: 315 + 520 = 835\n\nThere are no other additions or subtractions to the order lines mentioned in the history.\n\nCalculation:\n400 (Ladders) - 35 (Returned Stock) - 50 (Returned Stock) + 520 (Lamps) = 835\n\nTotal: 835"
+  "text": "To calculate the total for the supply order, I will look through the conversation history for any lines added to or removed from the order.\n\n1.  **Turn t017**: The user says, \"Add a line of 400 for the ladders to the order.\"\n    *   Current Total: 400\n\n2.  **Turn t038**: The user says, \"Take 35 off the order for the returned stock.\"\n    *   Current Total: 400 - 35 = 365\n\n3.  **Turn t044**: The user says, \"Take 50 off the order for the returned stock.\"\n    *   Current Total: 365 - 50 = 315\n\n4.  **Turn t048**: The user says, \"Add a line of 520 for the lamps to the order.\"\n    *   Current Total: 315 + 520 = 835\n\nThere are no other additions or subtractions to the order in the history.\n\nTotal: 835"
 }

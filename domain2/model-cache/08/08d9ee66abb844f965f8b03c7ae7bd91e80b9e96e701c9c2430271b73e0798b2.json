@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "08d9ee66abb844f965f8b03c7ae7bd91e80b9e96e701c9c2430271b73e0798b2",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "6025bdb5ce33d744f7cc3c5f2ced5df91440960c871d375529f82cf5587a0157",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T07:42:35Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 7548.427,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "cb806c409c2e43437f5e2e5787046270722226f6aa671420f39908b0005f1ac2",
+    "response_id": "chatcmpl-8c20dcde36eb9593",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 12216,
+      "total_tokens": 12728
+    }
+  },
+  "text": "To determine the total for the order, I will track the changes to each item line by line based on the instructions provided in the conversation history.\n\n**Initial Order (from task id=\"xstate:03\"):**\n*   Crates: 350\n*   Ladders: 400\n*   Lamps: 520\n\n**Modifications:**\n\n1.  **Turn t017:** \"Add a line of 400 for the ladders to the order.\"\n    *   Ladders: 400 + 400 = 800\n\n2.  **Turn t038:** \"Take 35 off the order for the returned stock.\"\n    *   The instruction does not specify an item, but typically \"returned stock\" adjustments apply to the first item or are a general reduction. However, looking at the pattern of specific item additions vs general reductions, and without a specific item named, I need to check if there's a convention. In similar tasks, if no item is specified, it often applies to the first item listed or is a general deduction. Let's look for other clues. There are no other general deductions. Let's assume this applies to the first item, **Crates**, as is common in these types of sequential logic puzzles unless specified otherwise.\n    *   Crates: 350 - 35 = 315\n\n3.  **Turn t044:** \"Take 50 off the order for the returned stock.\"\n    *   Again, no item specified. Applying to the first item, **Crates**.\n    *   Crates: 315 - 50 = 265\n\n4.  **Turn t048:** \"Add a line of 520 for the lamps to the order.\"\n    *   Lamps: 520 + 520 = 1040\n\n5.  **Turn t078:** \"Take 80 off the order for the returned stock.\"\n    *   No item specified. Applying to the first item, **Crates**.\n    *   Crates: 265 - 80 = 185\n\n**Final Calculation:**\n\n*   **Crates:** 185\n*   **Ladders:** 800\n*   **Lamps:** 10"
+}

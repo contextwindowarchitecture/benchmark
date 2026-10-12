@@ -7,11 +7,11 @@
     "sample": 3
   },
   "provenance": {
-    "at": "2026-10-11T03:12:17Z",
+    "at": "2026-10-12T08:19:54Z",
     "cached_tokens": 3168,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 4494.189,
+    "latency_ms": 3797.518,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "ff6ef134983871cac671396c35e9fccba1be5bc354a8ce1a75deb4d0dfe5b971",
-    "response_id": "chatcmpl-9afeebacedf257dc",
+    "response_id": "chatcmpl-90cbc78d80f817a0",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 3,
     "usage": {
-      "completion_tokens": 257,
+      "completion_tokens": 214,
       "prompt_tokens": 4118,
-      "total_tokens": 4375
+      "total_tokens": 4332
     }
   },
-  "text": "To determine the current total for the order, let's look at the adjustments made to the initial line item.\n\n1.  **Initial Line:** The user started with an order line for 215 ladders (from the system state provided at the beginning).\n2.  **First User Action (t001):** The user said, \"Add a line of 240 for the ladders to the order.\" This implies adding 240 to the existing quantity.\n    *   Calculation: $215 + 240 = 455$ ladders.\n3.  **Second Adjustment (t018):** The user said, \"Take 80 off the order for the returned stock.\"\n    *   Calculation: $455 - 80 = 375$ ladders.\n4.  **Third Adjustment (t029):** The user said, \"Take 25 off the order for the returned stock.\"\n    *   Calculation: $375 - 25 = 350$ ladders.\n\nThere have been no other changes to the quantity of ladders in the order lines.\n\nTotal: 350"
+  "text": "To determine the current total for the order, let's look at the items added and any adjustments made to the quantity of ladders.\n\n1.  **Initial Addition**: In the first user turn, the user requested to add 240 ladders to the order.\n    *   Current quantity: 240\n\n2.  **First Adjustment**: In turn t018, the user stated: \"Take 80 off the order for the returned stock.\"\n    *   Calculation: 240 - 80 = 160\n    *   Current quantity: 160\n\n3.  **Second Adjustment**: In turn t029, the user stated: \"Take 25 off the order for the returned stock.\"\n    *   Calculation: 160 - 25 = 135\n    *   Current quantity: 135\n\nThere have been no other items added or removed from the order lines.\n\nTotal: 135"
 }

@@ -7,11 +7,11 @@
     "sample": 2
   },
   "provenance": {
-    "at": "2026-10-11T08:15:56Z",
+    "at": "2026-10-12T08:19:06Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 5562.125,
+    "latency_ms": 8014.557,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "79cb0bb4656e991180bd81ba5e77e6189e952c5de82c68d2af710a0d05505653",
-    "response_id": "chatcmpl-813249f702e8b456",
+    "response_id": "chatcmpl-8455c5d3024daf6d",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 2,
     "usage": {
-      "completion_tokens": 406,
+      "completion_tokens": 454,
       "prompt_tokens": 6096,
-      "total_tokens": 6502
+      "total_tokens": 6550
     }
   },
-  "text": "To calculate the total for the order, let's look at the lines provided and any adjustments made during the session.\n\n1.  **Initial Order Lines:**\n    *   Tarps: 370\n    *   Toolkits: 525\n    *   Lamps: 180\n\n2.  **Adjustments:**\n    *   In turn `t035`, the user asked to \"Add a line of 525 for the toolkits to the order.\"\n        *   Toolkits: 525 + 525 = 1,050\n    *   In turn `t042`, the user asked to \"Add a line of 180 for the lamps to the order.\"\n        *   Lamps: 180 + 180 = 360\n    *   In turn `t049`, the user asked to \"Take 65 off the order for the returned stock.\"\n        *   Total: 370 (Tarps) + 1,050 (Toolkits) + 360 (Lamps) - 65 = 1,715\n\nLet's double-check the final quantities per item:\n*   **Tarps:** 370\n*   **Toolkits:** 525 (initial) + 525 (added in t035) = 1,050\n*   **Lamps:** 180 (initial) + 180 (added in t042) = 360\n\nSumming these up:\n370 + 1,050 + 360 = 1,780\n\nThen subtract the returned stock:\n1,780 - 65 = 1,715\n\nTotal: 1715"
+  "text": "To calculate the total for the order, let's look at the lines provided and any adjustments made during the session.\n\n1.  **Initial Order Lines:**\n    *   Tarps: 370\n    *   Toolkits: 525\n    *   Lamps: 180\n\n2.  **Adjustments:**\n    *   In turn `t035`, the user requested: \"Add a line of 525 for the toolkits to the order.\"\n        *   Toolkits become: 525 + 525 = 1050\n    *   In turn `t042`, the user requested: \"Add a line of 180 for the lamps to the order.\"\n        *   Lamps become: 180 + 180 = 360\n    *   In turn `t049`, the user requested: \"Take 65 off the order for the returned stock.\"\n        *   This is a general deduction. Usually, returned stock is deducted from the total quantity or a specific item. Without a specific item mentioned, it is treated as a reduction from the total aggregate or the most recent large item. However, in supply orders, \"returned stock\" often implies a credit against the total billable quantity. Let's apply it to the total sum at the end, or distribute it. Given the ambiguity, applying it to the total sum is the standard interpretation for \"take off the order\".\n\nLet's sum the current quantities:\n*   **Tarps:** 370\n*   **Toolkits:** 1050 (525 initial + 525 added)\n*   **Lamps:** 360 (180 initial + 180 added)\n\n**Subtotal:**\n370 + 1050 + 360 = 1780\n\n**Deduction:**\n-65 (for returned stock)\n\n**Final Total:**\n1780 - 65 = 1715\n\nTotal: 1715"
 }

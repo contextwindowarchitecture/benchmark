@@ -7,11 +7,11 @@
     "sample": 3
   },
   "provenance": {
-    "at": "2026-10-11T02:59:50Z",
+    "at": "2026-10-12T08:08:36Z",
     "cached_tokens": 1056,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 5710.852,
+    "latency_ms": 6917.787,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "fcb72d9cd7251a2e53ce507a18ccf6dd9ef5cfabd94fea160fc7794f3fc2961c",
-    "response_id": "chatcmpl-ada6524cfec31431",
+    "response_id": "chatcmpl-8dd0f73e933b7d3b",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 3,
     "usage": {
-      "completion_tokens": 134,
+      "completion_tokens": 168,
       "prompt_tokens": 1471,
-      "total_tokens": 1605
+      "total_tokens": 1639
     }
   },
-  "text": "Based on the conversation history, here is the step-by-step calculation of the supply order for the Istworth depot:\n\n1.  **Ladders**: In turn `t001`, the user requested to \"Add a line of 400 for the ladders\".\n    *   Current line: 400\n2.  **Returned Stock**: In turn `t004`, the user instructed to \"Take 30 off the order for the returned stock\".\n    *   Calculation: 400 - 30 = 370\n\nThe order comes to:\nTotal: 370"
+  "text": "Based on the conversation history, here is the breakdown of the supply order lines for the Istworth depot:\n\n1.  **Ladders**: In turn `t001`, the user requested to \"Add a line of 400 for the ladders\". This adds +400 to the order.\n2.  **Returned Stock**: In turn `t004`, the user requested to \"Take 30 off the order for the returned stock\". This subtracts 30 from the order.\n\nCalculation:\n*   Start: 0\n*   Add Ladders: $0 + 400 = 400$\n*   Subtract Returned Stock: $400 - 30 = 370$\n\nTotal: 370"
 }

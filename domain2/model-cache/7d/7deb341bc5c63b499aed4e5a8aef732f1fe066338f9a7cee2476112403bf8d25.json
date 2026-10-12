@@ -7,11 +7,11 @@
     "sample": 2
   },
   "provenance": {
-    "at": "2026-10-11T08:04:26Z",
-    "cached_tokens": 0,
+    "at": "2026-10-12T08:11:28Z",
+    "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 82436.636,
+    "latency_ms": 6649.023,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "c3a18d846c1a4823e26829be1f1f1d1feccf44489e61e2d5058f8c9fe433f817",
-    "response_id": "chatcmpl-a338ad338705702b",
+    "response_id": "chatcmpl-a1de57029649447a",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 2,
     "usage": {
-      "completion_tokens": 248,
+      "completion_tokens": 189,
       "prompt_tokens": 6023,
-      "total_tokens": 6271
+      "total_tokens": 6212
     }
   },
-  "text": "To calculate the total for the order, I need to sum the quantities from the lines provided in the conversation history.\n\n1.  **Lamps:** From turn t020, the user added \"a line of 555 for the lamps\".\n2.  **Returned Stock:** From turn t030, the user said \"Take 35 off the order for the returned stock\". This is a deduction.\n3.  **Cable Reels:** From turn t045, the user added \"a line of 570 for the cable reels\".\n4.  **Delivery Fee:** From turn t040, the user added \"a flat delivery fee of 15 on the order\".\n\nNow, let's calculate the total:\n*   Start with Lamps: 555\n*   Subtract Returned Stock: 555 - 35 = 520\n*   Add Cable Reels: 520 + 570 = 1090\n*   Add Delivery Fee: 1090 + 15 = 1105\n\nTotal: 1105"
+  "text": "To calculate the total for the order, I need to sum the quantities of the items currently on the list. Based on the conversation history, there are two specific lines added to the supply order:\n\n1.  In turn `t020`, the user said: \"Add a line of **555** for the lamps to the order.\"\n2.  In turn `t030`, the user said: \"Take **35** off the order for the returned stock.\"\n\nLet's calculate the net quantity:\n*   Start with the lamps: 555\n*   Subtract the returned stock: 35\n*   Net total = 555 - 35 = 520\n\nThere are no other items mentioned with quantities for the supply order (other messages refer to reminders, notes, room status, or desk swaps).\n\nTotal: 520"
 }

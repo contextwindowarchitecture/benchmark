@@ -7,11 +7,11 @@
     "sample": 2
   },
   "provenance": {
-    "at": "2026-10-11T08:12:24Z",
+    "at": "2026-10-12T08:14:14Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 8810.207,
+    "latency_ms": 6516.518,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "11bdb64ab5a5c4fa943cb43f82ce08e27e7852b69998e94421f478fb461bf530",
-    "response_id": "chatcmpl-96d38548247c2305",
+    "response_id": "chatcmpl-a503da52981f8404",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 2,
     "usage": {
-      "completion_tokens": 270,
+      "completion_tokens": 186,
       "prompt_tokens": 6067,
-      "total_tokens": 6337
+      "total_tokens": 6253
     }
   },
-  "text": "To calculate the current order total, I need to identify all additions and subtractions made to the supply order throughout the conversation.\n\n1.  **Turn t017**: The user says, \"Add a line of 400 for the ladders to the order.\"\n    *   Current Total: 400\n\n2.  **Turn t038**: The user says, \"Take 35 off the order for the returned stock.\"\n    *   Calculation: 400 - 35 = 365\n    *   Current Total: 365\n\n3.  **Turn t044**: The user says, \"Take 50 off the order for the returned stock.\"\n    *   Calculation: 365 - 50 = 315\n    *   Current Total: 315\n\n4.  **Turn t048**: The user says, \"Add a line of 520 for the lamps to the order.\"\n    *   Calculation: 315 + 520 = 835\n    *   Current Total: 835\n\nThere are no other additions or subtractions mentioned in the history.\n\nTotal: 835"
+  "text": "To calculate the current order total, I need to sum the values added to the order and subtract any returns.\n\n1.  **Additions:**\n    *   Turn t017: Added 400 for ladders.\n    *   Turn t048: Added 520 for lamps.\n\n2.  **Subtractions (Returned Stock):**\n    *   Turn t038: Took 35 off the order.\n    *   Turn t044: Took 50 off the order.\n\n**Calculation:**\n*   Start with 0.\n*   Add 400: 400\n*   Add 520: 920\n*   Subtract 35: 885\n*   Subtract 50: 835\n\nTotal: 835"
 }

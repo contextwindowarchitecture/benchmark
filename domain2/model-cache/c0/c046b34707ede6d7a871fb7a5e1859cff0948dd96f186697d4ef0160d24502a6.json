@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "c046b34707ede6d7a871fb7a5e1859cff0948dd96f186697d4ef0160d24502a6",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "32d78489b4f5a639643bbf8696fa222340ad6349c03868bc9cd4929d23dd0a90",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-12T07:42:16Z",
+    "cached_tokens": 9504,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 7472.333,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "ba17c8eae8c83639a80bf63974018ac86800dbeb4511efe5cd8c7c4069e75fbf",
+    "response_id": "chatcmpl-a2609b1950adce27",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 9828,
+      "total_tokens": 10340
+    }
+  },
+  "text": "To calculate the total for the supply order, I will sum the quantities of each item added so far.\n\n1.  **Crates**: 515 (added in turn t001)\n2.  **Ladders**: 400 (added in turn t017)\n3.  **Lamps**: 520 (added in turn t048)\n\nThere were no reductions made to the order quantities in the history provided (the mentions of \"Take 35 off\" and \"Take 50 off\" in turns t038 and t044 were not applied to the specific item lines in the current state, or rather, the current state `order_lines` reflects the additions without those subtractions having been explicitly processed into the final list provided in the initial state or subsequent updates that override it. However, looking at the history, the user *did* say \"Take 35 off the order for the returned stock\" and \"Take 50 off the order for the returned stock\". Let's re-evaluate if these apply to the total.\n\nUsually, \"returned stock\" implies a reduction from the total order.\n- Initial additions: 515 (crates) + 400 (ladders) + 520 (lamps) = 1435.\n- Reductions: 35 + 50 = 85.\n- Net Total: 1435 - 85 = 1350.\n\nHowever, the prompt asks \"What does the order come to so far?\". The `order_lines` in the initial state `xstate:03` were `{\"item\": \"crates\", \"quantity\": 430}, {\"item\": \"ladders\", \"quantity\": 400}, {\"item\": \"lamps\", \"quantity\": 520}`.\nWait, the initial state `xstate:03` has:\n- Crates: 430\n- Ladders: 400\n- Lamps: 520\n\nBut the user *added* 515 crates in t001. The history shows the user *adding* lines. The assistant's job is to track the order. The initial state `xstate:03` seems to be the state *before* the conversation started or a snapshot. The user says \"Add"
+}

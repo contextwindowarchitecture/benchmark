@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "148ff8891e02930c5f0f68dc6839c7248c24503851e7414b899be9fa3303fd2f",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "69b6391a015f30c72493390697b87776da1171bf1b57770392e5fd952c25de8b",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T07:42:54Z",
+    "cached_tokens": 8448,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 6132.042,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "4253d53a9c37d886e20bad081b5c970027692bf26f40a75bc622f549542a8101",
+    "response_id": "chatcmpl-873d394eb59868de",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 10820,
+      "total_tokens": 11332
+    }
+  },
+  "text": "To determine the total for the Zelby depot order, let's track the changes to the line items step by step based on the instructions provided in the session.\n\n1.  **Initial Order Lines:**\n    *   Ladders: 420\n    *   Lanterns: 360\n    *   Helmets: 155\n\n2.  **Turn t001:** \"Add a line of 465 for the ladders to the order.\"\n    *   Ladders: 420 + 465 = 885\n\n3.  **Turn t014:** \"Add a line of 360 for the lanterns to the order.\"\n    *   Lanterns: 360 + 360 = 720\n\n4.  **Turn t019:** \"Add a line of 155 for the helmets to the order.\"\n    *   Helmets: 155 + 155 = 310\n\n5.  **Turn t036:** \"Take 70 off the order for the returned stock.\"\n    *   The instruction does not specify which item, but typically \"returned stock\" implies a reduction from the total or a specific item if context were clearer. However, looking at the pattern of previous \"add line\" instructions, this is a deduction. Without a specific item attached, I will apply this deduction to the total sum at the end, or assume it applies to the most recently modified or largest item if forced. But usually, in these tasks, if it's not specified, it might be a general deduction. Let's look closer. Actually, often these \"take X off\" instructions are ambiguous. Let's re-read carefully. \"Take 70 off the order for the returned stock.\" It doesn't say \"for the ladders\". It says \"off the order\". This implies a total deduction.\n    *   Let's calculate the subtotal first:\n        *   Ladders: 885\n        *   Lanterns: 720\n        *   Helmets: 310\n        *   Subtotal: 885 + 720 + 310 = 1915\n    *   Deduction: 1915 - 70 = 1845\n\n6.  **Turn t06"
+}

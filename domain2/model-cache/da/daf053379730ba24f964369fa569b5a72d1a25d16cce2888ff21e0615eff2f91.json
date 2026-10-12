@@ -7,11 +7,11 @@
     "sample": 0
   },
   "provenance": {
-    "at": "2026-10-11T02:22:15Z",
+    "at": "2026-10-12T07:33:55Z",
     "cached_tokens": 8448,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 15334.534,
+    "latency_ms": 8030.425,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0
     },
     "payload_sha256": "5816bf3519eb3be335d8f791f6c91b2e31b617884a1160a7c3d20facedaa347b",
-    "response_id": "chatcmpl-a97c8e6a8a29cf64",
+    "response_id": "chatcmpl-94936ae0bd3d3da9",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 0,
     "usage": {
-      "completion_tokens": 354,
+      "completion_tokens": 182,
       "prompt_tokens": 10754,
-      "total_tokens": 11108
+      "total_tokens": 10936
     }
   },
-  "text": "To calculate the total for the supply order, I will identify all the line items added by the user and sum their values.\n\n1.  **Ladders**: In turn `t001`, the user requested \"a line of 165 for the ladders\".\n    *   Value: 165\n2.  **Toolkits**: In turn `t004`, the user requested \"a line of 265 for the toolkits\".\n    *   Value: 265\n3.  **Flat Delivery Fee**: In turn `t007`, the user stated \"There's a flat delivery fee of 45 on the order\".\n    *   Value: 45\n4.  **Returned Stock**: In turn `t032`, the user requested \"Take 40 off the order for the returned stock\". This is a deduction.\n    *   Value: -40\n5.  **Lamps**: In turn `t065`, the user requested \"a line of 225 for the lamps\".\n    *   Value: 225\n\nNow, I will sum these values step by step:\n\n*   Start with Ladders: 165\n*   Add Toolkits: 165 + 265 = 430\n*   Add Delivery Fee: 430 + 45 = 475\n*   Subtract Returned Stock: 475 - 40 = 435\n*   Add Lamps: 435 + 225 = 660\n\nTotal: 660"
+  "text": "To calculate the total for the supply order, I will sum the values of the lines added so far.\n\n1.  From turn t001: 165 for the ladders.\n2.  From turn t004: 265 for the toolkits.\n3.  From turn t007: 45 flat delivery fee.\n4.  From turn t032: -40 for returned stock.\n5.  From turn t065: 225 for the lamps.\n\nCalculation:\n165 + 265 = 430\n430 + 45 = 475\n475 - 40 = 435\n435 + 225 = 660\n\nTotal: 660"
 }

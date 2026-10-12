@@ -7,11 +7,11 @@
     "sample": 0
   },
   "provenance": {
-    "at": "2026-10-11T07:56:53Z",
+    "at": "2026-10-12T07:39:06Z",
     "cached_tokens": 0,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 6764.086,
+    "latency_ms": 3930.312,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0
     },
     "payload_sha256": "542777850a586c37a15537e2310279dcad3f58e96140cc2c35817e7eda1ca7cb",
-    "response_id": "chatcmpl-9402cfd2b006328f",
+    "response_id": "chatcmpl-a6a4f5421e7ffe4e",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 0,
     "usage": {
-      "completion_tokens": 447,
+      "completion_tokens": 237,
       "prompt_tokens": 6103,
-      "total_tokens": 6550
+      "total_tokens": 6340
     }
   },
-  "text": "To determine the total for the order, let's look at the items added and any adjustments made during the session.\n\n1.  **Initial Order Lines:**\n    *   Helmets: 380\n    *   Ladders: 150\n    *   Toolkits: 210\n    *   Lanterns: 210\n    *   Tarps: 555\n\n2.  **Additions:**\n    *   Turn t055: Add 150 for ladders.\n        *   New Ladders total: 150 + 150 = 300\n    *   Turn t057: Add 210 for toolkits.\n        *   New Toolkits total: 210 + 210 = 420\n    *   Turn t059: Add 210 for lanterns.\n        *   New Lanterns total: 210 + 210 = 420\n    *   Turn t070: Add 575 for tarps.\n        *   New Tarps total: 555 + 575 = 1130\n\n3.  **Subtractions:**\n    *   Turn t087: Take 20 off the order for returned stock.\n        *   This is a general reduction of 20 units from the total order.\n\n4.  **Calculation:**\n    *   Helmets: 380\n    *   Ladders: 300\n    *   Toolkits: 420\n    *   Lanterns: 420\n    *   Tarps: 1130\n    *   Subtotal: 380 + 300 + 420 + 420 + 1130 = 2650\n    *   Less returned stock: 2650 - 20 = 2630\n\nTotal: 2630"
+  "text": "To determine the total for the order, let's look at the items added so far:\n\n1.  **Helmets**: 380\n2.  **Ladders**: 150\n3.  **Toolkits**: 210\n4.  **Lanterns**: 210\n5.  **Tarps**: 575 (added in turn t070)\n6.  **Return**: -20 (subtracted in turn t087)\n\nLet's sum these up step by step:\n*   Helmets + Ladders: 380 + 150 = 530\n*   + Toolkits: 530 + 210 = 740\n*   + Lanterns: 740 + 210 = 950\n*   + Tarps: 950 + 575 = 1525\n*   - Returns: 1525 - 20 = 1505\n\nTotal: 1505"
 }

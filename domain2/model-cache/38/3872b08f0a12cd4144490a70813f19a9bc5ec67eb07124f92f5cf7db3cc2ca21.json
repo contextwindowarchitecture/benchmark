@@ -7,11 +7,11 @@
     "sample": 3
   },
   "provenance": {
-    "at": "2026-10-11T08:16:13Z",
+    "at": "2026-10-12T08:20:30Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
-    "finish_reason": "length",
-    "latency_ms": 6710.415,
+    "finish_reason": "stop",
+    "latency_ms": 4576.015,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "4cceef3cb51bb9134df3749d430c59014e5c781b09e2fe84c843f758fbb8ae3f",
-    "response_id": "chatcmpl-a79b23eefa6d06ea",
+    "response_id": "chatcmpl-ae9c98c779effa4b",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 3,
     "usage": {
-      "completion_tokens": 512,
+      "completion_tokens": 273,
       "prompt_tokens": 6034,
-      "total_tokens": 6546
+      "total_tokens": 6307
     }
   },
-  "text": "To determine the total for the order, let's look at the lines provided and any adjustments made.\n\n1.  **Initial Order Lines:**\n    *   Ladders: 215\n    *   Lamps: 350\n\n2.  **Adjustments:**\n    *   In turn `t018`, the user said: \"Take 80 off the order for the returned stock.\"\n    *   In turn `t029`, the user said: \"Take 25 off the order for the returned stock.\"\n    *   In turn `t048`, the user said: \"Add a line of 350 for the lamps to the order.\"\n\nLet's calculate the running totals for each item:\n\n*   **Ladders:**\n    *   Initial: 215\n    *   No specific adjustments mentioned for ladders in the \"returned stock\" instructions (usually applied to the total or a specific line, but here the instruction was generic \"off the order\". However, looking at the pattern, \"returned stock\" deductions are often applied to the total sum or specific high-volume items. Let's look closer. The prompt says \"Take 80 off the order\" and \"Take 25 off the order\". It doesn't specify an item. Often in these tasks, if not specified, it might be deducted from the total. However, let's look at the lamp line.\n    *   Wait, let's re-read carefully. \"Take 80 off the order for the returned stock.\" \"Take 25 off the order for the returned stock.\"\n    *   Let's check if there were specific item deductions. No.\n    *   Let's check the final addition: \"Add a line of 350 for the lamps\".\n\n    Let's sum the initial items first:\n    *   Ladders: 215\n    *   Lamps (initial): 350\n    *   Total Initial: 215 + 350 = 565\n\n    Now apply the deductions:\n    *   Deduction 1: -80\n    *   Deduction 2: -25\n    *   Total Deductions: -105\n    *   Subtotal after deductions: 565 - 105 = 460\n\n    Now apply the addition:\n    *"
+  "text": "To determine the total for the order, let's look at the lines provided and any adjustments made.\n\n1.  **Initial Order Lines:**\n    *   Ladders: 215\n    *   Lamps: 350\n\n2.  **Adjustments:**\n    *   In turn `t018`: \"Take 80 off the order for the returned stock.\" This applies to the total quantity.\n    *   In turn `t029`: \"Take 25 off the order for the returned stock.\" This applies to the total quantity.\n    *   In turn `t048`: \"Add a line of 350 for the lamps to the order.\" This adds 350 to the total quantity.\n\nLet's calculate the total quantity step by step:\n\n*   Start with initial quantities: $215 + 350 = 565$\n*   Subtract the first return adjustment: $565 - 80 = 485$\n*   Subtract the second return adjustment: $485 - 25 = 460$\n*   Add the additional lamps: $460 + 350 = 810$\n\nTotal: 810"
 }

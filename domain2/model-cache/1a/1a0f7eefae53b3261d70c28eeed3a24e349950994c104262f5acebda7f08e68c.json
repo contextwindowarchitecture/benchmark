@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "1a0f7eefae53b3261d70c28eeed3a24e349950994c104262f5acebda7f08e68c",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "9cd431b5b79b1274dbda7fdb81240ceaf8dfda3aec388cbb183b546e66b3fa98",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-12T08:02:11Z",
+    "cached_tokens": 1056,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 71197.607,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "9725ba3b41b9f2210d451f6141cc186e69ac4131d1e1f3f0b1e90c5b5e021700",
+    "response_id": "chatcmpl-b7b93490d08ccf08",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 1612,
+      "total_tokens": 2124
+    }
+  },
+  "text": "To calculate the total for the Harby depot order, let's review the line items added so far:\n\n1.  **Helmets**: The initial order included 280 helmets. Later, you asked to add a line of 370 for helmets. However, looking at the most recent updates, you specifically added \"285 for the cable reels\" in turn t010. Let's re-examine the helmet count.\n    *   In `xstate:01`, the order starts with `{\"item\": \"helmets\", \"quantity\": 280}`.\n    *   In `turn:t001`, you said \"Add a line of 370 for the helmets to the order.\" This implies adding 370 to the existing 280, or replacing it? Usually, \"add a line\" implies adding to the list. If it's a separate line item, it might be a correction or an additional batch. However, standard practice in these prompts is often that \"add a line of X for Y\" sets the quantity for that item if it's the primary mention, or adds to it. Let's look at the structure.\n    *   Actually, usually, if an item is already in the `order_lines` state, and the user says \"Add a line of X for the item\", it often means the *current* desired quantity is X, or it adds X to the existing. Let's look at the specific wording: \"Add a line of 370 for the helmets\". In turn `t010`, you said \"Add a line of 285 for the cable reels\". The initial state had 285 cable reels.\n    *   Let's look at the deductions.\n    *   `turn:t006`: \"Take 40 off the order for the returned stock.\"\n    *   `turn:t007`: \"Take 70 off the order for the returned stock.\"\n    *   `turn:t009`: \"Take 50 off the order for the returned stock.\"\n\n    Let's assume the \"Add a line of X\" commands update the quantity for those specific items to X, or add X. Given the initial state has 280 helmets and 285 cable reels, and the user later says \"Add a line of 370 for helmets\" and \"Add a line"
+}

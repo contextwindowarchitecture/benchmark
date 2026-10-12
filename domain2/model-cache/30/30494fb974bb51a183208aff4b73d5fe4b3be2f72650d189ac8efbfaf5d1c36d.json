@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "30494fb974bb51a183208aff4b73d5fe4b3be2f72650d189ac8efbfaf5d1c36d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "c8d2b05eb82cab1f2b1a5ef4f2f41c9c393afb2a58cf96a459eaa8f07c12786a",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-12T07:40:19Z",
+    "cached_tokens": 9504,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 5151.44,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "c00ed12e62b50ead9893e6f6defe3bec4a945aee98ac54f87e824cd3159263ff",
+    "response_id": "chatcmpl-aa88dd7a1954518c",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 281,
+      "prompt_tokens": 10200,
+      "total_tokens": 10481
+    }
+  },
+  "text": "To calculate the total for the supply order, I will sum the quantities of the items added so far.\n\n1.  **Ladders**: 165 (Added in turn t001)\n2.  **Toolkits**: 265 (Added in turn t004)\n3.  **Lamps**: 225 (Added in turn t065)\n\nThere was also a mention of a flat delivery fee of 45 in turn t007, but typically \"order lines\" refer to the item quantities unless specified as a cost total. However, the prompt asks \"What does the order come to so far?\", which usually implies the sum of the line items provided in the context of \"lines they give over a long working session\". The policy states: \"When asked for the total, add up the order's lines step by step, then give the total on a last line of its own as 'Total: ' and the number.\" This refers to the item quantities.\n\nLet's sum the item quantities:\n165 (Ladders) + 265 (Toolkits) + 225 (Lamps)\n\n165 + 265 = 430\n430 + 225 = 655\n\nTotal: 655"
+}

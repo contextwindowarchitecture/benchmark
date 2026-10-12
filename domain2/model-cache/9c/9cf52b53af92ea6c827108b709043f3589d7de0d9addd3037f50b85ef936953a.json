@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "9cf52b53af92ea6c827108b709043f3589d7de0d9addd3037f50b85ef936953a",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "051e00a4e8a555554d498ff3ca0596ee938549a64f81e391abd8379adf520a38",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T08:15:46Z",
+    "cached_tokens": 2112,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 16970.002,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "e9ece9c7d65b66159d0952f2b68adb63fb999e141e489d5e7ffca1d394d19a49",
+    "response_id": "chatcmpl-a58bea63e5ba3504",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 503,
+      "prompt_tokens": 4182,
+      "total_tokens": 4685
+    }
+  },
+  "text": "To determine the total for the order, I will track the quantities for each item line by line based on the instructions provided throughout the session.\n\n1.  **Initial Order (from `<task id=\"xstate:01\">`):**\n    *   Ladders: 370\n    *   Lamps: 555\n\n2.  **Turn t001:** \"Add a line of 400 for the ladders to the order.\"\n    *   Ladders: 370 + 400 = 770\n    *   Lamps: 555\n\n3.  **Turn t004:** \"Take 30 off the order for the returned stock.\"\n    *   The instruction does not specify an item, so this reduction typically applies to the first item listed or the primary item being discussed in supply contexts unless specified otherwise. However, looking at the pattern of such requests in similar tasks, if no item is specified, it often applies to the most recently mentioned or the first item. Let's look for context clues. Often, \"the order\" implies the aggregate or the first item. Let's assume it applies to **Ladders** as it is the first item listed in the initial state.\n    *   Ladders: 770 - 30 = 740\n    *   Lamps: 555\n\n4.  **Turn t020:** \"Add a line of 555 for the lamps to the order.\"\n    *   Ladders: 740\n    *   Lamps: 555 + 555 = 1110\n\n5.  **Turn t030:** \"Take 35 off the order for the returned stock.\"\n    *   Again, no specific item is mentioned. Applying this to the first item, **Ladders**.\n    *   Ladders: 740 - 35 = 705\n    *   Lamps: 1110\n\n**Current Order Lines:**\n*   Ladders: 705\n*   Lamps: 1110\n\n**Calculation:**\n*   705 (Ladders) + 1110 (Lamps) = 1815\n\nTotal: 1815"
+}

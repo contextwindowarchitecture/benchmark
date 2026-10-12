@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "d939a0fa23b91ad07118cebe53bd7b5b604b83011bfd41b72496488c6748967f",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "729673dcd0216855d5bd779d6827dac577012e35547819f5d15e78df90361afa",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-12T08:21:23Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 7705.047,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "7ab6ac6308c97a20b0c1d6841aebbb8b830993897c881bd65939c00a184bce4c",
+    "response_id": "chatcmpl-968df6aaac008ba1",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 445,
+      "prompt_tokens": 6176,
+      "total_tokens": 6621
+    }
+  },
+  "text": "To calculate the current order total, we start with the initial lines provided in the context and apply the adjustments mentioned in the conversation history.\n\n1.  **Initial Order Lines:**\n    *   Crates: 430\n    *   Ladders: 400\n    *   Lamps: 520\n\n2.  **Adjustments:**\n    *   **Turn t038:** \"Take 35 off the order for the returned stock.\"\n        *   This reduces the total quantity by 35.\n    *   **Turn t044:** \"Take 50 off the order for the returned stock.\"\n        *   This reduces the total quantity by 50.\n    *   **Turn t048:** \"Add a line of 520 for the lamps to the order.\"\n        *   This increases the quantity of lamps by 520.\n\n3.  **Calculation:**\n    *   Start with the sum of initial items: $430 + 400 + 520 = 1350$\n    *   Subtract the first return: $1350 - 35 = 1315$\n    *   Subtract the second return: $1315 - 50 = 1265$\n    *   Add the additional lamps: $1265 + 520 = 1785$\n\nAlternatively, calculating by item:\n*   **Crates:** 430 (no changes)\n*   **Ladders:** 400 (no changes)\n*   **Lamps:** $520 \\text{ (initial)} - 35 \\text{ (return 1)} - 50 \\text{ (return 2)} + 520 \\text{ (added line)} = 955$\n*   **Total:** $430 + 400 + 955 = 1785$\n\nTotal: 1785"
+}

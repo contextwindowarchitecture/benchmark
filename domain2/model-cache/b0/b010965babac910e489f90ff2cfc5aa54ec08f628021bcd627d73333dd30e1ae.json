@@ -7,11 +7,11 @@
     "sample": 0
   },
   "provenance": {
-    "at": "2026-10-11T08:12:07Z",
+    "at": "2026-10-12T08:13:57Z",
     "cached_tokens": 0,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 10230.656,
+    "latency_ms": 15760.98,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "11bdb64ab5a5c4fa943cb43f82ce08e27e7852b69998e94421f478fb461bf530",
-    "response_id": "chatcmpl-9fab4b520f8a4698",
+    "response_id": "chatcmpl-ad4b81a7d9d50128",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 0,
     "usage": {
-      "completion_tokens": 287,
+      "completion_tokens": 450,
       "prompt_tokens": 6067,
-      "total_tokens": 6354
+      "total_tokens": 6517
     }
   },
-  "text": "To calculate the total for the order so far, I need to identify all the line items added to the order in the conversation history.\n\n1.  **Turn t017**: The user said, \"Add a line of 400 for the ladders to the order.\"\n    *   Current Total: 400\n\n2.  **Turn t038**: The user said, \"Take 35 off the order for the returned stock.\"\n    *   This is a deduction, not an addition of a new line item with a positive value for the total sum of goods, but it affects the final amount. Let's track the net total.\n    *   Current Total: 400 - 35 = 365\n\n3.  **Turn t044**: The user said, \"Take 50 off the order for the returned stock.\"\n    *   Current Total: 365 - 50 = 315\n\n4.  **Turn t048**: The user said, \"Add a line of 520 for the lamps to the order.\"\n    *   Current Total: 315 + 520 = 835\n\nThere are no other additions or subtractions to the order values mentioned in the history.\n\nTotal: 835"
+  "text": "To calculate the total for the order so far, I need to identify all the line items added to the supply order in the conversation history.\n\n1.  **Turn t017**: The user states, \"Add a line of 400 for the ladders to the order.\"\n    *   Item: Ladders\n    *   Quantity: 400\n2.  **Turn t038**: The user states, \"Take 35 off the order for the returned stock.\"\n    *   This is a subtraction from the order total, not a new line item for goods, but it affects the final count. However, the prompt asks for \"the order's lines\". Usually, \"lines\" refers to items being purchased. Let's look for other additions.\n3.  **Turn t044**: The user states, \"Take 50 off the order for the returned stock.\"\n    *   Again, a subtraction/adjustment.\n4.  **Turn t048**: The user states, \"Add a line of 520 for the lamps to the order.\"\n    *   Item: Lamps\n    *   Quantity: 520\n\nThe other requests in the history are reminders, notes about room availability, repainting schedules, or swapping desks, which do not contribute to the supply order total.\n\nSo, the items added to the order are:\n*   Ladders: 400\n*   Lamps: 520\n\nThe adjustments for returned stock (35 and 50) are deductions. The question asks \"What does the order come to so far?\", which implies the final value.\n\nCalculation:\n*   Start with Ladders: 400\n*   Add Lamps: 400 + 520 = 920\n*   Subtract returned stock (turn t038): 920 - 35 = 885\n*   Subtract returned stock (turn t044): 885 - 50 = 835\n\nTotal: 835"
 }

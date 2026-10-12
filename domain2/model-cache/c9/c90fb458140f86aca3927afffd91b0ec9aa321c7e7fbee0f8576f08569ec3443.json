@@ -7,11 +7,11 @@
     "sample": 3
   },
   "provenance": {
-    "at": "2026-10-11T02:46:22Z",
+    "at": "2026-10-12T07:57:34Z",
     "cached_tokens": 1056,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 47173.435,
+    "latency_ms": 25783.063,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "077b47ca682e42b515229c4d45d775ccffe7a58e3d95745995f0b906107c7fdd",
-    "response_id": "chatcmpl-8652b9b7fe1f0615",
+    "response_id": "chatcmpl-b0392ded455bcf17",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 3,
     "usage": {
-      "completion_tokens": 286,
+      "completion_tokens": 187,
       "prompt_tokens": 1545,
-      "total_tokens": 1831
+      "total_tokens": 1732
     }
   },
-  "text": "To calculate the total for the Harcroft depot supply order, let's look at the specific lines added by the user:\n\n1.  **Crates:** 275 units (from turn t001)\n2.  **Returned Stock Adjustment:** -35 units (from turn t002)\n3.  **Toolkits:** 470 units (from turn t004)\n4.  **Lamps:** 175 units (from turn t005)\n5.  **Returned Stock Adjustment:** -80 units (from turn t007)\n6.  **Flat Delivery Fee:** 45 units (from turn t008)\n\nNow, let's sum these amounts step by step:\n\n*   Start with Crates: 275\n*   Add Toolkits: 275 + 470 = 745\n*   Add Lamps: 745 + 175 = 920\n*   Subtract First Stock Return: 920 - 35 = 885\n*   Subtract Second Stock Return: 885 - 80 = 805\n*   Add Delivery Fee: 805 + 45 = 850\n\nTotal: 850"
+  "text": "To calculate the total for the Harcroft depot supply order, let's look at the specific lines added by the user:\n\n1.  **Crates**: 275 units\n2.  **Toolkits**: 470 units\n3.  **Lamps**: 175 units\n\nFirst, we subtract the returned stock deduction:\n*   275 (crates) + 470 (toolkits) + 175 (lamps) = 920\n*   920 - 35 (returned stock deduction) = 885\n*   885 - 80 (returned stock deduction) = 805\n\nThen, we add the flat delivery fee:\n*   805 + 45 (delivery fee) = 850\n\nTotal: 850"
 }

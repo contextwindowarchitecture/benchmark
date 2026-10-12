@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "1230af9378e54cb9df85ef6869f5b0b19ae0fcf9c0710739c1d849e09bf5cba5",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "99c05ad81e5ff1e8007d2dd1fe4540f734af10cb1630f80e8c25666ffe231f04",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T07:22:25Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 111997.193,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "d17bc2f41400aa97e63a48b6043dc28108d1029ac67b4e915f6fc568d2bf9213",
+    "response_id": "chatcmpl-849b0dd2e50ef1f0",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 1629,
+      "total_tokens": 2141
+    }
+  },
+  "text": "To determine the total for the Harcroft depot order, we need to aggregate the quantities from the initial state and all subsequent modifications provided in the conversation history.\n\n**1. Initial Order Lines (from `xstate:01`):**\n*   Crates: 240\n*   Toolkits: 470\n*   Lamps: 95\n\n**2. Additions and Subtractions from User History:**\n\n*   **Turn t001:** \"Add a line of 275 for the crates...\"\n    *   Crates: +275\n*   **Turn t002:** \"Take 35 off the order for the returned stock.\"\n    *   *Note:* The user does not specify which item this applies to. In supply order contexts without specific item attribution, \"returned stock\" often implies a general reduction or applies to the first/most prominent item, but strictly speaking, it is ambiguous. However, looking at the pattern of other turns where specific items are named (e.g., \"Take 80 off the order\" in t007), and given that t002 is the first reduction, let's look for context clues. There are no specific item clues in t002. Usually, if unspecified, it might apply to the total or a specific category. Let's look at t007: \"Take 80 off the order for the returned stock.\" Again, unspecified.\n    *   *Re-evaluating standard interpretation:* In many of these logic puzzles, if an item isn't specified for a reduction, it is often treated as a reduction to the **total** count of items, or it's a \"distractor\" if the question asks for a specific item total. However, the question asks \"What does the order come to so far?\", implying the grand total of all items.\n    *   Let's check if the reductions are item-specific in other turns.\n        *   t001: Crates +275\n        *   t004: Toolkits +470 (Wait, the initial state already had 470 toolkits. The user says \"Add a line of 470 for the toolkits\". This implies adding *another* 470, or is it correcting? The prompt says \"Add a line...\". Usually, this means adding to the existing list. So Toolkits"
+}

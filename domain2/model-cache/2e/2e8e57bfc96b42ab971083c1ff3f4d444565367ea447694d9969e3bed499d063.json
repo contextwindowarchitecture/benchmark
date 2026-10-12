@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "2e8e57bfc96b42ab971083c1ff3f4d444565367ea447694d9969e3bed499d063",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "a023d5c1b061caa3ef25275a8f4572313b43ad262ce9e5a6965d7246b7523db9",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-12T08:03:58Z",
+    "cached_tokens": 1056,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 45030.39,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "d17bc2f41400aa97e63a48b6043dc28108d1029ac67b4e915f6fc568d2bf9213",
+    "response_id": "chatcmpl-921473dc7d4d5a30",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 1629,
+      "total_tokens": 2141
+    }
+  },
+  "text": "To calculate the total for the Harcroft depot order, we need to aggregate the quantities of items added via specific commands in the conversation history. The initial state provided in `<task id=\"xstate:01\">` contains items that appear to be from a previous or placeholder context, but the user's explicit instructions in the dialogue (\"Add a line of...\", \"Take... off the order\") are the active commands for this session.\n\nHere is the step-by-step breakdown of the order lines based on the user's commands:\n\n1.  **Crates**:\n    *   In turn `t001`, the user says: \"Add a line of 275 for the crates to the order.\"\n    *   However, looking at the initial state `xstate:01`, there is already `{\"item\": \"crates\", \"quantity\": 240}`.\n    *   Usually, in these types of prompts, the \"Add a line\" command implies adding to the current running total or setting a new line if it doesn't exist. Let's look for other interactions.\n    *   Wait, let's re-read the initial state carefully. The initial state lists:\n        *   crates: 240\n        *   toolkits: 470\n        *   lamps: 95\n    *   Then the user starts giving instructions.\n    *   Turn `t001`: \"Add a line of 275 for the crates...\" -> This likely updates or adds to the crates count. If it's a new line, does it add to the 240? Or replace it? Or is the initial state just context and the user is building the order *from scratch* in the conversation?\n    *   Let's look at turn `t002`: \"Take 35 off the order for the returned stock.\" This is ambiguous. Which item? Usually, \"returned stock\" refers to a specific item if context is given, or it might be a generic deduction. However, without a specific item named, this is tricky. Let's look further.\n    *   Turn `t004`: \"Add a line of 470 for the toolkits...\" -> The initial state already has 470 toolkits. This suggests the user might be re-confirming or adding.\n    *   Turn `t005`: \"Add a line of 17"
+}

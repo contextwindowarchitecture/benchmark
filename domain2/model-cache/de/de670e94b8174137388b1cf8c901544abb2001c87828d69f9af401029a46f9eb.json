@@ -7,11 +7,11 @@
     "sample": 0
   },
   "provenance": {
-    "at": "2026-10-11T03:04:07Z",
+    "at": "2026-10-12T08:12:19Z",
     "cached_tokens": 2112,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 5966.325,
+    "latency_ms": 10480.226,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "31d02be7067ca56911ec797b53e363d3992d77ae7a9eec514ef450fc517fef67",
-    "response_id": "chatcmpl-a4913c490ce683b2",
+    "response_id": "chatcmpl-871eb9c43abd6ee2",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 0,
     "usage": {
-      "completion_tokens": 172,
+      "completion_tokens": 287,
       "prompt_tokens": 4063,
-      "total_tokens": 4235
+      "total_tokens": 4350
     }
   },
-  "text": "To calculate the total for the Nevbury depot supply order, I will sum up the quantities of all items added to the order so far.\n\n1.  **Ladders**: In turn t001, the user added a line of **240** for the ladders.\n2.  **Returned Stock**: In turn t018, the user instructed to \"Take 80 off the order\". This is a subtraction of **80**.\n3.  **Returned Stock**: In turn t029, the user instructed to \"Take 25 off the order\". This is a subtraction of **25**.\n\nCalculation:\n240 (Ladders) - 80 (Return) - 25 (Return) = 135\n\nTotal: 135"
+  "text": "To calculate the total for the Nevbury depot supply order, I will sum up the quantities of all items added to the order throughout our session.\n\n1.  **Ladders:** In the first turn, you requested to \"Add a line of 240 for the ladders\". This sets the initial quantity for ladders at **240**.\n2.  **Returned Stock Adjustment:** Later in the session, you requested adjustments to the order for returned stock.\n    *   In turn t018, you said: \"Take 80 off the order for the returned stock.\" This reduces the order total by **80**.\n    *   In turn t029, you said: \"Take 25 off the order for the returned stock.\" This reduces the order total by **25**.\n\nNo other items were explicitly added to the supply order lines. The rest of the conversation involved office updates, reminders, and location changes which do not affect the supply order quantities.\n\n**Calculation:**\n*   Initial Ladders: 240\n*   Less returned stock (t018): -80\n*   Less returned stock (t029): -25\n\n240 - 80 = 160\n160 - 25 = 135\n\nTotal: 135"
 }

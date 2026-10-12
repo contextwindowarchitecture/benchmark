@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "bfb5b424290a47ac51d1c014788c01c96d7c2bf002469766a411d8e7ba7c6037",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e96b0fbca1db8c30872a40ab448995a43218f346cfbbce4994309d2bbd42710f",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-12T08:10:09Z",
+    "cached_tokens": 1056,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 14882.163,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "c5a2b62380a669d682281ff8cfc3794e7256c0a1ec3900d20998e206a1c139ec",
+    "response_id": "chatcmpl-9b7fb6aab29ab961",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 410,
+      "prompt_tokens": 1919,
+      "total_tokens": 2329
+    }
+  },
+  "text": "Let's tally up the supply order for the Selbury depot based on the items we've discussed.\n\nFirst, we have the line items:\n- Line item 415: Cable reels (quantity not specified in this segment, but usually counted as 1 line item or unit if not specified, let's assume standard unit count for calculation if numbers were provided. However, looking at the summary, only specific quantities were given for some items. Let's look at the summary again: \"Line item 415: Cable reels\", \"Line item 95: Ladders\", \"Line item: 150 tarps\". Usually, if a quantity isn't explicitly stated as a number like \"150 tarps\", it might be a single line item. But often in these prompts, if a number isn't given, it's 1. Let's assume 1 for Cable reels and 1 for Ladders unless told otherwise. Wait, the prompt says \"Line item 415\" and \"Line item 95\". These look like SKU numbers or line IDs, not quantities. The quantity for tarps is 150. Let's assume 1 unit for Cable reels and 1 unit for Ladders.\n\nActually, looking at the summary:\n- Line item 415: Cable reels. (Quantity assumed 1)\n- Line item 95: Ladders. (Quantity assumed 1)\n- Line item: 150 tarps. (Quantity 150)\n\nLet's add these up:\n1 (Cable reels) + 1 (Ladders) + 150 (Tarps) = 152 items.\n\nThen we deduct 70 from returned stock:\n152 - 70 = 82 items.\n\nThen we add the flat delivery fee:\n82 + 55 = 137.\n\nTotal: 137"
+}

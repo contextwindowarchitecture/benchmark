@@ -7,11 +7,11 @@
     "sample": 1
   },
   "provenance": {
-    "at": "2026-10-11T02:22:20Z",
+    "at": "2026-10-12T07:34:08Z",
     "cached_tokens": 10560,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 5444.059,
+    "latency_ms": 12774.058,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0
     },
     "payload_sha256": "5816bf3519eb3be335d8f791f6c91b2e31b617884a1160a7c3d20facedaa347b",
-    "response_id": "chatcmpl-839c4492ece54e23",
+    "response_id": "chatcmpl-8a7f7b0befdf6edb",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 1,
     "usage": {
-      "completion_tokens": 130,
+      "completion_tokens": 305,
       "prompt_tokens": 10754,
-      "total_tokens": 10884
+      "total_tokens": 11059
     }
   },
-  "text": "To calculate the total for the supply order, I will sum the values of the lines added so far.\n\n1.  **Ladders**: 165\n2.  **Toolkits**: 265\n3.  **Lamps**: 225\n4.  **Returned Stock**: -40 (This is a deduction from the order)\n\nCalculation:\n165 + 265 = 430\n430 + 225 = 655\n655 - 40 = 615\n\nTotal: 615"
+  "text": "To calculate the total for the supply order, I will identify the specific line items added by the user and sum their values.\n\n1.  **Ladders**: In turn `t001`, the user requested to \"Add a line of 165 for the ladders to the order.\"\n    *   Current Total: 165\n\n2.  **Toolkits**: In turn `t004`, the user requested to \"Add a line of 265 for the toolkits to the order.\"\n    *   Current Total: 165 + 265 = 430\n\n3.  **Flat Delivery Fee**: In turn `t007`, the user stated, \"There's a flat delivery fee of 45 on the order.\"\n    *   Current Total: 430 + 45 = 475\n\n4.  **Lamps**: In turn `t065`, the user requested to \"Add a line of 225 for the lamps to the order.\"\n    *   Current Total: 475 + 225 = 700\n\n5.  **Returned Stock**: In turn `t032`, the user stated, \"Take 40 off the order for the returned stock.\"\n    *   Current Total: 700 - 40 = 660\n\nTotal: 660"
 }

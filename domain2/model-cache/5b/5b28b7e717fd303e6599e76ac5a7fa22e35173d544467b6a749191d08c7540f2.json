@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "5b28b7e717fd303e6599e76ac5a7fa22e35173d544467b6a749191d08c7540f2",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e544dc769154e64c8aff38efeae8fe6343a80a3ab8140aec76733d71ffe1d44d",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T08:17:47Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 9386.257,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "136ff4aad5c5006eb579acfb7eba04cece3d82c31c8db4acde40f67a80daf657",
+    "response_id": "chatcmpl-9b3ed0f887b7f100",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 453,
+      "prompt_tokens": 6109,
+      "total_tokens": 6562
+    }
+  },
+  "text": "To figure out the total for the order, let's look at the current lines based on the instructions provided:\n\n1.  **Ladders**: The initial quantity was 370. No changes were made to this specific item's quantity in the subsequent messages.\n    *   Current quantity: 370\n\n2.  **Lamps**: The initial quantity was 555. In turn `t020`, the user asked to \"Add a line of 555 for the lamps to the order.\"\n    *   Current quantity: 555 + 555 = 1110\n\n3.  **Cable reels**: The initial quantity was 570. In turn `t045`, the user asked to \"Add a line of 570 for the cable reels to the order.\"\n    *   Current quantity: 570 + 570 = 1140\n\n4.  **Returns**: In turn `t030`, the user said to \"Take 35 off the order for the returned stock.\" This applies to the overall order total, not a specific item line unless specified. We will subtract this from the sum of the item quantities.\n\nLet's sum the item quantities:\n*   Ladders: 370\n*   Lamps: 1110\n*   Cable reels: 1140\n\nSum of items = 370 + 1110 + 1140 = 2620\n\nNow, apply the return deduction:\n*   Total before returns: 2620\n*   Deduction: 35\n\nTotal: 2620 - 35 = 2585\n\nAdditionally, in turn `t040`, the user mentioned: \"There's a flat delivery fee of 15 on the order.\"\n*   Total before delivery: 2585\n*   Delivery fee: 15\n\nTotal: 2585 + 15 = 2600\n\nTotal: 2600"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "98fc5adba8e659e9a3609ee99f336f5439f59b29b0f8e2bb4fb53f0b767e45a5",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "8bb889ab4e09a68fad559995feb8184c174cf8e28c11edda17256dc45dcc28aa",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-12T08:20:55Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 8590.979,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "3f471f264f8301b95e1d93172895e9f108dd196bcd1c5dbd331ecd3ee3069786",
+    "response_id": "chatcmpl-9d508657a92342f9",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6090,
+      "total_tokens": 6602
+    }
+  },
+  "text": "To calculate the total order, let's look at the items provided in the initial list and any updates made during our session.\n\n1.  **Crates**: The initial order was for 430. There were no changes to this line.\n    *   Crates: 430\n2.  **Ladders**: The initial order was for 400. In turn `t017`, the user asked to \"Add a line of 400 for the ladders to the order.\" This implies an additional 400 were added to the existing 400.\n    *   Ladders: 400 + 400 = 800\n    *   *Wait, let me re-evaluate the instruction \"Add a line of 400\".* Usually, if an item already exists, adding a line might mean updating the quantity or adding a new distinct entry. However, in supply contexts, \"add a line\" often implies adding to the existing requirement or creating a new batch. Let's look for any subtractive instructions.\n    *   In turn `t038`, the user said \"Take 35 off the order for the returned stock.\" This likely applies to the most recent or general stock. Without specific item targeting, it's ambiguous. However, looking at turn `t044`, \"Take 50 off the order for the returned stock.\"\n    *   Let's look at the most recent explicit item addition. In turn `t048`, the user said \"Add a line of 520 for the lamps to the order.\" The initial order had 520 lamps. This suggests the 520 in the initial list *is* the order, and the user is reiterating or adding another 520? Or is it confirming the existing line?\n    *   Let's re-read carefully.\n    *   Initial `order_lines`: `[{\"item\": \"crates\", \"quantity\": 430}, {\"item\": \"ladders\", \"quantity\": 400}, {\"item\": \"lamps\", \"quantity\": 520}]`\n    *   Turn `t017`: \"Add a line of 400 for the ladders to the order.\" -> This likely adds 400 to the ladders. New Ladder total: 800.\n    *"
+}

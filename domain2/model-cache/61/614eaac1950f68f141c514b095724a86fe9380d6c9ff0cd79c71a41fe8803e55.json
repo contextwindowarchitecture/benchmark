@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "614eaac1950f68f141c514b095724a86fe9380d6c9ff0cd79c71a41fe8803e55",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d4f4d4ca0cfa250e0ebdd2817605ba28d203cce19b141f556288f620df2b46b6",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-12T08:11:53Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 18428.128,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "dc8de9aad3c0fed1014ab40e5ec9624d75f21c627d24ca8e67c9df38d6e04d7f",
+    "response_id": "chatcmpl-bc2868cb350aa02d",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6150,
+      "total_tokens": 6662
+    }
+  },
+  "text": "To determine the total for the order, let's look at the items and quantities listed in the task data and any updates provided during the session.\n\n**Initial Order Items (from task `xstate:03`):**\n1.  Lanterns: 340\n2.  Tarps: 180\n3.  Helmets: 465\n4.  Ladders: 240\n5.  Lamps: 310\n\n**Updates during the session:**\n-   In turn `t024`, the user added: \"Add a line of 180 for the tarps to the order.\"\n    -   This increases the tarp quantity from 180 to $180 + 180 = 360$.\n-   In turn `t028`, the user added: \"Add a line of 465 for the helmets to the order.\"\n    -   This increases the helmet quantity from 465 to $465 + 465 = 930$.\n-   In turn `t037`, the user added: \"Add a line of 240 for the ladders to the order.\"\n    -   This increases the ladder quantity from 240 to $240 + 240 = 480$.\n-   In turn `t040`, the user added: \"Add a line of 310 for the lamps to the order.\"\n    -   This increases the lamp quantity from 310 to $310 + 310 = 620$.\n\n**Final Item Quantities:**\n1.  Lanterns: 340\n2.  Tarps: 360\n3.  Helmets: 930\n4.  Ladders: 480\n5.  Lamps: 620\n\n**Calculation:**\n$$340 + 360 + 930 + 480 + 620$$\n\nStep-by-step addition:\n1.  $340 + 360 = 700$\n2.  $700 + 930 = 1630$\n3.  $1630 + 480 = 2110$"
+}

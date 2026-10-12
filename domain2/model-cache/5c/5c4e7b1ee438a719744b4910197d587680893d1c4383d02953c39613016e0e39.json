@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "5c4e7b1ee438a719744b4910197d587680893d1c4383d02953c39613016e0e39",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "a028b8f8dc5471f78a37b0f3e20bf5a5357d1eb7604caf2977b13c65c9c2d0db",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-12T08:18:05Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 8362.1,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "136ff4aad5c5006eb579acfb7eba04cece3d82c31c8db4acde40f67a80daf657",
+    "response_id": "chatcmpl-8976ea66a02b8a7b",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 405,
+      "prompt_tokens": 6109,
+      "total_tokens": 6514
+    }
+  },
+  "text": "To calculate the total for the order to Istworth, let's look at the line items provided in the initial task and any subsequent updates.\n\n1.  **Initial Order Lines:**\n    *   Ladders: 370\n    *   Lamps: 555\n    *   Cable reels: 570\n\n2.  **Subsequent Updates:**\n    *   In turn `t020`, the user stated: \"Add a line of 555 for the lamps to the order.\"\n        *   This brings the Lamp total to 555 (initial) + 555 (added) = 1,110.\n    *   In turn `t030`, the user stated: \"Take 35 off the order for the returned stock.\"\n        *   This deduction of 35 needs to be applied to the current total.\n    *   In turn `t045`, the user stated: \"Add a line of 570 for the cable reels to the order.\"\n        *   This brings the Cable reels total to 570 (initial) + 570 (added) = 1,140.\n\nLet's sum these up step by step:\n\n*   **Ladders:** 370\n*   **Lamps:** 555 (initial) + 555 (added) = 1,110\n*   **Cable reels:** 570 (initial) + 570 (added) = 1,140\n\n**Subtotal before returns:**\n370 + 1,110 + 1,140 = 2,620\n\n**Adjustment for returned stock:**\n2,620 - 35 = 2,585\n\nTotal: 2585"
+}

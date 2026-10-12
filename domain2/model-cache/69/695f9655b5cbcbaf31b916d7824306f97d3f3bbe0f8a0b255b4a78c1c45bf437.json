@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "695f9655b5cbcbaf31b916d7824306f97d3f3bbe0f8a0b255b4a78c1c45bf437",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "a8b76e6f8f9452e24f745c4c8c7966d678692538a728799e7f8cc024092285a6",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T07:40:28Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 4412.305,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "7cb2eaf7b5cfff451d8e5d1ae4a45a46ab7bb9ce897ce1b9b9c2e5a96b16aa2c",
+    "response_id": "chatcmpl-bfc4ad689d0b8861",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 252,
+      "prompt_tokens": 11623,
+      "total_tokens": 11875
+    }
+  },
+  "text": "To calculate the total for the supply order, I will sum the quantities of the items added so far.\n\n1.  **Ladders**: 165 (Added in turn t001)\n2.  **Toolkits**: 265 (Added in turn t004)\n3.  **Lamps**: 225 (Added in turn t065)\n\nThere was also a mention of taking 40 off the order for returned stock in turn t032, but the prompt asks for the order \"so far\" based on the lines added. Typically, \"lines\" refers to the positive additions unless specified as a net total including deductions. However, looking at the standard interpretation of \"order lines,\" we sum the items ordered. Let's look at the specific items:\n- 165 Ladders\n- 265 Toolkits\n- 225 Lamps\n\nSum: $165 + 265 + 225$\n\n$165 + 265 = 430$\n$430 + 225 = 655$\n\nTotal: 655"
+}

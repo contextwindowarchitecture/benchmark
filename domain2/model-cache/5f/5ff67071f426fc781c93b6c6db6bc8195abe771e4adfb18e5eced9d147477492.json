@@ -7,11 +7,11 @@
     "sample": 0
   },
   "provenance": {
-    "at": "2026-10-11T07:50:47Z",
+    "at": "2026-10-12T07:35:14Z",
     "cached_tokens": 0,
     "endpoint_host": "127.0.0.1:8000",
-    "finish_reason": "stop",
-    "latency_ms": 36566.039,
+    "finish_reason": "length",
+    "latency_ms": 17946.241,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0
     },
     "payload_sha256": "d76c77963b881ae4bcc5b13bc0733171ddacc84b510ce3d89f21845d30cd714b",
-    "response_id": "chatcmpl-aaf76fa31e95618c",
+    "response_id": "chatcmpl-9f2bc56a54482f4d",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 0,
     "usage": {
-      "completion_tokens": 247,
+      "completion_tokens": 512,
       "prompt_tokens": 12123,
-      "total_tokens": 12370
+      "total_tokens": 12635
     }
   },
-  "text": "To calculate the total for the order so far, I will look for any lines added to the order in the conversation history.\n\n1.  **Turn t029**: \"Take 25 off the order for the returned stock.\"\n    *   This is a deduction.\n    *   Current Total: -25\n\n2.  **Turn t048**: \"Add a line of 350 for the lamps to the order.\"\n    *   This is an addition.\n    *   Current Total: -25 + 350 = 325\n\n3.  **Turn t075**: \"Add a line of 405 for the tarps to the order.\"\n    *   This is an addition.\n    *   Current Total: 325 + 405 = 730\n\n4.  **Turn t088**: \"Add a line of 175 for the helmets to the order.\"\n    *   This is an addition.\n    *   Current Total: 730 + 175 = 905\n\nTotal: 905"
+  "text": "To calculate the total for the order so far, I need to identify all the line items added to the supply order in the conversation history.\n\n1.  **Scan for order modifications:** I will look for phrases like \"Add a line of [amount] for [item]\" or \"Take [amount] off the order\".\n\n    *   **Turn t018:** \"Take 80 off the order for the returned stock.\"\n        *   This is a deduction. Current Total: -80.\n    *   **Turn t029:** \"Take 25 off the order for the returned stock.\"\n        *   This is a deduction. Current Total: -80 - 25 = -105.\n    *   **Turn t048:** \"Add a line of 350 for the lamps to the order.\"\n        *   This is an addition. Current Total: -105 + 350 = 245.\n    *   **Turn t075:** \"Add a line of 405 for the tarps to the order.\"\n        *   This is an addition. Current Total: 245 + 405 = 650.\n    *   **Turn t088:** \"Add a line of 175 for the helmets to the order.\"\n        *   This is an addition. Current Total: 650 + 175 = 825.\n\n2.  **Verify no other items:** I will quickly re-scan the history to ensure no other items were added or removed.\n    *   The rest of the history consists of office updates (coffee machines, lifts, repainting, desk swaps, meeting locations, notes to send, etc.), which do not affect the supply order total.\n\n3.  **Final Calculation:**\n    *   Deductions: -80, -25\n    *   Additions: +350, +405, +175\n    *   Sum: 350 + 405 + 175 - 80 - 25\n    *   350 + 405 = 755\n    *   755 + 175 = 930\n    *   930 - 80 = 85"
 }

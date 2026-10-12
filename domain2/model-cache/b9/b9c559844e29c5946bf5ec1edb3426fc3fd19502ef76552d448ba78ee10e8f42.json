@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "b9c559844e29c5946bf5ec1edb3426fc3fd19502ef76552d448ba78ee10e8f42",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d10f03d6547ddbd026f81c269def3f96e940ac8e685f95bc2e73ed19285a8d20",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T08:20:30Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 8356.727,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "3f471f264f8301b95e1d93172895e9f108dd196bcd1c5dbd331ecd3ee3069786",
+    "response_id": "chatcmpl-b760680f9ef01fc5",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6090,
+      "total_tokens": 6602
+    }
+  },
+  "text": "To determine the total for the order so far, I will track the changes to the order lines provided in the initial state and subsequent updates.\n\n**Initial Order Lines (from `xstate:03`):**\n*   Crates: 430\n*   Ladders: 400\n*   Lamps: 520\n\n**Updates to Order Lines:**\n\n1.  **Turn t017:** \"Add a line of 400 for the ladders to the order.\"\n    *   Ladders: 400 + 400 = 800\n    *   Current totals: Crates: 430, Ladders: 800, Lamps: 520\n\n2.  **Turn t038:** \"Take 35 off the order for the returned stock.\"\n    *   The instruction does not specify an item, but typically \"returned stock\" deductions apply to the item most recently discussed or the largest volume item if unspecified. However, in previous similar contexts, if no item is specified, it often implies a general reduction or applies to the item with the highest quantity or the one most recently modified. Let's look for context. In turn t038, the surrounding text mentions Finn, the library annex, and Mira. There is no specific item mentioned. Often in these logs, if an item isn't specified, it might refer to the first item or require an assumption. Let's look at the next specific instruction.\n    *   Wait, let's re-read carefully. \"Take 35 off the order\". Without a specific item, this is ambiguous. However, looking at the pattern of such tasks, if it's not specified, it usually applies to the item that was just added or the one with the largest quantity. Let's look at Turn t044.\n    *   Let's hold on this ambiguity and look at Turn t044.\n\n3.  **Turn t044:** \"Take 50 off the order for the returned stock.\"\n    *   Again, no specific item is mentioned.\n\nLet's re-evaluate the \"returned stock\" instructions. In many of these specific prompt structures, if the item isn't named, it might be a trick or implies a specific item based on context. However, looking at the very first update in t017, it explicitly named \"ladders\". The updates"
+}

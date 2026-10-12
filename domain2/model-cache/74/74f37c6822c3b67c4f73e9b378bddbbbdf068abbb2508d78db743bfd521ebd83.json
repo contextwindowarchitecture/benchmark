@@ -7,11 +7,11 @@
     "sample": 4
   },
   "provenance": {
-    "at": "2026-10-11T08:06:12Z",
-    "cached_tokens": 0,
+    "at": "2026-10-12T08:09:39Z",
+    "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 58620.896,
+    "latency_ms": 10049.419,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "97708538230c178e03ded800e952171404eba88222d08daebab588321561c85c",
-    "response_id": "chatcmpl-9b701aa697c0e764",
+    "response_id": "chatcmpl-bd106f99c591c797",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 4,
     "usage": {
-      "completion_tokens": 196,
+      "completion_tokens": 284,
       "prompt_tokens": 6086,
-      "total_tokens": 6282
+      "total_tokens": 6370
     }
   },
-  "text": "To calculate the total for the order so far, let's look at the items added by the user:\n\n1.  **Tarps**: 50 (from turn t014)\n2.  **Lamps**: 320 (from turn t015)\n3.  **Cable reels**: 105 (from turn t024)\n4.  **Returned stock deduction**: -70 (from turn t023)\n\nNow, let's sum these up step by step:\n\n*   Start with the tarps: 50\n*   Add the lamps: 50 + 320 = 370\n*   Add the cable reels: 370 + 105 = 475\n*   Subtract the returned stock: 475 - 70 = 405\n\nTotal: 405"
+  "text": "To calculate the total for the order so far, let's look at the specific line items mentioned by the user:\n\n1.  In turn `t012`, the user stated: \"There's a flat delivery fee of 30 on the order.\"\n2.  In turn `t014`, the user said: \"Add a line of 50 for the tarps to the order.\"\n3.  In turn `t015`, the user said: \"Add a line of 320 for the lamps to the order.\"\n4.  In turn `t023`, the user said: \"Take 70 off the order for the returned stock.\"\n5.  In turn `t024`, the user said: \"Add a line of 105 for the cable reels to the order.\"\n\nNow, let's sum these amounts:\n*   Start with: 30\n*   Add tarps: 30 + 50 = 80\n*   Add lamps: 80 + 320 = 400\n*   Subtract returned stock: 400 - 70 = 330\n*   Add cable reels: 330 + 105 = 435\n\nTotal: 435"
 }

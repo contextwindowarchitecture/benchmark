@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "48305730f6fcf6376680bb295c26fc128e6c96ba3d7f308ee6d5e376d671ec77",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e70b518cabdfb6e9700a20eab8fbd12ef03ae9f80e47b308fe6081cbdf0407d4",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-12T08:20:47Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 8294.811,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "3f471f264f8301b95e1d93172895e9f108dd196bcd1c5dbd331ecd3ee3069786",
+    "response_id": "chatcmpl-813f9cc7e65e6a6b",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6090,
+      "total_tokens": 6602
+    }
+  },
+  "text": "To determine the current total for the supply order, let's track the changes to the order lines based on the provided history.\n\n1.  **Initial Order (from `xstate:03`):**\n    *   Crates: 430\n    *   Ladders: 400\n    *   Lamps: 520\n\n2.  **Update in Turn `t017`:**\n    *   \"Add a line of 400 for the ladders to the order.\"\n    *   New Ladders total: 400 (initial) + 400 (added) = 800.\n    *   Current State:\n        *   Crates: 430\n        *   Ladders: 800\n        *   Lamps: 520\n\n3.  **Update in Turn `t038`:**\n    *   \"Take 35 off the order for the returned stock.\"\n    *   The prompt does not specify which item was returned. In these types of sessions, unless specified, it is often ambiguous. However, looking at the pattern of the other updates, usually, if a specific item isn't named, we might look for context or assume it applies to the most recently modified or a generic stock. Let's look closer. Often, \"the order\" implies a specific line if not specified, but here it just says \"the order\". Let's re-read carefully.\n    *   Actually, usually in these datasets, if an item isn't specified, it might be a trick or rely on implicit context. However, looking at Turn 44, there is another reduction: \"Take 50 off the order for the returned stock.\"\n    *   Let's look at Turn 48: \"Add a line of 520 for the lamps to the order.\"\n    *   Let's re-evaluate the \"Take X off the order\" instructions. Without a specific item name, it is difficult to assign the subtraction to a specific column. However, in many similar logical reasoning tasks, if the item isn't specified, it might refer to a running total or a specific default. But wait, looking at Turn 17, it specified \"ladders\". Turn 48 specified \"lamps\". Turn 38 and 44 did *not* specify.\n    *   Let's look for"
+}

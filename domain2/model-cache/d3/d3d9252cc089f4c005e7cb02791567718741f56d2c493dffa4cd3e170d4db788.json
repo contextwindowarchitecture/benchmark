@@ -7,11 +7,11 @@
     "sample": 2
   },
   "provenance": {
-    "at": "2026-10-11T02:18:40Z",
+    "at": "2026-10-12T07:30:47Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 12137.494,
+    "latency_ms": 12700.464,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0
     },
     "payload_sha256": "d977f3188ce0426bda4b3617c77d46e7cd8a61b5a86b966cb68576b1fca43238",
-    "response_id": "chatcmpl-8721daeaacae874c",
+    "response_id": "chatcmpl-87623bad09cb1cc7",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 2,
     "usage": {
-      "completion_tokens": 308,
+      "completion_tokens": 328,
       "prompt_tokens": 5451,
-      "total_tokens": 5759
+      "total_tokens": 5779
     }
   },
-  "text": "To calculate the total for the supply order, I will review the items added or modified in the conversation history.\n\n1.  **Ladders**: In turn `t001`, the user requested to \"Add a line of 400 for the ladders\".\n    *   Current total for ladders: 400\n\n2.  **Returned Stock**: In turn `t004`, the user requested to \"Take 30 off the order for the returned stock\". This is a deduction.\n    *   Current total: 400 - 30 = 370\n\n3.  **Lamps**: In turn `t020`, the user requested to \"Add a line of 555 for the lamps\".\n    *   Current total: 370 + 555 = 925\n\n4.  **Returned Stock**: In turn `t030`, the user requested to \"Take 35 off the order for the returned stock\". This is another deduction.\n    *   Current total: 925 - 35 = 890\n\n5.  **Delivery Fee**: In turn `t040`, the user stated, \"There's a flat delivery fee of 15 on the order\". This is an addition.\n    *   Current total: 890 + 15 = 905\n\nTotal: 905"
+  "text": "To calculate the total for the supply order, I will review the lines added to the order throughout the session.\n\n1.  **Ladders**: In the first turn, the user requested to \"Add a line of 400 for the ladders\".\n    *   Current subtotal: 400\n\n2.  **Returned Stock (Deduction)**: In turn 4, the user requested to \"Take 30 off the order for the returned stock\".\n    *   Calculation: 400 - 30 = 370\n    *   Current subtotal: 370\n\n3.  **Lamps**: In turn 20, the user requested to \"Add a line of 555 for the lamps\".\n    *   Calculation: 370 + 555 = 925\n    *   Current subtotal: 925\n\n4.  **Returned Stock (Deduction)**: In turn 30, the user requested to \"Take 35 off the order for the returned stock\".\n    *   Calculation: 925 - 35 = 890\n    *   Current subtotal: 890\n\n5.  **Delivery Fee**: In turn 40, the user stated, \"There's a flat delivery fee of 15 on the order.\"\n    *   Calculation: 890 + 15 = 905\n    *   Current subtotal: 905\n\nTotal: 905"
 }

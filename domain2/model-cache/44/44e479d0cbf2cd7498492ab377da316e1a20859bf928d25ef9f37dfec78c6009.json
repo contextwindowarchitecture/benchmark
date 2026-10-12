@@ -7,11 +7,11 @@
     "sample": 3
   },
   "provenance": {
-    "at": "2026-10-11T08:17:00Z",
+    "at": "2026-10-12T08:20:44Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
-    "finish_reason": "stop",
-    "latency_ms": 1882.685,
+    "finish_reason": "length",
+    "latency_ms": 8431.946,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "cd711b6e3544ec5934880b8bd0ee94cc6581865fa98d8b6b3a001e627250f97b",
-    "response_id": "chatcmpl-95aa0d93f260cb0c",
+    "response_id": "chatcmpl-8d50d19e02fe88fb",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 3,
     "usage": {
-      "completion_tokens": 193,
+      "completion_tokens": 512,
       "prompt_tokens": 6057,
-      "total_tokens": 6250
+      "total_tokens": 6569
     }
   },
-  "text": "To calculate the total for the order to Istton, we look at the current lines:\n\n1.  **Tarps**: 370\n2.  **Toolkits**: 525\n3.  **Lamps**: 180\n4.  **Cable reels**: 160 (Initial) + 160 (Added in turn t085) = 320\n\nLet's sum them up step by step:\n*   Tarps: 370\n*   Toolkits: 525\n*   Lamps: 180\n*   Cable reels: 320\n\n370 + 525 = 895\n895 + 180 = 1075\n1075 + 320 = 1395\n\nTotal: 1395"
+  "text": "To calculate the total for the order to Istton, we look at the items provided in the initial order lines and any modifications mentioned during the session.\n\n1.  **Initial Order Lines:**\n    *   Tarps: 370\n    *   Toolkits: 525\n    *   Lamps: 180\n    *   Cable reels: 160\n\n2.  **Modifications:**\n    *   In turn `t049`, the user stated: \"Take 65 off the order for the returned stock.\" This applies to the general order unless specified for a specific item. Since no specific item was named for this deduction, and later in `t085` a specific addition of 160 cable reels was made, we need to check if the \"Take 65 off\" applied to the initial list. Usually, in these scenarios, a general deduction applies to the total or the first item, but often implies a reduction in the overall quantity needed. However, looking at the specific instruction in `t085`: \"Add a line of 160 for the cable reels to the order.\" This suggests the cable reel count might have been reset or added to. Let's re-read carefully.\n    *   The initial order had 160 cable reels.\n    *   Turn `t049`: \"Take 65 off the order for the returned stock.\" This is a general instruction. It likely reduces the total count of items or implies a reduction across the board. Without a specific item, it's ambiguous. However, usually, if it's not item-specific, it might reduce the total. But let's look for item-specific changes.\n    *   Turn `t085`: \"Add a line of 160 for the cable reels to the order.\" This implies adding 160 *more* cable reels, or perhaps correcting the line. The initial order already had 160 cable reels. If we \"add a line of 160\", does it mean the total becomes 320? Or is it a replacement? The phrasing \"Add a line... to the order\" usually means increasing the quantity.\n    *   Let's look at the \"Take 65 off\" again. If it's a general deduction, how is it applied? Often in these tests, if no item is specified, it might not apply to"
 }

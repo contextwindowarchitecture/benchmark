@@ -7,11 +7,11 @@
     "sample": 2
   },
   "provenance": {
-    "at": "2026-10-11T02:21:20Z",
+    "at": "2026-10-12T07:33:12Z",
     "cached_tokens": 7392,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 13031.183,
+    "latency_ms": 10010.891,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0
     },
     "payload_sha256": "7ebe4152d8e6b99adc25fad9612a69bfe408e2347029845419b342cdfee96e96",
-    "response_id": "chatcmpl-976f1309dd006ac1",
+    "response_id": "chatcmpl-8dd1450c39aee60b",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 2,
     "usage": {
-      "completion_tokens": 327,
+      "completion_tokens": 244,
       "prompt_tokens": 8112,
-      "total_tokens": 8439
+      "total_tokens": 8356
     }
   },
-  "text": "To calculate the total for the supply order, I need to identify all the line items added by the user.\n\n1.  **Turn t001**: The user requested \"a line of 165 for the ladders\".\n    *   Item: Ladders\n    *   Cost: 165\n\n2.  **Turn t004**: The user requested \"a line of 265 for the toolkits\".\n    *   Item: Toolkits\n    *   Cost: 265\n\n3.  **Turn t007**: The user mentioned \"a flat delivery fee of 45 on the order\".\n    *   Item: Delivery Fee\n    *   Cost: 45\n\n4.  **Turn t032**: The user requested to \"Take 40 off the order for the returned stock\".\n    *   Item: Returned Stock Credit\n    *   Cost: -40\n\nNo other line items or costs were added in the subsequent turns.\n\n**Calculation:**\n*   Ladders: 165\n*   Toolkits: 265\n*   Delivery Fee: 45\n*   Returned Stock: -40\n\nSum: 165 + 265 + 45 - 40\n165 + 265 = 430\n430 + 45 = 475\n475 - 40 = 435\n\nTotal: 435"
+  "text": "To calculate the total for the supply order, I will review the items added to the order throughout the session.\n\n1.  In turn `t001`, the user requested: \"Add a line of 165 for the ladders to the order.\"\n    *   Current Total: 165\n\n2.  In turn `t004`, the user requested: \"Add a line of 265 for the toolkits to the order.\"\n    *   Current Total: 165 + 265 = 430\n\n3.  In turn `t007`, the user mentioned: \"There's a flat delivery fee of 45 on the order.\"\n    *   Current Total: 430 + 45 = 475\n\n4.  In turn `t032`, the user requested: \"Take 40 off the order for the returned stock.\"\n    *   Current Total: 475 - 40 = 435\n\nNo other line items, fees, or discounts were added to the order.\n\nTotal: 435"
 }

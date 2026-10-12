@@ -7,11 +7,11 @@
     "sample": 1
   },
   "provenance": {
-    "at": "2026-10-11T07:56:33Z",
+    "at": "2026-10-12T07:41:01Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
-    "finish_reason": "length",
-    "latency_ms": 8772.885,
+    "finish_reason": "stop",
+    "latency_ms": 1602.41,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0
     },
     "payload_sha256": "658c305ef39d1ed2d10e500aca478a3d0409c769d67ac457175f1e84a72c1d59",
-    "response_id": "chatcmpl-a05033c775893428",
+    "response_id": "chatcmpl-b2c0ada54066486e",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 1,
     "usage": {
-      "completion_tokens": 512,
+      "completion_tokens": 96,
       "prompt_tokens": 6113,
-      "total_tokens": 6625
+      "total_tokens": 6209
     }
   },
-  "text": "To determine the current total for the order, let's look at the lines established so far:\n\n1.  **Tarps**: 370\n2.  **Toolkits**: 525 (Initial quantity)\n3.  **Lamps**: 180\n\nThere was a request in turn t035 to add 525 toolkits, but the initial order in t01 already listed 525 toolkits. The user's instruction in t035 was \"Add a line of 525 for the toolkits to the order.\" However, looking at the history, the initial order in t01 was `{\"item\": \"toolkits\", \"quantity\": 525}`. The instruction in t035 likely implies adding *another* 525, or it was a redundant instruction if the line already existed. Let's look closer.\n\nIn t01, the order is:\n- Tarps: 370\n- Toolkits: 525\n- Lamps: 180\n\nIn t035, the user says: \"Add a line of 525 for the toolkits to the order.\"\nThis usually means adding to the existing quantity or creating a new line. Given the phrasing \"Add a line... to the order\", and the fact that toolkits were already there, it's ambiguous. However, in t042, the user says \"Add a line of 180 for the lamps to the order.\" Lamps were already 180.\n\nLet's re-read carefully.\nt01: `order_lines: [{\"item\": \"tarps\", \"quantity\": 370}, {\"item\": \"toolkits\", \"quantity\": 525}, {\"item\": \"lamps\", \"quantity\": 180}]`\nt035: \"Add a line of 525 for the toolkits to the order.\"\nt042: \"Add a line of 180 for the lamps to the order.\"\nt049: \"Take 65 off the order for the returned stock.\"\n\nIf \"Add a line\" means adding to the existing quantity:\n- Toolkits: 525 + 525 = 1050\n- Lamps: 180 + 180 = 360"
+  "text": "To calculate the total for the order, let's look at the current lines:\n\n1.  **Tarps**: 370\n2.  **Toolkits**: 525\n3.  **Lamps**: 180\n\nAdding these quantities together:\n370 + 525 = 895\n895 + 180 = 1075\n\nTotal: 1075"
 }

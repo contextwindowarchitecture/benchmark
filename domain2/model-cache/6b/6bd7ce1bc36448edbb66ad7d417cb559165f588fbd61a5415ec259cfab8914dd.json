@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "6bd7ce1bc36448edbb66ad7d417cb559165f588fbd61a5415ec259cfab8914dd",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "705daad1607acf87e3ba5185482abed84829668888ab21a4a4a49202a975e4d2",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-12T08:12:55Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 18236.489,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "103dd138f4288b3dc7ff3e3f6d7757bce95a2c8535068fc9d62cc9609cbd2aff",
+    "response_id": "chatcmpl-b9a0c836032317e5",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6207,
+      "total_tokens": 6719
+    }
+  },
+  "text": "To calculate the total for the order so far, we look at the current state of the order lines provided in `xstate:12` and any modifications made during the session.\n\nThe initial order lines are:\n1.  **lamps**: 115\n2.  **ladders**: 255\n3.  **harbour room**: 1\n4.  **cable reels**: 155\n5.  **returned stock**: -65\n6.  **crates**: 160\n\nDuring the session, the user made the following specific changes to the order in the history:\n*   In `turn:t025`, the user said: \"Add a line of 155 for the cable reels to the order.\" However, looking at the initial state in `xstate:12`, cable reels are already listed with a quantity of 155. The assistant's response did not confirm a *new* addition distinct from the existing line, and subsequent prompts often refer to the existing quantities. Let's look closer. Usually, \"Add a line...\" implies a new entry or increment. However, `xstate:12` is the state *before* the history turns. The history turns modify the order.\n    *   Let's re-read `turn:t025`: \"Add a line of 155 for the cable reels to the order.\"\n    *   Let's re-read `turn:t043`: \"Take 65 off the order for the returned stock.\"\n    *   Let's re-read `turn:t044`: \"Add a line of 160 for the crates to the order.\"\n\nWait, the `xstate:12` task contains the *initial* lines. The history shows updates. I need to apply the updates from the history to the initial lines.\n\n**Initial Lines (from `xstate:12`):**\n*   lamps: 115\n*   ladders: 255\n*   harbour room: 1\n*   cable reels: 155\n*   returned stock: -65\n*   crates: 160\n\n**Updates from History:**\n\n1.  **Turn t025**: \"Add a line of 155 for the cable reels to the order.\"\n    *   This implies adding 155 to"
+}

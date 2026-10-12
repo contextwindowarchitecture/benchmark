@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "91ba5b4494b5d7df8b3d6c273b3e8c63cdb3b6f423a1b5fd77e0116b6ae48255",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "ace28c633b7a209a57b122ded882f399eb5037d1bb4745af1dba9550f1d9530f",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-12T07:33:40Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 19304.03,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "dc8de9aad3c0fed1014ab40e5ec9624d75f21c627d24ca8e67c9df38d6e04d7f",
+    "response_id": "chatcmpl-803a10bdb560c0bf",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 494,
+      "prompt_tokens": 6150,
+      "total_tokens": 6644
+    }
+  },
+  "text": "To calculate the total for the order so far, we need to sum the quantities of all items listed in the order.\n\nBased on the initial order items provided in `xstate:03`:\n- Lanterns: 340\n- Tarps: 180\n- Helmets: 465\n- Ladders: 240\n- Lamps: 310\n\nThe user also added lines in subsequent turns:\n- In `turn:t024`, the user said: \"Add a line of 180 for the tarps to the order.\"\n- In `turn:t028`, the user said: \"Add a line of 465 for the helmets to the order.\"\n- In `turn:t037`, the user said: \"Add a line of 240 for the ladders to the order.\"\n- In `turn:t040`, the user said: \"Add a line of 310 for the lamps to the order.\"\n\nLet's aggregate the quantities for each item:\n\n1.  **Lanterns**: 340 (from initial list)\n2.  **Tarps**: 180 (initial) + 180 (added in t024) = 360\n3.  **Helmets**: 465 (initial) + 465 (added in t028) = 930\n4.  **Ladders**: 240 (initial) + 240 (added in t037) = 480\n5.  **Lamps**: 310 (initial) + 310 (added in t040) = 620\n\nNow, sum these totals:\n340 + 360 + 930 + 480 + 620\n\nStep-by-step addition:\n- 340 + 360 = 700\n- 700 + 930 = 1630\n- 1630 + 480 = 2110\n- 2110 + 620 = 2730\n\nTotal: 2730"
+}

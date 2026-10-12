@@ -7,11 +7,11 @@
     "sample": 2
   },
   "provenance": {
-    "at": "2026-10-11T08:10:51Z",
+    "at": "2026-10-12T08:07:43Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 6483.219,
+    "latency_ms": 18965.289,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "0a8882d1649b905c6549502cbc15b5143bcdf6606bc3ab2c6280628c4ecadaf1",
-    "response_id": "chatcmpl-bcb8b16d4e9447f1",
+    "response_id": "chatcmpl-953f56658600ea0f",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 2,
     "usage": {
-      "completion_tokens": 171,
+      "completion_tokens": 458,
       "prompt_tokens": 5946,
-      "total_tokens": 6117
+      "total_tokens": 6404
     }
   },
-  "text": "To calculate the total, I need to look through the conversation history for any items that were added to the supply order.\n\n1.  I see one line item mentioned in the history: \"Add a line of 520 for the lamps to the order.\"\n2.  I also see a deduction: \"Take 50 off the order for the returned stock.\"\n3.  I also see another deduction: \"Take 80 off the order for the returned stock.\"\n\nLet's sum these up:\n*   Start with the lamps: 520\n*   Subtract the first returned stock: 520 - 50 = 470\n*   Subtract the second returned stock: 470 - 80 = 390\n\nTotal: 390"
+  "text": "To calculate the total, I need to look through the conversation history for any lines that were added to the order or adjustments made to it.\n\n1.  I found one instance where a line was added: \"Add a line of 520 for the lamps to the order.\"\n2.  I found one instance where an amount was subtracted: \"Take 520 off the order for the returned stock\" (Wait, looking back at the history: \"Take 50 off the order for the returned stock.\")\n    *   Line added: +520\n    *   Line subtracted: -50\n\nLet's verify if there are any other order-related lines.\n- \"Take 50 off the order for the returned stock.\"\n- \"Add a line of 520 for the lamps to the order.\"\n- \"Take 80 off the order for the returned stock.\"\n\nLet's re-scan carefully.\n\n1.  **User:** \"Take 50 off the order for the returned stock.\" -> -50\n2.  **User:** \"Add a line of 520 for the lamps to the order.\" -> +520\n3.  **User:** \"Take 80 off the order for the returned stock.\" -> -80\n\nAre there any others?\nScanning the rest of the conversation...\n- \"Remind me later...\" (No)\n- \"Swapping desks...\" (No)\n- \"Lift is slow...\" (No)\n- \"Umbrella...\" (No)\n- \"Repainting...\" (No)\n- \"Coffee machine...\" (No)\n- \"Stand-up moved...\" (No)\n- \"Notes to send...\" (No)\n- \"Out/covering...\" (No)\n\nSo the items are:\n1.  Lamps: 520\n2.  Return stock adjustment: -50\n3.  Return stock adjustment: -80\n\nCalculation:\n520 - 50 = 470\n470 - 80 = 390\n\nTotal: 390"
 }

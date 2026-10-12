@@ -7,11 +7,11 @@
     "sample": 2
   },
   "provenance": {
-    "at": "2026-10-11T08:11:31Z",
+    "at": "2026-10-12T08:13:21Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 9947.007,
+    "latency_ms": 10816.217,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "75a676a6bfc644d13f4388bd93afadc6b9ca4a74f5514cff9d020d98672122d2",
-    "response_id": "chatcmpl-beec89517e528cfb",
+    "response_id": "chatcmpl-b250347c952433dc",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 2,
     "usage": {
-      "completion_tokens": 290,
+      "completion_tokens": 305,
       "prompt_tokens": 6016,
-      "total_tokens": 6306
+      "total_tokens": 6321
     }
   },
-  "text": "To determine the current total of the order, I will review the conversation history for any additions or subtractions to the supply order lines.\n\n1.  **Scan for order modifications:**\n    *   In turn `t017`, the user stated: \"Add a line of 400 for the ladders to the order.\"\n    *   In turn `t038`, the user stated: \"Take 35 off the order for the returned stock.\"\n    *   In turn `t044`, the user stated: \"Take 50 off the order for the returned stock.\"\n    *   In turn `t048`, the user stated: \"Add a line of 520 for the lamps to the order.\"\n\n2.  **Calculate the total:**\n    *   Start with 0.\n    *   Add 400 (ladders).\n    *   Subtract 35 (returned stock).\n    *   Subtract 50 (returned stock).\n    *   Add 520 (lamps).\n\n    Calculation:\n    $400 - 35 = 365$\n    $365 - 50 = 315$\n    $315 + 520 = 835$\n\nTotal: 835"
+  "text": "To determine the current total of the order, I need to look through the history for any add or subtract requests related to line items.\n\n1.  **Scanning for additions:**\n    *   In `turn:t017`, the user said: \"Add a line of 400 for the ladders to the order.\"\n    *   In `turn:t048`, the user said: \"Add a line of 520 for the lamps to the order.\"\n\n2.  **Scanning for subtractions:**\n    *   In `turn:t038`, the user said: \"Take 35 off the order for the returned stock.\"\n    *   In `turn:t044`, the user said: \"Take 50 off the order for the returned stock.\"\n\n3.  **Calculating the total:**\n    *   Start with 0.\n    *   Add 400 (ladders): $0 + 400 = 400$\n    *   Add 520 (lamps): $400 + 520 = 920$\n    *   Subtract 35 (returned stock): $920 - 35 = 885$\n    *   Subtract 50 (returned stock): $885 - 50 = 835$\n\nTotal: 835"
 }

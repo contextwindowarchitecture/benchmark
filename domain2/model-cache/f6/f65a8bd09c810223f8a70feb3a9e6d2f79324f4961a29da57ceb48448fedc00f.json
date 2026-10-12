@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "f65a8bd09c810223f8a70feb3a9e6d2f79324f4961a29da57ceb48448fedc00f",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "ec220df79fe9f803d1873da2f6bfff99dabe643de253fed608a50b674023802e",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-12T08:17:02Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 12545.72,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "069813fe3be519568cfaf1c22295641e071a025a8031ebfd7fc881d80c92c59f",
+    "response_id": "chatcmpl-bfafa8992f78704e",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 5521,
+      "total_tokens": 6033
+    }
+  },
+  "text": "To calculate the total for the Istworth depot order, let's track the changes to the line items based on your instructions.\n\n1.  **Initial Order:**\n    *   Ladders: 370\n    *   Lamps: 555\n\n2.  **Turn t001:** Add 400 for ladders.\n    *   Ladders: 370 + 400 = 770\n\n3.  **Turn t004:** Take 30 off the order for returned stock. The instruction says \"Take 30 off the order,\" which typically implies reducing the total quantity. Since it doesn't specify an item, but ladders are the larger bulk item often associated with returns in these contexts, or it could apply to the total. However, looking at subsequent turns, specific items are often targeted. Let's look at the phrasing: \"Take 30 off the order for the returned stock.\" This is ambiguous. Usually, if it's item-specific, it says \"for the [item]\". If it's general, it reduces the total. Let's assume it reduces the total first.\n    *   Total so far: 770 (ladders) + 555 (lamps) = 1325.\n    *   Less 30: 1295.\n    *   *Alternative interpretation:* It reduces the most recent addition or the largest item. Let's hold this and see if other turns clarify. Actually, looking at turn t030, it says \"Take 35 off the order for the returned stock.\" This suggests the \"order\" refers to the total sum. Let's apply the reduction to the total sum.\n    *   Let's re-evaluate. Often in these tasks, \"Take X off the order\" means subtract X from the total quantity of items.\n    *   Let's keep a running total of quantities.\n    *   Current Ladders: 770\n    *   Current Lamps: 555\n    *   Total Quantity: 1325\n    *   Subtract 30: 1325 - 30 = 1295.\n\n4.  **Turn t020:** Add 555 for lamps.\n    *   Lamps: 555 + 555 = 1"
+}

@@ -7,11 +7,11 @@
     "sample": 2
   },
   "provenance": {
-    "at": "2026-10-11T02:21:36Z",
+    "at": "2026-10-12T07:32:30Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 8789.924,
+    "latency_ms": 8465.179,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0
     },
     "payload_sha256": "5728408fd040c51c4cebd1c642e575e1c4128aee15b92746f751e98d607c16ae",
-    "response_id": "chatcmpl-9881a9b4f14794b1",
+    "response_id": "chatcmpl-a14d75a1427ce2d3",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 2,
     "usage": {
-      "completion_tokens": 188,
+      "completion_tokens": 214,
       "prompt_tokens": 5378,
-      "total_tokens": 5566
+      "total_tokens": 5592
     }
   },
-  "text": "To determine the total for the Nevbury depot supply order, I will review the lines added to the order throughout the session.\n\n1.  In the first turn, the user requested to add a line of **240** for the ladders.\n2.  In turn 18, the user requested to \"Take 80 off the order for the returned stock.\" This reduces the total by 80.\n    *   Current Total: 240 - 80 = 160.\n3.  In turn 29, the user requested to \"Take 25 off the order for the returned stock.\" This reduces the total by 25.\n    *   Current Total: 160 - 25 = 135.\n\nNo other items were added or removed from the supply order lines.\n\nTotal: 135"
+  "text": "To determine the total for the Nevbury depot supply order, I will review the lines added to the order throughout the session.\n\n1.  In turn `t001`, the user requested: \"Add a line of 240 for the ladders to the order.\"\n    *   Current Total: 240\n\n2.  In turn `t018`, the user requested: \"Take 80 off the order for the returned stock.\"\n    *   Calculation: 240 - 80 = 160\n    *   Current Total: 160\n\n3.  In turn `t029`, the user requested: \"Take 25 off the order for the returned stock.\"\n    *   Calculation: 160 - 25 = 135\n    *   Current Total: 135\n\nThere are no other additions or subtractions to the supply order lines in the history.\n\nTotal: 135"
 }

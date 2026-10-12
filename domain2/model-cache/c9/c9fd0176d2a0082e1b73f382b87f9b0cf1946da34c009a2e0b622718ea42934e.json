@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "c9fd0176d2a0082e1b73f382b87f9b0cf1946da34c009a2e0b622718ea42934e",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "33ac7227b3fa63dde41ab619b9619abc991110d398faf07d71d20dcfcabeb2db",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-12T07:42:26Z",
+    "cached_tokens": 7392,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 6995.484,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "a3628242f08fa4877dd3f5c69c05f5da4aaf52f760aaf6d28e70c290398e08e3",
+    "response_id": "chatcmpl-9a38f2d61984bde7",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 455,
+      "prompt_tokens": 8175,
+      "total_tokens": 8630
+    }
+  },
+  "text": "To determine the total for the Zelby depot order, let's look at the lines added so far:\n\n1.  **Ladders**: 465 units were added in turn t001.\n2.  **Lanterns**: 360 units were added in turn t014.\n3.  **Helmets**: 155 units were added in turn t019.\n\nThere was also a request in turn t036 to \"Take 70 off the order for the returned stock.\" However, the user did not specify which item this reduction applies to. In supply order contexts, unless specified, general \"returned stock\" adjustments are often applied to the most recently added item or require clarification. Given the ambiguity and the fact that no specific item was targeted for the reduction in the prompt's explicit line items, I will calculate the sum of the confirmed line items first. If the reduction is intended to be applied to the total sum regardless of item, I will adjust at the end. Let's assume for now the lines are as stated.\n\nSumming the quantities:\n465 (ladders) + 360 (lanterns) + 155 (helmets) = 980\n\nIf the -70 reduction applies to the total:\n980 - 70 = 910\n\nHowever, typically in these tasks, if an item isn't specified, it might be a distractor or apply to the last item. Let's look at the standard interpretation. Usually, \"Take X off the order\" implies a reduction in the total value/quantity. Without a specific item, it's safest to assume it reduces the total count.\n\nLet's re-read carefully. \"Take 70 off the order for the returned stock.\" It doesn't say \"for the helmets\" or \"for the ladders\". It says \"the order\". This implies a global reduction.\n\nSo, the calculation is:\n465 + 360 + 155 = 980\n980 - 70 = 910\n\nTotal: 910"
+}

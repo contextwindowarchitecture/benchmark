@@ -7,11 +7,11 @@
     "sample": 0
   },
   "provenance": {
-    "at": "2026-10-11T08:16:39Z",
+    "at": "2026-10-12T08:21:11Z",
     "cached_tokens": 0,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 2326.817,
+    "latency_ms": 3665.587,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "6c99c3ad3e5841df2436b81a26dbf9f26abe06ccf8d6e565e3fbf6670fdaaaa9",
-    "response_id": "chatcmpl-a9956b2a3c37e7f0",
+    "response_id": "chatcmpl-a593488f963ec24b",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 0,
     "usage": {
-      "completion_tokens": 235,
+      "completion_tokens": 229,
       "prompt_tokens": 6074,
-      "total_tokens": 6309
+      "total_tokens": 6303
     }
   },
-  "text": "To determine the current order total, I will look at the items added to the order in the conversation history.\n\n1.  **Initial Order Lines (from task xstate:01):**\n    *   Ladders: 215\n    *   Lamps: 350\n\n2.  **Modifications:**\n    *   In turn t029, the user stated: \"Take 25 off the order for the returned stock.\" This applies to the current total.\n    *   In turn t048, the user stated: \"Add a line of 350 for the lamps to the order.\"\n\nLet's calculate the running total step by step:\n\n*   Start with Ladders: 215\n*   Add initial Lamps: 215 + 350 = 565\n*   Apply the deduction for returned stock: 565 - 25 = 540\n*   Add the additional Lamps line: 540 + 350 = 890\n\nTotal: 890"
+  "text": "To determine the current order total, I will look at the items added to the supply order for Nevbury.\n\n1.  **Initial Order Lines:**\n    *   Ladders: 215\n    *   Lamps: 350\n\n2.  **Adjustments:**\n    *   In turn `t029`, the user instructed: \"Take 25 off the order for the returned stock.\" This reduces the total quantity by 25.\n    *   In turn `t048`, the user instructed: \"Add a line of 350 for the lamps to the order.\" This increases the total quantity by 350.\n\n3.  **Calculation:**\n    *   Start with initial quantities: $215 + 350 = 565$\n    *   Apply return deduction: $565 - 25 = 540$\n    *   Apply new lamp addition: $540 + 350 = 890$\n\nTotal: 890"
 }

@@ -7,11 +7,11 @@
     "sample": 3
   },
   "provenance": {
-    "at": "2026-10-11T03:04:27Z",
+    "at": "2026-10-12T08:12:39Z",
     "cached_tokens": 3168,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 6888.11,
+    "latency_ms": 6342.405,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "31d02be7067ca56911ec797b53e363d3992d77ae7a9eec514ef450fc517fef67",
-    "response_id": "chatcmpl-a7b883bdb13a6757",
+    "response_id": "chatcmpl-93c1fbd5d824fe09",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 3,
     "usage": {
-      "completion_tokens": 193,
+      "completion_tokens": 178,
       "prompt_tokens": 4063,
-      "total_tokens": 4256
+      "total_tokens": 4241
     }
   },
-  "text": "To determine the total for the Nevbury depot order, I need to look back at the instructions given regarding the line items.\n\n1.  **Turn t001**: The user instructed to \"Add a line of 240 for the ladders to the order.\" This sets the initial order total at 240.\n2.  **Turn t018**: The user instructed to \"Take 80 off the order for the returned stock.\"\n    *   Calculation: $240 - 80 = 160$.\n3.  **Turn t029**: The user instructed to \"Take 25 off the order for the returned stock.\"\n    *   Calculation: $160 - 25 = 135$.\n\nNo other additions or subtractions to the supply order total were specified in the conversation history.\n\nTotal: 135"
+  "text": "To determine the total for the Nevbury depot order, I need to look back at the instructions regarding quantities.\n\n1.  In the first turn, the user added a line for **240** ladders.\n2.  In turn 018, the user instructed to \"Take **80** off the order for the returned stock.\"\n3.  In turn 029, the user instructed to \"Take **25** off the order for the returned stock.\"\n\nThere are no other quantity modifications mentioned in the history.\n\nCalculation:\n*   Start: 240\n*   Subtract 80: 240 - 80 = 160\n*   Subtract 25: 160 - 25 = 135\n\nTotal: 135"
 }

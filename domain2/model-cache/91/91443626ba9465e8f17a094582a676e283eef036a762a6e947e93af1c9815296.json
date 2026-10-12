@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "91443626ba9465e8f17a094582a676e283eef036a762a6e947e93af1c9815296",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "ed5bab9a36d45410c16b0f7223ead1a7aa8bc2f0594ec727cfca3b51332cd298",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-12T08:21:05Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 8516.649,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "7971e393dff2ddfcdc75ffa5910cd9fcd11706bc42ea1dfc5f6dd02d86936a39",
+    "response_id": "chatcmpl-973dfb8827dc4099",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6092,
+      "total_tokens": 6604
+    }
+  },
+  "text": "Let's review the order lines based on the latest updates.\n\n1.  **Initial Order Lines (from turn:t004):**\n    *   Cable reels: 415\n    *   Ladders: 25\n\n2.  **Adjustments:**\n    *   **Turn:t027:** \"Take 70 off the order for the returned stock.\"\n        *   This reduces the total quantity by 70.\n        *   Current Total Quantity: $415 + 25 - 70 = 370$.\n    *   **Turn:t042:** \"Add a line of 150 for the tarps to the order.\"\n        *   This adds a new item: Tarps, quantity 150.\n        *   Current Items: Cable reels (415), Ladders (25), Tarps (150).\n        *   Total Quantity: $415 + 25 + 150 = 590$.\n    *   **Turn:t047:** \"There's a flat delivery fee of 55 on the order.\"\n        *   This is a fee, not a stock item quantity, but it affects the final total cost if we were calculating currency. The query asks \"What does the order come to so far?\", which usually implies total quantity of items unless \"cost\" is specified. However, looking at the previous context, the assistant usually tracks quantities. Let's look at the items.\n\nLet's re-calculate the total quantity of items:\n*   Cable reels: 415\n*   Ladders: 25\n*   Tarps: 150\n\nTotal Quantity = $415 + 25 + 150 = 590$.\n\nIf the question implies monetary value, we don't have unit prices for the items, only a flat delivery fee. Therefore, \"what the order comes to\" likely refers to the total count of items or the specific lines. Given the format policy \"add up the order's lines step by step, then give the total... as 'Total: ' and the number\", it usually refers to the sum of quantities.\n\nStep-by-step addition:\n1.  Cable reels: 415\n2.  Ladders: 25\n3.  Subtract returned stock: 70 (This was"
+}

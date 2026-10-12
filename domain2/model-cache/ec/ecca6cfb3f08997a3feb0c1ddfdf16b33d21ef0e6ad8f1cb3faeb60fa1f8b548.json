@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "ecca6cfb3f08997a3feb0c1ddfdf16b33d21ef0e6ad8f1cb3faeb60fa1f8b548",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "95fe9595d1a01ef13a8c0536f4a7bc01ec2b9f94343680cd19b3e6196efdb7c9",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-12T07:43:31Z",
+    "cached_tokens": 11616,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 5616.772,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "07df9193d7b708ba27b14d2503219dde863ed0548b57c016be5bfd882024ecde",
+    "response_id": "chatcmpl-aa26b4842439c255",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 12132,
+      "total_tokens": 12644
+    }
+  },
+  "text": "To calculate the total for the order, let's track the changes step by step based on the initial order and subsequent adjustments.\n\n1.  **Initial Order (from task xstate:01):**\n    *   Ladders: 420\n    *   Lanterns: 360\n    *   Helmets: 120\n\n2.  **Adjustment 1 (from turn t014):**\n    *   \"Add a line of 360 for the lanterns to the order.\"\n    *   Lanterns: 360 + 360 = 720\n\n3.  **Adjustment 2 (from turn t019):**\n    *   \"Add a line of 155 for the helmets to the order.\"\n    *   Helmets: 120 + 155 = 275\n\n4.  **Adjustment 3 (from turn t036):**\n    *   \"Take 70 off the order for the returned stock.\"\n    *   This is a general reduction. Usually, unless specified, this applies to the total or the most recent item, but in supply contexts, it often reduces the total quantity. Let's assume it reduces the total count.\n    *   Current Total: 420 (Ladders) + 720 (Lanterns) + 275 (Helmets) = 1415\n    *   New Total: 1415 - 70 = 1345\n\n5.  **Adjustment 4 (from turn t067):**\n    *   \"Take 45 off the order for the returned stock.\"\n    *   New Total: 1345 - 45 = 1300\n\n6.  **Adjustment 5 (from turn t099):**\n    *   \"Take 35 off the order for the returned stock.\"\n    *   New Total: 1300 - 35 = 1265\n\nLet's double-check the item totals:\n*   Ladders: 420\n*   Lanterns: 720\n*   Helmets: 275\n*   Sum of items: 420 + 720 + 275 = 14"
+}

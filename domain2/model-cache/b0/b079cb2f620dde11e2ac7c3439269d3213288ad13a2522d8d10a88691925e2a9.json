@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "b079cb2f620dde11e2ac7c3439269d3213288ad13a2522d8d10a88691925e2a9",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "2597a8dde2cda0d0a75a20f202feb5b392d69b2a8adc659dd60fcebe4e78fe62",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T08:20:11Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 4172.458,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "f67ab2aac92c1eb54ed69bf4b0e4fb11f865eb664c22c9e397e92b49571d6185",
+    "response_id": "chatcmpl-96dfdc7db11258a8",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 259,
+      "prompt_tokens": 6306,
+      "total_tokens": 6565
+    }
+  },
+  "text": "To calculate the total for the supply order so far, we look at the quantities specified in the initial tasks and any subsequent updates.\n\n1.  **Ladders:** The initial task `ladder_quantity: 165` sets the quantity at 165. There are no updates to this quantity in the conversation history.\n2.  **Lamps:** The initial task `lamps_quantity: 225` sets the quantity at 225. In turn `t065`, the user explicitly states: \"Add a line of 225 for the lamps to the order.\" This brings the total for lamps to 225 + 225 = 450.\n3.  **Toolkits:** The initial task `toolkits_quantity: 265` sets the quantity at 265. There are no updates to this quantity in the conversation history.\n\nSo, the order lines are:\n*   Ladders: 165\n*   Lamps: 450\n*   Toolkits: 265\n\nTotal: 165 + 450 + 265 = 880\n\nTotal: 880"
+}

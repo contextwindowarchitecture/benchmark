@@ -7,11 +7,11 @@
     "sample": 4
   },
   "provenance": {
-    "at": "2026-10-11T08:12:11Z",
+    "at": "2026-10-12T08:16:22Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 4779.447,
+    "latency_ms": 4194.527,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "1fde20aa996e04c204dcb1890e491b6ec499128d2ec3427c2c53b3aa5664d3ce",
-    "response_id": "chatcmpl-8507fbed88a72bea",
+    "response_id": "chatcmpl-9f4b1ae8871153cd",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 4,
     "usage": {
-      "completion_tokens": 144,
+      "completion_tokens": 146,
       "prompt_tokens": 6027,
-      "total_tokens": 6171
+      "total_tokens": 6173
     }
   },
-  "text": "Based on the conversation history, here is the breakdown of the order lines:\n\n1.  **Turn t027**: \"Take 70 off the order for the returned stock.\" -> -70\n2.  **Turn t042**: \"Add a line of 150 for the tarps to the order.\" -> +150\n3.  **Turn t047**: \"There's a flat delivery fee of 55 on the order.\" -> +55\n\nCalculating the total:\n-70 + 150 + 55\n80 + 55\n135\n\nTotal: 135"
+  "text": "Based on the conversation history, here is the summary of the order lines:\n\n1.  **Tarps**: Added a line of **150** (from turn t042).\n2.  **Returned stock**: Take **70** off the order (from turn t027). Assuming a base of 0, this results in **-70**.\n3.  **Delivery fee**: A flat fee of **55** on the order (from turn t047).\n\nCalculation:\n150 (tarps) - 70 (returned stock) + 55 (delivery fee) = 135\n\nTotal: 135"
 }

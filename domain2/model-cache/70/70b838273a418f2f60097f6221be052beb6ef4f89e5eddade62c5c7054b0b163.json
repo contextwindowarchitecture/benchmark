@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "70b838273a418f2f60097f6221be052beb6ef4f89e5eddade62c5c7054b0b163",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "3e6cdb469ae961cf7318c0916452de9e05304719c200359fcb511064cde8f7a0",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-12T08:22:58Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 3519.864,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "2a4288b3b1695d2144ea062e2a0b446c1dd38a07aaae3e09d6404b2dc2836645",
+    "response_id": "chatcmpl-b1291e7c0af64f20",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 235,
+      "prompt_tokens": 6150,
+      "total_tokens": 6385
+    }
+  },
+  "text": "To determine the total order, I need to look at the current inventory of order lines and adjust them based on any modifications provided during the session.\n\n**Initial Order Lines (from task id=\"xstate:03\"):**\n*   Crates: 350\n*   Ladders: 400\n*   Lamps: 520\n\n**Adjustments:**\n*   In turn `t078`, the user stated: \"Take 80 off the order for the returned stock.\"\n    *   This reduces the total quantity by 80. The specific item isn't named, but typically \"returned stock\" deductions apply to the aggregate unless specified. However, looking at the phrasing \"Take 80 off the order\", it implies a reduction of the total count.\n\nLet's calculate the sum:\n1.  Initial Total: $350 + 400 + 520 = 1270$\n2.  Adjustment: $1270 - 80 = 1190$\n\nTotal: 1190"
+}

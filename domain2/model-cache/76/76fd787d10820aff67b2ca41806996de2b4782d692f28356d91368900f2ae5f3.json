@@ -7,11 +7,11 @@
     "sample": 3
   },
   "provenance": {
-    "at": "2026-10-11T08:13:11Z",
+    "at": "2026-10-12T08:15:23Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 5950.389,
+    "latency_ms": 8309.4,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "7d7c5c9273eff30432b822d1499cbe06e4f75eed0c424282c3907400b853a77c",
-    "response_id": "chatcmpl-86a18742a61478ae",
+    "response_id": "chatcmpl-860cbae0ae99df8e",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 3,
     "usage": {
-      "completion_tokens": 326,
+      "completion_tokens": 261,
       "prompt_tokens": 6058,
-      "total_tokens": 6384
+      "total_tokens": 6319
     }
   },
-  "text": "To determine the total for the order so far, I need to look through the conversation history for any specific instructions to add or remove items from the supply order.\n\n1.  **Scan for additions:**\n    *   In **turn:t048**, the user states: \"Add a line of 520 for the lamps to the order.\" This adds **520** to the order.\n\n2.  **Scan for subtractions:**\n    *   In **turn:t038**, the user states: \"Take 35 off the order for the returned stock.\" This subtracts **35** from the order.\n    *   In **turn:t044**, the user states: \"Take 50 off the order for the returned stock.\" This subtracts **50** from the order.\n\n3.  **Check for other items:**\n    *   Scanning the rest of the history (turns t026–t070), there are no other mentions of adding or removing specific quantities or prices from the supply order. The other lines discuss office logistics, room availability, swaps, and reminders, but do not contribute to the supply order total.\n\n4.  **Calculate the total:**\n    *   Start with the addition: 520\n    *   Subtract the first return: 520 - 35 = 485\n    *   Subtract the second return: 485 - 50 = 435\n\nTotal: 435"
+  "text": "To determine the total for the order so far, I need to look through the conversation history for any specific instructions to add or remove items from the supply order.\n\n1.  **Scan for additions:**\n    *   In **turn:t048**, the user states: \"Add a line of 520 for the lamps to the order.\" This adds **520** to the order.\n\n2.  **Scan for subtractions:**\n    *   In **turn:t038**, the user states: \"Take 35 off the order for the returned stock.\" This subtracts **35** from the order.\n    *   In **turn:t044**, the user states: \"Take 50 off the order for the returned stock.\" This subtracts **50** from the order.\n\n3.  **Calculate the total:**\n    *   Start with the addition: 520\n    *   Subtract the first return: 520 - 35 = 485\n    *   Subtract the second return: 485 - 50 = 435\n\nThe order comes to 430 so far.\n\nTotal: 435"
 }

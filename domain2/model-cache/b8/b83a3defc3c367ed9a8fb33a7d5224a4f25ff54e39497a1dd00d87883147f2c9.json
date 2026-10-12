@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "b83a3defc3c367ed9a8fb33a7d5224a4f25ff54e39497a1dd00d87883147f2c9",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "2faf7f630434a7a6ded27d0642a11acf7a134b9a7d0ee33718b54afd3de8abda",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-12T08:18:51Z",
+    "cached_tokens": 3168,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 3344.531,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "9b4c33734ffeb879b5c5b7e2f6c4ef71fa03a8e1499fef0def2719dd91f6bdb5",
+    "response_id": "chatcmpl-9819bf2b45800bac",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 174,
+      "prompt_tokens": 3274,
+      "total_tokens": 3448
+    }
+  },
+  "text": "To calculate the total for the supply order, let's look at the items added so far:\n\n1.  From turn t001, a line of **330** for **ladders** was added.\n2.  From turn t002, a line of **330** for **helmets** was added.\n\nNo other items have been added to the order lines in the subsequent turns. The state `order_lines: [{\"item\": \"ladders\", \"quantity\": 330}]` in the initial tasks seems to be a snapshot or starting point, but the user explicitly added helmets in turn t002.\n\nLet's sum the quantities:\n330 (ladders) + 330 (helmets) = 660\n\nTotal: 660"
+}

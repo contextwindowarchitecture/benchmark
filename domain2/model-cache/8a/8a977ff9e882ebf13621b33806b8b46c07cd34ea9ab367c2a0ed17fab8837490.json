@@ -7,11 +7,11 @@
     "sample": 2
   },
   "provenance": {
-    "at": "2026-10-11T08:13:45Z",
+    "at": "2026-10-12T08:16:05Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
-    "finish_reason": "length",
-    "latency_ms": 9930.988,
+    "finish_reason": "stop",
+    "latency_ms": 10716.141,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "07720c202196b81ca560353c920fbf19df62614e60fdb5cbb4da5e07f8ca09f9",
-    "response_id": "chatcmpl-b92b06fb0f324824",
+    "response_id": "chatcmpl-afd2242ae4aa93cd",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 2,
     "usage": {
-      "completion_tokens": 512,
+      "completion_tokens": 308,
       "prompt_tokens": 6088,
-      "total_tokens": 6600
+      "total_tokens": 6396
     }
   },
-  "text": "To calculate the total for the order so far, I need to track the line items added and any adjustments made to the stock returns.\n\n1.  **Identify Added Lines:**\n    *   In turn `t048`, the user stated: \"Add a line of 520 for the lamps to the order.\" This adds **520** to the order total.\n\n2.  **Identify Adjustments to Stock Returns:**\n    *   The prompt mentions \"returned stock\" orders in other turns (`t038` and `t078`), but these are reductions *off* a separate \"returned stock\" order, not direct subtractions from the main supply order total unless the main order includes returned stock. However, standard interpretation of \"order for the returned stock\" implies a separate line item for returns. The question asks for the \"order\" total, which typically refers to the new supply order being built up.\n    *   Let's re-read carefully. \"Take 35 off the order for the returned stock.\" and \"Take 50 off the order for the returned stock.\" and \"Take 80 off the order for the returned stock.\" These are adjustments to a specific sub-total or line item called \"returned stock\".\n    *   Usually, in these supply order tasks, there is one main \"Order Total\". If \"returned stock\" is a separate line item (a negative cost or a separate category), it might be included in the grand total. However, without a starting value for the \"returned stock\" order, we cannot calculate its net value.\n    *   Let's look for any other items.\n    *   Scanning the history for other \"Add a line...\" or similar positive additions to the *main* order.\n    *   Turn `t048`: \"Add a line of 520 for the lamps to the order.\"\n\n    Are there any other additions?\n    *   Turns `t038`, `t044`, `t078` reduce the *returned stock* order.\n    *   There are no other \"Add...\" commands for the main order.\n\n    If the \"order\" refers to the entire bill including returns, we are missing the initial value of the returned stock. However, often in these specific logic puzzles, if a starting value isn't given, the \"returned stock\" might be a distractor or a separate"
+  "text": "To calculate the total for the order so far, I need to track the line items added and any adjustments made to the stock order.\n\n1.  **Identify Added Lines:**\n    *   In turn `t048`, the user stated: \"Add a line of 520 for the lamps to the order.\" This adds **520** to the order total.\n\n2.  **Identify Adjustments to Stock Order:**\n    *   In turn `t038`, the user stated: \"Take 35 off the order for the returned stock.\" This is a reduction of **35**.\n    *   In turn `t044`, the user stated: \"Take 50 off the order for the returned stock.\" This is a reduction of **50**.\n    *   In turn `t078`, the user stated: \"Take 80 off the order for the returned stock.\" This is a reduction of **80**.\n\n3.  **Calculate the Total:**\n    *   Start with the lamp line: 520\n    *   Subtract the first stock adjustment: 520 - 35 = 485\n    *   Subtract the second stock adjustment: 485 - 50 = 435\n    *   Subtract the third stock adjustment: 435 - 80 = 355\n\nTotal: 355"
 }

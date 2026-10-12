@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "b28310b6d06f874ec4ef52b252e04ee88bee6694386e25539659cf67eed8337b",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "c75a8890bb8bfa104ee388f20324e381774716dae542cb6f77032154732ed5b2",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-12T07:43:01Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 5329.517,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0
+    },
+    "payload_sha256": "474f9afbac08bcf91bc3e68914588a354089c4f22fcab8feee6c96fe6adcedda",
+    "response_id": "chatcmpl-8e82f59d569130d5",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 481,
+      "prompt_tokens": 6119,
+      "total_tokens": 6600
+    }
+  },
+  "text": "To determine the total for the order, let's look at the current line items and quantities:\n\n1.  **Cable reels**: 415\n2.  **Ladders**: The initial order was for 25. In turn t009, the user added 95 ladders, bringing the total to 120. In turn t027, the user requested to \"Take 70 off the order for the returned stock.\" This applies to the ladders (as it was the most recent item discussed in the context of returns/adjustments, or generally to the order total if not specified, but usually specific items are adjusted. However, looking at the phrasing \"Take 70 off the order\", it implies a reduction in quantity. Let's assume it applies to the ladders as they were the last item added/modified in a way that suggests a count adjustment, or it reduces the total count. Let's re-read carefully.\n    *   Initial ladders: 25\n    *   Added 95 ladders: 25 + 95 = 120 ladders.\n    *   \"Take 70 off the order\": This likely refers to the ladders, as it's a specific quantity adjustment often associated with the last mentioned item or a general return. If it's a general return, it reduces the total count. Let's assume it reduces the ladder count since no other item was mentioned for return.\n    *   Adjusted ladders: 120 - 70 = 50 ladders.\n\nLet's double-check if \"Take 70 off the order\" could mean a monetary value. The format asks for \"Total: \" and the number. Usually, in these tasks, \"order\" refers to the line items' quantities unless a price is specified. No prices are given. Therefore, the \"total\" is the sum of the quantities.\n\nCurrent Line Items:\n*   Cable reels: 415\n*   Ladders: 50 (25 initial + 95 added - 70 returned)\n\nSumming the quantities:\n415 (cable reels) + 50 (ladders) = 465\n\nTotal: 465"
+}

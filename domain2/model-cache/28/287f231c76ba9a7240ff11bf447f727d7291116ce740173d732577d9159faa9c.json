@@ -7,11 +7,11 @@
     "sample": 1
   },
   "provenance": {
-    "at": "2026-10-11T08:13:35Z",
+    "at": "2026-10-12T08:15:54Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 4302.766,
+    "latency_ms": 7253.839,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "07720c202196b81ca560353c920fbf19df62614e60fdb5cbb4da5e07f8ca09f9",
-    "response_id": "chatcmpl-97c89e9145f73cef",
+    "response_id": "chatcmpl-b7ec3fa76f39bb5e",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 1,
     "usage": {
-      "completion_tokens": 225,
+      "completion_tokens": 220,
       "prompt_tokens": 6088,
-      "total_tokens": 6313
+      "total_tokens": 6308
     }
   },
-  "text": "To calculate the total for the order so far, I need to identify all additions and subtractions made to the order lines in the conversation history.\n\n1.  **Turn t038**: \"Take 35 off the order for the returned stock.\"\n    *   Current Total: -35\n\n2.  **Turn t044**: \"Take 50 off the order for the returned stock.\"\n    *   Current Total: -35 - 50 = -85\n\n3.  **Turn t048**: \"Add a line of 520 for the lamps to the order.\"\n    *   Current Total: -85 + 520 = 435\n\n4.  **Turn t078**: \"Take 80 off the order for the returned stock.\"\n    *   Current Total: 435 - 80 = 355\n\nThere have been no other additions or subtractions to the order lines recorded in the history.\n\nTotal: 355"
+  "text": "To calculate the total for the order so far, I need to identify all additions and subtractions made to the order lines in the conversation history.\n\n1.  **Turn t038**: \"Take 35 off the order for the returned stock.\" -> **-35**\n2.  **Turn t044**: \"Take 50 off the order for the returned stock.\" -> **-50**\n3.  **Turn t048**: \"Add a line of 520 for the lamps to the order.\" -> **+520**\n4.  **Turn t078**: \"Take 80 off the order for the returned stock.\" -> **-80**\n\nNo other order modifications were recorded in the history.\n\nCalculation:\n-35 - 50 + 520 - 80\n= -85 + 520 - 80\n= 435 - 80\n= 355\n\nTotal: 355"
 }

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "1484c8165b3ce9b69120a746cf17d2262ba8dd7585bd7ddc4c749bb8448aebce",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "8b39d42b8cd21a0195b68a81165aea3d1fae8237d19709f7001ecbfd9f5e3525",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-12T08:19:41Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 4985.538,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "b8387306fe644ded2ba6cf1e4a8fef72de22dd698c6160228291ef48b9b2cb96",
+    "response_id": "chatcmpl-b0b4fc4517c8eed5",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 283,
+      "prompt_tokens": 6116,
+      "total_tokens": 6399
+    }
+  },
+  "text": "To calculate the total for the order so far, we need to identify the base cost and any adjustments mentioned in the conversation history.\n\n1.  **Base Delivery Fee**: In turn `t007`, the user stated, \"There's a flat delivery fee of 45 on the order.\"\n    *   Current Subtotal: 45\n\n2.  **Adjustments**:\n    *   In turn `t032`, the user said, \"Take 40 off the order for the returned stock.\"\n    *   Calculation: 45 - 40 = 5\n\nThere are no other line items (such as ladders or toolkits) that have been assigned a price or quantity for purchase in the context of the *order* itself. The quantities for ladders (165) and toolkits (265) mentioned in the state (`xstate:04`, `xstate:08`) do not have associated prices or explicit instructions to add them to the current order total in the conversation history. The task focuses on the financial total of the order as it stands.\n\nTherefore, the order consists of the delivery fee minus the return credit.\n\nCalculation:\n*   Delivery Fee: 45\n*   Return Credit: -40\n*   Total: 5\n\nTotal: 5"
+}

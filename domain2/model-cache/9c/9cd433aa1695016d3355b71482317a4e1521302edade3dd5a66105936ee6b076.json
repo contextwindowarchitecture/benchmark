@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "9cd433aa1695016d3355b71482317a4e1521302edade3dd5a66105936ee6b076",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "bb754cdb3b97b8b6dcd7bca77c5d260bd1d3ca2691f6e1972048f2f1af19991f",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-12T08:21:50Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 8513.928,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "ba68467f8556b016330906e26fec1909e1a6c022aab80eac9bde18e5c15b0524",
+    "response_id": "chatcmpl-82e2731f53f9168e",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6125,
+      "total_tokens": 6637
+    }
+  },
+  "text": "To determine the total for the order so far, let's look at the current line items.\n\n1.  **Initial Order Lines:**\n    *   Crates: 430\n    *   Ladders: 400\n    *   Lamps: 520\n\n2.  **Adjustments from History:**\n    *   In turn `t038`, the user said: \"Take 35 off the order for the returned stock.\"\n        *   This applies to the total quantity. Let's apply it to the first item or the total. Usually, \"take off the order\" implies a reduction in total quantity. Let's look for specific item adjustments. No specific item was mentioned, so I will subtract 35 from the total sum.\n    *   In turn `t044`, the user said: \"Take 50 off the order for the returned stock.\"\n        *   Similarly, this is a reduction of 50 from the total.\n    *   In turn `t048`, the user said: \"Add a line of 520 for the lamps to the order.\"\n        *   This adds 520 to the lamps quantity.\n\nLet's calculate the totals for each item:\n\n*   **Crates:** 430 (No changes mentioned for crates specifically)\n*   **Ladders:** 400 (No changes mentioned for ladders specifically)\n*   **Lamps:** 520 (initial) + 520 (added in t048) = 1040\n\nNow, let's sum the item quantities:\n430 (Crates) + 400 (Ladders) + 1040 (Lamps) = 1870\n\nNow, apply the general \"return stock\" deductions:\n1.  Take 35 off (t038): 1870 - 35 = 1835\n2.  Take 50 off (t044): 1835 - 50 = 1785\n\nAlternatively, if the deductions apply to specific items, the prompt doesn't specify which. However, \"Take X off the order\" usually refers to the total count unless specified otherwise. Let's re-read carefully.\n\"Take 35 off the order for the returned stock.\""
+}

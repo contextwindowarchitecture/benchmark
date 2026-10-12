@@ -7,11 +7,11 @@
     "sample": 1
   },
   "provenance": {
-    "at": "2026-10-11T08:12:34Z",
+    "at": "2026-10-12T08:16:31Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 7959.494,
+    "latency_ms": 3314.771,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "13919c2f0d5a1b3a2029f152ab599ff2c726e696a80245dd60586821b6a83ed4",
-    "response_id": "chatcmpl-bc3de105c6e1fb9d",
+    "response_id": "chatcmpl-b6c932b094256c0b",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 1,
     "usage": {
-      "completion_tokens": 226,
+      "completion_tokens": 143,
       "prompt_tokens": 6015,
-      "total_tokens": 6241
+      "total_tokens": 6158
     }
   },
-  "text": "To calculate the total for the order, I will review the conversation history for any line items or costs added to the supply order.\n\n1.  **Scan for order items:** I am looking for phrases like \"Add [item] to the order,\" \"Add a line for [item],\" or specific quantities and prices associated with the supply list.\n2.  **Review history:**\n    *   Most turns contain office updates (repainting, lifts, stand-up locations, desk swaps, umbrella reports, reminders about reviews, notes to send).\n    *   **Turn t042:** The user states, \"Add a line of 150 for the tarps to the order.\" This is the only explicit addition to the supply order found in the history.\n    *   All other turns do not add new items to the supply order. They discuss administrative tasks, room availability, or personnel changes.\n3.  **Calculate Total:**\n    *   Tarps: 150\n\nThere are no other items listed in the order history.\n\nTotal: 150"
+  "text": "To calculate the total, I will review the order history for any requested items and their associated costs.\n\n1.  **Turn t042**: The user requested \"a line of 150 for the tarps\". This adds a cost of 150.\n2.  **Turn t047**: The user mentioned \"a flat delivery fee of 55 on the order\". This adds a cost of 55.\n\nNo other items with explicit costs were added to the order in the previous turns.\n\nCalculation:\n150 (tarps) + 55 (delivery fee) = 205\n\nTotal: 205"
 }

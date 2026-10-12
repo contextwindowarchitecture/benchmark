@@ -7,11 +7,11 @@
     "sample": 0
   },
   "provenance": {
-    "at": "2026-10-11T02:24:27Z",
+    "at": "2026-10-12T07:35:04Z",
     "cached_tokens": 0,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 6795.094,
+    "latency_ms": 6662.96,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0
     },
     "payload_sha256": "869ca1938ddf3cf9303accce4a0ed7360ffc5d42f0f5371038764ffbdf7b5431",
-    "response_id": "chatcmpl-a02b7197d8112b65",
+    "response_id": "chatcmpl-9bd2dafe156213a2",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 0,
     "usage": {
-      "completion_tokens": 192,
+      "completion_tokens": 172,
       "prompt_tokens": 1463,
-      "total_tokens": 1655
+      "total_tokens": 1635
     }
   },
-  "text": "Based on the conversation history, here is the step-by-step breakdown of the supply order lines:\n\n1.  **Returned stock**: In turn `t023`, the user instructed to \"Take 70 off the order for the returned stock.\" This is a negative line item.\n    *   Line 1: -70\n\n2.  **Cable reels**: In turn `t024`, the user instructed to \"Add a line of 105 for the cable reels to the order.\"\n    *   Line 2: +105\n\nThere are no other monetary values or order lines mentioned in the history. The rest of the conversation concerns room availability, staff swaps, and facility issues (lifts, coffee machines, painting), which do not affect the supply order total.\n\nCalculation:\n-70 + 105 = 35\n\nTotal: 35"
+  "text": "Based on the conversation history, here is the step-by-step breakdown of the supply order lines:\n\n1.  **Cable reels**: In turn `t024`, the user requested to \"Add a line of 105 for the cable reels to the order.\"\n2.  **Returned stock**: In turn `t023`, the user requested to \"Take 70 off the order for the returned stock.\" This is a deduction.\n\nThere are no other specific monetary values or line items added to the supply order in the provided history.\n\nCalculation:\n*   Start: 0\n*   Add cable reels: +105\n*   Subtract returned stock: -70\n*   Total: 105 - 70 = 35\n\nTotal: 35"
 }

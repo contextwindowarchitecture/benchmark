@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "59d1bb65e2cdce2a735ab518cb9906f16a7293bfe24025ffc6a7490710b2b6a6",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "202d593899865195134426275764730db987fcfbaa6e9faa1e7fcb65007443d8",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-12T08:04:35Z",
+    "cached_tokens": 1056,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 36768.68,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "d17bc2f41400aa97e63a48b6043dc28108d1029ac67b4e915f6fc568d2bf9213",
+    "response_id": "chatcmpl-9ea00ab7cd3433b0",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 1629,
+      "total_tokens": 2141
+    }
+  },
+  "text": "To determine the total value of the order for the Harcroft depot, we need to calculate the cost for each item based on the quantities provided in the initial order lines and the adjustments made during the session.\n\nHere is the step-by-step breakdown:\n\n1.  **Initial Order Lines:**\n    *   Crates: 240\n    *   Toolkits: 470\n    *   Lamps: 95\n\n2.  **Adjustments:**\n    *   **Turn t001:** User adds 275 crates.\n        *   New Crates total: $240 + 275 = 515$\n    *   **Turn t002:** User takes 35 off the order for returned stock. The item type isn't explicitly specified, but typically \"returned stock\" deductions apply to the most recently added or largest bulk item unless specified. However, looking at the flow, no specific item was named. In many supply contexts, if unspecified, it might apply to the main bulk item or be a general deduction. Let's look closer. Actually, usually, these prompts imply a specific item if it's a deduction. Let's re-read carefully. \"Take 35 off the order for the returned stock.\" It doesn't say \"of crates\". However, without a specified item, this is ambiguous. Let's look for other clues. Often, if an item isn't specified, it might be assumed to be the first one or the one with the highest quantity. Let's assume it applies to **Crates** as they are the first item listed and often the primary bulk item.\n        *   Adjusted Crates: $515 - 35 = 480$\n    *   **Turn t004:** User adds 470 toolkits.\n        *   New Toolkits total: $470 + 470 = 940$\n    *   **Turn t005:** User adds 175 lamps.\n        *   New Lamps total: $95 + 175 = 270$\n    *   **Turn t007:** User takes 80 off the order for returned stock. Again, no item specified. Let's assume it applies to **Crates** again, as they are the primary item.\n        *   Adjusted Crates: $4"
+}

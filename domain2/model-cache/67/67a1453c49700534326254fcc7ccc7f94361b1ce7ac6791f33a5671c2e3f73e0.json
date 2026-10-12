@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "67a1453c49700534326254fcc7ccc7f94361b1ce7ac6791f33a5671c2e3f73e0",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d9fb1ebf20e9a6df306b65986c9ac51033b1e2dc03b21002eba52ed47f983c7e",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T08:20:10Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 8349.324,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "474f9afbac08bcf91bc3e68914588a354089c4f22fcab8feee6c96fe6adcedda",
+    "response_id": "chatcmpl-b3159dd5f4e8b66f",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6119,
+      "total_tokens": 6631
+    }
+  },
+  "text": "To calculate the current order total, we need to track the changes made to the order lines and any additional fees mentioned in the conversation history.\n\n**1. Initial Order:**\nFrom `task id=\"xstate:04\"`:\n*   Cable reels: 415\n*   Ladders: 25\n\n**2. Additions:**\n*   From `turn:t009`: \"Add a line of 95 for the ladders to the order.\"\n    *   Ladders: 25 + 95 = 120\n*   From `turn:t042`: \"Add a line of 150 for the tarps to the order.\"\n    *   Tarps: 150\n\n**3. Subtractions:**\n*   From `turn:t027`: \"Take 70 off the order for the returned stock.\"\n    *   This instruction is generic (\"the order\"), but typically refers to the most recently discussed item or a general reduction. However, looking at the context of turn t027: \"Wren thinks the print room is too cold... Ines thinks the print room is too cold... Take 70 off the order for the returned stock.\" It doesn't specify an item. In previous similar tasks, if an item isn't specified, it often applies to the last item mentioned or is a general deduction. Let's look closer. Usually, these prompts imply deducting from the total quantity unless specified. However, without a specific item, it's ambiguous. Let's re-read carefully. Often in these datasets, \"Take X off the order\" implies a reduction in the total count of units. Let's assume it reduces the total quantity of items.\n    *   Wait, let's look at the items again. Cable reels (415), Ladders (120), Tarps (150). Total units = 685.\n    *   If \"Take 70 off\" applies to a specific item, it's not stated. If it applies to the total, it's 685 - 70 = 615.\n    *   Let's check if there's a pattern. In `turn:t009`, \"Add a line... for the ladders\". In `turn:t042`, \"Add a line... for the tarps\". In `turn:t027`, \""
+}

@@ -7,11 +7,11 @@
     "sample": 2
   },
   "provenance": {
-    "at": "2026-10-11T07:54:18Z",
+    "at": "2026-10-12T07:37:19Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 4575.007,
+    "latency_ms": 8866.458,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0
     },
     "payload_sha256": "7d7c5c9273eff30432b822d1499cbe06e4f75eed0c424282c3907400b853a77c",
-    "response_id": "chatcmpl-bdbdf2aeecfc41d6",
+    "response_id": "chatcmpl-9d364a6ec5edcc29",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 2,
     "usage": {
-      "completion_tokens": 249,
+      "completion_tokens": 360,
       "prompt_tokens": 6058,
-      "total_tokens": 6307
+      "total_tokens": 6418
     }
   },
-  "text": "To determine the total for the order so far, I need to look through the conversation history for any explicit additions or subtractions to the supply order.\n\n1.  **Turn t038**: The user says, \"Take 35 off the order for the returned stock.\" This implies a deduction of 35.\n2.  **Turn t044**: The user says, \"Take 50 off the order for the returned stock.\" This implies a deduction of 50.\n3.  **Turn t048**: The user says, \"Add a line of 520 for the lamps to the order.\" This implies an addition of 520.\n\nThere are no other mentions of adding or removing items from the supply order in the provided history. The rest of the conversation concerns office logistics, room availability, staff swaps, and reminders, which do not affect the supply order total.\n\nCalculating the total:\n*   Start: 0\n*   Subtract 35: -35\n*   Subtract 50: -85\n*   Add 520: 435\n\nTotal: 435"
+  "text": "To determine the total for the order so far, I need to look for any explicit additions or subtractions to the order lines in the conversation history.\n\n1.  **Scan for order modifications:**\n    *   In **turn:t038**, the user said: \"Take 35 off the order for the returned stock.\" This implies a deduction of 35.\n    *   In **turn:t044**, the user said: \"Take 50 off the order for the returned stock.\" This implies a deduction of 50.\n    *   In **turn:t048**, the user said: \"Add a line of 520 for the lamps to the order.\" This implies an addition of 520.\n\n2.  **Check for other items:**\n    *   The rest of the conversation consists of office updates (umbrellas, coffee machines, lifts, repainting, stand-up locations, desk swaps, coverage for absent staff, and review preferences). None of these are explicitly stated as items added to the supply order.\n    *   There is no mention of an initial base order or any other items being added or removed.\n\n3.  **Calculate the total:**\n    *   Start with 0 (assuming no prior order lines were established in this session).\n    *   Subtract 35: $0 - 35 = -35$\n    *   Subtract 50: $-35 - 50 = -85$\n    *   Add 520: $-85 + 520 = 435$\n\nThe order comes to 435.\n\nTotal: 435"
 }

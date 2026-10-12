@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "62a52333048b1f76b7eaccb53a5a3a4174ab468d9efd1968e38f6f1e7ec157e5",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "0a1018c0503aa257e16745a871a8a9017261d781b4fed80f6bc2cee53ab7fa15",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-12T08:11:35Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 18455.794,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "dc8de9aad3c0fed1014ab40e5ec9624d75f21c627d24ca8e67c9df38d6e04d7f",
+    "response_id": "chatcmpl-b52341defed7f3bd",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 6150,
+      "total_tokens": 6662
+    }
+  },
+  "text": "To determine the total for the order so far, we need to look at the items specified in the initial state and any additions made during the conversation.\n\n1.  **Initial Order Items (from `xstate:03`):**\n    *   Lanterns: 340\n    *   Tarps: 180\n    *   Helmets: 465\n    *   Ladders: 240\n    *   Lamps: 310\n\n2.  **Additions made during the session:**\n    *   In `turn:t024`, the user asked to \"Add a line of 180 for the tarps to the order.\"\n        *   Current Tarps: 180 (initial) + 180 (added) = 360\n    *   In `turn:t028`, the user asked to \"Add a line of 465 for the helmets to the order.\"\n        *   Current Helmets: 465 (initial) + 465 (added) = 930\n    *   In `turn:t037`, the user asked to \"Add a line of 240 for the ladders to the order.\"\n        *   Current Ladders: 240 (initial) + 240 (added) = 480\n    *   In `turn:t040`, the user asked to \"Add a line of 310 for the lamps to the order.\"\n        *   Current Lamps: 310 (initial) + 310 (added) = 620\n\n3.  **Final Line Item Totals:**\n    *   Lanterns: 340\n    *   Tarps: 360\n    *   Helmets: 930\n    *   Ladders: 480\n    *   Lamps: 620\n\n4.  **Calculation:**\n    *   340 (Lanterns) + 360 (Tarps) = 700\n    *   700 + 930 (Helmets) = 1630\n    *   1630 + 480 (Ladders) = 2110\n    *   "
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "885f894073e88c729927895facee571747185b16b9c979cea1ef2ee2cfcc43b7",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "6b16aa5bf86bacfee4a1fb213b076ce974bf61a1b96e087dd3720712deee29c8",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-12T08:19:55Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 4755.792,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "b8387306fe644ded2ba6cf1e4a8fef72de22dd698c6160228291ef48b9b2cb96",
+    "response_id": "chatcmpl-8533c14ec1d321d9",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 269,
+      "prompt_tokens": 6116,
+      "total_tokens": 6385
+    }
+  },
+  "text": "To calculate the total for the order, I will follow the steps outlined in the policy: summing up the order's lines step by step.\n\n**Step 1: Identify the base order cost.**\nFrom the user's input in turn `t007`: \"There's a flat delivery fee of 45 on the order.\"\n*   Current Subtotal: 45\n\n**Step 2: Identify any adjustments to the order cost.**\nFrom the user's input in turn `t032`: \"Take 40 off the order for the returned stock.\"\n*   Adjustment: -40\n*   New Subtotal: 45 - 40 = 5\n\n**Step 3: Check for additional item costs.**\nThe user has provided quantities for items (`ladder_quantity: 165`, `toolkits_quantity: 265`) and status updates for other items (`mira_status: out`, `opals_role: out`, `lift_status: slow`, etc.). However, no unit prices or costs were provided for the ladders, toolkits, or any other items. The only monetary values mentioned are the delivery fee and the stock return adjustment.\n\nTherefore, the total remaining cost is the adjusted delivery fee.\n\nTotal: 5"
+}

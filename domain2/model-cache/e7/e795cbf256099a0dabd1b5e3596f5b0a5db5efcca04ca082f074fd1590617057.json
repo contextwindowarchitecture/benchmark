@@ -7,11 +7,11 @@
     "sample": 3
   },
   "provenance": {
-    "at": "2026-10-11T08:06:57Z",
-    "cached_tokens": 0,
+    "at": "2026-10-12T08:09:48Z",
+    "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 81795.784,
+    "latency_ms": 11079.021,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "7bb54d2b478d05ab1f2abb502bd94427c16d76044c1e3c69f846c5a1e7cecd78",
-    "response_id": "chatcmpl-b04647978bd15c11",
+    "response_id": "chatcmpl-a05429b19f9ca100",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 3,
     "usage": {
-      "completion_tokens": 344,
+      "completion_tokens": 319,
       "prompt_tokens": 6034,
-      "total_tokens": 6378
+      "total_tokens": 6353
     }
   },
-  "text": "To calculate the total for the order, let's look at the items added so far:\n\n1.  **Toolkits**: In turn `t012`, the user asked to add a line of 60 for the toolkits.\n2.  **Tarps**: In turn `t028`, the user asked to add a line of 55 for the tarps.\n3.  **Helmets**: In turn `t031`, the user asked to add a line of 135 for the helmets.\n4.  **Cable reels**: In turn `t049`, the user asked to add a line of 570 for the cable reels.\n\nNote: In turn `t027`, the user asked to \"Take 80 off the order for the returned stock.\" This implies a deduction from the total, not an additional line item with a negative quantity in the itemized list, but rather a adjustment to the sum. Let's calculate the sum of the line items first, then apply the deduction, or sum them algebraically.\n\nLet's sum the positive line items:\n60 (toolkits) + 55 (tarps) + 135 (helmets) + 570 (cable reels)\n\n60 + 55 = 115\n115 + 135 = 250\n250 + 570 = 820\n\nNow, apply the deduction for returned stock:\n820 - 80 = 740\n\nTotal: 740"
+  "text": "To calculate the total for the order, let's look at the line items added by the user:\n\n1.  In turn `t012`, the user added: \"Add a line of 60 for the toolkits to the order.\"\n2.  In turn `t027`, the user added: \"Take 80 off the order for the returned stock.\" This is a deduction.\n3.  In turn `t028`, the user added: \"Add a line of 55 for the tarps to the order.\"\n4.  In turn `t031`, the user added: \"Add a line of 135 for the helmets to the order.\"\n5.  In turn `t049`, the user added: \"Add a line of 570 for the cable reels to the order.\"\n\nLet's sum these up step by step:\n\n*   Start with 0.\n*   Add 60 (toolkits): 60\n*   Subtract 80 (returned stock): 60 - 80 = -20\n*   Add 55 (tarps): -20 + 55 = 35\n*   Add 135 (helmets): 35 + 135 = 170\n*   Add 570 (cable reels): 170 + 570 = 740\n\nTotal: 740"
 }

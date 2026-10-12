@@ -7,11 +7,11 @@
     "sample": 2
   },
   "provenance": {
-    "at": "2026-10-11T02:22:53Z",
+    "at": "2026-10-12T07:34:36Z",
     "cached_tokens": 1056,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 7124.909,
+    "latency_ms": 7454.905,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0
     },
     "payload_sha256": "d19fa9c1daf8e37722a9e1c3fa94fe87fa4622c1cb332afed0abd89237b4d23b",
-    "response_id": "chatcmpl-88e5eae28f21ac98",
+    "response_id": "chatcmpl-bbd889752afc4d76",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 2,
     "usage": {
-      "completion_tokens": 169,
+      "completion_tokens": 216,
       "prompt_tokens": 1526,
-      "total_tokens": 1695
+      "total_tokens": 1742
     }
   },
-  "text": "To determine the total for the order, let's look at the items added so far:\n\n1.  In the initial state, there was a line for **370** ladders.\n2.  In turn `t001`, you asked to add a line of **400** for the ladders.\n3.  In turn `t004`, you instructed to \"Take 30 off the order for the returned stock.\"\n\nLet's calculate the running total:\n*   Start with 370.\n*   Add 400: $370 + 400 = 770$.\n*   Subtract 30: $770 - 30 = 740$.\n\nTotal: 740"
+  "text": "To determine the total for the order, let's look at the items added so far:\n\n1.  In the initial setup (`xstate:01`), the order lines were set to:\n    *   Ladders: 370\n\n2.  In `turn:t001`, the user stated: \"Add a line of 400 for the ladders to the order.\"\n    *   This updates the ladders quantity from 370 to 400.\n\n3.  In `turn:t004`, the user stated: \"Take 30 off the order for the returned stock.\"\n    *   This reduces the current quantity of ladders (400) by 30.\n    *   Calculation: 400 - 30 = 370.\n\nThere are no other items or adjustments to the order lines in the history.\n\nCurrent order lines:\n*   Ladders: 370\n\nTotal: 370"
 }

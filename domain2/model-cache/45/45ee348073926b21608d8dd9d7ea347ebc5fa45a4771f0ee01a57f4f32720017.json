@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "45ee348073926b21608d8dd9d7ea347ebc5fa45a4771f0ee01a57f4f32720017",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "953c23d466d4560f6cb1804984a127e5deff4b6c9d3681f0178d49f0699181ea",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-12T08:20:04Z",
+    "cached_tokens": 5280,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 6288.996,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "3c4c09ca2c64887ea0188d9ff48351d7db7d03a22f015d47d9edc91fa73bf9f2",
+    "response_id": "chatcmpl-81d1f93165952abd",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 382,
+      "prompt_tokens": 6227,
+      "total_tokens": 6609
+    }
+  },
+  "text": "To determine the current total of the order, we need to look at the order lines provided in the task history and any updates made during the session.\n\n1.  **Initial Order Lines (from task id=\"xstate:19\"):**\n    *   Ladders: 330\n    *   Cable reels: 315\n    *   Toolkits: 570\n\n2.  **Updates during the session:**\n    *   In turn `t034`, the user said: \"Add a line of 315 for the cable reels to the order.\"\n        *   This adds 315 to the cable reels quantity.\n        *   New Cable reels quantity: 315 (original) + 315 (added) = 630.\n    *   In turn `t036`, the user said: \"Add a line of 570 for the toolkits to the order.\"\n        *   This adds 570 to the toolkits quantity.\n        *   New Toolkits quantity: 570 (original) + 570 (added) = 1140.\n\n3.  **Final Quantities:**\n    *   Ladders: 330\n    *   Cable reels: 630\n    *   Toolkits: 1140\n\n4.  **Calculation:**\n    *   330 (Ladders) + 630 (Cable reels) + 1140 (Toolkits)\n    *   330 + 630 = 960\n    *   960 + 1140 = 2100\n\nTotal: 2100"
+}

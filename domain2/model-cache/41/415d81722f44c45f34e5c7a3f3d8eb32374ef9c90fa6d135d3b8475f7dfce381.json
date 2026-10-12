@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "415d81722f44c45f34e5c7a3f3d8eb32374ef9c90fa6d135d3b8475f7dfce381",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "34597e98d7fd6afd570de4139d016a882020a319520e81f69ed928899c7b3be3",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-12T08:07:27Z",
+    "cached_tokens": 1056,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 21427.261,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "8f804670bbb3815b65e0fa86fae65ba6e462b37452e7b6a4045b64b521a5c0e1",
+    "response_id": "chatcmpl-8c39786c63c48501",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 499,
+      "prompt_tokens": 1436,
+      "total_tokens": 1935
+    }
+  },
+  "text": "Let's calculate the total for the supply order based on the items mentioned so far.\n\n1.  **Ladders**: 400 ladders were added (with a net adjustment of 370, but the order line item is typically the gross quantity unless specified otherwise as a net figure. However, looking at the initial instruction \"Add 400 ladders (net 370)\", usually in these contexts, if a \"net\" is specified in parentheses, it might refer to the actual usable count or a correction. Let's look at the phrasing. \"Add 400 ladders (net 370)\". If I add 400, the count is 400. If the prompt implies the *order* should be for the net amount, it would be 370. Let's assume the line item added was 400.\n    *   Wait, let's re-read carefully: \"Action: Add 400 ladders (net 370)\". This usually means the user wants 400, but notes the net impact or a previous deduction. Or it means the order quantity is 400. Let's stick to the explicit \"Add 400\".\n    *   Actually, often in these prompts, \"net 370\" might imply a discount or a return. But there is no unit price given. The request for \"Total\" implies a sum of quantities or costs. Since no prices are provided, I must assume the \"Total\" refers to the sum of the item quantities, or perhaps there's a misunderstanding of \"Total\".\n    *   Let's look at the recent instruction: \"Take 35 off the order for the returned stock.\" This implies a subtraction from a quantity.\n    *   Let's re-evaluate the items:\n        *   Ladders: 400\n        *   Lamps: 555\n        *   Returned stock: -35\n\n    Let's sum the quantities:\n    *   Ladders: 400\n    *   Lamps: 555\n    *   Subtotal: 400 + 555 = 955\n    *   Less returned stock: 955 - 35 = 920\n\n    Total: 920"
+}

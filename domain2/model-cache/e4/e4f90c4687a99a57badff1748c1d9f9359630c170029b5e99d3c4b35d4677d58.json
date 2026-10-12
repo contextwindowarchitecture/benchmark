@@ -7,11 +7,11 @@
     "sample": 3
   },
   "provenance": {
-    "at": "2026-10-11T08:11:53Z",
+    "at": "2026-10-12T08:15:14Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 8042.509,
+    "latency_ms": 4784.724,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "2d8a0fe1ae4638e0d0e4eca2de82551af09ad55c6da6cf8c071578d029de47c4",
-    "response_id": "chatcmpl-826846245e2f61e4",
+    "response_id": "chatcmpl-b90ae4667649ad6c",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 3,
     "usage": {
-      "completion_tokens": 221,
+      "completion_tokens": 168,
       "prompt_tokens": 6051,
-      "total_tokens": 6272
+      "total_tokens": 6219
     }
   },
-  "text": "Based on the conversation history, there have been two adjustments to the order for returned stock:\n\n1.  In turn 018, the user said: \"Take 80 off the order for the returned stock.\"\n2.  In turn 029, the user said: \"Take 25 off the order for the returned stock.\"\n\nAdditionally, in turn 048, the user said: \"Add a line of 350 for the lamps to the order.\"\n\nThere are no other specific line items or costs mentioned in the history (the other entries are about room status, personnel swaps, or reminders, which do not constitute order lines with values).\n\nAssuming the \"order\" refers to the net value derived from these explicit instructions:\n-   Deduction 1: -80\n-   Deduction 2: -25\n-   Addition: +350\n\nTotal calculation:\n-80 - 25 + 350 = 245\n\nTotal: 245"
+  "text": "Based on the conversation history, here is the breakdown of the supply order:\n\n1.  **Turn t029**: The user asked to \"Take 25 off the order for the returned stock.\" This implies a deduction of 25.\n2.  **Turn t048**: The user asked to \"Add a line of 350 for the lamps to the order.\" This is an addition of 350.\n\nCalculating the total:\n- Starting balance (assumed 0 unless specified otherwise in a running total context, but typically these are net additions/subtractions): 0\n- Subtract 25: -25\n- Add 350: -25 + 350 = 325\n\nTotal: 325"
 }

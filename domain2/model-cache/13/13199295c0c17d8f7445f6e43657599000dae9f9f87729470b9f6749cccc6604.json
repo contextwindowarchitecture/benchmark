@@ -7,11 +7,11 @@
     "sample": 2
   },
   "provenance": {
-    "at": "2026-10-11T02:22:01Z",
+    "at": "2026-10-12T07:33:18Z",
     "cached_tokens": 6336,
     "endpoint_host": "127.0.0.1:8000",
-    "finish_reason": "stop",
-    "latency_ms": 9666.741,
+    "finish_reason": "length",
+    "latency_ms": 19345.645,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0
     },
     "payload_sha256": "660d16d423c3c25f951c0d7f9617ee88b32b27eb5cccf6a6742a153c7bfc7466",
-    "response_id": "chatcmpl-8dfc040a19fa0c61",
+    "response_id": "chatcmpl-9306346bf41e4c2a",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 2,
     "usage": {
-      "completion_tokens": 212,
+      "completion_tokens": 512,
       "prompt_tokens": 6725,
-      "total_tokens": 6937
+      "total_tokens": 7237
     }
   },
-  "text": "To calculate the total for the Nevbury depot supply order, I will sum the quantities of the items added so far.\n\n1.  **Ladders**: 240 units (added in turn t001)\n2.  **Lamps**: 350 units (added in turn t048)\n\nThere were also adjustments for returned stock:\n*   Turn t018: \"Take 80 off the order\"\n*   Turn t029: \"Take 25 off the order\"\n\nLet's calculate the net total:\n*   Start with Ladders: 240\n*   Add Lamps: 240 + 350 = 590\n*   Subtract returned stock (t018): 590 - 80 = 510\n*   Subtract returned stock (t029): 510 - 25 = 485\n\nTotal: 485"
+  "text": "To calculate the total for the Nevbury depot supply order, I will sum the quantities of the items added so far.\n\n1.  **Ladders**: In the first turn, the user requested to add a line of **240** for the ladders.\n2.  **Lamps**: In turn 48, the user requested to add a line of **350** for the lamps.\n\nThere were also adjustments for returned stock:\n*   In turn 18, the user said to \"Take 80 off the order\".\n*   In turn 29, the user said to \"Take 25 off the order\".\n\nHowever, the prompt asks for the order \"so far\" based on the lines added. Typically, \"lines\" refer to the positive additions of new stock. The \"take off\" instructions are adjustments to the total quantity, but without knowing which specific item they apply to (ladders or lamps), it is ambiguous to subtract them from specific line items. Usually, in these types of logic puzzles, unless specified which item is being returned, we sum the explicit line items added for new stock. Let's look at the phrasing: \"Add a line of 240 for the ladders\" and \"Add a line of 350 for the lamps\". The \"take off\" instructions are generic \"off the order\".\n\nIf we assume the \"take off\" instructions reduce the total count of the order:\nTotal added = 240 + 350 = 590.\nTotal removed = 80 + 25 = 105.\nNet Total = 590 - 105 = 485.\n\nHowever, often in these specific \"supply order\" contexts, the \"lines\" refer to the distinct product entries. If the question asks \"What does the order come to\", it implies the final quantity. Let's re-read carefully.\n\"Add a line of 240 for the ladders\"\n\"Take 80 off the order\"\n\"Take 25 off the order\"\n\"Add a line of 350 for the lamps\"\n\nIf I simply sum the positive lines: 240 + 350 = 590.\nIf I account for the returns: 590 - 80 - 25 = 485.\n\nLet's look"
 }

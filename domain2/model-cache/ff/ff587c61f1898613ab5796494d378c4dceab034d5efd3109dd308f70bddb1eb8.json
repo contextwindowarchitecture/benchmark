@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "ff587c61f1898613ab5796494d378c4dceab034d5efd3109dd308f70bddb1eb8",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "88162c1f25ba78fb487a6643973e5183185bc6a26782c2ad4af880dccc9b41b2",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-12T08:02:21Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 63682.841,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "d17bc2f41400aa97e63a48b6043dc28108d1029ac67b4e915f6fc568d2bf9213",
+    "response_id": "chatcmpl-b1f797d963ebf9b0",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 461,
+      "prompt_tokens": 1629,
+      "total_tokens": 2090
+    }
+  },
+  "text": "To determine the total supply order for the Harcroft depot, we need to aggregate the items added through the various instructions provided during the session.\n\n**Step 1: Identify Initial Order Lines**\nFrom the initial task setup (`xstate:01`), the starting order was:\n*   Crates: 240\n*   Toolkits: 470\n*   Lamps: 95\n\n**Step 2: Process Additions**\n*   **Turn t001:** User requested adding 275 crates.\n    *   New Crates total: 240 + 275 = 515\n*   **Turn t004:** User requested adding 470 toolkits.\n    *   New Toolkits total: 470 + 470 = 940\n*   **Turn t005:** User requested adding 175 lamps.\n    *   New Lamps total: 95 + 175 = 270\n\n**Step 3: Process Deductions**\n*   **Turn t002:** User requested taking 35 off the order for returned stock.\n    *   This deduction applies to the general order. Since no specific item was mentioned, we subtract it from the total sum at the end.\n*   **Turn t007:** User requested taking 80 off the order for returned stock.\n    *   This deduction also applies to the general order. We subtract it from the total sum at the end.\n\n**Step 4: Calculate Subtotals by Item**\n*   **Crates:** 515\n*   **Toolkits:** 940\n*   **Lamps:** 270\n\n**Step 5: Calculate Grand Total**\nSum of items: 515 + 940 + 270 = 1,725\nTotal deductions: 35 + 80 = 115\nFinal Total: 1,725 - 115 = 1,610\n\nTotal: 1610"
+}

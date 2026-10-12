@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d2/model-cache-entry/v1",
+  "key": "a421ce0953622c33e7564c750eb51926cf12d7f1ac396a44af090c84408a52a0",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "b72f3392ae0df7193ce38d14819960c61b9b382ffc8097d24caaaf0048cd3cf8",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-12T07:39:59Z",
+    "cached_tokens": 6336,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 5909.97,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0
+    },
+    "payload_sha256": "3d09f0acc3291aeace7694af5a0ee7ddea0ad07c729d2769f48d3264316ee912",
+    "response_id": "chatcmpl-a78609e934f12e4f",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 303,
+      "prompt_tokens": 6981,
+      "total_tokens": 7284
+    }
+  },
+  "text": "To calculate the total for the supply order, we need to look at the items added and any adjustments made during the session.\n\n1.  **Ladders:** In turn `t001`, the user requested to \"Add a line of 165 for the ladders to the order.\"\n    *   Current Ladder Total: 165\n\n2.  **Toolkits:** In turn `t004`, the user requested to \"Add a line of 265 for the toolkits to the order.\"\n    *   Current Toolkit Total: 265\n\n3.  **Delivery Fee:** In turn `t007`, the user stated, \"There's a flat delivery fee of 45 on the order.\"\n    *   Delivery Fee: 45\n\n4.  **Returns:** In turn `t032`, the user instructed to \"Take 40 off the order for the returned stock.\"\n    *   Return Adjustment: -40\n\nNow, let's sum these up step by step:\n\n*   Start with Ladders: 165\n*   Add Toolkits: 165 + 265 = 430\n*   Add Delivery Fee: 430 + 45 = 475\n*   Subtract Returns: 475 - 40 = 435\n\nTotal: 435"
+}

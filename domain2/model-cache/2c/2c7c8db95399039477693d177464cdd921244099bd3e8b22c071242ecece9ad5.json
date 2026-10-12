@@ -7,11 +7,11 @@
     "sample": 2
   },
   "provenance": {
-    "at": "2026-10-11T08:11:12Z",
+    "at": "2026-10-12T08:15:39Z",
     "cached_tokens": 5280,
     "endpoint_host": "127.0.0.1:8000",
     "finish_reason": "stop",
-    "latency_ms": 9369.739,
+    "latency_ms": 7154.694,
     "model": "qwen3.6-35b-a3b-fp8",
     "params": {
       "extra_body": {
@@ -30,14 +30,14 @@
       "temperature": 0.7
     },
     "payload_sha256": "c5f488d847fad61a5320178a127aa563e9562b517097e77b3334e2c146399ec6",
-    "response_id": "chatcmpl-99880f9a563a26de",
+    "response_id": "chatcmpl-9c96e7321e197697",
     "response_model": "qwen3.6-35b-a3b-fp8",
     "sample": 2,
     "usage": {
-      "completion_tokens": 261,
+      "completion_tokens": 216,
       "prompt_tokens": 6055,
-      "total_tokens": 6316
+      "total_tokens": 6271
     }
   },
-  "text": "To calculate the total for the order so far, I will look for any specific line items added or modified in the conversation history.\n\n1.  **Turn t027**: The user stated, \"Take 70 off the order for the returned stock.\" This implies a deduction of 70 from a previous total or a negative line item. Since this is the first mention of a price/quantity adjustment, we can treat this as a starting balance of 0, minus 70.\n    *   Current Total: -70\n\n2.  **Turn t042**: The user stated, \"Add a line of 150 for the tarps to the order.\" This adds 150 to the order.\n    *   Current Total: -70 + 150 = 80\n\n3.  **Turn t047**: The user stated, \"There's a flat delivery fee of 55 on the order.\" This adds 55 to the order.\n    *   Current Total: 80 + 55 = 135\n\nThere are no other explicit monetary values or quantities for items added to the supply order in the provided history.\n\nTotal: 135"
+  "text": "To calculate the total for the order so far, I will look for any specific line items added or modified in the conversation history.\n\n1.  **Turn t027**: The user stated, \"Take 70 off the order for the returned stock.\" This implies a deduction of 70 from a previous total or a negative line item. Since this is the first mention of a price, we treat this as -70.\n2.  **Turn t042**: The user stated, \"Add a line of 150 for the tarps to the order.\" This adds 150 to the total.\n3.  **Turn t047**: The user stated, \"There's a flat delivery fee of 55 on the order.\" This adds 55 to the total.\n\nLet's sum these values:\n-70 (returned stock) + 150 (tarps) + 55 (delivery fee) = 135\n\nTotal: 135"
 }
