@@ -9,10 +9,12 @@
 #   3. Domain 2's recorded run (every family at its recorded size; S0 to S5 and S7) against the model beside it;
 #   4. Domain 1's tests, its opt-in tests on the reference assembler and in the container (once in each engine
 #      installed), S2 and S10, the suites that use the container, with Docker (skipped when Docker is not
-#      installed), and a full run with Podman, S11 replaying the committed summarizer cache as CI does.
+#      installed), the nightly profile with Podman (every suite but S7, S2's platform and toolchain matrix, S11
+#      replaying the committed summarizer cache), and a dedicated S7 run.
 #
-# Each domain's headline run (Domain 2's recorded run, Domain 1's full run) is made last, so it is the domain's
-# `latest`, the run the results site shows first.
+# Each domain's reported runs are made last, so the newest is the domain's `latest`: Domain 2's recorded run, and
+# Domain 1's S7 run after its nightly run, the two runs the results site's Domain 1 overview and docs/domain1.md
+# combine. The nightly profile reads the checkouts pod-setup.sh pinned, not upstream main (no --fetch).
 #
 # A model run is made in `llm` mode and made again only when calls failed: the second pass calls the model for just
 # what the first could not fill, since everything answered is in the cache. Any other failure is the run's result.
@@ -85,5 +87,6 @@ if command -v docker >/dev/null; then
 else
   note "d1-run-docker skipped: Docker is not installed"
 fi
-step d1-run "$BENCH/domain1" uv run cwabench run --summarizer replay
+step d1-nightly "$BENCH/domain1" uv run cwabench ci nightly
+step d1-s7 "$BENCH/domain1" uv run cwabench run --suites S7
 note "done"
