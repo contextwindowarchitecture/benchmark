@@ -66,7 +66,7 @@ SENTENCE = "The answer is {a} and it is in the document for you."
 def formatted(contract: str, answer: dict, value=None) -> str:
     """A reply that gives `value` (by default the expected answer) as the contract asks."""
     if contract == "code":
-        return json.dumps({"line": int(answer["line"]), "fix": answer["fix"]})
+        return json.dumps({"bug": answer["bug"], "fix": answer["fix"]})
     if contract == "record":
         fields = {k: (int(v["expected"]) if v["kind"] == "number" else v["expected"])
                   for k, v in answer["fields"].items()}
@@ -80,9 +80,9 @@ def task_plants(task: dict) -> list[tuple[str, str, str, float]]:
     contract, answer = task["contract"], task["answer"]
     plants = [("expected", formatted(contract, answer), "correct", 1.0)]
     if contract == "code":
-        wrong = {"line": int(answer["line"]) + 1, "fix": answer["fix"]}
-        return plants + [("wrong-line", json.dumps(wrong), "wrong", 0.5), ("prose", "The bug is near the end.",
-                                                                           "unparsed", 0.0)]
+        wrong = {"bug": answer["fix"], "fix": answer["fix"]}
+        return plants + [("wrong-bug", json.dumps(wrong), "wrong", 0.5), ("prose", "The bug is near the end.",
+                                                                         "unparsed", 0.0)]
     if contract == "record":
         changed = json.loads(formatted(contract, answer))
         changed["attendees"] += 1

@@ -150,6 +150,8 @@ def _code(task: dict) -> list[str]:
     answer = task["answer"]
     line = int(answer["line"])
     problems = []
+    if lines[line - 1].strip() != answer["bug"] or [s.strip() for s in lines].count(answer["bug"]) != 1:
+        problems.append(f"the buggy line is not line {line} alone")
     if _passes(source, names[0]):
         problems.append("the file as given passes its reference behaviour")
     indent = re.match(r"\s*", lines[line - 1]).group(0)

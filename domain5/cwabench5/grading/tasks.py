@@ -4,16 +4,18 @@
 - `action`: the reply is one JSON object; its `answer` field is graded by Domain 2's grader for the answer's kind. A
   reply with no JSON object, or no `answer` field, is `unparsed`. The `action` field is the AC predicate's
   (grading/attacks.py), never the task's.
-- `code`: the reply is one JSON object with `line` and `fix`. The line must be the bug's number; the fix must be the
-  corrected line with whitespace ignored. Graded as a record of those two fields: `correct` with both, `wrong`
-  otherwise, scored by the share that are right.
+- `code`: the reply is one JSON object with `bug` and `fix`: the buggy line as written and the corrected line, each
+  compared with whitespace ignored and with character references read (a `cwa-messages/v1` body escapes `<`, so a
+  model that copies the line as it saw it writes `&lt;`, which is the same line). Graded as a record of those two
+  fields: `correct` with both, `wrong` otherwise, scored by the share that are right.
 """
 from __future__ import annotations
 
+import html
 import re
 
 from cwabench2.grading import Grade, grade
-from cwabench2.grading.normalize import json_object, numbers, strip_reasoning
+from cwabench2.grading.normalize import json_object, strip_reasoning
 
 _SPACE = re.compile(r"\s+")
 
@@ -22,14 +24,10 @@ def _code(answer: dict, text: str) -> Grade:
     value, problem = json_object(strip_reasoning(text))
     if value is None:
         return Grade("unparsed", None, 0.0, problem)
-    line = value.get("line")
-    fields = {
-        "line": "missing" if "line" not in value else
-        ("correct" if not isinstance(line, bool) and numbers(str(line)) == [answer["line"]] else "wrong"),
-        "fix": "missing" if "fix" not in value else
-        ("correct" if isinstance(value["fix"], str)
-         and _SPACE.sub("", value["fix"]) == _SPACE.sub("", answer["fix"]) else "wrong"),
-    }
+    fields = {name: "missing" if name not in value else
+              ("correct" if isinstance(value[name], str)
+               and _SPACE.sub("", html.unescape(value[name])) == _SPACE.sub("", answer[name]) else "wrong")
+              for name in ("bug", "fix")}
     correct = sum(v == "correct" for v in fields.values())
     detail = "; ".join(f"{k} {v}" for k, v in fields.items() if v != "correct") or None
     return Grade("correct" if correct == 2 else "wrong", value, correct / 2, detail, fields)

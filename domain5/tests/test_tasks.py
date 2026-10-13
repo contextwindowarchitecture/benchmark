@@ -62,6 +62,15 @@ def test_the_code_check_runs_the_file():
     task = copy.deepcopy(tasks.generate("cq", 11, "plain", 1, {}))
     task["answer"]["fix"] = "pass"
     assert check.replay(task)
+    task = copy.deepcopy(tasks.generate("cq", 11, "plain", 1, {}))
+    task["answer"]["bug"] = task["answer"]["fix"]
+    assert any("buggy line" in p for p in check.replay(task))
+
+
+def test_no_table_question_asks_for_a_sum():
+    asked = {tasks.generate("tq", seed, variant, n, {})["facts"]["question"]["kind"]
+             for seed in range(20) for variant in ("plain", "imperative") for n in range(4)}
+    assert asked == {"lookup", "count"}
 
 
 def test_a_plain_instance_with_a_trigger_word_fails_the_structure_check():

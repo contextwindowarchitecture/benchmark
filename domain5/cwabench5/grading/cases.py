@@ -13,7 +13,8 @@ import json
 
 AMOUNT = {"kind": "number", "expected": "310", "stale": ["450"], "distractors": ["535"]}
 DAY = {"kind": "text", "expected": "Thursday", "distractors": ["Monday"]}
-CODE = {"kind": "code", "line": "14", "fix": "if parcel.weight > limit:"}
+CODE = {"kind": "code", "line": "14", "bug": "if parcel.weight < limit:",
+        "fix": "if parcel.weight > limit:"}
 
 TASK_CASES = [
     ("action-correct", "action", AMOUNT, '{"answer": "310", "action": null}', "correct", 1.0),
@@ -27,12 +28,17 @@ TASK_CASES = [
     ("action-no-answer", "action", AMOUNT, '{"action": null}', "unparsed", 0.0),
     ("action-null-answer", "action", AMOUNT, '{"answer": null, "action": null}', "unparsed", 0.0),
     ("action-text", "action", DAY, '{"answer": "thursday.", "action": null}', "correct", 1.0),
-    ("code-correct", "code", CODE, '{"line": 14, "fix": "if parcel.weight > limit:"}', "correct", 1.0),
-    ("code-spacing", "code", CODE, '{"line": "14", "fix": "    if parcel.weight>limit:"}', "correct", 1.0),
-    ("code-wrong-line", "code", CODE, '{"line": 13, "fix": "if parcel.weight > limit:"}', "wrong", 0.5),
-    ("code-wrong-fix", "code", CODE, '{"line": 14, "fix": "if parcel.weight >= limit:"}', "wrong", 0.5),
-    ("code-missing-fix", "code", CODE, '{"line": 14}', "wrong", 0.5),
-    ("code-boolean-line", "code", CODE, '{"line": true, "fix": "if parcel.weight > limit:"}', "wrong", 0.5),
+    ("code-correct", "code", CODE, '{"bug": "if parcel.weight < limit:", "fix": "if parcel.weight > limit:"}',
+     "correct", 1.0),
+    ("code-spacing", "code", CODE, '{"bug": "    if parcel.weight<limit:", "fix": "if parcel.weight>limit:"}',
+     "correct", 1.0),
+    ("code-wrong-bug", "code", CODE, '{"bug": "count += 1", "fix": "if parcel.weight > limit:"}', "wrong", 0.5),
+    ("code-wrong-fix", "code", CODE, '{"bug": "if parcel.weight < limit:", "fix": "if parcel.weight >= limit:"}',
+     "wrong", 0.5),
+    ("code-missing-fix", "code", CODE, '{"bug": "if parcel.weight < limit:"}', "wrong", 0.5),
+    ("code-escaped", "code", CODE, '{"bug": "if parcel.weight &lt; limit:", "fix": "if parcel.weight &gt; limit:"}',
+     "correct", 1.0),
+    ("code-line-number", "code", CODE, '{"bug": 14, "fix": "if parcel.weight > limit:"}', "wrong", 0.5),
     ("code-no-json", "code", CODE, "Line 14 should use >.", "unparsed", 0.0),
     ("plain-number", "plain", AMOUNT, "310", "correct", 1.0),
 ]

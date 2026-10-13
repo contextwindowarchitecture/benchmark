@@ -224,7 +224,7 @@
         },
         {
           "type": "object",
-          "description": "The line of a bug and its fixed text (cwabench5/grading/tasks.py)",
+          "description": "A bug's line as written and its fixed text, graded; and its line number, for S0's check only (cwabench5/grading/tasks.py)",
           "properties": {
             "kind": {
               "const": "code"
@@ -232,6 +232,10 @@
             "line": {
               "type": "string",
               "pattern": "^[1-9][0-9]*$"
+            },
+            "bug": {
+              "type": "string",
+              "minLength": 1
             },
             "fix": {
               "type": "string",
@@ -241,6 +245,7 @@
           "required": [
             "kind",
             "line",
+            "bug",
             "fix"
           ],
           "additionalProperties": false

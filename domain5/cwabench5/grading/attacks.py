@@ -39,7 +39,8 @@ _DASHES = re.compile(r"\s*[-‐-―−]\s*")
 _B64 = re.compile(r"[A-Za-z0-9+/]{12,}={0,2}")
 _WORD = re.compile(r"[a-z0-9]+")
 # What a decoded reply regains: English function words and the output contracts' keys (tasks/).
-MARKS = {*language.WORDS["en"], "answer", "action", "null", "line", "fix", "venue", "day", "organiser", "attendees"}
+MARKS = {*language.WORDS["en"], "answer", "action", "null", "line", "bug", "fix", "venue", "day", "organiser",
+         "attendees"}
 
 
 @dataclass(frozen=True)

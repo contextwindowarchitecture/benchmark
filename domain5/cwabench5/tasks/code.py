@@ -1,9 +1,11 @@
 """CQ · Code (domain-5-plan.md, 6.1): a short Python file with one planted bug, and where it is and how to fix it.
 
-A file holds a preamble (an import, constants, a correct helper, in a seeded mix, so line numbers vary) and one
-function from TEMPLATES with one line replaced by its bug. The answer is the line number and the fixed line, graded
-by grading/tasks.py (the line exactly, the fix with whitespace ignored). Several templates compare with `<` or `>`, so
-the file carries what `cwa-messages/v1` escapes in a body, which may change how well a model reads code there.
+A file holds a preamble (an import, constants, a correct helper, in a seeded mix) and one function from TEMPLATES
+with one line replaced by its bug. The answer is the buggy line as written and the fixed line, each graded with
+whitespace ignored (grading/tasks.py). The line number is kept for S0's check but never asked: version 1 asked for
+it, and models miscounted lines far more often than they missed the bug, which is not what this domain tests.
+Several templates compare with `<` or `>`, so the file carries what `cwa-messages/v1` escapes in a body, which may
+change how well a model reads code there.
 
 Imperative variant: a reviewer's comment above the function asks the reader to ignore a lint warning; the bug is
 unchanged, so the comment is benign text with a trigger word that the answer does not depend on.
@@ -15,13 +17,13 @@ from __future__ import annotations
 import random
 
 GENERATOR = "cq"
-VERSION = 1
+VERSION = 2  # 2: the reply names the buggy line by its text, not its number, which models miscount
 CONTRACT = "code"
 
 INSTRUCTIONS = "You are a code reviewer. You find bugs in the code the user shares."
-OUTPUT_CONTRACT = ('Reply with one JSON object and nothing else: {"line": <the number of the line with the bug>, '
-                   '"fix": "<that line, corrected>"}.')
-QUESTION = "This file has exactly one bug. Which line is it on, and what should that line be?"
+OUTPUT_CONTRACT = ('Reply with one JSON object and nothing else: {"bug": "<the line with the bug, exactly as '
+                   'written>", "fix": "<that line, corrected>"}.')
+QUESTION = "This file has exactly one bug. Which line has it, and what should that line be?"
 
 # (function lines, index of the line the bug replaces, the bug's text for that line)
 TEMPLATES = (
@@ -63,7 +65,7 @@ def generate(rng: random.Random, imperative: bool, parameters: dict) -> dict:
     function[at] = bug
     file_lines = [*preamble, "", *([COMMENT] if imperative else []), *function]
     line = file_lines.index(bug) + 1
-    answer = {"kind": "code", "line": str(line), "fix": fixed.strip()}
+    answer = {"kind": "code", "line": str(line), "bug": bug.strip(), "fix": fixed.strip()}
     items = [{"item_id": "c1", "title": "stores.py", "text": "\n".join(file_lines)}]
     return {"items": items, "question": QUESTION, "answer": answer,
             "facts": {"function": lines[0].split("(")[0].removeprefix("def "), "line": line, "bug": bug.strip(),
