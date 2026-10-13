@@ -4,10 +4,10 @@ Benchmarks instruction hierarchy and indirect prompt injection: when the content
 instructions written by an attacker, does CWA's assembly keep the model doing the user's task instead of the
 attacker's, compared with conventional assembly and conventional defences, without costing the task? Its working
 plan, `docs/plans/domain-5-plan.md`, is kept out of git; code comments cite it by section. This directory implements
-P0 to P4: the task and attack generators, the graders, every arm's payload, the oracles that read payloads without a
-model, two external sets (SEP and LLMail-Inject), an adaptive attacker, and S0 to S5 and S7. S2 to S5 send every gated
+P0 to P5: the task and attack generators, the graders, every arm's payload, the oracles that read payloads without a
+model, two external sets (SEP and LLMail-Inject), an adaptive attacker, and S0 to S7. S2 to S6 send every gated
 payload to the model, by default replaying the committed cache of its replies (`model-cache/`, filled on the GPU host
-at pilot size), so a run needs no model. Later phases add persistence and the second model.
+at pilot size), so a run needs no model. Later phases add the recorded runs and the second model.
 
 - **Task instances** (`cwabench5/tasks/`). Seeded generators write benign tasks with ground truth known by
   construction; every name, figure and supplier is fictional. An instance holds the governance instructions (with a
@@ -113,6 +113,17 @@ at pilot size), so a run needs no model. Later phases add persistence and the se
   renders escaped inside the query's element). The CWA payloads are gated in the suite, as S1 gates S2's
   (`suites/gate.py`), on a route of their own that requires no evidence. Measured as S2 is, per arm, with the
   controlled pairs: rendering, the delimiting R-10 recommends, and an imitable boundary against one that is not.
+- **S6 · Persistence and delayed triggers** (`suites/s6_persistence.py`, `persistence.py`). Domain 2's VT
+  conversations (the user states figures and changes them, 20 turns), played turn by turn with the model's own
+  replies. At turn 4 the user attaches a document that is clean or carries one attack: `persist` (end every reply with
+  a code word), `value` (a planted figure for a tracked variable) or `trigger` (add the code word when the user next
+  asks about that variable). Probes every four turns ask for that figure. Eight arms carry the conversation forward
+  differently: the whole chat transcript, with the document in it; a windowed chat with a model-written rolling
+  summary; CWA history, where the document is evidence at its turn only; CWA memory from model-written notes, as is,
+  expiring, or with the poisoned note revoked (R-9, R-14); CWA state from a model-written extractor; and CWA state
+  from Domain 2's oracle writer, which cannot be poisoned (R-8). Measured per arm: the code word's persistence by
+  distance, the trigger rate, answers with the planted figure, where the attack reached a store and whether it was
+  shown, accuracy, and paired harm between arms. Every CWA payload is gated as S5's are.
 - **S7 · Goldens** (`suites/s7_goldens.py`): CWA answers every adapter agreed on, adopted with `goldens accept`.
 
 ## Run it
@@ -165,7 +176,8 @@ from the LLMail-Inject dataset at `1063bdf`); `external vendor` checks each agai
   the tokenizer check (`tokenize`: off, replay or server; its server, model and cells). `[external]`: the vendored
   sets' directory and the sets S3 sends. `[s3]`: the bootstrap and the controlled `pairs`. `[s4]`: the budget, the
   train instances, the loop's share, the checkpoints, confirmations, the round size, the seed and the attacker's
-  temperature. `[s5]`: the pasted arms,
+  temperature. `[s6]`: the arms, attacks, conversations, turns, the poison turn, the probes' spacing, the window,
+  the memory remedies, the clock, the seed, `[s6.vt]` (Domain 2's generator) and the `pairs`. `[s5]`: the pasted arms,
   the families, the samples, the bootstrap and the `pairs`. `[s7]`: the goldens file.
 
 ## Output
@@ -177,7 +189,8 @@ from the LLMail-Inject dataset at `1063bdf`); `external vendor` checks each agai
 `suites/S2/probes.jsonl` (`probe-row`, one per cell, arm and sample) and `calls.jsonl` (`call-row`),
 `suites/S3/probes.jsonl` (`external-row`, one per external probe and arm) and `calls.jsonl`, `external/index.json`
 (the external probes sent and the lock they were vendored under), `suites/S4/search.jsonl` (`search-row`, one per
-query), `calls.jsonl` and `calls-attacker.jsonl`, `suites/S5/gate.jsonl` (`gate-row`), `probes.jsonl`
+query), `calls.jsonl` and `calls-attacker.jsonl`, `suites/S6/chains.jsonl` (`chain-row`), `gate.jsonl` and
+`calls.jsonl`, `suites/S5/gate.jsonl` (`gate-row`), `probes.jsonl`
 (`probe-row`) and `calls.jsonl`,
 `suites/S7/candidate-goldens.json` and `drift.jsonl`, `tasks/<family>/index.json` (each instance a `task` blob),
 `attacks/index.json` (the templates), and `blobs/`. Every document names its schema

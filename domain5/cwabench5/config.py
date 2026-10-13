@@ -1,7 +1,7 @@
-"""The run configuration, domain5.toml (domain-5-plan.md, 12). This build reads the tables P0 to P3 need: the
+"""The run configuration, domain5.toml (domain-5-plan.md, 12). This build reads the tables P0 to P5 need: the
 contract pin, the run, the task families, the attacks, Domain 1's adapters, the budgets' settings, the arms, the grid,
-S1's tokenizer check, the model, S2, the external sets and S3, S4, S5, and S7's goldens; the others (the second model,
-thresholds, CI profiles) arrive with the phases that use them."""
+S1's tokenizer check, the model, S2, the external sets and S3, S4, S5, S6, and S7's goldens; the others (the second
+model, thresholds, CI profiles) arrive with the phases that use them."""
 from __future__ import annotations
 
 import hashlib
@@ -13,13 +13,15 @@ from cwabench2.application.snapshots import Settings
 from cwabench2.config import MODEL_DEFAULTS
 
 from .arms import ARMS, PASTED
+from .persistence import ARMS as PERSISTENCE_ARMS
+from .persistence import ATTACKS as PERSISTENCE_ATTACKS
 from .attacks import FAMILIES as ATTACK_FAMILIES
 from .attacks.carriers import MARKERS
 from .tasks import FAMILIES as TASK_FAMILIES
 
-SUITES = ("S0", "S1", "S2", "S3", "S4", "S5", "S7")
+SUITES = ("S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7")
 SIZES = ("pilot", "recorded")
-ADAPTER_SUITES = ("S1", "S4", "S5")  # suites that assemble, and so set up the adapters
+ADAPTER_SUITES = ("S1", "S4", "S5", "S6")  # suites that assemble, and so set up the adapters
 TOKENIZE = ("off", "replay", "server")
 MODEL_MODES = ("llm", "replay")
 S2_DEFAULTS = {"arms": None, "attacked_samples": 1, "clean_samples": 3, "sensitivity_every": 10,
@@ -33,6 +35,14 @@ EXTERNAL_SETS = ("sep", "llmail")
 S4_DEFAULTS = {"arms": None, "families": None, "budget": {"pilot": 120, "recorded": 2000},
                "train": {"pilot": 1, "recorded": 4}, "loop_share": 0.5, "checkpoints": [0.25, 0.5, 1.0],
                "confirm": 2, "round": 16, "seed": 20261014, "attacker_temperature": 0.7,
+               "bootstrap_resamples": 2000, "bootstrap_seed": 20261013}
+S6_DEFAULTS = {"arms": list(PERSISTENCE_ARMS), "attacks": list(PERSISTENCE_ATTACKS),
+               "conversations": {"pilot": 2, "recorded": 12}, "turns": 20, "poison_turn": 4, "probe_every": 4,
+               "window": 4, "memory_ttl_turns": 8, "revoke_after": 6, "turn_seconds": 120, "seed": 20261015,
+               "vt": {"seed": 20261009, "variables": 3, "distractors": 2, "assignment_density": 0.5,
+                      "filler_sentences": 4, "reply_sentences": 3},
+               "pairs": [["chat", "cwa-history"], ["chat-summary", "cwa-memory"], ["cwa-memory", "cwa-memory-expire"],
+                         ["cwa-memory", "cwa-memory-revoke"], ["cwa-state-x", "cwa-state"]],
                "bootstrap_resamples": 2000, "bootstrap_seed": 20261013}
 S5_DEFAULTS = {"arms": list(PASTED), "families": ["em", "dq"], "attacked_samples": 1, "clean_samples": 3,
                "bootstrap_resamples": 2000, "bootstrap_seed": 20261013,
@@ -102,6 +112,7 @@ class Config:
     s3: dict = field(default_factory=lambda: dict(S3_DEFAULTS))
     s4: dict = field(default_factory=lambda: dict(S4_DEFAULTS))
     s5: dict = field(default_factory=lambda: dict(S5_DEFAULTS))
+    s6: dict = field(default_factory=lambda: dict(S6_DEFAULTS))
     external_dir: Path | None = None  # the vendored external sets (external/vendor.py)
     external_sets: list[str] = field(default_factory=lambda: list(EXTERNAL_SETS))
     checkouts: Path | None = None  # CI: the spec and Domain 1's assemblers read from here, by directory name
@@ -265,6 +276,20 @@ def load(path: str | Path) -> Config:
     stray = [f for f in s5["families"] if f not in selected]
     if stray and "S5" in suites:
         raise ConfigError(f"[s5].families names families this run does not generate: {', '.join(stray)}")
+    s6 = {**S6_DEFAULTS, **_table(data, "s6")}
+    unknown_keys = sorted(set(s6) - set(S6_DEFAULTS))
+    if unknown_keys:
+        raise ConfigError(f"[s6] has unknown keys: {', '.join(unknown_keys)}")
+    s6["vt"] = {**S6_DEFAULTS["vt"], **s6["vt"]}
+    stray = [a for a in s6["arms"] if a not in PERSISTENCE_ARMS] + [a for a in s6["attacks"]
+                                                                   if a not in PERSISTENCE_ATTACKS]
+    if stray:
+        raise ConfigError(f"[s6] names arms or attacks this build does not have: {', '.join(stray)}")
+    stray = [p for p in s6["pairs"] if len(p) != 2 or any(a not in s6["arms"] for a in p)]
+    if stray and "S6" in suites:
+        raise ConfigError(f"[s6].pairs names arms S6 does not run: {stray}")
+    if not 1 <= int(s6["poison_turn"]) < int(s6["turns"]) or int(s6["window"]) < 1:
+        raise ConfigError("[s6].poison_turn must fall before the last turn, and the window hold a turn")
     ext = _table(data, "external")
     unknown_keys = sorted(set(ext) - {"dir", "sets"})
     if unknown_keys:
@@ -317,6 +342,7 @@ def load(path: str | Path) -> Config:
         s3=s3,
         s4=s4,
         s5=s5,
+        s6=s6,
         external_dir=external_dir,
         external_sets=list(external_sets),
     )

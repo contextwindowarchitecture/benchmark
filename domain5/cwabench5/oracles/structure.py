@@ -23,6 +23,7 @@ import json
 import re
 from dataclasses import dataclass, field
 
+from cwabench.canon import instants
 from cwabench.canon.strings import utf16_key
 
 from ..arms import BOUNDARY_CLOSE, BOUNDARY_OPEN, DELIMITED_REMINDER
@@ -61,6 +62,13 @@ def elements(content: str) -> tuple[list[tuple[str, str, str]], str | None]:
     return found, None
 
 
+def _order_key(slot: str):
+    """A placement's order: by id in UTF-16 order, except history, by freshness as an instant and then id (R-7)."""
+    if slot == "interaction.history":
+        return lambda i: (instants.parse(i["freshness"]), utf16_key(i["id"]))
+    return lambda i: utf16_key(i["id"])
+
+
 def expected(snapshot: dict, items: list[dict]) -> tuple[list[tuple[str, str]], list[tuple[str, str, str]]]:
     """The system entries (id, body) and elements (tag, id, body) the profile places for `items`."""
     by_slot: dict[str, list[dict]] = {}
@@ -68,7 +76,7 @@ def expected(snapshot: dict, items: list[dict]) -> tuple[list[tuple[str, str]], 
         by_slot.setdefault(item["slot"], []).append(item)
     system, xml = [], []
     for placement in snapshot["profile"]["placement"]:
-        placed = sorted(by_slot.get(placement["slot"], []), key=lambda i: utf16_key(i["id"]))
+        placed = sorted(by_slot.get(placement["slot"], []), key=_order_key(placement["slot"]))
         wrap = placement["wrap"]
         if wrap == "system":
             system += [(i["id"], i["body"]) for i in placed]

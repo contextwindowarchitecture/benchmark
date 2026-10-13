@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d5:chain-row:v1",
+  "title": "Chain row",
+  "description": "One S6 chain at one point (domain-5-plan.md, 6.5, 11): a turn's reply or a probe's, the code word or the planted figure in it, and where the attack had reached by then.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d5/chain-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "chain": {
+      "type": "string",
+      "minLength": 1
+    },
+    "conversation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "attack": {
+      "enum": [
+        "none",
+        "persist",
+        "value",
+        "trigger"
+      ]
+    },
+    "arm": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kind": {
+      "enum": [
+        "turn",
+        "probe"
+      ]
+    },
+    "turn": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "distance": {
+      "type": "integer"
+    },
+    "payload_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "request_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "present": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "canary": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "verdict": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "poisoned_answer": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "stored": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "note",
+          "state",
+          "summary"
+        ]
+      }
+    },
+    "shown": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "note",
+          "state",
+          "summary"
+        ]
+      }
+    },
+    "prompt_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "finish_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "case_id",
+    "chain",
+    "conversation",
+    "attack",
+    "arm",
+    "kind",
+    "turn",
+    "distance",
+    "payload_hash",
+    "request_sha256",
+    "present",
+    "canary",
+    "verdict",
+    "poisoned_answer",
+    "stored",
+    "shown",
+    "prompt_tokens",
+    "finish_reason"
+  ],
+  "additionalProperties": false
+}

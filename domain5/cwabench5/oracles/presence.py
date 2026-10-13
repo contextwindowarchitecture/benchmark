@@ -22,7 +22,7 @@ from ..handoff import texts
 def by_text(arm: str, payload: bytes, attack_text: str) -> bool:
     wanted = form(arm, attack_text)
     handed = texts(payload)
-    if ALL[arm].kind == "cwa":
+    if (ALL[arm].kind if arm in ALL else arm.split("-")[0]) == "cwa":  # S6's arms are named for their kind
         handed = [t.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&") for t in handed]
     return any(wanted in t for t in handed)
 
