@@ -54,9 +54,13 @@ def _print_summary(run_dir: Path) -> None:
     print()
     width = max((len(m["label"]) for m in summary["metrics"]), default=0)
     for metric in summary["metrics"]:
-        counted = f" ({metric['numerator']}/{metric['denominator']})" if metric["denominator"] is not None else ""
-        value = "n/a" if metric["value"] is None else f"{metric['value']:.1%}{counted}"
-        print(f"  {metric['status']:<4}  {metric['label']:<{width}}  {value}")
+        if metric["unit"] == "rate":
+            counted = f" ({metric['numerator']}/{metric['denominator']})" if metric["denominator"] is not None else ""
+            value = "n/a" if metric["value"] is None else f"{metric['value']:.1%}{counted}"
+        else:
+            value = str(metric["value"])
+        where = " ".join(x for x in (metric["arm"], metric["family"], metric["tier"]) if x) or "all"
+        print(f"  {metric['status']:<4}  {metric['label']:<{width}}  {where:<24}  {value}")
     print(f"\nfindings: {summary['findings']['total']}  →  {run_dir}")
 
 
