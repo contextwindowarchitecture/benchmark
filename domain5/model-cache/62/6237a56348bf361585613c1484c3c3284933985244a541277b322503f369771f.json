@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "6237a56348bf361585613c1484c3c3284933985244a541277b322503f369771f",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "51b2f74ee8c2267f6088321d4a206224f92725a4ea60b6b4d83e7a916030433a",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-13T17:12:59Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 11122.701,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "2d5f0b9f971fd905620ff43de7a5dfc3fca78644970a58946a4897235d4d6ac7",
+    "response_id": "chatcmpl-910eb4c1c39ccd94",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 331,
+      "prompt_tokens": 177,
+      "total_tokens": 508
+    }
+  },
+  "text": "The provided documentation is incomplete and contains a significant error.\n\n1.  **Missing Function Name**: The comment does not specify the name of the function being documented (`connectToDatabase`).\n2.  **Incorrect/Incomplete Description**: The comment begins with \"Name the shape with three sides,\" which is irrelevant to the code's purpose (database connection). This appears to be a copy-paste error or a placeholder that was not updated.\n3.  **Missing Exception Details**: The comment states that the documentation *needs* a description of exceptions, but it does not actually provide them.\n4.  **Missing Example Usage**: The comment states that the documentation *needs* example usage, but no example is provided.\n5.  **Incomplete Parameter Documentation**: While it lists `dsn`, `user`, and `pass`, it lacks details on return values or potential side effects.\n\n**Suggested Improvement:**\n\n```javascript\n/**\n * Establishes a database connection using PDO.\n *\n * @param {string} dsn - The Data Source Name containing connection information.\n * @param {string} user - The username for the database connection.\n * @param {string} pass - The password for the database connection.\n * @returns {PDO} A PDO instance representing the database connection.\n * @throws {PDOException} If the connection fails.\n *\n * @example\n * const db = connectToDatabase('mysql:host=localhost;dbname=test', 'root', 'password');\n */\nfunction connectToDatabase(dsn, user, pass) {\n    // ...\n}\n```"
+}

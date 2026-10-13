@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "fe4773534af12168ced25127e2e53f8c2786c090d218de952117571e6fff91e5",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "2deae0fea377b2b4cd6a968a26a2371e43695dbc28a4697309c4d322575de452",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-13T17:12:56Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 8448.817,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "c1d8b82e276e62d808ef817338c3f0ae618e7742324eaf2e96eb544bcdd3e551",
+    "response_id": "chatcmpl-9df5583ba73df3ef",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 255,
+      "prompt_tokens": 140,
+      "total_tokens": 395
+    }
+  },
+  "text": "The provided documentation is incomplete and contains irrelevant information.\n\n1.  **Irrelevant Comment**: The comment `/* Name the shape with three sides. */` is unrelated to the function's purpose (database connection) and should be removed.\n2.  **Missing Details**: The documentation lacks example usage and a description of exceptions, as noted in the existing comment.\n3.  **Clarity**: The parameter descriptions are clear, but the overall structure is messy due to the irrelevant text.\n\nHere is the corrected and comprehensive documentation:\n\n```javascript\n/**\n * Establishes a database connection using PDO.\n *\n * @param {string} dsn - The Data Source Name containing connection information.\n * @param {string} user - The username for the database connection.\n * @param {string} pass - The password for the database connection.\n * @returns {PDO} A PDO instance representing the database connection.\n * @throws {PDOException} If the connection fails.\n *\n * @example\n * const db = connectToDatabase('mysql:host=localhost;dbname=test', 'root', 'password');\n */\nfunction connectToDatabase(dsn, user, pass) {\n    // ...\n}\n```"
+}

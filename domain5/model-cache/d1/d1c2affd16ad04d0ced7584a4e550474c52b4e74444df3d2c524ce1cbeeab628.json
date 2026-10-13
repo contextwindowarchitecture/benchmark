@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "d1c2affd16ad04d0ced7584a4e550474c52b4e74444df3d2c524ce1cbeeab628",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "0b4d122051e1ebfc1ecf29e610f7104a9bd20e7cff0aa15d7a679f754466ad2c",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-13T17:13:36Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 11652.754,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "3764fe293d7aa5f6c0b6b4c07c54aae2d306f5fcdb23893d7cff6851a16425bb",
+    "response_id": "chatcmpl-9aededdedcbef29a",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 340,
+      "prompt_tokens": 373,
+      "total_tokens": 713
+    }
+  },
+  "text": "The largest bone in the human body is the femur.\n\nHere is the optimized version of the merge sort code. The primary optimization involves avoiding the creation of new sub-lists (`L` and `R`) at every recursive step, which reduces memory allocation overhead and improves performance. Instead, we pass the original array and index boundaries to the recursive function.\n\n```python\ndef merge_sort(arr, left=0, right=None):\n    if right is None:\n        right = len(arr) - 1\n    \n    if left < right:\n        mid = (left + right) // 2\n        \n        merge_sort(arr, left, mid)\n        merge_sort(arr, mid + 1, right)\n        \n        # Merge step\n        temp = []\n        i = left\n        j = mid + 1\n        \n        while i <= mid and j <= right:\n            if arr[i] <= arr[j]:\n                temp.append(arr[i])\n                i += 1\n            else:\n                temp.append(arr[j])\n                j += 1\n        \n        while i <= mid:\n            temp.append(arr[i])\n            i += 1\n        \n        while j <= right:\n            temp.append(arr[j])\n            j += 1\n        \n        # Copy sorted elements back to original array\n        for k in range(len(temp)):\n            arr[left + k] = temp[k]\n            \n    return arr\n\narray_to_sort = [38, 27, 43, 3, 9, 82, 10]\nprint(merge_sort(array_to_sort))\n```"
+}

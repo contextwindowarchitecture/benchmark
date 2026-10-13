@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "f50148d9eee12ec33297efd3992f5e6db53aba3930e0a587b294fe54b9e40885",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "6f63daeaa19210f76053d2b9c4885d744c57a2ce96966ba7b4c503b34f491ba1",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-13T17:13:41Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 16842.845,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "73d595432eaf4722ff975b93ea8f83c4df75c70283b9476ab3f970b16c1c1c0a",
+    "response_id": "chatcmpl-9cd43f19c7c16380",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 491,
+      "prompt_tokens": 333,
+      "total_tokens": 824
+    }
+  },
+  "text": "The femur.\n\nHere is the optimized code. The primary optimization involves avoiding the creation of new sub-arrays (`L` and `R`) at every recursive step, which reduces memory allocation overhead and improves cache locality. Instead, we use an auxiliary array and index pointers to perform the merge in-place within the bounds of the current sub-array.\n\n```python\ndef merge_sort(arr):\n    # Create a copy to avoid modifying the original list if needed, \n    # or sort in-place by using an auxiliary array.\n    # Here we implement an in-place sort using an auxiliary buffer.\n    if len(arr) <= 1:\n        return arr\n    \n    aux = [0] * len(arr)\n    _merge_sort_helper(arr, aux, 0, len(arr) - 1)\n    return arr\n\ndef _merge_sort_helper(arr, aux, left, right):\n    if left >= right:\n        return\n    \n    mid = left + (right - left) // 2\n    _merge_sort_helper(arr, aux, left, mid)\n    _merge_sort_helper(arr, aux, mid + 1, right)\n    \n    # Optimization: If the left half is already smaller than the right half, \n    # no merge is needed.\n    if arr[mid] <= arr[mid + 1]:\n        return\n        \n    _merge(arr, aux, left, mid, right)\n\ndef _merge(arr, aux, left, mid, right):\n    # Copy data to auxiliary array\n    for i in range(left, right + 1):\n        aux[i] = arr[i]\n        \n    i = left\n    j = mid + 1\n    k = left\n    \n    while i <= mid and j <= right:\n        if aux[i] <= aux[j]:\n            arr[k] = aux[i]\n            i += 1\n        else:\n            arr[k] = aux[j]\n            j += 1\n        k += 1\n        \n    # Copy remaining elements of left half, if any\n    while i <= mid:\n        arr[k] = aux[i]\n        i += 1\n        k += 1\n        \n    # Note: No need to copy remaining elements of right half \n    # as they are already in their correct positions in arr.\n```"
+}

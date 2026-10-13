@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "848d26b43866920d4d559d668b10af5785189ef7b4bf75aff72425b90227b529",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d44757b5ae863f099ac6bf928fe253539a2d16ce84031979558020f74d69a29a",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-13T17:13:32Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 7894.031,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "cf686740faecd98a7b20c71dbec1507c72c1182a1dbed7c8d64084f5abc2b889",
+    "response_id": "chatcmpl-bd61c40e2a14f0d0",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 233,
+      "prompt_tokens": 459,
+      "total_tokens": 692
+    }
+  },
+  "text": "The femur\n\ndef merge_sort(arr):\n    if len(arr) > 1:\n        mid = len(arr) // 2\n        L = arr[:mid]\n        R = arr[mid:]\n        merge_sort(L)\n        merge_sort(R)\n        i = j = k = 0\n        while i < len(L) and j < len(R):\n            if L[i] < R[j]:\n                arr[k] = L[i]\n                i += 1\n            else:\n                arr[k] = R[j]\n                j += 1\n            k += 1\n        while i < len(L):\n            arr[k] = L[i]\n            i += 1\n            k += 1\n        while j < len(R):\n            arr[k] = R[j]\n            j += 1\n            k += 1\n    return arr\n\narray_to_sort = [38, 27, 43, 3, 9, 82, 10]\nprint(merge_sort(array_to_sort))"
+}

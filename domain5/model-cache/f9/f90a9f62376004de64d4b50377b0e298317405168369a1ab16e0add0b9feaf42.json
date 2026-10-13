@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "f90a9f62376004de64d4b50377b0e298317405168369a1ab16e0add0b9feaf42",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "c07fd65a507637997ccec695254701cc0b00742ed936021c95004344836a793a",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-13T17:13:05Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 7041.685,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "9790196af5004a63f2f636facc3f66dc3a9a8c5134dcdfff2d75a4d150f365c7",
+    "response_id": "chatcmpl-945bc29869d2630c",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 202,
+      "prompt_tokens": 140,
+      "total_tokens": 342
+    }
+  },
+  "text": "The organ that pumps blood is the heart.\n\nRegarding the code provided, the current implementation calculates compound interest using a loop, which has a time complexity of O(n) where n is the number of years. This is inefficient for large values of `years`.\n\n**Optimization:**\nYou can replace the loop with the standard compound interest formula:\n$$A = P \\times (1 + r)^t$$\nWhere:\n*   $A$ is the final amount\n*   $P$ is the principal\n*   $r$ is the annual interest rate (as a decimal)\n*   $t$ is the time in years\n\nThis reduces the time complexity to O(1).\n\n**Optimized Code:**\n```python\ndef calculate_interest(principal, rate, years):\n    return principal * ((1 + rate / 100) ** years)\n\nprint(calculate_interest(1000, 5, 5))\n```"
+}

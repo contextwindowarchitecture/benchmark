@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "6c68c2d8b9ed99be8a53c2bfb3d6d806088a5b56f46edb3428f6ac09b0bd7c33",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "320aa2a27242ebbe9cce0652102482245db1c89a698397eda6d2c4788a338874",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-13T17:13:42Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 17634.405,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "0a49cfb4412950c6e6e650f420ce105b4634a92e3df18d39746a469606c54509",
+    "response_id": "chatcmpl-8335e302df5480a1",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 438,
+      "total_tokens": 950
+    }
+  },
+  "text": "The largest bone in the human body is the femur (thigh bone).\n\nHere is the optimized version of the provided merge sort code. The optimizations include:\n1.  **Avoiding unnecessary list slicing**: Instead of creating new lists `L` and `R` at every recursive step (which is O(N) space and time per level), we pass indices (`left`, `right`) to the recursive function. This reduces space complexity from O(N log N) to O(N) for the auxiliary array.\n2.  **Using a single auxiliary array**: We allocate one temporary array once and reuse it, avoiding repeated memory allocations.\n3.  **In-place merging logic**: The merge step writes directly to the main array using the auxiliary buffer.\n\n```python\ndef merge_sort_optimized(arr):\n    \"\"\"\n    Optimized merge sort that uses an auxiliary array to reduce space overhead.\n    \"\"\"\n    if len(arr) <= 1:\n        return arr\n    \n    # Create a temporary array for merging\n    temp = [0] * len(arr)\n    _merge_sort_helper(arr, temp, 0, len(arr) - 1)\n    return arr\n\ndef _merge_sort_helper(arr, temp, left, right):\n    if left < right:\n        mid = (left + right) // 2\n        \n        # Recursively sort the two halves\n        _merge_sort_helper(arr, temp, left, mid)\n        _merge_sort_helper(arr, temp, mid + 1, right)\n        \n        # Merge the sorted halves\n        _merge(arr, temp, left, mid, right)\n\ndef _merge(arr, temp, left, mid, right):\n    i = left      # Starting index for left subarray\n    j = mid + 1   # Starting index for right subarray\n    k = left      # Starting index to be sorted\n\n    # Merge the temp arrays back into arr[left..right]\n    while i <= mid and j <= right:\n        if arr[i] <= arr[j]:\n            temp[k] = arr[i]\n            i += 1\n        else:\n            temp[k] = arr[j]\n            j += 1\n        k += 1\n\n    # Copy the remaining elements of left subarray, if any\n    while i <= mid:\n        temp[k] = arr[i]\n        i += 1\n        k += "
+}
