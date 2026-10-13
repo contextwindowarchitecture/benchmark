@@ -42,9 +42,10 @@ use = ["system-content", "naive", "reminder", "delimited", "spotlight", "tool-ro
 html_templates = 10
 
 # S1's tokenizer check (cwabench5/oracles/tokens.py): off, replay (tokenize-cache/ alone) or server (the served
-# model's /tokenize on a miss, filling the cache), for the first `tokenize_cells` marker cells of each family.
+# model's /tokenize on a miss, filling the cache), for the first `tokenize_cells` marker cells of each family. The
+# committed cache is vLLM 0.31.0's tokenizer for the Qwen model, filled on the host on 2026-10-13.
 [s1]
-tokenize = "off"
+tokenize = "replay"
 tokenize_base_url = "http://127.0.0.1:8000/v1"
 tokenize_model = "qwen3.6-35b-a3b-fp8"
 tokenize_cells = 2

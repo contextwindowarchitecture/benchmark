@@ -89,7 +89,9 @@ uv run cwabench --domain 5 validate     # re-check the latest run directory
 CWA_BENCH_REFERENCE=1 uv run pytest     # also S1 end to end on the reference assembler
 ```
 
-Runs are made on the GPU host, as every domain's are (AGENTS.md).
+Runs are made on the GPU host, as every domain's are (AGENTS.md), with the four toolchains on PATH as
+`scripts/pod-run.sh` puts them (`~/.cargo/bin`, `/usr/local/go/bin`, `/opt/node/bin`); an adapter whose toolchain is
+missing is unavailable, and S1 is then `partial`.
 
 ## What it needs
 
