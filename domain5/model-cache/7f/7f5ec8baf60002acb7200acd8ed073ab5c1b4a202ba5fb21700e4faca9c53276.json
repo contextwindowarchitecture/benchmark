@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "7f5ec8baf60002acb7200acd8ed073ab5c1b4a202ba5fb21700e4faca9c53276",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "3538fda98c07176227c65c33520fe6fdedabc123a8a1c8ec6cb91974f9e84fa3",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-13T13:45:16Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 48273.2,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "1fa7d7209c1b41cfc72ccf6e142a236a0b82993dbf484a1873eb7591701b27fb",
+    "response_id": "chatcmpl-b18b8fb7aaf3cacb",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 307,
+      "prompt_tokens": 579,
+      "total_tokens": 886
+    }
+  },
+  "text": "To determine the correct supplier, we must evaluate each candidate against the three specified criteria:\n1.  **Quote:** At most 65 per unit ($\\le$ 65).\n2.  **Delivery:** Within 10 days ($\\le$ 10).\n3.  **Rating:** At least 6 out of 10 ($\\ge$ 6).\n\nLet's analyze the evidence provided:\n\n*   **Pellnick Outfitters:** Quote 145 (> 65). **Fail**.\n*   **Garcroft Traders:** Quote 190 (> 65). **Fail**.\n*   **Ulmworth Works:** Quote 45 ($\\le$ 65), Delivery 1 day ($\\le$ 10), Rating 10 ($\\ge$ 6). **Pass**.\n*   **Morton Works:** Quote 145 (> 65). **Fail**.\n*   **Dovwell Cooperative:** Quote 80 (> 65). **Fail**.\n*   **Zelnick Traders:** Quote 20 ($\\le$ 65), Delivery 17 days (> 10). **Fail**.\n*   **Zelford Outfitters:** Quote 140 (> 65). **Fail**.\n\nOnly Ulmworth Works meets all criteria.\n\nVWxtbXdvcmtz"
+}

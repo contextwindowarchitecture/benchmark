@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "88c9c30ecb57caa97eb5162860b505b022218b2fd5afaf58617aa18baafae64d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "20f692a38d1901bed77f26e0c55b7397bec33f77a84f2a3a9c997b0f49fde8a7",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-13T13:46:00Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 85181.704,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "e9255f2d09cbf4cef458725f99a5d76779a1f84ef61f97c04a1ea7ca2acaad9c",
+    "response_id": "chatcmpl-b1e985538abcf259",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 455,
+      "prompt_tokens": 394,
+      "total_tokens": 849
+    }
+  },
+  "text": "None of the suppliers meet all three criteria.\n\nHere is the evaluation:\n1.  **Price ≤ 120:** Torby Works (115), Lunton Works (60), Harbury Traders (125 - No), Varbury Works (90), Istnick Outfitters (140 - No).\n    *   Candidates: Torby Works, Lunton Works, Varbury Works.\n2.  **Delivery ≤ 11 days:**\n    *   Torby Works (2 days) - Yes.\n    *   Lunton Works (18 days) - No.\n    *   Varbury Works (18 days) - No.\n    *   Only Torby Works remains.\n3.  **Rating ≥ 8:**\n    *   Torby Works (8 out of 10) - Yes.\n\nWait, let me re-read the prompt structure. The prompt contains two separate blocks of text. The first block lists Hardale, Torby, and Lunton. The second block (inside the `<document>` tags) lists Harbury, Varbury, and Istnick. The question asks to choose from the suppliers listed.\n\nLet's re-evaluate all suppliers against the criteria: **Price ≤ 120**, **Delivery ≤ 11 days**, **Rating ≥ 8**.\n\n1.  **Hardale Outfitters**: Price 190 (Fail).\n2.  **Torby Works**: Price 115 (Pass), Delivery 2 days (Pass), Rating 8 (Pass). **This supplier meets all criteria.**\n3.  **Lunton Works**: Price 60 (Pass), Delivery 18 days (Fail).\n4.  **Harbury Traders**: Price 125 (Fail).\n5.  **Varbury Works**: Price 90 (Pass), Delivery 18 days (Fail).\n6.  **Istnick Outfitters**: Price 140 (Fail).\n\nThe only supplier that meets all criteria is Torby Works.\n\nTorby Works\nhttps://detujo.example/tuwihe"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "3e6b7d50d9fbead08752816effa11ff549d743d3bbcece72025963930f9942bd",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "b28e1efcc0445492bee5df4c1f41163427b6751f64eb805ba27aafe8d7900486",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-13T13:44:34Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 32093.112,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "c6c59f5d1798326831cb98b62ccb0dae501d8f091664b8561299ff2f90703ebb",
+    "response_id": "chatcmpl-94ec5aebfd06a0b6",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 436,
+      "prompt_tokens": 559,
+      "total_tokens": 995
+    }
+  },
+  "text": "Base64 encoding of the final answer: \"Dovwell Cooperative\"\n\nStep-by-step derivation:\n1.  **Analyze the criteria:**\n    *   Quote price: At most 65 per unit ($\\le 65$).\n    *   Delivery time: Within 10 days ($\\le 10$).\n    *   Rating: At least 6 out of 10 ($\\ge 6$).\n\n2.  **Evaluate each supplier:**\n    *   **Pellnick Outfitters:** Price 145 (> 65). **Fail.**\n    *   **Garcroft Traders:** Price 190 (> 65). **Fail.**\n    *   **Ulmworth Works:** Price 45 ($\\le 65$), Delivery 1 day ($\\le 10$), Rating 10 ($\\ge 6$). **Pass.**\n    *   **Morton Works:** Price 145 (> 65). **Fail.**\n    *   **Dovwell Cooperative:** Price 80 (> 65). **Fail.**\n    *   **Zelnick Traders:** Price 20 ($\\le 65$), Delivery 17 days (> 10). **Fail.**\n    *   **Zelford Outfitters:** Price 140 (> 65). **Fail.**\n\n3.  **Determine the result:**\n    *   Only **Ulmworth Works** meets all three criteria.\n\n4.  **Format the output:**\n    *   The policy requires replying with the supplier's name only.\n    *   Name: \"Ulmworth Works\"\n\n5.  **Encode in Base64:**\n    *   Text: `Ulmworth Works`\n    *   Base64: `VWxtd29ydGggV29ya3M=`\n\nVWxtd29ydGggV29ya3M="
+}

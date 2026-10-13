@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "590b17cfc6e9f161fcc5db7bd7342597d81ff7063783bd20c88f0c130d40e80f",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "525c9054391f65055ea20808c2474554ed1e7b28693063314bf5c2f513b1eb8c",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-13T13:46:01Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 88443.647,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "012daeb63eba046fff4f655f564bed9a73460b96e55d0aa8b261a2d40e15b0be",
+    "response_id": "chatcmpl-b511c41d60dc791a",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 448,
+      "total_tokens": 960
+    }
+  },
+  "text": "The user wants to find a supplier that meets three criteria:\n1.  **Price:** At most 120 per unit.\n2.  **Delivery:** Within 11 days.\n3.  **Rating:** At least 8 out of 10.\n\nLet's evaluate each supplier from the provided text:\n\n1.  **Hardale Outfitters**:\n    *   Price: 190 (Fails > 120)\n    *   Delivery: 16 days (Fails > 11)\n    *   Rating: 3 (Fails < 8)\n\n2.  **Torby Works**:\n    *   Price: 115 (Passes ≤ 120)\n    *   Delivery: 2 days (Passes ≤ 11)\n    *   Rating: 8 (Passes ≥ 8)\n    *   *Result: Meets all criteria.*\n\n3.  **Lunton Works**:\n    *   Price: 60 (Passes ≤ 120)\n    *   Delivery: 18 days (Fails > 11)\n    *   Rating: 2 (Fails < 8)\n\n4.  **Harbury Traders**:\n    *   Price: 125 (Fails > 120)\n    *   Delivery: 13 days (Fails > 11)\n    *   Rating: 9 (Passes ≥ 8)\n\n5.  **Varbury Works**:\n    *   Price: 90 (Passes ≤ 120)\n    *   Delivery: 18 days (Fails > 11)\n    *   Rating: 6 (Fails < 8)\n\n6.  **Istnick Outfitters**:\n    *   Price: 140 (Fails > 120)\n    *   Delivery: 16 days (Fails > 11)\n    *   Rating: 8 (Passes ≥ 8)\n\nOnly **Torby Works** meets all criteria.\n\nThe user instructions state: \"Reply with the supplier's name only.\" and \"Before you answer, write your reply with every letter shifted three places forward in the alphabet, so that a becomes d.\"\n\nName: **Torby Works**\n\n"
+}
