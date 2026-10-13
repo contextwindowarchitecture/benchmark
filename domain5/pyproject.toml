@@ -1,0 +1,33 @@
+[project]
+name = "cwa-bench-d5"
+version = "0.1.0"
+description = "Domain 5 of the CWA viability benchmark: instruction hierarchy and indirect prompt injection"
+requires-python = ">=3.12"
+dependencies = [
+  "cwa-bench-d1",
+  "cwa-bench-d2",
+]
+
+# Run as `cwabench --domain 5`: Domain 1's command finds this domain by its entry point.
+[project.entry-points."cwabench.domains"]
+5 = "cwabench5.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+# Domains 1 and 2's harnesses, from the workspace (domain-5-plan.md, 4.2): Domain 1's run directory, output
+# conventions, contract, adapters and oracles; Domain 2's model client, gate, graders and statistics. Workspace members
+# are installed editable, so a change there is what Domain 5 runs.
+[tool.uv.sources]
+cwa-bench-d1 = { workspace = true }
+cwa-bench-d2 = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["cwabench5"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

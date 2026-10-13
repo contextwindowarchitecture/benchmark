@@ -6,6 +6,7 @@ requires-python = ">=3.12"
 members = [
     "cwa-bench-d1",
     "cwa-bench-d2",
+    "cwa-bench-d5",
 ]
 
 [manifest.dependency-groups]
@@ -67,6 +68,29 @@ dev = [
 
 [package.metadata]
 requires-dist = [{ name = "cwa-bench-d1", editable = "domain1" }]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=8" }]
+
+[[package]]
+name = "cwa-bench-d5"
+version = "0.1.0"
+source = { editable = "domain5" }
+dependencies = [
+    { name = "cwa-bench-d1" },
+    { name = "cwa-bench-d2" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "cwa-bench-d1", editable = "domain1" },
+    { name = "cwa-bench-d2", editable = "domain2" },
+]
 
 [package.metadata.requires-dev]
 dev = [{ name = "pytest", specifier = ">=8" }]
