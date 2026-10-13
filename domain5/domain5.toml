@@ -1,9 +1,10 @@
 # Domain 5 run configuration (domain-5-plan.md, section 12). Paths are relative to this file.
 #
-# This build is P0 and P1: the task generators (six families, each in a plain and an imperative variant), the attack
-# templates and their composition into probes, the graders, S0, and S1 (every arm's payload built and read: the CWA
-# arms gated through Domain 1's assemblers, the baselines' structure, field-level claims, floods) and S7 (goldens).
-# The tables of later phases (models, axes, external sets, thresholds, CI profiles) arrive with them.
+# This build is P0 to P2: the task generators (six families, each in a plain and an imperative variant, EM and DQ also
+# padded to four lengths), the attack templates and their composition into probes, the graders, S0, S1 (every arm's
+# payload built and read: the CWA arms gated through Domain 1's assemblers, the baselines' structure, field-level
+# claims, floods), S2 (every gated payload sent to the model, every reply graded) and S7 (goldens). The tables of
+# later phases (the second model, external sets, thresholds, CI profiles) arrive with them.
 
 [contract]
 path = "../../../contextwindowarchitecture"
@@ -11,7 +12,7 @@ commit = "16de4be0534583f135a597171c927d42c87ee82c"  # the same pin as domain1.t
 allow_dirty = false
 
 [run]
-suites = ["S0", "S1", "S7"]
+suites = ["S0", "S1", "S2", "S7"]
 tasks = ["em", "dq", "tq", "dg", "cq", "sl"]
 size = "pilot"                                   # pilot | recorded: which of each family's sizes a run generates
 results_dir = "results/d5"
@@ -37,9 +38,51 @@ renderer = "cwa-messages/v1"
 use = ["system-content", "naive", "reminder", "delimited", "spotlight", "tool-role", "multi-turn", "xml-unescaped",
        "cwa", "cwa-boundary", "cwa-reinforced", "cwa-observation"]
 
-# The probe grid (cwabench5/grid.py): the representation sweep's test templates, per DQ instance.
+# The probe grid (cwabench5/grid.py): the representation sweep's test templates per DQ instance, and the length
+# sweep's lengths (estimate-utf8/v1 tokens of content) and test templates per padded EM and DQ instance.
 [grid]
 html_templates = 10
+lengths = [1000, 4000, 16000, 32000]
+length_templates = 10
+
+# The model S2 sends payloads to (Domain 2's client, cwabench2/model/, with Domain 5's handoff and cache): the same
+# server and settings as Domain 2's recorded run. `replay` answers from the committed cache alone; `run --model llm`
+# calls the endpoint on a miss and fills it. Every request parameter is part of each cache key.
+[model]
+mode = "replay"
+base_url = "http://127.0.0.1:8000/v1"
+model = "qwen3.6-35b-a3b-fp8"                    # the served name of Qwen/Qwen3.6-35B-A3B-FP8
+api_key_env = "CWA_BENCH_MODEL_KEY"
+temperature = 0
+seed = 7
+max_tokens = 512
+request_timeout_s = 300
+concurrency = 64
+cache = "model-cache"
+context_limit = 262144
+seed_per_sample = true                           # sample k sends seed + k: independent draws, each replayable
+
+[model.extra_body]
+top_p = 1.0
+top_k = -1
+min_p = 0.0
+presence_penalty = 0.0
+frequency_penalty = 0.0
+repetition_penalty = 1.0
+chat_template_kwargs = { enable_thinking = false }
+
+# S2 · Static attacks (cwabench5/suites/s2_attacks.py): attacked cells once at the model's temperature, clean ones
+# three times, and every tenth attacked cell five more times at 0.7; `pairs` are the controlled comparisons (a, b).
+[s2]
+attacked_samples = 1
+clean_samples = 3
+sensitivity_every = 10
+sensitivity_samples = 5
+sensitivity_temperature = 0.7
+bootstrap_resamples = 2000
+bootstrap_seed = 20261013
+pairs = [["naive", "xml-unescaped"], ["xml-unescaped", "cwa"], ["naive", "cwa"], ["reminder", "cwa-boundary"],
+         ["cwa-boundary", "cwa-reinforced"], ["tool-role", "cwa-observation"]]
 
 # S1's tokenizer check (cwabench5/oracles/tokens.py): off, replay (tokenize-cache/ alone) or server (the served
 # model's /tokenize on a miss, filling the cache), for the first `tokenize_cells` marker cells of each family. The

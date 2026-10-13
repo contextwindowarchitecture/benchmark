@@ -146,8 +146,9 @@ def run(ctx: SuiteContext) -> SuiteResult:
         report.add("self-check", ["profile"], None, "all", "profile", f"the arms' route or profiles: {problem}", None)
     cwa_arms = [a for a in config.arms if ARMS[a].kind == "cwa"]
     base_arms = [a for a in config.arms if ARMS[a].kind == "baseline"]
-    tasks_by_id = {t["task_id"]: t for family in ctx.tasks.values() for t in family}
-    cells = grid.cells(ctx.tasks, config.attacks.families, config.html_templates)
+    long = grid.padded(ctx.tasks, config.lengths, config.attacks.seed)
+    tasks_by_id = grid.tasks_by_id(ctx.tasks, long)
+    cells = grid.cells(ctx.tasks, config.attacks.families, config.html_templates, long, config.length_templates)
     seed, template = config.attacks.seed, config.attacks.chat_template
     settings, tokenizer = config.application, config.application.tokenizer
     tally = defaultdict(lambda: [0, 0])  # check → [passed, total]
@@ -309,6 +310,7 @@ def run(ctx: SuiteContext) -> SuiteResult:
                             "One row per marker probe and arm: the special tokens the served tokenizer reads")
     ctx.shared["gate"] = {f"{c}@{a}": ok for (c, a), ok in sorted(gate.items())}
     ctx.shared["s1_rows"] = rows
+    ctx.shared["cells"], ctx.shared["tasks_by_id"] = cells, tasks_by_id
     passed = sum(gate.values())
     labels = {"agreement": "Snapshots every adapter answered alike", "audit": "Answers that pass the trace audit",
               "prediction": "Answers equal to the prediction", "structure": "CWA payloads the structure oracle reads "

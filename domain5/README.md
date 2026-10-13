@@ -4,8 +4,9 @@ Benchmarks instruction hierarchy and indirect prompt injection: when the content
 instructions written by an attacker, does CWA's assembly keep the model doing the user's task instead of the
 attacker's, compared with conventional assembly and conventional defences, without costing the task? Its working
 plan, `docs/plans/domain-5-plan.md`, is kept out of git; code comments cite it by section. This directory implements
-P0 and P1: the task and attack generators, the graders, every arm's payload, the oracles that read payloads without a
-model, and S0, S1 and S7. Later phases add the model and the suites that measure it.
+P0 to P2: the task and attack generators, the graders, every arm's payload, the oracles that read payloads without a
+model, and S0, S1, S2 and S7. S2 sends every gated payload to the model, by default replaying the committed cache of
+its replies, so a run needs no model. Later phases add the external sets, the adaptive attacker and the second model.
 
 - **Task instances** (`cwabench5/tasks/`). Seeded generators write benign tasks with ground truth known by
   construction; every name, figure and supplier is fictional. An instance holds the governance instructions (with a
@@ -58,7 +59,8 @@ model, and S0, S1 and S7. Later phases add the model and the suites that measure
 - **HTML** (`tasks/html.py`, `attacks/html.py`). DQ documents as web pages, with attacks in a comment, the head, a
   hidden element or alt text, read by a pass-through producer (`html`) or a visible-text extractor (`text`).
 - **The grid** (`grid.py`): every plain instance × every test-half template × every position, the carrier balanced;
-  every instance clean; and the HTML sweep. The `tag` carrier forges each arm's own delimiters.
+  every instance clean; the HTML sweep; and the length sweep, EM and DQ instances padded to about 1k, 4k, 16k and 32k
+  tokens with items that change no answer (`tasks/length.py`). The `tag` carrier forges each arm's own delimiters.
 - **Oracles** (`cwabench5/oracles/`). `structure.py` reads a CWA payload back item for item with an independent reader
   of the renderer's grammar, and reads a baseline with its own delimiters for forged structure and raw chat-template
   markers. `presence.py` finds the attack in the payload by record and by text. `tokens.py` asks the served model's
@@ -73,6 +75,12 @@ model, and S0, S1 and S7. Later phases add the model and the suites that measure
   attack-in-payload oracle: the gate S2 will send through. Every baseline, built and read for forged structure and raw
   markers (results, not gates). Seven field-level claims (a producer setting fields it should not) must be excluded
   with the reason the spec names, payload unchanged; a flood must be shed with every protected item kept.
+- **S2 · Static attacks** (`suites/s2_attacks.py`). Every gated cell in every arm sent to the model (Domain 2's client,
+  Domain 5's handoff, its own cache under `model-cache/`): attacked cells once at temperature 0, clean ones three
+  times, a tenth of the attacked five more times at 0.7. Each reply is graded for the task and the attack, and clean
+  replies for refusal. Per arm, with cluster-bootstrap intervals over task instances: attack success (present and
+  observable attacks only), partial and reported rates, utility under attack, benign utility (plain and imperative),
+  over-refusal, ASR by length and by representation, and paired ASR differences for the controlled pairs.
 - **S7 · Goldens** (`suites/s7_goldens.py`): CWA answers every adapter agreed on, adopted with `goldens accept`.
 
 ## Run it
@@ -81,7 +89,8 @@ model, and S0, S1 and S7. Later phases add the model and the suites that measure
 uv sync                                 # at the benchmark root: every domain, into one .venv
 cd domain5
 uv run pytest                           # fast; needs the spec checkout
-uv run cwabench --domain 5 run          # S0, S1 and S7 at pilot size, on the GPU host
+uv run cwabench --domain 5 run          # S0, S1, S2 and S7 at pilot size, replaying the model, on the GPU host
+uv run cwabench --domain 5 run --model llm --workers 16  # with vLLM serving: fill the model cache
 uv run cwabench --domain 5 run --suites S0              # S0 alone: no assembler
 uv run cwabench --domain 5 run --tokenize server        # with S1's tokenizer check, vLLM serving (fills the cache)
 uv run cwabench --domain 5 goldens accept               # adopt the latest run's candidate goldens
@@ -96,8 +105,9 @@ missing is unavailable, and S1 is then `partial`.
 ## What it needs
 
 The specification checkout at the pinned commit (`domain5.toml`'s `[contract]`, the same pin as Domain 1's), and for S1
-Domain 1's four built adapters (`cwabench setup` in `domain1/`). Nothing calls a model; S1's optional tokenizer check
-asks a vLLM server to tokenize, never to generate.
+Domain 1's four built adapters (`cwabench setup` in `domain1/`). S2 calls the model only with `--model llm`, through
+the endpoint `[model]` names (vLLM beside the harness on the GPU host, as Domain 2's; `CWA_BENCH_MODEL_KEY` holds its
+key); S1's optional tokenizer check asks the same server to tokenize, never to generate.
 
 ## Configuration
 
@@ -110,7 +120,8 @@ asks a vLLM server to tokenize, never to generate.
   the template the `marker` carrier forges).
 - `[adapters]`: Domain 1's configuration, the adapters used and the payload source.
 - `[budgets]`: reserved output, margin, tokenizer and renderer (Domain 2's).
-- `[arms]`: `use`, the arms built. `[grid]`: `html_templates`. `[s1]`: the tokenizer check (`tokenize`: off, replay or
+- `[arms]`: `use`, the arms built. `[grid]`: `html_templates`, `lengths`, `length_templates`. `[model]`: Domain 2's
+  keys. `[s2]`: the samples, the sensitivity share and temperature, the bootstrap, and the controlled `pairs`. `[s1]`: the tokenizer check (`tokenize`: off, replay or
   server; its server, model and cells). `[s7]`: the goldens file.
 
 ## Output
@@ -119,6 +130,7 @@ asks a vLLM server to tokenize, never to generate.
 `config.toml`, `contract.json`, `summary.json`, `findings.jsonl`, `suites/S0/summary.json` and `results.jsonl` (one
 `self-check` row per check), `suites/S1/gate.jsonl` (`gate-row`, one per cell and CWA arm), `baselines.jsonl`
 (`baseline-row`), `claims.jsonl` (`claim-row`) and, with the tokenizer check, `tokens.jsonl` (`token-row`),
+`suites/S2/probes.jsonl` (`probe-row`, one per cell, arm and sample) and `calls.jsonl` (`call-row`),
 `suites/S7/candidate-goldens.json` and `drift.jsonl`, `tasks/<family>/index.json` (each instance a `task` blob),
 `attacks/index.json` (the templates), and `blobs/`. Every document names its schema
 (`schemas/<kind>.v1.schema.json`); the kinds Domain 5 reuses are Domain 2's, prefix aside.

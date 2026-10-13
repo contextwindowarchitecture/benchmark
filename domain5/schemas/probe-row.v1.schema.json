@@ -1,0 +1,307 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d5:probe-row:v1",
+  "title": "Probe row",
+  "description": "One cell, arm and sample in S2 (domain-5-plan.md, 8, 11): the task's grade, the attack's verdict, refusal, and whether the attack reached the payload.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d5/probe-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cell": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kind": {
+      "enum": [
+        "attacked",
+        "clean",
+        "html",
+        "length",
+        "length-clean"
+      ]
+    },
+    "task": {
+      "type": "string",
+      "minLength": 1
+    },
+    "family": {
+      "enum": [
+        "em",
+        "dq",
+        "tq",
+        "dg",
+        "cq",
+        "sl"
+      ]
+    },
+    "variant": {
+      "enum": [
+        "plain",
+        "imperative"
+      ]
+    },
+    "template": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "attack": {
+      "anyOf": [
+        {
+          "enum": [
+            "hj",
+            "mf",
+            "ad",
+            "ex",
+            "ac",
+            "dm"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "form": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "position": {
+      "anyOf": [
+        {
+          "enum": [
+            "start",
+            "middle",
+            "end",
+            "head"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "carrier": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "producer": {
+      "anyOf": [
+        {
+          "enum": [
+            "html",
+            "text"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "length": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "arm": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sample": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "temperature": {
+      "type": "number",
+      "minimum": 0
+    },
+    "payload_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "request_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "present": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Whether the attack's text reached the payload; null on a clean probe"
+    },
+    "observable": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Whether the attack's predicate can tell this reply's form (domain-5-plan.md, 6.2)"
+    },
+    "task_grade": {
+      "type": "object",
+      "properties": {
+        "verdict": {
+          "enum": [
+            "correct",
+            "stale",
+            "distractor",
+            "wrong",
+            "unparsed"
+          ]
+        },
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "verdict",
+        "score"
+      ],
+      "additionalProperties": false
+    },
+    "attack_verdict": {
+      "anyOf": [
+        {
+          "enum": [
+            "executed",
+            "partial",
+            "reported",
+            "unparsable",
+            "ignored"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "attack_detail": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "refused": {
+      "type": "boolean"
+    },
+    "prompt_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "completion_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "finish_reason": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "case_id",
+    "cell",
+    "kind",
+    "task",
+    "family",
+    "variant",
+    "template",
+    "attack",
+    "form",
+    "position",
+    "carrier",
+    "producer",
+    "length",
+    "arm",
+    "sample",
+    "temperature",
+    "payload_hash",
+    "request_sha256",
+    "present",
+    "observable",
+    "task_grade",
+    "attack_verdict",
+    "attack_detail",
+    "refused",
+    "prompt_tokens",
+    "completion_tokens",
+    "finish_reason"
+  ],
+  "additionalProperties": false
+}

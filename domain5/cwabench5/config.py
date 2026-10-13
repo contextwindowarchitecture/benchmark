@@ -10,16 +10,24 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from cwabench2.application.snapshots import Settings
+from cwabench2.config import MODEL_DEFAULTS
 
 from .arms import ARMS
 from .attacks import FAMILIES as ATTACK_FAMILIES
 from .attacks.carriers import MARKERS
 from .tasks import FAMILIES as TASK_FAMILIES
 
-SUITES = ("S0", "S1", "S7")
+SUITES = ("S0", "S1", "S2", "S7")
 SIZES = ("pilot", "recorded")
 ADAPTER_SUITES = ("S1",)  # suites that assemble, and so set up the adapters
 TOKENIZE = ("off", "replay", "server")
+MODEL_MODES = ("llm", "replay")
+S2_DEFAULTS = {"arms": None, "attacked_samples": 1, "clean_samples": 3, "sensitivity_every": 10,
+               "sensitivity_samples": 5, "sensitivity_temperature": 0.7, "bootstrap_resamples": 2000,
+               "bootstrap_seed": 20261013,
+               "pairs": [["naive", "xml-unescaped"], ["xml-unescaped", "cwa"], ["naive", "cwa"],
+                         ["reminder", "cwa-boundary"], ["cwa-boundary", "cwa-reinforced"],
+                         ["tool-role", "cwa-observation"]]}
 
 
 class ConfigError(Exception):
@@ -71,11 +79,15 @@ class Config:
     application: Settings = field(default_factory=Settings)  # reserved output, margin, tokenizer, renderer
     arms: list[str] = field(default_factory=lambda: list(ARMS))
     html_templates: int = 10  # the representation sweep's test templates (grid.py)
+    lengths: list[int] = field(default_factory=lambda: [1000, 4000, 16000, 32000])  # the length sweep's (grid.py)
+    length_templates: int = 10
     tokenize: str = "off"  # S1's tokenizer check (oracles/tokens.py)
     tokenize_base_url: str = "http://127.0.0.1:8000/v1"
     tokenize_model: str = "qwen3.6-35b-a3b-fp8"
     tokenize_cells: int = 2  # marker cells per task family
     goldens: Path | None = None  # S7's adopted goldens
+    model: dict = field(default_factory=lambda: dict(MODEL_DEFAULTS))  # Domain 2's [model] keys
+    s2: dict = field(default_factory=lambda: dict(S2_DEFAULTS))
     checkouts: Path | None = None  # CI: the spec and Domain 1's assemblers read from here, by directory name
 
 
@@ -176,6 +188,27 @@ def load(path: str | Path) -> Config:
         raise ConfigError(f"[s1].tokenize must be one of {', '.join(TOKENIZE)}")
     s7 = _table(data, "s7")
 
+    model = {**MODEL_DEFAULTS, **_table(data, "model")}
+    unknown_keys = sorted(set(model) - set(MODEL_DEFAULTS))
+    if unknown_keys:
+        raise ConfigError(f"[model] has unknown keys: {', '.join(unknown_keys)}")
+    if model["mode"] not in MODEL_MODES:
+        raise ConfigError(f"[model].mode must be one of {', '.join(MODEL_MODES)}")
+    s2 = {**S2_DEFAULTS, **_table(data, "s2")}
+    unknown_keys = sorted(set(s2) - set(S2_DEFAULTS))
+    if unknown_keys:
+        raise ConfigError(f"[s2] has unknown keys: {', '.join(unknown_keys)}")
+    if s2["arms"] is None:
+        s2["arms"] = list(arms)
+    stray = [a for a in s2["arms"] if a not in arms]
+    if stray:
+        raise ConfigError(f"[s2].arms names arms this run does not build: {', '.join(stray)}")
+    stray = [p for p in s2["pairs"] if len(p) != 2 or any(a not in s2["arms"] for a in p)]
+    if stray and "S2" in suites:
+        raise ConfigError(f"[s2].pairs names arms S2 does not send: {stray}")
+    if "S2" in suites and "S1" not in suites:
+        raise ConfigError("S2 sends what S1 gated, so it needs S1")
+
     findings = _table(data, "findings")
     upstream_path = (root / str(findings.get("upstream", "findings/upstream.json"))).resolve()
     if not upstream_path.is_file():
@@ -203,9 +236,13 @@ def load(path: str | Path) -> Config:
         application=application,
         arms=list(arms),
         html_templates=int(grid.get("html_templates", 10)),
+        lengths=[int(n) for n in grid.get("lengths", [1000, 4000, 16000, 32000])],
+        length_templates=int(grid.get("length_templates", 10)),
         tokenize=tokenize,
         tokenize_base_url=str(s1.get("tokenize_base_url", "http://127.0.0.1:8000/v1")),
         tokenize_model=str(s1.get("tokenize_model", "qwen3.6-35b-a3b-fp8")),
         tokenize_cells=int(s1.get("tokenize_cells", 2)),
         goldens=(root / s7.get("goldens", "goldens/d5-goldens.json")).resolve(),
+        model=model,
+        s2=s2,
     )

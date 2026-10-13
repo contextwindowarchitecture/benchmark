@@ -11,7 +11,8 @@ from cwabench5 import output
 ROOT = Path(__file__).resolve().parent.parent
 # Kinds Domain 5 reuses unchanged (domain-5-plan.md, 11): Domain 2's schema with the prefix swapped, and the plan its
 # descriptions cite (arms are section 7 in both plans).
-COPIES = ("blob", "contract", "drift-row", "finding", "manifest", "run-index", "runs-index", "summary", "upstream")
+COPIES = ("blob", "call-row", "contract", "drift-row", "finding", "manifest", "run-index", "runs-index", "summary",
+          "upstream")
 SWAPS = (("cwa-bench-d2", "cwa-bench-d5"), ("domain-2-plan.md", "domain-5-plan.md"))
 
 

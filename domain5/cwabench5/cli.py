@@ -41,8 +41,13 @@ def _load(args) -> config_mod.Config:
         config = replace(config, concurrency=args.workers)
     if getattr(args, "tokenize", None):
         config = replace(config, tokenize=args.tokenize)
+    if getattr(args, "model", None):
+        config = replace(config, model={**config.model, "mode": args.model})
+    if getattr(args, "concurrency", None) is not None:
+        config = replace(config, model={**config.model, "concurrency": args.concurrency})
     if getattr(args, "base_url", None):
-        config = replace(config, tokenize_base_url=args.base_url.rstrip("/"))
+        url = args.base_url.rstrip("/")
+        config = replace(config, tokenize_base_url=url, model={**config.model, "base_url": url})
     return config
 
 
@@ -78,8 +83,12 @@ def main(argv: list[str] | None = None) -> int:
     run_cmd.add_argument("--tokenize", choices=config_mod.TOKENIZE,
                          help="S1's tokenizer check, overriding [s1].tokenize: server asks the served model's "
                               "tokenizer on a cache miss")
-    run_cmd.add_argument("--base-url", metavar="URL", help="the server for --tokenize server, overriding "
-                                                           "[s1].tokenize_base_url")
+    run_cmd.add_argument("--model", choices=config_mod.MODEL_MODES,
+                         help="S2's model mode, overriding [model].mode: llm calls the endpoint on a cache miss")
+    run_cmd.add_argument("--concurrency", type=_positive, metavar="N",
+                         help="model calls in flight, overriding [model].concurrency")
+    run_cmd.add_argument("--base-url", metavar="URL", help="the server for S2's model and S1's tokenizer check, "
+                                                           "overriding [model].base_url and [s1].tokenize_base_url")
 
     goldens_cmd = commands.add_parser("goldens", help="adopt a run's candidate goldens (S7)")
     goldens_sub = goldens_cmd.add_subparsers(dest="goldens_command", required=True)

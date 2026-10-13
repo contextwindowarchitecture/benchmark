@@ -407,6 +407,26 @@
         "drift"
       ],
       "additionalProperties": false
+    },
+    "model": {
+      "type": "object",
+      "description": "S2: the model, its mode, the server that answered, and the call counts"
+    },
+    "by_arm": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "arm": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "arm"
+        ]
+      },
+      "description": "S2: per arm, attack verdicts on the main grid counted by attack family, carrier, position and task family"
     }
   },
   "required": [
