@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d5:self-check:v1",
+  "title": "Self-check row",
+  "description": "One S0 check (domain-5-plan.md, 8): a grader on a planted reply, a plant made from the run's own task instances or probes, or a check of a generated instance or probe.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d5/self-check/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "check": {
+      "enum": [
+        "grader",
+        "attack-grader",
+        "language",
+        "schema",
+        "determinism",
+        "structure",
+        "replay",
+        "probe",
+        "plant",
+        "attack-plant"
+      ]
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The contract or attack family a grader check grades, or the task family a generator check reads"
+    },
+    "task": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The task instance the check reads, if any"
+    },
+    "probe": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The probe the check reads, if any"
+    },
+    "status": {
+      "enum": [
+        "pass",
+        "fail"
+      ]
+    },
+    "expected": {
+      "description": "For grader and plant checks, the verdict (and score) the reply must get"
+    },
+    "actual": {
+      "description": "For grader and plant checks, the verdict (and score) it got"
+    },
+    "detail": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "case_id",
+    "check",
+    "subject",
+    "task",
+    "probe",
+    "status",
+    "expected",
+    "actual",
+    "detail"
+  ],
+  "additionalProperties": false
+}

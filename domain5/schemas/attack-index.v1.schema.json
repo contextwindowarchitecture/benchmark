@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d5:attack-index:v1",
+  "title": "Attack index",
+  "description": "The attack templates a run composes probes from (attacks/index.json, domain-5-plan.md, 6.2): each family's openers crossed with its bodies, the train half for the adaptive suite and the test half for the others.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d5/attack-index/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "seed": {
+      "type": "integer",
+      "description": "The seed every probe's own seed is drawn from"
+    },
+    "chat_template": {
+      "enum": [
+        "qwen",
+        "llama3"
+      ],
+      "description": "The template the marker carrier forges"
+    },
+    "families": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "hj",
+          "mf",
+          "ad",
+          "ex",
+          "ac",
+          "dm"
+        ]
+      }
+    },
+    "templates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "template_id": {
+            "type": "string",
+            "pattern": "^[a-z]{2}-[0-9]{2}$"
+          },
+          "family": {
+            "enum": [
+              "hj",
+              "mf",
+              "ad",
+              "ex",
+              "ac",
+              "dm"
+            ]
+          },
+          "split": {
+            "enum": [
+              "train",
+              "test"
+            ]
+          },
+          "opener": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "body": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "form": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "applies_to": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "em",
+                    "dq",
+                    "tq",
+                    "dg",
+                    "cq",
+                    "sl"
+                  ]
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The task families it is written into; null for every one"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The template with its blanks unfilled"
+          }
+        },
+        "required": [
+          "template_id",
+          "family",
+          "split",
+          "opener",
+          "body",
+          "form",
+          "applies_to",
+          "text"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "seed",
+    "chat_template",
+    "families",
+    "templates"
+  ],
+  "additionalProperties": false
+}

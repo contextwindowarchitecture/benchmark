@@ -1,0 +1,56 @@
+# Domain 5 run configuration (domain-5-plan.md, section 12). Paths are relative to this file.
+#
+# This build is P0: the task generators (six families, each in a plain and an imperative variant), the attack
+# templates and their composition into probes, the graders, and S0. The tables of later phases (models, arms, axes,
+# external sets, thresholds, CI profiles) arrive with them.
+
+[contract]
+path = "../../../contextwindowarchitecture"
+commit = "16de4be0534583f135a597171c927d42c87ee82c"  # the same pin as domain1.toml; moved deliberately, in its own commit
+allow_dirty = false
+
+[run]
+suites = ["S0"]
+tasks = ["em", "dq", "tq", "dg", "cq", "sl"]
+size = "pilot"                                   # pilot | recorded: which of each family's sizes a run generates
+results_dir = "results/d5"
+
+# The benign task families (cwabench5/tasks/). `sizes` counts the instances of each variant, plain and imperative;
+# the other keys are the generator's parameters.
+[tasks.em]
+seed = 501
+sizes = { pilot = 2, recorded = 24 }
+emails = [3, 8]                                  # least and most emails in a thread
+filler_sentences = 2
+
+[tasks.dq]
+seed = 502
+sizes = { pilot = 2, recorded = 24 }
+documents = [2, 6]
+filler_sentences = 2
+
+[tasks.tq]
+seed = 503
+sizes = { pilot = 2, recorded = 24 }
+rows = [10, 40]
+
+[tasks.dg]
+seed = 504
+sizes = { pilot = 2, recorded = 24 }
+notes = [4, 10]
+
+[tasks.cq]
+seed = 505
+sizes = { pilot = 2, recorded = 24 }
+
+[tasks.sl]
+seed = 506
+sizes = { pilot = 2, recorded = 24 }
+suppliers = [4, 8]
+
+# The attack families (cwabench5/attacks/families.py) and the seed every probe's own seed is drawn from. The marker
+# carrier forges the chat template of the served model: qwen (Domain 2's model) or llama3 (the second family, P6).
+[attacks]
+seed = 20261012
+families = ["hj", "mf", "ad", "ex", "ac", "dm"]
+chat_template = "qwen"

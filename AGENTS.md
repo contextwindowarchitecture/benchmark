@@ -10,11 +10,12 @@ own directory:
 | Path | What |
 | --- | --- |
 | `docs/benchmarking_cwa_viability.md` | The overall benchmark design |
-| `docs/plans/` | Working plans: `domain-1-plan.md` and `domain-2-plan.md`, each with an "as built" section per phase. Git-ignored: read and update them, never commit them |
+| `docs/plans/` | Working plans: `domain-1-plan.md`, `domain-2-plan.md` and `domain-5-plan.md`, each with an "as built" section per phase. Git-ignored: read and update them, never commit them |
 | `docs/` | Committed write-ups, one per domain, written once the domain's plan is fully implemented |
 | `pyproject.toml` | The uv workspace: every domain is a member, with one lockfile (`uv.lock`) and one environment |
 | `domain1/` | The Domain 1 harness (package `cwabench`, the `cwabench` command); start with `domain1/README.md` |
 | `domain2/` | The Domain 2 harness (package `cwabench2`, run as `cwabench --domain 2`); it builds on `domain1/`. Start with `domain2/README.md`; its write-up is `docs/domain2.md` |
+| `domain5/` | The Domain 5 harness (package `cwabench5`, run as `cwabench --domain 5`); it builds on `domain1/` and `domain2/`. Start with `domain5/README.md`; P0 is built, the plan is `docs/plans/domain-5-plan.md` |
 | `../benchmark-ui` | The results UI, its design baseline (`DESIGN.md`) and its plan live in `contextwindowarchitecture/benchmark-ui`, a sibling checkout. It reads this repository (schemas, results, write-ups), never the reverse. Its harness changes (fixture runs, runs-index pointers, sweep curves, aggregates, upstream links on findings) are made here at that plan's UI-P0, when asked; until then, no UI work |
 | `scripts/` | `pod-setup.sh` sets up one Linux GPU host to run vLLM beside the harness; `pod-run.sh` runs both domains' tests and runs there (Domain 2's S6 and recorded run, Domain 1's nightly profile and S7 run, each domain's reported runs last), detached in tmux |
 | `.github/workflows/` | CI, started by hand only (`workflow_dispatch`); don't add schedules or push triggers unasked |
@@ -44,6 +45,7 @@ cd ../domain2 && uv run pytest && uv run cwabench --domain 2 run --no-frames   #
                                                                                #   every suite replaying the model
                                                                                #   (~12 min on 16 vCPUs)
 uv run cwabench --domain 2 ci nightly   # Domain 2's CI profile: replays, reports drift since its last run
+cd ../domain5 && uv run pytest         # Domain 5: tests (P0: generators, graders, S0)
 ```
 
 - Benchmark runs, the ones whose results are reported (Domain 2's `--model llm` and recorded-size runs, Domain 1's
@@ -77,8 +79,8 @@ uv run cwabench --domain 2 ci nightly   # Domain 2's CI profile: replays, report
 - Follow [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/):
   `<type>(<scope>): <summary>`, imperative mood, summary under about 72 characters, a body that explains why.
   - Types: `feat`, `fix`, `docs`, `test`, `refactor`, `perf`, `build`, `ci`, `chore`.
-  - Scopes, as the change fits: `domain1`, `domain2`, a suite (`s2`, `s11`), `ci`, `schemas`, `plan`, `container`,
-    `deps`.
+  - Scopes, as the change fits: `domain1`, `domain2`, `domain5`, a suite (`s2`, `s11`), `ci`, `schemas`, `plan`,
+    `container`, `deps`.
   - Breaking changes (an output schema or CLI change that existing results or users depend on): `!` after the scope,
     plus a `BREAKING CHANGE:` footer.
   - Examples: `feat(s2): add the platform and toolchain matrix`, `fix(ci): take the source digest when a run starts`,
