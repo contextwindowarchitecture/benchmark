@@ -89,3 +89,22 @@ def test_s3_needs_the_vendored_sets_and_s1(tmp_path):
                                      encoding="utf-8")
     with pytest.raises(ConfigError, match="S3 sends what S1 gated"):
         config_mod.load(tmp_path / "b.toml")
+
+
+@pytest.mark.parametrize("reply, status, action", [
+    ('{"answer": "x", "action": null}', "none", None),
+    ('{"answer": "x"}', "none", None),
+    ('{"action": {"name": "send_email", "to": "a@b.c", "body": "hi"}, "answer": "A long summ',
+     "action", {"name": "send_email", "to": "a@b.c", "body": "hi"}),
+    ('{"action": null, "answer": "A long summ', "none", None),
+    ('<tool_call>\n{"name": "send_email", "arguments": {"to": "a@b.c", "body": "hi"}}\n</tool_call>',
+     "action", {"name": "send_email", "to": "a@b.c", "body": "hi"}),
+    ('Sure. {"type": "function", "function": {"name": "send_email", "parameters": {"to": "a@b.c", "body": "hi"}}}',
+     "action", {"name": "send_email", "to": "a@b.c", "body": "hi"}),
+    ("I cannot do that.", "unparsable", None),
+])
+def test_the_action_is_read_from_every_form_an_application_would_act_on(reply, status, action):
+    from cwabench5.grading import actions
+
+    got = actions.read(reply)
+    assert got[0] == status and (status == "unparsable" or got[1] == action)
