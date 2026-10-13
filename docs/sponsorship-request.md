@@ -136,6 +136,36 @@ transfer directly and the hours shrink.
 What is not being asked for: no training or fine-tuning, no proprietary data, no sustained egress (results are
 megabytes, and the model caches are committed to git), and no commitment beyond the period.
 
+### Other inference engines and hardware
+
+The reported runs so far used vLLM on one NVIDIA RTX PRO 6000. The harness talks to any OpenAI-compatible server, so a
+sponsor or community member with other serving stacks or hardware can rerun the report on them. A run on another engine
+or GPU is published as its own arm beside the vLLM-on-NVIDIA results, never merged into them: different kernels and
+number formats can change a model's reply even at temperature 0, so each configuration keeps its own committed model
+cache and names the engine and hardware it ran on. Domain 1 calls no model and is unaffected; in Domain 2, the suites
+that send payloads to the model are the ones that would differ.
+
+| Engine | Fit | Notes |
+| --- | --- | --- |
+| SGLang | The best second engine | Serves the same FP8 checkpoint on the same class of GPU, with prefix caching, per-request seeds and a deterministic-inference mode; already one of Domain 4's two engines |
+| llama.cpp | A separate quantized arm | Needs GGUF weights rather than the FP8 checkpoint, so its results mix the engine's effect with the quantization's; useful for a claim about laptop-class serving |
+| TensorRT-LLM, LMDeploy | Possible | OpenAI-compatible servers; little added over SGLang for these measurements |
+| Ollama, MLX | Not for reported results | Ollama wraps llama.cpp with less control; MLX runs on Apple hardware, not on a GPU host like the one the reported runs share |
+
+vLLM also runs on AMD GPUs through ROCm, with the same server and flags. AMD has no 96 GB counterpart to the RTX PRO
+6000:
+
+| AMD GPU | Memory | Fit for Domain 2's model (a 35B mixture-of-experts at FP8, 262,144-token context) |
+| --- | --- | --- |
+| Instinct MI300X | 192 GB | The closest match in practice: one GPU holds the same checkpoint and the full context under stock vLLM, though it is a tier above the RTX PRO 6000 in memory and bandwidth. It uses AMD's FNUZ variant of FP8, so vLLM converts the weights, a small numerical difference of its own |
+| Instinct MI325X, MI350X, MI355X | 256 to 288 GB | Also fit on one GPU; the MI350 series uses the same FP8 format as NVIDIA |
+| Radeon AI PRO R9700 | 32 GB | The FP8 weights do not fit on one card; two cards run this model only on an experimental community fork of vLLM |
+| Radeon PRO W7900 | 48 GB | No hardware FP8, and the 16-bit weights do not fit |
+
+A single MI300X was listed at about $2 to $3.60 per GPU-hour by specialist clouds in 2026
+([one](https://www.spheron.network/gpu-rental/mi300x/), [two](https://deploybase.ai/articles/amd-mi300x-price)); some
+providers sell it only as eight-GPU nodes, the shape of resource C.
+
 ## 6. What the sponsor receives
 
 - **Attribution** on every result the sponsored compute produces (Domain 2's second model, Domains 3 to 5), in the
