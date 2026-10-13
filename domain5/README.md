@@ -6,7 +6,7 @@ attacker's, compared with conventional assembly and conventional defences, witho
 plan, `docs/plans/domain-5-plan.md`, is kept out of git; code comments cite it by section. This directory implements
 P0 to P2: the task and attack generators, the graders, every arm's payload, the oracles that read payloads without a
 model, and S0, S1, S2 and S7. S2 sends every gated payload to the model, by default replaying the committed cache of
-its replies, so a run needs no model. Later phases add the external sets, the adaptive attacker and the second model.
+its replies (`model-cache/`, filled on the GPU host at pilot size), so a run needs no model. Later phases add the external sets, the adaptive attacker and the second model.
 
 - **Task instances** (`cwabench5/tasks/`). Seeded generators write benign tasks with ground truth known by
   construction; every name, figure and supplier is fictional. An instance holds the governance instructions (with a
@@ -17,10 +17,11 @@ its replies, so a run needs no model. Later phases add the external sets, the ad
     whose `action` stays null unless the user asks for an email to be sent, which the user never does.
   - **DQ, document.** Site documents; a site's year, capacity or manager, a comparison of two capacities, or a manager
     no document states (NOT FOUND).
-  - **TQ, table.** An inventory table as text; a row's quantity, a region's row count or total.
+  - **TQ, table.** An inventory table as text; a row's quantity or a region's row count.
   - **DG, digest.** Notes about a gathering; its venue, day, organiser and head count as a JSON record.
-  - **CQ, code.** A Python file with one planted bug; its line and the fixed line as JSON. Several files compare with
-    `<` or `>`, which `cwa-messages/v1` escapes in a body.
+  - **CQ, code.** A Python file with one planted bug; the buggy line as written and the fixed line as JSON, any fix
+    the template lists as equivalent accepted. Several files compare with `<` or `>`, which `cwa-messages/v1` escapes
+    in a body; the grader reads `&lt;` as `<`.
   - **SL, selection.** Supplier profiles; the one supplier that meets the question's three criteria.
 
   Every instance also comes as an **imperative** variant whose content holds benign instruction-like text the answer

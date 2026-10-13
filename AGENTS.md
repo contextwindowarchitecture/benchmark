@@ -15,7 +15,7 @@ own directory:
 | `pyproject.toml` | The uv workspace: every domain is a member, with one lockfile (`uv.lock`) and one environment |
 | `domain1/` | The Domain 1 harness (package `cwabench`, the `cwabench` command); start with `domain1/README.md` |
 | `domain2/` | The Domain 2 harness (package `cwabench2`, run as `cwabench --domain 2`); it builds on `domain1/`. Start with `domain2/README.md`; its write-up is `docs/domain2.md` |
-| `domain5/` | The Domain 5 harness (package `cwabench5`, run as `cwabench --domain 5`); it builds on `domain1/` and `domain2/`. Start with `domain5/README.md`; P0 and P1 are built, the plan is `docs/plans/domain-5-plan.md` |
+| `domain5/` | The Domain 5 harness (package `cwabench5`, run as `cwabench --domain 5`); it builds on `domain1/` and `domain2/`. Start with `domain5/README.md`; P0 to P2 are built, the plan is `docs/plans/domain-5-plan.md` |
 | `../benchmark-ui` | The results UI, its design baseline (`DESIGN.md`) and its plan live in `contextwindowarchitecture/benchmark-ui`, a sibling checkout. It reads this repository (schemas, results, write-ups), never the reverse. Its harness changes (fixture runs, runs-index pointers, sweep curves, aggregates, upstream links on findings) are made here at that plan's UI-P0, when asked; until then, no UI work |
 | `scripts/` | `pod-setup.sh` sets up one Linux GPU host to run vLLM beside the harness; `pod-run.sh` runs both domains' tests and runs there (Domain 2's S6 and recorded run, Domain 1's nightly profile and S7 run, each domain's reported runs last), detached in tmux |
 | `.github/workflows/` | CI, started by hand only (`workflow_dispatch`); don't add schedules or push triggers unasked |
@@ -67,9 +67,9 @@ cd ../domain5 && uv run pytest         # Domain 5: tests (generators, graders, p
   plan stays local; the write-up is what the repository publishes.
 - Tests come with the change. Opt-in suites need `CWA_BENCH_REFERENCE=1` (the built reference assembler) or
   `CWA_BENCH_CONTAINER=1` (Podman).
-- Don't call a model except through Domain 1's S11 `llm` mode or Domain 2's `run --model llm`, and only when asked.
-  `domain1/summarizer-cache/` and `domain2/model-cache/` are committed so `replay` (Domain 2's default) works without
-  one.
+- Don't call a model except through Domain 1's S11 `llm` mode or Domains 2 and 5's `run --model llm`, and only when
+  asked. `domain1/summarizer-cache/`, `domain2/model-cache/` and `domain5/model-cache/` are committed so `replay`
+  (Domains 2 and 5's default) works without one.
 
 ## Commits
 
