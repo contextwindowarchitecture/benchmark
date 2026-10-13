@@ -8,7 +8,9 @@ R-4), and a route that retrieves content requires it (`requires_evidence`). The 
 `support-chat` route's for its two evidence slots (examples/route-policies.json), read from the pinned checkout: a
 minimum relevance, an age limit, the tenant scope, exact deduplication and three items a source for knowledge, and
 supersession by source for tool results. The content tool is also listed for `governance.capabilities`, so a tool
-specification it sends there is excluded as `capability_not_allowed` (R-15), which S1's field claims test.
+specification it sends there is excluded as `capability_not_allowed` (R-15), which S1's field claims test. S5's
+route, `cwa-bench-d5-pasted`, is the same without `requires_evidence`: there the user pastes the content into the
+query, and nothing is retrieved.
 
 **The profiles** are the specification's, as published, under this route: `policy-first-chat` for `cwa`,
 `cwa-boundary` and `cwa-observation` (instructions as the system message; evidence, observations, the output contract
@@ -22,6 +24,7 @@ import json
 
 ROUTE = "cwa-bench-d5"
 VERSION = "cwa-bench-d5/v1"
+PASTED_ROUTE = "cwa-bench-d5-pasted"  # S5: the user pastes the content; nothing is retrieved
 SPEC_ROUTE = "support-chat"
 SPEC_PROFILES = {"chat": "policy-first-chat", "document": "document-analysis"}
 PROFILE_OF = {"cwa": "chat", "cwa-boundary": "chat", "cwa-observation": "chat", "cwa-reinforced": "document"}
@@ -45,28 +48,31 @@ def _spec(contract, name: str, key: str, value: str) -> dict:
     return copy.deepcopy(found[0])
 
 
-def route_policy(contract) -> dict:
+def route_policy(contract, pasted: bool = False) -> dict:
+    """The route; with `pasted`, S5's: the same producers and rules, but no evidence required, since the content
+    arrives in the user's own message."""
     spec = _spec(contract, "route-policies.json", "route", SPEC_ROUTE)
     return {
-        "route": ROUTE,
-        "version": VERSION,
+        "route": PASTED_ROUTE if pasted else ROUTE,
+        "version": f"{PASTED_ROUTE}/v1" if pasted else VERSION,
         "clock_skew_seconds": 5,
         "parser": True,
-        "requires_evidence": True,
+        "requires_evidence": not pasted,
         "producers": copy.deepcopy(PRODUCERS),
         "slots": {slot: spec["slots"][slot] for slot in ("evidence.knowledge", "evidence.tool_results")},
     }
 
 
-def profile(contract, which: str) -> dict:
+def profile(contract, which: str, pasted: bool = False) -> dict:
     placed = _spec(contract, "profiles.json", "id", SPEC_PROFILES[which])["placement"]
+    route = PASTED_ROUTE if pasted else ROUTE
     return {
         "spec": "cwa/draft",
-        "id": f"{ROUTE}-{which}",
+        "id": f"{route}-{which}",
         "version": 1,
-        "route": ROUTE,
+        "route": route,
         "model_family": None,
-        "route_policy_version": VERSION,
+        "route_policy_version": f"{route}/v1",
         "placement": placed,
         "evaluation": {"status": "unevaluated", "suite": None, "date": None, "result": None, "artifact": None},
     }
@@ -76,8 +82,9 @@ def check(contract) -> list[str]:
     """Problems with the route and profiles against the pinned spec; empty when they pass."""
     try:
         route = route_policy(contract)
-        documents = [("route_policy.schema.json", route)]
-        documents += [("profile.schema.json", profile(contract, which)) for which in SPEC_PROFILES]
+        documents = [("route_policy.schema.json", route), ("route_policy.schema.json", route_policy(contract, True))]
+        documents += [("profile.schema.json", profile(contract, which, pasted)) for which in SPEC_PROFILES
+                      for pasted in (False, True)]
     except (ProfileError, KeyError) as error:
         return [str(error)]
     problems = []

@@ -19,7 +19,7 @@ arm's own delimiters (arms.py), so its probe is composed per arm; every other ce
 from __future__ import annotations
 
 from . import attacks, external
-from .arms import ARMS
+from .arms import ALL
 from .attacks import carriers
 from .attacks import html as html_attacks
 from .tasks.html import PRODUCERS
@@ -104,6 +104,6 @@ def probe(cell: dict, task: dict, arm: str, seed: int, chat_template: str) -> di
     template = _TEMPLATES[cell["template_id"]]
     if cell["kind"] == "html":
         return html_attacks.compose(task, template, cell["position"], cell["carrier"], cell["producer"], seed)
-    delimiters = ARMS[arm].delimiters if cell["carrier"] == "tag" else None
+    delimiters = ALL[arm].delimiters if cell["carrier"] == "tag" else None
     return attacks.compose(task, template, cell["position"], cell["carrier"], seed, delimiters=delimiters,
                            chat_template=chat_template)

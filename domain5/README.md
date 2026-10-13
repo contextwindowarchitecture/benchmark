@@ -5,9 +5,9 @@ instructions written by an attacker, does CWA's assembly keep the model doing th
 attacker's, compared with conventional assembly and conventional defences, without costing the task? Its working
 plan, `docs/plans/domain-5-plan.md`, is kept out of git; code comments cite it by section. This directory implements
 P0 to P3: the task and attack generators, the graders, every arm's payload, the oracles that read payloads without a
-model, two external sets (SEP and LLMail-Inject), and S0, S1, S2, S3 and S7. S2 and S3 send every gated payload to the
-model, by default replaying the committed cache of its replies (`model-cache/`, filled on the GPU host at pilot size),
-so a run needs no model. Later phases add the adaptive attacker, pasted material, persistence and the second model.
+model, two external sets (SEP and LLMail-Inject), and S0, S1, S2, S3, S5 and S7. S2, S3 and S5 send every gated
+payload to the model, by default replaying the committed cache of its replies (`model-cache/`, filled on the GPU host
+at pilot size), so a run needs no model. Later phases add the adaptive attacker, persistence and the second model.
 
 - **Task instances** (`cwabench5/tasks/`). Seeded generators write benign tasks with ground truth known by
   construction; every name, figure and supplier is fictional. An instance holds the governance instructions (with a
@@ -96,6 +96,14 @@ so a run needs no model. Later phases add the adaptive attacker, pasted material
   separation score (of the cases executed from the instruction, the share not executed from the data), clustered by
   case. LLMail-Inject is graded by the challenge's condition on the parsed action (an email to its address with its
   content); ASR by scenario and by original outcome, clustered by the submitting team, with S2's paired comparisons.
+- **S5 · Pasted material** (`suites/s5_pasted.py`, `pasted.py`). The attack inside the user's own message, as R-10
+  describes: S2's probes for emails and documents, their items pasted above the question instead of retrieved, in
+  five arms: `pasted-naive`; `pasted-delimited` (fixed boundary strings, which a `tag` attack forges);
+  `pasted-nonce` (a boundary carrying a code made for the request, which the material cannot know); and `cwa-pasted`
+  and `cwa-pasted-nonce`, the same bodies as the CWA query item (the assembler never splits a body, so the material
+  renders escaped inside the query's element). The CWA payloads are gated in the suite, as S1 gates S2's
+  (`suites/gate.py`), on a route of their own that requires no evidence. Measured as S2 is, per arm, with the
+  controlled pairs: rendering, the delimiting R-10 recommends, and an imitable boundary against one that is not.
 - **S7 · Goldens** (`suites/s7_goldens.py`): CWA answers every adapter agreed on, adopted with `goldens accept`.
 
 ## Run it
@@ -146,7 +154,8 @@ from the LLMail-Inject dataset at `1063bdf`); `external vendor` checks each agai
 - `[arms]`: `use`, the arms built. `[grid]`: `html_templates`, `lengths`, `length_templates`. `[model]`: Domain 2's
   keys. `[s2]`: the samples, the sensitivity share and temperature, the bootstrap, and the controlled `pairs`. `[s1]`:
   the tokenizer check (`tokenize`: off, replay or server; its server, model and cells). `[external]`: the vendored
-  sets' directory and the sets S3 sends. `[s3]`: the bootstrap and the controlled `pairs`. `[s7]`: the goldens file.
+  sets' directory and the sets S3 sends. `[s3]`: the bootstrap and the controlled `pairs`. `[s5]`: the pasted arms,
+  the families, the samples, the bootstrap and the `pairs`. `[s7]`: the goldens file.
 
 ## Output
 
@@ -156,7 +165,8 @@ from the LLMail-Inject dataset at `1063bdf`); `external vendor` checks each agai
 (`baseline-row`), `claims.jsonl` (`claim-row`) and, with the tokenizer check, `tokens.jsonl` (`token-row`),
 `suites/S2/probes.jsonl` (`probe-row`, one per cell, arm and sample) and `calls.jsonl` (`call-row`),
 `suites/S3/probes.jsonl` (`external-row`, one per external probe and arm) and `calls.jsonl`, `external/index.json`
-(the external probes sent and the lock they were vendored under),
+(the external probes sent and the lock they were vendored under), `suites/S5/gate.jsonl` (`gate-row`), `probes.jsonl`
+(`probe-row`) and `calls.jsonl`,
 `suites/S7/candidate-goldens.json` and `drift.jsonl`, `tasks/<family>/index.json` (each instance a `task` blob),
 `attacks/index.json` (the templates), and `blobs/`. Every document names its schema
 (`schemas/<kind>.v1.schema.json`); the kinds Domain 5 reuses are Domain 2's, prefix aside.

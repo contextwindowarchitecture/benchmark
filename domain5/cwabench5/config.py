@@ -1,6 +1,6 @@
 """The run configuration, domain5.toml (domain-5-plan.md, 12). This build reads the tables P0 to P3 need: the
 contract pin, the run, the task families, the attacks, Domain 1's adapters, the budgets' settings, the arms, the grid,
-S1's tokenizer check, the model, S2, the external sets and S3, and S7's goldens; the others (the second model,
+S1's tokenizer check, the model, S2, the external sets and S3, S5, and S7's goldens; the others (the second model,
 thresholds, CI profiles) arrive with the phases that use them."""
 from __future__ import annotations
 
@@ -12,14 +12,14 @@ from pathlib import Path
 from cwabench2.application.snapshots import Settings
 from cwabench2.config import MODEL_DEFAULTS
 
-from .arms import ARMS
+from .arms import ARMS, PASTED
 from .attacks import FAMILIES as ATTACK_FAMILIES
 from .attacks.carriers import MARKERS
 from .tasks import FAMILIES as TASK_FAMILIES
 
-SUITES = ("S0", "S1", "S2", "S3", "S7")
+SUITES = ("S0", "S1", "S2", "S3", "S5", "S7")
 SIZES = ("pilot", "recorded")
-ADAPTER_SUITES = ("S1",)  # suites that assemble, and so set up the adapters
+ADAPTER_SUITES = ("S1", "S5")  # suites that assemble, and so set up the adapters
 TOKENIZE = ("off", "replay", "server")
 MODEL_MODES = ("llm", "replay")
 S2_DEFAULTS = {"arms": None, "attacked_samples": 1, "clean_samples": 3, "sensitivity_every": 10,
@@ -30,6 +30,11 @@ S2_DEFAULTS = {"arms": None, "attacked_samples": 1, "clean_samples": 3, "sensiti
                          ["tool-role", "cwa-observation"]]}
 S3_DEFAULTS = {"arms": None, "bootstrap_resamples": 2000, "bootstrap_seed": 20261013, "pairs": S2_DEFAULTS["pairs"]}
 EXTERNAL_SETS = ("sep", "llmail")
+S5_DEFAULTS = {"arms": list(PASTED), "families": ["em", "dq"], "attacked_samples": 1, "clean_samples": 3,
+               "bootstrap_resamples": 2000, "bootstrap_seed": 20261013,
+               "pairs": [["pasted-naive", "cwa-pasted"], ["cwa-pasted", "cwa-pasted-nonce"],
+                         ["pasted-nonce", "cwa-pasted-nonce"], ["pasted-delimited", "pasted-nonce"],
+                         ["pasted-naive", "pasted-nonce"]]}
 
 
 class ConfigError(Exception):
@@ -91,6 +96,7 @@ class Config:
     model: dict = field(default_factory=lambda: dict(MODEL_DEFAULTS))  # Domain 2's [model] keys
     s2: dict = field(default_factory=lambda: dict(S2_DEFAULTS))
     s3: dict = field(default_factory=lambda: dict(S3_DEFAULTS))
+    s5: dict = field(default_factory=lambda: dict(S5_DEFAULTS))
     external_dir: Path | None = None  # the vendored external sets (external/vendor.py)
     external_sets: list[str] = field(default_factory=lambda: list(EXTERNAL_SETS))
     checkouts: Path | None = None  # CI: the spec and Domain 1's assemblers read from here, by directory name
@@ -171,7 +177,7 @@ def load(path: str | Path) -> Config:
             raise ConfigError(f"[adapters].payload_source {source!r} is not in [adapters].use")
         adapters = AdaptersConfig((root / table["config"]).resolve(), list(use), source)
     if any(s in ADAPTER_SUITES for s in suites) and adapters is None:
-        raise ConfigError("S1 assembles, so it needs [adapters]")
+        raise ConfigError(f"{', '.join(s for s in suites if s in ADAPTER_SUITES)} assemble, so need [adapters]")
     if "S7" in suites and "S1" not in suites:
         raise ConfigError("S7 reads S1's rows, so it needs S1")
 
@@ -227,6 +233,19 @@ def load(path: str | Path) -> Config:
         raise ConfigError(f"[s3].pairs names arms S3 does not send: {stray}")
     if "S3" in suites and "S1" not in suites:
         raise ConfigError("S3 sends what S1 gated, so it needs S1")
+    s5 = {**S5_DEFAULTS, **_table(data, "s5")}
+    unknown_keys = sorted(set(s5) - set(S5_DEFAULTS))
+    if unknown_keys:
+        raise ConfigError(f"[s5] has unknown keys: {', '.join(unknown_keys)}")
+    stray = [a for a in s5["arms"] if a not in PASTED]
+    if stray:
+        raise ConfigError(f"[s5].arms names arms that are not pasted arms: {', '.join(stray)}")
+    stray = [p for p in s5["pairs"] if len(p) != 2 or any(a not in s5["arms"] for a in p)]
+    if stray and "S5" in suites:
+        raise ConfigError(f"[s5].pairs names arms S5 does not send: {stray}")
+    stray = [f for f in s5["families"] if f not in selected]
+    if stray and "S5" in suites:
+        raise ConfigError(f"[s5].families names families this run does not generate: {', '.join(stray)}")
     ext = _table(data, "external")
     unknown_keys = sorted(set(ext) - {"dir", "sets"})
     if unknown_keys:
@@ -277,6 +296,7 @@ def load(path: str | Path) -> Config:
         model=model,
         s2=s2,
         s3=s3,
+        s5=s5,
         external_dir=external_dir,
         external_sets=list(external_sets),
     )

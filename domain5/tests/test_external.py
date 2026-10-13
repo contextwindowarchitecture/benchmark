@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import random
+import re
 from pathlib import Path
 
 import pytest
@@ -85,8 +86,7 @@ def test_s3_needs_the_vendored_sets_and_s1(tmp_path):
     (tmp_path / "a.toml").write_text(text.replace('dir = "external"', 'dir = "nowhere"'), encoding="utf-8")
     with pytest.raises(ConfigError, match="lock.json is missing"):
         config_mod.load(tmp_path / "a.toml")
-    (tmp_path / "b.toml").write_text(text.replace('suites = ["S0", "S1", "S2", "S3", "S7"]', 'suites = ["S0", "S3"]'),
-                                     encoding="utf-8")
+    (tmp_path / "b.toml").write_text(re.sub(r"(?m)^suites = .*$", 'suites = ["S0", "S3"]', text), encoding="utf-8")
     with pytest.raises(ConfigError, match="S3 sends what S1 gated"):
         config_mod.load(tmp_path / "b.toml")
 

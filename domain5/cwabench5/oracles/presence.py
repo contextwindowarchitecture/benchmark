@@ -14,7 +14,7 @@ present.
 """
 from __future__ import annotations
 
-from ..arms import ARMS
+from ..arms import ALL
 from ..baselines import form
 from ..handoff import texts
 
@@ -22,7 +22,7 @@ from ..handoff import texts
 def by_text(arm: str, payload: bytes, attack_text: str) -> bool:
     wanted = form(arm, attack_text)
     handed = texts(payload)
-    if ARMS[arm].kind == "cwa":
+    if ALL[arm].kind == "cwa":
         handed = [t.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&") for t in handed]
     return any(wanted in t for t in handed)
 

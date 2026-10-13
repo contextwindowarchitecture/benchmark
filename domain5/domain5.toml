@@ -4,8 +4,8 @@
 # padded to four lengths), the attack templates and their composition into probes, the graders, S0, S1 (every arm's
 # payload built and read: the CWA arms gated through Domain 1's assemblers, the baselines' structure, field-level
 # claims, floods), S2 (every gated payload sent to the model, every reply graded), S3 (the external sets, SEP and
-# LLMail-Inject) and S7 (goldens). The tables of later phases (the second model, thresholds, CI profiles) arrive with
-# them.
+# LLMail-Inject), S5 (the attack in material the user pastes) and S7 (goldens). The tables of later phases (the
+# second model, thresholds, CI profiles) arrive with them.
 
 [contract]
 path = "../../../contextwindowarchitecture"
@@ -13,7 +13,7 @@ commit = "16de4be0534583f135a597171c927d42c87ee82c"  # the same pin as domain1.t
 allow_dirty = false
 
 [run]
-suites = ["S0", "S1", "S2", "S3", "S7"]
+suites = ["S0", "S1", "S2", "S3", "S5", "S7"]
 tasks = ["em", "dq", "tq", "dg", "cq", "sl"]
 size = "pilot"                                   # pilot | recorded: which of each family's sizes a run generates
 results_dir = "results/d5"
@@ -100,6 +100,19 @@ bootstrap_resamples = 2000
 bootstrap_seed = 20261013
 pairs = [["naive", "xml-unescaped"], ["xml-unescaped", "cwa"], ["naive", "cwa"], ["reminder", "cwa-boundary"],
          ["cwa-boundary", "cwa-reinforced"], ["tool-role", "cwa-observation"]]
+
+# S5 · Pasted material (cwabench5/suites/s5_pasted.py, cwabench5/pasted.py): S2's probes for `families`, their items
+# pasted into the user's message in each pasted arm; the CWA arms gated in the suite. `pairs` are its controlled
+# comparisons: rendering, the delimiting R-10 recommends, and a boundary the material can imitate or not.
+[s5]
+arms = ["pasted-naive", "pasted-delimited", "pasted-nonce", "cwa-pasted", "cwa-pasted-nonce"]
+families = ["em", "dq"]
+attacked_samples = 1
+clean_samples = 3
+bootstrap_resamples = 2000
+bootstrap_seed = 20261013
+pairs = [["pasted-naive", "cwa-pasted"], ["cwa-pasted", "cwa-pasted-nonce"], ["pasted-nonce", "cwa-pasted-nonce"],
+         ["pasted-delimited", "pasted-nonce"], ["pasted-naive", "pasted-nonce"]]
 
 # S1's tokenizer check (cwabench5/oracles/tokens.py): off, replay (tokenize-cache/ alone) or server (the served
 # model's /tokenize on a miss, filling the cache), for the first `tokenize_cells` marker cells of each family. The
