@@ -201,8 +201,9 @@ once. The spec's repeated instructions helped a little at 16× and not otherwise
 
 So under CWA the order evidence reads in is the application's to choose, through the ids it gives, and an application
 should give retrieved evidence ids that sort by rank. The specification already ranks a slot's items for shedding
-(`order_by`); letting a route render in that order would remove the trap. That is a question for the specification,
-not yet raised there.
+(`order_by`); letting a route render in that order would remove the trap. That change is proposed to the specification
+as CEP-0002, render a slot in its rank order, and is open for
+[discussion](https://github.com/contextwindowarchitecture/contextwindowarchitecture/discussions/10).
 
 ### Cost and the token estimate (S5)
 
