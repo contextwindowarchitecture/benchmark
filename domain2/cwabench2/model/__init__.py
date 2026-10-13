@@ -66,13 +66,17 @@ class Reply:
 
 
 class Model:
-    def __init__(self, settings: dict, root: Path, mode: str):
+    """`handoff` turns a payload into the messages sent, and `format` names the cache's entries: Domain 2's by default.
+    Another domain passes its own (Domain 5's handoff keeps a tool call's fields, which this one drops)."""
+
+    def __init__(self, settings: dict, root: Path, mode: str, handoff=None, format: str = FORMAT):
         if mode not in MODES:
             raise ValueError(f"the model runs in {' or '.join(MODES)} mode, not {mode}")
         self.mode = mode
         self.settings = settings
+        self.handoff = handoff or messages
         self.client = Client(settings)
-        self.cache = Cache(root / settings.get("cache", "model-cache"), writable=mode == "llm", format=FORMAT)
+        self.cache = Cache(root / settings.get("cache", "model-cache"), writable=mode == "llm", format=format)
         self.calls = 0
         self._lock = threading.Lock()
 
@@ -88,7 +92,7 @@ class Model:
         return {}
 
     def request(self, payload: bytes, sample: int = 0) -> dict:
-        return self.client.body(messages(payload), self.overrides(sample))
+        return self.client.body(self.handoff(payload), self.overrides(sample))
 
     def request_sha256(self, payload: bytes, sample: int = 0) -> str:
         return hashlib.sha256(jcs.serialize_bytes(self.request(payload, sample))).hexdigest()
@@ -105,7 +109,7 @@ class Model:
                          round((time.perf_counter() - started) * 1000, 3), found["provenance"])
         if self.mode == "replay":
             raise CacheMiss(f"no cached reply for request {material['request_sha256'][:12]}, sample {sample}")
-        response = self.client.chat(messages(payload), self.overrides(sample))
+        response = self.client.chat(self.handoff(payload), self.overrides(sample))
         with self._lock:
             self.calls += 1
         provenance = {
