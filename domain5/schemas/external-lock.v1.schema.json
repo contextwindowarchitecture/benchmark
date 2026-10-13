@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d5:external-lock:v1",
+  "title": "External sets' lock",
+  "description": "The external sets vendored under external/ (domain-5-plan.md, 6.6; cwabench5/external/vendor.py): each set's source at its pinned revision with the SHA-256 of the files sampled from, the sample's parameters, and the SHA-256 of every vendored file.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d5/external-lock/v1"
+    },
+    "sets": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "repository": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}$"
+          },
+          "licence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "citation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sources": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              },
+              "required": [
+                "path",
+                "sha256"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "sample": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "name",
+          "repository",
+          "revision",
+          "licence",
+          "citation",
+          "sources",
+          "sample"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "files": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "sets",
+    "files"
+  ],
+  "additionalProperties": false
+}

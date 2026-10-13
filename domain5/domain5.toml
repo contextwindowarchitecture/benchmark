@@ -1,10 +1,11 @@
 # Domain 5 run configuration (domain-5-plan.md, section 12). Paths are relative to this file.
 #
-# This build is P0 to P2: the task generators (six families, each in a plain and an imperative variant, EM and DQ also
+# This build is P0 to P3: the task generators (six families, each in a plain and an imperative variant, EM and DQ also
 # padded to four lengths), the attack templates and their composition into probes, the graders, S0, S1 (every arm's
 # payload built and read: the CWA arms gated through Domain 1's assemblers, the baselines' structure, field-level
-# claims, floods), S2 (every gated payload sent to the model, every reply graded) and S7 (goldens). The tables of
-# later phases (the second model, external sets, thresholds, CI profiles) arrive with them.
+# claims, floods), S2 (every gated payload sent to the model, every reply graded), S3 (the external sets, SEP and
+# LLMail-Inject) and S7 (goldens). The tables of later phases (the second model, thresholds, CI profiles) arrive with
+# them.
 
 [contract]
 path = "../../../contextwindowarchitecture"
@@ -12,7 +13,7 @@ commit = "16de4be0534583f135a597171c927d42c87ee82c"  # the same pin as domain1.t
 allow_dirty = false
 
 [run]
-suites = ["S0", "S1", "S2", "S7"]
+suites = ["S0", "S1", "S2", "S3", "S7"]
 tasks = ["em", "dq", "tq", "dg", "cq", "sl"]
 size = "pilot"                                   # pilot | recorded: which of each family's sizes a run generates
 results_dir = "results/d5"
@@ -79,6 +80,22 @@ clean_samples = 3
 sensitivity_every = 10
 sensitivity_samples = 5
 sensitivity_temperature = 0.7
+bootstrap_resamples = 2000
+bootstrap_seed = 20261013
+pairs = [["naive", "xml-unescaped"], ["xml-unescaped", "cwa"], ["naive", "cwa"], ["reminder", "cwa-boundary"],
+         ["cwa-boundary", "cwa-reinforced"], ["tool-role", "cwa-observation"]]
+
+# The external sets S3 sends (cwabench5/external/): SEP and LLMail-Inject, sampled from their sources at pinned
+# revisions into `dir` with a SHA-256 lock (`cwabench --domain 5 external vendor`, `external check`). A pilot run sends
+# each set's first tenth: 100 SEP cases (each twice, the probe in the instruction and in the data) and 201 LLMail-Inject
+# submissions; a recorded run all 1,000 and 2,000.
+[external]
+dir = "external"
+sets = ["sep", "llmail"]
+
+# S3 · External (cwabench5/suites/s3_external.py): each external probe once per arm at the model's temperature;
+# `pairs` are S2's controlled comparisons, on the same probes.
+[s3]
 bootstrap_resamples = 2000
 bootstrap_seed = 20261013
 pairs = [["naive", "xml-unescaped"], ["xml-unescaped", "cwa"], ["naive", "cwa"], ["reminder", "cwa-boundary"],

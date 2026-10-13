@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d5:external-index:v1",
+  "title": "External index",
+  "description": "The external sets' probes one run sends (domain-5-plan.md, 6.6, 11), by set, and the lock they were vendored under, as a blob.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d5/external-index/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "size": {
+      "enum": [
+        "pilot",
+        "recorded"
+      ]
+    },
+    "lock": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sets": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}$"
+          },
+          "probes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "required": [
+          "source",
+          "revision",
+          "probes"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "size",
+    "lock",
+    "sets"
+  ],
+  "additionalProperties": false
+}

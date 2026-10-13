@@ -1,6 +1,6 @@
 """S1 · Structural isolation (domain-5-plan.md, 8): every payload S2 will send, built and read before a model sees it.
 
-For every cell of the grid (grid.py) and every arm:
+For every cell of the grid (grid.py), S3's external probes included, and every arm:
 
 - **CWA arms**: the probe's snapshot (application/snapshot.py) is assembled by every adapter and judged as Domain 2's
   gate judges (its `assemble`): the prediction (outcome, payload bytes, `input_tokens`, included items), Domain 1's
@@ -38,7 +38,7 @@ from cwabench.rundir import now
 from cwabench2 import metrics
 from cwabench2.suites import s1_gate as d2_gate
 
-from .. import baselines, grid, output
+from .. import baselines, external, grid, output
 from ..application import claims as claims_mod
 from ..application import route as route_mod
 from ..application.snapshot import freeze
@@ -147,8 +147,10 @@ def run(ctx: SuiteContext) -> SuiteResult:
     cwa_arms = [a for a in config.arms if ARMS[a].kind == "cwa"]
     base_arms = [a for a in config.arms if ARMS[a].kind == "baseline"]
     long = grid.padded(ctx.tasks, config.lengths, config.attacks.seed)
-    tasks_by_id = grid.tasks_by_id(ctx.tasks, long)
-    cells = grid.cells(ctx.tasks, config.attacks.families, config.html_templates, long, config.length_templates)
+    outside = [t for found in ctx.external.values() for t in found]
+    tasks_by_id = grid.tasks_by_id(ctx.tasks, long, outside)
+    cells = grid.cells(ctx.tasks, config.attacks.families, config.html_templates, long, config.length_templates,
+                       outside)
     seed, template = config.attacks.seed, config.attacks.chat_template
     settings, tokenizer = config.application, config.application.tokenizer
     tally = defaultdict(lambda: [0, 0])  # check → [passed, total]
@@ -227,7 +229,7 @@ def run(ctx: SuiteContext) -> SuiteResult:
                         places = Counter(t for t, _, _ in structure.expected(twin.snapshot, twin.items)[1])
                     built = baselines.build(arm, task, probe["items"], tokenizer, cwa_payload)
                     read = structure.baseline(arm, built.payload, places)
-                    carrier = probe["carrier"] or "clean"
+                    carrier = probe["carrier"] or (cell["kind"] if cell["kind"] in external.KINDS else "clean")
                     if read.forged is not None:
                         forged[(arm, carrier)][0] += read.forged
                         forged[(arm, carrier)][1] += 1

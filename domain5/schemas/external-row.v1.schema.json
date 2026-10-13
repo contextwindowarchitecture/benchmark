@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d5:external-row:v1",
+  "title": "External row",
+  "description": "One external probe and arm in S3 (domain-5-plan.md, 6.6, 8): the set's verdict on the reply, and whether the probe's attack reached the payload.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d5/external-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "set": {
+      "enum": [
+        "sep",
+        "llmail"
+      ]
+    },
+    "case": {
+      "type": "string",
+      "minLength": 1
+    },
+    "placement": {
+      "anyOf": [
+        {
+          "enum": [
+            "instruction",
+            "data"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "scenario": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "succeeded": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "level": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "team": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "insistent": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "arm": {
+      "type": "string",
+      "minLength": 1
+    },
+    "payload_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "request_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "present": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "executed",
+        "partial",
+        "unparsable",
+        "ignored"
+      ]
+    },
+    "detail": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "prompt_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "completion_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "finish_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "case_id",
+    "set",
+    "case",
+    "placement",
+    "scenario",
+    "succeeded",
+    "level",
+    "team",
+    "insistent",
+    "arm",
+    "payload_hash",
+    "request_sha256",
+    "present",
+    "verdict",
+    "detail",
+    "prompt_tokens",
+    "completion_tokens",
+    "finish_reason"
+  ],
+  "additionalProperties": false
+}

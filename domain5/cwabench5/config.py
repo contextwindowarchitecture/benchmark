@@ -1,7 +1,7 @@
-"""The run configuration, domain5.toml (domain-5-plan.md, 12). This build reads the tables P0 and P1 need: the
+"""The run configuration, domain5.toml (domain-5-plan.md, 12). This build reads the tables P0 to P3 need: the
 contract pin, the run, the task families, the attacks, Domain 1's adapters, the budgets' settings, the arms, the grid,
-S1's tokenizer check and S7's goldens; the others (models, axes, external sets, thresholds, CI profiles) arrive with
-the phases that use them."""
+S1's tokenizer check, the model, S2, the external sets and S3, and S7's goldens; the others (the second model,
+thresholds, CI profiles) arrive with the phases that use them."""
 from __future__ import annotations
 
 import hashlib
@@ -17,7 +17,7 @@ from .attacks import FAMILIES as ATTACK_FAMILIES
 from .attacks.carriers import MARKERS
 from .tasks import FAMILIES as TASK_FAMILIES
 
-SUITES = ("S0", "S1", "S2", "S7")
+SUITES = ("S0", "S1", "S2", "S3", "S7")
 SIZES = ("pilot", "recorded")
 ADAPTER_SUITES = ("S1",)  # suites that assemble, and so set up the adapters
 TOKENIZE = ("off", "replay", "server")
@@ -28,6 +28,8 @@ S2_DEFAULTS = {"arms": None, "attacked_samples": 1, "clean_samples": 3, "sensiti
                "pairs": [["naive", "xml-unescaped"], ["xml-unescaped", "cwa"], ["naive", "cwa"],
                          ["reminder", "cwa-boundary"], ["cwa-boundary", "cwa-reinforced"],
                          ["tool-role", "cwa-observation"]]}
+S3_DEFAULTS = {"arms": None, "bootstrap_resamples": 2000, "bootstrap_seed": 20261013, "pairs": S2_DEFAULTS["pairs"]}
+EXTERNAL_SETS = ("sep", "llmail")
 
 
 class ConfigError(Exception):
@@ -88,6 +90,9 @@ class Config:
     goldens: Path | None = None  # S7's adopted goldens
     model: dict = field(default_factory=lambda: dict(MODEL_DEFAULTS))  # Domain 2's [model] keys
     s2: dict = field(default_factory=lambda: dict(S2_DEFAULTS))
+    s3: dict = field(default_factory=lambda: dict(S3_DEFAULTS))
+    external_dir: Path | None = None  # the vendored external sets (external/vendor.py)
+    external_sets: list[str] = field(default_factory=lambda: list(EXTERNAL_SETS))
     checkouts: Path | None = None  # CI: the spec and Domain 1's assemblers read from here, by directory name
 
 
@@ -208,6 +213,32 @@ def load(path: str | Path) -> Config:
         raise ConfigError(f"[s2].pairs names arms S2 does not send: {stray}")
     if "S2" in suites and "S1" not in suites:
         raise ConfigError("S2 sends what S1 gated, so it needs S1")
+    s3 = {**S3_DEFAULTS, **_table(data, "s3")}
+    unknown_keys = sorted(set(s3) - set(S3_DEFAULTS))
+    if unknown_keys:
+        raise ConfigError(f"[s3] has unknown keys: {', '.join(unknown_keys)}")
+    if s3["arms"] is None:
+        s3["arms"] = list(arms)
+    stray = [a for a in s3["arms"] if a not in arms]
+    if stray:
+        raise ConfigError(f"[s3].arms names arms this run does not build: {', '.join(stray)}")
+    stray = [p for p in s3["pairs"] if len(p) != 2 or any(a not in s3["arms"] for a in p)]
+    if stray and "S3" in suites:
+        raise ConfigError(f"[s3].pairs names arms S3 does not send: {stray}")
+    if "S3" in suites and "S1" not in suites:
+        raise ConfigError("S3 sends what S1 gated, so it needs S1")
+    ext = _table(data, "external")
+    unknown_keys = sorted(set(ext) - {"dir", "sets"})
+    if unknown_keys:
+        raise ConfigError(f"[external] has unknown keys: {', '.join(unknown_keys)}")
+    external_sets = ext.get("sets", list(EXTERNAL_SETS))
+    stray = [s for s in external_sets if s not in EXTERNAL_SETS]
+    if stray:
+        raise ConfigError(f"[external].sets names sets this build does not have: {', '.join(stray)}")
+    external_dir = (root / str(ext.get("dir", "external"))).resolve()
+    if "S3" in suites and not (external_dir / "lock.json").is_file():
+        raise ConfigError(f"S3 needs the vendored external sets: {external_dir}/lock.json is missing "
+                          "(cwabench --domain 5 external vendor)")
 
     findings = _table(data, "findings")
     upstream_path = (root / str(findings.get("upstream", "findings/upstream.json"))).resolve()
@@ -245,4 +276,7 @@ def load(path: str | Path) -> Config:
         goldens=(root / s7.get("goldens", "goldens/d5-goldens.json")).resolve(),
         model=model,
         s2=s2,
+        s3=s3,
+        external_dir=external_dir,
+        external_sets=list(external_sets),
     )

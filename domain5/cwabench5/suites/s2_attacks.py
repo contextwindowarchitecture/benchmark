@@ -33,7 +33,7 @@ from cwabench.rundir import now
 from cwabench2 import metrics, stats
 from cwabench2.model import Model
 
-from .. import baselines, grid, handoff, output
+from .. import baselines, external, grid, handoff, output
 from ..application.snapshot import freeze
 from ..arms import ARMS
 from ..grading import grade_reply, judge
@@ -79,6 +79,7 @@ def run(ctx: SuiteContext) -> SuiteResult:
     config = ctx.config
     s2 = config.s2
     cells, tasks_by_id, gate = ctx.shared["cells"], ctx.shared["tasks_by_id"], ctx.shared["gate"]
+    cells = [c for c in cells if c["kind"] not in external.KINDS]  # S3's
     arms = list(s2["arms"])
     model = Model(config.model, config.root, config.model["mode"], handoff=handoff.messages, format=CACHE_FORMAT)
     sampled = Model({**config.model, "temperature": s2["sensitivity_temperature"]}, config.root,

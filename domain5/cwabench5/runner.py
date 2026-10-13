@@ -3,11 +3,12 @@
 
 The run directory is Domain 1's (cwabench.rundir) under Domain 5's prefix: index.json, manifest.json, config.toml,
 contract.json, summary.json, findings.jsonl, suites/<id>/, blobs/, plus tasks/<family>/index.json, which lists each
-instance this run generated with the digest of its blob, and attacks/index.json, the templates probes are composed
-from.
+instance this run generated with the digest of its blob, attacks/index.json, the templates probes are composed
+from, and with S3 external/index.json, the external probes sent and the lock of the sets they came from.
 """
 from __future__ import annotations
 
+import json
 import sys
 import traceback
 from pathlib import Path
@@ -21,13 +22,13 @@ from cwabench.contract import Contract
 from cwabench.runner import adapter_entries, setup_adapters
 from cwabench.rundir import RunDir, now, worst
 
-from . import __version__, attacks, output, tasks
+from . import __version__, attacks, external, output, tasks
 from .attacks.families import APPLIES, BODIES, OPENERS
 from .config import ADAPTER_SUITES, Config, ConfigError
-from .suites import SuiteContext, SuiteResult, s0_selfcheck, s1_structure, s2_attacks, s7_goldens
+from .suites import SuiteContext, SuiteResult, s0_selfcheck, s1_structure, s2_attacks, s3_external, s7_goldens
 
-# Canonical order: S2 sends what S1 gated; S7 reads S1's rows.
-SUITES = {"S0": s0_selfcheck, "S1": s1_structure, "S2": s2_attacks, "S7": s7_goldens}
+# Canonical order: S2 and S3 send what S1 gated; S7 reads S1's rows.
+SUITES = {"S0": s0_selfcheck, "S1": s1_structure, "S2": s2_attacks, "S3": s3_external, "S7": s7_goldens}
 
 ROOT = Path(__file__).resolve().parent.parent
 D2_ROOT = ROOT.parent / "domain2"
@@ -76,6 +77,16 @@ def write_attacks(run_dir: RunDir, config: Config) -> None:
         "$schema": output.schema_name("attack-index"), "run_id": run_dir.run_id, "seed": config.attacks.seed,
         "chat_template": config.attacks.chat_template, "families": config.attacks.families, "templates": templates,
     }, "The attack templates this run composes probes from")
+
+
+def write_external(run_dir: RunDir, config: Config, found: dict[str, list[dict]]) -> None:
+    lock = json.loads((config.external_dir / "lock.json").read_text(encoding="utf-8"))
+    run_dir.write_json("external/index.json", {
+        "$schema": output.schema_name("external-index"), "run_id": run_dir.run_id, "size": config.size,
+        "lock": run_dir.blobs.put_json(lock),
+        "sets": {name: {"source": lock["sets"][name]["repository"], "revision": lock["sets"][name]["revision"],
+                        "probes": [t["task_id"] for t in probes]} for name, probes in found.items()},
+    }, "The external sets' probes this run sends, and the lock they were vendored under")
 
 
 def adapters_config(config: Config):
@@ -138,7 +149,12 @@ def run(config: Config, build: bool = True, log: Callable[[str], None] = _log) -
         write_tasks(run_dir, config, found)
         write_attacks(run_dir, config)
         log("tasks: " + ", ".join(f"{name} {len(t)}" for name, t in found.items()))
-        context = SuiteContext(config, contract, run_dir, found, ready, unavailable, log)
+        outside = external.tasks(config.external_dir, config.external_sets, config.size) if "S3" in config.suites \
+            else {}
+        if outside:
+            write_external(run_dir, config, outside)
+            log("external: " + ", ".join(f"{name} {len(t)}" for name, t in outside.items()))
+        context = SuiteContext(config, contract, run_dir, found, ready, unavailable, log, external=outside)
         for suite in [s for s in SUITES if s in config.suites]:
             results.append(SUITES[suite].run(context))
             log(f"{suite}: {results[-1].status}")

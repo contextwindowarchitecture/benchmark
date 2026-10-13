@@ -14,6 +14,7 @@ from cwabench.contract import ContractError
 from cwabench.validate import validate_run
 
 from . import config as config_mod
+from .external.vendor import VendorError
 from . import output  # noqa: F401  registers Domain 5's prefix, so validate_run reads its documents
 from .runner import run
 
@@ -95,6 +96,13 @@ def main(argv: list[str] | None = None) -> int:
     accept_cmd = goldens_sub.add_parser("accept", help="adopt a run's candidate goldens as the baseline")
     accept_cmd.add_argument("run_dir", nargs="?", help="default: the latest run")
 
+    external_cmd = commands.add_parser("external", help="vendor or check the external sets S3 sends (external/)")
+    external_sub = external_cmd.add_subparsers(dest="external_command", required=True)
+    vendor_cmd = external_sub.add_parser("vendor", help="sample the external sets from their downloaded sources")
+    vendor_cmd.add_argument("--source", required=True, metavar="DIR",
+                            help="a directory holding sep/ and llmail/ as downloaded at the pinned revisions")
+    external_sub.add_parser("check", help="check the vendored files against their lock")
+
     validate_cmd = commands.add_parser("validate", help="check a run directory against its schemas and blob digests")
     validate_cmd.add_argument("run_dir", nargs="?", help="default: the latest run")
 
@@ -115,6 +123,19 @@ def main(argv: list[str] | None = None) -> int:
             target, count = accept(config, run_dir.resolve())
             print(f"adopted {count} golden(s) from {run_dir.resolve().name} → {target}")
             return 0
+        if args.command == "external":
+            from .external import vendor
+
+            if args.external_command == "vendor":
+                lock = vendor.vendor(Path(args.source).resolve(), config.external_dir,
+                                     log=lambda m: print(m, file=sys.stderr))
+                print(f"vendored {', '.join(lock['sets'])} → {config.external_dir}")
+                return 0
+            problems = vendor.check(config.external_dir)
+            for problem in problems:
+                print(problem)
+            print(f"{config.external_dir}: {'matches its lock' if not problems else f'{len(problems)} problem(s)'}")
+            return 1 if problems else 0
         if args.command == "validate":
             run_dir = Path(args.run_dir) if args.run_dir else config.results_dir / "latest"
             problems = validate_run(run_dir.resolve(), config.contract_path)
@@ -122,7 +143,7 @@ def main(argv: list[str] | None = None) -> int:
                 print(problem)
             print(f"{run_dir}: {'valid' if not problems else f'{len(problems)} problem(s)'}")
             return 1 if problems else 0
-    except (config_mod.ConfigError, ContractError, D1ConfigError) as error:
+    except (config_mod.ConfigError, ContractError, D1ConfigError, VendorError) as error:
         print(f"cwabench --domain 5: {error}", file=sys.stderr)
         return 2
     return 2

@@ -10,14 +10,15 @@ A cell is one probe before any arm writes it:
   every HTML carrier × both producers, the position rotating;
 - **length** (the length sweep): every plain EM and DQ instance padded to each of `[grid].lengths` tokens
   (tasks/length.py) × the first `[grid].length_templates` test templates that apply, at the end, the carrier balanced;
-  and each padded instance clean.
+  and each padded instance clean;
+- **sep** and **llmail** (S3's external sets, external/): each external probe once, as its set wrote it.
 
 `probe(cell, task, arm, …)` writes a cell for one arm. Only the `tag` carrier differs between arms: it forges the
 arm's own delimiters (arms.py), so its probe is composed per arm; every other cell is the same for every arm.
 """
 from __future__ import annotations
 
-from . import attacks
+from . import attacks, external
 from .arms import ARMS
 from .attacks import carriers
 from .attacks import html as html_attacks
@@ -35,12 +36,12 @@ def padded(instances: dict[str, list[dict]], lengths: list[int], seed: int) -> l
             if task["variant"] == "plain" for length in lengths]
 
 
-def tasks_by_id(instances: dict[str, list[dict]], long: list[dict]) -> dict[str, dict]:
-    return {t["task_id"]: t for t in [*(t for family in instances.values() for t in family), *long]}
+def tasks_by_id(instances: dict[str, list[dict]], long: list[dict], outside: list[dict] = ()) -> dict[str, dict]:
+    return {t["task_id"]: t for t in [*(t for family in instances.values() for t in family), *long, *outside]}
 
 
 def cells(instances: dict[str, list[dict]], families: list[str], html_templates: int, long: list[dict] = (),
-          length_templates: int = 0) -> list[dict]:
+          length_templates: int = 0, outside: list[dict] = ()) -> list[dict]:
     found = []
     plain = [t for family in instances.values() for t in family if t["variant"] == "plain"]
     templates = _templates(families)
@@ -78,6 +79,9 @@ def cells(instances: dict[str, list[dict]], families: list[str], html_templates:
                           "carrier": carrier, "producer": None})
         found.append({"cell_id": f"{task['task_id']}/clean", "kind": "length-clean", "task_id": task["task_id"],
                       "template_id": None, "position": None, "carrier": None, "producer": None})
+    for task in outside:
+        found.append({"cell_id": task["task_id"], "kind": task["family"], "task_id": task["task_id"],
+                      "template_id": None, "position": None, "carrier": None, "producer": None})
     return found
 
 
@@ -91,6 +95,12 @@ def probe(cell: dict, task: dict, arm: str, seed: int, chat_template: str) -> di
                 "position": None, "carrier": None, "producer": None, "item_id": None, "instruction": None,
                 "attack_text": None, "inserted": None, "items": task["items"], "answer": task["answer"],
                 "predicate": None}
+    if cell["kind"] in external.KINDS:
+        given = task["external"]
+        return {"probe_id": cell["cell_id"], "task_id": task["task_id"], "template_id": None, "family": task["family"],
+                "position": None, "carrier": None, "producer": None, "item_id": given["attack_item"],
+                "instruction": None, "attack_text": given["attack_text"], "inserted": None, "items": task["items"],
+                "answer": None, "predicate": None}
     template = _TEMPLATES[cell["template_id"]]
     if cell["kind"] == "html":
         return html_attacks.compose(task, template, cell["position"], cell["carrier"], cell["producer"], seed)
