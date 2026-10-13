@@ -9,6 +9,12 @@ model, two external sets (SEP and LLMail-Inject), an adaptive attacker, and S0 t
 payload to the model, by default replaying the committed cache of its replies (`model-cache/`, filled on the GPU host
 at pilot size), so a run needs no model. Later phases add the recorded runs and the second model.
 
+The recorded run with the first model (Qwen3.6-35B-A3B-FP8, Domain 2's) is made on the one-GPU host. The second
+model family, Meta-SecAlign-70B and its base Llama-3.3-70B-Instruct, waits for a multi-GPU host: on one 96 GB GPU both
+would run only at 8-bit, where Meta reports SecAlign at 16-bit, so a difference could be quantization rather than
+CWA, and the run would take about a week of nights. With sponsored hardware they run at 16-bit, as published, from
+one server (the adapter beside its base), in a few days; until then, results are one model's.
+
 - **Task instances** (`cwabench5/tasks/`). Seeded generators write benign tasks with ground truth known by
   construction; every name, figure and supplier is fictional. An instance holds the governance instructions (with a
   reference code, the canary the extraction attacks ask for, in the instructions only), the output contract, the
