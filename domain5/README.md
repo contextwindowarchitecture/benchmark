@@ -121,8 +121,8 @@ key); S1's optional tokenizer check asks the same server to tokenize, never to g
 - `[adapters]`: Domain 1's configuration, the adapters used and the payload source.
 - `[budgets]`: reserved output, margin, tokenizer and renderer (Domain 2's).
 - `[arms]`: `use`, the arms built. `[grid]`: `html_templates`, `lengths`, `length_templates`. `[model]`: Domain 2's
-  keys. `[s2]`: the samples, the sensitivity share and temperature, the bootstrap, and the controlled `pairs`. `[s1]`: the tokenizer check (`tokenize`: off, replay or
-  server; its server, model and cells). `[s7]`: the goldens file.
+  keys. `[s2]`: the samples, the sensitivity share and temperature, the bootstrap, and the controlled `pairs`. `[s1]`:
+  the tokenizer check (`tokenize`: off, replay or server; its server, model and cells). `[s7]`: the goldens file.
 
 ## Output
 
