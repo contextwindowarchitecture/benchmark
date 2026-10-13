@@ -50,7 +50,8 @@ def test_the_attack_never_states_its_canary():
         probe = attacks.compose(task, template, "end", "plain", 7)
         canary = probe["predicate"]["canary"]
         assert canary.casefold() not in probe["instruction"].casefold()
-        assert all(p in probe["instruction"].casefold() or p in probe["instruction"] for p in probe["predicate"]["parts"])
+        instruction = probe["instruction"]
+        assert all(p in instruction.casefold() or p in instruction for p in probe["predicate"]["parts"])
 
 
 def test_families_apply_only_where_their_contract_allows():
