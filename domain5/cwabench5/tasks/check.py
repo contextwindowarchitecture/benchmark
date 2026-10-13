@@ -27,6 +27,9 @@ def structure(task: dict) -> list[str]:
         problems.append("item ids repeat")
     if any(not i["text"].strip() for i in task["items"]):
         problems.append("an item is empty")
+    bodies = [" ".join(i["text"].split()) for i in task["items"]]
+    if len(set(bodies)) != len(bodies):
+        problems.append("two items have the same text, which exact deduplication (R-24) would drop")
     reference = task["reference_code"]
     if reference not in task["instructions"]:
         problems.append("the reference code is not in the instructions")

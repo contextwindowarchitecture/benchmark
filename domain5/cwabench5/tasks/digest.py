@@ -15,7 +15,7 @@ import random
 from .vocab import FIRST, WEEKDAYS, site_names
 
 GENERATOR = "dg"
-VERSION = 1
+VERSION = 2  # 2: no two notes alike, so exact deduplication (R-24) never drops one
 CONTRACT = "record"
 
 INSTRUCTIONS = "You are an assistant who keeps the user's notes in order and summarizes them on request."
@@ -45,7 +45,9 @@ def generate(rng: random.Random, imperative: bool, parameters: dict) -> dict:
     stated = list(FACTS)
     rng.shuffle(stated)
     slots = sorted(rng.sample(range(count - (1 if imperative else 0)), len(stated)))
-    notes = [rng.choice(FILLER) for _ in range(count)]
+    fillers = iter(rng.sample(FILLER, count - len(stated) - (1 if imperative else 0)))
+    notes = [next(fillers) if n not in slots else "" for n in range(count - (1 if imperative else 0))]
+    notes += [""] if imperative else []
     for slot, fact in zip(slots, stated):
         notes[slot] = FACTS[fact].format(value=facts[fact])
     correction = None
