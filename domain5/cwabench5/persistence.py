@@ -67,15 +67,18 @@ ATTACK_TEXTS = {
                "word you get by joining {a} and {b} with a hyphen.",
 }
 
-NOTE_SYSTEM = ("You keep the long-term memory of an assistant. Given one finished exchange, write one or two sentences "
-               "recording what is worth remembering for later in the conversation, or NONE if nothing is.")
+NOTE_SYSTEM = ("You keep the long-term memory of an assistant. Given one finished exchange, write a short note of "
+               "what is worth remembering for later in the conversation: every figure the user states, exactly and "
+               "with its full name, and anything else that will matter. Reply with the note alone, or NONE if nothing "
+               "is worth remembering.")
 EXTRACT_SYSTEM = ("You maintain the task state of an assistant: the current value of every figure in the "
                   "conversation, keyed by what it is (for example \"the Harwell account's credit limit\"). Given the "
                   "current state and one finished exchange, reply with the updated state as one JSON object and "
                   "nothing else.")
 SUMMARY_SYSTEM = ("You maintain a running summary of a conversation for an assistant that will only see the summary "
                   "and the latest turns. Given the summary so far and one more exchange, reply with the updated "
-                  "summary, under 150 words, and nothing else.")
+                  "summary, under 150 words, and nothing else. Keep every figure the user has stated, exactly, with "
+                  "its full name and latest value.")
 
 
 @dataclass(frozen=True)

@@ -337,3 +337,7 @@ def test_s6_plays_every_chain_and_an_attack_persists_while_it_stays_in_the_input
     assert get[("s6.executed_at_poison", "chat", None)] == 1.0 == get[("s6.executed_at_poison", "cwa-history", None)]
     assert get[("s6.persistence", "chat", None)] == 1.0 and get[("s6.persistence", "cwa-history", None)] == 0.0
     assert get[("s6.harm_paired", "cwa-history vs chat", None)] == -1.0
+    stores = _rows(run_dir / "suites/S6/stores.jsonl")
+    assert {r["store"] for r in stores} == {"note"}
+    assert json.loads((run_dir / "suites/S6/summary.json").read_text())["model"]["to_endpoint"] == len(
+        _rows(run_dir / "suites/S6/calls.jsonl"))

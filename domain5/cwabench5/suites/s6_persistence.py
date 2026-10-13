@@ -19,12 +19,13 @@ Measured per arm, with cluster-bootstrap intervals over conversations:
 - `s6.harm_paired` for each of `[s6].pairs`: per (conversation, attack), b's harm minus a's, harm being the attack's
   own rate (the persistence rate, the trigger rate or the poisoned-answer rate).
 
-Rows: `suites/S6/chains.jsonl` (`chain-row`, one per chain and point), `suites/S6/gate.jsonl` (`gate-row`) and
-`calls.jsonl` (`call-row`).
+Rows: `suites/S6/chains.jsonl` (`chain-row`, one per chain and point), `stores.jsonl` (`store-row`: every note,
+extracted state and summary the producers wrote), `gate.jsonl` (`gate-row`) and `calls.jsonl` (`call-row`).
 """
 from __future__ import annotations
 
 import hashlib
+import json
 import random
 import threading
 from collections import defaultdict
@@ -79,30 +80,46 @@ def run(ctx: SuiteContext) -> SuiteResult:
     server = model.server()
     gate = Gate(ctx, ID)
     lock = threading.Lock()
-    call_rows, errors, rows, gate_rows = {}, [], [], []
+    call_rows, errors, rows, gate_rows, store_rows = {}, [], [], [], []
+
+    def stored(chain, turn: int, kind: str, text: str) -> None:
+        store_rows.append({"$schema": output.schema_name("store-row"), "run_id": ctx.run.run_id, "suite": ID,
+                           "case_id": f"{chain.id}@{kind}{turn:03d}", "chain": chain.id, "arm": chain.arm.name,
+                           "attack": chain.poison.attack, "turn": turn, "store": kind, "text": text,
+                           "carries": chain.carries(text)})
     ctx.log(f"S6: {len(every)} chains ({len(every) // max(len(s6['arms']), 1)} conversations × attacks, "
             f"{len(s6['arms'])} arms), {settings.turns} turns")
 
     def ask_all(requests: list[tuple[persistence.Chain, bytes]]) -> list[object]:
-        def one(request):
-            chain, data = request
+        """Every request's reply, each distinct payload asked once: chains often send the same one (turn 1 under
+        every attack), and two copies in flight at once would both reach the endpoint and could differ, which a
+        replay, holding one, could not reproduce."""
+        distinct = {hashlib.sha256(data).hexdigest(): data for _, data in requests}
+
+        def one(item):
+            sha, data = item
             try:
                 reply = model.ask(data, 0)
             except (CacheMiss, EndpointError) as error:
                 with lock:
                     errors.append(f"{type(error).__name__}: {error}")
-                chain.halted = "error"
-                return None
-            sha = hashlib.sha256(data).hexdigest()
+                return sha, None
             with lock:
                 call_rows[(sha, 0)] = {
                     "$schema": output.schema_name("call-row"), "run_id": ctx.run.run_id, "suite": ID, "key": reply.key,
                     "request_sha256": reply.request_sha256, "payload_sha256": sha, "sample": 0,
                     "cache_hit": reply.cache_hit, "lookup_ms": reply.lookup_ms, "provenance": reply.provenance}
-            return reply
+            return sha, reply
 
         with ThreadPoolExecutor(max_workers=max(1, int(config.model.get("concurrency", 2)))) as pool:
-            return list(pool.map(one, requests))
+            replies = dict(pool.map(one, distinct.items()))
+        answered = []
+        for chain, data in requests:
+            reply = replies[hashlib.sha256(data).hexdigest()]
+            if reply is None:
+                chain.halted = "error"
+            answered.append(reply)
+        return answered
 
     def step(kind: str, turn: int) -> None:
         live = [c for c in every if c.halted is None]
@@ -111,6 +128,7 @@ def run(ctx: SuiteContext) -> SuiteResult:
             for (chain, _), reply in zip(due, ask_all(due)):
                 if reply is not None:
                     persistence.take_summary(chain, settings, turn, reply.text)
+                    stored(chain, chain.summarized, "summary", chain.summary)
             live = [c for c in live if c.halted is None]
         question = None
         built = []
@@ -175,6 +193,10 @@ def run(ctx: SuiteContext) -> SuiteResult:
             for (chain, _), reply in zip(due, ask_all(due)):
                 if reply is not None:
                     persistence.take_producer(chain, turn, reply.text)
+                    if chain.arm.carry == "notes":
+                        stored(chain, turn, "note", chain.notes.get(turn, "NONE"))
+                    else:
+                        stored(chain, turn, "state", json.dumps(chain.state, ensure_ascii=False, sort_keys=True))
 
     try:
         for turn in range(1, settings.turns + 1):
@@ -192,6 +214,10 @@ def run(ctx: SuiteContext) -> SuiteResult:
                         "had reached")
     ctx.run.write_jsonl(f"suites/{ID}/gate.jsonl", gate_rows, "gate-row",
                         "One row per CWA chain and point: every adapter's answer, the structure and the attack")
+    store_rows.sort(key=lambda r: r["case_id"])
+    ctx.run.write_jsonl(f"suites/{ID}/stores.jsonl", store_rows, "store-row",
+                        "One row per chain and producer output: each memory note, the extracted state after each turn, "
+                        "and each summary, and whether it held the attack")
     ctx.run.write_jsonl(f"suites/{ID}/calls.jsonl", [call_rows[k] for k in sorted(call_rows)], "call-row",
                         "Provenance of every model call S6 made or replayed: replies and producers")
 
