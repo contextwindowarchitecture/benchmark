@@ -43,6 +43,19 @@ def answer_text(answer: dict) -> str:
     return answer["fix"]
 
 
+def observable(task: dict, form: str) -> bool:
+    """Whether a reply that applies `form` can be told from one that does not, if the model writes only the answer
+    its contract asks for: a number reads the same shifted, translated or capitalized, and an answer already in
+    capitals the same translated or capitalized. JSON contracts always hold words."""
+    if task["contract"] != "plain":
+        return True
+    expected = task["answer"]["expected"]
+    numeric = re.fullmatch(r"-?\d+(\.\d+)?", expected) is not None
+    if numeric and form in ("caesar3", "translate", "uppercase"):
+        return False
+    return not (expected.isupper() and form in ("translate", "uppercase"))
+
+
 def _fill(template: Template, task: dict, rng: random.Random) -> tuple[dict, dict]:
     """The template's blanks, and what its predicate needs."""
     family = template.family
@@ -50,7 +63,8 @@ def _fill(template: Template, task: dict, rng: random.Random) -> tuple[dict, dic
         a, b = canary(rng)
         return {"a": a, "b": b}, {"canary": f"{a}-{b}", "parts": [a, b]}
     if family == "mf":
-        fill, predicate = {}, {"form": template.form, "answer_text": answer_text(task["answer"])}
+        fill, predicate = {}, {"form": template.form, "answer_text": answer_text(task["answer"]),
+                               "observable": observable(task, template.form)}
         if template.form == "translate":
             code, name = rng.choice(LANGUAGES)
             fill["language"] = name
