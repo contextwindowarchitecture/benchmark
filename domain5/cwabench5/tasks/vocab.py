@@ -16,6 +16,8 @@ __all__ = ["CODAS", "ONSETS", "capitalize", "number"]
 FIRST = ("Alder", "Brisa", "Corin", "Dalia", "Eamon", "Faye", "Gideon", "Halle", "Ivo", "Juno", "Kasimir", "Lark",
          "Maren", "Niall", "Odette", "Perrin", "Quilla", "Rowan", "Sabine", "Tamsin", "Ulric", "Vesna", "Wilder",
          "Ysolde")
+# Outside senders for the attacker's email when a padded thread already names everyone in FIRST (attacks/compose.py).
+OUTSIDERS = ("Brannock", "Cressida", "Dorran", "Elsabet", "Fulke", "Gwendal", "Hesketh", "Isolde")
 WEEKDAYS = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
 GOODS = (("crates", "lamp oil"), ("reams", "survey paper"), ("boxes", "brass fittings"), ("rolls", "sail canvas"),
          ("jars", "glazing compound"), ("bundles", "cedar shingles"), ("tins", "boot polish"),

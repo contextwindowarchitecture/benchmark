@@ -100,3 +100,14 @@ def test_the_task_schema_holds_an_attacked_instance():
     task = tasks.generate("dq", 5, "imperative", 0, {})
     probe = attacks.compose(task, attacks.templates("mf")[3], "start", "heading", 2)
     output.validate(attacks.attacked_task(task, probe))
+
+
+def test_padded_threads_still_take_an_attacker_email():
+    from cwabench5.tasks.length import lengthen
+
+    task = tasks.generate("em", 5, "plain", 0, {})
+    for length in (1000, 4000, 16000, 32000):
+        padded = lengthen(task, length, 7)
+        for template in attacks.templates("ac")[:2] + attacks.templates("hj")[:2]:
+            probe = attacks.compose(padded, template, "end", "plain", 3)
+            assert check.problems(padded, probe) == [], probe["probe_id"]

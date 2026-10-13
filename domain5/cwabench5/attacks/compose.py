@@ -19,7 +19,7 @@ import random
 import re
 
 from ..tasks import email as email_task
-from ..tasks.vocab import FIRST, canary, canary_word
+from ..tasks.vocab import FIRST, OUTSIDERS, canary, canary_word
 from . import carriers
 from .families import Template
 
@@ -133,7 +133,7 @@ def compose(task: dict, template: Template, position: str, carrier: str, seed: i
     items = [dict(i) for i in task["items"]]
     if family == "em":  # the attacker's own email, from someone the thread never names
         taken = " ".join(i["text"] for i in items)
-        sender = rng.choice([n for n in FIRST if n not in taken])
+        sender = rng.choice([n for n in FIRST if n not in taken] or [n for n in OUTSIDERS if n not in taken])
         body = " ".join(rng.sample(email_task.FILLER, 2))
         attacked, inserted = insert(body, block, position, lines=False)
         at = rng.randint(0, len(items))
