@@ -240,13 +240,22 @@
             "fix": {
               "type": "string",
               "minLength": 1
+            },
+            "also": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "description": "Fixes as good as `fix`, also graded correct"
             }
           },
           "required": [
             "kind",
             "line",
             "bug",
-            "fix"
+            "fix",
+            "also"
           ],
           "additionalProperties": false
         }

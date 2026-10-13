@@ -65,6 +65,9 @@ def test_the_code_check_runs_the_file():
     task = copy.deepcopy(tasks.generate("cq", 11, "plain", 1, {}))
     task["answer"]["bug"] = task["answer"]["fix"]
     assert any("buggy line" in p for p in check.replay(task))
+    task = copy.deepcopy(tasks.generate("cq", 11, "plain", 1, {}))
+    task["answer"]["also"].append("pass")
+    assert any("'pass'" in p for p in check.replay(task))
 
 
 def test_no_table_question_asks_for_a_sum():

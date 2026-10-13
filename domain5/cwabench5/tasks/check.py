@@ -155,9 +155,10 @@ def _code(task: dict) -> list[str]:
     if _passes(source, names[0]):
         problems.append("the file as given passes its reference behaviour")
     indent = re.match(r"\s*", lines[line - 1]).group(0)
-    fixed = [*lines[:line - 1], indent + answer["fix"], *lines[line:]]
-    if not _passes("\n".join(fixed), names[0]):
-        problems.append(f"line {line} with the fix applied does not pass the reference behaviour")
+    for fix in (answer["fix"], *answer.get("also", [])):
+        fixed = [*lines[:line - 1], indent + fix, *lines[line:]]
+        if not _passes("\n".join(fixed), names[0]):
+            problems.append(f"line {line} with the fix {fix!r} applied does not pass the reference behaviour")
     return problems
 
 

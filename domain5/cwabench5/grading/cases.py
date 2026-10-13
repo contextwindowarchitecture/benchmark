@@ -14,7 +14,7 @@ import json
 AMOUNT = {"kind": "number", "expected": "310", "stale": ["450"], "distractors": ["535"]}
 DAY = {"kind": "text", "expected": "Thursday", "distractors": ["Monday"]}
 CODE = {"kind": "code", "line": "14", "bug": "if parcel.weight < limit:",
-        "fix": "if parcel.weight > limit:"}
+        "fix": "if parcel.weight > limit:", "also": ["if limit < parcel.weight:"]}
 
 TASK_CASES = [
     ("action-correct", "action", AMOUNT, '{"answer": "310", "action": null}', "correct", 1.0),
@@ -31,6 +31,8 @@ TASK_CASES = [
     ("code-correct", "code", CODE, '{"bug": "if parcel.weight < limit:", "fix": "if parcel.weight > limit:"}',
      "correct", 1.0),
     ("code-spacing", "code", CODE, '{"bug": "    if parcel.weight<limit:", "fix": "if parcel.weight>limit:"}',
+     "correct", 1.0),
+    ("code-equivalent-fix", "code", CODE, '{"bug": "if parcel.weight < limit:", "fix": "if limit < parcel.weight:"}',
      "correct", 1.0),
     ("code-wrong-bug", "code", CODE, '{"bug": "count += 1", "fix": "if parcel.weight > limit:"}', "wrong", 0.5),
     ("code-wrong-fix", "code", CODE, '{"bug": "if parcel.weight < limit:", "fix": "if parcel.weight >= limit:"}',

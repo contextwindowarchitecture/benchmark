@@ -6,7 +6,8 @@
   (grading/attacks.py), never the task's.
 - `code`: the reply is one JSON object with `bug` and `fix`: the buggy line as written and the corrected line, each
   compared with whitespace ignored and with character references read (a `cwa-messages/v1` body escapes `<`, so a
-  model that copies the line as it saw it writes `&lt;`, which is the same line). Graded as a record of those two
+  model that copies the line as it saw it writes `&lt;`, which is the same line). The fix may also be any of the
+  answer's `also`, fixes the task lists as equivalent. Graded as a record of those two
   fields: `correct` with both, `wrong` otherwise, scored by the share that are right.
 """
 from __future__ import annotations
@@ -24,9 +25,10 @@ def _code(answer: dict, text: str) -> Grade:
     value, problem = json_object(strip_reasoning(text))
     if value is None:
         return Grade("unparsed", None, 0.0, problem)
+    accepted = {"bug": [answer["bug"]], "fix": [answer["fix"], *answer.get("also", [])]}
     fields = {name: "missing" if name not in value else
-              ("correct" if isinstance(value[name], str)
-               and _SPACE.sub("", html.unescape(value[name])) == _SPACE.sub("", answer[name]) else "wrong")
+              ("correct" if isinstance(value[name], str) and _SPACE.sub("", html.unescape(value[name]))
+               in {_SPACE.sub("", a) for a in accepted[name]} else "wrong")
               for name in ("bug", "fix")}
     correct = sum(v == "correct" for v in fields.values())
     detail = "; ".join(f"{k} {v}" for k, v in fields.items() if v != "correct") or None
