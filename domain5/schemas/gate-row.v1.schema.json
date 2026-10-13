@@ -1,0 +1,332 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d5:gate-row:v1",
+  "title": "Gate row",
+  "description": "One cell and CWA arm in S1 (domain-5-plan.md, 8): every adapter's answer judged against the prediction and by the audit, the structure oracle, and the attack-in-payload oracle.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d5/gate-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cell": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kind": {
+      "enum": [
+        "attacked",
+        "clean",
+        "html"
+      ]
+    },
+    "task": {
+      "type": "string",
+      "minLength": 1
+    },
+    "template": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "position": {
+      "anyOf": [
+        {
+          "enum": [
+            "start",
+            "middle",
+            "end",
+            "head"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "carrier": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "producer": {
+      "anyOf": [
+        {
+          "enum": [
+            "html",
+            "text"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "arm": {
+      "type": "string",
+      "minLength": 1
+    },
+    "snapshot": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The snapshot, stored for clean cells; any other is rebuilt from the run's tasks and its cell"
+    },
+    "snapshot_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "payload_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "input_tokens": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "budget_input": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "answers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "adapter": {
+            "type": "string",
+            "minLength": 1
+          },
+          "outcome": {
+            "enum": [
+              "assembled",
+              "refused",
+              "rejected",
+              "unsupported",
+              "crashed",
+              "timeout",
+              "invalid_output"
+            ]
+          },
+          "exit_code": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "refusal_reason": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "payload_hash": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "trace_hash": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "input_tokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "audit_failed": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^A[0-9]+$"
+            }
+          },
+          "matches_prediction": {
+            "type": "boolean"
+          },
+          "wall_ms": {
+            "type": "number",
+            "minimum": 0
+          },
+          "problem": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "adapter",
+          "outcome",
+          "exit_code",
+          "refusal_reason",
+          "payload_hash",
+          "trace_hash",
+          "input_tokens",
+          "audit_failed",
+          "matches_prediction",
+          "wall_ms",
+          "problem"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "agree": {
+      "type": "boolean"
+    },
+    "structure": {
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "problems": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "ok",
+        "problems"
+      ],
+      "additionalProperties": false
+    },
+    "attack": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "item": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "by_record": {
+              "type": "boolean"
+            },
+            "by_text": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "item",
+            "by_record",
+            "by_text"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "passed",
+        "failed"
+      ]
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "case_id",
+    "cell",
+    "kind",
+    "task",
+    "template",
+    "position",
+    "carrier",
+    "producer",
+    "arm",
+    "snapshot",
+    "snapshot_sha256",
+    "payload_hash",
+    "input_tokens",
+    "budget_input",
+    "answers",
+    "agree",
+    "structure",
+    "attack",
+    "verdict",
+    "findings"
+  ],
+  "additionalProperties": false
+}

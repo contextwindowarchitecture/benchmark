@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d5:claim-row:v1",
+  "title": "Claim row",
+  "description": "One field-level claim or flood in S1 (domain-5-plan.md, 8; cwabench5/application/claims.py): every adapter's outcome, exclusions and audit.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d5/claim-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task": {
+      "type": "string",
+      "minLength": 1
+    },
+    "claim": {
+      "enum": [
+        "retrieval-to-governance",
+        "unverified-governance",
+        "marked-governance",
+        "governing-evidence",
+        "unmarked-evidence",
+        "unlisted-producer",
+        "tool-capability",
+        "flood"
+      ]
+    },
+    "item_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "expected_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "snapshot": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "answers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "adapter": {
+            "type": "string",
+            "minLength": 1
+          },
+          "outcome": {
+            "type": "string",
+            "minLength": 1
+          },
+          "payload_hash": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "excluded": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              ],
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "included": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "audit_failed": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "problem": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "adapter",
+          "outcome",
+          "payload_hash",
+          "excluded",
+          "included",
+          "audit_failed",
+          "problem"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "truncation": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "system_kept": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "system_kept"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "description": "For a flood: whether a front truncation at the same count keeps the system prompt"
+    },
+    "verdict": {
+      "enum": [
+        "passed",
+        "failed"
+      ]
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "case_id",
+    "task",
+    "claim",
+    "item_id",
+    "expected_reason",
+    "snapshot",
+    "answers",
+    "truncation",
+    "verdict",
+    "findings"
+  ],
+  "additionalProperties": false
+}

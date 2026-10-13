@@ -19,6 +19,8 @@ class SuiteContext:
     contract: Contract
     run: RunDir
     tasks: dict[str, list[dict]]  # task family → its instances in this run, plain then imperative
+    adapters: dict = field(default_factory=dict)  # Domain 1's adapters, set up and usable, by name
+    unavailable: dict[str, str] = field(default_factory=dict)  # adapter name → why setup failed
     log: Callable[[str], None] = lambda message: print(message, file=sys.stderr, flush=True)
     shared: dict = field(default_factory=dict)  # results one suite computes and a later one reuses
 

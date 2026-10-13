@@ -1,6 +1,7 @@
-"""The run configuration, domain5.toml (domain-5-plan.md, 12). This build reads the tables P0 needs: the contract pin,
-the run, the task families and the attacks; the others (models, arms, axes, external sets, thresholds, CI profiles)
-arrive with the phases that use them."""
+"""The run configuration, domain5.toml (domain-5-plan.md, 12). This build reads the tables P0 and P1 need: the
+contract pin, the run, the task families, the attacks, Domain 1's adapters, the budgets' settings, the arms, the grid,
+S1's tokenizer check and S7's goldens; the others (models, axes, external sets, thresholds, CI profiles) arrive with
+the phases that use them."""
 from __future__ import annotations
 
 import hashlib
@@ -8,12 +9,17 @@ import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from cwabench2.application.snapshots import Settings
+
+from .arms import ARMS
 from .attacks import FAMILIES as ATTACK_FAMILIES
 from .attacks.carriers import MARKERS
 from .tasks import FAMILIES as TASK_FAMILIES
 
-SUITES = ("S0",)
+SUITES = ("S0", "S1", "S7")
 SIZES = ("pilot", "recorded")
+ADAPTER_SUITES = ("S1",)  # suites that assemble, and so set up the adapters
+TOKENIZE = ("off", "replay", "server")
 
 
 class ConfigError(Exception):
@@ -36,6 +42,15 @@ class AttackConfig:
 
 
 @dataclass(frozen=True)
+class AdaptersConfig:
+    """Domain 1's adapters, which Domain 5 assembles with: their tables in Domain 1's configuration, and its builds."""
+
+    config: Path  # Domain 1's configuration file
+    use: list[str]
+    payload_source: str  # whose payload the model is sent; the others must match it byte for byte
+
+
+@dataclass(frozen=True)
 class Config:
     path: Path
     sha256: str
@@ -49,9 +64,19 @@ class Config:
     attacks: AttackConfig
     results_dir: Path
     upstream_path: Path | None = None
-    timeout_s: float = 60.0  # per assembly, from P1
-    concurrency: int = 1  # snapshots in flight, from P1
+    timeout_s: float = 60.0  # per assembly
+    concurrency: int = 1  # snapshots in flight, each on every adapter at once
     settings: dict[str, dict] = field(default_factory=dict)
+    adapters: AdaptersConfig | None = None
+    application: Settings = field(default_factory=Settings)  # reserved output, margin, tokenizer, renderer
+    arms: list[str] = field(default_factory=lambda: list(ARMS))
+    html_templates: int = 10  # the representation sweep's test templates (grid.py)
+    tokenize: str = "off"  # S1's tokenizer check (oracles/tokens.py)
+    tokenize_base_url: str = "http://127.0.0.1:8000/v1"
+    tokenize_model: str = "qwen3.6-35b-a3b-fp8"
+    tokenize_cells: int = 2  # marker cells per task family
+    goldens: Path | None = None  # S7's adopted goldens
+    checkouts: Path | None = None  # CI: the spec and Domain 1's assemblers read from here, by directory name
 
 
 def _table(data: dict, name: str) -> dict:
@@ -116,6 +141,41 @@ def load(path: str | Path) -> Config:
     if unknown_keys:
         raise ConfigError(f"[attacks] has unknown keys: {', '.join(unknown_keys)}")
 
+    adapters = None
+    table = _table(data, "adapters")
+    if table:
+        if "config" not in table:
+            raise ConfigError("[adapters] needs config: Domain 1's configuration, whose adapter tables Domain 5 uses")
+        use = table.get("use", [])
+        if not isinstance(use, list) or not use or not all(isinstance(u, str) for u in use):
+            raise ConfigError("[adapters].use must be a non-empty list of adapter names")
+        source = table.get("payload_source", use[0])
+        if source not in use:
+            raise ConfigError(f"[adapters].payload_source {source!r} is not in [adapters].use")
+        adapters = AdaptersConfig((root / table["config"]).resolve(), list(use), source)
+    if any(s in ADAPTER_SUITES for s in suites) and adapters is None:
+        raise ConfigError("S1 assembles, so it needs [adapters]")
+    if "S7" in suites and "S1" not in suites:
+        raise ConfigError("S7 reads S1's rows, so it needs S1")
+
+    budgets = _table(data, "budgets")
+    unknown_keys = sorted(set(budgets) - {"reserved_output", "margin_percent", "tokenizer", "renderer"})
+    if unknown_keys:
+        raise ConfigError(f"[budgets] has unknown keys: {', '.join(unknown_keys)}")
+    application = Settings(**budgets)
+    arms = _table(data, "arms").get("use", list(ARMS))
+    stray = [a for a in arms if a not in ARMS]
+    if stray:
+        raise ConfigError(f"[arms].use names arms this build does not have: {', '.join(stray)}")
+    if "xml-unescaped" in arms and "cwa" not in arms:
+        raise ConfigError("xml-unescaped is the cwa arm's payload unescaped, so it needs cwa")
+    grid = _table(data, "grid")
+    s1 = _table(data, "s1")
+    tokenize = s1.get("tokenize", "off")
+    if tokenize not in TOKENIZE:
+        raise ConfigError(f"[s1].tokenize must be one of {', '.join(TOKENIZE)}")
+    s7 = _table(data, "s7")
+
     findings = _table(data, "findings")
     upstream_path = (root / str(findings.get("upstream", "findings/upstream.json"))).resolve()
     if not upstream_path.is_file():
@@ -139,4 +199,13 @@ def load(path: str | Path) -> Config:
         timeout_s=float(run.get("timeout_s", 60)),
         concurrency=max(1, int(run.get("concurrency", 1))),
         settings={"ci": _table(data, "ci")},
+        adapters=adapters,
+        application=application,
+        arms=list(arms),
+        html_templates=int(grid.get("html_templates", 10)),
+        tokenize=tokenize,
+        tokenize_base_url=str(s1.get("tokenize_base_url", "http://127.0.0.1:8000/v1")),
+        tokenize_model=str(s1.get("tokenize_model", "qwen3.6-35b-a3b-fp8")),
+        tokenize_cells=int(s1.get("tokenize_cells", 2)),
+        goldens=(root / s7.get("goldens", "goldens/d5-goldens.json")).resolve(),
     )

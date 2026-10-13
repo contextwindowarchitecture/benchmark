@@ -9,6 +9,7 @@ import sys
 from dataclasses import replace
 from pathlib import Path
 
+from cwabench.config import ConfigError as D1ConfigError
 from cwabench.contract import ContractError
 from cwabench.validate import validate_run
 
@@ -17,6 +18,13 @@ from . import output  # noqa: F401  registers Domain 5's prefix, so validate_run
 from .runner import run
 
 DEFAULT_CONFIG = Path(__file__).resolve().parent.parent / "domain5.toml"
+
+
+def _positive(text: str) -> int:
+    value = int(text)
+    if value < 1:
+        raise argparse.ArgumentTypeError("must be at least 1")
+    return value
 
 
 def _load(args) -> config_mod.Config:
@@ -29,6 +37,12 @@ def _load(args) -> config_mod.Config:
         config = replace(config, suites=suites)
     if getattr(args, "size", None):
         config = replace(config, size=args.size)
+    if getattr(args, "workers", None) is not None:
+        config = replace(config, concurrency=args.workers)
+    if getattr(args, "tokenize", None):
+        config = replace(config, tokenize=args.tokenize)
+    if getattr(args, "base_url", None):
+        config = replace(config, tokenize_base_url=args.base_url.rstrip("/"))
     return config
 
 
@@ -54,6 +68,19 @@ def main(argv: list[str] | None = None) -> int:
     run_cmd = commands.add_parser("run", help="run suites and write a run directory")
     run_cmd.add_argument("--suites", help="comma-separated subset of the configured suites")
     run_cmd.add_argument("--size", choices=config_mod.SIZES, help="the task families' size, overriding [run].size")
+    run_cmd.add_argument("--no-build", action="store_true", help="skip Domain 1's adapter builds; use what is built")
+    run_cmd.add_argument("--workers", type=_positive, metavar="N",
+                         help="snapshots assembled at once (S1), overriding [run].concurrency; a machine's cores")
+    run_cmd.add_argument("--tokenize", choices=config_mod.TOKENIZE,
+                         help="S1's tokenizer check, overriding [s1].tokenize: server asks the served model's "
+                              "tokenizer on a cache miss")
+    run_cmd.add_argument("--base-url", metavar="URL", help="the server for --tokenize server, overriding "
+                                                           "[s1].tokenize_base_url")
+
+    goldens_cmd = commands.add_parser("goldens", help="adopt a run's candidate goldens (S7)")
+    goldens_sub = goldens_cmd.add_subparsers(dest="goldens_command", required=True)
+    accept_cmd = goldens_sub.add_parser("accept", help="adopt a run's candidate goldens as the baseline")
+    accept_cmd.add_argument("run_dir", nargs="?", help="default: the latest run")
 
     validate_cmd = commands.add_parser("validate", help="check a run directory against its schemas and blob digests")
     validate_cmd.add_argument("run_dir", nargs="?", help="default: the latest run")
@@ -62,12 +89,19 @@ def main(argv: list[str] | None = None) -> int:
     try:
         config = _load(args)
         if args.command == "run":
-            run_dir, status = run(config)
+            run_dir, status = run(config, build=not args.no_build)
             _print_summary(run_dir)
             problems = validate_run(run_dir, config.contract_path)
             for problem in problems:
                 print(f"invalid output: {problem}", file=sys.stderr)
             return 0 if status == "pass" and not problems else 1
+        if args.command == "goldens":
+            from .suites.s7_goldens import accept
+
+            run_dir = Path(args.run_dir) if args.run_dir else config.results_dir / "latest"
+            target, count = accept(config, run_dir.resolve())
+            print(f"adopted {count} golden(s) from {run_dir.resolve().name} → {target}")
+            return 0
         if args.command == "validate":
             run_dir = Path(args.run_dir) if args.run_dir else config.results_dir / "latest"
             problems = validate_run(run_dir.resolve(), config.contract_path)
@@ -75,7 +109,7 @@ def main(argv: list[str] | None = None) -> int:
                 print(problem)
             print(f"{run_dir}: {'valid' if not problems else f'{len(problems)} problem(s)'}")
             return 1 if problems else 0
-    except (config_mod.ConfigError, ContractError) as error:
+    except (config_mod.ConfigError, ContractError, D1ConfigError) as error:
         print(f"cwabench --domain 5: {error}", file=sys.stderr)
         return 2
     return 2

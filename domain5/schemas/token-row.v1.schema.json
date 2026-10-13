@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d5:token-row:v1",
+  "title": "Token row",
+  "description": "One marker cell and arm in S1's tokenizer check (domain-5-plan.md, 8; cwabench5/oracles/tokens.py): each marker's special token, counted in the attacked payload and in the same instance's clean payload by the served model's tokenizer.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d5/token-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cell": {
+      "type": "string",
+      "minLength": 1
+    },
+    "arm": {
+      "type": "string",
+      "minLength": 1
+    },
+    "template": {
+      "enum": [
+        "qwen",
+        "llama3"
+      ]
+    },
+    "model": {
+      "type": "string",
+      "minLength": 1
+    },
+    "attacked": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      ]
+    },
+    "clean": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      ]
+    },
+    "extra": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Special tokens in the attacked payload beyond the clean one's; null when unread"
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "case_id",
+    "cell",
+    "arm",
+    "template",
+    "model",
+    "attacked",
+    "clean",
+    "extra"
+  ],
+  "additionalProperties": false
+}

@@ -33,7 +33,8 @@ def test_a_run_with_only_s0_passes_and_validates(small_config):
     summary = _read(run_dir / "summary.json")
     metrics = {m["id"]: m for m in summary["metrics"]}
     assert set(metrics) == {"s0.grader", "s0.attack_grader", "s0.language", "s0.schema", "s0.determinism",
-                            "s0.structure", "s0.replay", "s0.probe", "s0.plant", "s0.attack_plant"}
+                            "s0.structure", "s0.replay", "s0.probe", "s0.plant", "s0.attack_plant",
+                            "s0.structure_oracle", "s0.presence"}
     assert all(m["status"] == "pass" for m in metrics.values())
     rows = [json.loads(line) for line in (run_dir / "suites" / "S0" / "results.jsonl").read_text().splitlines()]
     quoted = [r for r in rows if r["check"] == "attack-plant" and r["case_id"].endswith("/quoted")]

@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d5:baseline-row:v1",
+  "title": "Baseline row",
+  "description": "One cell and conventional arm in S1 (domain-5-plan.md, 8): the payload, its count, whether the attack forged the arm's structure, raw chat-template markers, and the attack-in-payload oracle.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d5/baseline-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cell": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kind": {
+      "enum": [
+        "attacked",
+        "clean",
+        "html"
+      ]
+    },
+    "task": {
+      "type": "string",
+      "minLength": 1
+    },
+    "template": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "position": {
+      "anyOf": [
+        {
+          "enum": [
+            "start",
+            "middle",
+            "end",
+            "head"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "carrier": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "producer": {
+      "anyOf": [
+        {
+          "enum": [
+            "html",
+            "text"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "arm": {
+      "type": "string",
+      "minLength": 1
+    },
+    "payload_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "input_tokens": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "forged": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "null: the arm has no structure to forge"
+    },
+    "raw_markers": {
+      "type": "boolean"
+    },
+    "detail": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "attack": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "by_record": {
+              "type": "boolean"
+            },
+            "by_text": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "by_record",
+            "by_text"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "case_id",
+    "cell",
+    "kind",
+    "task",
+    "template",
+    "position",
+    "carrier",
+    "producer",
+    "arm",
+    "payload_hash",
+    "input_tokens",
+    "forged",
+    "raw_markers",
+    "detail",
+    "attack"
+  ],
+  "additionalProperties": false
+}

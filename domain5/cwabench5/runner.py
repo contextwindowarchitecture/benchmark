@@ -13,16 +13,21 @@ import traceback
 from pathlib import Path
 from typing import Callable
 
+from dataclasses import replace
+
+from cwabench import config as d1_config
 from cwabench import rundir as rundir_mod
 from cwabench.contract import Contract
+from cwabench.runner import adapter_entries, setup_adapters
 from cwabench.rundir import RunDir, now, worst
 
 from . import __version__, attacks, output, tasks
 from .attacks.families import APPLIES, BODIES, OPENERS
-from .config import Config
-from .suites import SuiteContext, SuiteResult, s0_selfcheck
+from .config import ADAPTER_SUITES, Config, ConfigError
+from .suites import SuiteContext, SuiteResult, s0_selfcheck, s1_structure, s7_goldens
 
-SUITES = {"S0": s0_selfcheck}
+# Canonical order: S7 reads S1's rows.
+SUITES = {"S0": s0_selfcheck, "S1": s1_structure, "S7": s7_goldens}
 
 ROOT = Path(__file__).resolve().parent.parent
 D2_ROOT = ROOT.parent / "domain2"
@@ -73,7 +78,23 @@ def write_attacks(run_dir: RunDir, config: Config) -> None:
     }, "The attack templates this run composes probes from")
 
 
-def manifest(run_dir: RunDir, config: Config, contract: Contract, status: str, finished_at: str | None) -> dict:
+def adapters_config(config: Config):
+    """Domain 1's configuration with only the adapters Domain 5 uses, in its order; for a CI run with checkouts, read
+    from them and built under Domain 1's .build/ci/build, as Domain 1's CI does (cwabench/ci.py)."""
+    d1 = d1_config.load(config.adapters.config)
+    if config.checkouts is not None:
+        from cwabench.ci import with_checkouts
+
+        d1 = with_checkouts(d1, config.checkouts)
+    missing = [n for n in config.adapters.use if n not in d1.all_adapters]
+    if missing:
+        raise ConfigError(f"[adapters].use names adapters {config.adapters.config} has no table for: "
+                          f"{', '.join(missing)}")
+    return replace(d1, adapters={n: d1.all_adapters[n] for n in config.adapters.use})
+
+
+def manifest(run_dir: RunDir, config: Config, contract: Contract, status: str, finished_at: str | None,
+             adapters: dict | None = None) -> dict:
     """Domain 1's manifest shape. Domain 5 runs in no container."""
     return {
         "$schema": output.schema_name("manifest"),
@@ -86,7 +107,7 @@ def manifest(run_dir: RunDir, config: Config, contract: Contract, status: str, f
         "config": {"path": str(config.path), "sha256": config.sha256, "copy": "config.toml"},
         "contract": {"path": str(contract.path), "pinned": contract.expected_commit, **contract.checkout.as_json(),
                      "spec_draft": contract.spec_draft},
-        "adapters": {},
+        "adapters": adapters or {},
         "host": rundir_mod.host(),
         "host_suspended_seconds": run_dir.suspended_seconds(),
         "env_cells": ["baseline"],
@@ -98,14 +119,17 @@ def manifest(run_dir: RunDir, config: Config, contract: Contract, status: str, f
     }
 
 
-def run(config: Config, log: Callable[[str], None] = _log) -> tuple[Path, str]:
+def run(config: Config, build: bool = True, log: Callable[[str], None] = _log) -> tuple[Path, str]:
     contract = Contract(config.contract_path, config.contract_commit, config.allow_dirty)
+    d1 = adapters_config(config) if set(config.suites) & set(ADAPTER_SUITES) and config.adapters else None
     run_dir = RunDir(config, domain=output.D5, sources=SOURCES)
     log(f"run {run_dir.run_id} → {run_dir.path}")
-    describe = "What this run was made from: harness, config, contract, host"
+    describe = "What this run was made from: harness, config, contract, adapters, host"
     run_dir.write_json("contract.json", contract.as_document(run_dir.run_id, output.D5),
                        "Enumerations and texts from the pinned specification")
-    run_dir.write_json("manifest.json", manifest(run_dir, config, contract, "running", None), describe)
+    ready, unavailable = setup_adapters(d1, build, log) if d1 is not None else ({}, {})
+    adapters = adapter_entries(d1, ready, unavailable) if d1 is not None else {}
+    run_dir.write_json("manifest.json", manifest(run_dir, config, contract, "running", None, adapters), describe)
 
     results: list[SuiteResult] = []
     status = "error"
@@ -114,7 +138,7 @@ def run(config: Config, log: Callable[[str], None] = _log) -> tuple[Path, str]:
         write_tasks(run_dir, config, found)
         write_attacks(run_dir, config)
         log("tasks: " + ", ".join(f"{name} {len(t)}" for name, t in found.items()))
-        context = SuiteContext(config, contract, run_dir, found, log)
+        context = SuiteContext(config, contract, run_dir, found, ready, unavailable, log)
         for suite in [s for s in SUITES if s in config.suites]:
             results.append(SUITES[suite].run(context))
             log(f"{suite}: {results[-1].status}")
@@ -129,7 +153,8 @@ def run(config: Config, log: Callable[[str], None] = _log) -> tuple[Path, str]:
             "started_at": run_dir.started_at,
             "finished_at": now(),
             "suites": [{"id": r.id, "title": r.title, "status": r.status, "summary": r.summary_path} for r in results],
-            "adapters": [],
+            "adapters": [{"adapter": n, "available": e["available"], "error": e["error"]}
+                         for n, e in adapters.items()],
             "metrics": [m for r in results for m in r.metrics],
             "findings": {"total": len(findings), "by_suite": {r.id: len(r.findings) for r in results},
                          "file": "findings.jsonl"},
@@ -139,6 +164,6 @@ def run(config: Config, log: Callable[[str], None] = _log) -> tuple[Path, str]:
         status = "error"
         raise
     finally:
-        run_dir.write_json("manifest.json", manifest(run_dir, config, contract, status, now()), describe)
+        run_dir.write_json("manifest.json", manifest(run_dir, config, contract, status, now(), adapters), describe)
         run_dir.finalize(status, [r.id for r in results])
     return run_dir.path, status
