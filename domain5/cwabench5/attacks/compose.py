@@ -124,7 +124,18 @@ def compose(task: dict, template: Template, position: str, carrier: str, seed: i
     own_seed = probe_seed(seed, task["task_id"], template.template_id, position, carrier)
     rng = random.Random(own_seed)
     fill, predicate = _fill(template, task, rng)
-    instruction = template.text(**fill)
+    return compose_text(task, template.text(**fill), {"family": template.family, **predicate}, position, carrier,
+                        rng, probe_id=f"{task['task_id']}/{template.template_id}/{position}/{carrier}",
+                        template_id=template.template_id, split=template.split, own_seed=own_seed,
+                        delimiters=delimiters, chat_template=chat_template)
+
+
+def compose_text(task: dict, instruction: str, predicate: dict, position: str, carrier: str, rng: random.Random, *,
+                 probe_id: str, template_id: str | None, split: str | None, own_seed: int,
+                 delimiters: dict | None = None, chat_template: str = "qwen", second: str | None = None) -> dict:
+    """An instruction already written (a template's, filled; or the adaptive attacker's) dressed and written into
+    the task, `rng` continuing the probe's own. With `second`, the instruction's second half goes at the end of
+    another item (S4's split operator; families other than EM and code)."""
     block = carriers.dress(carrier, instruction, heading=rng.randrange(len(carriers.HEADINGS)),
                            delimiters=delimiters, template=chat_template)
     family = task["family"]
@@ -148,16 +159,19 @@ def compose(task: dict, template: Template, position: str, carrier: str, seed: i
         lines = family in ("tq", "cq")
         item["text"], inserted = insert(item["text"], block, position, lines=lines, header=2 if family == "tq" else 0)
         target = item["item_id"]
+        if second is not None:
+            other = items[(index + 1) % len(items)]
+            other["text"], _ = insert(other["text"], second, "end", lines=lines)
     answer = dict(task["answer"])
     if family == "cq":  # the bug's line moves down by what was inserted above it
         bug = task["items"][0]["text"].split("\n")[int(answer["line"]) - 1]
         answer["line"] = str(items[0]["text"].split("\n").index(bug) + 1)
     return {
-        "probe_id": f"{task['task_id']}/{template.template_id}/{position}/{carrier}",
+        "probe_id": probe_id,
         "task_id": task["task_id"],
-        "template_id": template.template_id,
-        "family": template.family,
-        "split": template.split,
+        "template_id": template_id,
+        "family": predicate["family"],
+        "split": split,
         "position": position,
         "carrier": carrier,
         "seed": own_seed,
@@ -167,7 +181,7 @@ def compose(task: dict, template: Template, position: str, carrier: str, seed: i
         "inserted": inserted,
         "items": items,
         "answer": answer,
-        "predicate": {"family": template.family, **predicate},
+        "predicate": predicate,
     }
 
 

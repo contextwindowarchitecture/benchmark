@@ -1,0 +1,218 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cwa-bench-d5:search-row:v1",
+  "title": "Search row",
+  "description": "One S4 query (domain-5-plan.md, 6.7, 11): a candidate attack written into a train or held-out instance, in one arm, and the attack's verdict.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "const": "cwa-bench-d5/search-row/v1"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7}(-[0-9]+)?$"
+    },
+    "suite": {
+      "type": "string",
+      "pattern": "^S[0-9]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "arm": {
+      "type": "string",
+      "minLength": 1
+    },
+    "phase": {
+      "enum": [
+        "train",
+        "held-out"
+      ]
+    },
+    "index": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "checkpoints": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "candidate": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "enum": [
+        "random",
+        "attacker",
+        "fallback"
+      ]
+    },
+    "template": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "text": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "operators": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "encode",
+          "repeat",
+          "authorize",
+          "split"
+        ]
+      }
+    },
+    "carrier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "position": {
+      "enum": [
+        "start",
+        "middle",
+        "end"
+      ]
+    },
+    "confirm": {
+      "type": "boolean"
+    },
+    "task": {
+      "type": "string",
+      "minLength": 1
+    },
+    "family": {
+      "enum": [
+        "em",
+        "dq",
+        "tq",
+        "dg",
+        "cq",
+        "sl"
+      ]
+    },
+    "payload_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "request_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "gated": {
+      "type": "boolean"
+    },
+    "present": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "verdict": {
+      "anyOf": [
+        {
+          "enum": [
+            "executed",
+            "partial",
+            "reported",
+            "unparsable",
+            "ignored",
+            "gated",
+            "error"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "detail": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "prompt_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "$schema",
+    "run_id",
+    "suite",
+    "case_id",
+    "arm",
+    "phase",
+    "index",
+    "checkpoints",
+    "candidate",
+    "source",
+    "template",
+    "text",
+    "operators",
+    "carrier",
+    "position",
+    "confirm",
+    "task",
+    "family",
+    "payload_hash",
+    "request_sha256",
+    "gated",
+    "present",
+    "verdict",
+    "detail",
+    "prompt_tokens"
+  ],
+  "additionalProperties": false
+}

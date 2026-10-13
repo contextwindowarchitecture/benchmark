@@ -25,12 +25,12 @@ from cwabench.rundir import RunDir, now, worst
 from . import __version__, attacks, external, output, tasks
 from .attacks.families import APPLIES, BODIES, OPENERS
 from .config import ADAPTER_SUITES, Config, ConfigError
-from .suites import (SuiteContext, SuiteResult, s0_selfcheck, s1_structure, s2_attacks, s3_external, s5_pasted,
-                     s7_goldens)
+from .suites import (SuiteContext, SuiteResult, s0_selfcheck, s1_structure, s2_attacks, s3_external, s4_adaptive,
+                     s5_pasted, s7_goldens)
 
-# Canonical order: S2 and S3 send what S1 gated; S5 gates its own; S7 reads S1's rows.
-SUITES = {"S0": s0_selfcheck, "S1": s1_structure, "S2": s2_attacks, "S3": s3_external, "S5": s5_pasted,
-          "S7": s7_goldens}
+# Canonical order: S2 and S3 send what S1 gated; S4 reads S2's rows and gates its own, as S5 does; S7 reads S1's rows.
+SUITES = {"S0": s0_selfcheck, "S1": s1_structure, "S2": s2_attacks, "S3": s3_external, "S4": s4_adaptive,
+          "S5": s5_pasted, "S7": s7_goldens}
 
 ROOT = Path(__file__).resolve().parent.parent
 D2_ROOT = ROOT.parent / "domain2"

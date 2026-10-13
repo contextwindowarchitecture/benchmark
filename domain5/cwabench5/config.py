@@ -1,6 +1,6 @@
 """The run configuration, domain5.toml (domain-5-plan.md, 12). This build reads the tables P0 to P3 need: the
 contract pin, the run, the task families, the attacks, Domain 1's adapters, the budgets' settings, the arms, the grid,
-S1's tokenizer check, the model, S2, the external sets and S3, S5, and S7's goldens; the others (the second model,
+S1's tokenizer check, the model, S2, the external sets and S3, S4, S5, and S7's goldens; the others (the second model,
 thresholds, CI profiles) arrive with the phases that use them."""
 from __future__ import annotations
 
@@ -17,9 +17,9 @@ from .attacks import FAMILIES as ATTACK_FAMILIES
 from .attacks.carriers import MARKERS
 from .tasks import FAMILIES as TASK_FAMILIES
 
-SUITES = ("S0", "S1", "S2", "S3", "S5", "S7")
+SUITES = ("S0", "S1", "S2", "S3", "S4", "S5", "S7")
 SIZES = ("pilot", "recorded")
-ADAPTER_SUITES = ("S1", "S5")  # suites that assemble, and so set up the adapters
+ADAPTER_SUITES = ("S1", "S4", "S5")  # suites that assemble, and so set up the adapters
 TOKENIZE = ("off", "replay", "server")
 MODEL_MODES = ("llm", "replay")
 S2_DEFAULTS = {"arms": None, "attacked_samples": 1, "clean_samples": 3, "sensitivity_every": 10,
@@ -30,6 +30,10 @@ S2_DEFAULTS = {"arms": None, "attacked_samples": 1, "clean_samples": 3, "sensiti
                          ["tool-role", "cwa-observation"]]}
 S3_DEFAULTS = {"arms": None, "bootstrap_resamples": 2000, "bootstrap_seed": 20261013, "pairs": S2_DEFAULTS["pairs"]}
 EXTERNAL_SETS = ("sep", "llmail")
+S4_DEFAULTS = {"arms": None, "families": None, "budget": {"pilot": 120, "recorded": 2000},
+               "train": {"pilot": 1, "recorded": 4}, "loop_share": 0.5, "checkpoints": [0.25, 0.5, 1.0],
+               "confirm": 2, "round": 16, "seed": 20261014, "attacker_temperature": 0.7,
+               "bootstrap_resamples": 2000, "bootstrap_seed": 20261013}
 S5_DEFAULTS = {"arms": list(PASTED), "families": ["em", "dq"], "attacked_samples": 1, "clean_samples": 3,
                "bootstrap_resamples": 2000, "bootstrap_seed": 20261013,
                "pairs": [["pasted-naive", "cwa-pasted"], ["cwa-pasted", "cwa-pasted-nonce"],
@@ -96,6 +100,7 @@ class Config:
     model: dict = field(default_factory=lambda: dict(MODEL_DEFAULTS))  # Domain 2's [model] keys
     s2: dict = field(default_factory=lambda: dict(S2_DEFAULTS))
     s3: dict = field(default_factory=lambda: dict(S3_DEFAULTS))
+    s4: dict = field(default_factory=lambda: dict(S4_DEFAULTS))
     s5: dict = field(default_factory=lambda: dict(S5_DEFAULTS))
     external_dir: Path | None = None  # the vendored external sets (external/vendor.py)
     external_sets: list[str] = field(default_factory=lambda: list(EXTERNAL_SETS))
@@ -233,6 +238,20 @@ def load(path: str | Path) -> Config:
         raise ConfigError(f"[s3].pairs names arms S3 does not send: {stray}")
     if "S3" in suites and "S1" not in suites:
         raise ConfigError("S3 sends what S1 gated, so it needs S1")
+    s4 = {**S4_DEFAULTS, **_table(data, "s4")}
+    unknown_keys = sorted(set(s4) - set(S4_DEFAULTS))
+    if unknown_keys:
+        raise ConfigError(f"[s4] has unknown keys: {', '.join(unknown_keys)}")
+    s4["arms"] = list(arms) if s4["arms"] is None else s4["arms"]
+    s4["families"] = list(selected) if s4["families"] is None else s4["families"]
+    stray = [a for a in s4["arms"] if a not in arms]
+    if stray:
+        raise ConfigError(f"[s4].arms names arms this run does not build: {', '.join(stray)}")
+    if not 0 <= float(s4["loop_share"]) <= 1 or any(not 0 < float(c) <= 1 for c in s4["checkpoints"]):
+        raise ConfigError("[s4].loop_share must be in 0–1 and every checkpoint in (0, 1]")
+    for key in ("budget", "train"):
+        if not isinstance(s4[key], dict) or set(s4[key]) != set(SIZES):
+            raise ConfigError(f"[s4].{key} must give {' and '.join(SIZES)}")
     s5 = {**S5_DEFAULTS, **_table(data, "s5")}
     unknown_keys = sorted(set(s5) - set(S5_DEFAULTS))
     if unknown_keys:
@@ -296,6 +315,7 @@ def load(path: str | Path) -> Config:
         model=model,
         s2=s2,
         s3=s3,
+        s4=s4,
         s5=s5,
         external_dir=external_dir,
         external_sets=list(external_sets),

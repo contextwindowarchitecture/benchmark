@@ -152,6 +152,7 @@ def run(ctx: SuiteContext) -> SuiteResult:
             if reply is not None and not isinstance(reply, Exception):
                 graded(cell, arm, probe, data, sample, reply, s2["sensitivity_temperature"])
     rows.sort(key=lambda r: r["case_id"])
+    ctx.shared["s2_rows"] = rows  # S4 compares its adaptive ASR with these
     ctx.run.write_jsonl(f"suites/{ID}/probes.jsonl", rows, "probe-row",
                         "One row per cell, arm and sample: the task's grade, the attack's verdict, refusal, and "
                         "whether the attack reached the payload")

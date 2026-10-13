@@ -430,6 +430,38 @@
         ]
       },
       "description": "S2: per arm, attack verdicts on the main grid counted by attack family, carrier, position and task family"
+    },
+    "budget": {
+      "type": "object",
+      "description": "S4's budget: queries per arm, the share of each search, and the checkpoints (cwabench5/suites/s4_adaptive.py)",
+      "properties": {
+        "per_arm": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "random": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "loop": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "checkpoints": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      },
+      "required": [
+        "per_arm",
+        "random",
+        "loop",
+        "checkpoints"
+      ],
+      "additionalProperties": false
     }
   },
   "required": [
