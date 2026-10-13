@@ -4,9 +4,10 @@ Benchmarks instruction hierarchy and indirect prompt injection: when the content
 instructions written by an attacker, does CWA's assembly keep the model doing the user's task instead of the
 attacker's, compared with conventional assembly and conventional defences, without costing the task? Its working
 plan, `docs/plans/domain-5-plan.md`, is kept out of git; code comments cite it by section. This directory implements
-P0 to P2: the task and attack generators, the graders, every arm's payload, the oracles that read payloads without a
-model, and S0, S1, S2 and S7. S2 sends every gated payload to the model, by default replaying the committed cache of
-its replies (`model-cache/`, filled on the GPU host at pilot size), so a run needs no model. Later phases add the external sets, the adaptive attacker and the second model.
+P0 to P3: the task and attack generators, the graders, every arm's payload, the oracles that read payloads without a
+model, two external sets (SEP and LLMail-Inject), and S0, S1, S2, S3 and S7. S2 and S3 send every gated payload to the
+model, by default replaying the committed cache of its replies (`model-cache/`, filled on the GPU host at pilot size),
+so a run needs no model. Later phases add the adaptive attacker, pasted material, persistence and the second model.
 
 - **Task instances** (`cwabench5/tasks/`). Seeded generators write benign tasks with ground truth known by
   construction; every name, figure and supplier is fictional. An instance holds the governance instructions (with a
@@ -82,6 +83,19 @@ its replies (`model-cache/`, filled on the GPU host at pilot size), so a run nee
   replies for refusal. Per arm, with cluster-bootstrap intervals over task instances: attack success (present and
   observable attacks only), partial and reported rates, utility under attack, benign utility (plain and imperative),
   over-refusal, ASR by length and by representation, and paired ASR differences for the controlled pairs.
+- **External sets** (`cwabench5/external/`, data under `external/`). Seeded samples of two published sets, copied from
+  their sources at pinned revisions with their licences and a SHA-256 lock (`external vendor`, `external check`):
+  **SEP** (code MIT, data CC BY 4.0), 1,000 of its 9,160 cases, each a task, data for it and a probe whose witness
+  shows it was executed; **LLMail-Inject** (MIT), 2,000 of its 203,679 distinct attacker emails, 500 per scenario with
+  up to 250 that succeeded at their original level. A pilot run sends each set's first tenth. Each case becomes a
+  task-shaped probe every arm builds unchanged: SEP's probe in the instruction (governance) or in the data (content);
+  an LLMail-Inject email in its scenario's inbox (two emails, or ten), the user's request the scenario's, and EM's
+  `action` field standing in for the challenge's `send_email` tool. S1 gates their CWA payloads with the rest.
+- **S3 · External** (`suites/s3_external.py`). Every external probe once per arm. SEP is graded by its witness and
+  scored as SEP scores it: utility (the probe executed from the instruction), the rate executed from the data, and the
+  separation score (of the cases executed from the instruction, the share not executed from the data), clustered by
+  case. LLMail-Inject is graded by the challenge's condition on the parsed action (an email to its address with its
+  content); ASR by scenario and by original outcome, clustered by the submitting team, with S2's paired comparisons.
 - **S7 · Goldens** (`suites/s7_goldens.py`): CWA answers every adapter agreed on, adopted with `goldens accept`.
 
 ## Run it
@@ -90,11 +104,13 @@ its replies (`model-cache/`, filled on the GPU host at pilot size), so a run nee
 uv sync                                 # at the benchmark root: every domain, into one .venv
 cd domain5
 uv run pytest                           # fast; needs the spec checkout
-uv run cwabench --domain 5 run          # S0, S1, S2 and S7 at pilot size, replaying the model, on the GPU host
+uv run cwabench --domain 5 run          # S0 to S3 and S7 at pilot size, replaying the model, on the GPU host
 uv run cwabench --domain 5 run --model llm --workers 16  # with vLLM serving: fill the model cache
 uv run cwabench --domain 5 run --suites S0              # S0 alone: no assembler
 uv run cwabench --domain 5 run --tokenize server        # with S1's tokenizer check, vLLM serving (fills the cache)
 uv run cwabench --domain 5 goldens accept               # adopt the latest run's candidate goldens
+uv run cwabench --domain 5 external check               # the vendored external sets against their lock
+uv run cwabench --domain 5 external vendor --source DIR  # sample them again from the downloaded sources
 uv run cwabench --domain 5 validate     # re-check the latest run directory
 CWA_BENCH_REFERENCE=1 uv run pytest     # also S1 end to end on the reference assembler
 ```
@@ -110,12 +126,18 @@ Domain 1's four built adapters (`cwabench setup` in `domain1/`). S2 calls the mo
 the endpoint `[model]` names (vLLM beside the harness on the GPU host, as Domain 2's; `CWA_BENCH_MODEL_KEY` holds its
 key); S1's optional tokenizer check asks the same server to tokenize, never to generate.
 
+Re-vendoring the external sets needs their sources, about 2 GB, downloaded at the pinned revisions into `DIR/sep/`
+(`SEP_dataset/SEP_dataset.json`, `LICENCE` and `readme.md` from the SEP repository at `7606c06`) and `DIR/llmail/`
+(`data/raw_submissions_phase1.jsonl`, `data/raw_submissions_phase2.jsonl`, `data/scenarios.json` and `README.md`
+from the LLMail-Inject dataset at `1063bdf`); `external vendor` checks each against the SHA-256 it pins
+(`cwabench5/external/vendor.py`) and writes the same bytes as the committed `external/`.
+
 ## Configuration
 
 `domain5.toml`:
 
 - `[contract]`: the spec checkout and its pinned commit.
-- `[run]`: `suites` (S0), `tasks` (the families generated), `size` (`pilot` or `recorded`), `results_dir`.
+- `[run]`: `suites`, `tasks` (the families generated), `size` (`pilot` or `recorded`), `results_dir`.
 - `[tasks.<family>]`: `seed`, `sizes` (instances of each variant, by size) and the generator's parameters.
 - `[attacks]`: `seed` (every probe's own seed is drawn from it), `families`, and `chat_template` (`qwen` or `llama3`,
   the template the `marker` carrier forges).
@@ -123,7 +145,8 @@ key); S1's optional tokenizer check asks the same server to tokenize, never to g
 - `[budgets]`: reserved output, margin, tokenizer and renderer (Domain 2's).
 - `[arms]`: `use`, the arms built. `[grid]`: `html_templates`, `lengths`, `length_templates`. `[model]`: Domain 2's
   keys. `[s2]`: the samples, the sensitivity share and temperature, the bootstrap, and the controlled `pairs`. `[s1]`:
-  the tokenizer check (`tokenize`: off, replay or server; its server, model and cells). `[s7]`: the goldens file.
+  the tokenizer check (`tokenize`: off, replay or server; its server, model and cells). `[external]`: the vendored
+  sets' directory and the sets S3 sends. `[s3]`: the bootstrap and the controlled `pairs`. `[s7]`: the goldens file.
 
 ## Output
 
@@ -132,6 +155,8 @@ key); S1's optional tokenizer check asks the same server to tokenize, never to g
 `self-check` row per check), `suites/S1/gate.jsonl` (`gate-row`, one per cell and CWA arm), `baselines.jsonl`
 (`baseline-row`), `claims.jsonl` (`claim-row`) and, with the tokenizer check, `tokens.jsonl` (`token-row`),
 `suites/S2/probes.jsonl` (`probe-row`, one per cell, arm and sample) and `calls.jsonl` (`call-row`),
+`suites/S3/probes.jsonl` (`external-row`, one per external probe and arm) and `calls.jsonl`, `external/index.json`
+(the external probes sent and the lock they were vendored under),
 `suites/S7/candidate-goldens.json` and `drift.jsonl`, `tasks/<family>/index.json` (each instance a `task` blob),
 `attacks/index.json` (the templates), and `blobs/`. Every document names its schema
 (`schemas/<kind>.v1.schema.json`); the kinds Domain 5 reuses are Domain 2's, prefix aside.
