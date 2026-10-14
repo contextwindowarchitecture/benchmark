@@ -1,0 +1,153 @@
+{
+  "$schema": "cwa-bench-d5/suite-summary/v1",
+  "run_id": "20261013T224806Z-5fc59ba",
+  "suite": "S7",
+  "title": "Goldens",
+  "status": "pass",
+  "started_at": "2026-10-14T06:23:26.477Z",
+  "finished_at": "2026-10-14T06:24:03.739Z",
+  "requirements": [
+    "R-23"
+  ],
+  "corpora": [
+    {
+      "id": "em",
+      "count": 48
+    },
+    {
+      "id": "dq",
+      "count": 48
+    },
+    {
+      "id": "tq",
+      "count": 48
+    },
+    {
+      "id": "dg",
+      "count": 48
+    },
+    {
+      "id": "cq",
+      "count": 48
+    },
+    {
+      "id": "sl",
+      "count": 48
+    }
+  ],
+  "adapters": [
+    {
+      "adapter": "python",
+      "status": "pass",
+      "error": null
+    },
+    {
+      "adapter": "typescript",
+      "status": "pass",
+      "error": null
+    },
+    {
+      "adapter": "go",
+      "status": "pass",
+      "error": null
+    },
+    {
+      "adapter": "rust",
+      "status": "pass",
+      "error": null
+    }
+  ],
+  "metrics": [
+    {
+      "id": "s7.golden_match",
+      "label": "CWA answers equal to their golden",
+      "suite": "S7",
+      "arm": null,
+      "family": null,
+      "tier": null,
+      "unit": "rate",
+      "value": 1.0,
+      "numerator": 20816,
+      "denominator": 20816,
+      "target": 1.0,
+      "status": "pass",
+      "description": "na until goldens are adopted"
+    },
+    {
+      "id": "s7.regressions",
+      "label": "Answers that drifted from their golden",
+      "suite": "S7",
+      "arm": null,
+      "family": null,
+      "tier": null,
+      "unit": "count",
+      "value": 0,
+      "numerator": null,
+      "denominator": null,
+      "target": 0,
+      "status": "pass",
+      "description": ""
+    },
+    {
+      "id": "s7.candidates",
+      "label": "Candidate goldens this run",
+      "suite": "S7",
+      "arm": null,
+      "family": null,
+      "tier": null,
+      "unit": "count",
+      "value": 85120,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s7.new",
+      "label": "CWA answers with no golden yet",
+      "suite": "S7",
+      "arm": null,
+      "family": null,
+      "tier": null,
+      "unit": "count",
+      "value": 319664,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    },
+    {
+      "id": "s7.removed",
+      "label": "Goldens whose snapshot this run did not make",
+      "suite": "S7",
+      "arm": null,
+      "family": null,
+      "tier": null,
+      "unit": "count",
+      "value": 2160,
+      "numerator": null,
+      "denominator": null,
+      "target": null,
+      "status": "info",
+      "description": ""
+    }
+  ],
+  "files": {
+    "results": "suites/S7/drift.jsonl",
+    "findings": "findings.jsonl"
+  },
+  "goldens": {
+    "path": "/workspace/cwa/cwa-extended/benchmark/domain5/goldens/d5-goldens.json",
+    "contract_commit": "16de4be0534583f135a597171c927d42c87ee82c",
+    "candidates": "suites/S7/candidate-goldens.json",
+    "drift": {
+      "match": 20816,
+      "spec_change": 0,
+      "regression": 0,
+      "new": 319664,
+      "removed": 2160
+    }
+  }
+}

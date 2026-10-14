@@ -15,7 +15,7 @@ own directory:
 | `pyproject.toml` | The uv workspace: every domain is a member, with one lockfile (`uv.lock`) and one environment |
 | `domain1/` | The Domain 1 harness (package `cwabench`, the `cwabench` command); start with `domain1/README.md` |
 | `domain2/` | The Domain 2 harness (package `cwabench2`, run as `cwabench --domain 2`); it builds on `domain1/`. Start with `domain2/README.md`; its write-up is `docs/domain2.md` |
-| `domain5/` | The Domain 5 harness (package `cwabench5`, run as `cwabench --domain 5`); it builds on `domain1/` and `domain2/`. Start with `domain5/README.md`; P0 to P5 are built and the first model's recorded run is committed, the second model family waits for a multi-GPU host; the plan is `docs/plans/domain-5-plan.md` |
+| `domain5/` | The Domain 5 harness (package `cwabench5`, run as `cwabench --domain 5`); it builds on `domain1/` and `domain2/`. Start with `domain5/README.md`; its write-up is `docs/domain5.md`. Every phase is built but the second model family's recorded runs, which wait for a multi-GPU host |
 | `../benchmark-ui` | The results UI, its design baseline (`DESIGN.md`) and its plan live in `contextwindowarchitecture/benchmark-ui`, a sibling checkout. It reads this repository (schemas, results, write-ups), never the reverse. Its harness changes (fixture runs, runs-index pointers, sweep curves, aggregates, upstream links on findings) are made here at that plan's UI-P0, when asked; until then, no UI work |
 | `scripts/` | `pod-setup.sh` sets up one Linux GPU host to run vLLM beside the harness; `pod-run.sh` runs both domains' tests and runs there (Domain 2's S6 and recorded run, Domain 1's nightly profile and S7 run, each domain's reported runs last), detached in tmux |
 | `.github/workflows/` | CI, started by hand only (`workflow_dispatch`); don't add schedules or push triggers unasked |
@@ -45,7 +45,8 @@ cd ../domain2 && uv run pytest && uv run cwabench --domain 2 run --no-frames   #
                                                                                #   every suite replaying the model
                                                                                #   (~12 min on 16 vCPUs)
 uv run cwabench --domain 2 ci nightly   # Domain 2's CI profile: replays, reports drift since its last run
-cd ../domain5 && uv run pytest         # Domain 5: tests (generators, graders, payloads; S1 opt-in)
+cd ../domain5 && uv run pytest         # Domain 5: tests (generators, graders, payloads; S1 to S6 opt-in)
+uv run cwabench --domain 5 ci nightly   # Domain 5's CI profile: replays, reports drift since its last run
 ```
 
 - Benchmark runs, the ones whose results are reported (Domain 2's `--model llm` and recorded-size runs, Domain 1's

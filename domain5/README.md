@@ -2,12 +2,13 @@
 
 Benchmarks instruction hierarchy and indirect prompt injection: when the content an application retrieves carries
 instructions written by an attacker, does CWA's assembly keep the model doing the user's task instead of the
-attacker's, compared with conventional assembly and conventional defences, without costing the task? Its working
-plan, `docs/plans/domain-5-plan.md`, is kept out of git; code comments cite it by section. This directory implements
-P0 to P5: the task and attack generators, the graders, every arm's payload, the oracles that read payloads without a
-model, two external sets (SEP and LLMail-Inject), an adaptive attacker, and S0 to S7. S2 to S6 send every gated
-payload to the model, by default replaying the committed cache of its replies (`model-cache/`, filled on the GPU host
-at pilot size), so a run needs no model. Later phases add the recorded runs and the second model.
+attacker's, compared with conventional assembly and conventional defences, without costing the task? Its write-up,
+[`docs/domain5.md`](../docs/domain5.md), gives what it proves, the results and how far to trust them; its working
+plan, `docs/plans/domain-5-plan.md`, is kept out of git, and code comments cite it by section. This directory holds
+the task and attack generators, the graders, every arm's payload, the oracles that read payloads without a model, two
+external sets (SEP and LLMail-Inject), an adaptive attacker, S0 to S7, CI profiles and run fixtures. S2 to S6 send
+every gated payload to the model, by default replaying the committed cache of its replies (`model-cache/`, both sizes
+of the recorded run, filled on the GPU host), so a run needs no model.
 
 The recorded run with the first model (Qwen3.6-35B-A3B-FP8, Domain 2's) is made on the one-GPU host. The second
 model family, Meta-SecAlign-70B and its base Llama-3.3-70B-Instruct, waits for a multi-GPU host: on one 96 GB GPU both
@@ -138,13 +139,16 @@ one server (the adapter beside its base), in a few days; until then, results are
 uv sync                                 # at the benchmark root: every domain, into one .venv
 cd domain5
 uv run pytest                           # fast; needs the spec checkout
-uv run cwabench --domain 5 run          # S0 to S3 and S7 at pilot size, replaying the model, on the GPU host
+uv run cwabench --domain 5 run          # every suite at pilot size, replaying the model, on the GPU host
+uv run cwabench --domain 5 run --size recorded          # the recorded run, replayed (about 85 minutes on 16 cores)
 uv run cwabench --domain 5 run --model llm --workers 16  # with vLLM serving: fill the model cache
 uv run cwabench --domain 5 run --suites S0              # S0 alone: no assembler
 uv run cwabench --domain 5 run --tokenize server        # with S1's tokenizer check, vLLM serving (fills the cache)
 uv run cwabench --domain 5 goldens accept               # adopt the latest run's candidate goldens
 uv run cwabench --domain 5 external check               # the vendored external sets against their lock
 uv run cwabench --domain 5 external vendor --source DIR  # sample them again from the downloaded sources
+uv run cwabench --domain 5 ci nightly                   # a CI profile: replay, compare with its last run, publish
+uv run cwabench --domain 5 fixture <run>                # a run cut down to a sample of rows, for consumers' tests
 uv run cwabench --domain 5 validate     # re-check the latest run directory
 CWA_BENCH_REFERENCE=1 uv run pytest     # also S1 end to end on the reference assembler
 ```
@@ -196,8 +200,8 @@ from the LLMail-Inject dataset at `1063bdf`); `external vendor` checks each agai
 `suites/S3/probes.jsonl` (`external-row`, one per external probe and arm) and `calls.jsonl`, `external/index.json`
 (the external probes sent and the lock they were vendored under), `suites/S4/search.jsonl` (`search-row`, one per
 query), `calls.jsonl` and `calls-attacker.jsonl`, `suites/S6/chains.jsonl` (`chain-row`), `gate.jsonl` and
-`calls.jsonl`, `suites/S5/gate.jsonl` (`gate-row`), `probes.jsonl`
-(`probe-row`) and `calls.jsonl`,
+`calls.jsonl`, `suites/S5/gate.jsonl` (`gate-row`), `probes.jsonl` (`probe-row`) and `calls.jsonl`,
 `suites/S7/candidate-goldens.json` and `drift.jsonl`, `tasks/<family>/index.json` (each instance a `task` blob),
-`attacks/index.json` (the templates), and `blobs/`. Every document names its schema
-(`schemas/<kind>.v1.schema.json`); the kinds Domain 5 reuses are Domain 2's, prefix aside.
+`attacks/index.json` (the templates), `blobs/`, and in a CI profile's run `ci.json` (`ci-report`: what changed since
+the profile's previous run). `fixtures/runs/` holds a recorded run cut down by `fixture`. Every document names its
+schema (`schemas/<kind>.v1.schema.json`); the kinds Domain 5 reuses are Domain 2's, prefix aside.

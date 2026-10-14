@@ -1,0 +1,316 @@
+{
+  "$schema": "cwa-bench-d5/run-index/v1",
+  "run_id": "20261013T224806Z-5fc59ba",
+  "status": "pass",
+  "suites": [
+    "S0",
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S5",
+    "S6",
+    "S7"
+  ],
+  "files": [
+    {
+      "path": "attacks/index.json",
+      "kind": "attack-index",
+      "schema": "cwa-bench-d5/attack-index/v1",
+      "description": "The attack templates this run composes probes from"
+    },
+    {
+      "path": "blobs/index.jsonl",
+      "kind": "blob",
+      "schema": "cwa-bench-d5/blob/v1",
+      "description": "Every stored blob: digest, path, media type, size",
+      "rows": 301
+    },
+    {
+      "path": "config.toml",
+      "kind": "config",
+      "schema": null,
+      "description": "The configuration this run used"
+    },
+    {
+      "path": "contract.json",
+      "kind": "contract",
+      "schema": "cwa-bench-d5/contract/v1",
+      "description": "Enumerations and texts from the pinned specification"
+    },
+    {
+      "path": "external/index.json",
+      "kind": "external-index",
+      "schema": "cwa-bench-d5/external-index/v1",
+      "description": "The external sets' probes this run sends, and the lock they were vendored under"
+    },
+    {
+      "path": "findings.jsonl",
+      "kind": "finding",
+      "schema": "cwa-bench-d5/finding/v1",
+      "description": "Every failure in this run, one row per signature",
+      "rows": 0
+    },
+    {
+      "path": "manifest.json",
+      "kind": "manifest",
+      "schema": "cwa-bench-d5/manifest/v1",
+      "description": "What this run was made from: harness, config, contract, adapters, host"
+    },
+    {
+      "path": "suites/S0/results.jsonl",
+      "kind": "self-check",
+      "schema": "cwa-bench-d5/self-check/v1",
+      "description": "One row per self-check: graders, task instances, probes, and the replies planted from them",
+      "rows": 12
+    },
+    {
+      "path": "suites/S0/summary.json",
+      "kind": "suite-summary",
+      "schema": "cwa-bench-d5/suite-summary/v1",
+      "description": "S0's checks of the graders, the task generators and the probes"
+    },
+    {
+      "path": "suites/S1/baselines.jsonl",
+      "kind": "baseline-row",
+      "schema": "cwa-bench-d5/baseline-row/v1",
+      "description": "One row per cell and baseline: the payload, its count, whether the attack forged its structure, raw markers, and the attack-in-payload oracle",
+      "rows": 12
+    },
+    {
+      "path": "suites/S1/claims.jsonl",
+      "kind": "claim-row",
+      "schema": "cwa-bench-d5/claim-row/v1",
+      "description": "One row per field-level claim and flood: every adapter's outcome and exclusions",
+      "rows": 12
+    },
+    {
+      "path": "suites/S1/gate.jsonl",
+      "kind": "gate-row",
+      "schema": "cwa-bench-d5/gate-row/v1",
+      "description": "One row per cell and CWA arm: every adapter's answer, the prediction, the structure oracle and the attack-in-payload oracle",
+      "rows": 12
+    },
+    {
+      "path": "suites/S1/summary.json",
+      "kind": "suite-summary",
+      "schema": "cwa-bench-d5/suite-summary/v1",
+      "description": "S1's structural isolation: the gate, the baselines' structure, the field claims and the floods"
+    },
+    {
+      "path": "suites/S1/tokens.jsonl",
+      "kind": "token-row",
+      "schema": "cwa-bench-d5/token-row/v1",
+      "description": "One row per marker probe and arm: the special tokens the served tokenizer reads",
+      "rows": 12
+    },
+    {
+      "path": "suites/S2/calls-sampled.jsonl",
+      "kind": "call-row",
+      "schema": "cwa-bench-d5/call-row/v1",
+      "description": "Provenance of every model call S2 made or replayed: one row per distinct request and sample",
+      "rows": 12
+    },
+    {
+      "path": "suites/S2/calls.jsonl",
+      "kind": "call-row",
+      "schema": "cwa-bench-d5/call-row/v1",
+      "description": "Provenance of every model call S2 made or replayed: one row per distinct request and sample",
+      "rows": 12
+    },
+    {
+      "path": "suites/S2/probes.jsonl",
+      "kind": "probe-row",
+      "schema": "cwa-bench-d5/probe-row/v1",
+      "description": "One row per cell, arm and sample: the task's grade, the attack's verdict, refusal, and whether the attack reached the payload",
+      "rows": 12
+    },
+    {
+      "path": "suites/S2/summary.json",
+      "kind": "suite-summary",
+      "schema": "cwa-bench-d5/suite-summary/v1",
+      "description": "S2's attack outcomes and task grades per arm"
+    },
+    {
+      "path": "suites/S3/calls.jsonl",
+      "kind": "call-row",
+      "schema": "cwa-bench-d5/call-row/v1",
+      "description": "Provenance of every model call S3 made or replayed: one row per distinct request and sample",
+      "rows": 12
+    },
+    {
+      "path": "suites/S3/probes.jsonl",
+      "kind": "external-row",
+      "schema": "cwa-bench-d5/external-row/v1",
+      "description": "One row per external probe and arm: the set's verdict, and whether its attack reached the payload",
+      "rows": 12
+    },
+    {
+      "path": "suites/S3/summary.json",
+      "kind": "suite-summary",
+      "schema": "cwa-bench-d5/suite-summary/v1",
+      "description": "S3's external sets per arm"
+    },
+    {
+      "path": "suites/S4/calls-attacker.jsonl",
+      "kind": "call-row",
+      "schema": "cwa-bench-d5/call-row/v1",
+      "description": "Provenance of every attacker call S4 made or replayed",
+      "rows": 12
+    },
+    {
+      "path": "suites/S4/calls.jsonl",
+      "kind": "call-row",
+      "schema": "cwa-bench-d5/call-row/v1",
+      "description": "Provenance of every target call S4 made or replayed",
+      "rows": 12
+    },
+    {
+      "path": "suites/S4/search.jsonl",
+      "kind": "search-row",
+      "schema": "cwa-bench-d5/search-row/v1",
+      "description": "One row per S4 query: the candidate, where it was written, and the attack's verdict",
+      "rows": 12
+    },
+    {
+      "path": "suites/S4/summary.json",
+      "kind": "suite-summary",
+      "schema": "cwa-bench-d5/suite-summary/v1",
+      "description": "S4's searches and held-out results per arm"
+    },
+    {
+      "path": "suites/S5/calls.jsonl",
+      "kind": "call-row",
+      "schema": "cwa-bench-d5/call-row/v1",
+      "description": "Provenance of every model call S5 made or replayed: one row per distinct request and sample",
+      "rows": 12
+    },
+    {
+      "path": "suites/S5/gate.jsonl",
+      "kind": "gate-row",
+      "schema": "cwa-bench-d5/gate-row/v1",
+      "description": "One row per pasted probe and CWA arm: every adapter's answer, the structure and the attack",
+      "rows": 12
+    },
+    {
+      "path": "suites/S5/probes.jsonl",
+      "kind": "probe-row",
+      "schema": "cwa-bench-d5/probe-row/v1",
+      "description": "One row per pasted probe, arm and sample: the task's grade and the attack's verdict",
+      "rows": 12
+    },
+    {
+      "path": "suites/S5/summary.json",
+      "kind": "suite-summary",
+      "schema": "cwa-bench-d5/suite-summary/v1",
+      "description": "S5's pasted attacks and task grades per arm"
+    },
+    {
+      "path": "suites/S6/calls.jsonl",
+      "kind": "call-row",
+      "schema": "cwa-bench-d5/call-row/v1",
+      "description": "Provenance of every model call S6 made or replayed: replies and producers",
+      "rows": 12
+    },
+    {
+      "path": "suites/S6/chains.jsonl",
+      "kind": "chain-row",
+      "schema": "cwa-bench-d5/chain-row/v1",
+      "description": "One row per chain and point: the reply's code word, the probe's grade, and where the attack had reached",
+      "rows": 12
+    },
+    {
+      "path": "suites/S6/gate.jsonl",
+      "kind": "gate-row",
+      "schema": "cwa-bench-d5/gate-row/v1",
+      "description": "One row per CWA chain and point: every adapter's answer, the structure and the attack",
+      "rows": 12
+    },
+    {
+      "path": "suites/S6/stores.jsonl",
+      "kind": "store-row",
+      "schema": "cwa-bench-d5/store-row/v1",
+      "description": "One row per chain and producer output: each memory note, the extracted state after each turn, and each summary, and whether it held the attack",
+      "rows": 12
+    },
+    {
+      "path": "suites/S6/summary.json",
+      "kind": "suite-summary",
+      "schema": "cwa-bench-d5/suite-summary/v1",
+      "description": "S6's chains: persistence, delayed triggers and poisoned answers per arm"
+    },
+    {
+      "path": "suites/S7/candidate-goldens.json",
+      "kind": "goldens",
+      "schema": "cwa-bench-d5/goldens/v1",
+      "description": "Candidate goldens: CWA answers every adapter agreed on, as predicted and audited clean"
+    },
+    {
+      "path": "suites/S7/drift.jsonl",
+      "kind": "drift-row",
+      "schema": "cwa-bench-d5/drift-row/v1",
+      "description": "Every CWA answer that does not match its golden: new, spec_change or regression",
+      "rows": 12
+    },
+    {
+      "path": "suites/S7/summary.json",
+      "kind": "suite-summary",
+      "schema": "cwa-bench-d5/suite-summary/v1",
+      "description": "S7's comparison of the CWA answers with the adopted goldens"
+    },
+    {
+      "path": "summary.json",
+      "kind": "summary",
+      "schema": "cwa-bench-d5/summary/v1",
+      "description": "Headline metrics and per-suite status"
+    },
+    {
+      "path": "tasks/cq/index.json",
+      "kind": "task-index",
+      "schema": "cwa-bench-d5/task-index/v1",
+      "description": "The cq task instances this run generated, each a task blob"
+    },
+    {
+      "path": "tasks/dg/index.json",
+      "kind": "task-index",
+      "schema": "cwa-bench-d5/task-index/v1",
+      "description": "The dg task instances this run generated, each a task blob"
+    },
+    {
+      "path": "tasks/dq/index.json",
+      "kind": "task-index",
+      "schema": "cwa-bench-d5/task-index/v1",
+      "description": "The dq task instances this run generated, each a task blob"
+    },
+    {
+      "path": "tasks/em/index.json",
+      "kind": "task-index",
+      "schema": "cwa-bench-d5/task-index/v1",
+      "description": "The em task instances this run generated, each a task blob"
+    },
+    {
+      "path": "tasks/sl/index.json",
+      "kind": "task-index",
+      "schema": "cwa-bench-d5/task-index/v1",
+      "description": "The sl task instances this run generated, each a task blob"
+    },
+    {
+      "path": "tasks/tq/index.json",
+      "kind": "task-index",
+      "schema": "cwa-bench-d5/task-index/v1",
+      "description": "The tq task instances this run generated, each a task blob"
+    }
+  ],
+  "blobs": {
+    "index": "blobs/index.jsonl",
+    "layout": "blobs/sha256/<first 2 hex>/<64 hex>.<json|txt|bin>",
+    "count": 301
+  },
+  "fixture": {
+    "of": "20261013T224806Z-5fc59ba",
+    "created_at": "2026-10-14T14:34:33.311Z",
+    "rows": 12,
+    "frames": 16,
+    "sweeps": 2
+  }
+}

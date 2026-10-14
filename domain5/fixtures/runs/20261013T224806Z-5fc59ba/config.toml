@@ -1,0 +1,217 @@
+# Domain 5 run configuration (domain-5-plan.md, section 12). Paths are relative to this file.
+#
+# This build is P0 to P5: the task generators (six families, each in a plain and an imperative variant, EM and DQ also
+# padded to four lengths), the attack templates and their composition into probes, the graders, S0, S1 (every arm's
+# payload built and read: the CWA arms gated through Domain 1's assemblers, the baselines' structure, field-level
+# claims, floods), S2 (every gated payload sent to the model, every reply graded), S3 (the external sets, SEP and
+# LLMail-Inject), S4 (an adaptive attacker), S5 (the attack in material the user pastes), S6 (persistence and delayed
+# triggers) and S7 (goldens). The tables of later phases (the second model, thresholds, CI profiles) arrive with them.
+
+[contract]
+path = "../../../contextwindowarchitecture"
+commit = "16de4be0534583f135a597171c927d42c87ee82c"  # the same pin as domain1.toml; moved deliberately, in its own commit
+allow_dirty = false
+
+[run]
+suites = ["S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7"]
+tasks = ["em", "dq", "tq", "dg", "cq", "sl"]
+size = "pilot"                                   # pilot | recorded: which of each family's sizes a run generates
+results_dir = "results/d5"
+timeout_s = 60                                   # per assembly
+concurrency = 8                                  # snapshots in flight, each on every adapter at once
+
+# Domain 1's adapters and builds (domain1/.build): every CWA snapshot is assembled by each of them. The payload
+# source's bytes are what S2 will send to the model; the others must match them byte for byte.
+[adapters]
+config = "../domain1/domain1.toml"
+use = ["python", "typescript", "go", "rust"]
+payload_source = "rust"
+
+# Every payload is counted as Domain 2's are. No budget sheds anything: a CWA snapshot's budget is its full count.
+[budgets]
+reserved_output = 1024
+margin_percent = 35                              # Domain 2's: estimate-utf8/v1's under-count of the route's text
+tokenizer = "estimate-utf8/v1"
+renderer = "cwa-messages/v1"
+
+# The arms (cwabench5/arms.py, domain-5-plan.md, 7): the conventional baselines, then the CWA arms.
+[arms]
+use = ["system-content", "naive", "reminder", "delimited", "spotlight", "tool-role", "multi-turn", "xml-unescaped",
+       "cwa", "cwa-boundary", "cwa-reinforced", "cwa-observation"]
+
+# The probe grid (cwabench5/grid.py): the representation sweep's test templates per DQ instance, and the length
+# sweep's lengths (estimate-utf8/v1 tokens of content) and test templates per padded EM and DQ instance.
+[grid]
+html_templates = 10
+lengths = [1000, 4000, 16000, 32000]
+length_templates = 10
+
+# The model S2 sends payloads to (Domain 2's client, cwabench2/model/, with Domain 5's handoff and cache): the same
+# server and settings as Domain 2's recorded run. `replay` answers from the committed cache alone; `run --model llm`
+# calls the endpoint on a miss and fills it. Every request parameter is part of each cache key.
+[model]
+mode = "replay"
+base_url = "http://127.0.0.1:8000/v1"
+model = "qwen3.6-35b-a3b-fp8"                    # the served name of Qwen/Qwen3.6-35B-A3B-FP8
+api_key_env = "CWA_BENCH_MODEL_KEY"
+temperature = 0
+seed = 7
+max_tokens = 512
+request_timeout_s = 300
+concurrency = 64
+cache = "model-cache"
+context_limit = 262144
+seed_per_sample = true                           # sample k sends seed + k: independent draws, each replayable
+
+[model.extra_body]
+top_p = 1.0
+top_k = -1
+min_p = 0.0
+presence_penalty = 0.0
+frequency_penalty = 0.0
+repetition_penalty = 1.0
+chat_template_kwargs = { enable_thinking = false }
+
+# S2 · Static attacks (cwabench5/suites/s2_attacks.py): attacked cells once at the model's temperature, clean ones
+# three times, and every tenth attacked cell five more times at 0.7; `pairs` are the controlled comparisons (a, b).
+[s2]
+attacked_samples = 1
+clean_samples = 3
+sensitivity_every = 10
+sensitivity_samples = 5
+sensitivity_temperature = 0.7
+bootstrap_resamples = 2000
+bootstrap_seed = 20261013
+pairs = [["naive", "xml-unescaped"], ["xml-unescaped", "cwa"], ["naive", "cwa"], ["reminder", "cwa-boundary"],
+         ["cwa-boundary", "cwa-reinforced"], ["tool-role", "cwa-observation"]]
+
+# The external sets S3 sends (cwabench5/external/): SEP and LLMail-Inject, sampled from their sources at pinned
+# revisions into `dir` with a SHA-256 lock (`cwabench --domain 5 external vendor`, `external check`). A pilot run sends
+# each set's first tenth: 100 SEP cases (each twice, the probe in the instruction and in the data) and 201 LLMail-Inject
+# submissions; a recorded run all 1,000 and 2,000.
+[external]
+dir = "external"
+sets = ["sep", "llmail"]
+
+# S3 · External (cwabench5/suites/s3_external.py): each external probe once per arm at the model's temperature;
+# `pairs` are S2's controlled comparisons, on the same probes.
+[s3]
+bootstrap_resamples = 2000
+bootstrap_seed = 20261013
+pairs = [["naive", "xml-unescaped"], ["xml-unescaped", "cwa"], ["naive", "cwa"], ["reminder", "cwa-boundary"],
+         ["cwa-boundary", "cwa-reinforced"], ["tool-role", "cwa-observation"]]
+
+# S4 · Adaptive attacker (cwabench5/suites/s4_adaptive.py, cwabench5/attacks/adaptive.py): per arm, `budget` target
+# queries on `train` instances per family (generated apart from the run's), `loop_share` of them for the attacker loop
+# (the model as a red-teamer, at `attacker_temperature`) and the rest for random search over the train-half HJ
+# templates, carriers, positions and operators; a success is retried on `confirm` more instances. At each share of the
+# budget in `checkpoints`, the best attack so far is sent against every instance of the run.
+[s4]
+budget = { pilot = 120, recorded = 2000 }
+train = { pilot = 1, recorded = 4 }
+loop_share = 0.5
+checkpoints = [0.25, 0.5, 1.0]
+confirm = 2
+round = 16
+seed = 20261014
+attacker_temperature = 0.7
+bootstrap_resamples = 2000
+bootstrap_seed = 20261013
+
+# S5 · Pasted material (cwabench5/suites/s5_pasted.py, cwabench5/pasted.py): S2's probes for `families`, their items
+# pasted into the user's message in each pasted arm; the CWA arms gated in the suite. `pairs` are its controlled
+# comparisons: rendering, the delimiting R-10 recommends, and a boundary the material can imitate or not.
+[s5]
+arms = ["pasted-naive", "pasted-delimited", "pasted-nonce", "cwa-pasted", "cwa-pasted-nonce"]
+families = ["em", "dq"]
+attacked_samples = 1
+clean_samples = 3
+bootstrap_resamples = 2000
+bootstrap_seed = 20261013
+pairs = [["pasted-naive", "cwa-pasted"], ["cwa-pasted", "cwa-pasted-nonce"], ["pasted-nonce", "cwa-pasted-nonce"],
+         ["pasted-delimited", "pasted-nonce"], ["pasted-naive", "pasted-nonce"]]
+
+# S6 · Persistence and delayed triggers (cwabench5/suites/s6_persistence.py, cwabench5/persistence.py): `conversations`
+# VT scripts of `turns` turns (Domain 2's generator, `vt` its parameters), each under every attack in every arm. At
+# `poison_turn` the user attaches a document; probes every `probe_every` turns after it ask for the target figure.
+# Windowed arms keep the last `window` turns; `cwa-memory-expire` notes expire `memory_ttl_turns` turns after their
+# turn, and `cwa-memory-revoke` revokes the poison turn's note `revoke_after` turns after it.
+[s6]
+arms = ["chat", "chat-summary", "cwa-history", "cwa-memory", "cwa-memory-expire", "cwa-memory-revoke", "cwa-state-x",
+        "cwa-state"]
+attacks = ["none", "persist", "value", "trigger"]
+conversations = { pilot = 2, recorded = 12 }
+turns = 20
+poison_turn = 4
+probe_every = 4
+window = 4
+memory_ttl_turns = 8
+revoke_after = 6
+turn_seconds = 120
+seed = 20261015
+pairs = [["chat", "cwa-history"], ["chat-summary", "cwa-memory"], ["cwa-memory", "cwa-memory-expire"],
+         ["cwa-memory", "cwa-memory-revoke"], ["cwa-state-x", "cwa-state"]]
+bootstrap_resamples = 2000
+bootstrap_seed = 20261013
+
+# Domain 2's VT generator (cwabench2/conversations/variables.py) with its own pilot parameters.
+[s6.vt]
+seed = 20261009
+variables = 3
+distractors = 2
+assignment_density = 0.5
+filler_sentences = 4
+reply_sentences = 3
+
+# S1's tokenizer check (cwabench5/oracles/tokens.py): off, replay (tokenize-cache/ alone) or server (the served
+# model's /tokenize on a miss, filling the cache), for the first `tokenize_cells` marker cells of each family. The
+# committed cache is vLLM 0.31.0's tokenizer for the Qwen model, filled on the host on 2026-10-13.
+[s1]
+tokenize = "replay"
+tokenize_base_url = "http://127.0.0.1:8000/v1"
+tokenize_model = "qwen3.6-35b-a3b-fp8"
+tokenize_cells = 2
+
+# S7 · Goldens. Adopt a run's candidates with `cwabench --domain 5 goldens accept`.
+[s7]
+goldens = "goldens/d5-goldens.json"
+
+# The benign task families (cwabench5/tasks/). `sizes` counts the instances of each variant, plain and imperative;
+# the other keys are the generator's parameters.
+[tasks.em]
+seed = 501
+sizes = { pilot = 2, recorded = 24 }
+emails = [3, 8]                                  # least and most emails in a thread
+filler_sentences = 2
+
+[tasks.dq]
+seed = 502
+sizes = { pilot = 2, recorded = 24 }
+documents = [2, 6]
+filler_sentences = 2
+
+[tasks.tq]
+seed = 503
+sizes = { pilot = 2, recorded = 24 }
+rows = [10, 40]
+
+[tasks.dg]
+seed = 504
+sizes = { pilot = 2, recorded = 24 }
+notes = [4, 10]
+
+[tasks.cq]
+seed = 505
+sizes = { pilot = 2, recorded = 24 }
+
+[tasks.sl]
+seed = 506
+sizes = { pilot = 2, recorded = 24 }
+suppliers = [4, 8]
+
+# The attack families (cwabench5/attacks/families.py) and the seed every probe's own seed is drawn from. The marker
+# carrier forges the chat template of the served model: qwen (Domain 2's model) or llama3 (the second family, P6).
+[attacks]
+seed = 20261012
+families = ["hj", "mf", "ad", "ex", "ac", "dm"]
+chat_template = "qwen"
