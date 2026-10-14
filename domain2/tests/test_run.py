@@ -4,8 +4,10 @@ import json
 
 import pytest
 
+from cwabench.rundir import update_runs_index
 from cwabench.validate import validate_run
 from cwabench2 import config as config_mod
+from cwabench2 import output
 from cwabench2.runner import run
 from cwabench2.suites import s0_cases
 
@@ -26,6 +28,7 @@ def test_a_run_with_only_s0_passes_and_validates(small_config):
             "suites/S0/results.jsonl", "conversations/vt/index.json", "conversations/fr/index.json"} <= paths
     manifest = _read(run_dir / "manifest.json")
     assert manifest["harness"]["name"] == "cwa-bench-d2" and manifest["status"] == "pass"
+    assert manifest["size"] == config.size == "pilot"
     vt = _read(run_dir / "conversations" / "vt" / "index.json")
     assert [c["conversation_id"] for c in vt["conversations"]] == ["vt-t010-00", "vt-t025-00"]
     blob = run_dir / "blobs" / "sha256" / vt["conversations"][0]["script"][7:9]
@@ -37,6 +40,12 @@ def test_a_run_with_only_s0_passes_and_validates(small_config):
     assert all(m["status"] == "pass" for m in summary["metrics"])
     runs = _read(config.results_dir / "index.json")
     assert runs["$schema"] == "cwa-bench-d2/runs-index/v1" and runs["latest"] == run_dir.name
+    assert runs["runs"][0]["size"] == "pilot"
+    # A run made before manifests recorded its size takes it from its own conversation index.
+    del manifest["size"]
+    (run_dir / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    update_runs_index(config.results_dir, link=False, domain=output.D2)
+    assert _read(config.results_dir / "index.json")["runs"][0]["size"] == vt["size"] == "pilot"
 
 
 def test_a_grader_that_disagrees_fails_s0_with_a_finding(small_config, monkeypatch):

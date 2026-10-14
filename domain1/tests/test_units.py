@@ -148,7 +148,49 @@ def test_runs_index_names_each_profiles_newest_finished_run_and_the_commits(tmp_
     assert [r["run_id"] for r in index["runs"]][:2] == ["20261008T000005Z-aaaaaaa", "20261008T000004Z-aaaaaaa"]
     assert index["runs"][0]["commits"] == {"contract": "c" * 40, "go": "g" * 40, "rust": None}
     assert index["runs"][0]["adapters"] == ["go", "rust"]
+    assert {r["size"] for r in index["runs"]} == {None}  # Domain 1 has no sizes
     assert not (tmp_path / "latest").exists()
+
+
+def test_runs_index_gives_each_runs_size_from_its_manifest_or_its_own_record(tmp_path):
+    from cwabench import rundir
+
+    schemas = tmp_path / "schemas"
+    schemas.mkdir()
+    text = (output.SCHEMA_DIR / "runs-index.v1.schema.json").read_text(encoding="utf-8")
+    (schemas / "runs-index.v1.schema.json").write_text(text.replace("cwa-bench-d1", "cwa-bench-dz"), encoding="utf-8")
+    dz = output.register(output.Domain("cwa-bench-dz", schemas, size_from=("task-index",)))
+    results = tmp_path / "results"
+
+    def run(run_id, size=None, record=None, listed=True):
+        directory = results / run_id
+        directory.mkdir(parents=True)
+        manifest = {"run_id": run_id, "status": "pass", "started_at": "2026-10-14T00:00:00Z", "finished_at": None,
+                    "suites": ["S0"], "adapters": {}, "contract": {"commit": None}, "ci": None}
+        if size is not None:
+            manifest["size"] = size
+        (directory / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+        files = []
+        if record is not None:
+            (directory / "tasks").mkdir()
+            (directory / "tasks" / "index.json").write_text(json.dumps(record), encoding="utf-8")
+            if listed:
+                files.append({"path": "tasks/index.json", "kind": "task-index"})
+        (directory / "index.json").write_text(json.dumps({"files": files}), encoding="utf-8")
+
+    run("20261014T000001Z-aaaaaaa", size="recorded", record={"size": "pilot"})  # the manifest wins
+    run("20261014T000002Z-aaaaaaa", record={"size": "recorded"})  # made before manifests recorded it
+    run("20261014T000003Z-aaaaaaa", record={"size": "enormous"})  # not a size this field names
+    run("20261014T000004Z-aaaaaaa", record={"size": "pilot"}, listed=False)  # not in the run index
+    run("20261014T000005Z-aaaaaaa")
+    rundir.update_runs_index(results, link=False, domain=dz)
+    index = json.loads((results / "index.json").read_text(encoding="utf-8"))
+    output.validate(index)
+    assert {r["run_id"][9:15]: r["size"] for r in index["runs"]} == {
+        "000001": "recorded", "000002": "recorded", "000003": None, "000004": None, "000005": None}
+    # Without size_from, a run's own record is never read.
+    rundir.update_runs_index(results, link=False)
+    assert json.loads((results / "index.json").read_text())["runs"][3]["size"] is None
 
 
 def test_findings_carry_their_upstream_link(fake_config, tmp_path):

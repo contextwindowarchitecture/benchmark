@@ -11,7 +11,7 @@ from pathlib import Path
 from cwabench.output import Domain, OutputError, dumps, register, validate, write_json, write_jsonl
 
 SCHEMA_DIR = Path(__file__).resolve().parent.parent / "schemas"
-D5 = register(Domain("cwa-bench-d5", SCHEMA_DIR))
+D5 = register(Domain("cwa-bench-d5", SCHEMA_DIR, size_from=("external-index", "task-index")))
 
 __all__ = ["D5", "SCHEMA_DIR", "OutputError", "dumps", "schema_name", "validate", "write_json", "write_jsonl"]
 

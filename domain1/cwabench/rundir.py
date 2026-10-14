@@ -189,8 +189,9 @@ def host() -> dict:
 
 def update_runs_index(results_dir: Path, latest: str | None = None, link: bool = True,
                       domain: output.Domain = output.D1) -> None:
-    """Rebuild results/d1/index.json from the manifests on disk: every run, newest first; the newest finished run of
-    each CI profile; and the contract and adapter commits each run was made from. With `link`, also point
+    """Rebuild results/d1/index.json from the manifests on disk: every run, newest first, with its size (run_size);
+    the newest finished run of each CI profile; and the contract and adapter commits each run was made from. With
+    `link`, also point
     results/d1/latest at the newest run (`cwabench ci` points results/d1/<profile> at a profile's run the same way,
     ci.publish). A copy of the results served without symlinks resolves `latest` and `profiles` from the index."""
     runs = []
@@ -214,6 +215,7 @@ def update_runs_index(results_dir: Path, latest: str | None = None, link: bool =
                 "suites": manifest.get("suites", []),
                 "adapters": sorted(adapters),
                 "ci_profile": (manifest.get("ci") or {}).get("profile"),
+                "size": run_size(manifest_path.parent, manifest, domain),
                 "commits": commits,
             }
         )
@@ -235,6 +237,24 @@ def update_runs_index(results_dir: Path, latest: str | None = None, link: bool =
         temporary.unlink(missing_ok=True)
         temporary.symlink_to(newest, target_is_directory=True)
         os.replace(temporary, link_path)
+
+
+def run_size(run_dir: Path, manifest: dict, domain: output.Domain = output.D1) -> str | None:
+    """A run's size for the runs index: its manifest's, or, for a run made before manifests recorded it, the "size" of
+    the first file its run index lists of a kind the domain names in `size_from`; None where neither says."""
+    if manifest.get("size") is not None:
+        return manifest["size"]
+    if not domain.size_from:
+        return None
+    try:
+        files = json.loads((run_dir / "index.json").read_text(encoding="utf-8")).get("files", [])
+        record = next((f for f in files if f.get("kind") in domain.size_from), None)
+        if record is None:
+            return None
+        size = json.loads((run_dir / record["path"]).read_text(encoding="utf-8")).get("size")
+    except (OSError, json.JSONDecodeError, KeyError):
+        return None
+    return size if size in ("pilot", "recorded") else None
 
 
 def env_cells(config: Config) -> list[str]:

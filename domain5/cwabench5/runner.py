@@ -129,6 +129,7 @@ def manifest(run_dir: RunDir, config: Config, contract: Contract, status: str, f
         "seed": None,
         "suites": config.suites,
         "settings": {"timeout_s": config.timeout_s, "concurrency": config.concurrency},
+        "size": config.size,
         "ci": ci,
     }
 

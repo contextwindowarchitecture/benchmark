@@ -5,8 +5,10 @@ import tomllib
 
 import pytest
 
+from cwabench.rundir import update_runs_index
 from cwabench.validate import validate_run
 from cwabench5 import config as config_mod
+from cwabench5 import output
 from cwabench5.runner import run
 
 ROOT = config_mod.Path(__file__).resolve().parent.parent
@@ -27,7 +29,14 @@ def test_a_run_with_only_s0_passes_and_validates(small_config):
     assert {"manifest.json", "contract.json", "summary.json", "findings.jsonl", "suites/S0/summary.json",
             "suites/S0/results.jsonl", "tasks/em/index.json", "tasks/cq/index.json", "tasks/sl/index.json",
             "attacks/index.json"} <= paths
-    assert _read(run_dir / "manifest.json")["harness"]["name"] == "cwa-bench-d5"
+    manifest = _read(run_dir / "manifest.json")
+    assert manifest["harness"]["name"] == "cwa-bench-d5" and manifest["size"] == config.size == "pilot"
+    assert _read(config.results_dir / "index.json")["runs"][0]["size"] == "pilot"
+    # A run made before manifests recorded its size takes it from its own task index.
+    del manifest["size"]
+    (run_dir / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    update_runs_index(config.results_dir, link=False, domain=output.D5)
+    assert _read(config.results_dir / "index.json")["runs"][0]["size"] == "pilot"
     em = _read(run_dir / "tasks" / "em" / "index.json")
     assert [t["task_id"] for t in em["tasks"]] == ["em-p00", "em-i00"]
     summary = _read(run_dir / "summary.json")

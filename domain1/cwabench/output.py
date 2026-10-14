@@ -20,7 +20,7 @@ import json
 import os
 import re
 import tempfile
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
 
@@ -46,10 +46,13 @@ def _validator(schema_dir: Path, prefix: str, kind: str, version: int) -> Draft2
 
 @dataclass(frozen=True)
 class Domain:
-    """One domain's documents: "$schema": "<prefix>/<kind>/v<n>", defined by <schema_dir>/<kind>.v<n>.schema.json."""
+    """One domain's documents: "$schema": "<prefix>/<kind>/v<n>", defined by <schema_dir>/<kind>.v<n>.schema.json.
+    `size_from` names the kinds of a run's own files that record the run's size in a "size" field, for runs made
+    before manifests recorded it (rundir.run_size); a domain without sizes leaves it empty."""
 
     prefix: str
     schema_dir: Path
+    size_from: tuple[str, ...] = field(default=(), compare=False)
 
     def schema_name(self, kind: str, version: int = 1) -> str:
         return f"{self.prefix}/{kind}/v{version}"
