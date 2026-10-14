@@ -92,6 +92,9 @@ def test_cwabench_runs_domain_5_through_its_entry_point(small_config, capsys):
     assert cli.main(["--domain", "5", "--config", str(config.path), "validate"]) == 0
     assert cli.main(["validate", str(latest)]) == 0  # Domain 1's own validate reads any installed domain's run
     assert "valid" in capsys.readouterr().out
+    assert cli.main(["--domain", "5", "--config", str(config.path), "index"]) == 0
+    report = capsys.readouterr().out
+    assert f"1 run(s), latest {latest.resolve().name}" in report and "pilot" in report
 
 
 def test_the_shipped_config_loads_and_pins_domain_1s_contract():

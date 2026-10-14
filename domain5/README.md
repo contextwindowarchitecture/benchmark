@@ -150,6 +150,7 @@ uv run cwabench --domain 5 external vendor --source DIR  # sample them again fro
 uv run cwabench --domain 5 ci nightly                   # a CI profile: replay, compare with its last run, publish
 uv run cwabench --domain 5 fixture <run>                # a run cut down to a sample of rows, for consumers' tests
 uv run cwabench --domain 5 validate     # re-check the latest run directory
+uv run cwabench --domain 5 index        # rebuild results/d5/index.json from the manifests, each run's size in it
 CWA_BENCH_REFERENCE=1 uv run pytest     # also S1 end to end on the reference assembler
 ```
 

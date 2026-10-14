@@ -239,6 +239,28 @@ def update_runs_index(results_dir: Path, latest: str | None = None, link: bool =
         os.replace(temporary, link_path)
 
 
+def rebuild_runs_index(results_dir: Path, domain: output.Domain = output.D1) -> dict:
+    """Rebuild a results directory's runs index from the manifests on disk (the `index` command), as a finished run
+    does, so a field the index gained since (a run's size) is filled for every run already there. The index's latest
+    run stays the one it named while that run is still on disk; the `latest` link is left as it is."""
+    path = results_dir / "index.json"
+    try:
+        latest = json.loads(path.read_text(encoding="utf-8")).get("latest")
+    except (OSError, json.JSONDecodeError):
+        latest = None
+    if latest and not (results_dir / latest / "manifest.json").is_file():
+        latest = None
+    update_runs_index(results_dir, latest=latest, link=False, domain=domain)
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def print_runs_index(index: dict, results_dir: Path) -> None:
+    """The `index` command's report: each run, newest first, with its status, size and CI profile."""
+    print(f"{results_dir / 'index.json'}: {len(index['runs'])} run(s), latest {index['latest']}")
+    for run in index["runs"]:
+        print(f"  {run['run_id']}  {run['status']:<7}  {run.get('size') or '-':<8}  {run.get('ci_profile') or ''}")
+
+
 def run_size(run_dir: Path, manifest: dict, domain: output.Domain = output.D1) -> str | None:
     """A run's size for the runs index: its manifest's, or, for a run made before manifests recorded it, the "size" of
     the first file its run index lists of a kind the domain names in `size_from`; None where neither says."""

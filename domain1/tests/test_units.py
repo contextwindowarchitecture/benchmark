@@ -193,6 +193,26 @@ def test_runs_index_gives_each_runs_size_from_its_manifest_or_its_own_record(tmp
     assert json.loads((results / "index.json").read_text())["runs"][3]["size"] is None
 
 
+def test_rebuilding_a_runs_index_keeps_its_latest_run_while_that_run_is_on_disk(tmp_path, capsys):
+    import shutil
+
+    from cwabench import rundir
+
+    for run_id in ("20261014T000001Z-aaaaaaa", "20261014T000002Z-aaaaaaa"):
+        (tmp_path / run_id).mkdir()
+        (tmp_path / run_id / "manifest.json").write_text(json.dumps({
+            "run_id": run_id, "status": "pass", "started_at": "2026-10-14T00:00:00Z", "finished_at": None,
+            "suites": ["S1"], "adapters": {}, "contract": {"commit": None}, "ci": None}), encoding="utf-8")
+    rundir.update_runs_index(tmp_path, latest="20261014T000001Z-aaaaaaa", link=False)
+    index = rundir.rebuild_runs_index(tmp_path)
+    assert index["latest"] == "20261014T000001Z-aaaaaaa" and len(index["runs"]) == 2
+    rundir.print_runs_index(index, tmp_path)
+    assert "2 run(s), latest 20261014T000001Z-aaaaaaa" in capsys.readouterr().out
+    shutil.rmtree(tmp_path / "20261014T000001Z-aaaaaaa")
+    assert rundir.rebuild_runs_index(tmp_path)["latest"] == "20261014T000002Z-aaaaaaa"  # gone: the newest stands
+    assert not (tmp_path / "latest").exists()
+
+
 def test_findings_carry_their_upstream_link(fake_config, tmp_path):
     from cwabench.config import ConfigError
     from cwabench.runner import run

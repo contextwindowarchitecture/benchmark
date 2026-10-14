@@ -121,6 +121,7 @@ uv run cwabench --domain 2 goldens accept       # adopt the latest run's candida
 uv run cwabench --domain 2 ci nightly          # a CI profile, replaying: drift since its last run, in ci.json
 uv run cwabench --domain 2 ci nightly --fetch  # the same against the assemblers' upstream default branches
 uv run cwabench --domain 2 fixture <run>       # write fixtures/runs/<run-id>: the run trimmed, for consumers' tests
+uv run cwabench --domain 2 index               # rebuild results/d2/index.json from the manifests, each run's size in it
 uv run pytest                                   # the harness's own tests, from domain2/; needs the spec checkout
 CWA_BENCH_REFERENCE=1 uv run pytest tests/test_gate.py   # S1, S4, S6 and S7 on the reference assembler, a defect
 ```

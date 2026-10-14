@@ -152,6 +152,8 @@ def run_domain1(argv: list[str] | None = None) -> int:
     accept_cmd = goldens_sub.add_parser("accept", help="adopt a run's candidate goldens as the baseline")
     accept_cmd.add_argument("run_dir", nargs="?", help="default: the latest run")
 
+    commands.add_parser("index", help="rebuild the runs index from the run manifests on disk, keeping its latest run")
+
     fixture_cmd = commands.add_parser("fixture", help="write a run trimmed to a sample of its rows, frames and blobs, "
                                                       "for consumers' tests")
     fixture_cmd.add_argument("run_dir", nargs="?",
@@ -213,6 +215,11 @@ def run_domain1(argv: list[str] | None = None) -> int:
                 print(f"{'invalid fixture' if problem in errors else 'warning'}: {problem}", file=sys.stderr)
             print(f"{target}: {'valid' if not errors else f'{len(errors)} problem(s)'}")
             return 1 if errors else 0
+        if args.command == "index":
+            from .rundir import print_runs_index, rebuild_runs_index
+
+            print_runs_index(rebuild_runs_index(config.results_dir), config.results_dir)
+            return 0
         if args.command == "validate":
             run_dir = Path(args.run_dir) if args.run_dir else config.results_dir / "latest"
             load_domains()  # a run directory of any installed domain validates here

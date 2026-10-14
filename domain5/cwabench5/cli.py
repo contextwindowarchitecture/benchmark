@@ -122,6 +122,8 @@ def main(argv: list[str] | None = None) -> int:
                             "branch and the spec at the pinned commit")
     where.add_argument("--checkouts", help="read the spec and every assembler from this directory, under the same names")
 
+    commands.add_parser("index", help="rebuild the runs index from the run manifests on disk, keeping its latest run")
+
     fixture_cmd = commands.add_parser("fixture", help="write a run trimmed to a sample of its rows and the blobs they "
                                                       "name, for consumers' tests")
     fixture_cmd.add_argument("run_dir", nargs="?",
@@ -148,6 +150,11 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     try:
         config = _load(args)
+        if args.command == "index":
+            from cwabench.rundir import print_runs_index, rebuild_runs_index
+
+            print_runs_index(rebuild_runs_index(config.results_dir, output.D5), config.results_dir)
+            return 0
         if args.command == "run":
             run_dir, status = run(config, build=not args.no_build)
             _print_summary(run_dir)

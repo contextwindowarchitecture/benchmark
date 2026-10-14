@@ -82,6 +82,9 @@ def test_cwabench_runs_domain_2_through_its_entry_point(small_config, capsys):
     assert cli.main(["--domain", "2", "--config", str(config.path), "validate"]) == 0
     assert cli.main(["validate", str(latest)]) == 0  # Domain 1's own validate reads any installed domain's run
     assert "valid" in capsys.readouterr().out
+    assert cli.main(["--domain", "2", "--config", str(config.path), "index"]) == 0
+    report = capsys.readouterr().out
+    assert f"1 run(s), latest {latest.resolve().name}" in report and "pilot" in report
 
 
 def test_concurrency_and_base_url_flags_override_the_model_settings(small_config):
