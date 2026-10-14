@@ -172,6 +172,23 @@ tokenize_base_url = "http://127.0.0.1:8000/v1"
 tokenize_model = "qwen3.6-35b-a3b-fp8"
 tokenize_cells = 2
 
+# CI profiles (cwabench5/ci.py): `cwabench --domain 5 ci <profile>` runs one replaying the committed cache (no model
+# is called; a missing reply fails the run), compares it with the profile's previous run, and publishes it as
+# results/d5/<profile>. The goldens are the recorded run's, so both sizes check against them.
+[ci.profiles.nightly]
+description = "Every suite at pilot size, replaying the recorded run's cache"
+suites = ["S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7"]
+size = "pilot"
+
+[ci.profiles.weekly]
+description = "Every suite at recorded size, replaying the recorded run's cache"
+suites = ["S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7"]
+size = "recorded"
+
+# Where findings were reported, by finding id (schemas/upstream.v1.schema.json). Kept by hand; optional.
+[findings]
+upstream = "findings/upstream.json"
+
 # S7 · Goldens. Adopt a run's candidates with `cwabench --domain 5 goldens accept`.
 [s7]
 goldens = "goldens/d5-goldens.json"

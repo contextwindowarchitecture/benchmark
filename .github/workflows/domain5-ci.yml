@@ -1,0 +1,148 @@
+# Domain 5's CI profiles (domain-5-plan.md, P7): `cwabench --domain 5 ci <profile>` on a Linux x86_64 runner,
+# replaying the committed model cache (no model is called) and S1's committed tokenizer cache, with Domain 1's adapters
+# built from each assembler's default branch and the spec at the commit domain5.toml pins. The run is compared with the
+# previous run of the same profile (downloaded from this workflow's last artifact), and its run directory is uploaded
+# as the artifact domain5-<profile>, the published results/d5/<profile>. A reply the cache lacks fails the run: a
+# payload changed, which an assembler's or the harness's change can do.
+#
+# Manual only. Reported results are made on the remote GPU host (AGENTS.md); this is the regression check. On the
+# host's 16 vCPUs the nightly profile (pilot size) replays in about 7 minutes and the weekly one (recorded size, 85,120
+# CWA snapshots on four assemblers) in about 85; on a 4-vCPU runner expect about four times that, so the weekly profile
+# needs a larger runner (or `--workers` on one) to fit the 6-hour limit. To schedule later, add for example:
+#   schedule:
+#     - cron: "53 2 * * *"     # nightly
+#     - cron: "53 3 * * 0"     # weekly
+# and map github.event.schedule to the profile in the `profile` step.
+name: domain5-ci
+
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: A profile in [ci.profiles] of domain5/domain5.toml
+        type: choice
+        options: [nightly, weekly]
+        default: nightly
+
+permissions:
+  contents: read
+  actions: read  # to download the previous run's artifact for the drift report
+
+concurrency:
+  group: domain5-ci-${{ inputs.profile }}
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    name: cwabench --domain 5 ci ${{ inputs.profile }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    defaults:
+      run:
+        working-directory: benchmark/domain5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          path: benchmark
+      - name: profile and pinned contract
+        id: profile
+        run: |
+          echo "profile=${{ inputs.profile }}" >> "$GITHUB_OUTPUT"
+          python3 -c 'import tomllib; print("contract=" + tomllib.load(open("domain5.toml", "rb"))["contract"]["commit"])' >> "$GITHUB_OUTPUT"
+      # Every repository under checkouts/, by the directory names domain1.toml and domain5.toml use.
+      - uses: actions/checkout@v5
+        with:
+          repository: contextwindowarchitecture/contextwindowarchitecture
+          ref: ${{ steps.profile.outputs.contract }}
+          path: checkouts/contextwindowarchitecture
+          fetch-depth: 0
+      - uses: actions/checkout@v5
+        with:
+          repository: contextwindowarchitecture/assembler-python
+          path: checkouts/assembler-python
+      - uses: actions/checkout@v5
+        with:
+          repository: contextwindowarchitecture/assembler-typescript
+          path: checkouts/assembler-typescript
+      - uses: actions/checkout@v5
+        with:
+          repository: contextwindowarchitecture/assembler-go
+          path: checkouts/assembler-go
+      - uses: actions/checkout@v5
+        with:
+          repository: contextwindowarchitecture/assembler-rust
+          path: checkouts/assembler-rust
+
+      # Toolchains at the majors Domain 1's CI uses (domain1.toml, [container.images]).
+      - uses: astral-sh/setup-uv@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: checkouts/assembler-typescript/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.27"
+      - run: rustup toolchain install 1.99 --profile minimal && rustup default 1.99
+      - run: pnpm install --frozen-lockfile
+        working-directory: checkouts/assembler-typescript
+
+      - run: uv sync  # Domain 5 and, as its dependencies, Domains 1 and 2's harnesses
+      - name: the harness's own tests
+        env:
+          CWA_SPEC: ${{ github.workspace }}/checkouts/contextwindowarchitecture
+        run: uv run pytest -q
+
+      - name: the previous run of this profile, for the drift report
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          name="domain5-${{ steps.profile.outputs.profile }}"
+          id=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=$name&per_page=1" \
+                 --jq '.artifacts[0].workflow_run.id // empty')
+          mkdir -p results/d5
+          if [ -n "$id" ]; then
+            gh run download "$id" --repo "$GITHUB_REPOSITORY" -n "$name" -D results/d5
+          else
+            echo "no previous $name artifact: this run is the profile's baseline"
+          fi
+
+      - name: cwabench --domain 5 ci ${{ steps.profile.outputs.profile }}
+        run: uv run cwabench --domain 5 ci "${{ steps.profile.outputs.profile }}" --checkouts ../../checkouts --workers "$(nproc)"
+      - name: summary
+        if: always()
+        run: |
+          run=$(readlink "results/d5/${{ steps.profile.outputs.profile }}" || true)
+          echo "run_id=$run" >> "$GITHUB_ENV"
+          if [ -n "$run" ] && [ -f "results/d5/$run/ci.json" ]; then
+            python3 - "results/d5/$run" >> "$GITHUB_STEP_SUMMARY" <<'PY'
+          import json, sys
+          run = sys.argv[1]
+          report = json.load(open(f"{run}/ci.json"))
+          summary = json.load(open(f"{run}/summary.json"))
+          print(f"## {report['profile']}: {summary['status']}, {report['verdict']}\n")
+          print("| suite | status | previous |\n| --- | --- | --- |")
+          for s in report["suites"] or [{"id": s["id"], "status": s["status"], "previous": None} for s in summary["suites"]]:
+              print(f"| {s['id']} | {s['status']} | {s['previous'] or ''} |")
+          for b in report["bumps"]:
+              print(f"- bump {b['what']}: {b['from']} → {b['to']}")
+          f = report["findings"]
+          print(f"\nfindings: {len(f['new'])} new, {len(f['resolved'])} resolved, {f['persisting']} persisting")
+          if report["goldens"]:
+              print(f"\ngoldens (S7): {report['goldens']['drift'] or 'none compared'}")
+          PY
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always() && env.run_id != ''
+        with:
+          name: domain5-${{ steps.profile.outputs.profile }}
+          # Two paths keep results/d5 as the root, so the artifact holds <run-id>/ as results/d5 does.
+          path: |
+            benchmark/domain5/results/d5/${{ env.run_id }}
+            benchmark/domain5/results/d5/index.json
+          retention-days: 30
