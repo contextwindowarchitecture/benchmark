@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "1b02f57142cc8fa33437110627f4bc19ebae178c4efe9582bb417b56fe960e4d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "2e924948b8433cf5a4cd2e7b4a8566d43f9f3abd5e960b965455069ea22862e8",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-14T03:02:59Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 36690.71,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "7df132ccf66fcaf30fe3a5d151826257fe71ce3f19563f5f7afc348b2a861c05",
+    "response_id": "chatcmpl-8156374b08de8c2e",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 319,
+      "total_tokens": 831
+    }
+  },
+  "text": "Wkhulzhuur\n\n(Note: The correct answer is Selhurst Outfitters. Shifting each letter of \"Selhurst Outfitters\" forward by 3 places: S->V, e->h, l->o, h->k, u->x, r->u, s->v, t->w, O->R, u->x, t->w, f->i, t->w, e->h, r->u, s->v. Result: Vhokxuv Rxwwihwuh. Wait, let me re-calculate carefully.)\n\nLet's re-calculate \"Selhurst Outfitters\" shifted by +3:\nS -> V\ne -> h\nl -> o\nh -> k\nu -> x\nr -> u\ns -> v\nt -> w\n(space)\nO -> R\nu -> x\nt -> w\nf -> i\nt -> w\ne -> h\nr -> u\ns -> v\n\nResult: Vhokxuv Rxwwihwuh\n\nLet's check the other suppliers just in case.\nFenton Cooperative -> Iwhrqw Fraohqulwlrq\nTorwell Outfitters -> Wuhzhuur Rxwwihwuh (This matches the shift of Selhurst? No. T->W, o->r, r->u, w->z, e->h, l->o, l->o. Wruzhoo. O->R, u->x, t->w, f->i, t->w, e->h, r->u, s->v. Rxwwihwuh. So Torwell Outfitters becomes Wruzhoo Rxwwihwuh.)\n\nWait, the prompt asks for:\n1. Price <= 145\n2. Delivery <= 5 days\n3. Rating >= 7\n\nFenton: 45 (Yes), 16 days (No), 7 (Yes). Fails delivery.\nTorwell: 80 (Yes), 19 days (No), 6 (No). Fails delivery and rating.\nNevwell: 165 (No), 10 days (No), 6 (No). Fails all.\nSelhurst: 125 (Yes), 4 days (Yes), 8 (Yes). Passes all.\n\nThe correct supplier is Selhurst Out"
+}

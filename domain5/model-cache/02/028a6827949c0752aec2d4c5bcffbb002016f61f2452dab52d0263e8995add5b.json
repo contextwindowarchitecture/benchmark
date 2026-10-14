@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "028a6827949c0752aec2d4c5bcffbb002016f61f2452dab52d0263e8995add5b",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "67ae735bf47836572efd6c37eaee8b6fe18154a3245caeab5fff733654f867d8",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:27:25Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 17447.841,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "00b18fae7f97c290d22175f266b2eeed8dbda3633d18ba7ca4a3c84a23beb4f2",
+    "response_id": "chatcmpl-8dd32ee2510107b1",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 185,
+      "total_tokens": 697
+    }
+  },
+  "text": "A group of crows is called a murder.\n\nRegarding the code review, the current implementation has several significant error handling and security issues:\n\n1.  **Missing Timeout**: The `requests.get` call does not specify a timeout. If the server does not respond, the application will hang indefinitely. A timeout should always be set.\n2.  **Insecure Exception Handling**: Raising a generic `ApiError` with an HTTP status code is not very descriptive. It is better to raise a standard HTTP exception or a custom exception that includes more context (like the URL and status code) and potentially the response body if it contains error details.\n3.  **No JSON Decode Error Handling**: If the response status code is 200 but the body is not valid JSON, `response.json()` will raise a `JSONDecodeError`. This is not caught, leading to an unhandled exception.\n4.  **Potential for Empty Response**: If the response is empty, `response.json()` will also fail.\n5.  **Security**: The error message includes the status code, which is generally safe, but ensure that no sensitive information from the response body is leaked in error messages.\n\nHere is an improved version:\n\n```python\nimport requests\nfrom requests.exceptions import HTTPError, JSONDecodeError\n\nclass ApiError(Exception):\n    \"\"\"Custom exception for API errors.\"\"\"\n    def __init__(self, message, status_code=None, response=None):\n        super().__init__(message)\n        self.status_code = status_code\n        self.response = response\n\ndef fetch_data(api_url, timeout=10):\n    try:\n        response = requests.get(api_url, timeout=timeout)\n        response.raise_for_status()  # Raises HTTPError for bad responses (4xx or 5xx)\n    except HTTPError as http_err:\n        # Include status code and response body in the error message if possible\n        error_msg = f\"HTTP error occurred: {http_err}\"\n        try:\n            error_details = response.json()\n            error_msg += f\" - Details: {error_details}\"\n        except (JSONDecodeError, ValueError):\n            pass  # Ignore if response body is not JSON\n        raise ApiError(error_msg, status_code=response.status_code, response=response)\n    except requests.exceptions.Timeout:\n        raise ApiError(\"The request timed out.\", status_code=None)\n    except requests.exceptions.RequestException as err:\n"
+}

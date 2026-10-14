@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "c578eead658809f8a0709ee1718d0258a0954ab775cf10802468f2462d1e82de",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "67659c7485444ba67062aca06be2bf381a5eee1ee0cca572cfa4538e659ca215",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:33:00Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 5085.178,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "a303d9da3aac460d53c468dcc1e21789f47d9b25791c925120020641163728a9",
+    "response_id": "chatcmpl-becb2b5ab6ebf9d2",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 152,
+      "prompt_tokens": 213,
+      "total_tokens": 365
+    }
+  },
+  "text": "def titleize_sentence(sentence)\n  # Define words that should remain lowercase\n  lowercase_words = ['and', 'the', 'or', 'in', 'with', 'of']\n\n  # Split the sentence into words\n  words = sentence.split\n\n  # Process each word\n  titleized_words = words.map do |word|\n    # Check if the word (in lowercase) is in the list of words to keep lowercase\n    if lowercase_words.include?(word.downcase)\n      word.downcase\n    else\n      # Capitalize the first letter and downcase the rest\n      word.capitalize\n    end\n  end\n\n  # Join the words back into a single string\n  titleized_words.join(' ')\nend"
+}

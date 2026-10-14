@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "41e233e2ef59ea40cbe7619528c02ed8b5f43ac619132bc02cc236c85fa6cd69",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "7073ea9ec768a1224dca79a713f13e96fa8618efe7e1cae79e796d490c91b3b2",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T05:10:28Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 4060.926,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "a871ca3547c6bff16ea21e0fe9514208a01e7562d770d4eaae3e07b43355667a",
+    "response_id": "chatcmpl-872508d6271b6600",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 842,
+      "total_tokens": 1354
+    }
+  },
+  "text": "To determine the number of rows that list the \"Uplands\" region, we need to count the occurrences of \"Uplands\" in the \"Region\" column across both provided tables.\n\n**From `<observation id=\"content:01\">`:**\n1. bellows | **Uplands** | 149 | 61\n2. ledger | **Uplands** | 467 | 77 (Wait, this is in content:00, let's re-check content:01)\n   - Row 1: bellows | Uplands\n   - Row 2: spindle | South\n   - Row 3: ledger | East\n   - Row 4: trowel | Coast\n   - Row 5: thimble | West\n   - Row 6: satchel | South\n   - Row 7: spindle | Coast\n   - Row 8: compass | South\n   - Row 9: thimble | North\n   - Row 10: kettle | North\n   - Row 11: trowel | South\n   - Row 12: whistle | Coast\n   - Row 13: spindle | West\n   - Row 14: compass | Coast\n   - Row 15: bellows | West\n   - Row 16: trowel | West\n   - Row 17: bellows | East\n   - Row 18: lantern | North\n   *(Note: The table in content:01 ends at lantern | North. There are no other Uplands entries in this block.)*\n   Count from content:01 = 1\n\n**From `<observation id=\"content:00\">`:**\n1. lantern | West\n2. thimble | Coast\n3. trowel | North\n4. satchel | West\n5. bellows | Coast\n6. lantern | East\n7. spindle | East\n8. compass | North\n9. ledger | **Uplands**\n10. bellows | South\n11. ledger | South\n12. bellows | North\n13. kettle | **Uplands**\n14. spindle | **Uplands**\n15. kettle | West\n16. spindle | North\n17. satchel | East\n18. t"
+}

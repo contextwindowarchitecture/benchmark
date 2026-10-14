@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "fbdb25dcc52c438533597e99b3be18e79d26304b87cf0f57d0777fdd20e528c5",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "0230ab18fb82ff0d508a4a66a0b7f23c2df9176bc758fedccbb3f7d4f0e8508b",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:30:25Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 4547.587,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "d04943a4a86bd16570a3a44dbd3e61f9e9d5411f0b21c3bc0af368455044ccea",
+    "response_id": "chatcmpl-8678c08305c029a5",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 127,
+      "prompt_tokens": 158,
+      "total_tokens": 285
+    }
+  },
+  "text": "<tool_call>\n<function=implement_function>\n<parameter=code>\n<?php\nfunction getMaxOccurrence(array $numbers): ?int {\n    if (empty($numbers)) {\n        return null;\n    }\n\n    $counts = array_count_values($numbers);\n    $maxCount = max($counts);\n    \n    $candidates = array_keys(array_filter($counts, function($count) use ($maxCount) {\n        return $count === $maxCount;\n    }));\n    \n    return min($candidates);\n}\n?>\n</parameter>\n</function>\n</tool_call>"
+}

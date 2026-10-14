@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "f23825d9cdef3fd6bf0de2ff884cb505f4a0531bc98aed161819241faa8e33ae",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "9f697fb399bf7d972c9a445f23e455ae3e053a8b105528708b688ae32f929e62",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:48:43Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 11147.773,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "68bf039a39b4e11d4268f003877080e17d1a54395554eb92d904ce80acde8fb1",
+    "response_id": "chatcmpl-9f1091ac949f200c",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 334,
+      "prompt_tokens": 153,
+      "total_tokens": 487
+    }
+  },
+  "text": "The part of a tree that grows underground is the **roots**.\n\nHere is the refactored code. I have improved maintainability by:\n1.  Using built-in functions (`sum`, `len`) for clarity and performance.\n2.  Adding type hints and docstrings for better documentation.\n3.  Adding error handling for empty datasets to prevent `ZeroDivisionError`.\n4.  Using descriptive variable names.\n\n```python\nfrom typing import List\n\ndef fetch_data_from_db() -> List[int]:\n    \"\"\"\n    Simulates fetching data from a database.\n    Returns a list of integers.\n    \"\"\"\n    # Imagine complex logic here\n    return [1, 2, 3, 4, 5]\n\ndef calculate_average(data: List[int]) -> float:\n    \"\"\"\n    Calculates the average of a list of numbers.\n    \n    Args:\n        data: A list of integers.\n        \n    Returns:\n        The average as a float.\n        \n    Raises:\n        ValueError: If the data list is empty.\n    \"\"\"\n    if not data:\n        raise ValueError(\"Cannot calculate average of an empty list.\")\n    \n    total = sum(data)\n    count = len(data)\n    return total / count\n\ndef main():\n    try:\n        datas = fetch_data_from_db()\n        total_average = calculate_average(datas)\n        print(total_average)\n    except ValueError as e:\n        print(f\"Error: {e}\")\n\nif __name__ == \"__main__\":\n    main()\n```"
+}

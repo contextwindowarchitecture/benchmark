@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "fa3c707770f2d85eaba4dc01c14ff8f7ef91f5f7fb47b42313b014217189316a",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "b65861bfed03b534569c67b8bd04ee8023fc9989bc697ca1f03c279dd07b72ad",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:28:06Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 17173.794,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "e9ffc0de8dbfd17d10889c5d611a554b75819af34a59175234c24917bffcd8a3",
+    "response_id": "chatcmpl-a8b4a9880ffed8f0",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 134,
+      "total_tokens": 646
+    }
+  },
+  "text": "The provided code snippet contains several issues regarding compliance with industry-standard style guidelines, primarily PEP 8 (the Style Guide for Python Code).\n\n1.  **Missing Newline at End of File**: The file does not end with a newline character. PEP 8 states that all files should end with a single newline character.\n\n2.  **Comment Style and Placement**:\n    *   The comment `# calculates factorial` is placed on the same line as the function definition. While inline comments are allowed, they should be separated from the code by at least two spaces. More importantly, docstrings are preferred over inline comments for function documentation.\n    *   The comment is not a proper docstring. A proper docstring would be a triple-quoted string immediately following the function definition.\n\n3.  **Logic Error (Not strictly style, but affects correctness)**:\n    *   The function `factorial_recursive` does not handle the base case for `n == 0`. The factorial of 0 is 1, but this function will return `None` or cause a `RecursionError` (depending on input) if `n` is 0, because it only checks for `n == 1`. While this is a logical bug, it is worth noting in a code review. However, strictly speaking, style guidelines focus on formatting and naming.\n\n4.  **Irrelevant Text**:\n    *   The text `Specify the animal known for its long neck.` appears after the code block. This is not part of the Python code and should not be included in the source file. It appears to be an unrelated instruction or artifact.\n\n5.  **Function Naming**:\n    *   The function name `factorial_recursive` is descriptive and follows the `snake_case` convention, which is compliant with PEP 8.\n\n6.  **Indentation**:\n    *   The indentation appears to be consistent (4 spaces), which is compliant with PEP 8.\n\n**Recommended Refactored Code:**\n\n```python\ndef factorial(n):\n    \"\"\"Calculate the factorial of a non-negative integer n.\"\"\"\n    if n == 0 or n == 1:\n        return 1\n    else:\n        return n * factorial(n - 1)\n```\n\n**Summary of Changes:**\n*   Added a proper docstring.\n*   Removed the inline comment.\n*   Fixed the base case to include `n == 0"
+}

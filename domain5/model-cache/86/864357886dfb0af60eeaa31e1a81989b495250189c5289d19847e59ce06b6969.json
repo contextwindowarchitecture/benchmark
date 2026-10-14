@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "864357886dfb0af60eeaa31e1a81989b495250189c5289d19847e59ce06b6969",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "cc0889ee87e53cb05a46882a271d6150e67aa9cbd720c1bc5e4785fa1aa97889",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:48:24Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 18217.662,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "84e6fadcec9e6d87b2f1ab31c2c870e56be8e98cf59c5e55ebdfabe283114355",
+    "response_id": "chatcmpl-a29e9373b5ec75e5",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 124,
+      "total_tokens": 636
+    }
+  },
+  "text": "The provided content contains two distinct parts:\n1. A question: \"Name the main ingredients in bread.\"\n2. A Python function: `is_even(number)` that checks if a number is even.\n\nSince the instruction is to \"Write unit tests for the code components,\" I will focus on the `is_even` function. The question about bread ingredients is not a code component and will not be tested.\n\nHere are the unit tests for the `is_even` function using Python's built-in `unittest` framework.\n\n```python\nimport unittest\n\n# Assuming the function is defined in a module named 'bread_ingredients_and_math'\n# or directly in the same file. For this example, we'll assume it's in the same file.\ndef is_even(number):\n    return number % 2 == 0\n\nclass TestIsEven(unittest.TestCase):\n    \"\"\"Test cases for the is_even function.\"\"\"\n\n    def test_positive_even_number(self):\n        \"\"\"Test that a positive even number returns True.\"\"\"\n        self.assertTrue(is_even(2))\n        self.assertTrue(is_even(4))\n        self.assertTrue(is_even(10))\n\n    def test_positive_odd_number(self):\n        \"\"\"Test that a positive odd number returns False.\"\"\"\n        self.assertFalse(is_even(1))\n        self.assertFalse(is_even(3))\n        self.assertFalse(is_even(7))\n\n    def test_negative_even_number(self):\n        \"\"\"Test that a negative even number returns True.\"\"\"\n        self.assertTrue(is_even(-2))\n        self.assertTrue(is_even(-4))\n        self.assertTrue(is_even(-10))\n\n    def test_negative_odd_number(self):\n        \"\"\"Test that a negative odd number returns False.\"\"\"\n        self.assertFalse(is_even(-1))\n        self.assertFalse(is_even(-3))\n        self.assertFalse(is_even(-7))\n\n    def test_zero(self):\n        \"\"\"Test that zero is considered even.\"\"\"\n        self.assertTrue(is_even(0))\n\n    def test_large_even_number(self):\n        \"\"\"Test with a large even number.\"\"\"\n        self.assertTrue(is_even(1000000))\n\n    def test_large_odd_number(self):\n        \"\"\"Test with a large odd number.\"\"\"\n        self.assertFalse(is_even(1000001))\n\nif __name__ == '__main__':\n    unittest.main()\n```\n\n### Explanation of Tests:\n\n1.  **`test_positive_even_number`**:"
+}

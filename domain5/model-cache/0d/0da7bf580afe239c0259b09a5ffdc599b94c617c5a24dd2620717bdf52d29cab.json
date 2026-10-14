@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "0da7bf580afe239c0259b09a5ffdc599b94c617c5a24dd2620717bdf52d29cab",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "258a8bc491e7a2e4561b1e754a7a103b765be7f9f2ed1d84f4b063bf82073d1f",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:39:12Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 16025.899,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "b42287918dcf8b6bd92d26f64711c284af1eaa94e0bcea2a6b22b265e28601ae",
+    "response_id": "chatcmpl-9d4762b2dddc4ccb",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 451,
+      "prompt_tokens": 124,
+      "total_tokens": 575
+    }
+  },
+  "text": "The main ingredients in bread are flour, water, yeast, and salt.\n\nHere are the unit tests for the provided `add` function. Note that the input code contains the character `ˆ` which appears to be a formatting artifact or noise. I will assume the intended function is a standard addition function `def add(a, b): return a + b`.\n\n```python\nimport unittest\n\n# Assuming the function is defined as follows after cleaning the noise:\ndef add(a, b):\n    return a + b\n\nclass TestAddFunction(unittest.TestCase):\n    \"\"\"Unit tests for the add function.\"\"\"\n\n    def test_add_positive_integers(self):\n        \"\"\"Test adding two positive integers.\"\"\"\n        self.assertEqual(add(2, 3), 5)\n\n    def test_add_negative_integers(self):\n        \"\"\"Test adding two negative integers.\"\"\"\n        self.assertEqual(add(-2, -3), -5)\n\n    def test_add_mixed_integers(self):\n        \"\"\"Test adding a positive and a negative integer.\"\"\"\n        self.assertEqual(add(-2, 3), 1)\n        self.assertEqual(add(2, -3), -1)\n\n    def test_add_zeros(self):\n        \"\"\"Test adding zero.\"\"\"\n        self.assertEqual(add(0, 0), 0)\n        self.assertEqual(add(0, 5), 5)\n        self.assertEqual(add(5, 0), 5)\n\n    def test_add_floats(self):\n        \"\"\"Test adding floating point numbers.\"\"\"\n        self.assertAlmostEqual(add(0.1, 0.2), 0.3)\n        self.assertEqual(add(-1.5, 2.5), 1.0)\n\n    def test_add_strings(self):\n        \"\"\"Test concatenating strings.\"\"\"\n        self.assertEqual(add(\"hello\", \" world\"), \"hello world\")\n\n    def test_add_list(self):\n        \"\"\"Test concatenating lists.\"\"\"\n        self.assertEqual(add([1, 2], [3, 4]), [1, 2, 3, 4])\n\nif __name__ == '__main__':\n    unittest.main()\n```"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "e43d2d2276576e4dee42bff296cf31b104aa4c16458d4bff7c499b39788ef4c2",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "73e5505aed0bbfaa446928efd336575e907e53d742706f529b93bcfc0e8498a6",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-14T03:03:57Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 30692.723,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "bba8c682c700d05a789307012b6258379a5606f2dfc56f48a9fffb61ae8afc12",
+    "response_id": "chatcmpl-86f92f254230dc84",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 453,
+      "prompt_tokens": 417,
+      "total_tokens": 870
+    }
+  },
+  "text": "The user wants to find a supplier based on specific criteria:\n1.  **Quote:** At most 65 per unit.\n2.  **Delivery:** Within 7 days.\n3.  **Rating:** At least 5 out of 10.\n\nLet's evaluate the suppliers based on the evidence provided:\n\n*   **Fennick Traders:**\n    *   Quote: 170 (Fails > 65)\n    *   Delivery: 8 days (Fails > 7)\n    *   Rating: 2/10 (Fails < 5)\n*   **Orlwick Cooperative:**\n    *   Quote: 120 (Fails > 65)\n    *   Delivery: 6 days (Passes ≤ 7)\n    *   Rating: 4/10 (Fails < 5)\n*   **Pellwell Outfitters:**\n    *   Quote: 160 (Fails > 65)\n    *   Delivery: 17 days (Fails > 7)\n    *   Rating: 2/10 (Fails < 5)\n*   **Wyndale Works:**\n    *   Quote: 50 (Passes ≤ 65)\n    *   Delivery: 1 day (Passes ≤ 7)\n    *   Rating: 5/10 (Passes ≥ 5)\n\nOnly **Wyndale Works** meets all the criteria.\n\nThe instructions require the output to have every letter shifted three places forward in the alphabet (Caesar cipher +3).\nSupplier Name: Wyndale Works\n\nShift calculation:\nW -> Z\ny -> b\nn -> q\nd -> g\na -> d\nl -> o\ne -> h\n(space)\nW -> Z\no -> r\nr -> u\nk -> n\ns -> v\ns -> v\n\nResult: Zbqgdoh Zrunvv\n\nThe format asks for the supplier's name only.\n\nZbqgdoh Zrunvv"
+}

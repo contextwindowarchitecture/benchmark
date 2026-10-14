@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "054396edc02b9ec7e8da3b48d0084f9fcfa757f2c05bc1cf00dabedab5cc15af",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "31840ce875fa5917b983336276aa5630f9cdb307b5abab604c15698bb618b88a",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-14T03:04:47Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 37013.189,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "0666c4f03bd8454e62b20dd98298fb67b66e993d74632540d09a78e8e44628ff",
+    "response_id": "chatcmpl-b20113305b4e3aa0",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 406,
+      "total_tokens": 918
+    }
+  },
+  "text": "Following the instructions:\n1.  **Shift letters forward by 3 places** (a->d, b->e, etc. wrapping z->c).\n2.  **Logic check**: Find supplier with Price <= 135, Delivery <= 5 days, Rating >= 8.\n\n*   **Yormere Outfitters**: Price 120 (<=135), Delivery 3 days (<=5), Rating 8 (>=8). **Match**.\n*   **Nevnick Outfitters**: Price 45 (<=135), Delivery 2 days (<=5), Rating 5 (<8). No match.\n*   **Fennick Cooperative**: Price 140 (>135). No match.\n*   **Kelton Outfitters**: Price 170 (>135). No match.\n\nThe matching supplier is Yormere Outfitters.\n\nNow, shift the name \"Yormere Outfitters\" by 3 places forward:\nY -> B\no -> r\nr -> u\nm -> p\ne -> h\nr -> u\ne -> h\n\nO -> R\nu -> x\nt -> w\nf -> i\nt -> w\ne -> h\nr -> u\nr -> u\ne -> h\ns -> v\n\nResult: Bruphuu Rxiwwhuuhv\n\nWait, let's re-verify the shift carefully.\nAlphabet: a b c d e f g h i j k l m n o p q r s t u v w x y z\n\nY (25) + 3 = B (2)\no (15) + 3 = r (18)\nr (18) + 3 = u (21)\nm (13) + 3 = p (16)\ne (5) + 3 = h (8)\nr (18) + 3 = u (21)\ne (5) + 3 = h (8)\n\nO (15) + 3 = R (18)\nu (21) + 3 = x (24)\nt (20) + 3 = w (23)\nf (6) + 3 = i (9)\nt (20) + 3 = w (23"
+}

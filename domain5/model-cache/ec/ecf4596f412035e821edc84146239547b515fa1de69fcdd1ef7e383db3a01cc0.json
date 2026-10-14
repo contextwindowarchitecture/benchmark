@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "ecf4596f412035e821edc84146239547b515fa1de69fcdd1ef7e383db3a01cc0",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "9fe762135b8a281c17c54252b14615709b054c4c3006755cb6fe7fa173fb300a",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-14T03:22:04Z",
+    "cached_tokens": 28512,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 82016.733,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "a8d3206d6a5b4b57ddbf8bd5efc5c947728678b1be36d36fd2e935625f906090",
+    "response_id": "chatcmpl-80a80934e07dde27",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 28623,
+      "total_tokens": 29135
+    }
+  },
+  "text": "qlrwuohu\n\nThe system instruction requires every letter to be shifted three places forward in the alphabet.\nThe answer is 1949.\n1 -> 4\n9 -> (shift wraps or stays? Usually numbers stay numbers in these puzzles unless specified. Let's assume numbers remain numbers as they are not letters).\n4 -> 7\n9 -> 9\n\nWait, the prompt says \"write your reply with every letter shifted three places forward in the alphabet\". It doesn't say shift numbers. So 1949 should remain 1949? Or does it mean the text describing the year? No, the question asks for a number. If I output \"1949\", there are no letters to shift.\n\nLet's re-read carefully: \"write your reply with every letter shifted three places forward in the alphabet, so that a becomes d.\"\nIf the answer is just a number, there are no letters.\nHowever, often these prompts imply the entire string is shifted if it contains letters, or just the letters are shifted.\nIf the answer is \"1949\", it contains no letters.\nIf the answer is \"The Holford archive was founded in 1949.\", I would shift the letters.\nBut the instruction says \"Reply with the answer only: a number, a name, or a site.\"\n\nIf the answer is a number, and I must shift letters, and there are no letters, the answer remains \"1949\".\n\nLet's double check if I should spell it out. \"In which year...\" usually expects the number.\n\nLet's look at the Holford archive text: \"The Holford archive was founded in 1949.\"\n\nAnswer: 1949.\n\nShifting 1949: No letters.\n\nIs it possible the user wants the word for the year? No, \"a number\" is allowed.\n\nLet's consider if I should output the text. \"Reply with the answer only\".\n\nIf I output 1949, it is correct according to the content.\nThe shift instruction applies to \"every letter\". Numbers are not letters.\n\nSo the output is 1949.\n\nWait, looking at other examples of this specific prompt type online (SOLOWI-MINUSO), sometimes the \"answer only\" is a name or site which has letters. If it's a number, it"
+}

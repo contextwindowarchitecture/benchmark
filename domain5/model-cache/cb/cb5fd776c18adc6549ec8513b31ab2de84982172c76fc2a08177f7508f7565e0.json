@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "cb5fd776c18adc6549ec8513b31ab2de84982172c76fc2a08177f7508f7565e0",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "c2557bd912321ddeaadcce56b60a8f762ad30a60658023d5c34db24e8490278e",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:41:19Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 14519.313,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "618fd9c7fe318c7d94d0a7d1800d0b56c4b27a019c9b434da628382789713c6f",
+    "response_id": "chatcmpl-b7e06e18f7c1e75e",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 415,
+      "prompt_tokens": 286,
+      "total_tokens": 701
+    }
+  },
+  "text": "Here is the extended C# code with the CSV export functionality added, followed by the answer to your priority question.\n\n```csharp\nusing System;\nusing System.IO;\n\npublic class SummaryReport\n{\n    public string Title { get; set; }\n    public string Content { get; set; }\n\n    public override string ToString()\n    {\n        return $\"Title: {Title}\\nContent: {Content}\";\n    }\n}\n\npublic class ReportGenerator\n{\n    public void GenerateReport(SummaryReport report, bool exportCsv = false, string filePath = null)\n    {\n        // Existing functionality: Output summary report to console\n        Console.WriteLine(\"Report Summary:\");\n        Console.WriteLine(report.ToString());\n\n        // New functionality: Export to CSV if requested\n        if (exportCsv)\n        {\n            if (string.IsNullOrEmpty(filePath))\n            {\n                filePath = \"report.csv\";\n            }\n\n            try\n            {\n                using (var writer = new StreamWriter(filePath))\n                {\n                    // Write CSV header\n                    writer.WriteLine(\"Title,Content\");\n                    \n                    // Write data rows (escaping commas and quotes for safety)\n                    string escapedTitle = report.Title.Replace(\"\\\"\", \"\\\"\\\"\");\n                    string escapedContent = report.Content.Replace(\"\\\"\", \"\\\"\\\"\");\n                    \n                    writer.WriteLine($\"\\\"{escapedTitle}\\\",\\\"{escapedContent}\\\"\");\n                }\n                \n                Console.WriteLine($\"Report successfully exported to {filePath}\");\n            }\n            catch (Exception ex)\n            {\n                Console.WriteLine($\"Error exporting report: {ex.Message}\");\n            }\n        }\n    }\n}\n```\n\nThe fastest land animal in the world is the **Cheetah** (*Acinonyx jubatus*). It can reach speeds of up to 70–75 mph (112–120 km/h) in short bursts covering distances of up to 500 meters."
+}

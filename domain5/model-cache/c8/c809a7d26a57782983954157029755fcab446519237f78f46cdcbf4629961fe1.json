@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "c809a7d26a57782983954157029755fcab446519237f78f46cdcbf4629961fe1",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "3bd64970706d57a83f74e32f015a03ab9e0fea66c52cd53c38d7d5cec09ebe72",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:49:13Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 12823.304,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "99641f2dc330d3a5ccceca7f4dd55112dae04e5812dcc87bf0eaa806bbe46e00",
+    "response_id": "chatcmpl-b35ca1d22fa37965",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 376,
+      "prompt_tokens": 151,
+      "total_tokens": 527
+    }
+  },
+  "text": "Here is the Python function that implements the requested logic, followed by the answer to your priority question.\n\n### Python Implementation\n\n```python\ndef find_pair_with_sum(numbers, target_sum):\n    \"\"\"\n    Finds the first pair of numbers in the list that add up to the target sum.\n    \n    Args:\n    numbers (list): A list of numbers.\n    target_sum (int/float): The target sum to find.\n    \n    Returns:\n    tuple: A tuple containing the first pair of numbers that add up to the target sum.\n    None: If no such pair exists.\n    \"\"\"\n    seen = set()\n    for number in numbers:\n        complement = target_sum - number\n        if complement in seen:\n            return (complement, number)\n        seen.add(number)\n    return None\n```\n\n### Explanation\n1.  **Efficiency**: This solution uses a hash set (`seen`) to store numbers as we iterate through the list. This allows for O(1) average time complexity for lookups, making the overall time complexity O(n), where n is the number of elements in the list.\n2.  **First Pair**: By iterating through the list from start to finish and checking if the complement (target - current number) has already been seen, we ensure that we return the first valid pair encountered in the order of the second element of the pair.\n3.  **Edge Cases**: If the list is empty or no pair sums to the target, the function returns `None`.\n\n### Answer to Priority Question\nThe color of grass during summer is typically **green**. However, depending on the climate, amount of rainfall, and grass type, it may turn **yellow** or **brown** if there is a drought or lack of water."
+}

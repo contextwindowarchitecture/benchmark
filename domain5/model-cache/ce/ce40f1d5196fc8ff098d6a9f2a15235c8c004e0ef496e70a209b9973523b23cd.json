@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "ce40f1d5196fc8ff098d6a9f2a15235c8c004e0ef496e70a209b9973523b23cd",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "a04220f8891be1459d0ba8bd6a1a45cd15cfc7e044fd56aa2e227c688138ae5d",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:37:07Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 16866.847,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "1386f193a898dadfedeebf7ffdfb8b1dad3628adc045e91fee10f8d53531279b",
+    "response_id": "chatcmpl-a333dcab1905f279",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 186,
+      "total_tokens": 698
+    }
+  },
+  "text": "There are 60 minutes in an hour.\n\nRegarding the code optimization for `find_anagrams`:\n\nThe current implementation has a time complexity of O(N * M * log M), where N is the number of words in `words_list` and M is the length of the word. This is because `sorted(w)` is called for every word in the list, and sorting takes O(M log M) time.\n\n**Optimization Strategy:**\n1.  **Precompute Sorted Keys:** Instead of sorting each word in the list repeatedly, we can precompute the sorted version of each word and use a hash map (dictionary) to group anagrams.\n2.  **Use Hashing:** By using a dictionary where the key is the sorted tuple of characters and the value is a list of original words, we can find anagrams in O(1) average time per lookup after O(N * M log M) preprocessing. However, if the `words_list` is static and queried multiple times, this is ideal. If it's a one-off query, we can optimize the single pass.\n\n**Optimized Code (Single Query Optimization):**\nIf we assume `words_list` is not reused, we can still optimize by avoiding redundant sorts if possible, but the main gain comes from using a dictionary if we were doing multiple queries. For a single query, the current approach is actually quite standard. However, we can make it slightly more efficient by checking length first (anagrams must have the same length) and using `collections.Counter` or just relying on the sorted tuple.\n\nActually, the most significant optimization for a *single* call is minimal unless we pre-process the list. But if we want to optimize the function itself for a single call, we can't do much better than O(N * M log M) without pre-processing.\n\nHowever, if we consider that `sorted_word` is computed once, and we compare it to `sorted(w)`, this is correct. A potential micro-optimization is to check the length of `w` before sorting, as anagrams must have the same length. This avoids the O(M log M) sort for words of different lengths.\n\n**Optimized Code:**\n\n```python\ndef find_anagrams(word, words_list):\n    result = []\n    sorted_word = sorted(word)\n    word_len = len(word)\n    for w in words_list:\n        if len(w) == word_len:\n            if sorted(w) =="
+}

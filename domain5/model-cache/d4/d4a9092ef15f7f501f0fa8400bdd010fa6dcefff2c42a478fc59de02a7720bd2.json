@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "d4a9092ef15f7f501f0fa8400bdd010fa6dcefff2c42a478fc59de02a7720bd2",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "9c0ef93823d406bac7f1683105fb8a02b531e2be769d9393e4db058a4ff2bee4",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:49:12Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 11973.035,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "7953072c956cd6679740966bdeef6d81c7ac1c1c71e508eccbf49954aeac2a70",
+    "response_id": "chatcmpl-a66a4379a20290ef",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 351,
+      "prompt_tokens": 151,
+      "total_tokens": 502
+    }
+  },
+  "text": "The color of grass during summer is typically green, though it can turn yellow or brown if it is dry or lacks water.\n\nHere is the Python function that finds the first pair of numbers in a list that add up to a target sum:\n\n```python\ndef find_pair_with_sum(numbers, target_sum):\n    seen = set()\n    for number in numbers:\n        complement = target_sum - number\n        if complement in seen:\n            return (complement, number)\n        seen.add(number)\n    return None\n```\n\n### Explanation:\n1. **`seen` set**: This stores the numbers we have already encountered as we iterate through the list.\n2. **Iteration**: For each `number` in the list, we calculate its `complement` (i.e., `target_sum - number`).\n3. **Check**: If the `complement` is already in the `seen` set, it means we have found a pair that adds up to the `target_sum`. We return this pair as a tuple `(complement, number)`.\n4. **Update**: If the `complement` is not in `seen`, we add the current `number` to the `seen` set and continue.\n5. **Return**: If the loop completes without finding a pair, we return `None`.\n\n### Example Usage:\n```python\nprint(find_pair_with_sum([1, 2, 3, 4, 5], 7))  # Output: (3, 4)\nprint(find_pair_with_sum([1, 2, 3, 4, 5], 10)) # Output: None\n```"
+}

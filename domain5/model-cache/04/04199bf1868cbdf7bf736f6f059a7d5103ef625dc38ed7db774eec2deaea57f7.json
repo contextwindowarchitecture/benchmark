@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "04199bf1868cbdf7bf736f6f059a7d5103ef625dc38ed7db774eec2deaea57f7",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "ecae526f874c0adff32779860ad72018928ba996f9bf074bb63a33f530891cb4",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:40:26Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 4013.984,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "4da47b214026e333e8cc591fdcf2515231aa144cbacffe936ed331c82167f356",
+    "response_id": "chatcmpl-bd026d1ae638b107",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 120,
+      "prompt_tokens": 111,
+      "total_tokens": 231
+    }
+  },
+  "text": "The main ingredients in bread are flour, water, yeast, and salt.\n\nRegarding the code optimization, the provided list comprehension is already quite efficient for small matrices. However, using `zip(*matrix)` is generally more Pythonic and can be slightly faster for larger datasets due to C-level implementation of the zip function. Here is the optimized version:\n\n```python\nmatrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\ntranspose = [list(row) for row in zip(*matrix)]\n```"
+}

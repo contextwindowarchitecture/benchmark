@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "531db12234d8d328a7b264cb71a805fdc024b065dacb31f3989fd35021655e35",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "52d1b1b69e2b13d02367dc0ade662414cf8f711f307d6d696f5bce77ec190794",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:28:05Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 17213.901,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "b27aeebb78617933295808bcde47b6db79089169934745f4c66eddac58bc590c",
+    "response_id": "chatcmpl-aeeffb07e1510088",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 143,
+      "total_tokens": 655
+    }
+  },
+  "text": "The provided code defines a recursive function to calculate the factorial of a number. Here is an assessment of its compliance with industry-standard style guidelines (specifically PEP 8, the style guide for Python code):\n\n1.  **Function Naming**: The function name `factorial_recursive` follows the `snake_case` convention, which is correct.\n2.  **Parameter Naming**: The parameter `n` is a single letter. While common in mathematical contexts, PEP 8 recommends using descriptive names for variables. However, for simple mathematical functions, single-letter names are often accepted. A more descriptive name like `number` could be used, but `n` is not strictly non-compliant in this context.\n3.  **Comments**: The comment `# calculates factorial` is on the same line as the function definition. PEP 8 recommends that comments should be complete sentences and should be placed on their own line above the code they describe, or as a docstring within the function. Inline comments should be separated by at least two spaces from the code.\n4.  **Docstring**: The function lacks a docstring, which is a best practice for documenting function purpose, parameters, and return values.\n5.  **Indentation**: The indentation appears to be consistent (4 spaces), which is correct.\n6.  **Logic**: The base case `if n == 1:` is correct for positive integers. However, it does not handle `n == 0` (where factorial is 1) or negative numbers. This is a logical issue rather than a style issue, but it affects correctness.\n\n**Revised Code for Better Compliance:**\n\n```python\ndef factorial_recursive(number):\n    \"\"\"\n    Calculate the factorial of a non-negative integer using recursion.\n\n    Args:\n        number (int): A non-negative integer.\n\n    Returns:\n        int: The factorial of the input number.\n    \"\"\"\n    if number < 0:\n        raise ValueError(\"Factorial is not defined for negative numbers.\")\n    if number == 0 or number == 1:\n        return 1\n    else:\n        return number * factorial_recursive(number - 1)\n```\n\n**Key Improvements:**\n- Added a docstring.\n- Used a more descriptive parameter name (`number`).\n- Added a check for negative numbers.\n- Handled the `0` case correctly.\n- Moved the comment to a docstring.\n\n"
+}

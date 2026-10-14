@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "debfb08e19cdcc86ae3ac9d609945b56e293630a950219f75c42713447353ac5",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "5078cee283fc860f70da124abe46832f72d64a5de028f7fbb2b44285c49910d7",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:30:28Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 7945.427,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "72db38777b76fd8cec036aa546b5fbb3d526954af7003fe43555b8c4f67c0297",
+    "response_id": "chatcmpl-94c295b9175ce09b",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 231,
+      "prompt_tokens": 107,
+      "total_tokens": 338
+    }
+  },
+  "text": "Winter\n\n```php\n<?php\n\n/**\n * Finds the number that appears most frequently in an array.\n * If there is a tie, returns the smallest number among those with the maximum frequency.\n *\n * @param array $numbers An array of numbers.\n * @return int|float The number with the highest occurrence (smallest if tied).\n * @throws InvalidArgumentException If the input array is empty.\n */\nfunction getMaxOccurrence(array $numbers)\n{\n    if (empty($numbers)) {\n        throw new InvalidArgumentException(\"Input array must not be empty.\");\n    }\n\n    // Count the occurrences of each number\n    $counts = array_count_values($numbers);\n\n    // Find the maximum occurrence count\n    $maxCount = max($counts);\n\n    // Filter numbers that have the maximum occurrence count\n    $candidates = array_keys(array_filter($counts, function ($count) use ($maxCount) {\n        return $count === $maxCount;\n    }));\n\n    // Return the smallest number among the candidates\n    return min($candidates);\n}\n```"
+}

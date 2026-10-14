@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "15818c9133e856cf3b9be49f906a18f94a2007fa5953b6761ab413a659a6da26",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "a994ee831580b01acab72c7a4c236bac57833847bc2bb7fa6d269921b2a98f41",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:50:58Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 10399.629,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "5fb3824f22a44dd6753a38a8316bacc27e31a7b14d213dd10e743886a46f5864",
+    "response_id": "chatcmpl-a17ec1de1417b9aa",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 302,
+      "prompt_tokens": 140,
+      "total_tokens": 442
+    }
+  },
+  "text": "The name of the planet humans live on is Earth.\n\nBelow are the unit tests for the `Calculator` class provided in the content. These tests ensure that the `multiply` method functions as expected for various inputs, including positive numbers, negative numbers, zero, and floating-point numbers.\n\n```python\nimport unittest\n\nclass Calculator:\n    def multiply(self, x, y):\n        return x * y\n\nclass TestCalculator(unittest.TestCase):\n    def setUp(self):\n        self.calc = Calculator()\n\n    def test_multiply_positive_integers(self):\n        self.assertEqual(self.calc.multiply(3, 4), 12)\n\n    def test_multiply_negative_integers(self):\n        self.assertEqual(self.calc.multiply(-3, 4), -12)\n        self.assertEqual(self.calc.multiply(-3, -4), 12)\n\n    def test_multiply_by_zero(self):\n        self.assertEqual(self.calc.multiply(5, 0), 0)\n        self.assertEqual(self.calc.multiply(0, 5), 0)\n\n    def test_multiply_floats(self):\n        self.assertAlmostEqual(self.calc.multiply(1.5, 2.0), 3.0)\n\n    def test_multiply_large_numbers(self):\n        self.assertEqual(self.calc.multiply(1000, 1000), 1000000)\n\nif __name__ == '__main__':\n    unittest.main()\n```"
+}

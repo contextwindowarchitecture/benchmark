@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "cd25cc542ce20870a5d3de5de89e89e72cea076e94b84ca1afacabc7db87b23d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "438d971749930961c929f206e648f36af46a2bfd1058c28f062d04a641155702",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T00:38:11Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 34914.859,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "32aa743c775fa8ec3c1f44b65a9a12a2932c41acd0e0ab01de76b550cca9fe45",
+    "response_id": "chatcmpl-950abddd35568b9a",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 310,
+      "total_tokens": 822
+    }
+  },
+  "text": "The user wants to find a supplier that meets three criteria:\n1.  **Price:** At most 155 per unit.\n2.  **Delivery:** Within 12 days.\n3.  **Rating:** At least 7 out of 10.\n\nLet's evaluate the suppliers listed in the `<document>`:\n\n1.  **Morcroft Outfitters** (from the text before the document tag, but let's check the document content first as per standard instruction following, though the prompt includes it in the context):\n    *   Price: 105 (<= 155) - **Pass**\n    *   Delivery: 13 days (> 12) - **Fail**\n    *   Rating: 5 (< 7) - **Fail**\n\n2.  **Orlby Cooperative**:\n    *   Price: 75 (<= 155) - **Pass**\n    *   Delivery: 16 days (> 12) - **Fail**\n    *   Rating: 9 (>= 7) - **Pass**\n\n3.  **Istton Supply**:\n    *   Price: 145 (<= 155) - **Pass**\n    *   Delivery: 5 days (<= 12) - **Pass**\n    *   Rating: 9 (>= 7) - **Pass**\n\n4.  **Wyndale Supply**:\n    *   Price: 140 (<= 155) - **Pass**\n    *   Delivery: 19 days (> 12) - **Fail**\n    *   Rating: 10 (>= 7) - **Pass**\n\nOnly **Istton Supply** meets all three criteria.\n\nThe instructions state: \"write your reply with every letter shifted three places forward in the alphabet, so that a becomes d.\"\n\nSupplier Name: **Istton Supply**\n\nShift each letter by +3:\n*   I -> L\n*   s -> v\n*   t -> w\n*   t -> w\n*   o -> r\n*   n -> q\n*   (space) -> (space)\n*   S -> V\n*   u -> x\n*   p -> s\n*   p -> s\n*   l -> o\n*   y -> b\n\nResult"
+}

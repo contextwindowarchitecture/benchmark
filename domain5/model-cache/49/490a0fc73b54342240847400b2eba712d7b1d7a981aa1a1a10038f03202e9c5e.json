@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "490a0fc73b54342240847400b2eba712d7b1d7a981aa1a1a10038f03202e9c5e",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "7e9c94fa7ed8672442a579433337b90ad5f7cda3e6e27362d4febaa81f99ab91",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T02:59:13Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 32233.722,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "891d30c08ad924c430d6be623f9315455c406bdaf6f1fa0a8384e9401edf7848",
+    "response_id": "chatcmpl-97b7950ba8c38f92",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 457,
+      "total_tokens": 969
+    }
+  },
+  "text": "The user wants to find a supplier that meets three specific criteria:\n1.  **Price:** At most 140 per unit ($\\le$ 140).\n2.  **Delivery:** Within 6 days ($\\le$ 6).\n3.  **Rating:** At least 6 out of 10 ($\\ge$ 6).\n\nLet's evaluate each supplier provided in the text (both the initial block and the new block):\n\n1.  **Holton Supply**\n    *   Price: 140 ($\\le$ 140? Yes)\n    *   Delivery: 5 days ($\\le$ 6? Yes)\n    *   Rating: 9 ($\\ge$ 6? Yes)\n    *   **Result: Matches.**\n\n2.  **Hardale Traders**\n    *   Price: 165 ($\\le$ 140? No)\n    *   **Result: Fails.**\n\n3.  **Orlford Outfitters**\n    *   Price: 15 ($\\le$ 140? Yes)\n    *   Delivery: 10 days ($\\le$ 6? No)\n    *   **Result: Fails.**\n\n4.  **Orlhurst Works**\n    *   Price: 95 ($\\le$ 140? Yes)\n    *   Delivery: 14 days ($\\le$ 6? No)\n    *   **Result: Fails.**\n\n5.  **Lunnick Outfitters**\n    *   Price: 35 ($\\le$ 140? Yes)\n    *   Delivery: 9 days ($\\le$ 6? No)\n    *   **Result: Fails.**\n\n6.  **Kelby Traders**\n    *   Price: 105 ($\\le$ 140? Yes)\n    *   Delivery: 2 days ($\\le$ 6? Yes)\n    *   Rating: 4 ($\\ge$ 6? No)\n    *   **Result: Fails.**\n\n7.  **Zelton Works**\n    *   Price: 70 ($\\le$ 140? Yes)\n    *   Delivery: 8 days ($\\le$"
+}

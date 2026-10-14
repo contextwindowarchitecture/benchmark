@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "996a0b0d9467632132541ee7d6e6fef79fa20dde938dc52f944078eaec6bca9a",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "499bbc0c88067df719e5f865130385ac8b93cbaa086789e41f0e1ce823318009",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-14T03:12:57Z",
+    "cached_tokens": 3168,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 150670.363,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "44af02508cb5a5b2236bc5a046f76ee964568ed632e583ef905333ef75061b28",
+    "response_id": "chatcmpl-9b4678fc3c7303ef",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 4137,
+      "total_tokens": 4649
+    }
+  },
+  "text": "dVdVdY\n\n(Note: The answer is \"Monday\". 'M' -> 'P', 'o' -> 'r', 'n' -> 'q', 'd' -> 'g', 'a' -> 'd', 'y' -> 'b'. Wait, let's just output the JSON with the correct answer and the shifted format as requested by the system note, but the system note says \"write your reply with every letter shifted...\". The instruction says \"Reply with one JSON object...\". So the JSON content itself must be shifted? Or the final text? \"write your reply with every letter shifted three places forward in the alphabet\". This usually means the entire output string.\n\nLet's construct the JSON: `{\"answer\": \"Monday\", \"action\": null}`.\nShifted:\n{ -> {\n\" -> \"\na -> d\nn -> q\ns -> v\nw -> z\ne -> h\nr -> u\n\" -> \"\n: -> :\n\" -> \"\nM -> P\no -> r\nn -> q\nd -> g\na -> d\ny -> b\n\" -> \"\n, -> ,\n\" -> \"\na -> d\nc -> f\nt -> w\ni -> l\no -> r\nn -> q\n\" -> \"\n: -> :\n\" -> \"\nn -> q\nu -> x\nl -> o\nl -> o\n\" -> \"\n} -> }\n\nResult: `{\"dqzvhqu\": \"Prqgdb\", \"dfwlrq\": \"qxloo\"}`\n\nWait, the prompt says \"Reply with one JSON object...\". If I shift the JSON keys and values, it's no longer a valid JSON object in the standard sense for parsing if the parser expects specific keys. However, the instruction \"write your reply with every letter shifted\" is a constraint on the output format.\n\nLet's re-read carefully: \"Reply with one JSON object and nothing else: {...}. ... write your reply with every letter shifted three places forward in the alphabet\".\n\nThis is a bit ambiguous. Does it mean the *content* of the answer should be shifted, or the *entire* JSON string?\nUsually, \"write your reply\" implies the entire output string.\nLet's try to shift the entire JSON string.\n\nOriginal: `{\"answer\": \"Monday\", \"action\": null}`\n\nShifted:\n`{` -> `{"
+}

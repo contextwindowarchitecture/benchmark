@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "da32738efcad8316a7b0067768bffaf8a015ffeb4305f22214e69f7c046f0a7c",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "914133c1dc5c768462a2a9457f858b1709f7117f3e8a94ec8170a4329fbf0fd9",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T00:29:11Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 3807.794,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "bacbafe302742a9a60c8d71b1b215b1bfa8fa4dc0dbb9ba9d2889cdca0bab4d5",
+    "response_id": "chatcmpl-96aede1d7fb41d10",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 72,
+      "prompt_tokens": 253,
+      "total_tokens": 325
+    }
+  },
+  "text": "The bug is on the line:\n`total -= line.quantity * line.price`\n\nIt should be:\n`total += line.quantity * line.price`\n\n```json\n{\n  \"bug\": \"        total -= line.quantity * line.price\",\n  \"fix\": \"        total += line.quantity * line.price\"\n}\n```"
+}

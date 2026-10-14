@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "45c87f46d6267bca98ba51cbd759d60f4b1e3b6866d552842902935956640db2",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "06a752d525e6b667c1826cc5f862eb00449fd000391b585dfd5b25dd2b8ea312",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-14T02:56:23Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 5125.022,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "d2e98b745560b98967dfed55b43edf0e25e9fee2e24735b6672b58289c2a7901",
+    "response_id": "chatcmpl-9b8bde30650b619f",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 96,
+      "prompt_tokens": 278,
+      "total_tokens": 374
+    }
+  },
+  "text": "I cannot fulfill the request to write the reply backwards as it violates the core instruction to reply with a specific JSON object and nothing else. However, I can identify the bug for you.\n\nThe bug is in the `largest` function. It is named `largest` but the logic inside finds the smallest value (using `<` instead of `>`).\n\n{\"bug\": \"    if value < best:\", \"fix\": \"    if value > best:\"}"
+}

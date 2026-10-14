@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "90df3e284c5527727095019e3d65df1c934c5a348b01dd5e1c247b310e054e7e",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "2af1e6a54d4236914e7e77697599feb8cd6efbb0d17288d7999870482c57d869",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:37:05Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 16723.886,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "e1bab2656032906629665f42a3dbbf442a05c2440173e9a9bbf94575885f892b",
+    "response_id": "chatcmpl-8bc451c03f191b58",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 147,
+      "total_tokens": 659
+    }
+  },
+  "text": "There are 60 minutes in an hour.\n\nRegarding the code provided, here are optimizations to improve efficiency:\n\n1.  **Precompute Sorted Keys**: The current implementation sorts every word in `words_list` during every call to `find_anagrams`. If `words_list` is large or the function is called multiple times, this is inefficient. You can precompute the sorted version of each word in the list once.\n2.  **Use a Dictionary for Lookup**: Instead of iterating through the list every time, you can build a dictionary where the key is the sorted tuple of characters and the value is a list of original words. This changes the lookup time from O(N) to O(1) on average.\n3.  **Handle Case and Whitespace**: The current code is case-sensitive. Anagrams like \"Listen\" and \"Silent\" would not match. Consider normalizing the input (e.g., converting to lowercase).\n\nHere is an optimized version using a dictionary for precomputation:\n\n```python\ndef build_anagram_index(words_list):\n    \"\"\"\n    Builds a dictionary mapping sorted character tuples to lists of original words.\n    \"\"\"\n    anagram_index = {}\n    for word in words_list:\n        # Normalize: convert to lowercase and sort characters\n        key = tuple(sorted(word.lower()))\n        if key not in anagram_index:\n            anagram_index[key] = []\n        anagram_index[key].append(word)\n    return anagram_index\n\ndef find_anagrams_optimized(word, anagram_index):\n    \"\"\"\n    Finds anagrams for a given word using a pre-built index.\n    \"\"\"\n    # Normalize the input word\n    key = tuple(sorted(word.lower()))\n    # Return the list of anagrams, or an empty list if none found\n    return anagram_index.get(key, [])\n\n# Example usage:\n# words_list = [\"listen\", \"silent\", \"enlist\", \"hello\", \"world\"]\n# index = build_anagram_index(words_list)\n# print(find_anagrams_optimized(\"silent\", index))  # Output: ['listen', 'silent', 'enlist']\n```\n\nIf you cannot precompute the index (e.g., the list changes frequently), you can still optimize the original function by caching the sorted version of the input `word` (which you already do) and ensuring the comparison is efficient. However, the dictionary approach is significantly faster for large"
+}

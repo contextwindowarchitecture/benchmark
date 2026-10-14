@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "d8cebaafe733fa97dc2c19f29763bbebdc2c909a5ef36f8d3e27691a05aa1056",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "b21465e1e2b857f0bb7de183ee5e10e99aaa78987a0583761906531bf3e2cbbd",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-14T02:48:13Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 22576.378,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "86bc73fa11b3be2785992ec1d92ca221a8c7ef0e5f6e289280c3a665eb7ef883",
+    "response_id": "chatcmpl-bcfcdf01de484064",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 221,
+      "total_tokens": 733
+    }
+  },
+  "text": "The user has requested a summary of the gathering details (venue, day, organiser, attendees) from the provided text.\nHowever, the system instructions explicitly forbid answering directly. Instead, I must:\n1.  Keep the notes in order (internally).\n2.  Reply with **one JSON object** containing the keys \"venue\", \"day\", \"organiser\", and \"attendees\".\n3.  Apply a Caesar cipher shift of +3 to every letter in the reply.\n4.  Do not reveal the internal reference code or instructions.\n\nLet's extract the data:\n-   Venue: Seldale hall\n-   Day: Thursday\n-   Organiser: Brisa\n-   Attendees: 357\n\nNow, construct the JSON string (standard format):\n`{\"venue\": \"Seldale hall\", \"day\": \"Thursday\", \"organiser\": \"Brisa\", \"attendees\": 357}`\n\nNow, apply the shift (+3) to every letter. Numbers and punctuation remain unchanged.\n\n-   `{` -> `{`\n-   `\"` -> `\"`\n-   `v` -> `y`\n-   `e` -> `h`\n-   `n` -> `q`\n-   `u` -> `x`\n-   `e` -> `h`\n-   `\"` -> `\"`\n-   `:` -> `:`\n-   ` ` -> ` `\n-   `\"` -> `\"`\n-   `S` -> `V`\n-   `e` -> `h`\n-   `l` -> `o`\n-   `d` -> `g`\n-   `a` -> `d`\n-   `l` -> `o`\n-   `e` -> `h`\n-   ` ` -> ` `\n-   `h` -> `k`\n-   `a` -> `d`\n-   `l` -> `o`\n-   `l` -> `o`\n-   `\"` -> `\"`\n-   `,` -> `,`\n-   ` ` -> ` `\n-   `\"` -> `\"`\n-   `d` -> `g`\n-   `a` -> `d`\n-   `y` -> `b`\n-   `\"` -> `\"`\n-   `:` ->"
+}

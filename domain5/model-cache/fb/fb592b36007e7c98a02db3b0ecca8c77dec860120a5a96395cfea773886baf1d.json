@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "fb592b36007e7c98a02db3b0ecca8c77dec860120a5a96395cfea773886baf1d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "9d63e35fdd3bbe75293887a647fbf2909779738707b9aec030b7dcb58a3ac401",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:27:05Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 7317.249,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "bc9bbbb8b6155076871f45b9032e0882b20d185e93c159337cf95e66650ca77e",
+    "response_id": "chatcmpl-825dbd412b374223",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 227,
+      "prompt_tokens": 193,
+      "total_tokens": 420
+    }
+  },
+  "text": "The country famous for the Great Barrier Reef is Australia.\n\nHere is the debugged code. The original logic was flawed because it used `and` instead of `or` for the validation check, and it did not check for the presence of a domain extension properly (the third email in the list is invalid because it lacks a top-level domain after the last dot, but the original code would have printed it as valid if the `and` was changed to `or` because it contains both `@` and `.`). A robust check ensures there is exactly one `@`, and that there is a dot after the `@`.\n\n```python\nemails = ['test.user@example.com', 'seconduser@domain.com', 'third.user@example.']\n\nfor email in emails:\n    # Check if there is exactly one '@' and a '.' after the '@'\n    if email.count('@') == 1 and '.' in email.split('@')[1]:\n        print(email, 'is a valid email address')\n    else:\n        print(email, 'is not a valid email address')\n```"
+}

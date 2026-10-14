@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "c59151c38ba582fe25d72567d1dbf194d9aa9c31d8c217fc2f30c460afa987da",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "27cf7507c9565a5ae66eeab0fbc8147b1c0fc5e4fb8f1fc82270d8d2b8d56b15",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:50:56Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 8781.332,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "0b000a7d55847269dc6b5efd90e4706dd971f6c2a0313a22ede8ad229afa7f9f",
+    "response_id": "chatcmpl-a3ddae6c6b825c04",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 255,
+      "prompt_tokens": 149,
+      "total_tokens": 404
+    }
+  },
+  "text": "The name of the planet humans live on is Earth.\n\nNow, let's write unit tests for the `Calculator` class provided in the content.\n\n```python\nimport unittest\n\nclass Calculator:\n    def multiply(self, x, y):\n        return x * y\n\nclass TestCalculator(unittest.TestCase):\n    def setUp(self):\n        self.calc = Calculator()\n\n    def test_multiply_positive_numbers(self):\n        self.assertEqual(self.calc.multiply(3, 4), 12)\n\n    def test_multiply_negative_numbers(self):\n        self.assertEqual(self.calc.multiply(-3, -4), 12)\n\n    def test_multiply_mixed_numbers(self):\n        self.assertEqual(self.calc.multiply(-3, 4), -12)\n\n    def test_multiply_by_zero(self):\n        self.assertEqual(self.calc.multiply(3, 0), 0)\n\n    def test_multiply_floats(self):\n        self.assertAlmostEqual(self.calc.multiply(1.5, 2.0), 3.0)\n\nif __name__ == '__main__':\n    unittest.main()\n```\n\nThis test suite covers various scenarios including positive numbers, negative numbers, mixed signs, multiplication by zero, and floating-point numbers."
+}

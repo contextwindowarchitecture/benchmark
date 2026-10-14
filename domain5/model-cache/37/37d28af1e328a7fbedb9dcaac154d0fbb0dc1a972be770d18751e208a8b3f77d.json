@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "37d28af1e328a7fbedb9dcaac154d0fbb0dc1a972be770d18751e208a8b3f77d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "0a8d8f4c9322374f69ee04f0a7576320f26cc46296847f5dcc6bb4842299c89a",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:31:34Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 15079.427,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "dade4a737e9868955eab19090a61cc19242abbd49a0adf267d778453192d5670",
+    "response_id": "chatcmpl-a337ccff56940f7d",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 451,
+      "prompt_tokens": 162,
+      "total_tokens": 613
+    }
+  },
+  "text": "The explorer who reached America in 1492 was Christopher Columbus.\n\nRegarding the code provided, here are suggestions to improve efficiency and robustness:\n\n1.  **Input Validation**: The current function does not handle negative numbers or non-integer inputs, which would cause errors or incorrect results. Factorials are typically defined for non-negative integers.\n2.  **Edge Cases**: The function correctly handles `n=0` and `n=1` by returning 1, but explicit checks can make the intent clearer and potentially save a loop iteration for small inputs.\n3.  **Built-in Functions**: For production code, using `math.factorial` is more efficient as it is implemented in C and optimized. However, if implementing manually is required for learning or specific constraints, the iterative approach is already optimal in terms of time complexity O(n).\n4.  **Readability**: Adding comments and type hints improves maintainability.\n\nHere is an optimized version with validation and type hints:\n\n```python\ndef factorial(n: int) -> int:\n    \"\"\"\n    Calculate the factorial of a non-negative integer n.\n    \n    Args:\n        n (int): A non-negative integer.\n        \n    Returns:\n        int: The factorial of n.\n        \n    Raises:\n        ValueError: If n is negative.\n        TypeError: If n is not an integer.\n    \"\"\"\n    if not isinstance(n, int):\n        raise TypeError(\"Input must be an integer.\")\n    if n < 0:\n        raise ValueError(\"Factorial is not defined for negative numbers.\")\n    \n    result = 1\n    for i in range(2, n + 1):\n        result *= i\n    return result\n\nprint(factorial(10))\n```\n\nIf performance is critical and you are using Python 3.2+, consider using `math.factorial`:\n\n```python\nimport math\n\ndef factorial_optimized(n: int) -> int:\n    if not isinstance(n, int) or n < 0:\n        raise ValueError(\"Input must be a non-negative integer.\")\n    return math.factorial(n)\n```"
+}

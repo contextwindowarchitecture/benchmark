@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "9543c0fa7e802b1b1ac41b2ee0e2b4f9b020f93f93f9056331341f8267a3c028",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "7b1eba2cf36f08c7f4fff96a4e4d97092e4f4d7697049b51cbfea98638b5f2b7",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:50:59Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 11586.212,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "5e9e8f2da9a0dd793d43a92d454db11ff1706d46b8f27fab7e323337195bd462",
+    "response_id": "chatcmpl-96d1cd2867c71212",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 332,
+      "prompt_tokens": 98,
+      "total_tokens": 430
+    }
+  },
+  "text": "Here are the unit tests for the `Calculator` class using Python's built-in `unittest` framework.\n\n```python\nimport unittest\n\nclass Calculator:\n    def multiply(self, x, y):\n        return x * y\n\nclass TestCalculator(unittest.TestCase):\n    def setUp(self):\n        self.calc = Calculator()\n\n    def test_multiply_positive_integers(self):\n        \"\"\"Test multiplication of two positive integers.\"\"\"\n        self.assertEqual(self.calc.multiply(3, 4), 12)\n\n    def test_multiply_negative_integers(self):\n        \"\"\"Test multiplication involving negative integers.\"\"\"\n        self.assertEqual(self.calc.multiply(-3, 4), -12)\n        self.assertEqual(self.calc.multiply(-3, -4), 12)\n\n    def test_multiply_by_zero(self):\n        \"\"\"Test multiplication by zero.\"\"\"\n        self.assertEqual(self.calc.multiply(5, 0), 0)\n        self.assertEqual(self.calc.multiply(0, 5), 0)\n\n    def test_multiply_floats(self):\n        \"\"\"Test multiplication of floating point numbers.\"\"\"\n        self.assertAlmostEqual(self.calc.multiply(1.5, 2.0), 3.0)\n\n    def test_multiply_large_numbers(self):\n        \"\"\"Test multiplication of large numbers.\"\"\"\n        self.assertEqual(self.calc.multiply(1000, 1000), 1000000)\n\nif __name__ == '__main__':\n    unittest.main()\n```\n\n**Answer to the priority question:**\nThe name of the planet humans live on is **Earth**."
+}

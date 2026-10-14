@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "7a3dee56cfc24b469be847c38b48cfcadb7fe27c313d3bc274588d8560ab38f2",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "4e843a6d69766e2af01fcf963bc0854655760a6d398da0b08198334e3273bbfb",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:00:34Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 30932.029,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "7ac6b21a4bcd992f14f0771377f96ae7c68fb801ab6efda67753c65f974e8b0d",
+    "response_id": "chatcmpl-823ee85db2546c38",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 497,
+      "prompt_tokens": 427,
+      "total_tokens": 924
+    }
+  },
+  "text": "I will shift each letter of the supplier names forward by three places in the alphabet.\n\nThe suppliers are:\n1. Morcroft Outfitters\n2. Orlby Cooperative\n3. Istton Supply\n4. Wyndale Supply\n\nLet's check the criteria first:\n- Price <= 155\n- Delivery <= 12 days\n- Rating >= 7\n\nSupplier 1 (Morcroft): 105 <= 155 (Yes), 13 days <= 12 (No). Fails.\nSupplier 2 (Orlby): 75 <= 155 (Yes), 16 days <= 12 (No). Fails.\nSupplier 3 (Istton): 145 <= 155 (Yes), 5 days <= 12 (Yes), 9 >= 7 (Yes). Passes.\nSupplier 4 (Wyndale): 140 <= 155 (Yes), 19 days <= 12 (No). Fails.\n\nThe correct supplier is Istton Supply.\n\nNow, shift \"Istton Supply\" letters by +3:\nI -> L\ns -> v\nt -> w\nt -> w\no -> r\nn -> q\n(space)\nS -> V\nu -> x\np -> s\np -> s\nl -> o\ny -> b\n\nResult: Lvwvqr Vxsso\n\nWait, let's re-check the shift carefully.\nAlphabet: a b c d e f g h i j k l m n o p q r s t u v w x y z\n\nSupplier Name: Istton Supply\n\nI -> L\ns -> v\nt -> w\nt -> w\no -> r\nn -> q\n(space)\nS -> V\nu -> x\np -> s\np -> s\nl -> o\ny -> b\n\nString: Lvwvqr Vxsso\n\nLet's double check the supplier name. \"Istton Supply\".\nI -> L\ns -> v\nt -> w\nt -> w\no -> r\nn -> q\n  ->  \nS -> V\nu -> x\np -> s\np -> s\nl -> o\ny -> b\n\nFinal output: Lvwvqr Vxsso"
+}

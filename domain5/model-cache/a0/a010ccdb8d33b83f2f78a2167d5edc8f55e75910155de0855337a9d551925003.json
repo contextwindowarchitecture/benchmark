@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "a010ccdb8d33b83f2f78a2167d5edc8f55e75910155de0855337a9d551925003",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d76c08837a6d245955b1e6f78c85a77564cfc7a926629b6395a3464f2a4d2a8c",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T00:39:24Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 37483.476,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "25f5c94ec0f7330a09ceccd252ce113a65f080cb724e713c218813a74d34d02f",
+    "response_id": "chatcmpl-ac5d0734e16dad32",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 484,
+      "total_tokens": 996
+    }
+  },
+  "text": "To determine the correct supplier, let's evaluate each option against the user's criteria:\n\n1.  **Price:** At most 125 per unit.\n2.  **Delivery:** Within 9 days (i.e., $\\le$ 9 days).\n3.  **Rating:** At least 6 out of 10.\n\n**Evaluation of Suppliers:**\n\n*   **Fenby Traders:**\n    *   Price: 30 (Passes $\\le$ 125)\n    *   Delivery: 14 days (Fails $>$ 9)\n    *   Rating: 10 (Passes $\\ge$ 6)\n    *   *Result: Rejected due to delivery time.*\n\n*   **Quinmere Cooperative:**\n    *   Price: 100 (Passes $\\le$ 125)\n    *   Delivery: 8 days (Passes $\\le$ 9)\n    *   Rating: 10 (Passes $\\ge$ 6)\n    *   *Result: Meets all criteria.*\n\n*   **Isthurst Traders:**\n    *   Price: 110 (Passes $\\le$ 125)\n    *   Delivery: 12 days (Fails $>$ 9)\n    *   Rating: 5 (Fails $<$ 6)\n    *   *Result: Rejected due to delivery time and rating.*\n\n*   **Zelwick Cooperative:**\n    *   Price: 135 (Fails $>$ 125)\n    *   Delivery: 9 days (Passes $\\le$ 9)\n    *   Rating: 10 (Passes $\\ge$ 6)\n    *   *Result: Rejected due to price.*\n\n*   **Istbury Cooperative:**\n    *   Price: 75 (Passes $\\le$ 125)\n    *   Delivery: 16 days (Fails $>$ 9)\n    *   Rating: 1 (Fails $<$ 6)\n    *   *Result: Rejected due to delivery time and rating.*\n\n*   **Harmore Cooperative:**\n    *   Price: 185 (Fails $>$ 125)\n    *   Delivery: 9 days"
+}

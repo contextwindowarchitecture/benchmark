@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "e96e8356b608a7f32ae8af9431bb43d77ce7109bd5468ce18985c3471d903805",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "5f7d5d266db5158dfa747bfa19913b3fa11803b5b50d49e9f83ae0607e553c16",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:30:35Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 14828.335,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "76c7d0734984554757db8a4fd355a55bb0d4165b1179d3e22acf9ec8fa5fcb8e",
+    "response_id": "chatcmpl-8254b0ff1b19f4e6",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 441,
+      "prompt_tokens": 136,
+      "total_tokens": 577
+    }
+  },
+  "text": "The season that comes after autumn is **winter**.\n\nHere is the PHP function `getMaxOccurrence` that meets your requirements:\n\n```php\n<?php\n\n/**\n * Returns the number that appears the most times in the array.\n * If there are multiple numbers with the same maximum occurrence, \n * returns the smallest one.\n *\n * @param array $numbers An array of numbers.\n * @return int|float The number with the highest occurrence (smallest if tied).\n */\nfunction getMaxOccurrence(array $numbers)\n{\n    if (empty($numbers)) {\n        return null; // Or throw an exception, depending on requirements\n    }\n\n    // Count the occurrences of each number\n    $counts = array_count_values($numbers);\n\n    // Find the maximum occurrence count\n    $maxCount = max($counts);\n\n    // Filter numbers that have the maximum occurrence count\n    $mostFrequentNumbers = array_keys(array_filter($counts, function ($count) use ($maxCount) {\n        return $count === $maxCount;\n    }));\n\n    // Return the smallest number among those with the maximum occurrence\n    return min($mostFrequentNumbers);\n}\n\n// Example usage:\n// $arr = [1, 3, 2, 1, 4, 1, 2, 2];\n// echo getMaxOccurrence($arr); // Output: 1 (appears 3 times, 2 appears 3 times, 1 is smaller)\n?>\n```\n\n### Explanation:\n1. **`array_count_values`**: This built-in PHP function counts how many times each value appears in the array.\n2. **`max($counts)`**: Finds the highest frequency among all numbers.\n3. **`array_filter`**: Keeps only the numbers whose count equals the maximum frequency.\n4. **`array_keys`**: Extracts the actual numbers (keys) that have this maximum frequency.\n5. **`min(...)`**: From the list of numbers with the highest frequency, returns the smallest one."
+}

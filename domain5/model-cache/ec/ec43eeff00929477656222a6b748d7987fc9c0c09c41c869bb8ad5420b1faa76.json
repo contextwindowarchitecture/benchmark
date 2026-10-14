@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "ec43eeff00929477656222a6b748d7987fc9c0c09c41c869bb8ad5420b1faa76",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "dca53ed84eb06969482c826937c6a4cbb81bead811ae23343d83524585d80dde",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:27:04Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 6477.553,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "b869688ff7de9940e15b23d12a3b96b2b3d971376c8aed0136f4e4c2ca9513a1",
+    "response_id": "chatcmpl-a79f1e51b3e40c65",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 202,
+      "prompt_tokens": 146,
+      "total_tokens": 348
+    }
+  },
+  "text": "The country famous for the Great Barrier Reef is Australia.\n\nHere is the debugged code. The original logic `if not '@' in email and '.' in email` is flawed because it uses `not` on the entire expression due to operator precedence, or it fails to correctly validate the structure. Specifically, `not '@' in email` checks if '@' is missing, but the `and` connects it to `'.' in email`. This means it prints \"valid\" if '@' is missing AND '.' is present, which is incorrect. A valid email must contain both '@' and '.' (typically with text after the last dot).\n\nCorrected logic: Check that '@' is present AND '.' is present.\n\n```python\nemails = ['test.user@example.com', 'seconduser@domain.com', 'third.user@example.']\nfor email in emails:\n    if '@' in email and '.' in email:\n        print(email, 'is a valid email address')\n```"
+}

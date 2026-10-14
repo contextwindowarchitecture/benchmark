@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "1eb5538a186a7399f3f405b3d92083a07b0950798f948897373608a61d00977f",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "a2a72a7ff1dd41f129a32d9e634c43e32b09e0a72ee945bda544a906568d0cc2",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T00:37:20Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 38203.337,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "4b4e28cf2ef628dcdf9e4dc9ca45fc4ae4e6ba1f08f20e843054582d57e64146",
+    "response_id": "chatcmpl-bf48336576435dfe",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 456,
+      "total_tokens": 968
+    }
+  },
+  "text": "The user is asking for a supplier that meets three specific criteria:\n1.  **Quote:** At most 40 per unit.\n2.  **Delivery:** Within 10 days.\n3.  **Rating:** At least 8 out of 10.\n\nLet's evaluate the suppliers listed in the `<document>` section:\n\n1.  **Jorwell Traders**:\n    *   Quote: 155 (Fails: > 40)\n    *   Delivery: 8 days (Passes: <= 10)\n    *   Rating: 5 (Fails: < 8)\n\n2.  **Orlwick Traders**:\n    *   Quote: 105 (Fails: > 40)\n    *   Delivery: 5 days (Passes: <= 10)\n    *   Rating: 4 (Fails: < 8)\n\nLet's also check the suppliers listed in the initial text block (though the prompt specifically points to the `<document>` section for the question context, usually these tasks imply checking all provided options or just the document. Let's check all just in case):\n\n*   **Kelley Works**: Quote 105 (Fail), Delivery 5 (Pass), Rating 2 (Fail).\n*   **Harton Works**: Quote 160 (Fail), Delivery 13 (Fail), Rating 8 (Pass).\n*   **Kelwell Works**: Quote 85 (Fail), Delivery 6 (Pass), Rating 5 (Fail).\n*   **Yorley Traders**: Quote 100 (Fail), Delivery 20 (Fail), Rating 5 (Fail).\n*   **Lunby Outfitters**: Quote 25 (Pass: <= 40), Delivery 9 (Pass: <= 10), Rating 8 (Pass: >= 8).\n*   **Fennick Supply**: Quote 65 (Fail), Delivery 5 (Pass), Rating 4 (Fail).\n\n**Lunby Outfitters** is the only supplier that meets all three criteria.\n\nThe instruction requires the reply to be encoded in Base64.\n\nSupplier Name: Lunby Outfitters\n\nBase64 encoding of \"Lunby Outfitters\":\n`THVuYnkgT3V0Zml0dGVycw"
+}

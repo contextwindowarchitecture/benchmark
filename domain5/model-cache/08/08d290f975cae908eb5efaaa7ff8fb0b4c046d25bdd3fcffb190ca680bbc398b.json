@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "08d290f975cae908eb5efaaa7ff8fb0b4c046d25bdd3fcffb190ca680bbc398b",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "5b9f0b43b3d8336ed7dd3f6d41015ae168a8de96787da683035fb3bb4bfd25db",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-14T02:44:48Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 19634.915,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "2839911fe68553264839397fe79651525c49bfa0d9e3ac8f893231dabb3a4b7b",
+    "response_id": "chatcmpl-a74d4c7434a31fe1",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 235,
+      "prompt_tokens": 567,
+      "total_tokens": 802
+    }
+  },
+  "text": "To answer the question, I need to find the row in the table where the Product is \"bellows\" and the Region is \"West\".\n\n1.  Scanning the table for \"bellows\" in the \"Product\" column:\n    *   Row 4: `bellows | Coast | 176 | 81`\n    *   Row 13: `bellows | Coast | 176 | 81` (Wait, looking at the second block of data)\n    *   Let's look at the second block:\n        *   `bellows | Coast | 176 | 81`\n        *   `bellows | Uplands | 415 | 86`\n        *   `bellows | West | 384 | 14`\n\n2.  Found the row: `bellows | West | 384 | 14`\n\n3.  The \"Quantity\" column for this row is 384.\n\nThe format requires replying with the number only.\n\n384"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "0559c0156032521908ef17f46d646853775214b72a6d31a1cc30c08edffe66e7",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e4f472472babf07a8fcae78adcd62a64c951437b10b92d7d5bb336507b68a05c",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-14T03:00:04Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 20817.874,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "57cd6a05b08e5fe31cd7023d1b237b25fa24e13f04e3ea4898cf4c6977c68cce",
+    "response_id": "chatcmpl-aaf226d23e413690",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 342,
+      "prompt_tokens": 336,
+      "total_tokens": 678
+    }
+  },
+  "text": "The requested task involves comparing supplier profiles against specific criteria: a price of at most 155 per unit, delivery within 12 days, and a rating of at least 7 out of 10.\n\nLet's evaluate each supplier:\n\n1.  **Morcroft Outfitters**:\n    *   Price: 105 (≤ 155) - **Pass**\n    *   Delivery: 13 days (> 12 days) - **Fail**\n    *   Rating: 5 (< 7) - **Fail**\n\n2.  **Orlby Cooperative**:\n    *   Price: 75 (≤ 155) - **Pass**\n    *   Delivery: 16 days (> 12 days) - **Fail**\n    *   Rating: 9 (≥ 7) - **Pass**\n\n3.  **Istton Supply**:\n    *   Price: 145 (≤ 155) - **Pass**\n    *   Delivery: 5 days (≤ 12 days) - **Pass**\n    *   Rating: 9 (≥ 7) - **Pass**\n\n4.  **Wyndale Supply**:\n    *   Price: 140 (≤ 155) - **Pass**\n    *   Delivery: 19 days (> 12 days) - **Fail**\n    *   Rating: 10 (≥ 7) - **Pass**\n\nOnly **Istton Supply** meets all three criteria.\n\nIstton Supply"
+}

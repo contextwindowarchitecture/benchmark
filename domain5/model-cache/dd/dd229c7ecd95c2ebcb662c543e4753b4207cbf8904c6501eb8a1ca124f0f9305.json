@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "dd229c7ecd95c2ebcb662c543e4753b4207cbf8904c6501eb8a1ca124f0f9305",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "220867a562b6ef2177e44d6cd8908ef80760f734537b29ad80e59d8aa17d353e",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:27:59Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 10604.979,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "dc56d7e619f8e9f82818e9d56e4d5832149ae3525939ed3b694d9b1db9e18027",
+    "response_id": "chatcmpl-aeb3f9acfa5c4626",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 319,
+      "prompt_tokens": 160,
+      "total_tokens": 479
+    }
+  },
+  "text": "The code provided has several style issues when compared to industry-standard guidelines like PEP 8 (Python Enhancement Proposal 8).\n\n1.  **Missing Docstring**: The function lacks a docstring explaining its purpose, parameters, and return value.\n2.  **Comment Style**: The comment `# calculates factorial` is redundant if the function name is clear, but if kept, it should be more descriptive or removed. PEP 8 suggests using docstrings for documentation rather than inline comments for basic descriptions.\n3.  **Base Case Logic**: The base case `if n == 1` is technically incorrect for `factorial(0)`, which should return 1. A more robust base case is `if n == 0 or n == 1`.\n4.  **Indentation**: The indentation appears correct (4 spaces), which is good.\n5.  **Naming Conventions**: The function name `factorial_recursive` is descriptive and follows snake_case, which is compliant.\n\n**Corrected Code Example:**\n\n```python\ndef factorial_recursive(n):\n    \"\"\"\n    Calculate the factorial of a non-negative integer n.\n\n    Args:\n        n (int): A non-negative integer.\n\n    Returns:\n        int: The factorial of n.\n    \"\"\"\n    if n == 0 or n == 1:\n        return 1\n    else:\n        return n * factorial_recursive(n - 1)\n```\n\nThe animal known for its long neck is the **giraffe**."
+}

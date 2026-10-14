@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "ee8d7091f66adf95819bb8ad9accb4ed84ccc6dcbd14e5a726ea89985a157119",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "2d8a6bccc8ea44af2a187adb8a408971f772f91039ab9509267a5df77b149c6e",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-14T02:44:54Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 42785.098,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "adaff96c5fac0173899b96476c62cd80cbfb4d74c7d34d8db17a2754b34e4160",
+    "response_id": "chatcmpl-b774a53102f14f79",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 745,
+      "total_tokens": 1257
+    }
+  },
+  "text": "To determine the number of rows that list the \"Coast\" region, we examine both provided evidence tables.\n\n**From `<evidence id=\"content:01\">`:**\n1. `ledger | Coast | 582 | 57`\n2. `kettle | Coast | 227 | 39`\n3. `bellows | Coast | 519 | 49`\n4. `satchel | Coast | 172 | 62` (Wait, this row is in `<evidence id=\"content:00\">`, let me re-check content:01)\n\nLet's re-read `<evidence id=\"content:01\">` carefully:\n- `compass | East`\n- `ledger | Coast` -> **1**\n- `bellows | North`\n- `thimble | East`\n- `kettle | East`\n- `spindle | Uplands`\n- `kettle | Coast` -> **2**\n- `thimble | Uplands`\n- `kettle | Uplands`\n- `whistle | West`\n- `thimble | South`\n- `trowel | North`\n- `bellows | Coast` -> **3**\n- `satchel | West`\n- `trowel | Uplands`\n- `satchel | East`\n\nSo, there are 3 rows in content:01 with \"Coast\".\n\n**From `<evidence id=\"content:00\">`:**\n- `thimble | Coast` -> **4**\n- `ledger | Uplands`\n- `trowel | West`\n- `spindle | West`\n- `lantern | North`\n- `kettle | North`\n- `lantern | West`\n- `satchel | Coast` -> **5**\n- `lantern | South`\n- `ledger | West`\n- `kettle | West`\n- `lantern | East`\n- `whistle | North`\n- `satchel | North`\n- `thimble | North`\n- `whistle | Coast` -> **6**\n- `bellows | West`\n- `spindle | Coast` -> **7**\n\nSo, there are 4"
+}

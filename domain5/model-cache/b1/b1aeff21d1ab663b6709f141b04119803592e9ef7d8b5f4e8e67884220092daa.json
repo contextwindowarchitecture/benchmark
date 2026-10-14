@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "b1aeff21d1ab663b6709f141b04119803592e9ef7d8b5f4e8e67884220092daa",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "c69da67573c32871b438d1967342aec72706b12d79c90826de58636038bb2ccd",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:28:02Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 14172.33,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "4a9a6db2bb708224f7c9fef1dcdbe244653995bfe3d3c014a19d6d7c039ddde5",
+    "response_id": "chatcmpl-80e5942f443df7b9",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 422,
+      "prompt_tokens": 92,
+      "total_tokens": 514
+    }
+  },
+  "text": "The code provided has a few issues regarding compliance with industry-standard style guidelines, particularly PEP 8 (the official style guide for Python code).\n\n1.  **Missing Edge Case Handling**: The function does not handle `n = 0` or negative numbers. Mathematically, `0! = 1`, but the current implementation would return `1` for `n=1` and fail or produce incorrect results for `n=0` (since it doesn't match `n==1` and recurses to `n=0`, then `n=-1`, leading to infinite recursion or a stack overflow). It should explicitly handle `n == 0`.\n2.  **Lack of Input Validation**: There is no check to ensure `n` is a non-negative integer.\n3.  **Comment Style**: The comment `# calculates factorial` is acceptable but could be more descriptive or placed in a docstring for better documentation standards.\n4.  **Indentation and Spacing**: The code uses consistent indentation, which is good. However, adding a blank line after the function definition (if it were part of a larger module) would be standard.\n\nHere is a corrected and more compliant version:\n\n```python\ndef factorial_recursive(n):\n    \"\"\"\n    Calculate the factorial of a non-negative integer n.\n\n    Args:\n        n (int): A non-negative integer.\n\n    Returns:\n        int: The factorial of n.\n\n    Raises:\n        ValueError: If n is negative.\n        TypeError: If n is not an integer.\n    \"\"\"\n    if not isinstance(n, int):\n        raise TypeError(\"Input must be an integer.\")\n    if n < 0:\n        raise ValueError(\"Input must be a non-negative integer.\")\n    if n == 0 or n == 1:\n        return 1\n    else:\n        return n * factorial_recursive(n - 1)\n```\n\nThe animal known for its long neck is the **giraffe**."
+}

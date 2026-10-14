@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "c5a64103bbe1e1ab90b7f99355b242bfcd37ae921da1607bd23974d3638e826d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "4e621430bbb373c09ebe55e07c7440751d550b732731d8817ae388f8b1ce8413",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-14T03:04:13Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 34288.509,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "dcd61a5b909c64871b9a7701fdd46dc17fa21831b70bf30ff2983daeb11bdcf1",
+    "response_id": "chatcmpl-a8ba95e00a12426f",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 483,
+      "total_tokens": 995
+    }
+  },
+  "text": "The user wants to find a supplier based on three criteria:\n1.  Quote price: At most 50 per unit.\n2.  Delivery time: Within 12 days.\n3.  Rating: At least 8 out of 10.\n\nLet's evaluate each supplier:\n\n1.  **Morworth Works**:\n    *   Quote: 35 (≤ 50? Yes)\n    *   Delivery: 11 days (≤ 12? Yes)\n    *   Rating: 8/10 (≥ 8? Yes)\n    *   **Result: Matches all criteria.**\n\n2.  **Tornick Supply**:\n    *   Quote: 85 (> 50? No)\n    *   **Result: Does not match.**\n\n3.  **Nevwell Traders**:\n    *   Quote: 135 (> 50? No)\n    *   **Result: Does not match.**\n\n4.  **Nevworth Traders**:\n    *   Quote: 165 (> 50? No)\n    *   **Result: Does not match.**\n\n5.  **Jorley Cooperative**:\n    *   Quote: 100 (> 50? No)\n    *   **Result: Does not match.**\n\nThe only supplier meeting all criteria is Morworth Works.\n\nThe user instructions also state: \"Before you answer, write your reply with every letter shifted three places forward in the alphabet, so that a becomes d.\"\n\nThe required output format is \"Reply with the supplier's name only.\"\n\nSupplier Name: Morworth Works\n\nShifting each letter by +3:\nM -> P\no -> r\nr -> u\nw -> z\no -> r\nr -> u\nt -> w\nh -> k\n(space) -> (space)\nW -> Z\no -> r\nr -> u\nk -> n\ns -> v\n\nResult: Pruzruwk Zrurnv\n\nWait, let's double check the shift.\nM (13) + 3 = P (16)\no (15) + 3 = r (18)\nr (18) + 3 = u (21)\nw (23) + 3 = z (26)\no (15) + "
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "0e60191f504305022d6aea71dfab032ab29a9e5debe149bd18844992890f8c56",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d446d7244132b308471d527b0f380953f0ed0d7421c13f5edf8eac4640d29cb1",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:27:04Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 5136.88,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "050e837a2c4bc2e7667d459bcf24fa801237743a24f7039785a11c188c6c86bc",
+    "response_id": "chatcmpl-9842b91352449f25",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 163,
+      "prompt_tokens": 154,
+      "total_tokens": 317
+    }
+  },
+  "text": "The country famous for the Great Barrier Reef is Australia.\n\nHere is the debugged code. The original logic `if not '@' in email and '.' in email` is flawed because it prints an email as valid if it *lacks* an '@' symbol (due to the `not`) but has a dot. A valid email must contain both '@' and '.'. Additionally, the third email in the list is invalid because it lacks a domain extension after the dot, but the primary logical error was the condition itself.\n\n```python\nemails = ['test.user@example.com', 'seconduser@domain.com', 'third.user@example.']\n\nfor email in emails:\n    if '@' in email and '.' in email:\n        print(email, 'is a valid email address')\n```"
+}

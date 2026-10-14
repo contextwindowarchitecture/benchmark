@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "3cbefa23c78b748e7f566a093f1b4ccf4888ad030571bfe98c2798eb9fe92ac3",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "0f7a472170301c59d90fc4a4132d53b38bf83c758ba0b27522c205c950f7af65",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T00:40:59Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 28575.332,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "019f02f6c4bb850d0536531824ea9bbec102c3aa141d12ca1e03dc316671fbf8",
+    "response_id": "chatcmpl-aa3fdc0af368563b",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 399,
+      "prompt_tokens": 555,
+      "total_tokens": 954
+    }
+  },
+  "text": "To determine the correct supplier, we evaluate each candidate against the specified criteria:\n1.  **Price:** At most 125 per unit.\n2.  **Delivery:** Within 9 days (i.e., $\\le$ 9 days).\n3.  **Rating:** At least 6 out of 10.\n\n**Evaluation:**\n\n*   **Fenby Traders:** Price 30 ($\\le$ 125), Delivery 14 days (> 9), Rating 10. **Fail** (Delivery).\n*   **Quinmere Cooperative:** Price 100 ($\\le$ 125), Delivery 8 days ($\\le$ 9), Rating 10 ($\\ge$ 6). **Pass**.\n*   **Isthurst Traders:** Price 110 ($\\le$ 125), Delivery 12 days (> 9), Rating 5 (< 6). **Fail** (Delivery and Rating).\n*   **Zelwick Cooperative:** Price 135 (> 125), Delivery 9 days ($\\le$ 9), Rating 10. **Fail** (Price).\n*   **Istbury Cooperative:** Price 75 ($\\le$ 125), Delivery 16 days (> 9), Rating 1. **Fail** (Delivery and Rating).\n*   **Harmore Cooperative:** Price 185 (> 125), Delivery 9 days, Rating 2. **Fail** (Price and Rating).\n*   **Jormore Traders:** Price 105 ($\\le$ 125), Delivery 20 days (> 9), Rating 5. **Fail** (Delivery and Rating).\n\nOnly **Quinmere Cooperative** meets all three conditions.\n\nQuinmere Cooperative"
+}

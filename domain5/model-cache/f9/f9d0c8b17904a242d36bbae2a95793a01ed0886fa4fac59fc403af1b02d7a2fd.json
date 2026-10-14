@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "f9d0c8b17904a242d36bbae2a95793a01ed0886fa4fac59fc403af1b02d7a2fd",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e5981c38fe0d2788660d0aab6b0efd670c860b47362595ae7df76ecc660bad23",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:48:44Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 13567.697,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "dc7531fee2a9876f0b88709c13cae1d86326faa0868edd5b39089bd3d89ab758",
+    "response_id": "chatcmpl-836addb48b859627",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 405,
+      "prompt_tokens": 161,
+      "total_tokens": 566
+    }
+  },
+  "text": "The part of a tree that grows underground is the **root**.\n\nHere is the refactored code. The changes focus on improving readability, reducing redundancy, and using built-in Python functions for better maintainability, without changing the output or logic.\n\n```python\ndef fetch_data_from_db():\n    \"\"\"\n    Simulates fetching data from a database.\n    Returns a list of integers.\n    \"\"\"\n    # Imagine complex logic here\n    return [1, 2, 3, 4, 5]\n\n\ndef calculate_average(data_list):\n    \"\"\"\n    Calculates the average of a list of numbers.\n    \"\"\"\n    if not data_list:\n        return 0\n    return sum(data_list) / len(data_list)\n\n\ndef main():\n    # Fetch data\n    data = fetch_data_from_db()\n    \n    # Calculate and print average\n    average = calculate_average(data)\n    print(average)\n\n\nif __name__ == \"__main__\":\n    main()\n```\n\n### Key Improvements:\n1. **Function Naming**: Changed `fetchDataFromDB` to `fetch_data_from_db` to follow PEP 8 (snake_case) conventions.\n2. **Modularity**: Extracted the averaging logic into a separate function `calculate_average`. This makes the code reusable and easier to test.\n3. **Built-in Functions**: Replaced the manual loop for summing with Python’s built-in `sum()` function, which is more concise and less error-prone.\n4. **Structure**: Wrapped the execution in a `main()` function and added an `if __name__ == \"__main__\":` guard. This is a best practice for maintainability, allowing the script to be imported as a module without executing the main logic.\n5. **Readability**: Added docstrings and clearer variable names (`data` instead of `datas`, `average` instead of `total_average`)."
+}

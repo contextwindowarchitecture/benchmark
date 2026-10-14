@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "05136746ca6c605a0dd1cf0f4138b519375339cfa89ff10a0865e187ae4901a6",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "6a7b191b9a77fc72d390297f2b4784d9935af42eae417c8e45dbd0d91b29d6a3",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:49:15Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 15243.178,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "e90bf241f6527e920ded8ef1d355ee26fe380eef83f9e6816919ca42815154a8",
+    "response_id": "chatcmpl-81852f01dc2ba4dd",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 443,
+      "prompt_tokens": 127,
+      "total_tokens": 570
+    }
+  },
+  "text": "The color of grass during summer is typically green.\n\nHere is the Python function that implements the specified logic:\n\n```python\ndef find_pair_with_sum(numbers, target_sum):\n    \"\"\"\n    Finds the first pair of numbers in the list that add up to the target sum.\n    \n    Args:\n    numbers (list): A list of numbers.\n    target_sum (int/float): The target sum to find.\n    \n    Returns:\n    tuple: A tuple containing the first pair of numbers that add up to the target sum.\n    None: If no such pair exists.\n    \"\"\"\n    seen = set()\n    for number in numbers:\n        complement = target_sum - number\n        if complement in seen:\n            return (complement, number)\n        seen.add(number)\n    return None\n```\n\n### Explanation:\n1. **Initialization**: A set `seen` is used to keep track of numbers encountered so far. This allows for O(1) average time complexity for lookups.\n2. **Iteration**: The function iterates through each number in the input list.\n3. **Complement Check**: For each number, it calculates the complement (i.e., `target_sum - number`). If the complement is already in the `seen` set, it means a pair has been found.\n4. **Return Pair**: The function returns the pair as a tuple `(complement, number)`. The order ensures that the first number in the pair appeared earlier in the list than the second.\n5. **Update Set**: If no pair is found, the current number is added to the `seen` set.\n6. **No Pair Found**: If the loop completes without finding a pair, the function returns `None`.\n\n### Example Usage:\n```python\nprint(find_pair_with_sum([1, 2, 3, 4, 5], 9))  # Output: (4, 5)\nprint(find_pair_with_sum([1, 2, 3, 4, 5], 10)) # Output: None\n```"
+}

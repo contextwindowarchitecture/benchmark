@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "02302f00850c054f19bcf3a0752e6483bd5c792598015eb1bd9275161c25f80f",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "3fac3f19ce74cc63a97c3a2d3cf828ef49ddd4bb9609828b28ad78992b9f20c8",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:45:50Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 12461.347,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "2d77bfa4bd6cbb37efd04ee3e31880b62c89504299137d546dc55e93fd3f46a2",
+    "response_id": "chatcmpl-acc4256e979918f3",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 381,
+      "prompt_tokens": 124,
+      "total_tokens": 505
+    }
+  },
+  "text": "The provided documentation is incomplete and contains a significant error.\n\n1.  **Irrelevant Content**: The comment begins with \"Tell me what a group of crows is called,\" which is unrelated to the function's purpose. This should be removed.\n2.  **Missing Details**: The documentation states that the function returns a JSON object but fails to describe the specific structure of that object (e.g., keys like `temperature`, `humidity`, `condition`).\n3.  **Error Handling**: The documentation acknowledges that error cases should be documented but does not provide any details on what those errors are or how they are returned (e.g., HTTP status codes, error messages).\n\n**Suggested Improvement:**\n\n```javascript\n/**\n * Retrieves the current weather data from an API.\n *\n * @param {string} location - A string representing the geographical location (e.g., \"New York, NY\" or \"40.7128,-74.0060\").\n * @returns {Object} A JSON object containing weather data with the following structure:\n *   {\n *     \"location\": string,\n *     \"temperature\": number,\n *     \"unit\": string, // e.g., \"Celsius\" or \"Fahrenheit\"\n *     \"condition\": string, // e.g., \"Sunny\", \"Rainy\"\n *     \"humidity\": number,\n *     \"windSpeed\": number\n *   }\n * @throws {Error} Throws an error if the location is invalid or the API request fails.\n *   - Returns a 404 error if the location is not found.\n *   - Returns a 500 error if the API server encounters an internal error.\n */\nfunction getWeatherData(location) {\n  // ...\n}\n```"
+}

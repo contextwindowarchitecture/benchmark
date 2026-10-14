@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "204448896356dc4ff8fc3fdbcba9218138e1c8c333dcdc852cc4d261c2040bac",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "bee11a17cabf9abbc17150e85b44c431b5aa77cb129370db0fa75db41a12abec",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:37:05Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 16454.824,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "a171ffa6f449c4efbc8c67e72196c077dce6abc34b82a88de76314c1ab762c8d",
+    "response_id": "chatcmpl-926106507c8618bb",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 505,
+      "prompt_tokens": 176,
+      "total_tokens": 681
+    }
+  },
+  "text": "There are 60 minutes in an hour.\n\nRegarding the code provided, the primary inefficiency lies in the fact that `sorted(word)` is calculated once, but `sorted(w)` is recalculated for every single word in `words_list`. Sorting is an O(N log N) operation, so doing this repeatedly inside the loop is costly.\n\nHere is an optimized version using a frequency map (or sorted tuple) approach, but a more efficient standard approach for anagrams is to use a dictionary to group words by their sorted character key. However, since we are filtering a specific list against a specific word, we can optimize by pre-computing the key for the target word and then checking each word in the list.\n\n**Optimized Code:**\n\n```python\ndef find_anagrams(word, words_list):\n    # Pre-compute the sorted tuple of the target word once\n    target_key = tuple(sorted(word))\n    result = []\n    \n    for w in words_list:\n        # Check length first for a quick O(1) rejection if lengths differ\n        if len(w) == len(word):\n            # Compute key for current word\n            if tuple(sorted(w)) == target_key:\n                result.append(w)\n                \n    return result\n```\n\n**Further Optimization (if `words_list` is large and reused):**\nIf you are checking many different target words against the same `words_list`, you should pre-process `words_list` into a dictionary mapping sorted keys to lists of words.\n\n```python\ndef build_anagram_index(words_list):\n    index = {}\n    for w in words_list:\n        key = tuple(sorted(w))\n        if key not in index:\n            index[key] = []\n        index[key].append(w)\n    return index\n\ndef find_anagrams_optimized(word, anagram_index):\n    target_key = tuple(sorted(word))\n    return anagram_index.get(target_key, [])\n```\n\n**Key Improvements:**\n1. **Pre-computation:** The sorted version of the target `word` is computed only once.\n2. **Length Check:** Added a length check before sorting, which is a fast O(1) operation to filter out non-candidates.\n3. **Tuple vs List:** Using `tuple(sorted(w))` is slightly more efficient for dictionary keys or comparisons than lists, though the main gain is reducing the number of sort operations."
+}

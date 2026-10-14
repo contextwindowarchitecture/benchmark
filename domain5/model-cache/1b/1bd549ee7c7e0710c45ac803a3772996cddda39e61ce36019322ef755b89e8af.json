@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "1bd549ee7c7e0710c45ac803a3772996cddda39e61ce36019322ef755b89e8af",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "a76c668eaf73937b43a6372552c07eaa4cbc655e395ece2e15b4b14742d02e0b",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-14T02:53:48Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 5224.337,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "57cd65b56f51d003a1fbdec167b55a4b27fd10ae5f768cbdc25815a05bd541bc",
+    "response_id": "chatcmpl-9cc7b2b006a33765",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 98,
+      "prompt_tokens": 329,
+      "total_tokens": 427
+    }
+  },
+  "text": "{\n\"bug\": \"def count_heavy(parcels, limit):\\n    count = 0\\n    for parcel in parcels:\\n        if parcel.weight < limit:\\n            count += 1\\n    return count\",\n\"fix\": \"def count_heavy(parcels, limit):\\n    count = 0\\n    for parcel in parcels:\\n        if parcel.weight >= limit:\\n            count += 1\\n    return count\"\n}"
+}

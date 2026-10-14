@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "29b6ae8081319a25e23760a9dfa11e18c3517e6b1b27aee25f96361373ad4730",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e32d8a7f65d60813275f028b0f114917fb93a6bf89bf84a3c38697240f566595",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:51:01Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 13927.75,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "a3ae41394e680f8176f11a433316e4d92e04185cba0de41c4d90e61500b251d0",
+    "response_id": "chatcmpl-bef40165f493f777",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 403,
+      "prompt_tokens": 119,
+      "total_tokens": 522
+    }
+  },
+  "text": "The name of the planet humans live on is Earth.\n\nBelow are the unit tests for the `Calculator` class using Python's built-in `unittest` framework. These tests ensure that the `multiply` method functions correctly for various input scenarios, including positive numbers, negative numbers, zero, and floating-point numbers.\n\n```python\nimport unittest\n\nclass Calculator:\n    def multiply(self, x, y):\n        return x * y\n\nclass TestCalculator(unittest.TestCase):\n    def setUp(self):\n        \"\"\"Set up the Calculator instance for each test.\"\"\"\n        self.calc = Calculator()\n\n    def test_multiply_positive_integers(self):\n        \"\"\"Test multiplication of two positive integers.\"\"\"\n        self.assertEqual(self.calc.multiply(3, 4), 12)\n\n    def test_multiply_negative_integers(self):\n        \"\"\"Test multiplication involving negative integers.\"\"\"\n        self.assertEqual(self.calc.multiply(-3, 4), -12)\n        self.assertEqual(self.calc.multiply(-3, -4), 12)\n\n    def test_multiply_by_zero(self):\n        \"\"\"Test multiplication where one or both operands are zero.\"\"\"\n        self.assertEqual(self.calc.multiply(5, 0), 0)\n        self.assertEqual(self.calc.multiply(0, 5), 0)\n        self.assertEqual(self.calc.multiply(0, 0), 0)\n\n    def test_multiply_floats(self):\n        \"\"\"Test multiplication of floating-point numbers.\"\"\"\n        self.assertAlmostEqual(self.calc.multiply(1.5, 2.0), 3.0)\n        self.assertAlmostEqual(self.calc.multiply(0.1, 0.2), 0.02)\n\n    def test_multiply_mixed_types(self):\n        \"\"\"Test multiplication of integer and float.\"\"\"\n        self.assertEqual(self.calc.multiply(2, 3.5), 7.0)\n\nif __name__ == '__main__':\n    unittest.main()\n```"
+}

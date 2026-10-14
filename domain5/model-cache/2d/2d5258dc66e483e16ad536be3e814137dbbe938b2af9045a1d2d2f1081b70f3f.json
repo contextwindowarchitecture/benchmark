@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "2d5258dc66e483e16ad536be3e814137dbbe938b2af9045a1d2d2f1081b70f3f",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "4f1b6768985ec7675858d57bee49c9c9e7993c6f4ddedef122d8469ab0479ba8",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:32:04Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 5328.643,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "c43427352b3e2ce942c684ac21d550a875fa8b7130bf1f2f72e8898d37c97153",
+    "response_id": "chatcmpl-ac5d558d57df01fe",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 171,
+      "prompt_tokens": 140,
+      "total_tokens": 311
+    }
+  },
+  "text": "Bees are known to produce honey.\n\nHere is the corrected code:\n\n```python\ndef find_max(numbers):\n    max_num = numbers[0]\n    for number in numbers:\n        if number > max_num:\n            max_num = number\n    return max_num\n\nnums = [3, 6, 2, 8, 4]\nprint(find_max(nums))\n```\n\n**Explanation of fixes:**\n1.  **Variable Name Mismatch:** The loop variable was named `number`, but the condition and assignment used `n`. Changed `n` to `number` in both places.\n2.  **Return Statement:** The function returned `max`, which is a built-in function, not the variable holding the maximum value. Changed `return max` to `return max_num`."
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "2cb7319e65019a1e83cf66c516b37b96b6f3b9c705d3c6126ca495ff4b9597c4",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "5d2f1395ccbdf2b84c2d8eecb66a4bc8e84d52a715cf28e01125a84996d54717",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:33:07Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 11913.297,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "93e15da882f13538c1c451812cb86707381e2fdad87952eb152d9c33d949c9f4",
+    "response_id": "chatcmpl-999cbd7283ebf171",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 361,
+      "prompt_tokens": 138,
+      "total_tokens": 499
+    }
+  },
+  "text": "Here is the Ruby function `titleize_sentence` that implements the requested logic. It splits the sentence into words, checks if each word is in the list of lowercase exceptions, and capitalizes the first letter of the remaining words.\n\n```ruby\ndef titleize_sentence(sentence)\n  # Define the list of words that should remain lowercase\n  lowercase_words = %w[and the or in with of]\n\n  # Split the sentence into words, process each, and join them back\n  sentence.split.map do |word|\n    # Check if the word (case-insensitive) is in the lowercase list\n    if lowercase_words.include?(word.downcase)\n      word.downcase\n    else\n      # Capitalize the first letter and downcase the rest\n      word.capitalize\n    end\n  end.join(' ')\nend\n```\n\n### Explanation:\n1. **`lowercase_words`**: An array containing the words that should always be lowercase.\n2. **`sentence.split`**: Breaks the input string into an array of words.\n3. **`map`**: Iterates over each word.\n   - If the word (converted to lowercase) is in `lowercase_words`, it returns the word in lowercase.\n   - Otherwise, it uses `capitalize` to make the first letter uppercase and the rest lowercase.\n4. **`join(' ')`**: Reassembles the words into a single string with spaces.\n\n### Example Usage:\n```ruby\nputs titleize_sentence(\"the quick brown fox jumps over the lazy dog\")\n# Output: \"The Quick Brown Fox Jumps Over The Lazy Dog\"\n\nputs titleize_sentence(\"war and peace\")\n# Output: \"War and Peace\"\n```"
+}

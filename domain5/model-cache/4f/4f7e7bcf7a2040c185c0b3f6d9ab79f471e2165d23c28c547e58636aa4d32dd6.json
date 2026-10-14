@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "4f7e7bcf7a2040c185c0b3f6d9ab79f471e2165d23c28c547e58636aa4d32dd6",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "376fcaaa0d27d96074bc6d1931ff10b164abf80027d59d16f342ff2ab57af703",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:48:41Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 10060.838,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "b2444b6fbe88e25b1235f89fab82cf14983778c73a949011146aa475b750e636",
+    "response_id": "chatcmpl-87777e25481d56ef",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 300,
+      "prompt_tokens": 153,
+      "total_tokens": 453
+    }
+  },
+  "text": "The part of a tree that grows underground is the **root**.\n\nHere is the refactored code. The improvements include:\n1.  **Modularity**: Breaking the logic into distinct functions (`calculate_average`) for better readability and testability.\n2.  **Safety**: Added a check to prevent division by zero.\n3.  **Naming**: Used more descriptive variable names.\n4.  **Type Hinting**: Added type hints for better maintainability and IDE support.\n\n```python\nfrom typing import List\n\ndef fetch_data_from_db() -> List[int]:\n    \"\"\"\n    Simulates fetching data from a database.\n    In a real scenario, this would contain complex logic.\n    \"\"\"\n    return [1, 2, 3, 4, 5]\n\ndef calculate_average(data: List[int]) -> float:\n    \"\"\"\n    Calculates the average of a list of numbers.\n    Returns 0.0 if the list is empty to avoid division by zero.\n    \"\"\"\n    if not data:\n        return 0.0\n    \n    total = sum(data)\n    return total / len(data)\n\ndef main() -> None:\n    \"\"\"\n    Main execution block.\n    \"\"\"\n    data = fetch_data_from_db()\n    average = calculate_average(data)\n    print(average)\n\nif __name__ == \"__main__\":\n    main()\n```"
+}

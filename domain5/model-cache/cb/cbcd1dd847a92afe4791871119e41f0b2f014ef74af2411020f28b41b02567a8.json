@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "cbcd1dd847a92afe4791871119e41f0b2f014ef74af2411020f28b41b02567a8",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "96ad4f1899d799f70a3df1d8a9b1a4c490412b2c8ba96a85d79f8a7c4a331277",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:41:22Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 18124.219,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "e9a44dac0ec0fa3a7e48f47e5817cf94d121176e865fa0f7e79d7a7e56605b94",
+    "response_id": "chatcmpl-aab476249b6b03a5",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 165,
+      "total_tokens": 677
+    }
+  },
+  "text": "The fastest land animal in the world is the cheetah.\n\nHere is the extended C# code that maintains the existing functionality while adding the option to export the report in CSV format:\n\n```csharp\nusing System;\nusing System.IO;\nusing System.Text;\n\npublic class ReportGenerator\n{\n    public void GenerateReport(SummaryReport report, bool exportToCsv = false, string csvFilePath = null)\n    {\n        // Existing functionality: Output summary report to console\n        Console.WriteLine(\"Report Summary:\");\n        Console.WriteLine(report.ToString());\n\n        // New functionality: Export to CSV if requested\n        if (exportToCsv)\n        {\n            if (string.IsNullOrEmpty(csvFilePath))\n            {\n                csvFilePath = \"report.csv\";\n            }\n\n            try\n            {\n                using (var writer = new StreamWriter(csvFilePath, false, Encoding.UTF8))\n                {\n                    // Write CSV header\n                    writer.WriteLine(\"Field,Value\");\n\n                    // Write report data as CSV rows\n                    // Assuming SummaryReport has properties that can be iterated or a method to get key-value pairs\n                    // For demonstration, we assume report has a method GetProperties() returning a dictionary or similar\n                    // If not, you may need to adapt this part based on the actual structure of SummaryReport\n                    \n                    // Example: If SummaryReport implements IEnumerable<KeyValuePair<string, string>>\n                    foreach (var kvp in report.GetProperties())\n                    {\n                        // Escape values if they contain commas or quotes\n                        string value = kvp.Value.Replace(\"\\\"\", \"\\\"\\\"\");\n                        writer.WriteLine($\"\\\"{kvp.Key}\\\",\\\"{value}\\\"\");\n                    }\n                }\n\n                Console.WriteLine($\"Report exported to CSV: {csvFilePath}\");\n            }\n            catch (Exception ex)\n            {\n                Console.WriteLine($\"Error exporting report to CSV: {ex.Message}\");\n            }\n        }\n    }\n}\n\n// Placeholder for SummaryReport class to demonstrate usage\npublic class SummaryReport\n{\n    public string Title { get; set; }\n    public string Date { get; set; }\n    public string Status { get; set; }\n\n    public override string ToString()\n    {\n        return $\"Title: {Title}, Date: {Date}, Status: {Status}\";\n    }\n\n    // Helper method to get properties for CSV export\n    public System.Collections.Generic.Dictionary<string, string"
+}

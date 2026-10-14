@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "500ad7d246fe05a638642c01b7da4effb76aa11b589f17de133b24a9f3839064",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "8c51f6b39d741e74fb91c6834f0fe783ced249179b21679a347ef18eba3d2fa2",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:27:22Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 14942.684,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "06e0cf58c9115efcd140b1980fb8d5137026c964137a114df8d2615156696c0c",
+    "response_id": "chatcmpl-a6c2748c46479c36",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 439,
+      "prompt_tokens": 138,
+      "total_tokens": 577
+    }
+  },
+  "text": "A group of crows is called a **murder**.\n\nRegarding the code review, here are the suggested improvements for error handling in the `fetch_data` function:\n\n1.  **Handle Connection Errors**: The current code only checks the HTTP status code. It does not handle network-related errors (e.g., DNS failure, connection refused, timeout) which will raise exceptions like `requests.exceptions.ConnectionError` or `requests.exceptions.Timeout`. These should be caught and handled gracefully.\n2.  **Use `response.raise_for_status()`**: Instead of manually checking `status_code != 200`, use `response.raise_for_status()`. This method automatically raises an `HTTPError` for 4xx and 5xx status codes, making the code cleaner and more standard.\n3.  **Handle JSON Parsing Errors**: The `response.json()` call can raise a `ValueError` if the response body is not valid JSON. This should be caught to provide a meaningful error message.\n4.  **Specify Timeout**: Always specify a `timeout` parameter in `requests.get()` to prevent the request from hanging indefinitely.\n5.  **Custom Exception Context**: If you are raising a custom `ApiError`, ensure it provides enough context (like the URL and status code) for debugging.\n\nHere is the improved code:\n\n```python\nimport requests\nfrom requests.exceptions import RequestException, JSONDecodeError\n\ndef fetch_data(api_url, timeout=10):\n    try:\n        response = requests.get(api_url, timeout=timeout)\n        # This raises an HTTPError for 4xx and 5xx status codes\n        response.raise_for_status()\n        return response.json()\n    except JSONDecodeError:\n        raise ApiError(f\"Invalid JSON response from {api_url}\")\n    except RequestException as e:\n        # This catches ConnectionError, Timeout, HTTPError, etc.\n        raise ApiError(f\"Failed to fetch data from {api_url}: {str(e)}\")\n```\n\nThis version is more robust, handles a wider range of potential failures, and provides clearer error messages."
+}

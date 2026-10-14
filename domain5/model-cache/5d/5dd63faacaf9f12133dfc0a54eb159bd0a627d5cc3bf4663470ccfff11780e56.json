@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "5dd63faacaf9f12133dfc0a54eb159bd0a627d5cc3bf4663470ccfff11780e56",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "dbed3a7f6b8ba005d015752916b8029dca5aa92fde10dc4242976b6ebbba1d04",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:28:01Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 12886.586,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "db2f9ffc3403001865eeb002c7ebb9ab796567e011e32160a49e4eee3500b65e",
+    "response_id": "chatcmpl-b5d58e538900e1fa",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 386,
+      "prompt_tokens": 134,
+      "total_tokens": 520
+    }
+  },
+  "text": "The code provided is a simple recursive function to calculate the factorial of a number. While it is functionally correct for positive integers, it has several issues regarding compliance with industry-standard style guidelines, specifically PEP 8 (the Style Guide for Python Code):\n\n1.  **Missing Docstring**: The function lacks a docstring explaining its purpose, parameters, and return value.\n2.  **Lack of Input Validation**: It does not handle edge cases such as `n = 0` (which should return 1) or negative numbers (which are undefined for factorials).\n3.  **Comment Style**: The comment `# calculates factorial` is redundant if the function name is clear, but more importantly, it is placed on the same line as the definition. PEP 8 recommends that comments should be complete sentences and, if inline, should be separated by at least two spaces from the code. However, a docstring is preferred over a trailing comment for documentation.\n4.  **Recursion Limit**: For large values of `n`, this will hit Python's recursion limit. An iterative approach or `math.factorial` is generally preferred for production code.\n\n**Compliant Version Example:**\n\n```python\ndef factorial(n: int) -> int:\n    \"\"\"\n    Calculate the factorial of a non-negative integer.\n\n    Args:\n        n (int): A non-negative integer.\n\n    Returns:\n        int: The factorial of n.\n\n    Raises:\n        ValueError: If n is negative.\n    \"\"\"\n    if n < 0:\n        raise ValueError(\"Factorial is not defined for negative numbers.\")\n    if n == 0 or n == 1:\n        return 1\n    return n * factorial(n - 1)\n```\n\nThe animal known for its long neck is the **giraffe**."
+}

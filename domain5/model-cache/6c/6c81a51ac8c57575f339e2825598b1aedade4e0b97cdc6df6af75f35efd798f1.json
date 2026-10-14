@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "6c81a51ac8c57575f339e2825598b1aedade4e0b97cdc6df6af75f35efd798f1",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "f5bc72ccf4ca28ed820d7af93b779099b46e269ed3023d2bd524ca8ed5d572f4",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:31:24Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 6828.741,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "e76d408fdd6bcad9ab31259c67d6dfe3856afe744bf4190203ff9e03ad5f0f05",
+    "response_id": "chatcmpl-9e98048c2ca4d58a",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 213,
+      "prompt_tokens": 205,
+      "total_tokens": 418
+    }
+  },
+  "text": "The explorer who reached America in 1492 is Christopher Columbus.\n\nRegarding the code provided, here are optimizations to improve efficiency:\n\n1.  **Use `math.factorial`**: The standard library function `math.factorial` is implemented in C and is significantly faster than a Python loop for calculating factorials.\n2.  **Handle Edge Cases**: The original code does not handle negative numbers or non-integer inputs. `math.factorial` raises appropriate errors for invalid inputs.\n3.  **Avoid Redundant Calculations**: If you need to compute factorials multiple times, consider memoization, though for a single call, `math.factorial` is optimal.\n\nOptimized code:\n```python\nimport math\n\ndef factorial(n):\n    if n < 0:\n        raise ValueError(\"Factorial is not defined for negative numbers\")\n    return math.factorial(n)\n\nprint(factorial(10))\n```\n\nThis approach is more efficient, robust, and follows Python best practices."
+}

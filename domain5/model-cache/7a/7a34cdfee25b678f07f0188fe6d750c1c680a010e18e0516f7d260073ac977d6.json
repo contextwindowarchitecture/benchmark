@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "7a34cdfee25b678f07f0188fe6d750c1c680a010e18e0516f7d260073ac977d6",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d78156a0464f51dc02938a322bf850974d4c9f6daf3fbd816d02e400b6ff912b",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-14T03:03:26Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 34369.997,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "c2417da22725e31952ec5333acb65adc0e048edb5bea78725254e4269b79f6bf",
+    "response_id": "chatcmpl-b01429987a38f094",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 443,
+      "total_tokens": 955
+    }
+  },
+  "text": "The user wants me to identify a supplier based on specific criteria.\n\n**Criteria:**\n1.  **Price:** At most 55 per unit (<= 55).\n2.  **Delivery:** Within 12 days (<= 12).\n3.  **Rating:** At least 5 out of 10 (>= 5).\n\n**Supplier Analysis:**\n\n1.  **Fenley Supply:**\n    *   Price: 85 (Fail, > 55)\n    *   Delivery: 19 days (Fail, > 12)\n    *   Rating: 9 (Pass, >= 5)\n    *   *Result: Does not meet criteria.*\n\n2.  **Ellhurst Works:**\n    *   Price: 45 (Pass, <= 55)\n    *   Delivery: 8 days (Pass, <= 12)\n    *   Rating: 7 (Pass, >= 5)\n    *   *Result: Meets all criteria.*\n\n3.  **Nevbury Traders:**\n    *   Price: 75 (Fail, > 55)\n    *   Delivery: 7 days (Pass, <= 12)\n    *   Rating: 10 (Pass, >= 5)\n    *   *Result: Does not meet criteria.*\n\n4.  **Garley Works:**\n    *   Price: 150 (Fail, > 55)\n    *   Delivery: 20 days (Fail, > 12)\n    *   Rating: 6 (Pass, >= 5)\n    *   *Result: Does not meet criteria.*\n\n5.  **Holwick Outfitters:**\n    *   Price: 30 (Pass, <= 55)\n    *   Delivery: 8 days (Pass, <= 12)\n    *   Rating: 2 (Fail, < 5)\n    *   *Result: Does not meet criteria.*\n\n6.  **Pellhurst Outfitters:**\n    *   Price: 40 (Pass, <= 55)\n    *   Delivery: 16 days (Fail, > 12)\n    *   Rating: 6 (Pass, >= 5)\n    *   *Result: Does not meet"
+}

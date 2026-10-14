@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "00cf5af3a63e0668768b359cd9ee418eda969e7c4b904055c66a75772875a14b",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "9963def616e83c89aafad01c37688365828014f5df40bc076f012640a2530d49",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:43:11Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 13044.572,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "1efcb4aa58a09d1827ab25ef9a92f0d12122217b1adde561331d7022c597304e",
+    "response_id": "chatcmpl-8ce99784cbcbde2b",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 395,
+      "prompt_tokens": 146,
+      "total_tokens": 541
+    }
+  },
+  "text": "```python\nimport unittest\n\n\ndef is_palindrome(s):\n    return s == s[::-1]\n\n\nclass TestIsPalindrome(unittest.TestCase):\n    \"\"\"Unit tests for the is_palindrome function.\"\"\"\n\n    def test_empty_string(self):\n        \"\"\"Test with an empty string.\"\"\"\n        self.assertTrue(is_palindrome(\"\"))\n\n    def test_single_character(self):\n        \"\"\"Test with a single character string.\"\"\"\n        self.assertTrue(is_palindrome(\"a\"))\n\n    def test_palindrome_even_length(self):\n        \"\"\"Test with an even-length palindrome.\"\"\"\n        self.assertTrue(is_palindrome(\"abba\"))\n\n    def test_palindrome_odd_length(self):\n        \"\"\"Test with an odd-length palindrome.\"\"\"\n        self.assertTrue(is_palindrome(\"aba\"))\n\n    def test_not_palindrome(self):\n        \"\"\"Test with a string that is not a palindrome.\"\"\"\n        self.assertFalse(is_palindrome(\"hello\"))\n\n    def test_palindrome_with_spaces(self):\n        \"\"\"Test with a string containing spaces (case-sensitive).\"\"\"\n        self.assertFalse(is_palindrome(\"a b\"))\n        self.assertTrue(is_palindrome(\"a a\"))\n\n    def test_palindrome_with_mixed_case(self):\n        \"\"\"Test with mixed case strings (case-sensitive).\"\"\"\n        self.assertFalse(is_palindrome(\"Abba\"))\n        self.assertTrue(is_palindrome(\"Abba\".lower()))\n        self.assertTrue(is_palindrome(\"Abba\".upper()))\n\n    def test_palindrome_numbers(self):\n        \"\"\"Test with numeric strings.\"\"\"\n        self.assertTrue(is_palindrome(\"12321\"))\n        self.assertFalse(is_palindrome(\"12345\"))\n\n    def test_long_palindrome(self):\n        \"\"\"Test with a longer palindrome.\"\"\"\n        long_pal = \"racecar\"\n        self.assertTrue(is_palindrome(long_pal))\n\n\nif __name__ == '__main__':\n    unittest.main()\n```"
+}

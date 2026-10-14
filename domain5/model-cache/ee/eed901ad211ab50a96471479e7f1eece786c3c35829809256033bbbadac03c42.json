@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "eed901ad211ab50a96471479e7f1eece786c3c35829809256033bbbadac03c42",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "ee7dcd667cca1176e85828665cdfe93823defc2e6edf2527255014f57118e222",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:50:55Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 7941.923,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "68292c5e2f75486a26b927ce89025b3d3d48d86922c23be1158cc528058f4132",
+    "response_id": "chatcmpl-82f366b0f447397d",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 230,
+      "prompt_tokens": 168,
+      "total_tokens": 398
+    }
+  },
+  "text": "The name of the planet humans live on is Earth.\n\nHere are the unit tests for the `Calculator` class:\n\n```python\nimport unittest\n\nclass Calculator:\n    def multiply(self, x, y):\n        return x * y\n\nclass TestCalculator(unittest.TestCase):\n    def setUp(self):\n        self.calc = Calculator()\n\n    def test_multiply_positive_integers(self):\n        self.assertEqual(self.calc.multiply(3, 4), 12)\n\n    def test_multiply_negative_integers(self):\n        self.assertEqual(self.calc.multiply(-3, 4), -12)\n\n    def test_multiply_floats(self):\n        self.assertAlmostEqual(self.calc.multiply(1.5, 2.0), 3.0)\n\n    def test_multiply_by_zero(self):\n        self.assertEqual(self.calc.multiply(5, 0), 0)\n\n    def test_multiply_negative_floats(self):\n        self.assertAlmostEqual(self.calc.multiply(-1.5, -2.0), 3.0)\n\nif __name__ == '__main__':\n    unittest.main()\n```"
+}

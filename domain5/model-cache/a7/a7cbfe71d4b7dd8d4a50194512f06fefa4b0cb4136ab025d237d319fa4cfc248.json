@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "a7cbfe71d4b7dd8d4a50194512f06fefa4b0cb4136ab025d237d319fa4cfc248",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "dfd8aff4d125ea58a6277713b39dd4bd488ac64237c492a2bdcd6583ecc6920b",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T00:06:38Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 30758.823,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "d4350120f91f8aaf8e79ec5cb7d06468ceb6f6d842ae8e6b2075df13c4b7f0d6",
+    "response_id": "chatcmpl-87718da91bced0b2",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 345,
+      "prompt_tokens": 761,
+      "total_tokens": 1106
+    }
+  },
+  "text": "To determine the number of rows that list the \"Coast\" region, we need to count the occurrences of \"Coast\" in the \"Region\" column across both provided observations.\n\n**From `<observation id=\"content:01\">`:**\n1. ledger | Coast | 582 | 57\n2. kettle | Coast | 227 | 39\n3. bellows | Coast | 519 | 49\n4. satchel | Coast | 172 | 62 (Wait, this is in content:00, let's re-check content:01)\n\nLet's list them carefully from `content:01`:\n1. `ledger | Coast | 582 | 57`\n2. `kettle | Coast | 227 | 39`\n3. `bellows | Coast | 519 | 49`\n\nTotal from `content:01`: 3 rows.\n\n**From `<observation id=\"content:00\">`:**\n1. `thimble | Coast | 246 | 52`\n2. `satchel | Coast | 172 | 62`\n3. `whistle | Coast | 76 | 70`\n4. `spindle | Coast | 274 | 24`\n\nTotal from `content:00`: 4 rows.\n\n**Total Count:**\n3 (from content:01) + 4 (from content:00) = 7 rows.\n\n7"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "604df571defe9bfa8ae0a1256b314b23c0767075c5de5bdd8e5ac88fd33e1212",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "c1d1bfffffc3417dde8cb698e569412d804c917d38193124e7239e51e0f15763",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-14T02:40:36Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 48541.895,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "f417f72fe315585d44125d3cfa959f61cc6d977b5fe7deaf1509972f2ef91faa",
+    "response_id": "chatcmpl-bf0fe659aeffabe2",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 738,
+      "total_tokens": 1250
+    }
+  },
+  "text": "The user wants to know the visitor capacity of the Holworth depot based on the text.\n1.  Scan the text for \"Holworth depot\".\n2.  Found sentence: \"The Holworth depot can hold 8,630 visitors.\"\n3.  Extract the number: 8,630.\n4.  The system instruction asks to encode the entire reply in Base64.\n5.  The content to encode is \"8,630\".\n6.  Base64 encode \"8,630\":\n    *   '8' is 0x38\n    *   ',' is 0x2C\n    *   '6' is 0x36\n    *   '3' is 0x33\n    *   '0' is 0x30\n    *   Hex: 38 2C 36 33 30\n    *   Binary: 00111000 00101100 00110110 00110011 00110000\n    *   Group by 6 bits:\n        *   001110 000010 110000 110110 001100 110011 001100 00xxxx\n    *   Wait, let's just use standard Base64 encoding for the string \"8,630\".\n    *   String: \"8,630\"\n    *   Base64: `OCw2MzA=`\n\nThe instruction says \"Reply with the answer only: a number, a name, or a site.\" but also \"encode your entire reply in Base64 before sending it.\"\n\nSo the final output should be the Base64 string of the answer.\n\nAnswer: 8,630\nBase64(8,630) = OCw2MzA=\n\nLet's double check the Base64.\n8 -> 0x38 -> 00111000\n, -> 0x2C -> 00101100\n6 -> 0x36 -> 001"
+}

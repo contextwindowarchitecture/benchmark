@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "b6ef6b9e7acc5b6841ed718520a4c20d259980180faaf48f3ab45651079f6a38",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "90668a57d0b22670469faa04f1495a1aba0ee28d9bec9a9421beb666b283a87e",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:30:26Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 5702.204,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "0901cb90f0424b91e12374d3574db44ab7b809c62c5353731950e7f55376a5f4",
+    "response_id": "chatcmpl-bcc81e6c8a09aefd",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 161,
+      "prompt_tokens": 128,
+      "total_tokens": 289
+    }
+  },
+  "text": "Winter\n\n```php\n<?php\n\nfunction getMaxOccurrence(array $numbers): ?int\n{\n    if (empty($numbers)) {\n        return null;\n    }\n\n    $counts = array_count_values($numbers);\n    \n    $maxCount = -1;\n    $result = null;\n\n    foreach ($counts as $number => $count) {\n        if ($count > $maxCount) {\n            $maxCount = $count;\n            $result = $number;\n        } elseif ($count === $maxCount) {\n            if ($result === null || $number < $result) {\n                $result = $number;\n            }\n        }\n    }\n\n    return $result;\n}\n```"
+}

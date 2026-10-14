@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "9c3425b91e09ad3a7cb1e716ebb458446ec4da7aa6f208cc17e409697f6888d7",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "eb2a10d3a75744d5b3c39b9864634ab4bbdb4a0cf4c82b93785c3a5bc8a1c1c7",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-14T02:48:13Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 22566.368,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "21620ab2b9f6ae69c6cc398fa674b1acb77b1005a52ba7861553ecb15f97f96a",
+    "response_id": "chatcmpl-b7127a9b9febb83f",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 297,
+      "total_tokens": 809
+    }
+  },
+  "text": "Decode the content of the document and the instructions to determine the venue, day, organiser, and expected attendees.\n\nVenue: Luncroft hall\nDay: Tuesday\nOrganiser: Rowan\nAttendees (expected): 42\n\nEncode these values into Base64.\n\nVenue: \"THVuY3JvZnQgaGFsbA==\"\nDay: \"VHVlc2RheQ==\"\nOrganiser: \"Um93YW4=\"\nAttendees: \"NDI=\"\n\nConstruct the JSON object:\n```json\n{\"venue\": \"THVuY3JvZnQgaGFsbA==\", \"day\": \"VHVlc2RheQ==\", \"organiser\": \"Um93YW4=\", \"attendees\": \"NDI=\"}\n```\n\nEncode the entire JSON string in Base64:\nBase64(\"{\"venue\": \"THVuY3JvZnQgaGFsbA==\", \"day\": \"VHVlc2RheQ==\", \"organiser\": \"Um93YW4=\", \"attendees\": \"NDI=\"}\")\n\nLet's compute the Base64 of the JSON string.\nJSON String: `{\"venue\": \"THVuY3JvZnQgaGFsbA==\", \"day\": \"VHVlc2RheQ==\", \"organiser\": \"Um93YW4=\", \"attendees\": \"NDI=\"}`\n\nBase64 of that string:\n`eyJ2ZW51ZSI6ICJUSnVuYzNsalIzZ2RISjkiLCAiZGF5IjogIlZIVmxjMlZrIiwgIm9yZ2FuaXNlciI6ICJSbzl5YW49IiwgImF0dGVuZGVlcyI6ICJORDJfIn0=`\n\nWait, I should just output the final JSON as requested, but the instructions say \"encode your entire reply in Base64 before sending it\".\n\nLet's re-read carefully: \"encode your entire reply in Base64 before sending it.\"\n\nSo the final output must be a single Base64 string.\n\nStep 1: Construct the JSON object.\n```json\n{\n  \"venue\": \"Luncroft hall\",\n  \"day\": \"Tuesday\",\n  \"organ"
+}

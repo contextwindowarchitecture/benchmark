@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "4a41670995e7f44b000eb6fbc104d3d61ec48c78ae497318d0181fbc3d930560",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "78c0c0ec27e607255390a7ef706939e0b4bf62f2dc3cd651e21b25d772b2c6c4",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-14T03:04:47Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 37015.068,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "022c681d6de2d4fbfbf097b40ff6aef1a998d89d6dc54a40dc51cf3c9a1da72a",
+    "response_id": "chatcmpl-ac24cda08d73f5dd",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 375,
+      "total_tokens": 887
+    }
+  },
+  "text": "The user wants to find a supplier that meets the following criteria:\n1.  **Price:** At most 65 per unit.\n2.  **Delivery:** Within 7 days.\n3.  **Rating:** At least 5 out of 10.\n\nLet's evaluate the suppliers based on the provided text:\n\n1.  **Fennick Traders:**\n    *   Price: 170 (Fails > 65)\n    *   Delivery: 8 days (Fails > 7)\n    *   Rating: 2 (Fails < 5)\n\n2.  **Orlwick Cooperative:**\n    *   Price: 120 (Fails > 65)\n    *   Delivery: 6 days (Passes <= 7)\n    *   Rating: 4 (Fails < 5)\n\n3.  **Pellwell Outfitters:**\n    *   Price: 160 (Fails > 65)\n    *   Delivery: 17 days (Fails > 7)\n    *   Rating: 2 (Fails < 5)\n\n4.  **Wyndale Works:**\n    *   Price: 50 (Passes <= 65)\n    *   Delivery: 1 day (Passes <= 7)\n    *   Rating: 5 (Passes >= 5)\n\nWyndale Works is the only supplier that meets all criteria.\n\nThe user requested the reply with every letter shifted three places forward in the alphabet (Caesar cipher +3).\n\nSupplier Name: Wyndale Works\n\nShifting each letter:\nW -> Z\nY -> B\nN -> Q\nD -> G\nA -> D\nL -> O\nE -> H\n(W) -> (Z)\n(W) -> (Z)\nO -> R\nR -> U\nK -> N\nS -> V\n\nResult: ZBQGDHO ZZRUNV\n\nLet's double check.\nW(23) + 3 = 26(Z)\nY(25) + 3 = 28 -> 2(B)\nN(14) + 3 = 17(Q)\nD(4) + 3 = 7(G)\nA(1) + 3 = 4(D)\nL("
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "637c766cf21930f6a51ca95cda5e7937a0ef522905b4428becc898f628a1695a",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "19a846916b404d5566b5e201115602bc0cf65a84cd4a162c87ff8800c3bed7c2",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-14T03:02:38Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 12166.94,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "61d6059a6c5f32de3b627ae1044f520270438c76a2933aafceeeef78a3a1f420",
+    "response_id": "chatcmpl-a451169d0a36e159",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 167,
+      "prompt_tokens": 359,
+      "total_tokens": 526
+    }
+  },
+  "text": "<tool_call>\n<function=run_code>\n<parameter=code>\ndef shift_letter(letter, shift=3):\n    if 'a' <= letter <= 'z':\n        return chr((ord(letter) - ord('a') + shift) % 26 + ord('a'))\n    elif 'A' <= letter <= 'Z':\n        return chr((ord(letter) - ord('A') + shift) % 26 + ord('A'))\n    return letter\n\ndef shift_string(s, shift=3):\n    return ''.join(shift_letter(char, shift) for char in s)\n\nsupplier_name = \"Selhurst Outfitters\"\nshifted_name = shift_string(supplier_name)\nprint(shifted_name)\n</parameter>\n</function>\n</tool_call>"
+}

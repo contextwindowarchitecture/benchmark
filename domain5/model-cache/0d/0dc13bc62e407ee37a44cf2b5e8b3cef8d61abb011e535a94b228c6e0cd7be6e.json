@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "0dc13bc62e407ee37a44cf2b5e8b3cef8d61abb011e535a94b228c6e0cd7be6e",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "329bcbf368686af8592b1fcbfb24eea2d71d2d7b275ee49ce2422ac1ff7a678e",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:27:06Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 8017.356,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "f3d0a984e9d956a8f6961947055fd6d368509eb12cc61df89c6d337838f942ff",
+    "response_id": "chatcmpl-b5cc63fb6e5122df",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 247,
+      "prompt_tokens": 195,
+      "total_tokens": 442
+    }
+  },
+  "text": "The country famous for the Great Barrier Reef is Australia.\n\nHere is the debugged code. The original logic for validating an email address was flawed because it used `and` instead of `or` (an email must have both `@` and `.`), and it did not check if the `@` symbol appeared before the `.` (a basic structural check). Additionally, the original code would print invalid emails like 'third.user@example.' because it lacked a check for the domain extension length or position. A more robust simple check ensures `@` exists, `.` exists after `@`, and there is content around them.\n\n```python\nemails = ['test.user@example.com', 'seconduser@domain.com', 'third.user@example.']\nfor email in emails:\n    # Check if '@' is in the email and '.' is in the email\n    # Also ensure '@' comes before the last '.' to be a basic valid structure\n    if '@' in email and '.' in email and email.index('@') < email.rindex('.'):\n        print(email, 'is a valid email address')\n    else:\n        print(email, 'is not a valid email address')\n```"
+}

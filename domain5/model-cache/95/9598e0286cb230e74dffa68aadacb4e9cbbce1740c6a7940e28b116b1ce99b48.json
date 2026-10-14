@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "9598e0286cb230e74dffa68aadacb4e9cbbce1740c6a7940e28b116b1ce99b48",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "cefcabc5b7aef963fca093c8b80d10f00ff78fcc4c458ca0719982f30f9916f0",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T00:07:07Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 31966.564,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "93e6c94ed5162e2030f38ab9eeb1b641680baa34bce3cd73b8fc03ef9542eb07",
+    "response_id": "chatcmpl-8cf060f83b0dc919",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 347,
+      "prompt_tokens": 765,
+      "total_tokens": 1112
+    }
+  },
+  "text": "To determine the number of rows that list the \"Coast\" region, we need to count the occurrences of \"Coast\" in the \"Region\" column across both provided evidence tables.\n\n**From `<evidence id=\"content:01\">`:**\n1. ledger | Coast | 582 | 57\n2. kettle | Coast | 227 | 39\n3. bellows | Coast | 519 | 49\n4. satchel | Coast | 172 | 62 (Wait, this is in content:00, let's re-check content:01)\n\nLet's list rows from `content:01` with Region = Coast:\n1. `ledger | Coast | 582 | 57`\n2. `kettle | Coast | 227 | 39`\n3. `bellows | Coast | 519 | 49`\n\nTotal from content:01 = 3.\n\n**From `<evidence id=\"content:00\">`:**\n1. `thimble | Coast | 246 | 52`\n2. `satchel | Coast | 172 | 62`\n3. `whistle | Coast | 76 | 70`\n4. `spindle | Coast | 274 | 24`\n\nTotal from content:00 = 4.\n\n**Total Count:**\n3 (from content:01) + 4 (from content:00) = 7.\n\n7"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "c0d5e72402049855cfbc0ea31aadfbce99fb9776f7f0e6759fa3413cb1c11f29",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "bf24a3cdf4b1ce6f0e546e35e6dd88761781f40c5492db3ac61b1a581272c8ef",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:30:26Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 5955.276,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "91e598db8bf65de9c573fed843ac49539a2c7a64c111d81cf85d220050222bfb",
+    "response_id": "chatcmpl-a7ea16bb2900f49a",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 169,
+      "prompt_tokens": 175,
+      "total_tokens": 344
+    }
+  },
+  "text": "The season that comes after autumn is winter.\n\nHere is the PHP function `getMaxOccurrence` as requested:\n\n```php\n<?php\n\nfunction getMaxOccurrence(array $numbers): int {\n    if (empty($numbers)) {\n        return 0; // Or throw an exception, depending on requirements\n    }\n\n    $counts = array_count_values($numbers);\n    \n    // Find the maximum occurrence count\n    $maxCount = max($counts);\n    \n    // Filter numbers that have the maximum occurrence count\n    $candidates = array_keys(array_filter($counts, function($count) use ($maxCount) {\n        return $count === $maxCount;\n    }));\n    \n    // Return the smallest number among the candidates\n    return min($candidates);\n}\n```"
+}

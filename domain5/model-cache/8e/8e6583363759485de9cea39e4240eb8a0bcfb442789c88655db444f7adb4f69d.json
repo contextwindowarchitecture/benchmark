@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "8e6583363759485de9cea39e4240eb8a0bcfb442789c88655db444f7adb4f69d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "93ce9b6e269c94a4eb1233970f8f4b28f8225482fd7ed53e32baaf471442570b",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-14T03:00:54Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 35158.517,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "13ab5993f706a845196f64af58aeb64f90afa557ce7fbf67aa11c19ad3c5ae97",
+    "response_id": "chatcmpl-a20d3d037648d74e",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 499,
+      "total_tokens": 1011
+    }
+  },
+  "text": "The user wants to find a supplier that meets three criteria:\n1.  **Price:** At most 140 per unit ($\\le 140$).\n2.  **Delivery:** Within 6 days ($\\le 6$).\n3.  **Rating:** At least 6 out of 10 ($\\ge 6$).\n\nLet's evaluate each supplier from the provided content:\n\n1.  **Holton Supply**\n    *   Price: 140 (Meets $\\le 140$)\n    *   Delivery: 5 days (Meets $\\le 6$)\n    *   Rating: 9 (Meets $\\ge 6$)\n    *   **Result: Matches**\n\n2.  **Hardale Traders**\n    *   Price: 165 (Fails $> 140$)\n    *   Delivery: 2 days (Meets $\\le 6$)\n    *   Rating: 2 (Fails $< 6$)\n    *   **Result: Does not match**\n\n3.  **Orlford Outfitters**\n    *   Price: 15 (Meets $\\le 140$)\n    *   Delivery: 10 days (Fails $> 6$)\n    *   Rating: 7 (Meets $\\ge 6$)\n    *   **Result: Does not match**\n\n4.  **Orlhurst Works**\n    *   Price: 95 (Meets $\\le 140$)\n    *   Delivery: 14 days (Fails $> 6$)\n    *   Rating: 10 (Meets $\\ge 6$)\n    *   **Result: Does not match**\n\n5.  **Lunnick Outfitters**\n    *   Price: 35 (Meets $\\le 140$)\n    *   Delivery: 9 days (Fails $> 6$)\n    *   Rating: 9 (Meets $\\ge 6$)\n    *   **Result: Does not match**\n\n6.  **Kelby Traders**\n    *   Price: 105 (Meets $\\le 140$)\n    *   Delivery: "
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "b01680c36c8edce892646536570c50080f1ad4a91da390c2caf14a2095a71724",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "ab4b2a10672e7df6aeac13a3461810eb1fe9f081bb144e5b03be32008806e898",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:37:06Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 16862.437,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "bdd2f0fa17372f61b67fd552abe88cb59ebf9643f1df4e63bed750be146e5770",
+    "response_id": "chatcmpl-bcafd69253a7a1b7",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 147,
+      "total_tokens": 659
+    }
+  },
+  "text": "There are 60 minutes in an hour.\n\nRegarding the code provided, here are optimizations to improve efficiency:\n\n1.  **Precompute the sorted key**: The current implementation calls `sorted(w)` for every word in `words_list` inside the loop. This is O(N * M log M) where N is the number of words and M is the average word length. By converting the input `word` to a canonical form (like a tuple of sorted characters or a string) once, we avoid redundant sorting.\n2.  **Use a dictionary for grouping**: If you are finding anagrams for multiple words or if the `words_list` is large, a better approach is to group all words in `words_list` by their sorted character key. This allows O(1) lookups for subsequent queries. However, for a single query, simply optimizing the loop is sufficient.\n3.  **Filter by length**: Anagrams must have the same length as the original word. Checking `len(w) == len(word)` before sorting is a very fast O(1) check that can eliminate many candidates early, avoiding the more expensive sorting operation.\n\nHere is the optimized version of the function:\n\n```python\ndef find_anagrams(word, words_list):\n    result = []\n    # Precompute the sorted characters of the target word as a tuple for hashing/comparison\n    sorted_word_key = tuple(sorted(word))\n    word_length = len(word)\n    \n    for w in words_list:\n        # Quick length check to avoid sorting words that can't be anagrams\n        if len(w) == word_length:\n            # Check if the sorted characters match\n            if tuple(sorted(w)) == sorted_word_key:\n                result.append(w)\n    return result\n```\n\n**Further Optimization (if `words_list` is static and reused):**\n\nIf you are calling `find_anagrams` multiple times with the same `words_list`, you should pre-process `words_list` into a dictionary mapping sorted keys to lists of words.\n\n```python\ndef build_anagram_index(words_list):\n    index = {}\n    for w in words_list:\n        key = tuple(sorted(w))\n        if key not in index:\n            index[key] = []\n        index[key].append(w)\n    return index\n\n# Usage:\n# anagram_index = build_anagram_index(words_list)\n# def find_anagrams(word, anagram_index):"
+}

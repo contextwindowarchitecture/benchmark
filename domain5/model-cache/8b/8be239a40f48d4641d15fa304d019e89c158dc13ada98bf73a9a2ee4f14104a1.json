@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "8be239a40f48d4641d15fa304d019e89c158dc13ada98bf73a9a2ee4f14104a1",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "964a44f762feda89fff6d1f1b6c23bdeb0f429424d559cd0566f0e6ff5b7a3ac",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-14T03:02:35Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 33520.056,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "7ec8873af2f84609994745b3605951e890577ef6cdbbbd99fbf8a17f36685f9a",
+    "response_id": "chatcmpl-8900212e55df700e",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 456,
+      "total_tokens": 968
+    }
+  },
+  "text": "None of the suppliers meet all the specified criteria.\n\nHere is the breakdown:\n- **Fenby Traders**: 30/unit (Pass), 14 days (Fail, >9), 10/10 (Pass)\n- **Quinmere Cooperative**: 100/unit (Pass), 8 days (Pass), 10/10 (Pass) -> **Wait, let me re-read the prompt constraints carefully.**\n\nLet's re-evaluate based on the user's specific question: \"Which supplier quotes at most 125 per unit, delivers within 9 days and is rated at least 6 out of 10?\"\n\n1.  **Fenby Traders**:\n    - Quote: 30 (≤ 125? Yes)\n    - Delivery: 14 days (≤ 9? No)\n    - Rating: 10 (≥ 6? Yes)\n    - Result: Fail\n\n2.  **Quinmere Cooperative**:\n    - Quote: 100 (≤ 125? Yes)\n    - Delivery: 8 days (≤ 9? Yes)\n    - Rating: 10 (≥ 6? Yes)\n    - Result: **Pass**\n\n3.  **Isthurst Traders**:\n    - Quote: 110 (≤ 125? Yes)\n    - Delivery: 12 days (≤ 9? No)\n    - Rating: 5 (≥ 6? No)\n    - Result: Fail\n\n4.  **Zelwick Cooperative**:\n    - Quote: 135 (≤ 125? No)\n    - Delivery: 9 days (≤ 9? Yes)\n    - Rating: 10 (≥ 6? Yes)\n    - Result: Fail\n\n5.  **Istbury Cooperative**:\n    - Quote: 75 (≤ 125? Yes)\n    - Delivery: 16 days (≤ 9? No)\n    - Rating: 1 (≥ 6? No)\n    - Result: Fail\n\n6.  **Harmore Cooperative**:\n    - Quote: 185 (≤ 125? No)\n    - Delivery: 9 days (≤ 9? Yes)\n    - Rating: "
+}

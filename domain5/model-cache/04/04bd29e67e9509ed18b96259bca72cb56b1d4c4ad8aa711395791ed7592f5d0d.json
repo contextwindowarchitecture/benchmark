@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "04bd29e67e9509ed18b96259bca72cb56b1d4c4ad8aa711395791ed7592f5d0d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "cc0a276a56c4411c6b5e97dfb5fb4cdc9a635aab4ad0a43f54d7018302bda9d1",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:49:14Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 14434.63,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "2afbd4d3ca368865d812cd1ce0d503c385cfdf6d4aad295900b2c3de093724db",
+    "response_id": "chatcmpl-8fa8596cca4eafed",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 421,
+      "prompt_tokens": 164,
+      "total_tokens": 585
+    }
+  },
+  "text": "The color of grass during summer is typically green, though it can turn brown or yellow if it is dry or lacks water.\n\nHere is the implementation of the function specified in the content:\n\n```python\ndef find_pair_with_sum(numbers, target_sum):\n    \"\"\"\n    Finds and returns the first pair of numbers from the list that add up to the target sum.\n    \n    Args:\n    numbers (list): A list of numbers.\n    target_sum (int/float): The target sum to find.\n    \n    Returns:\n    tuple: A tuple containing the first pair of numbers that add up to the target sum.\n    None: If no such pair exists.\n    \"\"\"\n    seen = set()\n    for number in numbers:\n        complement = target_sum - number\n        if complement in seen:\n            return (complement, number)\n        seen.add(number)\n    return None\n```\n\n### Explanation:\n1. **Initialization**: We initialize an empty set `seen` to keep track of the numbers we have encountered so far.\n2. **Iteration**: We iterate through each number in the input list `numbers`.\n3. **Complement Calculation**: For each number, we calculate its complement, which is the value needed to reach the `target_sum` when added to the current number.\n4. **Check for Complement**: We check if the complement is already in the `seen` set. If it is, we have found a pair that adds up to the `target_sum`, and we return this pair as a tuple.\n5. **Add to Seen**: If the complement is not in the `seen` set, we add the current number to the `seen` set and continue to the next number.\n6. **Return None**: If we finish iterating through the list without finding a pair, we return `None`.\n\nThis approach ensures that we find the first pair efficiently with a time complexity of O(n), where n is the number of elements in the input list."
+}

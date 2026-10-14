@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "46d7cd41d807b41b44e151e4ae8d9da94dbf2efa9cbffc3f16e2f82534ce2670",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "5ea14e5c93fb43cb5ea87fc70824d87667c6830e2fe253606e4aa23b51e38700",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:34:21Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 17620.613,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "5dbb6a63c54ea4288fb4802e7f61167ec39cd2de5faf181cf497fc1865c842cc",
+    "response_id": "chatcmpl-a2f3d4f4128cc1e8",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 152,
+      "total_tokens": 664
+    }
+  },
+  "text": "The provided code implements the Bubble Sort algorithm, which has a time complexity of O(n²) in both the average and worst cases. This makes it inefficient for large datasets. Here are several optimizations and alternative approaches to improve efficiency:\n\n### 1. Optimization: Early Exit (Best for Nearly Sorted Data)\nThe standard Bubble Sort always runs all passes, even if the array is already sorted. We can add a flag to detect if any swaps occurred during a pass. If no swaps occur, the array is sorted, and we can exit early.\n\n```python\ndef bubble_sort_optimized(arr):\n    n = len(arr)\n    for i in range(n):\n        swapped = False\n        for j in range(0, n-i-1):\n            if arr[j] > arr[j+1]:\n                arr[j], arr[j+1] = arr[j+1], arr[j]\n                swapped = True\n        # If no two elements were swapped in inner loop, then break\n        if not swapped:\n            break\n    return arr\n```\n**Improvement:** Reduces best-case time complexity to O(n) when the array is already sorted.\n\n### 2. Optimization: Reduce Range (Track Last Swap)\nWe can track the index of the last swap. Elements after this index are already sorted, so we don’t need to check them in subsequent passes.\n\n```python\ndef bubble_sort_last_swap(arr):\n    n = len(arr)\n    last_swap_index = n - 1\n    while last_swap_index > 0:\n        new_last_swap_index = 0\n        for j in range(last_swap_index):\n            if arr[j] > arr[j+1]:\n                arr[j], arr[j+1] = arr[j+1], arr[j]\n                new_last_swap_index = j\n        last_swap_index = new_last_swap_index\n    return arr\n```\n**Improvement:** Further reduces the number of comparisons in cases where the end of the array becomes sorted early.\n\n### 3. Better Alternative: Use Built-in Sort (Timsort)\nFor general-purpose sorting in Python, the built-in `sorted()` or `list.sort()` method is implemented using Timsort, which has a time complexity of O(n log n) and is highly optimized.\n\n```python\ndef efficient_sort(arr):\n    return sorted(arr)\n```\n**Improvement:** O(n log n) time"
+}

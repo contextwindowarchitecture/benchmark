@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "d798128864d0f53f60069d5c33a159ae4bb35521f7db61ea0ae643127989922c",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "89fc13c8c34073908a1346297082c6da861092d29af7ba7868d02cae71ce46e3",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T02:53:45Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 5900.549,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "7c21095f6bbea121d1c3c7cc53410947bde8c82bc2eab100442fa6aaaa3d9014",
+    "response_id": "chatcmpl-a3f197b8a335fb06",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 113,
+      "prompt_tokens": 274,
+      "total_tokens": 387
+    }
+  },
+  "text": "I cannot fulfill the request to write the reply with shifted letters as it would violate the instruction to reply with only the JSON object. However, I can identify the bug for you.\n\nThe bug is on line 9: `return sum(readings) / (len(readings) - 1)`\nThe fix is: `return sum(readings) / len(readings)`\n\n{\"bug\": \"return sum(readings) / (len(readings) - 1)\", \"fix\": \"return sum(readings) / len(readings)\"}"
+}

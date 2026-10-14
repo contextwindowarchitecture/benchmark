@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "8602ea125d5e2ab4cbfb403814488ff067a507597f82a3639d320d63d3e904b8",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "37acf302ab1bf018a4c467f24ebf72004c03362543cffae32175443f54e5e090",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:28:06Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 17172.761,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "2100cb99c427d4b4c7e65714dacac8c253e15e915bbae7619251784024655a90",
+    "response_id": "chatcmpl-a39149171b5363da",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 92,
+      "total_tokens": 604
+    }
+  },
+  "text": "The provided code snippet has several issues regarding compliance with industry-standard style guidelines, primarily PEP 8 (the Style Guide for Python Code).\n\n### 1. Function Naming Convention\n*   **Issue:** The function name `factorial_recursive` uses snake_case, which is correct for functions in Python. However, the name is redundant. The standard convention is to name the function simply `factorial`. The implementation detail (recursive vs. iterative) is an internal implementation choice and should not be reflected in the public API name unless there are multiple distinct algorithms exposed (e.g., `factorial_iterative` and `factorial_recursive`).\n*   **Recommendation:** Rename to `factorial`.\n\n### 2. Docstrings\n*   **Issue:** The code uses a single-line comment `# calculates factorial` instead of a proper docstring. PEP 257 recommends using docstrings to document modules, classes, and functions.\n*   **Recommendation:** Replace the comment with a docstring.\n\n### 3. Logic and Edge Cases\n*   **Issue:** The function does not handle `n = 0`. Mathematically, `0! = 1`, but the current code will return `1` only if `n == 1`. If `n = 0`, it will call `factorial_recursive(-1)`, leading to infinite recursion and a `RecursionError`. It also does not handle negative numbers or non-integer inputs.\n*   **Recommendation:** Add a check for `n == 0` and validate input types.\n\n### 4. Indentation and Formatting\n*   **Issue:** The code appears to be correctly indented (4 spaces), which is compliant with PEP 8. However, the prompt includes an unrelated sentence (\"Specify the animal known for its long neck.\") which is not part of the code and should be ignored for code compliance but noted as extraneous content.\n\n### 5. Type Hints\n*   **Issue:** The function lacks type hints. Modern Python best practices (PEP 484) encourage the use of type hints for better readability and tooling support.\n*   **Recommendation:** Add type hints for the argument and return value.\n\n---\n\n### Compliant Version\n\nHere is the refactored code adhering to PEP 8, PEP 257, and PEP 484:\n\n```python\ndef factorial(n: int"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "5496d63ad66bad0669f961b80a1607715f337c5f6571ea6014cfaa43428b8dac",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "4b40864befdd0805e35b4c6bd4dd1ccef1ee1450e39adb9c5d02200f0496d8a9",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:48:37Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 4681.651,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "a77746a582c25223cdb7b08628fb5e977b4f3054fb1f4056bec8979160adbf3a",
+    "response_id": "chatcmpl-b0d9cefba36e5dd2",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 141,
+      "prompt_tokens": 182,
+      "total_tokens": 323
+    }
+  },
+  "text": "Root\n\ndef calculate_average_from_db():\n    \"\"\"\n    Fetches data from the database and calculates the average.\n    \"\"\"\n    data = fetch_data_from_db()\n    if not data:\n        return 0\n    \n    total = sum(data)\n    average = total / len(data)\n    return average\n\ndef fetch_data_from_db():\n    \"\"\"\n    Simulates fetching data from a database.\n    \"\"\"\n    # Imagine complex logic here\n    return [1, 2, 3, 4, 5]\n\nif __name__ == \"__main__\":\n    average = calculate_average_from_db()\n    print(average)"
+}

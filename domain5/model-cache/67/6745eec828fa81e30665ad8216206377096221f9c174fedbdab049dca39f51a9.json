@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "6745eec828fa81e30665ad8216206377096221f9c174fedbdab049dca39f51a9",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "5c83af512f1613bde916ae2cc9d4d6087404a271770c84bfcb102691129fb183",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:48:24Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 18217.12,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "5d0873d183698e5ae748d49670616def51086c5019ff5e10e60dac03bfbe7274",
+    "response_id": "chatcmpl-846a95170188d11c",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 115,
+      "total_tokens": 627
+    }
+  },
+  "text": "The provided content contains two distinct parts: a natural language question (\"Name the main ingredients in bread.\") and a Python function definition (`is_even`). Since unit tests are applicable to code, I will write unit tests for the `is_even` function. The natural language part is not executable code and therefore does not require unit tests.\n\nHere are the unit tests for the `is_even` function using Python's built-in `unittest` framework:\n\n```python\nimport unittest\n\ndef is_even(number):\n    return number % 2 == 0\n\nclass TestIsEven(unittest.TestCase):\n    \"\"\"Unit tests for the is_even function.\"\"\"\n\n    def test_positive_even_number(self):\n        \"\"\"Test that a positive even number returns True.\"\"\"\n        self.assertTrue(is_even(2))\n        self.assertTrue(is_even(4))\n        self.assertTrue(is_even(100))\n\n    def test_positive_odd_number(self):\n        \"\"\"Test that a positive odd number returns False.\"\"\"\n        self.assertFalse(is_even(1))\n        self.assertFalse(is_even(3))\n        self.assertFalse(is_even(99))\n\n    def test_negative_even_number(self):\n        \"\"\"Test that a negative even number returns True.\"\"\"\n        self.assertTrue(is_even(-2))\n        self.assertTrue(is_even(-4))\n\n    def test_negative_odd_number(self):\n        \"\"\"Test that a negative odd number returns False.\"\"\"\n        self.assertFalse(is_even(-1))\n        self.assertFalse(is_even(-3))\n\n    def test_zero(self):\n        \"\"\"Test that zero is considered even.\"\"\"\n        self.assertTrue(is_even(0))\n\n    def test_float_input(self):\n        \"\"\"Test behavior with float input (optional, depending on requirements).\n        Note: In Python, 2.0 % 2 == 0.0 is True, so it might pass.\n        However, type hints or strict typing might reject floats.\n        Here we test the current implementation's behavior.\"\"\"\n        self.assertTrue(is_even(2.0))\n        self.assertFalse(is_even(2.5))\n\nif __name__ == '__main__':\n    unittest.main()\n```\n\n### Explanation:\n1. **Test Cases**:\n   - **Positive Even Numbers**: Verifies that even positive integers return `True`.\n   - **Positive Odd Numbers**: Verifies that odd positive integers return `False`.\n   - **Negative Even Numbers**: Ensures negative even integers are correctly identified as even."
+}

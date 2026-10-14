@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "177b30f39331a7b81d0c7b0e0612e3cde6a525acd18e852bb7b14f6789ca8647",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "ec25092c00503a3f37415fc463e5721f8c63bd48a32da3a76f0c0c4326fae935",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-14T03:00:00Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 30594.957,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "aba295342fb0f2de76c912dafdf31dfe67a71a2cf3de39b0c3616cfe8b7fd29a",
+    "response_id": "chatcmpl-91057fa3fdfc1fdc",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 486,
+      "total_tokens": 998
+    }
+  },
+  "text": "Wait for the user to provide the criteria. Since the user has provided the criteria in the prompt, I will now evaluate the suppliers based on the following:\n1. Price <= 140\n2. Delivery <= 6 days\n3. Rating >= 6\n\nLet's check each supplier:\n\n1.  **Holton Supply**:\n    *   Price: 140 (<= 140) - Pass\n    *   Delivery: 5 days (<= 6) - Pass\n    *   Rating: 9 (>= 6) - Pass\n    *   **Result: Match**\n\n2.  **Hardale Traders**:\n    *   Price: 165 (> 140) - Fail\n    *   Delivery: 2 days (<= 6) - Pass\n    *   Rating: 2 (< 6) - Fail\n    *   **Result: No Match**\n\n3.  **Orlford Outfitters**:\n    *   Price: 15 (<= 140) - Pass\n    *   Delivery: 10 days (> 6) - Fail\n    *   Rating: 7 (>= 6) - Pass\n    *   **Result: No Match**\n\n4.  **Orlhurst Works**:\n    *   Price: 95 (<= 140) - Pass\n    *   Delivery: 14 days (> 6) - Fail\n    *   Rating: 10 (>= 6) - Pass\n    *   **Result: No Match**\n\n5.  **Lunnick Outfitters**:\n    *   Price: 35 (<= 140) - Pass\n    *   Delivery: 9 days (> 6) - Fail\n    *   Rating: 9 (>= 6) - Pass\n    *   **Result: No Match**\n\n6.  **Kelby Traders**:\n    *   Price: 105 (<= 140) - Pass\n    *   Delivery: 2 days (<= 6) - Pass\n    *   Rating: 4 (< 6) - Fail\n    *   **Result: No Match**\n\n7.  **Zelton Works**:\n    *   Price: 70 (<= 140) - Pass\n    *   Delivery:"
+}

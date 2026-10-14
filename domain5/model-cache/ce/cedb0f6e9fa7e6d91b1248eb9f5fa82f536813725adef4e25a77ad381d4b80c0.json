@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "cedb0f6e9fa7e6d91b1248eb9f5fa82f536813725adef4e25a77ad381d4b80c0",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "7ae74b83f677c34651066315fd484b1d40b5ee9551b11dff0f34a75b30ab5e6c",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:48:12Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 6694.792,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "d42b3bf9b8ba3b14feb7f88b7949f1847bb51de1f8a99f21ad57551470119c90",
+    "response_id": "chatcmpl-a86b2132c3bd8dec",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 186,
+      "prompt_tokens": 194,
+      "total_tokens": 380
+    }
+  },
+  "text": "```python\nimport unittest\n\ndef is_even(number):\n    return number % 2 == 0\n\nclass TestIsEven(unittest.TestCase):\n    def test_positive_even(self):\n        self.assertTrue(is_even(2))\n        self.assertTrue(is_even(4))\n        self.assertTrue(is_even(10))\n\n    def test_positive_odd(self):\n        self.assertFalse(is_even(1))\n        self.assertFalse(is_even(3))\n        self.assertFalse(is_even(7))\n\n    def test_zero(self):\n        self.assertTrue(is_even(0))\n\n    def test_negative_even(self):\n        self.assertTrue(is_even(-2))\n        self.assertTrue(is_even(-4))\n\n    def test_negative_odd(self):\n        self.assertFalse(is_even(-1))\n        self.assertFalse(is_even(-3))\n\nif __name__ == '__main__':\n    unittest.main()\n```"
+}

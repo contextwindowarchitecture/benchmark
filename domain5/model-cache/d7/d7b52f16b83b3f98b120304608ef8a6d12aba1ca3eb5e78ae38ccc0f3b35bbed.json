@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "d7b52f16b83b3f98b120304608ef8a6d12aba1ca3eb5e78ae38ccc0f3b35bbed",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "76ffff8a0875d54d21304f5be952024865a0069cb5b275d4a5352da7b2b72726",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:49:07Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 6710.521,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "9a32c438dbe1ca0c92257d84b00b7d702df7705876701a5f25cda138d45c5f0d",
+    "response_id": "chatcmpl-aa0946f432fcee03",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 197,
+      "prompt_tokens": 192,
+      "total_tokens": 389
+    }
+  },
+  "text": "The color of grass during summer is typically green, although it can turn brown or yellow if it is dry or lacks water.\n\nHere is the Python function that finds the first pair of numbers in a list that add up to a target sum:\n\n```python\ndef find_pair_with_sum(numbers, target_sum):\n    seen = set()\n    for number in numbers:\n        complement = target_sum - number\n        if complement in seen:\n            return (complement, number)\n        seen.add(number)\n    return None\n```\n\nThis function iterates through the list of numbers, keeping track of the numbers it has already seen in a set for efficient lookup. For each number, it calculates the complement (the value needed to reach the target sum). If the complement is already in the set, it means a valid pair has been found, and the function returns that pair. If the loop completes without finding a pair, it returns `None`."
+}

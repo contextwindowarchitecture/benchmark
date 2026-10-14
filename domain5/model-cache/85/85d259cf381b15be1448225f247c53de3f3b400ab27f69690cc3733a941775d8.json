@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "85d259cf381b15be1448225f247c53de3f3b400ab27f69690cc3733a941775d8",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "6ceac399147b46a18366fb946b7d20365b404611625d66e56fb84426f2d4c146",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:41:17Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 13074.069,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "9fcaaea8a82ca9dfd6f515c1584a1ed80f13f2c4152d9c7f96ded43d484efe2c",
+    "response_id": "chatcmpl-a7323b9fb1328016",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 374,
+      "prompt_tokens": 194,
+      "total_tokens": 568
+    }
+  },
+  "text": "The fastest land animal in the world is the cheetah.\n\nHere is the extended C# code that maintains the existing functionality while adding the option to export the report in CSV format:\n\n```csharp\nusing System;\nusing System.IO;\nusing System.Text;\n\npublic class SummaryReport\n{\n    public string Title { get; set; }\n    public string Content { get; set; }\n\n    public override string ToString()\n    {\n        return $\"Title: {Title}\\nContent: {Content}\";\n    }\n}\n\npublic class ReportGenerator\n{\n    public void GenerateReport(SummaryReport report)\n    {\n        Console.WriteLine(\"Report Summary:\");\n        Console.WriteLine(report.ToString());\n    }\n\n    public void ExportReportToCsv(SummaryReport report, string filePath)\n    {\n        if (report == null)\n            throw new ArgumentNullException(nameof(report));\n\n        if (string.IsNullOrEmpty(filePath))\n            throw new ArgumentException(\"File path cannot be null or empty.\", nameof(filePath));\n\n        var sb = new StringBuilder();\n        sb.AppendLine(\"Title,Content\");\n        sb.AppendLine($\"{EscapeCsvField(report.Title)},{EscapeCsvField(report.Content)}\");\n\n        File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);\n    }\n\n    private string EscapeCsvField(string field)\n    {\n        if (string.IsNullOrEmpty(field))\n            return string.Empty;\n\n        // If the field contains commas, quotes, or newlines, wrap it in quotes\n        if (field.Contains(',') || field.Contains('\"') || field.Contains('\\n') || field.Contains('\\r'))\n        {\n            return \"\\\"\" + field.Replace(\"\\\"\", \"\\\"\\\"\") + \"\\\"\";\n        }\n\n        return field;\n    }\n}\n```"
+}

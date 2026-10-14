@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "6724f7c789ad4c58989e13091794b5fdc5bc941e7a052e300d25ca2aad53e5be",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "21d3ff27d46cab9e27a6c658cea9db8565aa43b0972b01dd6be549dd23aa7952",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:52:14Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 12730.07,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "fad49a3a7c6cadf2ac6797c710facb8cae7d0e08a47d747c6cc694ce0742c797",
+    "response_id": "chatcmpl-92bfb1a7cde87f81",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 372,
+      "prompt_tokens": 141,
+      "total_tokens": 513
+    }
+  },
+  "text": "The bird known for its ability to repeat what you say is the **parrot**.\n\nNow, let's write unit tests for the `sort_list` function provided in the content.\n\n```python\nimport unittest\n\ndef sort_list(num_list):\n    return sorted(num_list)\n\nclass TestSortList(unittest.TestCase):\n    def test_sort_list_empty(self):\n        self.assertEqual(sort_list([]), [])\n\n    def test_sort_list_single_element(self):\n        self.assertEqual(sort_list([1]), [1])\n\n    def test_sort_list_already_sorted(self):\n        self.assertEqual(sort_list([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])\n\n    def test_sort_list_reverse_sorted(self):\n        self.assertEqual(sort_list([5, 4, 3, 2, 1]), [1, 2, 3, 4, 5])\n\n    def test_sort_list_unsorted(self):\n        self.assertEqual(sort_list([3, 1, 4, 1, 5, 9, 2, 6]), [1, 1, 2, 3, 4, 5, 6, 9])\n\n    def test_sort_list_negative_numbers(self):\n        self.assertEqual(sort_list([-1, -5, 3, -2, 0]), [-5, -2, -1, 0, 3])\n\n    def test_sort_list_mixed_numbers(self):\n        self.assertEqual(sort_list([1, -1, 0, 2, -2]), [-2, -1, 0, 1, 2])\n\nif __name__ == '__main__':\n    unittest.main()\n```"
+}

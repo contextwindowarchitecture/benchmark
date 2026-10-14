@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "5a3089100da8a69bbd7e92efd46bccea9b98f787028db0adb4f21a8bd074e62b",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "132f18766a42b4d49b1aaf9d55229c1cb17c1e13ec4ceb736ea8cd220a56fc88",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:44:17Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 17001.188,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "7604e3208e103e3cbe48ba715ff49f078ae4bb316e4aa9e83e1372c73fdfdca0",
+    "response_id": "chatcmpl-9b9a415fa174c4e2",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 150,
+      "total_tokens": 662
+    }
+  },
+  "text": "To evaluate the readability of the provided text, we can use two standard formulas: the Flesch-Kincaid Grade Level and the Gunning Fog Index.\n\n**Text:**\n\"The cat sat on the mat. It was a sunny day, and the birds were singing. There was a gentle breeze that played with the leaves of the trees.\"\n\n**Analysis:**\n*   **Total Words:** 28\n*   **Total Sentences:** 3\n*   **Total Syllables:** 36 (The(1) cat(1) sat(1) on(1) the(1) mat(1). It(1) was(1) a(1) sun(1)-ny(1) day(1), and(1) the(1) birds(1) were(1) sing(1)-ing(1). There(1) was(1) a(1) gen(1)-tle(1) breeze(1) that(1) played(1) with(1) the(1) leaves(1) of(1) the(1) trees(1).) *Note: \"singing\" is 2 syllables, \"gentle\" is 2 syllables, \"leaves\" is 1, \"trees\" is 1. Let's recount carefully.*\n    *   The (1) cat (1) sat (1) on (1) the (1) mat (1). \n    *   It (1) was (1) a (1) sun (1) ny (1) day (1), and (1) the (1) birds (1) were (1) sing (1) ing (1). \n    *   There (1) was (1) a (1) gen (1) tle (1) breeze (1) that (1) played (1) with (1) the (1) leaves (1) of (1) the (1) trees (1).\n    *   Total Syllables: 6 + 10 + 12 = 28 syllables.\n\n**1. Flesch-Kincaid Grade Level**\nFormula: `0.39 * (Total Words / Total Sentences) + 11.8 * (Total Syllables / Total Words) - 15.59`\n\n*   Average Sentence Length: 28"
+}

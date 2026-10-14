@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "edea11caf44e2e12d9846f0dfcb0d98abc02dca42daa4804971976d9cf53d000",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "96db03193518587a7d3b99422e3b0db31d855aa2705fad141ef4afb76441f04c",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T00:41:31Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 23201.887,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "aab00efc9274244083c1c83de59f39ccb129cecd174b1bc4e4d9a6defdafd342",
+    "response_id": "chatcmpl-aa9f4d60c8b6d0cd",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 315,
+      "prompt_tokens": 403,
+      "total_tokens": 718
+    }
+  },
+  "text": "None of the suppliers meet all the specified criteria.\n\nHere is the breakdown:\n*   **Zelmere Outfitters**: Meets price (135) and rating (8), but delivery is 8 days (meets \"within 8 days\" if inclusive, but let's check others).\n*   **Dovnick Traders**: Price (10) and delivery (14 days) fail.\n*   **Yorstead Cooperative**: Price (80) and rating (5) meet criteria, but delivery is 13 days (fails).\n*   **Brennick Works**: Price (140) fails.\n*   **Holdale Works**: Price (135) and delivery (18 days) fail.\n*   **Selby Traders**: Price (35) and rating (10) meet criteria, but delivery is 15 days (fails).\n\n**Zelmere Outfitters** is the only one that comes close, meeting the price (135 <= 135) and rating (8 >= 5) criteria. However, the delivery time is exactly 8 days. If \"within 8 days\" includes 8 days, Zelmere Outfitters is the answer. If it requires strictly less than 8 days, no supplier qualifies. Given standard business phrasing, \"within 8 days\" usually includes the 8th day.\n\nTherefore, the supplier is:\nZelmere Outfitters"
+}

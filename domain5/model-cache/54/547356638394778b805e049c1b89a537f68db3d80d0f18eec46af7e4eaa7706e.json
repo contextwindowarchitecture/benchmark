@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "547356638394778b805e049c1b89a537f68db3d80d0f18eec46af7e4eaa7706e",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "35e7b67ec53fbf841acc8c658abdfbcc5fe7b03c229e878c090406bcd7bf81ee",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:28:07Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 17185.164,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "736483b7900074fdc795008ec15bb879ffe261fc5b37e5d44b822c7efea72f8f",
+    "response_id": "chatcmpl-bcd6ec96b2815c26",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 209,
+      "total_tokens": 721
+    }
+  },
+  "text": "The provided code snippet contains a Python function `factorial_recursive` intended to calculate the factorial of a number. However, it has several issues regarding compliance with industry-standard style guidelines, primarily PEP 8 (Style Guide for Python Code).\n\n### 1. Indentation and Structure\nThe code uses standard indentation (4 spaces), which is compliant with PEP 8. However, the structure is minimal.\n\n### 2. Docstrings\nPEP 8 recommends that all modules, functions, classes, and methods should have docstrings. The current code lacks a docstring for the function. A docstring should describe what the function does, its parameters, and its return value.\n\n### 3. Edge Cases and Input Validation\nThe function does not handle edge cases:\n- **Negative numbers**: Factorial is undefined for negative integers.\n- **Zero**: The factorial of 0 is 1, but the current implementation returns 1 only if `n == 1`. If `n == 0`, it will recurse infinitely or raise a `RecursionError` because `0 - 1 = -1`, and the base case `n == 1` is never met.\n- **Non-integer inputs**: The function does not check if `n` is an integer.\n\n### 4. Base Case Logic\nThe base case `if n == 1: return 1` is correct for positive integers but fails for `n = 0`. A more robust base case would be `if n == 0 or n == 1: return 1`.\n\n### 5. Comment Style\nThe comment `# calculates factorial` is a single-line comment. While not strictly non-compliant, PEP 8 suggests that comments should be complete sentences and placed on their own line if they are significant. However, inline comments are acceptable for brief explanations.\n\n### 6. Function Naming\nThe function name `factorial_recursive` is descriptive and follows the `snake_case` convention recommended by PEP 8.\n\n### 7. Redundant Content\nThe text \"Specify the animal known for its long neck.\" appears after the function definition. This is not part of the Python code and should be removed as it is irrelevant to the code's functionality and style.\n\n### Revised Code Compliant with PEP 8\n\n```python\ndef factorial_recursive(n):\n    \"\"\"\n    Calculate the factorial of a non-negative integer n.\n\n    Args:\n"
+}

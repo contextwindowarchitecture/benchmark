@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "ab1634cf162c0fc3857a04549d1441b992f2d09be4463614afb05bb35d24a271",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "068ea03fd6a640ba6e8f5ef02d2c55ee19d38ff676715349ff3e5e688ba1d34f",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:52:11Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 10482.41,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "1cdf46141790cbac960f76d9986f7a1dc0e47fccc781c2e96da939ef44bdbad1",
+    "response_id": "chatcmpl-ad2f5557640fbb89",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 309,
+      "prompt_tokens": 237,
+      "total_tokens": 546
+    }
+  },
+  "text": "The bird known for its ability to repeat what you say is the parrot.\n\nHere are the unit tests for the `sort_list` function:\n\n```python\nimport unittest\n\ndef sort_list(num_list):\n    return sorted(num_list)\n\nclass TestSortList(unittest.TestCase):\n    def test_empty_list(self):\n        self.assertEqual(sort_list([]), [])\n\n    def test_single_element(self):\n        self.assertEqual(sort_list([1]), [1])\n\n    def test_already_sorted(self):\n        self.assertEqual(sort_list([1, 2, 3]), [1, 2, 3])\n\n    def test_reverse_sorted(self):\n        self.assertEqual(sort_list([3, 2, 1]), [1, 2, 3])\n\n    def test_unsorted(self):\n        self.assertEqual(sort_list([5, 1, 3, 2, 4]), [1, 2, 3, 4, 5])\n\n    def test_negative_numbers(self):\n        self.assertEqual(sort_list([-1, -5, 3, 0, -2]), [-5, -2, -1, 0, 3])\n\n    def test_duplicate_elements(self):\n        self.assertEqual(sort_list([3, 1, 2, 1, 3]), [1, 1, 2, 3, 3])\n\nif __name__ == '__main__':\n    unittest.main()\n```"
+}

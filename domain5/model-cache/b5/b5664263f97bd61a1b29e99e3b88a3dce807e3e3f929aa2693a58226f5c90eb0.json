@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "b5664263f97bd61a1b29e99e3b88a3dce807e3e3f929aa2693a58226f5c90eb0",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "2c644b07e896d102c2b9ea36256917a79e69e3f3f603f13061c2a8fce1ed8e3f",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:41:34Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 13024.637,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "698580be53d23014cf4a5761a23e457c3f8cd321ffab5f67c36455271af098bf",
+    "response_id": "chatcmpl-a25b59b779602b0c",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 378,
+      "prompt_tokens": 179,
+      "total_tokens": 557
+    }
+  },
+  "text": "The code defines a recursive function `factorial(n)` that calculates the factorial of a non-negative integer `n`. The base case is when `n` is 0, returning 1. For any other positive integer `n`, it returns `n` multiplied by the factorial of `n-1`. The function is then called with the argument 5, and the result is printed.\n\nLogical flow analysis:\n1. `factorial(5)` is called.\n2. Since 5 is not 0, it returns `5 * factorial(4)`.\n3. `factorial(4)` is called.\n4. Since 4 is not 0, it returns `4 * factorial(3)`.\n5. `factorial(3)` is called.\n6. Since 3 is not 0, it returns `3 * factorial(2)`.\n7. `factorial(2)` is called.\n8. Since 2 is not 0, it returns `2 * factorial(1)`.\n9. `factorial(1)` is called.\n10. Since 1 is not 0, it returns `1 * factorial(0)`.\n11. `factorial(0)` is called.\n12. Since 0 is 0, it returns 1.\n13. The results propagate back up: `1 * 1 = 1`, `2 * 1 = 2`, `3 * 2 = 6`, `4 * 6 = 24`, `5 * 24 = 120`.\n14. The value 120 is printed.\n\nThe code functions correctly and outputs 120.\n\nThe animal with distinctive black and white stripes is a zebra."
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "e6f78e11f8951eb69c67c20bc6b17e29ebe31b6924369b6a303a0c8f2c11ca26",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "2148a7dcf6268956cdfda0960b8dba9641ce95f0e4065a8940ddbe6024a3a5ec",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:27:24Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 17428.966,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "81181e66ebab1bb8f805894b5f609c2c5b2edadfe05822a0e41e1711b00f4c54",
+    "response_id": "chatcmpl-a1ac16f4245c78b4",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 122,
+      "total_tokens": 634
+    }
+  },
+  "text": "A group of crows is called a murder.\n\nRegarding the code review, the provided `fetch_data` function has several areas for improvement to make it more robust and maintainable:\n\n1.  **Missing Imports and Definitions**: The code assumes `requests` and `ApiError` are defined. These should be imported or defined explicitly.\n2.  **No Timeout**: The `requests.get` call does not specify a timeout. If the server is unresponsive, the call could hang indefinitely. A timeout should always be specified.\n3.  **Generic Exception Handling**: The function raises a custom `ApiError` but does not handle potential network errors (like `requests.exceptions.ConnectionError` or `requests.exceptions.Timeout`) that might occur before the status code is checked.\n4.  **JSON Parsing Errors**: The `response.json()` call can raise a `ValueError` if the response body is not valid JSON. This should be handled or allowed to propagate with a clearer message.\n5.  **Error Message Clarity**: The error message `'GET /tasks/ {}'.format(response.status_code)` is slightly confusing because it hardcodes `/tasks/` regardless of the actual `api_url` passed in. It should reflect the actual URL or at least be more generic.\n\nHere is an improved version of the code:\n\n```python\nimport requests\nfrom requests.exceptions import RequestException\n\nclass ApiError(Exception):\n    \"\"\"Custom exception for API errors.\"\"\"\n    pass\n\ndef fetch_data(api_url, timeout=10):\n    \"\"\"\n    Fetches data from the given API URL.\n    \n    Args:\n        api_url (str): The URL to fetch data from.\n        timeout (int): Timeout in seconds for the request.\n        \n    Returns:\n        dict: The JSON response from the API.\n        \n    Raises:\n        ApiError: If the HTTP request returns an unsuccessful status code.\n        RequestException: If a network error occurs.\n    \"\"\"\n    try:\n        response = requests.get(api_url, timeout=timeout)\n        response.raise_for_status()  # Raises an HTTPError for bad status codes (4xx or 5xx)\n    except RequestException as e:\n        # Handle network-related errors\n        raise ApiError(f\"Failed to fetch data from {api_url}: {e}\")\n    \n    try:\n        return response.json()\n    except ValueError as e:\n        raise ApiError(f\"Failed"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "d55d068b7aebd19ec471267e1ff1ea17fb19070eccd731601ce2aa660249ee75",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "b70c07f8c2328c299dcdffa9ae786827c9792d91d8e869bf5c7aab53dd360364",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:43:08Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 9541.52,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "701bf6ed51e0f451d6b0b43893d776fe72cfd44544f9396fad45d6f5c5a50a3f",
+    "response_id": "chatcmpl-bbc18f9702752003",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 298,
+      "prompt_tokens": 191,
+      "total_tokens": 489
+    }
+  },
+  "text": "The shape with three sides is a triangle.\n\nHere is the optimized version of the code. The original code works correctly but can be improved for readability and Pythonic style by using list comprehensions, which are generally faster and more concise than nested loops with index manipulation.\n\n```python\nmatrix_a = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\nmatrix_b = [[9, 8, 7], [6, 5, 4], [3, 2, 1]]\n\n# Using list comprehension for a more concise and efficient approach\nresult = [[matrix_a[i][j] + matrix_b[i][j] for j in range(len(matrix_a[0]))] for i in range(len(matrix_a))]\n\nprint(result)\n```\n\nAlternatively, if you are working with larger matrices, consider using the `numpy` library, which is highly optimized for numerical operations:\n\n```python\nimport numpy as np\n\nmatrix_a = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])\nmatrix_b = np.array([[9, 8, 7], [6, 5, 4], [3, 2, 1]])\n\n# Numpy handles element-wise addition efficiently\nresult = matrix_a + matrix_b\n\nprint(result)\n```"
+}

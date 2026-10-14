@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "4619d21300da9c17b686a2b2a1224ed22d9b4ce68931d0e3e3ca84eccfff8235",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "955e8d16899e71e30bd382c2d1d51819fee6f8f2a3e7cbff03c11fe74104bcb7",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:31:26Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 6919.408,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "53aea9273c18f059d023619d5baacd6d5cc5b724efa8828839223344c6124459",
+    "response_id": "chatcmpl-b8e04fd20ff12759",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 206,
+      "prompt_tokens": 182,
+      "total_tokens": 388
+    }
+  },
+  "text": "The explorer who reached America in 1492 was Christopher Columbus.\n\nRegarding the code provided, here are optimizations to improve efficiency:\n\n1.  **Use `math.factorial`**: The standard library `math` module provides a highly optimized C implementation of the factorial function. It is significantly faster than a pure Python loop, especially for large numbers.\n2.  **Avoid Redundant Calculations**: If you need to compute factorials for multiple numbers, consider caching results or using an iterative approach that builds on previous results, though for a single call, `math.factorial` is best.\n3.  **Input Validation**: Add checks to ensure `n` is a non-negative integer to prevent errors.\n\nOptimized code example:\n```python\nimport math\n\ndef factorial(n):\n    if n < 0:\n        raise ValueError(\"Factorial is not defined for negative numbers\")\n    return math.factorial(n)\n\nprint(factorial(10))\n```"
+}

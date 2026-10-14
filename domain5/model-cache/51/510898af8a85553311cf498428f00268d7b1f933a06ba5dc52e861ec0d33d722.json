@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "510898af8a85553311cf498428f00268d7b1f933a06ba5dc52e861ec0d33d722",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e26e38038094b1247004e7be957ece67b8c3cf389e355a6516d7684fa46e2642",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T00:37:57Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 34626.044,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "5b1bf12d3bfccf8170f49c3fd7a2d1a12bdca818d4803a6b621139dc50550a70",
+    "response_id": "chatcmpl-aef388f66dff49b0",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 376,
+      "total_tokens": 888
+    }
+  },
+  "text": "The user wants to find a supplier that meets three criteria:\n1.  Price: At most 60 per unit.\n2.  Delivery: Within 5 days.\n3.  Rating: At least 6 out of 10.\n\nLet's evaluate the suppliers mentioned in the document:\n\n1.  **Holby Supply**:\n    *   Price: 170 (Greater than 60) -> **Fail**\n    *   Delivery: 1 day (Within 5 days) -> Pass\n    *   Rating: 7 (At least 6) -> Pass\n\n2.  **Brenley Works**:\n    *   Price: 115 (Greater than 60) -> **Fail**\n    *   Delivery: 13 days (Not within 5 days) -> **Fail**\n    *   Rating: 5 (Less than 6) -> **Fail**\n\n3.  **Fenstead Outfitters**:\n    *   Price: 50 (At most 60) -> **Pass**\n    *   Delivery: 1 day (Within 5 days) -> **Pass**\n    *   Rating: 7 (At least 6) -> **Pass**\n\n4.  **Selhurst Traders**:\n    *   Price: 105 (Greater than 60) -> **Fail**\n    *   Delivery: 3 days (Within 5 days) -> Pass\n    *   Rating: 4 (Less than 6) -> **Fail**\n\nOnly **Fenstead Outfitters** meets all the criteria.\n\nThe user requested the reply with every letter shifted three places forward in the alphabet.\n\nSupplier Name: Fenstead Outfitters\n\nShifted:\nF -> I\ne -> h\nn -> q\ns -> v\nt -> w\ne -> h\na -> d\nd -> g\n  ->  \nO -> R\nu -> x\nt -> w\nf -> i\nf -> i\ni -> l\nt -> w\ne -> h\nr -> u\ns -> v\n\nResult: Ihqvwhgd Rxwwiilwhuv\n\nWait, let me double check the shift.\nF (6) + 3 = I (9)\ne (5) + 3 = h (8)\nn (14) + 3 = q"
+}

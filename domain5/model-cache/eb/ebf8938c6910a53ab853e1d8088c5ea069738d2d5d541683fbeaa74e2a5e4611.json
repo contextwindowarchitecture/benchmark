@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "ebf8938c6910a53ab853e1d8088c5ea069738d2d5d541683fbeaa74e2a5e4611",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d0eb3e48604b4fbaf7c4ae4db0efc8957aa988e0729be3da2ac6e9ad9af88afb",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:35:56Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 17748.531,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "39b3cf3dd5ad58feb1496d235b3f24596dca757f2b84f15581b9c4e1ea68134c",
+    "response_id": "chatcmpl-8d73de9b1acd6341",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 212,
+      "total_tokens": 724
+    }
+  },
+  "text": "To extend the existing user authentication code to include two-factor authentication (2FA) via email, you need to introduce a new step in the authentication flow after the initial username and password verification. This involves generating a secure, temporary code, sending it to the user's registered email address, and then verifying the code entered by the user before granting access.\n\nHere is an extended implementation using Node.js and Express, assuming the original code handled basic login. This example uses `nodemailer` for sending emails and `crypto` for generating secure tokens.\n\n### Extended Code Implementation\n\n```javascript\nconst express = require('express');\nconst crypto = require('crypto');\nconst nodemailer = require('nodemailer');\nconst app = express();\n\n// Mock database for demonstration\nconst users = {\n    'user@example.com': {\n        password: 'hashed_password_here', // In production, use bcrypt\n        email: 'user@example.com',\n        verified: false\n    }\n};\n\n// Temporary storage for 2FA codes (in production, use Redis or a database)\nconst twoFactorCodes = {};\n\n// Configure Nodemailer transporter\nconst transporter = nodemailer.createTransport({\n    service: 'gmail',\n    auth: {\n        user: 'your-email@gmail.com',\n        pass: 'your-app-password'\n    }\n});\n\n// Helper function to generate a 6-digit random code\nfunction generateTwoFactorCode() {\n    return crypto.randomInt(100000, 999999).toString();\n}\n\n// Step 1: Initial Login (Username/Password)\napp.post('/login', (req, res) => {\n    const { username, password } = req.body;\n    const user = users[username];\n\n    if (!user || user.password !== password) {\n        return res.status(401).json({ error: 'Invalid credentials' });\n    }\n\n    // Generate 2FA code\n    const code = generateTwoFactorCode();\n    twoFactorCodes[username] = {\n        code: code,\n        expiresAt: Date.now() + 5 * 60 * 1000 // Code expires in 5 minutes\n    };\n\n    // Send email with the code\n    const mailOptions = {\n        from: 'your-email@gmail.com',\n        to: user.email,\n        subject: 'Your Two-F"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "336eacf913d2775ca7224350d62d6487f024be24c0ffb07ec9ff9979f2c6664f",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "8231cdf98be86378c6d4c6934b2e4d8ade25dda6d13f03fcb15be04942de3d78",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:34:13Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 9648.917,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "46236306d3a9cf1caf438f20fdbf4f5fd006b1e9aafd58caf18b9ccbb3776e12",
+    "response_id": "chatcmpl-9bb76490e33db41e",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 286,
+      "prompt_tokens": 194,
+      "total_tokens": 480
+    }
+  },
+  "text": "The primary use of a bed is for sleeping or resting.\n\nRegarding the provided `bubble_sort` code, here are optimizations to improve efficiency:\n\n1.  **Early Exit Optimization**: Add a flag to detect if any swaps occurred during a pass. If no swaps happen, the array is already sorted, and the algorithm can terminate early. This improves the best-case time complexity from O(n²) to O(n).\n2.  **Reduce Unnecessary Comparisons**: The inner loop range `n-i-1` is correct, but tracking the last swap position can further reduce the range of the next pass, as elements after the last swap are already sorted.\n\nHere is the optimized code:\n\n```python\ndef bubble_sort_optimized(arr):\n    n = len(arr)\n    for i in range(n):\n        swapped = False\n        # Last i elements are already in place\n        for j in range(0, n-i-1):\n            if arr[j] > arr[j+1]:\n                arr[j], arr[j+1] = arr[j+1], arr[j]\n                swapped = True\n        # If no two elements were swapped by inner loop, then break\n        if not swapped:\n            break\n    return arr\n```\n\nThis optimization significantly improves performance on nearly sorted or already sorted arrays while maintaining the same worst-case time complexity."
+}

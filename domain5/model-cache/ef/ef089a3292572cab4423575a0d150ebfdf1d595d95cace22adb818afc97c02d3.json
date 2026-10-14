@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "ef089a3292572cab4423575a0d150ebfdf1d595d95cace22adb818afc97c02d3",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "8ae365b93bd600db8e15878076aacf2622ec76962b46a648d88b65a11a02d760",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-14T03:00:32Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 31662.415,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "35793ad2935773480b950d4e3555f9673b0d412facd51734ff2ef08850613c76",
+    "response_id": "chatcmpl-88e1980431df5afa",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 654,
+      "total_tokens": 1166
+    }
+  },
+  "text": "Ouxelzrxlurwwv\n\n(Wait, let me decode that back to verify, as the output contract says \"Reply with the supplier's name only\" but the instruction says \"write your reply with every letter shifted three places forward\". This is a conflict. Usually, the formatting instruction applies to the final output. Let's look at the evidence again.\n\nLunby Outfitters: 25 per unit (<=40), 9 days (<=10), rating 8 (>=8). This matches all criteria.\n\nThe name is \"Lunby Outfitters\".\nShifted +3:\nL -> O\nu -> x\nn -> q\nb -> e\ny -> b\n(space)\nO -> R\nu -> x\nt -> w\nf -> i\ni -> l\nt -> w\ne -> h\nr -> u\ns -> v\n\nSo the shifted name is: Oxqeb Rxwilwhuv ? No.\nL -> O\nu -> x\nn -> q\nb -> e\ny -> b\nO -> R\nu -> x\nt -> w\nf -> i\ni -> l\nt -> w\ne -> h\nr -> u\ns -> v\n\nResult: Oxqeb Rxwilwhuv\n\nLet's re-read carefully. \"Reply with the supplier's name only.\" is the format. \"write your reply with every letter shifted three places forward\" is the instruction.\n\nSupplier: Lunby Outfitters\nL -> O\nu -> x\nn -> q\nb -> e\ny -> b\nOutfitters -> R x w i l w h u v\n\nSo: Oxqeb Rxwilwhuv\n\nLet's check other suppliers just in case.\nKelley: 105 (>40)\nHarton: 160 (>40)\nKelwell: 85 (>40)\nYorley: 100 (>40)\nLunby: 25 (<=40), 9 days (<=10), 8 rating (>=8). MATCH.\nFennick: 65 (>40)\nJorwell: 155 (>40)\nOrlwick: 105 (>40)\n\nOnly Lunby Outfitters matches.\n\nShifted:\nL -> O\nu -> x\nn -> q"
+}

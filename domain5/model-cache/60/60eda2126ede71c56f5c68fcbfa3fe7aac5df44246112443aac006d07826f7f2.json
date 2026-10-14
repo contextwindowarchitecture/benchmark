@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "60eda2126ede71c56f5c68fcbfa3fe7aac5df44246112443aac006d07826f7f2",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e3cddb3e984a307e38b0500e0e2ef94ce9c5adc10b631daeff1356215afca390",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:28:03Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 14500.956,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "ef70c954c79431893522be02b0f95cfd739a7e99434fbd13e0e96cb90809682c",
+    "response_id": "chatcmpl-9affd80638a09806",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 431,
+      "prompt_tokens": 121,
+      "total_tokens": 552
+    }
+  },
+  "text": "The provided Python code for calculating a factorial recursively has several compliance issues with industry-standard style guidelines, primarily PEP 8.\n\n1.  **Missing Blank Lines**: PEP 8 recommends two blank lines before top-level function definitions.\n2.  **Inline Comments**: The comment `# calculates factorial` is inline with the function definition. PEP 8 suggests that comments should be full sentences and placed on their own line or as a docstring for the function.\n3.  **Docstring**: The function lacks a docstring, which is a standard practice for documenting function purpose, parameters, and return values.\n4.  **Base Case Logic**: While not strictly a style issue, the base case `if n == 1` does not handle `n == 0` (which should return 1) or negative numbers. This is a logical flaw, but in terms of style, it’s worth noting that robust code should handle edge cases. A more Pythonic approach might use a docstring and proper error handling.\n\n**Revised Code Compliant with PEP 8:**\n\n```python\ndef factorial_recursive(n):\n    \"\"\"\n    Calculate the factorial of a non-negative integer n.\n\n    Args:\n        n (int): A non-negative integer.\n\n    Returns:\n        int: The factorial of n.\n\n    Raises:\n        ValueError: If n is negative.\n    \"\"\"\n    if n < 0:\n        raise ValueError(\"Factorial is not defined for negative numbers.\")\n    if n == 0 or n == 1:\n        return 1\n    else:\n        return n * factorial_recursive(n - 1)\n```\n\n**Key Improvements:**\n- Added two blank lines before the function definition.\n- Replaced the inline comment with a comprehensive docstring.\n- Added handling for `n == 0` and negative numbers.\n- Used consistent spacing around operators and after commas.\n\n**Animal Known for Its Long Neck:**\nThe animal known for its long neck is the **giraffe**."
+}

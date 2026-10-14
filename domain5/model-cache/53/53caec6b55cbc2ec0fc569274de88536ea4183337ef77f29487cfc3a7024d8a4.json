@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "53caec6b55cbc2ec0fc569274de88536ea4183337ef77f29487cfc3a7024d8a4",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "c7c74177ebf7c1cadb0fc0d380f70a6b130e930d9df6dd06739527d1d767ab49",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T00:37:02Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 23907.928,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "29931e8e2fb820bd7e765e178c4e6912849d9c7f8f405c0958f431a683f74f9d",
+    "response_id": "chatcmpl-80e73d6ee73ad5eb",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 317,
+      "prompt_tokens": 337,
+      "total_tokens": 654
+    }
+  },
+  "text": "Nessuno dei fornitori elencati soddisfa tutti i criteri richiesti.\n\nEcco l'analisi:\n1.  **Morcroft Outfitters**: Prezzo 105 (ok), Consegna 13 giorni (non ok, deve essere entro 12), Rating 5 (non ok, deve essere almeno 7).\n2.  **Orlby Cooperative**: Prezzo 75 (ok), Consegna 16 giorni (non ok), Rating 9 (ok).\n3.  **Istton Supply**: Prezzo 145 (ok), Consegna 5 giorni (ok), Rating 9 (ok). **Tuttavia**, la consegna è di 5 giorni, che è entro 12 giorni. Aspetta, ricontrollo.\n    *   Istton Supply: Prezzo 145 (<= 155, OK), Consegna 5 giorni (<= 12, OK), Rating 9 (>= 7, OK).\n    *   Quindi Istton Supply soddisfa tutti i criteri.\n\nRivediamo Wyndale:\n4.  **Wyndale Supply**: Prezzo 140 (ok), Consegna 19 giorni (non ok), Rating 10 (ok).\n\nQuindi l'unico fornitore che soddisfa tutti i criteri (Prezzo <= 155, Consegna <= 12 giorni, Rating >= 7) è Istton Supply.\n\nIstton Supply"
+}

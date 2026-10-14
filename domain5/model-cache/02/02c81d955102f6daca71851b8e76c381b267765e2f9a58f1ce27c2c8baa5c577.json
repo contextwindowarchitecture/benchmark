@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "02c81d955102f6daca71851b8e76c381b267765e2f9a58f1ce27c2c8baa5c577",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "25508e630ecd84e563ee82ec91dd0ef14b2c04d8e3433a0e11fc44fcb2c74922",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:37:01Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 12945.667,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "5fb067e06813263d90513e9344d044256e2e5391d7b94b685ff50d3a9c4fa437",
+    "response_id": "chatcmpl-ba94dfd907a28b21",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 398,
+      "prompt_tokens": 118,
+      "total_tokens": 516
+    }
+  },
+  "text": "There are 60 minutes in an hour.\n\nRegarding the code, the primary inefficiency is that `sorted(w)` is called for every word in `words_list` during every iteration. Sorting a string takes O(k log k) time, where k is the length of the word. If the list is large, this results in significant redundant computation.\n\nA more efficient approach is to precompute the sorted version of each word in the `words_list` and store it in a dictionary (hash map) where the key is the sorted tuple of characters and the value is a list of original words that are anagrams. This reduces the lookup time to O(1) on average for each word in the input `word`.\n\nHere is the optimized code:\n\n```python\ndef find_anagrams(word, words_list):\n    # Precompute anagram groups\n    anagram_map = {}\n    for w in words_list:\n        sorted_w = tuple(sorted(w))\n        if sorted_w not in anagram_map:\n            anagram_map[sorted_w] = []\n        anagram_map[sorted_w].append(w)\n    \n    # Get the sorted version of the input word\n    sorted_word = tuple(sorted(word))\n    \n    # Return the list of anagrams if they exist, otherwise an empty list\n    return anagram_map.get(sorted_word, [])\n```\n\nThis optimization changes the time complexity from O(N * K log K) to O(N * K log K + M * K log K), where N is the number of words in `words_list`, M is the number of words in the input `word` (usually 1), and K is the average word length. While the worst-case complexity for building the map is similar, the lookup is much faster, and if `find_anagrams` is called multiple times with the same `words_list`, the map can be cached for even greater efficiency."
+}

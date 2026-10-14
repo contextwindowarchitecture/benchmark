@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "766cdb7681ebcf0ea27571e037824d340b9aaa50bb993e580cb03ba19d4186d2",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "c152795e56204eff57f426c4acf24048bf00cabfe56e46b417e35770242eb01c",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:43:06Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 8008.984,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "71a1d468d0175e0be029f7c8da5acf07b0a3587ad996f7f71ccec0eadaccfbd9",
+    "response_id": "chatcmpl-804b6cc94536bcfa",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 251,
+      "prompt_tokens": 148,
+      "total_tokens": 399
+    }
+  },
+  "text": "The provided content contains a Python function `is_palindrome` and some unrelated text. I will write unit tests for the `is_palindrome` function.\n\n```python\nimport unittest\n\ndef is_palindrome(s):\n    return s == s[::-1]\n\nclass TestIsPalindrome(unittest.TestCase):\n    def test_empty_string(self):\n        self.assertTrue(is_palindrome(\"\"))\n\n    def test_single_character(self):\n        self.assertTrue(is_palindrome(\"a\"))\n\n    def test_palindrome_even_length(self):\n        self.assertTrue(is_palindrome(\"abba\"))\n\n    def test_palindrome_odd_length(self):\n        self.assertTrue(is_palindrome(\"aba\"))\n\n    def test_not_palindrome(self):\n        self.assertFalse(is_palindrome(\"abc\"))\n\n    def test_palindrome_with_spaces(self):\n        # Note: The current implementation is case-sensitive and includes spaces\n        self.assertFalse(is_palindrome(\"a b\"))\n        self.assertTrue(is_palindrome(\"a a\"))\n\n    def test_palindrome_case_sensitive(self):\n        self.assertFalse(is_palindrome(\"Abba\"))\n        self.assertTrue(is_palindrome(\"abba\"))\n\nif __name__ == '__main__':\n    unittest.main()\n```"
+}

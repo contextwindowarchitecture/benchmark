@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "8330d86bdeb10860b23547114867ae4ae847e9342e5cad77f8ad8e1bda0cc256",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "6b588817ed0c8e5318307d91b66bd2ae9dcfb31df89a8df24e10edf870226f85",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:27:58Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 9564.152,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "199cb650d88dcdc01f463a641dfeeafb6b0d8df5589b9c35792b525ea9bd633f",
+    "response_id": "chatcmpl-bc2860cb5347aeb4",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 287,
+      "prompt_tokens": 148,
+      "total_tokens": 435
+    }
+  },
+  "text": "The animal known for its long neck is the giraffe.\n\nRegarding the code provided, it contains several syntax errors and formatting issues that prevent it from running and violate standard style guidelines (such as PEP 8 for Python):\n\n1.  **Syntax Errors**: The character `ˆ` (circumflex accent) is used instead of standard whitespace or indentation. Python relies on indentation for block structure, and `ˆ` is not a valid whitespace character. This will result in a `SyntaxError`.\n2.  **Missing Indentation**: Even if `ˆ` were replaced with spaces, the code lacks proper indentation for the `if`, `else`, and return statements.\n3.  **Style Guidelines (PEP 8)**:\n    *   Function names should use `snake_case` (e.g., `factorial_recursive` is correct, but the surrounding code structure is broken).\n    *   Comments should be separated from code by two spaces.\n    *   The logic itself is correct for a recursive factorial, but the implementation is syntactically invalid.\n\nA corrected, compliant version would look like this:\n\n```python\ndef factorial_recursive(n):\n    # calculates factorial if n == 1\n    if n == 1:\n        return 1\n    else:\n        return n * factorial_recursive(n - 1)\n```"
+}

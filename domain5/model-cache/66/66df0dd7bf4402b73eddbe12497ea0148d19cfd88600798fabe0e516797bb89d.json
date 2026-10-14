@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "66df0dd7bf4402b73eddbe12497ea0148d19cfd88600798fabe0e516797bb89d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "cb08022a35d28dd78fd9f88aabb7f279a028e079565877f071cbf2614a6780d8",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:28:01Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 12885.803,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "7075b5cb20a9a0cb539307d739f5b68ea49b5441dd8fda9bd1927be0d3c8328b",
+    "response_id": "chatcmpl-919166e91f428fb8",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 386,
+      "prompt_tokens": 113,
+      "total_tokens": 499
+    }
+  },
+  "text": "The code provided has several issues regarding compliance with industry-standard style guidelines, specifically PEP 8, the official style guide for Python code.\n\n1.  **Missing Docstring**: The function lacks a docstring explaining its purpose, parameters, and return value.\n2.  **Incorrect Base Case**: The base case `if n == 1` is incomplete. It does not handle `n == 0` (where factorial is 1) or negative numbers (which should raise an error). This can lead to incorrect results or infinite recursion for inputs like 0 or negative integers.\n3.  **Lack of Input Validation**: There is no check to ensure `n` is a non-negative integer.\n4.  **Indentation and Spacing**: The code uses standard indentation, which is good, but the comment style could be improved by using a docstring instead of an inline comment for the function description.\n5.  **Recursive Depth Limit**: For large values of `n`, this recursive approach will hit Python's recursion limit. An iterative approach or `math.factorial` is generally preferred for production code.\n\nHere is a revised version compliant with PEP 8 and best practices:\n\n```python\ndef factorial(n: int) -> int:\n    \"\"\"\n    Calculate the factorial of a non-negative integer.\n\n    Args:\n        n (int): A non-negative integer.\n\n    Returns:\n        int: The factorial of n.\n\n    Raises:\n        ValueError: If n is negative.\n    \"\"\"\n    if n < 0:\n        raise ValueError(\"Factorial is not defined for negative numbers.\")\n    if n == 0 or n == 1:\n        return 1\n    return n * factorial(n - 1)\n```\n\nThe animal known for its long neck is the **giraffe**."
+}

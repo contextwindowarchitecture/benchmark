@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "5386fe93a28a8ea8e4b1882978c4a6ed06e11360893a9f07950eaaba934a910c",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "9565572badb1384be224a475ee1b340dc47dc24f4088dd7055c8378dace1f846",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:41:21Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 18035.042,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "8d247b786be234f53cd5fa64f5018a0c81d639dd22fbd8bcde9b210e5e12e6ba",
+    "response_id": "chatcmpl-a5d64f9fc6be1743",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 173,
+      "total_tokens": 685
+    }
+  },
+  "text": "The fastest land animal in the world is the cheetah.\n\nHere is the extended C# code that maintains the existing functionality of printing the report summary and adds the capability to export the report in CSV format:\n\n```csharp\nusing System;\nusing System.IO;\n\npublic class ReportGenerator\n{\n    public void GenerateReport(SummaryReport report, bool exportToCsv = false, string csvFilePath = null)\n    {\n        // Existing functionality: Output summary report to console\n        Console.WriteLine(\"Report Summary:\");\n        Console.WriteLine(report.ToString());\n\n        // New functionality: Export report to CSV if requested\n        if (exportToCsv)\n        {\n            if (string.IsNullOrEmpty(csvFilePath))\n            {\n                csvFilePath = \"report_output.csv\";\n            }\n\n            try\n            {\n                using (StreamWriter writer = new StreamWriter(csvFilePath))\n                {\n                    // Write CSV header\n                    writer.WriteLine(\"Field,Value\");\n\n                    // Write report data as CSV rows\n                    // Assuming SummaryReport has a method or properties that can be iterated or converted to key-value pairs\n                    // For demonstration, we assume report has a method GetKeyValuePairs() or similar.\n                    // If not, you may need to adapt this part based on the actual structure of SummaryReport.\n                    var data = report.GetReportData(); // Hypothetical method to get report data as a list of key-value pairs\n\n                    foreach (var item in data)\n                    {\n                        writer.WriteLine($\"{item.Key},{item.Value}\");\n                    }\n                }\n\n                Console.WriteLine($\"Report successfully exported to {csvFilePath}\");\n            }\n            catch (Exception ex)\n            {\n                Console.WriteLine($\"Error exporting report to CSV: {ex.Message}\");\n            }\n        }\n    }\n}\n\n// Placeholder for SummaryReport class to demonstrate usage\npublic class SummaryReport\n{\n    public override string ToString()\n    {\n        return \"This is the summary report content.\";\n    }\n\n    // Hypothetical method to retrieve report data for CSV export\n    public List<KeyValuePair<string, string>> GetReportData()\n    {\n        return new List<KeyValuePair<string, string>>\n        {\n            new KeyValuePair<string, string>(\"Title\", \"Annual Sales Report\"),\n            new KeyValuePair<string, string>(\"Date\", \"2023-10-01\"),\n            new KeyValuePair<string, string"
+}

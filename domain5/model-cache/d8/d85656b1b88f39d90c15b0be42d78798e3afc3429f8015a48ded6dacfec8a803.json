@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "d85656b1b88f39d90c15b0be42d78798e3afc3429f8015a48ded6dacfec8a803",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e533b6ebbc46cb06acc47d2b01cf59078a2c3f647f4700a76c0ad6b8d4a49710",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-14T03:00:05Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 30953.245,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "9b920bde1f233b616659b39d492b6cb86930d35144e5bf19929ee87448b47eba",
+    "response_id": "chatcmpl-ab4db38047bb6ce4",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 481,
+      "total_tokens": 993
+    }
+  },
+  "text": "Let's analyze the suppliers based on the criteria provided:\n\n1.  **Price at most 145 per unit**\n2.  **Delivery within 10 days**\n3.  **Rating at least 7 out of 10**\n\nHere is the breakdown of each supplier:\n\n*   **Holmore Works**:\n    *   Price: 190 (Fails > 145)\n    *   Delivery: 4 days (Passes < 10)\n    *   Rating: 5 (Fails < 7)\n    *   *Result: No*\n\n*   **Orlnick Outfitters**:\n    *   Price: 105 (Passes <= 145)\n    *   Delivery: 5 days (Passes < 10)\n    *   Rating: 2 (Fails < 7)\n    *   *Result: No*\n\n*   **Pellbury Supply**:\n    *   Price: 60 (Passes <= 145)\n    *   Delivery: 3 days (Passes < 10)\n    *   Rating: 1 (Fails < 7)\n    *   *Result: No*\n\n*   **Ulmbury Traders**:\n    *   Price: 75 (Passes <= 145)\n    *   Delivery: 18 days (Fails > 10)\n    *   Rating: 5 (Fails < 7)\n    *   *Result: No*\n\n*   **Caldale Supply**:\n    *   Price: 60 (Passes <= 145)\n    *   Delivery: 3 days (Passes < 10)\n    *   Rating: 4 (Fails < 7)\n    *   *Result: No*\n\n*   **Garcroft Supply**:\n    *   Price: 190 (Fails > 145)\n    *   Delivery: 12 days (Fails > 10)\n    *   Rating: 8 (Passes >= 7)\n    *   *Result: No*\n\n*   **Jormere Outfitters**:\n    *   Price: 125 (Passes <= 145)\n    *"
+}

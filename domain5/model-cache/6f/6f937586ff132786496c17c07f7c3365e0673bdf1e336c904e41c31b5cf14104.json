@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "6f937586ff132786496c17c07f7c3365e0673bdf1e336c904e41c31b5cf14104",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "7f39bc3dd62146896c13ae9ffd811a4b8f4902c2fbe8b2102115c7475edb9688",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:43:09Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 10624.692,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "bf3d453500f779e3798e6d0ebfa18e4fe3cbf7e7cd605c94c20baefb469ec653",
+    "response_id": "chatcmpl-9491ec0ebad50d8a",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 328,
+      "prompt_tokens": 199,
+      "total_tokens": 527
+    }
+  },
+  "text": "```python\nimport unittest\n\ndef is_palindrome(s):\n    return s == s[::-1]\n\nclass TestIsPalindrome(unittest.TestCase):\n    def test_empty_string(self):\n        self.assertTrue(is_palindrome(\"\"))\n\n    def test_single_character(self):\n        self.assertTrue(is_palindrome(\"a\"))\n\n    def test_two_character_palindrome(self):\n        self.assertTrue(is_palindrome(\"aa\"))\n\n    def test_two_character_non_palindrome(self):\n        self.assertFalse(is_palindrome(\"ab\"))\n\n    def test_odd_length_palindrome(self):\n        self.assertTrue(is_palindrome(\"aba\"))\n\n    def test_even_length_palindrome(self):\n        self.assertTrue(is_palindrome(\"abba\"))\n\n    def test_odd_length_non_palindrome(self):\n        self.assertFalse(is_palindrome(\"abc\"))\n\n    def test_even_length_non_palindrome(self):\n        self.assertFalse(is_palindrome(\"abca\"))\n\n    def test_mixed_case(self):\n        # Case sensitivity check: \"Aa\" is not a palindrome if case matters\n        self.assertFalse(is_palindrome(\"Aa\"))\n        self.assertTrue(is_palindrome(\"Aa\".lower())) # \"aa\" is palindrome\n\n    def test_numbers_as_string(self):\n        self.assertTrue(is_palindrome(\"121\"))\n        self.assertFalse(is_palindrome(\"123\"))\n\n    def test_special_characters(self):\n        self.assertTrue(is_palindrome(\"a!a\"))\n        self.assertFalse(is_palindrome(\"a!b\"))\n\nif __name__ == '__main__':\n    unittest.main()\n```"
+}

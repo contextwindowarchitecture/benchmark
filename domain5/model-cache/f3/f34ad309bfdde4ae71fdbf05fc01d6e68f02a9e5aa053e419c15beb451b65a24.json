@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "f34ad309bfdde4ae71fdbf05fc01d6e68f02a9e5aa053e419c15beb451b65a24",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "5feb818b5b44623ba68fbbfcda4aa2aebcb764955c1450d3f5a19b2e7f58af44",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-14T03:06:40Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 112870.217,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "a85098bebee10cf7b77299d9fa631a7f252911d16b07a5ab60ca22ca07f1c912",
+    "response_id": "chatcmpl-969b0be74ab10907",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 386,
+      "total_tokens": 898
+    }
+  },
+  "text": "Cudvhupekxlvwhvwu\n\nWait, I need to apply the shift *before* answering.\nThe instruction says: \"write your reply with every letter shifted three places forward in the alphabet\".\nThe correct supplier is Yormere Outfitters.\nY -> B\nO -> R\nR -> U\nM -> P\nE -> H\nR -> U\nE -> H\nO -> R\nU -> X\nT -> W\nF -> I\nO -> R\nU -> X\nT -> W\nT -> W\nE -> H\nR -> U\n\nSo the output should be: BRUPHUHRXWI RXIWWHU\n\nLet's double check the supplier logic first.\nQ: at most 135 per unit, delivers within 5 days, rated at least 8 out of 10.\n\n1. Yormere Outfitters: 120 (<=135), 3 days (<=5), 8/10 (>=8). Meets all criteria.\n2. Nevnick Outfitters: 45 (<=135), 2 days (<=5), 5/10 (<8). Fails rating.\n3. Fennick Cooperative: 140 (>135). Fails price.\n4. Kelton Outfitters: 170 (>135). Fails price.\n\nSupplier: Yormere Outfitters.\n\nShifted by +3:\nY (25) -> B (2)\nO (15) -> R (18)\nR (18) -> U (21)\nM (13) -> P (16)\nE (5) -> H (8)\nR (18) -> U (21)\nE (5) -> H (8)\nO (15) -> R (18)\nU (21) -> X (24)\nT (20) -> W (23)\nO (15) -> R (18)\nU (21) -> X (24)\nT (20) -> W (23)\nT (20) -> W (23)\nE (5) -> H (8)\nR (18) -> U (21)\n\nResult: BRUPHUHRX"
+}

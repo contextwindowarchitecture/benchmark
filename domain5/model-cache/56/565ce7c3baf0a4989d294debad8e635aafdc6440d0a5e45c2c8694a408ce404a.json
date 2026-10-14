@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "565ce7c3baf0a4989d294debad8e635aafdc6440d0a5e45c2c8694a408ce404a",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "a8b2d092f0b3cc6d85bf88354882aac48e5f856661328b1af9205832c9bda076",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:49:03Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 2883.415,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "d2e1ec042627ff9cf0d9120f5378c4ca64613beaf9d1915807e0ea0e570bf4fc",
+    "response_id": "chatcmpl-87c336370bc86b91",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 83,
+      "prompt_tokens": 173,
+      "total_tokens": 256
+    }
+  },
+  "text": "<tool_call>\n<function=implement_function>\n<parameter=code>\ndef find_pair_with_sum(numbers, target_sum):\n    seen = set()\n    for number in numbers:\n        complement = target_sum - number\n        if complement in seen:\n            return (complement, number)\n        seen.add(number)\n    return None\n</parameter>\n</function>\n</tool_call>"
+}

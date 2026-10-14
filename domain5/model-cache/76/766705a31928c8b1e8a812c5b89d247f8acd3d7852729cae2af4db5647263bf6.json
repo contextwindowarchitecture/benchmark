@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "766705a31928c8b1e8a812c5b89d247f8acd3d7852729cae2af4db5647263bf6",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "1872cdd5baa5a6428bf000559014c20ee746061df0cfb698797fe26fade6c378",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:33:09Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 14383.074,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "d73c58e55b3127fd63f11c3c3e2eb061b55dadffd04e88a030f11924d7769ac0",
+    "response_id": "chatcmpl-a9509b6b251e3694",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 432,
+      "prompt_tokens": 251,
+      "total_tokens": 683
+    }
+  },
+  "text": "The day that comes after Monday is Tuesday.\n\nHere is the Ruby function `titleize_sentence` as specified:\n\n```ruby\ndef titleize_sentence(sentence)\n  # Define words that should remain lowercase\n  lowercase_words = %w[and the or in with of]\n  \n  # Split the sentence into words, process each, and join back\n  sentence.split.map do |word|\n    # Check if the word (case-insensitive) is in the lowercase list\n    if lowercase_words.include?(word.downcase)\n      word.downcase\n    else\n      # Capitalize the first letter and downcase the rest\n      word.capitalize\n    end\n  end.join(' ')\nend\n```\n\n### Explanation of Operation and Integration:\n\n1.  **Input Handling**: The function takes a single string argument `sentence`.\n2.  **Word Processing**: It splits the string into an array of words using `split`.\n3.  **Conditional Logic**: For each word, it checks if the lowercase version of the word exists in the predefined `lowercase_words` array.\n    *   If it matches, the word is returned in all lowercase.\n    *   If it does not match, the `capitalize` method is used, which converts the first character to uppercase and the rest to lowercase.\n4.  **Output Construction**: The processed words are joined back into a single string with spaces using `join(' ')`.\n5.  **Integration Considerations**:\n    *   **Edge Cases**: This implementation assumes words are separated by single spaces. For more robust handling of punctuation or multiple spaces, a more complex regex-based approach might be needed in a larger system.\n    *   **Extensibility**: The list of lowercase words can be easily extended or made configurable if the function is part of a larger text-processing library.\n    *   **Performance**: For very large strings, splitting and mapping is efficient enough for most use cases. If performance is critical, pre-compiling the regex or using a hash set for `lowercase_words` could offer minor optimizations."
+}

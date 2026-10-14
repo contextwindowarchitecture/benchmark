@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "863b67cfeaac89cb909e7606e18b58f571b63c3782b0050cb9609710761a7485",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "b0f5477145830e3b41807a305f38aeb438f6068df28639166b0c8271ce507005",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:48:14Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 8710.612,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "b15b0cf240b54dd481cf635cdb339f77edf4b85b1d08239abdfb15039581a4d8",
+    "response_id": "chatcmpl-85f632ac8ffc4399",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 242,
+      "prompt_tokens": 143,
+      "total_tokens": 385
+    }
+  },
+  "text": "The provided content contains a mix of unrelated text and a Python function. The only code component present is the `is_even` function. Below are unit tests for this function using Python's built-in `unittest` framework.\n\n```python\nimport unittest\n\ndef is_even(number):\n    return number % 2 == 0\n\nclass TestIsEven(unittest.TestCase):\n    def test_positive_even(self):\n        self.assertTrue(is_even(2))\n        self.assertTrue(is_even(4))\n        self.assertTrue(is_even(100))\n\n    def test_positive_odd(self):\n        self.assertFalse(is_even(1))\n        self.assertFalse(is_even(3))\n        self.assertFalse(is_even(99))\n\n    def test_negative_even(self):\n        self.assertTrue(is_even(-2))\n        self.assertTrue(is_even(-4))\n\n    def test_negative_odd(self):\n        self.assertFalse(is_even(-1))\n        self.assertFalse(is_even(-3))\n\n    def test_zero(self):\n        # Zero is considered an even number\n        self.assertTrue(is_even(0))\n\nif __name__ == '__main__':\n    unittest.main()\n```"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "54a9a23353308e9ca721dc7e86de6abac1f0ff06e075322cbb7ff4f6164527e5",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "539a06d27e7cdf414bcb351f806115545f074af5c33cbbe24ca026506f1a5cf2",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:39:06Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 10052.649,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "26f1687a3b134c2f50e967e2abae013fe2eb8dab86b2031764a02bdd108242f7",
+    "response_id": "chatcmpl-b0f52688dc1a1db5",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 285,
+      "prompt_tokens": 103,
+      "total_tokens": 388
+    }
+  },
+  "text": "To test the `add` function, we can use Python's built-in `unittest` framework. The function takes two arguments and returns their sum. We should test various scenarios including positive integers, negative integers, zero, and floating-point numbers to ensure robustness.\n\nHere are the unit tests:\n\n```python\nimport unittest\n\ndef add(a, b):\n    return a + b\n\nclass TestAddFunction(unittest.TestCase):\n    def test_add_positive_integers(self):\n        self.assertEqual(add(2, 3), 5)\n\n    def test_add_negative_integers(self):\n        self.assertEqual(add(-1, -1), -2)\n\n    def test_add_mixed_signs(self):\n        self.assertEqual(add(-1, 1), 0)\n\n    def test_add_zeros(self):\n        self.assertEqual(add(0, 0), 0)\n\n    def test_add_floats(self):\n        self.assertAlmostEqual(add(0.1, 0.2), 0.3)\n\n    def test_add_string_concatenation(self):\n        self.assertEqual(add(\"hello\", \" world\"), \"hello world\")\n\nif __name__ == '__main__':\n    unittest.main()\n```\n\n**Main ingredients in bread:**\nThe main ingredients in bread are flour, water, yeast (or another leavening agent), and salt."
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "e3b1e1f659195bb4c369dc13e26f7497992e0709581cec8af56817978683ef29",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "424b4ec941acb8de7342dbf58036af665fc22de4bbcbda4064b3f3a2423bce88",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:32:54Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 7938.472,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "a955ad4044f324712506fad628f9c8b9dcec8569d221cd1efe568d5b615af72d",
+    "response_id": "chatcmpl-ac7ed410fd4744f7",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 232,
+      "prompt_tokens": 201,
+      "total_tokens": 433
+    }
+  },
+  "text": "The primary use of a bed is to provide a comfortable surface for sleeping or resting.\n\nRegarding the code documentation, while the XML comments provide a basic overview, they lack comprehensive detail necessary for robust software maintenance and integration. The `<summary>` is adequate but could be more specific about the API endpoint or service being called. The `<param>` descriptions are clear but do not specify constraints such as maximum score limits or expected formats for the `userId` (e.g., UUID, integer, string). The `<remarks>` section mentions that the score must be non-negative, which is good, but it fails to document error handling behaviors in detail, such as what happens after a network error (e.g., does it retry? does it throw an exception? does it log the error?). Additionally, there is no `<returns>` tag, although the method is void, which is correct, but it would be beneficial to document any side effects or state changes. Finally, the implementation comment `// Score submission logic.` is too vague; it should ideally be replaced with actual code or a more detailed explanation of the internal process if this is a template or pseudocode."
+}

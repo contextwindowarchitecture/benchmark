@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "468731eb07a9b873fc3a85bdc65433552f81b7ef72a27c2955f92952e7de7549",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "aff7e9f32b867c5449663fd47a087193fb4fcd76f655316753563c21f57139d7",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:30:31Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 10449.618,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "0017381c9f92751658924a3fbba2b44237d49c998b1e82a81b2020f48452a3e3",
+    "response_id": "chatcmpl-b313659b32107a9f",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 310,
+      "prompt_tokens": 229,
+      "total_tokens": 539
+    }
+  },
+  "text": "The season that comes after autumn is winter.\n\nHere is the PHP function `getMaxOccurrence` that meets your requirements:\n\n```php\n<?php\n\n/**\n * Returns the number that appears the most times in the array.\n * If there are multiple numbers with the same maximum occurrence,\n * returns the smallest one.\n *\n * @param array $numbers An array of numbers.\n * @return int|float|null The most frequent number, or null if the array is empty.\n */\nfunction getMaxOccurrence(array $numbers)\n{\n    if (empty($numbers)) {\n        return null;\n    }\n\n    // Count the occurrences of each number\n    $counts = array_count_values($numbers);\n\n    // Find the maximum occurrence count\n    $maxCount = max($counts);\n\n    // Filter the numbers that have the maximum occurrence count\n    $mostFrequentNumbers = array_keys(array_filter($counts, function ($count) use ($maxCount) {\n        return $count === $maxCount;\n    }));\n\n    // Return the smallest number among those with the maximum occurrence\n    return min($mostFrequentNumbers);\n}\n\n// Example usage:\n// $result = getMaxOccurrence([1, 2, 2, 3, 3, 4]);\n// echo $result; // Outputs: 2 (since 2 and 3 both appear twice, 2 is smaller)\n?>\n```"
+}

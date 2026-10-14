@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "18ea90d3d65b10e2d8512f3dca816ade033f75e8bd63440e6543723e29211fd1",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d1ff2a18b6ae6d458c92384540574dde3acd9e4f9b6f66969b9e1aea0b747b05",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T00:26:33Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 6690.564,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "41f069629d206b05336ea3fa38ad8b3d4d93c360858497a1a97027e06b88e431",
+    "response_id": "chatcmpl-b7a5945e02795860",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 127,
+      "prompt_tokens": 285,
+      "total_tokens": 412
+    }
+  },
+  "text": "I cannot provide the requested information as the code snippet provided does not contain any bugs. The function `count_heavy` is named incorrectly for its functionality (it counts parcels *lighter* than the limit, not heavier), but this is a naming issue, not a bug in the code logic itself. The code executes without errors.\n\nHowever, if we interpret \"bug\" as a logical error in the context of the function's name, the bug is in the comparison operator.\n\n```json\n{\"bug\": \"    if parcel.weight < limit:\", \"fix\": \"    if parcel.weight >= limit:\"}\n```"
+}

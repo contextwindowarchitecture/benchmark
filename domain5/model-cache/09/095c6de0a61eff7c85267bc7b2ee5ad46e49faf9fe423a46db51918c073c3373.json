@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "095c6de0a61eff7c85267bc7b2ee5ad46e49faf9fe423a46db51918c073c3373",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "583eaad378c5d714f68452378c23809090774fa619a01785038a15d4319faaa1",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:43:15Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 17183.027,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "3d3d3e829be06884fc290be5a43232903dbcb2be0c6d40a39048526e074c8663",
+    "response_id": "chatcmpl-a1e82c804ae14e1a",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 129,
+      "total_tokens": 641
+    }
+  },
+  "text": "The provided content appears to be a mix of a question (\"Remind me how many days there are in a typical year\") and a Python function definition (`def is_palindrome(s): ...`). Since the instruction is to write unit tests for the code components, I will focus on the `is_palindrome` function.\n\nHere are the unit tests for the `is_palindrome` function using Python's `unittest` framework.\n\n```python\nimport unittest\n\ndef is_palindrome(s):\n    \"\"\"\n    Checks if a given string is a palindrome.\n    \n    Args:\n        s (str): The input string.\n        \n    Returns:\n        bool: True if the string is a palindrome, False otherwise.\n    \"\"\"\n    return s == s[::-1]\n\nclass TestIsPalindrome(unittest.TestCase):\n    \"\"\"Unit tests for the is_palindrome function.\"\"\"\n\n    def test_empty_string(self):\n        \"\"\"Test with an empty string.\"\"\"\n        self.assertTrue(is_palindrome(\"\"))\n\n    def test_single_character(self):\n        \"\"\"Test with a single character string.\"\"\"\n        self.assertTrue(is_palindrome(\"a\"))\n\n    def test_simple_palindrome(self):\n        \"\"\"Test with a simple palindrome.\"\"\"\n        self.assertTrue(is_palindrome(\"aba\"))\n        self.assertTrue(is_palindrome(\"racecar\"))\n        self.assertTrue(is_palindrome(\"madam\"))\n\n    def test_non_palindrome(self):\n        \"\"\"Test with a non-palindrome string.\"\"\"\n        self.assertFalse(is_palindrome(\"abc\"))\n        self.assertFalse(is_palindrome(\"hello\"))\n        self.assertFalse(is_palindrome(\"world\"))\n\n    def test_palindrome_with_spaces(self):\n        \"\"\"Test with a string containing spaces.\"\"\"\n        # Note: \"a b a\" is a palindrome because the spaces are part of the string\n        self.assertTrue(is_palindrome(\"a b a\"))\n        self.assertFalse(is_palindrome(\"a b c\"))\n\n    def test_palindrome_with_case_sensitivity(self):\n        \"\"\"Test case sensitivity.\"\"\"\n        # \"Abba\" is not a palindrome because 'A' != 'a'\n        self.assertFalse(is_palindrome(\"Abba\"))\n        self.assertTrue(is_palindrome(\"abba\"))\n\n    def test_palindrome_with_numbers(self):\n        \"\"\"Test with numeric strings.\"\"\"\n        self.assertTrue(is_palindrome(\"12321\"))\n        self.assertFalse(is_palindrome(\"12345\"))\n\n    def test_long_palindrome"
+}

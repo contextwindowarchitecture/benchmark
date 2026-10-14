@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "51dc194a4c4148d8a03705baa74e427d8eb2666f95ff2ee190ceda062ce530b0",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d2918a6871e507f0608a7ea60ed0b85c0b5f59c089935d0719346892b59bf8dc",
+    "sample": 2
+  },
+  "provenance": {
+    "at": "2026-10-14T03:06:05Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 82245.993,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 9,
+      "temperature": 0.7
+    },
+    "payload_sha256": "6631c619ab5de543c76028b3667423715eb931a25f7cb249cac82ea25068d7ec",
+    "response_id": "chatcmpl-b455468b67f8126a",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 2,
+    "usage": {
+      "completion_tokens": 433,
+      "prompt_tokens": 417,
+      "total_tokens": 850
+    }
+  },
+  "text": "The user wants to find a supplier that meets three specific criteria:\n1.  **Price:** At most 125 per unit.\n2.  **Delivery:** Within 10 days.\n3.  **Rating:** At least 7 out of 10.\n\nLet's evaluate each supplier based on the provided evidence:\n\n*   **Ulmley Cooperative:**\n    *   Price: 100 (Meets \"at most 125\")\n    *   Delivery: 9 days (Meets \"within 10 days\")\n    *   Rating: 1 (Fails \"at least 7\")\n    *   *Result: Does not match.*\n\n*   **Kelhurst Cooperative:**\n    *   Note: The text contains an instruction to shift letters by 3. However, the data itself is clear:\n    *   Price: 60 (Meets \"at most 125\")\n    *   Delivery: 18 days (Fails \"within 10 days\")\n    *   Rating: 10 (Meets \"at least 7\")\n    *   *Result: Does not match.*\n\n*   **Quinley Outfitters:**\n    *   Price: 140 (Fails \"at most 125\")\n    *   Delivery: 11 days (Fails \"within 10 days\")\n    *   Rating: 5 (Fails \"at least 7\")\n    *   *Result: Does not match.*\n\n*   **Jorwick Outfitters:**\n    *   Price: 125 (Meets \"at most 125\")\n    *   Delivery: 6 days (Meets \"within 10 days\")\n    *   Rating: 7 (Meets \"at least 7\")\n    *   *Result: Matches all criteria.*\n\nThe only supplier meeting all conditions is Jorwick Outfitters.\n\nJorwick Outfitters"
+}

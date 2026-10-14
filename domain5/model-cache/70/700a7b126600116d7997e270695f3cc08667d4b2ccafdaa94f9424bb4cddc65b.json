@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "700a7b126600116d7997e270695f3cc08667d4b2ccafdaa94f9424bb4cddc65b",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "25c635eba46179e811ea66b9af5f8753c019bb17b0431a53a43bcba5c07bab5c",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:50:58Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 10849.085,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "14440ad3661da55550a3f48086be4cd6ccc4f28310d9564a442e1c80bf05c8ed",
+    "response_id": "chatcmpl-a29a0357cd734ba0",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 315,
+      "prompt_tokens": 193,
+      "total_tokens": 508
+    }
+  },
+  "text": "The provided text contains a Python class definition with unusual spacing characters (`ˆ`) between words. First, I will interpret the intended code by removing these characters.\n\n**Intended Code:**\n```python\nclass Calculator:\n    def multiply(self, x, y):\n        return x * y\n```\n\n**Unit Tests:**\nBelow are unit tests for the `Calculator` class using Python's built-in `unittest` framework.\n\n```python\nimport unittest\n\nclass Calculator:\n    def multiply(self, x, y):\n        return x * y\n\nclass TestCalculator(unittest.TestCase):\n    def setUp(self):\n        self.calc = Calculator()\n\n    def test_multiply_positive_integers(self):\n        self.assertEqual(self.calc.multiply(3, 4), 12)\n\n    def test_multiply_negative_integers(self):\n        self.assertEqual(self.calc.multiply(-3, 4), -12)\n\n    def test_multiply_zero(self):\n        self.assertEqual(self.calc.multiply(0, 5), 0)\n\n    def test_multiply_floats(self):\n        self.assertAlmostEqual(self.calc.multiply(1.5, 2.0), 3.0)\n\n    def test_multiply_negative_floats(self):\n        self.assertAlmostEqual(self.calc.multiply(-1.5, -2.0), 3.0)\n\nif __name__ == '__main__':\n    unittest.main()\n```\n\n**Answer to the priority question:**\nThe name of the planet humans live on is **Earth**."
+}

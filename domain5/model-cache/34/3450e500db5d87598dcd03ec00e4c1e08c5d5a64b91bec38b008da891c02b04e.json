@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "3450e500db5d87598dcd03ec00e4c1e08c5d5a64b91bec38b008da891c02b04e",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "030eb0c18a9b730c10e4e7b64a9a185465878adac809324e330dafe12e708f55",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-14T03:00:28Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 31142.171,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "8e197299597818f4b3f7cf39edb159d63868b25f9d947f12dfd05deb4d8ccadb",
+    "response_id": "chatcmpl-b13805847ff84649",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 463,
+      "total_tokens": 975
+    }
+  },
+  "text": "Oryzdu Lxulwvwwv\n\n(Note: The shift is applied to the supplier name \"Lunby Outfitters\" -> L->O, u->x, n->q, b->e, y->b, O->R, u->x, t->w, f->i, t->w, e->h, r->u, s->v. Wait, let me re-verify the shift logic requested.)\n\nInstruction: \"write your reply with every letter shifted three places forward in the alphabet, so that a becomes d.\"\n\nSupplier: Lunby Outfitters\nL -> O\nu -> x\nn -> q\nb -> e\ny -> b\n[space] -> [space]\nO -> R\nu -> x\nt -> w\nf -> i\nt -> w\ne -> h\nr -> u\ns -> v\n\nResult: Oxqeb Rxwiwhuv\n\nLet me double check the constraints first to ensure I pick the right supplier.\nCriteria:\n1. Quotes at most 40 per unit\n2. Delivers within 10 days\n3. Rated at least 8 out of 10\n\nAnalysis:\n- Kelley Works: 105 (Fail)\n- Harton Works: 160 (Fail)\n- Kelwell Works: 85 (Fail)\n- Yorley Traders: 100 (Fail)\n- Lunby Outfitters: 25 (Pass, <=40), 9 days (Pass, <=10), 8 rating (Pass, >=8). **This is the match.**\n- Fennick Supply: 65 (Fail)\n- Jorwell Traders: 155 (Fail)\n- Orlwick Traders: 105 (Fail)\n\nThe supplier is Lunby Outfitters.\n\nNow applying the shift (a->d, meaning +3):\nL (12) + 3 = O (15)\nu (21) + 3 = x (24)\nn (14) + 3 = q (17)\nb (2) + 3 = e (5)\ny (25) + 3 = b (2) [wrap around: y,z,a,b]\nO (15) + 3 = R (18)\nu"
+}

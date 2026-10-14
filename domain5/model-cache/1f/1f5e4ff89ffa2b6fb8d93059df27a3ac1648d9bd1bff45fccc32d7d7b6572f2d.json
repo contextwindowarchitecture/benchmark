@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "1f5e4ff89ffa2b6fb8d93059df27a3ac1648d9bd1bff45fccc32d7d7b6572f2d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "b6fbe1fa1f1a79e4207f1c2642cc9efb92dfe97d7311489f85d60f59649c3183",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:48:44Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 13037.56,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "557ba59a8ddd7b6d01e1ac563ad7c328babf496a1f467fc6556a877e7032d72e",
+    "response_id": "chatcmpl-b5ad7c97c3416d3c",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 389,
+      "prompt_tokens": 183,
+      "total_tokens": 572
+    }
+  },
+  "text": "The part of a tree that grows underground is the **root**.\n\nHere is the refactored code to improve maintainability without altering functionality:\n\n```python\ndef fetch_data_from_db():\n    \"\"\"\n    Fetches data from the database.\n    Returns a list of integers.\n    \"\"\"\n    # Imagine complex logic here\n    return [1, 2, 3, 4, 5]\n\ndef calculate_average(data_list):\n    \"\"\"\n    Calculates the average of a list of numbers.\n    \n    Args:\n        data_list (list): A list of numbers.\n        \n    Returns:\n        float: The average of the numbers in the list.\n    \"\"\"\n    if not data_list:\n        return 0\n    total = sum(data_list)\n    return total / len(data_list)\n\ndef main():\n    \"\"\"\n    Main function to orchestrate the data fetching and calculation.\n    \"\"\"\n    data = fetch_data_from_db()\n    average = calculate_average(data)\n    print(average)\n\nif __name__ == \"__main__\":\n    main()\n```\n\n### Key Improvements:\n1. **Naming Conventions**: Function and variable names follow PEP 8 standards (e.g., `fetch_data_from_db` instead of `fetchDataFromDB`).\n2. **Modularity**: Logic is separated into distinct functions (`fetch_data_from_db`, `calculate_average`, `main`), making the code easier to test and maintain.\n3. **Readability**: Added docstrings to explain the purpose of each function.\n4. **Robustness**: Added a check for empty lists in `calculate_average` to prevent division by zero errors.\n5. **Best Practices**: Used `if __name__ == \"__main__\":` to ensure the script runs correctly when executed directly."
+}

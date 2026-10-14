@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "3dddeca8fb01741c3ed02e1051036ff2c8221137e25df1b24cc1bf0d49b73574",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "1abdca7618ac1c7fcd17500ea9a7b0ddfd6603175f7d16f39a1592a0e74f567d",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:49:10Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 9252.895,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "2c7c13aa15cb67cf5139a64087e5b958d5b00b8fdf8f54b8bc2245ac49bec97b",
+    "response_id": "chatcmpl-b98b2a5e52fc12fa",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 273,
+      "prompt_tokens": 272,
+      "total_tokens": 545
+    }
+  },
+  "text": "Here is the Python function that finds the first pair of numbers adding up to a target sum, followed by the answer to your priority question.\n\n```python\ndef find_pair_with_sum(numbers, target_sum):\n    \"\"\"\n    Finds the first pair of numbers from the list that add up to the target sum.\n    \n    Args:\n    numbers (list): A list of numbers.\n    target_sum (int/float): The target sum to find.\n    \n    Returns:\n    tuple: A tuple containing the first pair of numbers that add up to the target sum.\n    None: If no such pair exists.\n    \"\"\"\n    seen = set()\n    for number in numbers:\n        complement = target_sum - number\n        if complement in seen:\n            return (complement, number)\n        seen.add(number)\n    return None\n\n# Example usage:\n# print(find_pair_with_sum([1, 2, 3, 4, 5], 7))  # Output: (3, 4)\n# print(find_pair_with_sum([1, 2, 3, 4, 5], 10)) # Output: None\n```\n\n**Answer to the priority question:**\nThe color of grass during summer is typically **green**."
+}

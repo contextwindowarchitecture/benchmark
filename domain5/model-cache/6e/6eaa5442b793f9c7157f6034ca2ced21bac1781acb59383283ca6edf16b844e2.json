@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "6eaa5442b793f9c7157f6034ca2ced21bac1781acb59383283ca6edf16b844e2",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "a1e03b42d20a5fc98fe089e00996013547dbf3c2aabd3fb6e65a43c6625e86be",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:41:47Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 12454.807,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "0b41bd9bbb39bbbf7ba45ac7635638e4efcd548479d5e881318c172d37fcc478",
+    "response_id": "chatcmpl-91ed8ee8a0ef21c7",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 374,
+      "prompt_tokens": 129,
+      "total_tokens": 503
+    }
+  },
+  "text": "The fluffy things in the sky from which rain comes are clouds.\n\nRegarding the provided Python code, here are suggestions to improve efficiency and robustness:\n\n1.  **Use `math.factorial`**: The standard library `math` module provides a highly optimized C-implemented factorial function. It is faster and more reliable than a manual loop.\n2.  **Input Validation**: The current code does not handle negative numbers or non-integer inputs, which would cause errors or incorrect results. Factorials are typically defined for non-negative integers.\n3.  **Edge Case Handling**: Explicitly handle `n=0` (which should return 1) and negative inputs.\n\n**Optimized Code:**\n\n```python\nimport math\n\ndef factorial(n):\n    \"\"\"\n    Calculate the factorial of a non-negative integer n.\n    \n    Args:\n        n (int): A non-negative integer.\n        \n    Returns:\n        int: The factorial of n.\n        \n    Raises:\n        ValueError: If n is negative.\n        TypeError: If n is not an integer.\n    \"\"\"\n    if not isinstance(n, int):\n        raise TypeError(\"Input must be an integer.\")\n    if n < 0:\n        raise ValueError(\"Factorial is not defined for negative numbers.\")\n    \n    # Use the optimized built-in function\n    return math.factorial(n)\n\n# Example usage\nprint(factorial(5))  # Output: 120\n```\n\n**Key Improvements:**\n- **Performance**: `math.factorial` is implemented in C and is significantly faster for large numbers.\n- **Robustness**: Added type and value checks to prevent runtime errors.\n- **Readability**: Added a docstring to explain the function's purpose and behavior."
+}

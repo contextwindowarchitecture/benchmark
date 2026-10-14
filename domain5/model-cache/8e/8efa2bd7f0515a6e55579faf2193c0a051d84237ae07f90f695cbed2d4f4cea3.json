@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "8efa2bd7f0515a6e55579faf2193c0a051d84237ae07f90f695cbed2d4f4cea3",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "62539b87931ed3d969da221a08e780c466ca61b54199be3cc814c8987c5438ac",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T00:38:39Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 37906.773,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "c38da75e93d818004ae182896f1faae42d2cc3aa6b72efe7fb3df6f1cecf29c6",
+    "response_id": "chatcmpl-8ab710936886e521",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 415,
+      "total_tokens": 927
+    }
+  },
+  "text": "The user wants to find a supplier that meets three criteria:\n1.  Price: At most 60 per unit.\n2.  Delivery: Within 10 days.\n3.  Rating: At least 8 out of 10.\n\nLet's evaluate the suppliers mentioned in the document:\n\n1.  **Lunhurst Works**:\n    *   Price: 195 (Fails: > 60)\n    *   Delivery: 15 days (Fails: > 10)\n    *   Rating: 7 (Fails: < 8)\n\n2.  **Lunby Cooperative**:\n    *   Price: 60 (Passes: <= 60)\n    *   Delivery: 7 days (Passes: <= 10)\n    *   Rating: 10 (Passes: >= 8)\n\n3.  **Dovcroft Supply**:\n    *   Price: 105 (Fails: > 60)\n    *   Delivery: 4 days (Passes: <= 10)\n    *   Rating: 5 (Fails: < 8)\n\n4.  **Tornick Supply**:\n    *   Price: 155 (Fails: > 60)\n    *   Delivery: 1 day (Passes: <= 10)\n    *   Rating: 4 (Fails: < 8)\n\n5.  **Quinton Works**:\n    *   Price: 115 (Fails: > 60)\n    *   Delivery: 7 days (Passes: <= 10)\n    *   Rating: 1 (Fails: < 8)\n\nOnly **Lunby Cooperative** meets all the criteria.\n\nThe user requested the reply with every letter shifted three places forward in the alphabet.\n\nSupplier Name: Lunby Cooperative\n\nShifted:\nL -> O\nu -> x\nn -> q\nb -> e\ny -> b\n  ->  \nC -> F\no -> r\no -> r\np -> s\ne -> h\nr -> u\na -> d\nt -> w\ni -> l\nv -> y\n\nResult: Oxqeb Frors hudwl y\n\nWait, let's re-check the shift carefully.\nL -> O\nu"
+}

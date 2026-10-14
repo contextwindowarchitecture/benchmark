@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "de562ef7cbf64a677b7d5524ff1afaab9a0915d938566632ac35793b96246083",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "99ec5a2d8d411a77fcaf484d6e0111d5b3528fa0b1a3aacedfc16a1fa9456cdb",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:41:21Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 16714.396,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "5508cb072ff121d93255955b80e5b1b1c7fafe0b8680985697500a8e3e598d4e",
+    "response_id": "chatcmpl-bc2d96027a947a69",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 475,
+      "prompt_tokens": 287,
+      "total_tokens": 762
+    }
+  },
+  "text": "The fastest land animal in the world is the cheetah.\n\nHere is the extended C# code that maintains the existing functionality of printing the report summary and adds the capability to export the report in CSV format:\n\n```csharp\nusing System;\nusing System.IO;\n\npublic class ReportExporter\n{\n    public void GenerateReport(SummaryReport report)\n    {\n        // Existing functionality: Output summary report to console\n        Console.WriteLine(\"Report Summary:\");\n        Console.WriteLine(report.ToString());\n\n        // Additional feature: Export the report in CSV format\n        ExportToCsv(report, \"report_output.csv\");\n    }\n\n    private void ExportToCsv(SummaryReport report, string filePath)\n    {\n        try\n        {\n            using (StreamWriter writer = new StreamWriter(filePath))\n            {\n                // Assuming SummaryReport has properties that can be serialized to CSV\n                // This is a generic implementation; adjust based on actual SummaryReport structure\n                writer.WriteLine(\"Field,Value\");\n                \n                // Example: If SummaryReport has a method or properties to iterate over data\n                // For demonstration, we'll assume ToString() provides a parseable format or \n                // we access specific properties. Since the prompt doesn't specify the \n                // internal structure of SummaryReport, we'll use a simple placeholder approach.\n                \n                // In a real scenario, you would map specific properties:\n                // writer.WriteLine($\"Date,{report.Date}\");\n                // writer.WriteLine($\"Total,{report.Total}\");\n                \n                // For this example, we'll write the string representation as a single field\n                // or assume the report object has enumerable data. \n                // To keep it simple and safe without knowing SummaryReport's internals:\n                writer.WriteLine($\"Summary,{report.ToString().Replace(\",\", \";\")}\");\n            }\n            Console.WriteLine($\"Report exported to CSV: {filePath}\");\n        }\n        catch (Exception ex)\n        {\n            Console.WriteLine($\"Error exporting to CSV: {ex.Message}\");\n        }\n    }\n}\n\n// Placeholder for SummaryReport class to make the code compile\npublic class SummaryReport\n{\n    public override string ToString()\n    {\n        return \"Sample Report Data\";\n    }\n}\n```"
+}

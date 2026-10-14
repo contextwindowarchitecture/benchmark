@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "184da2e95dea26c815e80c704636a48379b7f457bd2b0b9520f4b68db7a7103a",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "2f517dd67aa087cc4e8b58d0450bbcafc5945fe3330488501b108f0b10b0b693",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-14T03:02:18Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 32348.14,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "491d122377bd8da563b53d8de305a5cb8f3c1489b180382dd80fcc5d727c6724",
+    "response_id": "chatcmpl-b594496d13f9af03",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 483,
+      "total_tokens": 995
+    }
+  },
+  "text": "The user wants to find a supplier that meets three criteria:\n1.  Quote price: at most 125 per unit.\n2.  Delivery time: within 9 days.\n3.  Rating: at least 6 out of 10.\n\nLet's evaluate each supplier from the fetched content:\n\n1.  **Fenby Traders**:\n    *   Quote: 30 per unit (≤ 125) -> Pass\n    *   Delivery: 14 days (> 9) -> Fail\n    *   Rating: 10 (≥ 6) -> Pass\n    *   Result: Fail\n\n2.  **Quinmere Cooperative**:\n    *   Quote: 100 per unit (≤ 125) -> Pass\n    *   Delivery: 8 days (≤ 9) -> Pass\n    *   Rating: 10 (≥ 6) -> Pass\n    *   Result: Pass\n\n3.  **Isthurst Traders**:\n    *   Quote: 110 per unit (≤ 125) -> Pass\n    *   Delivery: 12 days (> 9) -> Fail\n    *   Rating: 5 (< 6) -> Fail\n    *   Result: Fail\n\n4.  **Zelwick Cooperative**:\n    *   Quote: 135 per unit (> 125) -> Fail\n    *   Delivery: 9 days (≤ 9) -> Pass\n    *   Rating: 10 (≥ 6) -> Pass\n    *   Result: Fail\n\n5.  **Istbury Cooperative**:\n    *   Quote: 75 per unit (≤ 125) -> Pass\n    *   Delivery: 16 days (> 9) -> Fail\n    *   Rating: 1 (< 6) -> Fail\n    *   Result: Fail\n\n6.  **Harmore Cooperative**:\n    *   Quote: 185 per unit (> 125) -> Fail\n    *   Delivery: 9 days (≤ 9) -> Pass\n    *   Rating: 2 (< 6) -> Fail\n    *   Result: Fail\n\n7.  **Jormore Traders**:\n    *   Quote: 105 per unit (≤ 125) -> Pass\n"
+}

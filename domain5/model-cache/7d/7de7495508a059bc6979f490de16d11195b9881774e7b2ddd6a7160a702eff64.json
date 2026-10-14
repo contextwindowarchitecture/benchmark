@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "7de7495508a059bc6979f490de16d11195b9881774e7b2ddd6a7160a702eff64",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e8e4475f31640c05f498b28f892af21be68b3c913b19227f7d93926cace682f3",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:27:03Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 5151.27,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "9b987de76436442a66bc74bc79e0c80c3c42ab1b4901a90161d2c4363aba58b7",
+    "response_id": "chatcmpl-808e988276f0bd31",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 164,
+      "prompt_tokens": 154,
+      "total_tokens": 318
+    }
+  },
+  "text": "The country famous for the Great Barrier Reef is Australia.\n\nHere is the debugged code. The original logic was flawed because it used `and` instead of `or` (an email must have both `@` and `.` to be potentially valid, so if it lacks either, it's invalid), and it didn't handle the case where the domain part is incomplete (like `example.`). A more robust check ensures both characters are present.\n\n```python\nemails = ['test.user@example.com', 'seconduser@domain.com', 'third.user@example.']\nfor email in emails:\n    if '@' in email and '.' in email:\n        print(email, 'is a valid email address')\n    else:\n        print(email, 'is an invalid email address')\n```"
+}

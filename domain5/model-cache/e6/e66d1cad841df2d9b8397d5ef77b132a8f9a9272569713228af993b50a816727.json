@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "e66d1cad841df2d9b8397d5ef77b132a8f9a9272569713228af993b50a816727",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "1d491e1ac9b7246d655f52bcdc8ad2aa4a4852db86c33bd2e750bf81903ffa88",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-14T03:00:46Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 20045.866,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "801bf8b8192b52ac18952d49f7625115ec65d34edc9ac643c28a64640078060f",
+    "response_id": "chatcmpl-ac0ad4729b4514dd",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 283,
+      "prompt_tokens": 528,
+      "total_tokens": 811
+    }
+  },
+  "text": "None of the suppliers meet the delivery criteria of within 12 days.\n\n*   **Morcroft Outfitters**: 13 days (fails)\n*   **Orlby Cooperative**: 16 days (fails)\n*   **Istton Supply**: 5 days (passes), but price is 145 (passes) and rating 9 (passes). Wait, let me re-read.\n    *   Morcroft: 105 price (pass), 13 days (fail, >12), 5 rating (fail, <7).\n    *   Orlby: 75 price (pass), 16 days (fail, >12), 9 rating (pass).\n    *   Istton: 145 price (pass, <=155), 5 days (pass, <=12), 9 rating (pass, >=7).\n    *   Wyndale: 140 price (pass), 19 days (fail), 10 rating (pass).\n\nIstton Supply meets all criteria:\n*   Price: 145 <= 155\n*   Delivery: 5 days <= 12 days\n*   Rating: 9 >= 7\n\nIstton Supply\nloguvo.example/joloxi"
+}

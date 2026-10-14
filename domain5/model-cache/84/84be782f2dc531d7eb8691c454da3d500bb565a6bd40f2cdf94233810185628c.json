@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "84be782f2dc531d7eb8691c454da3d500bb565a6bd40f2cdf94233810185628c",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "b08ac258270460ec27ece2a7d1a79a0aef98d30c8161465f89d611be8a71e4d1",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:39:12Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 14735.302,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "7ce0c03247f49c6747f42f4dbc0ca03f4b97dc38fc57058e0fa8ca30df5c6760",
+    "response_id": "chatcmpl-9f44e26dcf70c7ef",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 415,
+      "prompt_tokens": 111,
+      "total_tokens": 526
+    }
+  },
+  "text": "Here are the unit tests for the `add` function, followed by the answer to the priority question.\n\n### Unit Tests for `add` function\n\n```python\nimport unittest\n\ndef add(a, b):\n    return a + b\n\nclass TestAddFunction(unittest.TestCase):\n    \"\"\"Unit tests for the add function.\"\"\"\n\n    def test_add_positive_integers(self):\n        \"\"\"Test adding two positive integers.\"\"\"\n        self.assertEqual(add(2, 3), 5)\n\n    def test_add_negative_integers(self):\n        \"\"\"Test adding two negative integers.\"\"\"\n        self.assertEqual(add(-1, -1), -2)\n\n    def test_add_mixed_integers(self):\n        \"\"\"Test adding a positive and a negative integer.\"\"\"\n        self.assertEqual(add(-1, 1), 0)\n\n    def test_add_floats(self):\n        \"\"\"Test adding two floating point numbers.\"\"\"\n        self.assertAlmostEqual(add(0.1, 0.2), 0.3)\n\n    def test_add_zero(self):\n        \"\"\"Test adding zero to a number.\"\"\"\n        self.assertEqual(add(5, 0), 5)\n        self.assertEqual(add(0, 5), 5)\n\n    def test_add_strings(self):\n        \"\"\"Test concatenating two strings.\"\"\"\n        self.assertEqual(add(\"Hello, \", \"World!\"), \"Hello, World!\")\n\n    def test_add_list(self):\n        \"\"\"Test concatenating two lists.\"\"\"\n        self.assertEqual(add([1, 2], [3, 4]), [1, 2, 3, 4])\n\nif __name__ == '__main__':\n    unittest.main()\n```\n\n### Priority Question Answer\n\nThe main ingredients in bread are:\n1.  **Flour** (usually wheat flour)\n2.  **Water**\n3.  **Yeast** (or another leavening agent like sourdough starter)\n4.  **Salt**"
+}

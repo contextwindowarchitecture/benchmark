@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "3db42dc3b519fc12919d30b978e46de787832f7a48d45356c757cf8cff551291",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "e4fd4db89e0f4d9fbffee477c78601923ed498e591957a3ab0d9845550152954",
+    "sample": 4
+  },
+  "provenance": {
+    "at": "2026-10-14T03:03:53Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 34700.632,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 11,
+      "temperature": 0.7
+    },
+    "payload_sha256": "c0f47e6bae7b969ca4d0f6c718bf481e594c56a93e47730d71b9b1dcc69bb099",
+    "response_id": "chatcmpl-bf142f2092f17079",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 4,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 443,
+      "total_tokens": 955
+    }
+  },
+  "text": "The user wants me to identify a supplier based on specific criteria:\n1.  **Quote**: At most 40 per unit.\n2.  **Delivery**: Within 6 days.\n3.  **Rating**: At least 7 out of 10.\n\nI need to apply a Caesar cipher (shift +3) to the supplier's name before outputting it.\n\nLet's evaluate the suppliers:\n\n1.  **Orlwell Cooperative**: Quote 135 (>40). Fail.\n2.  **Jornick Traders**: Quote 25 (<=40), Delivery 18 days (>6). Fail.\n3.  **Garworth Outfitters**: Quote 195 (>40). Fail.\n4.  **Pellwick Traders**: Quote 165 (>40). Fail.\n5.  **Calbury Supply**: Quote 15 (<=40), Delivery 10 days (>6). Fail.\n6.  **Nevcroft Cooperative**: Quote 25 (<=40), Delivery 5 days (<=6), Rating 8 (>=7). **Pass**.\n7.  **Selcroft Cooperative**: Quote 55 (>40). Fail.\n\nThe matching supplier is **Nevcroft Cooperative**.\n\nNow, I must shift every letter of \"Nevcroft Cooperative\" three places forward in the alphabet.\n\nN -> Q\ne -> h\nv -> y\nc -> f\nr -> u\no -> r\nf -> i\nt -> w\n\nSpace\n\nC -> F\no -> r\no -> r\np -> s\ne -> h\nr -> u\na -> d\nt -> w\ni -> l\nv -> y\ne -> h\n\nResult: **Qhyfurwr Frsrshudwlhyh**\n\nWait, let me double-check the spelling and shifting.\n\nSupplier Name: Nevcroft Cooperative\n\n**Nevcroft**\nN (+3) = Q\ne (+3) = h\nv (+3) = y\nc (+3) = f\nr (+3) = u\no (+3) = r\nf (+3) = i\nt (+3) = w\n-> Qhyfurwr\n\n**Cooperative**\nC (+3) = F\no (+3) = r\no (+3) = r\np (+3) ="
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "89f5a6e0803c885cccecd07f8c3f05989226bd228e6cf88811388191b088068a",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "502d7b123579060b54cdd08c637f28e305d792165170ed29f759e5a2a71463ae",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:48:42Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 9140.883,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "152b1a64a3f8c88df22f1489b28d151faa7af6998a9a529cf9bdc9d8f7feef45",
+    "response_id": "chatcmpl-83356b06606736d0",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 272,
+      "prompt_tokens": 249,
+      "total_tokens": 521
+    }
+  },
+  "text": "The part of a tree that grows underground is the **roots**.\n\nHere is the refactored code to improve maintainability:\n\n```python\ndef fetch_data_from_db():\n    \"\"\"\n    Simulates fetching data from a database.\n    Returns a list of integers.\n    \"\"\"\n    # Imagine complex logic here\n    return [1, 2, 3, 4, 5]\n\ndef calculate_average(data_list):\n    \"\"\"\n    Calculates the average of a list of numbers.\n    \n    Args:\n        data_list (list): A list of numeric values.\n        \n    Returns:\n        float: The average value.\n        \n    Raises:\n        ValueError: If the list is empty.\n    \"\"\"\n    if not data_list:\n        raise ValueError(\"Cannot calculate average of an empty list.\")\n    \n    total = sum(data_list)\n    return total / len(data_list)\n\ndef main():\n    \"\"\"\n    Main execution block.\n    \"\"\"\n    try:\n        data = fetch_data_from_db()\n        average = calculate_average(data)\n        print(average)\n    except Exception as e:\n        print(f\"An error occurred: {e}\")\n\nif __name__ == \"__main__\":\n    main()\n```"
+}

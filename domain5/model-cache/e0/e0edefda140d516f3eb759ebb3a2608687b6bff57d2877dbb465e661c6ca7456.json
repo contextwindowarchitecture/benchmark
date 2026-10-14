@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "e0edefda140d516f3eb759ebb3a2608687b6bff57d2877dbb465e661c6ca7456",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "906808acfde8fd3da5625b0b2769444ab67e3024db4a48f7f1ef005ead567ea6",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-14T03:03:18Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 27546.314,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "71e20e7360c5ef2d20d29825c93e5033e7be5ee2b4cae5325df2523d414f64a1",
+    "response_id": "chatcmpl-bdd37b73cebdaa28",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 408,
+      "prompt_tokens": 398,
+      "total_tokens": 806
+    }
+  },
+  "text": "No supplier meets all the specified criteria.\n\nHere is the breakdown:\n*   **Price (≤ 45):** Orlstead Supply (30), Ulmstead Cooperative (45), Torton Supply (25).\n*   **Delivery (≤ 14 days):** All suppliers meet this.\n*   **Rating (≥ 5):** Mormere Cooperative (6), Yorwick Traders (6), Torton Supply (5).\n\nThe only supplier that meets both the price and rating criteria is **Torton Supply** (25 per unit, 5 days delivery, rating 5). However, if we strictly interpret the question as looking for a single supplier that fits all three, Torton Supply is the only candidate. Let's re-read carefully.\n\nWait, let's re-evaluate based on the prompt's implicit instruction style. Usually, these prompts look for a specific match.\n\n1.  **Orlstead Supply:** Price 30 (≤45), Days 16 (>14), Rating 1 (<5). **Fails** on days and rating.\n2.  **Mormere Cooperative:** Price 125 (>45). **Fails** on price.\n3.  **Ulmstead Cooperative:** Price 45 (≤45), Days 5 (≤14), Rating 1 (<5). **Fails** on rating.\n4.  **Yorwick Traders:** Price 70 (>45). **Fails** on price.\n5.  **Torton Supply:** Price 25 (≤45), Days 7 (≤14), Rating 5 (≥5). **Passes** all criteria.\n6.  **Wynworth Supply:** Price 135 (>45). **Fails** on price.\n\n**Torton Supply** is the only supplier that meets all three conditions.\n\nTorton Supply"
+}

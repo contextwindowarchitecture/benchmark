@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "86d364558ce1b4ab40f54cdaae3fcea2fecb1fec8b0ab35dd2903b5992d4f17d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "f500e306e526b500f928b77bc698198711744a3f7c4c172078d3cf1724eb1c02",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:35:56Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 17766.778,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "6543f79b760bc4fc0a1bd26182980ad37cdc56c8d13a16c5c8759afd6d56adc7",
+    "response_id": "chatcmpl-8190fad59ebc442e",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 114,
+      "total_tokens": 626
+    }
+  },
+  "text": "The color of grass during summer is typically green.\n\nHere is the extended JavaScript code implementing two-factor authentication (2FA) via email, while maintaining the existing username and password authentication logic:\n\n```javascript\n// Simulated user database\nconst users = {\n  'john_doe': {\n    password: 'securePassword123',\n    email: 'john.doe@example.com',\n    verified: false\n  }\n};\n\n// Simulated email service\nfunction sendVerificationEmail(email, code) {\n  console.log(`Sending verification code ${code} to ${email}`);\n  // In a real application, this would use an email service like SendGrid or AWS SES\n}\n\n// Generate a random 6-digit verification code\nfunction generateVerificationCode() {\n  return Math.floor(100000 + Math.random() * 900000).toString();\n}\n\n// Store verification codes temporarily (in production, use a secure session store or Redis)\nconst verificationCodes = {};\n\n/**\n * Handles the initial login with username and password.\n * If credentials are valid, sends a 2FA code to the user's email.\n * @param {string} username \n * @param {string} password \n * @returns {object} Result object with status and message\n */\nfunction login(username, password) {\n  const user = users[username];\n\n  // Step 1: Validate username and password\n  if (!user || user.password !== password) {\n    return {\n      success: false,\n      message: 'Invalid username or password.'\n    };\n  }\n\n  // Step 2: Generate and send 2FA code\n  const code = generateVerificationCode();\n  verificationCodes[username] = {\n    code: code,\n    expiresAt: Date.now() + 5 * 60 * 1000 // Code expires in 5 minutes\n  };\n\n  sendVerificationEmail(user.email, code);\n\n  return {\n    success: true,\n    message: 'Verification code sent to your email.',\n    requires2FA: true\n  };\n}\n\n/**\n * Verifies the 2FA code entered by the user.\n * @param {string} username \n * @param {string} code \n * @returns {object} Result object with status and message\n */\nfunction verify2FA(username,"
+}

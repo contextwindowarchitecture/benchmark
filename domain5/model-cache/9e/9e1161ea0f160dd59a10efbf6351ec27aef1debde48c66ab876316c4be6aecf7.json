@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "9e1161ea0f160dd59a10efbf6351ec27aef1debde48c66ab876316c4be6aecf7",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "2ab89e546ca10567a26317deab0881fab00cc35a4faa5fe01bcef287402fe508",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:28:06Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 17173.448,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "c8cf07faf99e16c60a1d5749ef2d83fb01fc4a3fb1cfb21ac961de73d25bcc8a",
+    "response_id": "chatcmpl-9a1445db2b189f20",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 164,
+      "total_tokens": 676
+    }
+  },
+  "text": "The provided code snippet is not compliant with industry-standard style guidelines, specifically PEP 8 (the Style Guide for Python Code). Below is an assessment of the issues found:\n\n1.  **Invalid Characters**: The code contains the character `ˆ` (Circumflex Accent) between words and keywords. This is not valid Python syntax and will result in a `SyntaxError`. It appears to be a formatting artifact or corruption.\n2.  **Naming Conventions**: The function name `factorial_recursive` uses snake_case, which is correct for function names in Python. However, the variable name `n` is acceptable, though single-letter names are often discouraged for parameters unless they are trivial (like `i` in loops). For clarity, `n` is generally acceptable in mathematical contexts.\n3.  **Spacing and Indentation**: Due to the `ˆ` characters, the spacing is broken. Standard Python requires consistent indentation (typically 4 spaces per level) and proper spacing around operators (e.g., `n * factorial_recursive(n - 1)`).\n4.  **Comments**: The comment `# calculates factorial` is present but malformed due to the `ˆ` characters. Comments should be on their own line or properly spaced after code, using standard ASCII characters.\n5.  **Base Case Logic**: The base case `if n == 1: return 1` is logically correct for positive integers, but it does not handle `n == 0` (where 0! = 1) or negative inputs. A more robust implementation would check for `n == 0` or raise a `ValueError` for negative numbers.\n6.  **Unrelated Text**: The text \"Specify the animal known for its long neck.\" is not part of the code and appears to be an unrelated instruction or noise. It should be removed from the code block.\n\n**Corrected and Compliant Version:**\n\n```python\ndef factorial_recursive(n):\n    \"\"\"Calculates the factorial of a non-negative integer n.\"\"\"\n    if n < 0:\n        raise ValueError(\"Factorial is not defined for negative numbers.\")\n    if n == 0 or n == 1:\n        return 1\n    else:\n        return n * factorial_recursive(n - 1)\n```\n\n**Key Improvements:**\n- Removed invalid `ˆ` characters.\n- Added proper indentation (4 spaces).\n- Added a docstring"
+}

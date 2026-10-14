@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "7840e17001280a42f094b7d009278fd6844327ffe737849a0c5cfa6aeb87915a",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "dcb727df5d01a3dce94987f1831ff0bcefa52162b5243a60fd752337d63f3b16",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:30:29Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 8792.435,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "93a05ca256e3c748ee210c52133d45950102c3450946be8bcb892d5f130fa7b1",
+    "response_id": "chatcmpl-af1a98b761603ec8",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 259,
+      "prompt_tokens": 230,
+      "total_tokens": 489
+    }
+  },
+  "text": "The season that comes after autumn is winter.\n\nHere is the PHP function `getMaxOccurrence` that meets the specified requirements:\n\n```php\n<?php\n\n/**\n * Returns the number that appears the most times in the array.\n * If there are multiple numbers with the same maximum occurrence,\n * returns the smallest one.\n *\n * @param array $numbers An array of numbers.\n * @return int|float The number with the highest frequency (smallest if tied).\n * @throws InvalidArgumentException If the input array is empty.\n */\nfunction getMaxOccurrence(array $numbers)\n{\n    if (empty($numbers)) {\n        throw new InvalidArgumentException(\"Input array must not be empty.\");\n    }\n\n    // Count the occurrences of each number\n    $counts = array_count_values($numbers);\n\n    // Find the maximum occurrence count\n    $maxCount = max($counts);\n\n    // Filter numbers that have the maximum occurrence count\n    $candidates = array_keys(array_filter($counts, function ($count) use ($maxCount) {\n        return $count === $maxCount;\n    }));\n\n    // Return the smallest number among the candidates\n    return min($candidates);\n}\n```"
+}

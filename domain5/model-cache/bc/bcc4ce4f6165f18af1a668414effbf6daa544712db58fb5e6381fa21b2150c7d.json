@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "bcc4ce4f6165f18af1a668414effbf6daa544712db58fb5e6381fa21b2150c7d",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "be468222f5a60aef6266958c44f844335022d6c11f6f5a657fe1028d2e3082a8",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:48:46Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 14164.902,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "af843d0a76a24c23901a1e8937d12d824c184b31406d2758363c638eb9eaa2f7",
+    "response_id": "chatcmpl-8c13f939d7484b35",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 420,
+      "prompt_tokens": 174,
+      "total_tokens": 594
+    }
+  },
+  "text": "The part of a tree that grows underground is the **roots**.\n\nHere is the refactored code to improve maintainability, readability, and robustness (specifically handling the edge case where the list might be empty to prevent division by zero):\n\n```python\ndef fetch_data_from_db():\n    \"\"\"\n    Simulates fetching data from a database.\n    Returns a list of integers.\n    \"\"\"\n    # Imagine complex logic here\n    return [1, 2, 3, 4, 5]\n\ndef calculate_average(data_list):\n    \"\"\"\n    Calculates the average of a list of numbers.\n    Returns 0 if the list is empty to avoid division by zero.\n    \"\"\"\n    if not data_list:\n        return 0\n    return sum(data_list) / len(data_list)\n\ndef main():\n    # Fetch data\n    data = fetch_data_from_db()\n    \n    # Calculate average\n    average = calculate_average(data)\n    \n    # Output result\n    print(average)\n\nif __name__ == \"__main__\":\n    main()\n```\n\n### Key Improvements:\n1.  **Naming Conventions**: Used `snake_case` for functions and variables (e.g., `fetch_data_from_db`, `data_list`) to follow Python best practices (PEP 8).\n2.  **Modularity**: Separated the logic into distinct functions (`fetch_data_from_db`, `calculate_average`, `main`). This makes the code easier to test and reuse.\n3.  **Built-in Functions**: Used `sum()` instead of a manual loop for calculating the total, which is more Pythonic and efficient.\n4.  **Error Handling**: Added a check in `calculate_average` to handle empty lists, preventing a `ZeroDivisionError`.\n5.  **Structure**: Wrapped the execution in a `main()` function and used the `if __name__ == \"__main__\":` guard, which is standard practice for executable scripts."
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "f0d651b324216cbdc8f7f7f6dec0b1141ef62cee170a8122fc00d4c19a56b145",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "1c3aaa6d187e009ecddd970d2cb6e326ce8bce0140b5f9a72f53b1b9f8d17e65",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:41:16Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 11215.561,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "1d98ac59b7851e6ce6282705ee12f274ba688fe8d16b589b41a0f1ae30997271",
+    "response_id": "chatcmpl-b9d59b4e94653f07",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 322,
+      "prompt_tokens": 263,
+      "total_tokens": 585
+    }
+  },
+  "text": "The fastest land animal in the world is the cheetah.\n\nHere is the extended C# code that maintains the existing functionality and adds the option to export the report in CSV format:\n\n```csharp\nusing System;\nusing System.IO;\nusing System.Text;\n\npublic class SummaryReport\n{\n    public string Title { get; set; }\n    public string Content { get; set; }\n\n    public override string ToString()\n    {\n        return $\"Title: {Title}\\nContent: {Content}\";\n    }\n}\n\npublic class ReportGenerator\n{\n    public void GenerateReport(SummaryReport report)\n    {\n        Console.WriteLine(\"Report Summary:\");\n        Console.WriteLine(report.ToString());\n    }\n\n    public void ExportReportToCsv(SummaryReport report, string filePath)\n    {\n        var sb = new StringBuilder();\n        sb.AppendLine(\"Title,Content\");\n        sb.AppendLine($\"{EscapeCsvField(report.Title)},{EscapeCsvField(report.Content)}\");\n\n        File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);\n        Console.WriteLine($\"Report exported to {filePath}\");\n    }\n\n    private string EscapeCsvField(string field)\n    {\n        if (string.IsNullOrEmpty(field))\n            return string.Empty;\n        \n        if (field.Contains(\",\") || field.Contains(\"\\\"\") || field.Contains(\"\\n\"))\n        {\n            return \"\\\"\" + field.Replace(\"\\\"\", \"\\\"\\\"\") + \"\\\"\";\n        }\n        return field;\n    }\n}\n```"
+}

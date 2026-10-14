@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "3bbf55f41c89326d010f0ac590868a7aa35ba639f5fb48b37fe2882b82ba5f16",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "1758c797158311220292c7324139279e31f001e5f705766a1ae0545fe9dc1db7",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:03:16Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 35584.86,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0.7
+    },
+    "payload_sha256": "7f787f4676ccfe60a7bf4ddc26697c53991bb0b29d7c617ec13b37fef08da8fd",
+    "response_id": "chatcmpl-807d0ee61ad547eb",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 484,
+      "total_tokens": 996
+    }
+  },
+  "text": "The user wants to find a supplier that meets three criteria:\n1.  **Quote**: At most 40 per unit.\n2.  **Delivery**: Within 6 days.\n3.  **Rating**: At least 7 out of 10.\n\nLet's evaluate each supplier from the retrieved content:\n\n1.  **Orlwell Cooperative**:\n    *   Quote: 135 (Fail, > 40)\n    *   Delivery: 3 days (Pass, <= 6)\n    *   Rating: 1 (Fail, < 7)\n\n2.  **Jornick Traders**:\n    *   Quote: 25 (Pass, <= 40)\n    *   Delivery: 18 days (Fail, > 6)\n    *   Rating: 1 (Fail, < 7)\n\n3.  **Garworth Outfitters**:\n    *   Quote: 195 (Fail, > 40)\n    *   Delivery: 13 days (Fail, > 6)\n    *   Rating: 7 (Pass, >= 7)\n\n4.  **Pellwick Traders**:\n    *   Quote: 165 (Fail, > 40)\n    *   Delivery: 10 days (Fail, > 6)\n    *   Rating: 6 (Fail, < 7)\n\n5.  **Calbury Supply**:\n    *   Quote: 15 (Pass, <= 40)\n    *   Delivery: 10 days (Fail, > 6)\n    *   Rating: 5 (Fail, < 7)\n\n6.  **Nevcroft Cooperative**:\n    *   Quote: 25 (Pass, <= 40)\n    *   Delivery: 5 days (Pass, <= 6)\n    *   Rating: 8 (Pass, >= 7)\n\n7.  **Selcroft Cooperative**:\n    *   Quote: 55 (Fail, > 40)\n    *   Delivery: 15 days (Fail, > 6)\n    *   Rating: 4 (Fail, < 7)\n\nOnly **Nevcroft Cooperative** meets all three criteria.\n\nThe instruction requires shifting every letter three places forward in the alphabet (Caesar cipher"
+}

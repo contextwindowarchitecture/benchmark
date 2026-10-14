@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "5afa8c7fb5a69504a2b6781dda8f750cb4181cb58d1c5e216b110e2cb9962fdc",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "7faf41024d84254fba2e44e8a7871749324ed11c577601d90f63ed6af72d601e",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:35:05Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 3300.227,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "ec68ab79a519bcce7804180316fa89d4d7e956556b49d3de4764a68847b5acf0",
+    "response_id": "chatcmpl-8fbc57dab72d3b86",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 100,
+      "prompt_tokens": 124,
+      "total_tokens": 224
+    }
+  },
+  "text": "Here is the refactored code. It improves maintainability by using a context manager (`with` statement) to ensure the file is properly closed, even if an error occurs, and by separating the file opening logic from the reading logic for clarity.\n\n```python\ntry:\n    with open('config.txt', 'r') as file:\n        settings = file.read()\n        print(settings)\nexcept FileNotFoundError:\n    print('Error: File does not exist.')\n```"
+}

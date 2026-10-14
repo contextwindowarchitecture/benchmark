@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "f0449bf844c6ee75d0c5971a7ed6d45901dfbc9eca3f44213f40c40ae9de889c",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "8831556d4a294a36e547c791aef985cc96e114313936c2f95be6135cafa0bd66",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:28:06Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 17172.437,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "2e10ebeab6bffa1b9d036cdc88e1c4423344aa7caabbdfc9574ebb4451615e2a",
+    "response_id": "chatcmpl-a9470c68331c07ac",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 113,
+      "total_tokens": 625
+    }
+  },
+  "text": "The provided code snippet has several issues regarding compliance with industry-standard style guidelines, specifically PEP 8 (the official style guide for Python code).\n\n### 1. Indentation\n*   **Issue:** The code uses inconsistent or incorrect indentation. Python relies on indentation to define code blocks. The `else` block and the `return` statement inside it appear to be at the same level as the `if` statement in the provided text, which would cause an `IndentationError`.\n*   **Fix:** Ensure consistent indentation (typically 4 spaces per level).\n\n### 2. Docstrings\n*   **Issue:** The comment `# calculates factorial` is placed on the same line as the function definition. While inline comments are allowed, PEP 8 recommends using docstrings for module, class, and function documentation.\n*   **Fix:** Use a triple-quoted string as the first statement in the function body.\n\n### 3. Function Naming\n*   **Issue:** The function name `factorial_recursive` is descriptive but slightly verbose. PEP 8 recommends using `snake_case` for function names, which is followed here. However, simply `factorial` is often sufficient unless there are multiple implementations (e.g., iterative vs. recursive). If keeping the name, it is compliant.\n\n### 4. Edge Cases and Robustness\n*   **Issue:** The function does not handle non-positive integers (e.g., `n=0` or `n<0`). Mathematically, `0! = 1`, but the current code will return `1` for `n=1` and recurse infinitely or raise a `RecursionError` for `n=0` or negative numbers.\n*   **Fix:** Add a check for `n == 0` and validate that `n` is a non-negative integer.\n\n### 5. Type Hints\n*   **Issue:** The function lacks type hints. Modern Python best practices encourage using type hints for better readability and tooling support.\n*   **Fix:** Add type hints for the argument and return value.\n\n---\n\n### Compliant Version\n\nHere is the refactored code adhering to PEP 8 and best practices:\n\n```python\ndef factorial(n: int) -> int:\n    \"\"\"\n    Calculate the factorial of a non-negative integer.\n\n    Args:\n        n (int): A non-negative integer.\n\n    Returns:\n       "
+}

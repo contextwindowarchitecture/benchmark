@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "eed17201879cf397a493845a2b85bb2d0537287112cb745f520a060cfc87b97b",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "8c1794801c7da4b7e650d498f161b6ebf88203d58627c26218647deb387e0486",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:41:20Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 16740.003,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "6da645ba766a6b6e3f712e86108923fcfc63f90f269fdf8427b7ec76cf41dedc",
+    "response_id": "chatcmpl-907f8060742150c7",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 479,
+      "prompt_tokens": 165,
+      "total_tokens": 644
+    }
+  },
+  "text": "The fastest land animal in the world is the cheetah.\n\nHere is the extended C# code that maintains the existing functionality while adding the option to export the report in CSV format:\n\n```csharp\nusing System;\nusing System.IO;\n\npublic class SummaryReport\n{\n    public string Title { get; set; }\n    public string Content { get; set; }\n\n    public override string ToString()\n    {\n        return $\"Title: {Title}\\nContent: {Content}\";\n    }\n}\n\npublic class ReportGenerator\n{\n    public void GenerateReport(SummaryReport report, bool exportToCsv = false, string csvFilePath = null)\n    {\n        // Existing functionality: Output summary report to console\n        Console.WriteLine(\"Report Summary:\");\n        Console.WriteLine(report.ToString());\n\n        // New functionality: Export to CSV if requested\n        if (exportToCsv)\n        {\n            if (string.IsNullOrEmpty(csvFilePath))\n            {\n                csvFilePath = \"report.csv\";\n            }\n\n            try\n            {\n                using (var writer = new StreamWriter(csvFilePath))\n                {\n                    // Write CSV header\n                    writer.WriteLine(\"Title,Content\");\n\n                    // Write report data, escaping commas and quotes if necessary\n                    string escapedTitle = EscapeCsvField(report.Title);\n                    string escapedContent = EscapeCsvField(report.Content);\n\n                    writer.WriteLine($\"{escapedTitle},{escapedContent}\");\n                }\n\n                Console.WriteLine($\"Report successfully exported to {csvFilePath}\");\n            }\n            catch (Exception ex)\n            {\n                Console.WriteLine($\"Error exporting report to CSV: {ex.Message}\");\n            }\n        }\n    }\n\n    private string EscapeCsvField(string field)\n    {\n        if (string.IsNullOrEmpty(field))\n            return string.Empty;\n\n        // If the field contains commas, quotes, or newlines, wrap it in quotes\n        if (field.Contains(\",\") || field.Contains(\"\\\"\") || field.Contains(\"\\n\") || field.Contains(\"\\r\"))\n        {\n            // Escape any existing quotes by doubling them\n            field = field.Replace(\"\\\"\", \"\\\"\\\"\");\n            return $\"\\\"{field}\\\"\";\n        }\n\n        return field;\n    }\n}\n```"
+}

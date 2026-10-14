@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "88e957a87c11b07786bed52b9c7894c9262368bf6cce83c6235f04bcad6bb062",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "828f22d6f88857691ffb38cf733e455583e69d392b6559b2535fa9a2be4e95bc",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:43:09Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 11201.129,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "3066df8e1aeec8f9ead6e31348a197b286e900e7ac62fe53bd076dc584b8cb19",
+    "response_id": "chatcmpl-8ea8beabcdf71190",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 345,
+      "prompt_tokens": 148,
+      "total_tokens": 493
+    }
+  },
+  "text": "A typical year has 365 days.\n\nHere are the unit tests for the `is_palindrome` function:\n\n```python\nimport unittest\n\ndef is_palindrome(s):\n    return s == s[::-1]\n\nclass TestIsPalindrome(unittest.TestCase):\n    def test_empty_string(self):\n        self.assertTrue(is_palindrome(\"\"))\n\n    def test_single_character(self):\n        self.assertTrue(is_palindrome(\"a\"))\n\n    def test_two_characters_palindrome(self):\n        self.assertTrue(is_palindrome(\"aa\"))\n\n    def test_two_characters_not_palindrome(self):\n        self.assertFalse(is_palindrome(\"ab\"))\n\n    def test_odd_length_palindrome(self):\n        self.assertTrue(is_palindrome(\"aba\"))\n\n    def test_even_length_palindrome(self):\n        self.assertTrue(is_palindrome(\"abba\"))\n\n    def test_odd_length_not_palindrome(self):\n        self.assertFalse(is_palindrome(\"abc\"))\n\n    def test_even_length_not_palindrome(self):\n        self.assertFalse(is_palindrome(\"abcd\"))\n\n    def test_mixed_case(self):\n        # Note: The current implementation is case-sensitive\n        self.assertFalse(is_palindrome(\"Abba\"))\n        self.assertTrue(is_palindrome(\"Abba\".lower()))\n\n    def test_with_spaces(self):\n        # Note: The current implementation considers spaces\n        self.assertFalse(is_palindrome(\"a b\"))\n        self.assertTrue(is_palindrome(\"aba\"))\n\n    def test_numbers(self):\n        self.assertTrue(is_palindrome(\"121\"))\n        self.assertFalse(is_palindrome(\"123\"))\n\nif __name__ == '__main__':\n    unittest.main()\n```"
+}

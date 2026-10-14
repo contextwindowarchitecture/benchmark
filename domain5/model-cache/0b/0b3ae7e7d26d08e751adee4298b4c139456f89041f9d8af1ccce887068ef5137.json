@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "0b3ae7e7d26d08e751adee4298b4c139456f89041f9d8af1ccce887068ef5137",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "6fe521b459f5cc1ed7ba1392ccdaa7983c6be95fbff3995919915a33da78ab17",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:41:22Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 18127.128,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "2bb3016c1f4f8857536e4702c183bb2c21e8e732fe513bfa68df202acc09d07b",
+    "response_id": "chatcmpl-b7219097e60c7cc8",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 186,
+      "total_tokens": 698
+    }
+  },
+  "text": "Here is the extended C# code. I have added an optional `exportToCsv` parameter to the `GenerateReport` method. When enabled, it serializes the report data into a CSV format and prints it to the console (simulating an export).\n\n```csharp\nusing System;\nusing System.Text;\n\npublic class SummaryReport\n{\n    public string Title { get; set; }\n    public string Date { get; set; }\n    public string Content { get; set; }\n\n    public override string ToString()\n    {\n        return $\"Title: {Title}\\nDate: {Date}\\nContent: {Content}\";\n    }\n}\n\npublic class ReportGenerator\n{\n    public void GenerateReport(SummaryReport report, bool exportToCsv = false)\n    {\n        // Existing functionality: Output summary report\n        Console.WriteLine(\"Report Summary:\");\n        Console.WriteLine(report.ToString());\n\n        // New functionality: Export to CSV if requested\n        if (exportToCsv)\n        {\n            Console.WriteLine(\"\\n--- CSV Export ---\");\n            string csv = ConvertToCsv(report);\n            Console.WriteLine(csv);\n        }\n    }\n\n    private string ConvertToCsv(SummaryReport report)\n    {\n        var sb = new StringBuilder();\n        \n        // Header row\n        sb.AppendLine(\"Title,Date,Content\");\n        \n        // Data row\n        // Note: In a real-world scenario, you would need to escape commas and quotes in the content\n        sb.AppendLine($\"{EscapeCsvField(report.Title)},{EscapeCsvField(report.Date)},{EscapeCsvField(report.Content)}\");\n        \n        return sb.ToString();\n    }\n\n    private string EscapeCsvField(string field)\n    {\n        if (string.IsNullOrEmpty(field)) return string.Empty;\n        \n        // If the field contains commas, quotes, or newlines, wrap it in quotes\n        if (field.Contains(\",\") || field.Contains(\"\\\"\") || field.Contains(\"\\n\"))\n        {\n            return \"\\\"\" + field.Replace(\"\\\"\", \"\\\"\\\"\") + \"\\\"\";\n        }\n        return field;\n    }\n}\n```\n\n**Priority Question Answer:**\nThe fastest land animal in the world is the **Cheetah** (*Acinonyx jubatus*). It can reach speeds of up to 70–75 mph (112–120 km/h) in short bursts."
+}

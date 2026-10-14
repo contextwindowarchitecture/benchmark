@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "e32ad8340e640fa7b6ab86dbe56d38e5ca48053fcfa84ee15ffea3bf320e9f49",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "f0a28c9568648ef3efea312412e9f6e00696f7a74681c4121f41931c9e46a100",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:41:22Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 18122.314,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "16578f98463e78967d9e70fa8902451ac82edf15c38f48c184a294b3d582a637",
+    "response_id": "chatcmpl-96fa3da4810f7a95",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 149,
+      "total_tokens": 661
+    }
+  },
+  "text": "Here is the extended C# code that maintains the existing functionality while adding the capability to export the report in CSV format.\n\n```csharp\nusing System;\nusing System.IO;\n\npublic class ReportGenerator\n{\n    public void GenerateReport(SummaryReport report, bool exportToCsv = false, string filePath = null)\n    {\n        // Existing functionality: Output summary report to console\n        Console.WriteLine(\"Report Summary:\");\n        Console.WriteLine(report.ToString());\n\n        // New functionality: Export to CSV if requested\n        if (exportToCsv)\n        {\n            if (string.IsNullOrEmpty(filePath))\n            {\n                filePath = \"report_output.csv\";\n            }\n\n            try\n            {\n                // Assuming SummaryReport has properties that can be serialized.\n                // This is a generic implementation; adjust property names as needed.\n                using (var writer = new StreamWriter(filePath))\n                {\n                    // Write header\n                    writer.WriteLine(\"Field,Value\");\n\n                    // Write content based on report data.\n                    // Note: Since SummaryReport structure isn't defined, \n                    // we assume it has a method or properties to iterate over.\n                    // For demonstration, we'll write the string representation \n                    // or specific fields if available.\n                    \n                    // Example: If report has a dictionary or properties, you would iterate here.\n                    // For now, we write a placeholder or the string content if it's simple.\n                    // A more robust solution would require knowing the SummaryReport structure.\n                    \n                    // Assuming report.ToString() returns a structured string or we access specific fields:\n                    // Here we simply write the report's string representation as a single value for demonstration.\n                    // In a real scenario, you would parse report fields like:\n                    // writer.WriteLine($\"Date,{report.Date}\");\n                    // writer.WriteLine($\"Total,{report.Total}\");\n                    \n                    writer.WriteLine($\"Content,{report.ToString().Replace(\",\", \";\")}\"); // Escape commas if necessary\n                }\n                \n                Console.WriteLine($\"Report successfully exported to {filePath}\");\n            }\n            catch (Exception ex)\n            {\n                Console.WriteLine($\"Error exporting report to CSV: {ex.Message}\");\n            }\n        }\n    }\n}\n\n// Placeholder class for SummaryReport to make the code compile\npublic class SummaryReport\n{\n    public override string ToString()\n    {\n        return \"Sample Report Data\";\n    }\n"
+}

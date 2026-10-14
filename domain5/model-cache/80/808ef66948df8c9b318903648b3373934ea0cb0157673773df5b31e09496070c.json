@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "808ef66948df8c9b318903648b3373934ea0cb0157673773df5b31e09496070c",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "8e56db7cbad1f336a7933748a02c1f95b8c33f5947021a30b186a59789a1a914",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-14T02:54:05Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 7234.804,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "7c21095f6bbea121d1c3c7cc53410947bde8c82bc2eab100442fa6aaaa3d9014",
+    "response_id": "chatcmpl-a872e6643c4ebff5",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 127,
+      "prompt_tokens": 274,
+      "total_tokens": 401
+    }
+  },
+  "text": "I cannot fulfill the request to shift every letter of my response. However, I can help you identify the bug in the code provided.\n\nThe bug is on line 10. The function `mean_reading` calculates the mean by dividing the sum by `len(readings) - 1`, which is incorrect for calculating an average. It should divide by the total number of readings.\n\n```json\n{\n  \"bug\": \"    return sum(readings) / (len(readings) - 1)\",\n  \"fix\": \"    return sum(readings) / len(readings)\"\n}\n```"
+}

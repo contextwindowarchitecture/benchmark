@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "b64744c03749a053801e63f66d5687f8c4c3684ddd3eb1b78503cf7896582a26",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "24dc896694f779407c8708da1c112a13e57a455fdeeb58ce3db4c3b6d78d3381",
+    "sample": 1
+  },
+  "provenance": {
+    "at": "2026-10-14T02:59:31Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 20139.714,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 8,
+      "temperature": 0.7
+    },
+    "payload_sha256": "10cc363b9a0469b98e7066056e7c75f5c96039e65c8622a9b6ca6dae9b701dfe",
+    "response_id": "chatcmpl-bb53838ad230da7f",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 1,
+    "usage": {
+      "completion_tokens": 297,
+      "prompt_tokens": 393,
+      "total_tokens": 690
+    }
+  },
+  "text": "None of the suppliers meet all the specified criteria. While Morcroft Outfitters, Orlby Cooperative, and Istton Supply quote at most 155 per unit and are rated at least 7, only Wyndale Supply and Istton Supply have ratings of 9 or 10, but Wyndale's delivery is 19 days and Istton's is 5 days (which is within 12 days). However, Istton's price is 145 (within 155), delivery is 5 days (within 12), and rating is 9 (at least 7). Therefore, Istton Supply meets all criteria.\n\nLet me re-check:\n- Morcroft: Price 105 (<=155), Delivery 13 (>12), Rating 5 (<7). Fails.\n- Orlby: Price 75 (<=155), Delivery 16 (>12), Rating 9 (>=7). Fails.\n- Istton: Price 145 (<=155), Delivery 5 (<=12), Rating 9 (>=7). Passes.\n- Wyndale: Price 140 (<=155), Delivery 19 (>12), Rating 10 (>=7). Fails.\n\nOnly Istton Supply meets all conditions.\n\nSStton Supply"
+}

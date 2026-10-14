@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "ccd0a79decbc7eab9a659ca5179c7d5bfb24df8036220f79a9e14f27cee9465e",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "f176be7e62f2d7fb343234daa382c13dc92928b90098712cdb7e96e32e44bbb7",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:27:03Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 5765.053,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "f05a7a46cb3feb30dbe2bcd87407a11ea7ad5edad2c9d4e2c97b049ed439f613",
+    "response_id": "chatcmpl-a4517a306a0c6325",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 182,
+      "prompt_tokens": 125,
+      "total_tokens": 307
+    }
+  },
+  "text": "The country famous for the Great Barrier Reef is Australia.\n\nHere is the debugged code. The original logic was flawed because it used `and` instead of `or` (an email must have both `@` and `.` to be potentially valid, so the check for validity should ensure they are present, not that one is missing). Additionally, the condition `not '@' in email` combined with `and '.' in email` would only print emails that lack an `@` but have a `.`, which is the opposite of what is intended for validation. A simple validation check usually ensures both characters are present.\n\n```python\nemails = ['test.user@example.com', 'seconduser@domain.com', 'third.user@example.']\nfor email in emails:\n    if '@' in email and '.' in email:\n        print(email, 'is a valid email address')\n```"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "a2887e4cd89e50a093666500368da9a4be8f0a9d748e1246d6fdac9c9d08a742",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "1839b4e1d27c8a1a9a64b540fd5a581933d776af1f0d7cc18c28f2d30fffd540",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:27:06Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 8084.359,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "d745fcddaa5fd84684251a93e8f7e77164e07c1dffb5abbe07a3d08be0179270",
+    "response_id": "chatcmpl-8c4f413c167ea167",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 250,
+      "prompt_tokens": 130,
+      "total_tokens": 380
+    }
+  },
+  "text": "The country famous for the Great Barrier Reef is Australia.\n\nHere is the debugged code. The original code had two main issues:\n1.  **Logic Error:** The condition `if not '@' in email and '.' in email` was incorrect. It checked if `'@'` was *not* in the email, which would reject valid emails. It should check if `'@'` *is* in the email.\n2.  **Validation Completeness:** While a simple check for `@` and `.` is basic, the original logic was fundamentally broken. The corrected logic ensures both characters are present. Note that the third email in the list (`'third.user@example.'`) ends with a dot, which is technically invalid in strict RFC standards, but for a basic syntax check, the presence of `@` and `.` is the primary filter. However, the original code's `not '@'` was the critical bug.\n\n```python\nemails = ['test.user@example.com', 'seconduser@domain.com', 'third.user@example.']\nfor email in emails:\n    if '@' in email and '.' in email:\n        print(email, 'is a valid email address')\n```"
+}

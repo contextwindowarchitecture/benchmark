@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "a87bf807949880920b2042e78ca56f21d6905cd3055bb70ef1aded633c1327c4",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "d2fe7b25cee07a80dd98b0b28f87a968e062fb5f34c11620fae46f4c9062c3a2",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:48:16Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 10577.953,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "3fd66dd508d0b1b579dd9336fca3885202171c4553c7aa5b20e5b2e9afee1695",
+    "response_id": "chatcmpl-ad782241a9a3e7e2",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 295,
+      "prompt_tokens": 115,
+      "total_tokens": 410
+    }
+  },
+  "text": "The main ingredients in bread are flour, water, yeast, and salt.\n\nHere are the unit tests for the `is_even` function. Note that the provided code snippet contains the character `ˆ` between words, which appears to be a formatting artifact. The actual Python function is assumed to be:\n\n```python\ndef is_even(number):\n    return number % 2 == 0\n```\n\nBelow are the unit tests using Python's `unittest` framework:\n\n```python\nimport unittest\n\ndef is_even(number):\n    return number % 2 == 0\n\nclass TestIsEven(unittest.TestCase):\n    def test_positive_even(self):\n        self.assertTrue(is_even(2))\n        self.assertTrue(is_even(4))\n        self.assertTrue(is_even(100))\n\n    def test_positive_odd(self):\n        self.assertFalse(is_even(1))\n        self.assertFalse(is_even(3))\n        self.assertFalse(is_even(99))\n\n    def test_negative_even(self):\n        self.assertTrue(is_even(-2))\n        self.assertTrue(is_even(-4))\n\n    def test_negative_odd(self):\n        self.assertFalse(is_even(-1))\n        self.assertFalse(is_even(-3))\n\n    def test_zero(self):\n        # Zero is considered an even number\n        self.assertTrue(is_even(0))\n\nif __name__ == '__main__':\n    unittest.main()\n```"
+}

@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "4c53a3614fa1958d25c3186ae297310ac2c9ce3f392c3b62a7f308133c0cba34",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "289501952e15eb7fc34be98814b0bc049e480fbb361543fb08113a31174648e8",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T05:49:42Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 858.472,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "33fdad1a28c94089d71333c2693e444c65775211312e3245c182ba8954a00384",
+    "response_id": "chatcmpl-b86c495a537991cb",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 84,
+      "prompt_tokens": 455,
+      "total_tokens": 539
+    }
+  },
+  "text": "{\n\"bug\": \"def clamp(value, low, high):\\n    if value < low:\\n        return low\\n    if value < high:\\n        return high\\n    return value\",\n\"fix\": \"def clamp(value, low, high):\\n    if value < low:\\n        return low\\n    if value > high:\\n        return high\\n    return value\"\n}"
+}

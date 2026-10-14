@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "3de2113ce0ffb27813ae9e3328bc92425a1b052b36c9eaab0833acb66902859c",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "2710a688b3a382e6af5081d757868dbc7b48c857fe9770b509d29e58968e33e9",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:41:21Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 18009.223,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "bf105e7bb2c08fe3b9f701f355a2f02a9d2b00a8b832f364ecff5af497cac490",
+    "response_id": "chatcmpl-b783229b8a1d5bbd",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 243,
+      "total_tokens": 755
+    }
+  },
+  "text": "The fastest land animal in the world is the cheetah.\n\nHere is the extended C# code that maintains the existing functionality while adding the option to export the report in CSV format:\n\n```csharp\nusing System;\nusing System.IO;\n\npublic class SummaryReport\n{\n    public string Title { get; set; }\n    public string Content { get; set; }\n\n    public override string ToString()\n    {\n        return $\"Title: {Title}\\nContent: {Content}\";\n    }\n}\n\npublic class ReportGenerator\n{\n    public void GenerateReport(SummaryReport report, bool exportToCsv = false, string filePath = null)\n    {\n        // Existing functionality: Output summary report to console\n        Console.WriteLine(\"Report Summary:\");\n        Console.WriteLine(report.ToString());\n\n        // New functionality: Export to CSV if requested\n        if (exportToCsv)\n        {\n            if (string.IsNullOrEmpty(filePath))\n            {\n                filePath = \"report.csv\";\n            }\n\n            try\n            {\n                using (var writer = new StreamWriter(filePath))\n                {\n                    // Write CSV header\n                    writer.WriteLine(\"Title,Content\");\n                    \n                    // Write report data\n                    // Note: If Content contains commas or newlines, it should be quoted\n                    string escapedContent = report.Content.Replace(\"\\\"\", \"\\\"\\\"\");\n                    writer.WriteLine($\"\\\"{report.Title}\\\",\\\"{escapedContent}\\\"\");\n                }\n                \n                Console.WriteLine($\"Report exported to CSV: {filePath}\");\n            }\n            catch (Exception ex)\n            {\n                Console.WriteLine($\"Error exporting report to CSV: {ex.Message}\");\n            }\n        }\n    }\n}\n```\n\n### Explanation of Changes:\n1. **Method Signature Update**: Added optional parameters `exportToCsv` (default `false`) and `filePath` (default `null`) to allow users to opt into CSV export without breaking existing calls.\n2. **CSV Export Logic**:\n   - If `exportToCsv` is `true`, the method creates a CSV file.\n   - It writes a header row (`Title,Content`).\n   - It writes the report's `Title` and `Content` as a CSV row, properly escaping double quotes within the content to ensure valid CSV formatting.\n3. **Error Handling**: Wrapped the file I/O in a `try-catch` block to handle potential"
+}

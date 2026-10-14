@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "5b904c8256c4a053e20dd38756c94fc27d7cfd046c520c2049fc3ba44ac33ead",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "94b9b4ab63a1714436ba6e016a11f82c107ceb8193cf140e5e286b99fd68656f",
+    "sample": 3
+  },
+  "provenance": {
+    "at": "2026-10-14T02:44:35Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "length",
+    "latency_ms": 41203.879,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 10,
+      "temperature": 0.7
+    },
+    "payload_sha256": "93e6c94ed5162e2030f38ab9eeb1b641680baa34bce3cd73b8fc03ef9542eb07",
+    "response_id": "chatcmpl-9823ba1675a4e741",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 3,
+    "usage": {
+      "completion_tokens": 512,
+      "prompt_tokens": 765,
+      "total_tokens": 1277
+    }
+  },
+  "text": "To determine the number of rows that list the \"Coast\" region, we need to count the occurrences of \"Coast\" in the \"Region\" column across both provided evidence tables.\n\n**From `<evidence id=\"content:01\">`:**\n1. ledger | Coast | 582 | 57\n2. kettle | Coast | 227 | 39\n3. bellows | Coast | 519 | 49\n4. satchel | Coast | 172 | 62 (Wait, this row is in content:00, let me re-check content:01)\n\nLet's re-examine `<evidence id=\"content:01\">`:\n1. compass | East\n2. ledger | Coast (1)\n3. bellows | North\n4. thimble | East\n5. kettle | East\n6. spindle | Uplands\n7. kettle | Coast (2)\n8. thimble | Uplands\n9. kettle | Uplands\n10. whistle | West\n11. thimble | South\n12. trowel | North\n13. bellows | Coast (3)\n14. satchel | West\n15. trowel | Uplands\n16. satchel | East\n\nSo, from `content:01`, there are **3** rows with \"Coast\".\n\n**From `<evidence id=\"content:00\">`:**\n1. thimble | Coast (4)\n2. ledger | Uplands\n3. trowel | West\n4. spindle | West\n5. lantern | North\n6. kettle | North\n7. lantern | West\n8. satchel | Coast (5)\n9. lantern | South\n10. ledger | West\n11. kettle | West\n12. lantern | East\n13. whistle | North\n14. satchel | North\n15. thimble | North\n16. whistle | Coast (6)\n17. bellows | West\n18. spindle | Coast (7)\n\nSo, from `content:00`, there are **4** rows with \"Coast\".\n\n**Total Count:**\n3 (from content:01) + 4 (from content:00"
+}

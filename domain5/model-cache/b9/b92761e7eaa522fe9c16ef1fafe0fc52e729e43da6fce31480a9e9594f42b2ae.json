@@ -1,0 +1,43 @@
+{
+  "format": "cwa-bench-d5/model-cache-entry/v1",
+  "key": "b92761e7eaa522fe9c16ef1fafe0fc52e729e43da6fce31480a9e9594f42b2ae",
+  "material": {
+    "kind": "chat",
+    "request_sha256": "8c69cfb7aa73c5324910d9b861c685bdd21d963d1ca4172785384eb5f5785f29",
+    "sample": 0
+  },
+  "provenance": {
+    "at": "2026-10-14T03:52:36Z",
+    "cached_tokens": 0,
+    "endpoint_host": "127.0.0.1:8000",
+    "finish_reason": "stop",
+    "latency_ms": 7162.287,
+    "model": "qwen3.6-35b-a3b-fp8",
+    "params": {
+      "extra_body": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "frequency_penalty": 0.0,
+        "min_p": 0.0,
+        "presence_penalty": 0.0,
+        "repetition_penalty": 1.0,
+        "top_k": -1,
+        "top_p": 1.0
+      },
+      "max_tokens": 512,
+      "seed": 7,
+      "temperature": 0
+    },
+    "payload_sha256": "aad2d8f6fae15dd7acd1d6a9ae206682b4c2b93eb679f1fc4e7f767f00dcc968",
+    "response_id": "chatcmpl-8c4d329a68c14bff",
+    "response_model": "qwen3.6-35b-a3b-fp8",
+    "sample": 0,
+    "usage": {
+      "completion_tokens": 210,
+      "prompt_tokens": 138,
+      "total_tokens": 348
+    }
+  },
+  "text": "<tool_call>\n<function=run_code>\n<parameter=code>\n# Given values\nprincipal = 2000\nannual_interest_rate = 0.05\ncompounding_periods_per_year = 12\nyears = 2\n\n# Calculate the amount after 2 years using the compound interest formula:\n# A = P * (1 + r/n)^(nt)\n# where:\n# A = the future value of the investment/loan, including interest\n# P = the principal investment amount ($2000)\n# r = the annual interest rate (decimal) (0.05)\n# n = the number of times that interest is compounded per unit t (12)\n# t = the time the money is invested or borrowed for, in years (2)\n\namount = principal * (1 + annual_interest_rate / compounding_periods_per_year) ** (compounding_periods_per_year * years)\n\namount\n</parameter>\n</function>\n</tool_call>"
+}
