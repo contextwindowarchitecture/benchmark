@@ -2,7 +2,7 @@
 
 **From:** Melvin Hillsman, author and maintainer of the Context Window Architecture specification and its benchmark
 **Contact:** ceo@mrhillsman.com · [contextwindowarchitecture.io](https://contextwindowarchitecture.io)
-**Date:** 2026-10-12
+**Date:** 2026-10-17
 
 > *Cover note to [sponsor]: [Two or three sentences on why this provider: the serving stacks you run, the hardware you
 > want measured independently, the program this request fits.]*
@@ -11,15 +11,15 @@
 
 I'm asking for about six months of dedicated GPU time to finish an open benchmark. It measures what a deterministic
 context assembler is worth to a production language-model system: whether a model keeps doing its job over a long
-conversation, what serving it costs, and how much prompt injection gets through. Two of its five domains are done. I
-ran them on one cloud host with a single GPU, and that machine has taken the work as far as it can. What's left needs
-more GPUs, and for longer.
+conversation, what serving it costs, and how much prompt injection gets through. Three of its five domains are done.
+I ran them on one cloud host with a single GPU, and that machine has taken the work as far as it can. What's left,
+two domains and a second model family for each of the two finished model domains, needs more GPUs, and for longer.
 
 In numbers: about 9,750 GPU-hours on H100- or H200-class hardware, in three shapes. One GPU for the whole period, a
 two-GPU instance for a month, and an eight-GPU node for three one-week windows. Plus one CPU-only machine and about
-2 TB of storage. If that's more than you can give, a minimum of about 5,750 GPU-hours still covers the two remaining
-domains with the most decision-relevant results, serving economics and injection resistance, and a second model for the
-long-horizon domain that's already finished. The table under "The request, in detail" breaks it down.
+2 TB of storage. If that's more than you can give, a minimum of about 5,750 GPU-hours still covers serving economics,
+the remaining domain with the most decision-relevant results, and the second model family for each of the two finished
+model domains, so that no finding rests on one model. The table under "The request, in detail" breaks it down.
 
 Everything the compute produces goes out under an open license: the harness, every run, the model caches that let
 anyone replay a run without a GPU, and a write-up per domain that says what was shown and how far to trust it.
@@ -69,8 +69,8 @@ commit of the specification.
 
 ## What I've already done, without a sponsor
 
-Both finished domains ran on one AWS EC2 host: 16 vCPUs, 128 GB of memory, one NVIDIA RTX PRO 6000 with 96 GB. The
-model was served by vLLM on the same machine as the harness, so every reported result comes from one box.
+All three finished domains ran on one AWS EC2 host: 16 vCPUs, 128 GB of memory, one NVIDIA RTX PRO 6000 with 96 GB.
+The model was served by vLLM on the same machine as the harness, so every reported result comes from one box.
 
 **Domain 1 is complete and published.** All four assemblers pass every suite on the pinned specification: conformance
 replay; repeatability across 14 environment cells and 7 platform and toolchain variants; 4,393 metamorphic relations,
@@ -106,7 +106,26 @@ CWA's evidence handling matched conventional retrieval (717 of 720 against 719) 
 which exposed a rendering-order trap in the specification itself; I've drafted a change proposal for it. The assembly
 was exact throughout: 220,608 assemblies, every one equal to what the harness predicted.
 
-A results site that reads every run is live at benchmark.contextwindowarchitecture.io, with both domains in full.
+**Domain 5 is complete and published, for one model.** The harness builds synthetic tasks whose answers are known by
+construction, plants attacks in the content they retrieve (six attack families, carried five ways, including forged
+wrapper tags and forged chat-template markers), and sends twelve arms, conventional and CWA, the same task, content,
+attack and question. It also runs two external sets as their authors grade them, an adaptive attacker with 2,000
+queries per arm, attacks in pasted material, and a poisoned document in 20-turn conversations. The recorded run took 7
+hours 40 minutes on the same host, 411,864 model calls from an empty cache, every reply committed. The result splits
+in two, as the domain was built to show. What CWA guarantees by construction held without exception: 110,304 CWA
+payloads assembled on four independent assemblers all matched the prediction, no attack text ever left its evidence
+element, and no forged chat-template marker reached the model as a real token, where every conventional arm passed
+those markers through as raw text that the served model's tokenizer turns into real turn boundaries. What the model
+then does with that structure is an estimate, and it is mixed. Against static attacks, CWA's rendering lowers attack
+success from 0.180 to 0.111, and to 0.040 with the instructions repeated after the content; the escaping is what does
+it. Against 2,000 attacks written by people in a public challenge, CWA's arms let 1.6 to 4% through where conventional
+payloads let 11 to 32% through. But an adaptive attacker with 2,000 queries per arm breaks every arm, reaching 38%
+against the best CWA arms and 52 to 82% against every conventional one. No arm refuses a clean task. The domain also
+shows a channel CWA cannot close: state a model writes from a poisoned document carries the poison with state's
+authority, where state the application writes never does. Every model-side number is one model's.
+
+A results site that reads every run is live at benchmark.contextwindowarchitecture.io, with all three finished domains
+in full.
 
 ## What your GPUs would unlock
 
@@ -127,24 +146,28 @@ per second on vLLM and SGLang. Those numbers are only trustworthy on unshared GP
 output is prefix stability, latency reduction and throughput gain for CWA layouts against conventional ones, by engine
 and model size, and a cost model built on measured numbers rather than assumptions.
 
-**Domain 5 needs volume.** The injection benchmark (BIPIA) is tens of thousands of adversarial prompts, run against two
-models with repeats. The output is attack success rate against benign utility, per attack vector.
+**Domain 5 needs its second model family.** Every model-side number is one model's. The second family is
+Meta-SecAlign-70B, a model trained to treat a separate input role as data, and its base, Llama-3.3-70B-Instruct. The
+question is whether CWA composes with trained separation, the sharpest model-side question the domain asks. Meta
+reports SecAlign at 16-bit, and at 16-bit the pair takes two GPUs a copy; on my one-GPU host they would run only at
+8-bit, where a difference could be the quantization rather than CWA. The compute produces the four-way comparison,
+base or SecAlign against conventional or CWA, on the same probes, and the write-up extended.
 
-A CPU-only machine takes the rest. It runs Domains 1 and 2's CI, which replays every committed reply without a model,
-and carries the assembler side of every other domain, so the GPUs stay free for model work.
+A CPU-only machine takes the rest. It runs Domains 1, 2 and 5's CI, which replays every committed reply without a
+model, and carries the assembler side of every other domain, so the GPUs stay free for model work.
 
 ## The request, in detail
 
 | Resource | Configuration | Duration | GPU-hours | Covers |
 | --- | --- | --- | --- | --- |
-| A. One dedicated GPU | 1 × H100 80 GB or H200 141 GB; 200+ GB RAM; 1 TB local disk | 6 months, continuous | 4,400 | Domain 2's second model at 8-bit and its model-in-the-loop suite at recorded size; Domain 5; Domain 4's single-GPU configurations; development for Domain 3 |
-| B. A two-GPU instance | 2 × H100 or H200, NVLink | 4 weeks | 1,350 | Domain 2's second model at full precision; Domain 4's tensor-parallel pair; Domain 5's second model |
+| A. One dedicated GPU | 1 × H100 80 GB or H200 141 GB; 200+ GB RAM; 1 TB local disk | 6 months, continuous | 4,400 | Domain 2's second model at 8-bit and its model-in-the-loop suite at recorded size; Domain 5's second family at pilot size; Domain 4's single-GPU configurations; development for Domain 3 |
+| B. A two-GPU instance | 2 × H100 or H200, NVLink | 4 weeks | 1,350 | Domain 2's second model at full precision; Domain 4's tensor-parallel pair; Domain 5's second model family at 16-bit |
 | C. An eight-GPU node | 8 × H100 or H200, NVLink | 3 windows of 1 week | 4,000 | Domain 3's recorded runs with a GLM-4.6-class model; Domain 4's large-model configuration |
-| D. One CPU machine | 16+ cores x86_64; 64 GB RAM | 6 months | n/a | Domains 1 and 2's CI; the assembler side of every domain |
+| D. One CPU machine | 16+ cores x86_64; 64 GB RAM | 6 months | n/a | Domains 1, 2 and 5's CI; the assembler side of every domain |
 | Storage | 2 TB object or block storage | 6 months | n/a | Model weights, caches, run directories |
 
 That's about 9,750 GPU-hours in total. **If you can only do part of it**, A, B and D together, about 5,750 GPU-hours,
-finish Domain 2's second model, all of Domain 5, and Domain 4 at one and two GPUs. Domain 3 and the eight-GPU
+finish Domain 2's and Domain 5's second model families and Domain 4 at one and two GPUs. Domain 3 and the eight-GPU
 measurements would wait.
 
 To put a price on it: at the on-demand rates specialist GPU clouds publish for this class of hardware, roughly $2 to
@@ -160,8 +183,9 @@ OpenAI-compatible server. Appendix B says what changes and what doesn't.
 
 ## What you get
 
-- **Your name on the results.** Every result the sponsored compute produces, Domain 2's second model and Domains 3 to
-  5, credits you as the benchmark's compute sponsor, in the write-ups and on the results site.
+- **Your name on the results.** Every result the sponsored compute produces, Domain 2's and Domain 5's second model
+  families and Domains 3 and 4, credits you as the benchmark's compute sponsor, in the write-ups and on the results
+  site.
 - **Domain 4's numbers, measured on your platform, by name.** The serving-economics domain measures real engines on
   real hardware, and its published numbers state the hardware and stack they came from. That's an independent,
   reproducible measurement of prefix-cache economics on your platform.
@@ -180,7 +204,8 @@ memory rather than to "CWA" as a whole. Every failure is attributed: was the nee
 so, did the model miss it? Results are confidence intervals from paired comparisons on the same conversations, with
 thresholds declared before a recorded run. The specification is still a draft, so every result names the commit it
 was measured against, and each write-up says what its domain does not prove. Domain 2's write-up reports where CWA
-didn't help, with state the model writes itself and with history alone, as plainly as where it did.
+didn't help, with state the model writes itself and with history alone, as plainly as where it did, and Domain 5's
+reports that an adaptive attacker breaks every arm, CWA's included.
 
 ## When things would happen
 
@@ -188,7 +213,7 @@ didn't help, with state the model writes itself and with history alone, as plain
 | --- | --- |
 | 1 | Domain 2: the second model family and the model-in-the-loop suite at recorded size; write-up extended |
 | 2 to 3 | Domain 4: vLLM and SGLang at one and two GPUs; first eight-GPU window |
-| 3 to 4 | Domain 5: injection suite on both models; write-up published |
+| 3 to 4 | Domain 5: the second model family (SecAlign and its base) at recorded size; write-up extended |
 | 4 to 5 | Domain 3: Context-Bench harness; two eight-GPU windows for recorded runs; write-up published |
 | 6 | Domain 4 write-up; results site complete; every run verified replayable |
 
@@ -219,8 +244,12 @@ model on resource A, and the node is reserved for recorded runs only.
 two engines, three model sizes, one, two and eight GPUs, several hundred replayed sessions each. Single-GPU work runs
 on resource A; the pair and the node are reserved for their own configurations.
 
-**Domain 5.** Short adversarial prompts in volume with repeats, on two models. It fits within resource A, with resource
-B for the larger model.
+**Domain 5.** Its recorded run with the first model (288 task instances, every suite, from an empty cache) took
+7 hours 40 minutes on the 96 GB GPU, 411,864 model calls at about 15 a second; the committed cache holds 424,089
+replies. The second family is two 70B dense models at 16-bit that share about 141 GB of base weights (SecAlign is an
+adapter on its base), served two GPUs a copy from one server. I estimate two to five days of machine time, a rerun
+included, on an eight-GPU node running four copies at once, about half that on H100s with NVLink; on resource B's one
+pair, a copy at a time, about one to two weeks. Pilots run on resource A.
 
 **Rates.** Specialist-cloud on-demand H100 and H200 rates of about $2 to $4 per GPU-hour, and hyperscaler list rates
 of about $7 to $12, as published in mid-2026 price surveys ([one](https://jarvislabs.ai/blog/h100-price),
